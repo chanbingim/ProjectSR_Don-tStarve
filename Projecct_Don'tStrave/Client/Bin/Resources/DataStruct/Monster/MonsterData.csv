@@ -1,0 +1,5 @@
+Health,Damage,Image
+100,200,../Bin/Resource/Texture
+150,250,../Bin/Resource/Texture
+200,300,../Bin/Resource/Texture
+500,500,../Bin/Resource/Texture

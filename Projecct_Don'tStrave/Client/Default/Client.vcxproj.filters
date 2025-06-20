@@ -20,6 +20,54 @@
     <Filter Include="김정환">
       <UniqueIdentifier>{9970507a-9b11-445c-8d8d-a3c05ea75e46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{9db5581e-d037-4a18-bd9e-9672d736dc22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{a95722f7-64c4-4663-9ed4-2adbea5ad296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects">
+      <UniqueIdentifier>{8a6484ab-e76d-43dc-96b0-eb6937b63297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character">
+      <UniqueIdentifier>{bddb2710-2797-4c13-a62d-4650acad91f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Player">
+      <UniqueIdentifier>{1170e9ea-878e-4de6-bdd6-7183a965d6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster">
+      <UniqueIdentifier>{df09dfb8-6888-4dd2-ac88-e6c38dd12d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Camera">
+      <UniqueIdentifier>{c301c17a-5fbb-42f3-9a5a-ae9744e14932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Terrain">
+      <UniqueIdentifier>{33b6f382-ff48-471b-a0cb-7e8b4896faae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{1f8012ce-d8c4-4637-aff0-f7a23a1f1384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI">
+      <UniqueIdentifier>{8fe4e1ba-5f96-4d5b-8b4a-ded856d27a8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\Headers">
+      <UniqueIdentifier>{08b2925c-117c-4eec-9d3d-b526e6ba3cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\Codes">
+      <UniqueIdentifier>{38b87f20-aa74-4c48-b69b-7a0e0043511b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\GamePlay">
+      <UniqueIdentifier>{ad8f183d-1685-4ee5-9e4b-dcba9b55bd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Logo">
+      <UniqueIdentifier>{370d45c1-8b46-4ead-8094-6e64217cac61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loading">
+      <UniqueIdentifier>{b3cb9c2f-b862-4b43-b133-9bcfa15823a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loading\Loader">
+      <UniqueIdentifier>{8d9395b2-0b1d-49ac-b2ac-7652af3ad955}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -33,6 +81,60 @@
     </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainApp.h">
+      <Filter>00. MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01. Levels\Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>03. Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>03. Character\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>02. Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02. Objects\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imconfig.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imgui.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imgui_impl_dx9.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imgui_impl_win32.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imgui_internal.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imstb_rectpack.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imstb_textedit.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IMGUI\imstb_truetype.h">
+      <Filter>101. IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_GamePlay.h">
+      <Filter>01. Levels\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Logo.h">
+      <Filter>01. Levels\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01. Levels\Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +153,54 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp">
       <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainApp.cpp">
+      <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader.cpp">
+      <Filter>01. Levels\Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>03. Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>03. Character\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>02. Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02. Objects\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_demo.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_draw.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_impl_dx9.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_impl_win32.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_tables.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMGUI\imgui_widgets.cpp">
+      <Filter>101. IMGUI\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01. Levels\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Logo.cpp">
+      <Filter>01. Levels\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01. Levels\Loading</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

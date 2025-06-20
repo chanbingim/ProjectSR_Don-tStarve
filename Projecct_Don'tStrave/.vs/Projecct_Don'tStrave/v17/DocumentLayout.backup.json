@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VIBuffer_Terrain.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Terrain.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp",
+              "RelativeToolTip": "Engine\\Private\\VIBuffer_Terrain.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T08:53:08.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Level_GamePlay.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Level_GamePlay.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeToolTip": "Client\\Private\\Level_GamePlay.cpp",
+              "ViewState": "AgIAABgAAAAAAAAAAAAywCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T08:49:40.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Camera.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Camera.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
+              "RelativeToolTip": "Client\\Private\\Camera.cpp",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAhwCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T07:54:45.134Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainApp.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\MainApp.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeToolTip": "Client\\Private\\MainApp.cpp",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAhwEsAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T07:44:00.431Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Loader.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Loader.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
+              "RelativeToolTip": "Client\\Private\\Loader.cpp",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAFsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T08:46:46.894Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Terrain.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Terrain.cpp",
+              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
+              "RelativeToolTip": "Client\\Private\\Terrain.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-20T07:58:09.329Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

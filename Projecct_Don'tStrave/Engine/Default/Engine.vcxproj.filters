@@ -1,2 +1,270 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="System">
+      <UniqueIdentifier>{2da46eef-76cf-4d6d-98a6-b3639968c09e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{e485ea11-6456-45a2-ae86-77c3c1f86ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Base">
+      <UniqueIdentifier>{15c039a6-c784-4c32-9e33-eaa0d14d8ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Base\GraphicDevice">
+      <UniqueIdentifier>{d17ba8ae-9e37-4640-ae3d-236b8cdbff3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define">
+      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\File">
+      <UniqueIdentifier>{f1f856c8-073b-4d30-b6d0-1c0bbc983aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\File\CSVReader">
+      <UniqueIdentifier>{4f67666e-6932-43db-b245-612ded115d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\File\FileReader">
+      <UniqueIdentifier>{3e23d2a9-11a4-4af6-bedc-e079b9bf7647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Timer">
+      <UniqueIdentifier>{4c181671-c87a-4a6e-99ce-55377b186e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Timer\Manager">
+      <UniqueIdentifier>{bf336396-f34a-4129-8969-8c7aa0462692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components">
+      <UniqueIdentifier>{16a30efc-f6e3-441e-89c4-6656d64965aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\VIBuffer">
+      <UniqueIdentifier>{0dcbbffd-efcc-435f-9812-35beec1f5d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameInstance">
+      <UniqueIdentifier>{2ed06aca-84be-464f-9206-2cfcd0220f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Prototype">
+      <UniqueIdentifier>{74e8e89e-f688-4542-b149-b80c864dcfe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Renderer">
+      <UniqueIdentifier>{a873ca58-bf11-4507-8956-334377adf461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject">
+      <UniqueIdentifier>{5c438d39-9e43-44c3-9565-0b2a2f0776c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameInstance\Level">
+      <UniqueIdentifier>{4113abc8-6f3c-4fd0-bdcb-c0732c91610a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define\HeaderSet">
+      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameInstance\Level\Manager">
+      <UniqueIdentifier>{e8f90d77-60ac-4cda-a437-ba8051bdeb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\Layer">
+      <UniqueIdentifier>{8c389ecd-3efa-4d68-895f-6ce0c423a053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\Manager">
+      <UniqueIdentifier>{baad7120-0d08-4d29-bcbe-59a843f1c0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\UserInterface">
+      <UniqueIdentifier>{0435b608-492c-454d-a915-bf8f643a073b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Transform_Component">
+      <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Texture_Component">
+      <UniqueIdentifier>{04bd9fd9-cc56-44e6-8f38-14f26f956505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\VIBuffer\Rect_Buffer">
+      <UniqueIdentifier>{a1cbec76-5474-41d4-b467-a97a271612e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\VIBuffer\Terrian">
+      <UniqueIdentifier>{a0b8d52b-8d10-4be5-890b-2e3c8f5d8402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\File\BaseData">
+      <UniqueIdentifier>{5643cc3f-d9d2-402c-9561-8a77a56b03a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Picking">
+      <UniqueIdentifier>{25f67e78-280a-4fda-9583-5bdb1e68c112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\Land">
+      <UniqueIdentifier>{0a8e15dc-81f2-4e36-b37d-8e0584592fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\UIObject">
+      <UniqueIdentifier>{8e144fbb-241d-4b07-ba51-ca11a5f8b688}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Public\Base.h">
+      <Filter>Utility\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Graphic_Device.h">
+      <Filter>Utility\Base\GraphicDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Defines.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Enum.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Function.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Macro.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Struct.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Typedef.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\File.h">
+      <Filter>Utility\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSVReader.h">
+      <Filter>Utility\File\CSVReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FileReader.h">
+      <Filter>Utility\File\FileReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Timer.h">
+      <Filter>Utility\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Timer_Manager.h">
+      <Filter>Utility\Timer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BufferComponents.h">
+      <Filter>Define\HeaderSet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FunctionHeaders.h">
+      <Filter>Define\HeaderSet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameInstance.h">
+      <Filter>System\GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level.h">
+      <Filter>System\GameInstance\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Manager.h">
+      <Filter>System\GameInstance\Level\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Renderer.h">
+      <Filter>System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameObject.h">
+      <Filter>System\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Layer.h">
+      <Filter>System\GameObject\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Object_Manager.h">
+      <Filter>System\GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UserInterface.h">
+      <Filter>System\UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Prototype_Manager.h">
+      <Filter>System\Prototype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>System\Components\VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Transform.h">
+      <Filter>System\Components\Transform_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Texture.h">
+      <Filter>System\Components\Texture_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect.h">
+      <Filter>System\Components\VIBuffer\Rect_Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>System\Components\VIBuffer\Terrian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BaseStruct.h">
+      <Filter>Utility\File\BaseData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Component.h">
+      <Filter>System\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Picking.h">
+      <Filter>Utility\Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LandObject.h">
+      <Filter>System\GameObject\Land</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Private\Base.cpp">
+      <Filter>Utility\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Graphic_Device.cpp">
+      <Filter>Utility\Base\GraphicDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\File.cpp">
+      <Filter>Utility\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSVReader.cpp">
+      <Filter>Utility\File\CSVReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FileReader.cpp">
+      <Filter>Utility\File\FileReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Timer_Manager.cpp">
+      <Filter>Utility\Timer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Timer.cpp">
+      <Filter>Utility\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level.cpp">
+      <Filter>System\GameInstance\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Manager.cpp">
+      <Filter>System\GameInstance\Level\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameInstance.cpp">
+      <Filter>System\GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Renderer.cpp">
+      <Filter>System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Layer.cpp">
+      <Filter>System\GameObject\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameObject.cpp">
+      <Filter>System\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Object_Manager.cpp">
+      <Filter>System\GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UserInterface.cpp">
+      <Filter>System\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Prototype_Manager.cpp">
+      <Filter>System\Prototype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Transform.cpp">
+      <Filter>System\Components\Transform_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Texture.cpp">
+      <Filter>System\Components\Texture_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect.cpp">
+      <Filter>System\Components\VIBuffer\Rect_Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>System\Components\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>System\Components\VIBuffer\Terrian</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Component.cpp">
+      <Filter>System\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Picking.cpp">
+      <Filter>Utility\Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LandObject.cpp">
+      <Filter>System\GameObject\Land</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
