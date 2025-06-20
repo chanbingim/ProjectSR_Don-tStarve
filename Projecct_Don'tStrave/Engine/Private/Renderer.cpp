@@ -1,5 +1,4 @@
 #include "Renderer.h"
-
 #include "GameObject.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -10,6 +9,12 @@ CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CRenderer::Initialize()
 {
+	D3DVIEWPORT9        Viewport{};
+	m_pGraphic_Device->GetViewport(&Viewport);
+	D3DXMatrixOrthoLH(&m_OrtTHOMat, (FLOAT)Viewport.Width, (FLOAT)Viewport.Height, 0.f, 1.f);
+
+	D3DXMatrixIdentity(&m_IndentiyViewMat);
+
     return S_OK;
 }
 
@@ -74,7 +79,14 @@ void CRenderer::Render_Blend()
 
 void CRenderer::Render_UI()
 {
-	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::UI)])
+	void Render_Projection_UI();
+	void Render_Ortho_UI();
+}
+
+void CRenderer::Render_Projection_UI()
+{
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_IndentiyViewMat);
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::PROJECTION_UI)])
 	{
 		if (nullptr != pRenderObject)
 			pRenderObject->Render();
@@ -82,7 +94,20 @@ void CRenderer::Render_UI()
 		Safe_Release(pRenderObject);
 	}
 
-	m_RenderObjects[ENUM_CLASS(RENDER::UI)].clear();
+	m_RenderObjects[ENUM_CLASS(RENDER::PROJECTION_UI)].clear();
+}
+
+void CRenderer::Render_Ortho_UI()
+{
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OrtTHOMat);
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+	m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)].clear();
 }
 
 CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -110,6 +135,4 @@ void CRenderer::Free()
 	}
 
 	Safe_Release(m_pGraphic_Device);
-
-
 }

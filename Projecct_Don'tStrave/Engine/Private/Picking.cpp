@@ -22,8 +22,6 @@ HRESULT CPicking::Initialize(HWND hWnd)
 void CPicking::Update()
 {
     /* 월드상에서의 마우스의 정보를 구한다 .*/
-    
-
 
 
     /* 뷰포트 상의 마우스 좌표를 구한다. */
@@ -62,10 +60,32 @@ void CPicking::Update()
 
 void CPicking::Transform_ToLocalSpace(const _float4x4* pWorldMatrixInverse)
 {
-    D3DXVec3TransformCoord(&m_vRayPos[ENUM_CLASS(RAY::LOCAL)], &m_vRayPos[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
-    D3DXVec3TransformNormal(&m_vRayDir[ENUM_CLASS(RAY::LOCAL)], &m_vRayDir[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
+    D3DXVec3TransformCoord(&m_vRayPos[ENUM_CLASS(RAY::VIEW)], &m_vRayPos[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
+    D3DXVec3TransformNormal(&m_vRayDir[ENUM_CLASS(RAY::VIEW)], &m_vRayDir[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
 
-    D3DXVec3Normalize(&m_vRayDir[ENUM_CLASS(RAY::LOCAL)], &m_vRayDir[ENUM_CLASS(RAY::LOCAL)]);
+    D3DXVec3Normalize(&m_vRayDir[ENUM_CLASS(RAY::VIEW)], &m_vRayDir[ENUM_CLASS(RAY::VIEW)]);
+}
+
+_float3 CPicking::GetMousePosition(_uint ID)
+{
+    switch (ID)
+    {
+    case 0:
+    {
+        POINT       ptMouse = {};
+        GetCursorPos(&ptMouse);
+        ScreenToClient(m_hWnd, &ptMouse);
+        return _float3((_float)ptMouse.x, (_float)ptMouse.y, 0.f);
+    }
+    case 1:
+        return m_vRayPos[ENUM_CLASS(RAY::VIEW)];
+
+    case 2:
+        return m_vRayPos[ENUM_CLASS(RAY::WORLD)];
+
+    default :
+        return _float3(FLT_MAX, FLT_MAX, FLT_MAX);
+    }
 }
 
 _bool CPicking::Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
@@ -86,11 +106,11 @@ _bool CPicking::Picking_InLocalSpace(const _float3& vPointA, const _float3& vPoi
 {
     _float      fU{}, fV{}, fDist{};
 
-    _bool       isColl = D3DXIntersectTri(&vPointA, &vPointB, &vPointC, &m_vRayPos[ENUM_CLASS(RAY::LOCAL)], &m_vRayDir[ENUM_CLASS(RAY::LOCAL)], &fU, &fV, &fDist);
+    _bool       isColl = D3DXIntersectTri(&vPointA, &vPointB, &vPointC, &m_vRayPos[ENUM_CLASS(RAY::VIEW)], &m_vRayDir[ENUM_CLASS(RAY::VIEW)], &fU, &fV, &fDist);
 
     if (true == isColl)
     {
-        *pOut = m_vRayPos[ENUM_CLASS(RAY::LOCAL)] + m_vRayDir[ENUM_CLASS(RAY::LOCAL)] * fDist;
+        *pOut = m_vRayPos[ENUM_CLASS(RAY::VIEW)] + m_vRayDir[ENUM_CLASS(RAY::VIEW)] * fDist;
     }
 
     return isColl;

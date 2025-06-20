@@ -13,7 +13,7 @@ private:
 	virtual ~CGameInstance() = default;
 
 public:
-	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut);
+	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, class CMouseSlotUI* pMouse = nullptr);
 	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();
 	void Clear_Resources(_uint iLevelIndex);
@@ -55,11 +55,19 @@ public:
 
 
 #pragma region PICKING
-	void Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse);
-	_bool Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
-	_bool Picking_InLocalSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	void			Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse);
+	_float3			GetMousePosition(_uint ID);
+	_bool			Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	_bool			Picking_InLocalSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 #pragma endregion
 
+#pragma region SOUND_MANAGER
+	void Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void Manager_PlayBGM(const TCHAR* pSoundKey, float fVolume);
+	void Manager_StopSound(CHANNELID eID);
+	void Manager_StopAll();
+	void Manager_SetChannelVolume(CHANNELID eID, float fVolume);
+#pragma endregion
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
@@ -68,7 +76,8 @@ private:
 	class CPrototype_Manager*		m_pPrototype_Manager = { nullptr };
 	class CObject_Manager*			m_pObject_Manager = { nullptr };
 	class CRenderer*				m_pRenderer = { nullptr };
-	class CPicking*					m_pPicking = { nullptr };
+	class CMouseManager*			m_pMouseManager = { nullptr };
+	class CSoundManager*			m_pSoundManager = { nullptr };
 
 public:
 	void Release_Engine();

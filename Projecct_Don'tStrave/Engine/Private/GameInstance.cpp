@@ -2,12 +2,13 @@
 
 #include "Prototype_Manager.h"
 #include "Object_Manager.h"
+#include "MouseManager.h"
 #include "Graphic_Device.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
 #include "Renderer.h"
-
-#include "Picking.h"
+#include "SoundManager.h"
+#include "MouseSlotUI.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -15,7 +16,7 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut)
+HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, class CMouseSlotUI* pMouse)
 {
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.eWindowMode, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
 	if (nullptr == m_pGraphic_Device)
@@ -41,8 +42,13 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pRenderer)
 		return E_FAIL;
 
-	m_pPicking = CPicking::Create(*ppOut, EngineDesc.hWnd);
-	if (nullptr == m_pPicking)
+	CMouseManager::MOUSE_MANGER_DESC Mouse_Mgr_Data = {};
+	Mouse_Mgr_Data.pGraphic_Device = (*ppOut);
+	Mouse_Mgr_Data.handle = EngineDesc.hWnd;
+	Mouse_Mgr_Data.pMouseSlot = pMouse;
+
+	m_pMouseManager = CMouseManager::Create(&Mouse_Mgr_Data);
+	if (nullptr == m_pMouseManager)
 		return E_FAIL;
 
 	return S_OK;
@@ -50,11 +56,9 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
-	
-
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
-	m_pPicking->Update();
+	m_pMouseManager->Update();
 
 	m_pObject_Manager->Update(fTimeDelta);
 
@@ -173,26 +177,57 @@ HRESULT CGameInstance::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRender
 
 void CGameInstance::Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse)
 {
-	m_pPicking->Transform_ToLocalSpace(pWorldMatrixInverse);
+	m_pMouseManager->Transform_ToLocalSpace(pWorldMatrixInverse);
+}
+
+_float3 CGameInstance::GetMousePosition(_uint ID)
+{
+	return m_pMouseManager->GetMousePosition(ID);
 }
 
 _bool CGameInstance::Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
 {
-	return m_pPicking->Picking_InWorldSpace(vPointA, vPointB, vPointC, pOut);
+	return m_pMouseManager->Picking_InWorldSpace(vPointA, vPointB, vPointC, pOut);
 }
 
 _bool CGameInstance::Picking_InLocalSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
 {
-	return m_pPicking->Picking_InLocalSpace(vPointA, vPointB, vPointC, pOut);
+	return m_pMouseManager->Picking_InLocalSpace(vPointA, vPointB, vPointC, pOut);
+}
+#pragma endregion
+
+#pragma region SOUND_MANAGER
+void CGameInstance::Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolume)
+{
+	m_pSoundManager->Manager_PlayBGM(pSoundKey, fVolume);
 }
 
+void CGameInstance::Manager_PlayBGM(const TCHAR* pSoundKey, float fVolume)
+{
+	m_pSoundManager->Manager_PlayBGM(pSoundKey, fVolume);
+}
+
+void CGameInstance::Manager_StopSound(CHANNELID eID)
+{
+	m_pSoundManager->Manager_StopSound(eID);
+}
+
+void CGameInstance::Manager_StopAll()
+{
+	m_pSoundManager->Manager_StopAll();
+}
+
+void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	m_pSoundManager->Manager_SetChannelVolume(eID, fVolume);
+}
 #pragma endregion
 
 void CGameInstance::Release_Engine()
 {
 	DestroyInstance();
 
-	Safe_Release(m_pPicking);
+	Safe_Release(m_pMouseManager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pPrototype_Manager);

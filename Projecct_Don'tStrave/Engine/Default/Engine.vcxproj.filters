@@ -64,9 +64,6 @@
     <Filter Include="System\GameObject\Manager">
       <UniqueIdentifier>{baad7120-0d08-4d29-bcbe-59a843f1c0c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\UserInterface">
-      <UniqueIdentifier>{0435b608-492c-454d-a915-bf8f643a073b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Components\Transform_Component">
       <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
     </Filter>
@@ -88,8 +85,26 @@
     <Filter Include="System\GameObject\Land">
       <UniqueIdentifier>{0a8e15dc-81f2-4e36-b37d-8e0584592fed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\GameObject\UIObject">
-      <UniqueIdentifier>{8e144fbb-241d-4b07-ba51-ca11a5f8b688}</UniqueIdentifier>
+    <Filter Include="System\Components\AnimationController">
+      <UniqueIdentifier>{968d2e68-3a49-4f18-b8e1-5936a8495d03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\AnimationController\State">
+      <UniqueIdentifier>{26f7cfef-585a-4d93-b2c5-8d14e974757c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Picking\Manager">
+      <UniqueIdentifier>{48cf744d-694e-4fc0-bd51-9ba9a41e678e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\UserInterface">
+      <UniqueIdentifier>{0435b608-492c-454d-a915-bf8f643a073b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\UserInterface\MouseSlotUI">
+      <UniqueIdentifier>{d3fb13fe-fe7a-4e7e-bc47-75b26e86990e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Sound">
+      <UniqueIdentifier>{bc11e5e6-c021-4803-a6bf-759d2cc384e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Sound\FMODE">
+      <UniqueIdentifier>{8f49039f-edbb-4d18-af99-008566f2003d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +175,7 @@
       <Filter>System\GameObject\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UserInterface.h">
-      <Filter>System\UserInterface</Filter>
+      <Filter>System\GameObject\UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Prototype_Manager.h">
       <Filter>System\Prototype</Filter>
@@ -191,6 +206,45 @@
     </ClInclude>
     <ClInclude Include="..\Public\LandObject.h">
       <Filter>System\GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimController.h">
+      <Filter>System\Components\AnimationController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>System\Components\AnimationController\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MouseManager.h">
+      <Filter>Utility\Picking\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MouseSlotUI.h">
+      <Filter>System\GameObject\UserInterface\MouseSlotUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod.hpp">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_codec.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_common.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_dsp.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_dsp_effects.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_errors.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FMOD\fmod_output.h">
+      <Filter>Utility\Sound\FMODE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SoundManager.h">
+      <Filter>Utility\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +291,7 @@
       <Filter>System\GameObject\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UserInterface.cpp">
-      <Filter>System\UserInterface</Filter>
+      <Filter>System\GameObject\UserInterface</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Prototype_Manager.cpp">
       <Filter>System\Prototype</Filter>
@@ -265,6 +319,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\LandObject.cpp">
       <Filter>System\GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimController.cpp">
+      <Filter>System\Components\AnimationController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>System\Components\AnimationController\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MouseManager.cpp">
+      <Filter>Utility\Picking\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MouseSlotUI.cpp">
+      <Filter>System\GameObject\UserInterface\MouseSlotUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SoundManager.cpp">
+      <Filter>Utility\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

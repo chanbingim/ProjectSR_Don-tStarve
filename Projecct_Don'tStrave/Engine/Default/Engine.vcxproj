@@ -114,13 +114,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public;../Public/FMOD/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../Public/FMOD;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,10 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\AnimController.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\BaseStruct.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
     <ClInclude Include="..\Public\Component.h" />
+    <ClInclude Include="..\Public\SoundManager.h" />
     <ClInclude Include="..\Public\CSVReader.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -154,6 +157,14 @@
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\File.h" />
     <ClInclude Include="..\Public\FileReader.h" />
+    <ClInclude Include="..\Public\FMOD\fmod.h" />
+    <ClInclude Include="..\Public\FMOD\fmod.hpp" />
+    <ClInclude Include="..\Public\FMOD\fmod_codec.h" />
+    <ClInclude Include="..\Public\FMOD\fmod_common.h" />
+    <ClInclude Include="..\Public\FMOD\fmod_dsp.h" />
+    <ClInclude Include="..\Public\FMOD\fmod_dsp_effects.h" />
+    <ClInclude Include="..\Public\FMOD\fmod_errors.h" />
+    <ClInclude Include="..\Public\FMOD\fmod_output.h" />
     <ClInclude Include="..\Public\FunctionHeaders.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\GameObject.h" />
@@ -162,10 +173,13 @@
     <ClInclude Include="..\Public\Layer.h" />
     <ClInclude Include="..\Public\Level.h" />
     <ClInclude Include="..\Public\Level_Manager.h" />
+    <ClInclude Include="..\public\MouseManager.h" />
+    <ClInclude Include="..\public\MouseSlotUI.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />
     <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\Public\Prototype_Manager.h" />
     <ClInclude Include="..\Public\Renderer.h" />
+    <ClInclude Include="..\Public\State.h" />
     <ClInclude Include="..\Public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
@@ -176,8 +190,10 @@
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\AnimController.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
+    <ClCompile Include="..\Private\SoundManager.cpp" />
     <ClCompile Include="..\Private\CSVReader.cpp" />
     <ClCompile Include="..\Private\File.cpp" />
     <ClCompile Include="..\Private\FileReader.cpp" />
@@ -188,10 +204,13 @@
     <ClCompile Include="..\Private\Layer.cpp" />
     <ClCompile Include="..\Private\Level.cpp" />
     <ClCompile Include="..\Private\Level_Manager.cpp" />
+    <ClCompile Include="..\private\MouseManager.cpp" />
+    <ClCompile Include="..\private\MouseSlotUI.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\Private\Prototype_Manager.cpp" />
     <ClCompile Include="..\Private\Renderer.cpp" />
+    <ClCompile Include="..\Private\State.cpp" />
     <ClCompile Include="..\Private\Texture.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />

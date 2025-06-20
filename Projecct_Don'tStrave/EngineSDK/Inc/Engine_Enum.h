@@ -6,8 +6,8 @@ namespace Engine
 	enum class WINMODE { FULL, WIN, END };	
 	enum class PROTOTYPE { GAMEOBJECT, COMPONENT };
 	enum class WORLDSTATE { RIGHT, UP, LOOK, POSITION, END };
-	enum class RENDER { PRIORITY, NONBLEND, BLEND, UI, END};
+	enum class RENDER { PRIORITY, NONBLEND, BLEND, PROJECTION_UI, ORTTHO_UI, END};
 	enum class TEXTURE { PLANE, CUBE, END };
-	enum class RAY { LOCAL, WORLD, END };
+	enum class RAY { VIEW, WORLD, END };
 }
 #endif // Engine_Enum_h__

@@ -24,12 +24,17 @@ private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
+	_float4x4							m_IndentiyViewMat;
+	_float4x4							m_OrtTHOMat;
 
 private:
 	void Render_Priority();
 	void Render_NonBlend();
 	void Render_Blend();
+	
 	void Render_UI();
+	void Render_Projection_UI();
+	void Render_Ortho_UI();
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
