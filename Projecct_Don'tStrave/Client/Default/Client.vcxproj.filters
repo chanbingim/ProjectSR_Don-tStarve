@@ -11,6 +11,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="김찬빈">
+      <UniqueIdentifier>{f4d7a341-6c32-4a33-8a22-3f1a42217916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="대진호">
+      <UniqueIdentifier>{17653d97-5d66-47f6-958a-78e67ddb5e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="김정환">
+      <UniqueIdentifier>{9970507a-9b11-445c-8d8d-a3c05ea75e46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
