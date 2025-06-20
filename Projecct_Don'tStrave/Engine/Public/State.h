@@ -36,10 +36,12 @@ public :
 	void					SetFrameRate(_float _ftimeRate);
 
 protected :
-	FRAME_DESC				m_Frame = {};
+	FRAME_DESC					m_Frame = {};
 
-	_float					m_AccTime = {};
-	_float					m_fFrameTime = {};
+	_float						m_AccTime = {};
+	_float						m_fFrameTime = {};
+
+	vector<function<void()>>	m_Notify;
 
 public :
 	virtual		void		Free() override;

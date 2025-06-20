@@ -51,13 +51,6 @@ HRESULT CCamera::Initialize(void* pArg)
 void CCamera::Priority_Update(_float fTimeDelta)
 {
 	/* 카메라의 움직임에 대한 처리를 모두 수행한다. */
-
-	//1000 1011 1101 1111 
-	//1000 0000 0000 0000
-
-	//1000 0000 0000 0000
-	//0000 0000 0000 0000
-
 	POINT		ptMouse{};
 
 	GetCursorPos(&ptMouse);

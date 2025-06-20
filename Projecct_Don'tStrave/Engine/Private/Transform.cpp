@@ -67,11 +67,6 @@ void CTransform::TurnRate(const _float3& _vAxis, _float _fDeletaTime)
 	}
 }
 
-void CTransform::LerpTurn(const _float3& _vAxis, _float _TofAngle, _float _fDurTime)
-{
-
-}
-
 void CTransform::LookAt(const _float3& _fDir)
 {
 	_float3 vScale = GetScale();

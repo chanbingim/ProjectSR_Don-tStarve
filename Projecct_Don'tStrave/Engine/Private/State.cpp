@@ -11,6 +11,7 @@ HRESULT CState::Initialize(void* pArg)
     if (pArg)
     {
         m_Frame = *static_cast<FRAME_DESC*>(pArg);
+        m_Notify.resize(m_Frame.iEndFrame, nullptr);
 
         if (m_Frame.pAnimTexture)
             Safe_AddRef(m_Frame.pAnimTexture);
@@ -47,6 +48,10 @@ void CState::Tick(_float fTimeDelta)
     }
     else
         m_AccTime += fTimeDelta;
+
+    if (m_Notify[m_Frame.iStartFrame])
+        m_Notify[m_Frame.iStartFrame]();
+
 }
 
 void CState::Render()

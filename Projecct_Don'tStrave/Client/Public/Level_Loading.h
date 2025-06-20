@@ -26,7 +26,7 @@ private:
 private:
 	HRESULT Ready_Layer_BackGround();
 
-
+	HRESULT TEST_SoundMgr();
 
 public:
 	static CLevel_Loading* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID, LEVEL eNextLevelID);

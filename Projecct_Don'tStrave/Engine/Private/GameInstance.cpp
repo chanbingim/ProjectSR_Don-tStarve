@@ -51,6 +51,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pMouseManager)
 		return E_FAIL;
 
+	m_pSoundManager = CSoundManager::Create();
+	if (nullptr == m_pSoundManager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -233,6 +237,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pPrototype_Manager);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pGraphic_Device);
 }
 

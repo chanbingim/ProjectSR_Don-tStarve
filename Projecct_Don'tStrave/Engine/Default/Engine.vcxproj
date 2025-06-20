@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public;../Public/FMOD/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public;../Public/FMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +146,7 @@
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\BaseStruct.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
+    <ClInclude Include="..\public\Character.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
     <ClInclude Include="..\Public\CSVReader.h" />
@@ -157,14 +158,6 @@
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\File.h" />
     <ClInclude Include="..\Public\FileReader.h" />
-    <ClInclude Include="..\Public\FMOD\fmod.h" />
-    <ClInclude Include="..\Public\FMOD\fmod.hpp" />
-    <ClInclude Include="..\Public\FMOD\fmod_codec.h" />
-    <ClInclude Include="..\Public\FMOD\fmod_common.h" />
-    <ClInclude Include="..\Public\FMOD\fmod_dsp.h" />
-    <ClInclude Include="..\Public\FMOD\fmod_dsp_effects.h" />
-    <ClInclude Include="..\Public\FMOD\fmod_errors.h" />
-    <ClInclude Include="..\Public\FMOD\fmod_output.h" />
     <ClInclude Include="..\Public\FunctionHeaders.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\GameObject.h" />
@@ -192,6 +185,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\AnimController.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\Character.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
     <ClCompile Include="..\Private\CSVReader.cpp" />

@@ -21,6 +21,9 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
+	if (FAILED(TEST_SoundMgr()))
+		return E_FAIL;
+
 	/* 이 레벨을 구성하기위한 객체를 만든다. */
 	if (FAILED(Ready_Layer_BackGround()))
 		return E_FAIL;
@@ -59,6 +62,13 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
+	return S_OK;
+}
+
+HRESULT CLevel_Loading::TEST_SoundMgr()
+{
+	m_pGameInstance->Manager_PlaySound(L"MashUp_Dance1.wav", Engine::CHANNELID::SOUND_BGM, 0.1f);
+
 	return S_OK;
 }
 

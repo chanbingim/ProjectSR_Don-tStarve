@@ -10,7 +10,6 @@ private :
 
 public:
 	void Initialize();
-	void Release();
 
 public:
 	void Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolume);

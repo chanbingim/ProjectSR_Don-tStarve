@@ -30,10 +30,8 @@ public :
 
 	//기존 회전에서 초당 회전각도 Rate회전을 적용
 	void							TurnRate(const _float3& _vAxis, _float _fDeletaTime);
-	
-	//기존 회전각도에서 정해진 회전각도가 될때까지 회전
-	void							LerpTurn(const _float3& _vAxis, _float _TofAngle, _float _fDurTime);
 
+	//기존 회전각도에서 정해진 회전각도가 될때까지 회전
 	void							LookAt(const _float3& _fDir);
 
 	void							SetScale(const _float3& _vScale);

@@ -103,8 +103,8 @@
     <Filter Include="Utility\Sound">
       <UniqueIdentifier>{bc11e5e6-c021-4803-a6bf-759d2cc384e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Sound\FMODE">
-      <UniqueIdentifier>{8f49039f-edbb-4d18-af99-008566f2003d}</UniqueIdentifier>
+    <Filter Include="System\GameObject\Character">
+      <UniqueIdentifier>{bbe54894-0853-4b97-bab6-1ae271861a3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,32 +219,11 @@
     <ClInclude Include="..\public\MouseSlotUI.h">
       <Filter>System\GameObject\UserInterface\MouseSlotUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod.hpp">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_codec.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_common.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_dsp.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_dsp_effects.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_errors.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FMOD\fmod_output.h">
-      <Filter>Utility\Sound\FMODE</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\SoundManager.h">
       <Filter>Utility\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Character.h">
+      <Filter>System\GameObject\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SoundManager.cpp">
       <Filter>Utility\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Character.cpp">
+      <Filter>System\GameObject\Character</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

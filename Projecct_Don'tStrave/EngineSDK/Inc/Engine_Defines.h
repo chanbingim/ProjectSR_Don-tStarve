@@ -14,6 +14,13 @@
 #include <ctime>
 using namespace std;
 
+#include "fmod.h"
+#include "fmod.hpp"
+#pragma comment(lib, "fmod_vc.lib")
+#pragma comment(lib, "fmodL_vc.lib")
+#include <io.h>
+#include <iostream>
+
 #include "Engine_Enum.h"
 #include "Engine_Macro.h"
 #include "Engine_Struct.h"

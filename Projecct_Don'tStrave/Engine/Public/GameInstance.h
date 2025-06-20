@@ -22,7 +22,6 @@ public:
 	_float Random(_float fMin, _float fMax);
 
 #pragma region GRAPHIC_DEVICE
-public:
 	void Render_Begin(D3DXCOLOR Color);
 	void Render_End(HWND hWnd = nullptr);
 #pragma endregion
@@ -34,7 +33,6 @@ public:
 #pragma endregion
 
 #pragma region LEVEL_MANAGER
-public:
 	HRESULT Change_Level(class CLevel* pNewLevel);
 #pragma endregion
 

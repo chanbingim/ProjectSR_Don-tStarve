@@ -3,8 +3,8 @@
 void CSoundManager::Initialize()
 {
 	// 사운드를 담당하는 대표객체를 생성하는 함수
-	FMOD::System_Create(&m_pSystem);
-
+	FMOD_RESULT result = FMOD::System_Create(&m_pSystem);
+	 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
 	m_pSystem->init( 32, FMOD_INIT_NORMAL, NULL);
 
@@ -13,7 +13,9 @@ void CSoundManager::Initialize()
 
 CSoundManager* CSoundManager::Create()
 {
-	return nullptr;
+	CSoundManager* pInstance = new CSoundManager();
+	pInstance->Initialize();
+	return pInstance;
 }
 
 void CSoundManager::Free()
@@ -90,14 +92,14 @@ void CSoundManager::LoadSoundFile()
 	_finddatai64_t  fd;
 
 	// _findfirst : <io.h>에서 제공하며 사용자가 설정한 경로 내에서 가장 첫 번째 파일을 찾는 함수
-	intptr_t handle = _findfirst64("../Sound/*.*", &fd);
+	intptr_t handle = _findfirst64("../Bin/Resources/Sounds/*.*", &fd);
 
 	if (handle == -1)
 		return;
 
 	int iResult = 0;
 
-	char szCurPath[128] = "../Sound/";	 // 상대 경로
+	char szCurPath[128] = "../Bin/Resources/Sounds/";	 // 상대 경로
 	char szFullPath[128] = "";
 
 	while (iResult != -1)
