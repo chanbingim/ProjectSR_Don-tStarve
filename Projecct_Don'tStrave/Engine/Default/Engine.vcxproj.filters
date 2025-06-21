@@ -106,6 +106,12 @@
     <Filter Include="Utility\FMath">
       <UniqueIdentifier>{19bbbdf7-30b4-43ec-9d20-83952352c64c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Components\PhysicsComponent">
+      <UniqueIdentifier>{cdd250ce-b280-4a9d-91f0-2532f9c1f706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\CollistionComponent">
+      <UniqueIdentifier>{f06fd694-4afb-4e1f-97fd-0c99fb7fd137}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -225,6 +231,10 @@
     <ClInclude Include="..\Public\CMath.h">
       <Filter>Utility\FMath</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Physics_Component.h">
+      <Filter>System\Components\PhysicsComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collision_Component.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -317,5 +327,9 @@
     <ClCompile Include="..\Private\CMath.cpp">
       <Filter>Utility\FMath</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Physics_Component.cpp">
+      <Filter>System\Components\PhysicsComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collision_Component.cpp" />
   </ItemGroup>
 </Project>

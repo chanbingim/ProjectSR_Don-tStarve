@@ -147,7 +147,9 @@
     <ClInclude Include="..\Public\BaseStruct.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
     <ClInclude Include="..\Public\CMath.h" />
+    <ClInclude Include="..\public\Collision_Component.h" />
     <ClInclude Include="..\Public\Component.h" />
+    <ClInclude Include="..\public\Physics_Component.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
     <ClInclude Include="..\Public\CSVReader.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -186,7 +188,9 @@
     <ClCompile Include="..\Private\AnimController.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\CMath.cpp" />
+    <ClCompile Include="..\private\Collision_Component.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
+    <ClCompile Include="..\private\Physics_Component.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
     <ClCompile Include="..\Private\CSVReader.cpp" />
     <ClCompile Include="..\Private\File.cpp" />
