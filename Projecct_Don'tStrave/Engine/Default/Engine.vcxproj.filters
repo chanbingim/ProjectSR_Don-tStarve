@@ -103,8 +103,8 @@
     <Filter Include="Utility\Sound">
       <UniqueIdentifier>{bc11e5e6-c021-4803-a6bf-759d2cc384e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\GameObject\Character">
-      <UniqueIdentifier>{bbe54894-0853-4b97-bab6-1ae271861a3e}</UniqueIdentifier>
+    <Filter Include="Utility\FMath">
+      <UniqueIdentifier>{19bbbdf7-30b4-43ec-9d20-83952352c64c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -222,8 +222,8 @@
     <ClInclude Include="..\Public\SoundManager.h">
       <Filter>Utility\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Character.h">
-      <Filter>System\GameObject\Character</Filter>
+    <ClInclude Include="..\Public\CMath.h">
+      <Filter>Utility\FMath</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,8 +314,8 @@
     <ClCompile Include="..\Private\SoundManager.cpp">
       <Filter>Utility\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Character.cpp">
-      <Filter>System\GameObject\Character</Filter>
+    <ClCompile Include="..\Private\CMath.cpp">
+      <Filter>Utility\FMath</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

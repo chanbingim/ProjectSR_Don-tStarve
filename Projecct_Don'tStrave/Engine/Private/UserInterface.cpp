@@ -42,6 +42,7 @@ void CUserInterface::Priority_Update(_float fTimeDelta)
 void CUserInterface::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+    UpdatePosition();
 }
 
 void CUserInterface::Late_Update(_float fTimeDelta)

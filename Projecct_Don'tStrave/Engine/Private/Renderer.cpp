@@ -79,8 +79,10 @@ void CRenderer::Render_Blend()
 
 void CRenderer::Render_UI()
 {
-	void Render_Projection_UI();
-	void Render_Ortho_UI();
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+
+	Render_Projection_UI();
+	Render_Ortho_UI();
 }
 
 void CRenderer::Render_Projection_UI()

@@ -68,6 +68,15 @@
     <Filter Include="01. Levels\Loading\Loader">
       <UniqueIdentifier>{8d9395b2-0b1d-49ac-b2ac-7652af3ad955}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI">
+      <UniqueIdentifier>{5f9a4df8-0cb4-4bf0-a60c-4b5f211a3e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\TestUI">
+      <UniqueIdentifier>{5e6c0472-2ae7-4571-a8c4-73bd9ec1fcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\TestUI\UIAnimtaion">
+      <UniqueIdentifier>{a0e117ae-e8ae-4b19-8877-5968c6b5d264}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -136,6 +145,12 @@
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01. Levels\Loading</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\AnimationUI.h">
+      <Filter>04. GmaeUI\TestUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_MoveAnim.h">
+      <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -201,6 +216,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01. Levels\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AnimationUI.cpp">
+      <Filter>04. GmaeUI\TestUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_MoveAnim.cpp">
+      <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

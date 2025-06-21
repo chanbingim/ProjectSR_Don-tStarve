@@ -49,8 +49,8 @@ void CState::Tick(_float fTimeDelta)
     else
         m_AccTime += fTimeDelta;
 
-    if (m_Notify[m_Frame.iStartFrame])
-        m_Notify[m_Frame.iStartFrame]();
+   /* if (m_Notify[m_Frame.iStartFrame])
+        m_Notify[m_Frame.iStartFrame]();*/
 
 }
 

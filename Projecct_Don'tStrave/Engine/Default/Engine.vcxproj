@@ -146,7 +146,7 @@
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\BaseStruct.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
-    <ClInclude Include="..\public\Character.h" />
+    <ClInclude Include="..\Public\CMath.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
     <ClInclude Include="..\Public\CSVReader.h" />
@@ -185,7 +185,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\AnimController.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
-    <ClCompile Include="..\private\Character.cpp" />
+    <ClCompile Include="..\Private\CMath.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
     <ClCompile Include="..\Private\CSVReader.cpp" />

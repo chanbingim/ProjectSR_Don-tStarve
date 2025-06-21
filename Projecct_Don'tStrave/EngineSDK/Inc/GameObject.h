@@ -35,9 +35,8 @@ protected:
 	map<const _wstring, class CComponent*>		m_Components;
 
 protected:
-
-	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, 
-		const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
+	HRESULT Add_Component(	_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, 
+							const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
