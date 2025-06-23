@@ -1,7 +1,11 @@
 ﻿  AnimController.cpp
   Base.cpp
+  Box_Collision_Component.cpp
   CMath.cpp
+  Collision_Component.cpp
+  Collision_Manager.cpp
   Component.cpp
+  Physics_Component.cpp
   SoundManager.cpp
   CSVReader.cpp
   File.cpp
@@ -14,13 +18,14 @@
   Level.cpp
   Level_Manager.cpp
   MouseManager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   MouseSlotUI.cpp
   Object_Manager.cpp
   Picking.cpp
   Prototype_Manager.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
   Renderer.cpp
+  Sphere_Collision_Component.cpp
   State.cpp
   Texture.cpp
   Timer.cpp

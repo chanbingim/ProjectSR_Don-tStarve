@@ -145,9 +145,11 @@
     <ClInclude Include="..\Public\AnimController.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\BaseStruct.h" />
+    <ClInclude Include="..\public\Box_Collision_Component.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
     <ClInclude Include="..\Public\CMath.h" />
     <ClInclude Include="..\public\Collision_Component.h" />
+    <ClInclude Include="..\public\Collision_Manager.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\public\Physics_Component.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\Public\Prototype_Manager.h" />
     <ClInclude Include="..\Public\Renderer.h" />
+    <ClInclude Include="..\public\Sphere_Collision_Component.h" />
     <ClInclude Include="..\Public\State.h" />
     <ClInclude Include="..\Public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
@@ -187,8 +190,10 @@
   <ItemGroup>
     <ClCompile Include="..\Private\AnimController.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\Box_Collision_Component.cpp" />
     <ClCompile Include="..\Private\CMath.cpp" />
     <ClCompile Include="..\private\Collision_Component.cpp" />
+    <ClCompile Include="..\private\Collision_Manager.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\private\Physics_Component.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
@@ -208,6 +213,7 @@
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\Private\Prototype_Manager.cpp" />
     <ClCompile Include="..\Private\Renderer.cpp" />
+    <ClCompile Include="..\private\Sphere_Collision_Component.cpp" />
     <ClCompile Include="..\Private\State.cpp" />
     <ClCompile Include="..\Private\Texture.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />

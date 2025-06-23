@@ -35,10 +35,6 @@ void CAnimController::ChangeState(CState* pNewState)
 {
 	//일단 여기 수업듣고 나서 이거 고민좀해봐야겠네
 	//상태 초기화를 Initialize()여기서 프로토 타입을 쓸지 말지
-	
-	if (m_CurState)
-		Safe_Release(m_CurState);
-
 	if (pNewState)
 	{
 		m_CurState = pNewState;

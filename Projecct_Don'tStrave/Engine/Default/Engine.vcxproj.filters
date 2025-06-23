@@ -109,8 +109,20 @@
     <Filter Include="System\Components\PhysicsComponent">
       <UniqueIdentifier>{cdd250ce-b280-4a9d-91f0-2532f9c1f706}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Components\CollistionComponent">
+    <Filter Include="System\Collision">
+      <UniqueIdentifier>{4214a918-f49a-4575-9056-4ca795cfb655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Collision\CollistionComponent">
       <UniqueIdentifier>{f06fd694-4afb-4e1f-97fd-0c99fb7fd137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Collision\CollistionComponent\SphereCollision">
+      <UniqueIdentifier>{2805f83e-6904-45a2-a529-8da5cda7d1d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Collision\CollistionComponent\BoxCollision">
+      <UniqueIdentifier>{9631d858-7c1b-42ce-80b8-75add3e3ff6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Collision\Manager">
+      <UniqueIdentifier>{e26f66f5-7e84-4bad-8b96-eb3cc4e03a92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -234,7 +246,18 @@
     <ClInclude Include="..\public\Physics_Component.h">
       <Filter>System\Components\PhysicsComponent</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Collision_Component.h" />
+    <ClInclude Include="..\public\Collision_Component.h">
+      <Filter>System\Collision\CollistionComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sphere_Collision_Component.h">
+      <Filter>System\Collision\CollistionComponent\SphereCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Box_Collision_Component.h">
+      <Filter>System\Collision\CollistionComponent\BoxCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collision_Manager.h">
+      <Filter>System\Collision\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -330,6 +353,17 @@
     <ClCompile Include="..\private\Physics_Component.cpp">
       <Filter>System\Components\PhysicsComponent</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Collision_Component.cpp" />
+    <ClCompile Include="..\private\Collision_Component.cpp">
+      <Filter>System\Collision\CollistionComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Box_Collision_Component.cpp">
+      <Filter>System\Collision\CollistionComponent\BoxCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sphere_Collision_Component.cpp">
+      <Filter>System\Collision\CollistionComponent\SphereCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collision_Manager.cpp">
+      <Filter>System\Collision\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

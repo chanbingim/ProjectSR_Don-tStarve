@@ -94,6 +94,16 @@ HRESULT CMainApp::Ready_Prototypes()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_BoxCollision */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		CBox_Collision_Component::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_SphereCollision */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+		CSphere_Collision_Component::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_AnimationController */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
 		CAnimController::Create())))

@@ -21,6 +21,8 @@ public:
 	void Clear();
 	void Clear_DeadObj();
 
+	list<class CGameObject*>* GetAllObjects() { return &m_GameObjects; }
+
 private:
 	list<class CGameObject*>			m_GameObjects;
 

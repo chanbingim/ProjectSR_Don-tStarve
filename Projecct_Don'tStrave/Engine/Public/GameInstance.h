@@ -4,6 +4,9 @@
 
 NS_BEGIN(Engine)
 
+class CGameObject;
+class CMouseSlotUI;
+
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance);
@@ -42,8 +45,9 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
 	HRESULT Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	list<CGameObject*>* GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 #pragma endregion
 
 
@@ -53,6 +57,7 @@ public:
 
 
 #pragma region PICKING
+	void			SetMouseObject(CMouseSlotUI*	MouseObject);
 	void			Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse);
 	_float3			GetMousePosition(_uint ID);
 	_bool			Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
@@ -76,6 +81,7 @@ private:
 	class CRenderer*				m_pRenderer = { nullptr };
 	class CMouseManager*			m_pMouseManager = { nullptr };
 	class CSoundManager*			m_pSoundManager = { nullptr };
+	class CCollision_Manager*		m_pCollisionManager = { nullptr };
 
 public:
 	void Release_Engine();

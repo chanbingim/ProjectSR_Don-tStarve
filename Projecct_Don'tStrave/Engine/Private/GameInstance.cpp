@@ -6,6 +6,7 @@
 #include "Graphic_Device.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
+#include "Collision_Manager.h"
 #include "Renderer.h"
 #include "SoundManager.h"
 #include "MouseSlotUI.h"
@@ -45,7 +46,6 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	CMouseManager::MOUSE_MANGER_DESC Mouse_Mgr_Data = {};
 	Mouse_Mgr_Data.pGraphic_Device = (*ppOut);
 	Mouse_Mgr_Data.handle = EngineDesc.hWnd;
-	Mouse_Mgr_Data.pMouseSlot = pMouse;
 
 	m_pMouseManager = CMouseManager::Create(&Mouse_Mgr_Data);
 	if (nullptr == m_pMouseManager)
@@ -55,6 +55,8 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pSoundManager)
 		return E_FAIL;
 
+	m_pCollisionManager = CCollision_Manager::GetInstance();
+	m_pCollisionManager->Initialize();
 	return S_OK;
 }
 
@@ -67,6 +69,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Update(fTimeDelta);
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
+
+	m_pCollisionManager->Update();
 
 	m_pObject_Manager->Clear_DeadObj();
 
@@ -166,6 +170,11 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const 
 	return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
 }
 
+list<CGameObject*>* CGameInstance::GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->GetAllObejctsToLayer(iLayerLevelIndex, strLayerTag);
+}
+
 #pragma endregion
 
 #pragma region RENDERER
@@ -178,6 +187,11 @@ HRESULT CGameInstance::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRender
 #pragma endregion
 
 #pragma region PICKING
+
+void CGameInstance::SetMouseObject(CMouseSlotUI* MouseObject)
+{
+	m_pMouseManager->Setting_Mouse(MouseObject);
+}
 
 void CGameInstance::Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse)
 {
@@ -239,6 +253,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pCollisionManager);
 }
 
 void CGameInstance::Free()

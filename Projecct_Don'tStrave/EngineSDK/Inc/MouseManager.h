@@ -11,8 +11,6 @@ class CMouseManager : public CBase
 public :
 	typedef struct Mouse_Mgr_Desc
 	{
-		CMouseSlotUI*			pMouseSlot;
-
 		LPDIRECT3DDEVICE9		pGraphic_Device = { nullptr };
 		HWND					handle = { nullptr };
 	}MOUSE_MANGER_DESC;
@@ -34,6 +32,9 @@ public:
 	_bool						Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 	_bool						Picking_InLocalSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 #pragma endregion
+
+	_bool						Setting_Mouse(CMouseSlotUI* Mouse);
+	CMouseSlotUI*				Get_CurMouse();
 
 private :
 	CMouseSlotUI*				m_MouseSlot = { nullptr };

@@ -84,6 +84,11 @@ _float CVIBuffer::Compute_Height(const _float3& vLocalPos)
 	return (-Plane.a * vLocalPos.x - Plane.c * vLocalPos.z - Plane.d) / Plane.b;	
 }
 
+_float3* CVIBuffer::GetVertexPosition()
+{
+	return m_pVertexPositions;
+}
+
 void CVIBuffer::Free()
 {
 	__super::Free();

@@ -122,6 +122,42 @@ _matrix& CTransform::Get_InverseWorldMat()
 	return *D3DXMatrixInverse(&m_InvWorldMat, nullptr, &m_WorldMat);;
 }
 
+void CTransform::Go_Straight(_float fTimeDelta)
+{
+	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
+	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
+	SetPosition(vPosition);
+}
+
+void CTransform::Go_Left(_float fTimeDelta)
+{
+	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
+	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
+	SetPosition(vPosition);
+}
+
+void CTransform::Go_Right(_float fTimeDelta)
+{
+	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
+	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
+	SetPosition(vPosition);
+}
+
+void CTransform::Go_Backward(_float fTimeDelta)
+{
+	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
+	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
+	SetPosition(vPosition);
+}
+
 CTransform* CTransform::Create()
 {
 	CTransform* pInstance = new CTransform();

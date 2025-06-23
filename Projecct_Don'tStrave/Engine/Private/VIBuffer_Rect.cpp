@@ -33,20 +33,21 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 		return E_FAIL;	
 
 	VTXPOSTEX* pVertices = { nullptr };
+	m_pVertexPositions = new _float3[m_iNumVertices];
 
 	/* 할당한 공간에 접근하여 값을 기록하낟. */
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);	
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
 	m_pVB->Unlock();

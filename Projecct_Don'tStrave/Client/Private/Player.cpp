@@ -45,11 +45,11 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	if (GetKeyState(VK_UP) & 0x8000)
 	{
-
+		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
-
+		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
@@ -103,6 +103,14 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;	
+
+	/* Com_Collision */
+	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	Col_Desc.pOwner = this;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -174,5 +182,6 @@ void CPlayer::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pCollision_Com);
 
 }

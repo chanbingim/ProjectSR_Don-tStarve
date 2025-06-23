@@ -20,7 +20,9 @@ public:
 	virtual HRESULT Render();
 
 public:
-	virtual _float Compute_Height(const _float3& vLocalPos);
+	virtual _float	Compute_Height(const _float3& vLocalPos);
+
+	_float3*		GetVertexPosition();
 
 protected:
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
@@ -39,9 +41,7 @@ protected:
 	_uint								m_iNumPrimitive = {};
 
 	D3DFORMAT							m_eIndexFormat = {};
-
-	_float3* m_pVertexPositions = { nullptr };
-
+	_float3*							m_pVertexPositions = { nullptr };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

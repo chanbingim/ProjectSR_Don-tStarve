@@ -7,6 +7,7 @@ NS_BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
@@ -28,15 +29,13 @@ public:
 
 private:
 	CTexture*				m_pTextureCom = { nullptr };
-	CTransform*				m_pTransformCom = { nullptr };	
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-
+	CCollision_Component*	m_pCollision_Com = { nullptr };
 	
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
-
 
 public:
 	static CMonster* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
