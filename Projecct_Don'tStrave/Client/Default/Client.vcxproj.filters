@@ -77,6 +77,12 @@
     <Filter Include="04. GmaeUI\TestUI\UIAnimtaion">
       <UniqueIdentifier>{a0e117ae-e8ae-4b19-8877-5968c6b5d264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Character\Player\PlayerAnim">
+      <UniqueIdentifier>{85540247-13fb-4b73-81e1-6f9f9b36b73c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Player\SwapObject">
+      <UniqueIdentifier>{f07b6c19-0cc4-4721-ae87-55d22dc2cb05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -151,6 +157,12 @@
     <ClInclude Include="..\public\UI_MoveAnim.h">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\SwapObject.h">
+      <Filter>03. Character\Player\SwapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerAnim.h">
+      <Filter>03. Character\Player\PlayerAnim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -222,6 +234,12 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_MoveAnim.cpp">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerAnim.cpp">
+      <Filter>03. Character\Player\PlayerAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SwapObject.cpp">
+      <Filter>03. Character\Player\SwapObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

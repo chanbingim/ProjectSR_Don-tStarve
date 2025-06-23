@@ -28,7 +28,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	/* 카메라의 월드 상태를 트랜스폼 ㅋㅓㅁ포넌트에게 동기화한다.  */
+	/* 카메라의 월드 상태를 트랜스폼 컴포넌트에게 동기화한다.  */
 	/* 뷰스페이스 변환행렬을 구한다. */
 	/*D3DXMatrixLookAtLH();*/
 	m_pTransformCom->SetPosition(pDesc->vEye);
@@ -50,6 +50,28 @@ HRESULT CCamera::Initialize(void* pArg)
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
+
+
+	if (GetKeyState(VK_UP) & 0x8000)
+	{
+
+		_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+
+		vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+
+		m_pTransformCom->SetPosition(vPosition);
+	}
+	if (GetKeyState(VK_DOWN) & 0x8000)
+	{
+		_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+
+		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+
+		m_pTransformCom->SetPosition(vPosition);
+	}
+
 	/* 카메라의 움직임에 대한 처리를 모두 수행한다. */
 	POINT		ptMouse{};
 
