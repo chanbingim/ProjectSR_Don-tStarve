@@ -33,12 +33,20 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
 
+	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+	m_pCamera = *(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"))->begin());
+	Safe_AddRef(m_pCamera);
+	
 	return S_OK;
 }
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	
+
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -49,11 +57,11 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
+		m_pTransformCom->Go_Backward(-fTimeDelta);
 	}
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta);
 	}
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
@@ -65,8 +73,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	
-
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
@@ -79,11 +85,27 @@ HRESULT CPlayer::Render()
 		return E_FAIL;
 
 	m_pVIBufferCom->Render();
+	
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
-
+	m_pCollision_Com->Render();
 	return S_OK;
+}
+
+void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+	int a = 10;
+}
+
+void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+	int a = 10;
+}
+
+void CPlayer::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+	int a = 10;
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -105,9 +127,8 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;	
 
 	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	CBox_Collision_Component::COL_DESC Col_Desc = {};
 	Col_Desc.pOwner = this;
-
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
 		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
@@ -179,9 +200,9 @@ void CPlayer::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pCamera);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pCollision_Com);
-
 }

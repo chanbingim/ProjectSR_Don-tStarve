@@ -60,6 +60,24 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	_float			fMove = {};
 
 
+	if (GetKeyState('W') & 0x8000)
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	if (GetKeyState('S') & 0x8000)
+	{
+		m_pTransformCom->Go_Backward(-fTimeDelta);
+	}
+	if (GetKeyState('A') & 0x8000)
+	{
+		m_pTransformCom->Go_Left(-fTimeDelta);
+	}
+	if (GetKeyState('D') & 0x8000)
+	{
+		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+
+
 	if (fMove = ptMouse.x - m_vOldMouse.x)
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * fMove * m_fSensor);
@@ -70,7 +88,6 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		m_pTransformCom->TurnRate(m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT), fTimeDelta * fMove * m_fSensor);
 	}
 
-	/**/
 
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));

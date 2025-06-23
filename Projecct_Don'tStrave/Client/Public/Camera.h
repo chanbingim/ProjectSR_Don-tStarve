@@ -32,7 +32,6 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	class CTransform*				m_pTransformCom = { nullptr };
 	_float4x4						m_ProjMatrix = { };
 
 	_float							m_fFov = {};
@@ -43,6 +42,7 @@ private:
 private:
 	_float2							m_vOldMouse = {};
 	_float							m_fSensor = { 0.2f };
+
 private:
 	HRESULT Ready_Components(void* pArg);
 public:

@@ -40,7 +40,6 @@ public :
 protected:
 	CGameObject*					m_pOwner = { nullptr };
 	_float3*						m_pMeshVtx = { nullptr };
-	_bool							m_bIsClone = { false };
 
 	COLLISION_TYPE					m_eColType = {};
 	list<CGameObject*>				m_HitActor;

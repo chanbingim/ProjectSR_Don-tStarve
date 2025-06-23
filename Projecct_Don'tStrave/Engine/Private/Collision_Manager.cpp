@@ -29,13 +29,16 @@ void CCollision_Manager::Update()
         for (auto& Src : m_pCol_List[i])
         {
             if (m_bColCheck[SrcIndex])
+            {
+                SrcIndex++;
                 continue;
+            }
 
             _uint DstIndex{};
             for (auto& Dst : m_pCol_List[i])
             {
                 if (Src == Dst)
-                    break;
+                    continue;
 
                 _bool ColFlag = false;
                 switch (i)
@@ -65,6 +68,7 @@ void CCollision_Manager::Update()
                 }
                 DstIndex++;
             }
+            Src->Update();
             SrcIndex++;
         }
     }
@@ -74,10 +78,7 @@ void CCollision_Manager::ADD_ColList(CCollision_Component* pCol_Component)
 {
     _uint typeIndex = ENUM_CLASS(pCol_Component->GetColType());
 
-    auto iter = find_if(m_pCol_List[typeIndex].begin(), m_pCol_List[typeIndex].end(), [&](CCollision_Component* Collison)
-                {
-                     return pCol_Component == Collison ? true : false;
-                });
+    auto iter = find(m_pCol_List[typeIndex].begin(), m_pCol_List[typeIndex].end(), pCol_Component);
 
     if (iter == m_pCol_List[typeIndex].end())
     {
@@ -90,18 +91,11 @@ void CCollision_Manager::Remove_ColList(CCollision_Component* pCol_Component)
 {
     _uint typeIndex = ENUM_CLASS(pCol_Component->GetColType());
 
-    auto iter = find_if(m_pCol_List[typeIndex].begin(), m_pCol_List[typeIndex].end(), [&](CCollision_Component* Collison)
-        {
-            return pCol_Component == Collison ? true : false;
-        });
-
+    auto iter = find(m_pCol_List[typeIndex].begin(), m_pCol_List[typeIndex].end(), pCol_Component);
     if (iter == m_pCol_List[typeIndex].end())
         return;
     else
-    {
-        m_pCol_List->erase(iter);
-        Safe_Release(*iter);
-    }
+        Safe_Release(pCol_Component);
 }
 
 _bool CCollision_Manager::AxisAlignedBoundBox(CCollision_Component* pCol, CCollision_Component* pOtherCol)
@@ -116,15 +110,16 @@ _bool CCollision_Manager::AxisAlignedBoundBox(CCollision_Component* pCol, CColli
     if (FAILED(static_cast<CBox_Collision_Component*>(pOtherCol)->ComputeBounding(&DstMin, &DstMax)))
         return false;
 
-    if ((SrcMin.x <= DstMin.x && DstMin.x <= SrcMax.x) ||
-        (SrcMin.y <= DstMin.y && DstMin.y <= SrcMax.y) ||
-        (SrcMin.z <= DstMin.z && DstMin.z <= SrcMax.z) ||
-        (SrcMin.x <= DstMax.x && DstMax.x <= SrcMax.x) ||
-        (SrcMin.y <= DstMax.y && DstMax.y <= SrcMax.y) ||
-        (SrcMin.z <= DstMax.z && DstMax.z <= SrcMax.z))
-        return true;
+    if ((DstMax.x < SrcMin.x || SrcMax.x < DstMin.x))
+        return false;
 
-    return false;
+    if ((DstMax.y < SrcMin.y || SrcMax.y < DstMin.y))
+        return false;
+
+    if ((DstMax.z < SrcMin.z || SrcMax.z < DstMin.z))
+        return false;
+
+    return true;
 }
 
 _bool CCollision_Manager::SphereCol(CCollision_Component* pCol, CCollision_Component* pOtherCol)

@@ -1,5 +1,4 @@
 #include "Sphere_Collision_Component.h"
-#include "Collision_Manager.h"
 #include "GameObject.h"
 #include "Transform.h"
 
@@ -10,19 +9,15 @@ CSphere_Collision_Component::CSphere_Collision_Component(LPDIRECT3DDEVICE9 pGrap
 
 CSphere_Collision_Component::CSphere_Collision_Component(const CSphere_Collision_Component& rhs)
     : CCollision_Component(rhs),
-    m_pSphereMesh(rhs.m_pSphereMesh),
-    m_pSpehre_Buffer(rhs.m_pSpehre_Buffer),
-    m_pMeshVtx(rhs.m_pMeshVtx)
+    m_pSphereMesh(rhs.m_pSphereMesh)
 {
     m_eColType = COLLISION_TYPE::SPHERE;
     m_pSphereMesh->AddRef();
-    m_pSpehre_Buffer->AddRef();
 }
 
 HRESULT CSphere_Collision_Component::Initialize_Prototype()
 {
-    m_bIsClone = false;
-    D3DXCreateSphere(m_pGraphic_Device, 1, 20, 20, &m_pSphereMesh, &m_pSpehre_Buffer);
+    D3DXCreateSphere(m_pGraphic_Device, 1, 20, 20, &m_pSphereMesh, NULL);
 
     VTXPOSMESH* vertices;
     m_pMeshVtx = new _float3[m_pSphereMesh->GetNumVertices()];
@@ -39,11 +34,8 @@ HRESULT CSphere_Collision_Component::Initialize_Prototype()
 
 HRESULT CSphere_Collision_Component::Initialize(void* pArg)
 {
-    m_bIsClone = true;
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
-
-    CCollision_Manager::GetInstance()->ADD_ColList(this);
 
     return S_OK;
 }
@@ -105,10 +97,8 @@ void CSphere_Collision_Component::Free()
 {
     __super::Free();
 
-    CCollision_Manager::GetInstance()->Remove_ColList(this);
     Safe_Release(m_pSphereMesh);
-    Safe_Release(m_pSpehre_Buffer);
 
-    if(!m_bIsClone)
+    if(!m_isCloned)
         Safe_Delete_Array(m_pMeshVtx);
 }

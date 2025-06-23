@@ -27,7 +27,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void	BeginHitActor(CGameObject* HitActor, _float3& _Dir);
+	void	OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	void	EndHitActor(CGameObject* HitActor, _float3& _Dir);
+
 private:
+	CGameObject*			m_pCamera = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CCollision_Component*	m_pCollision_Com = { nullptr };

@@ -16,6 +16,7 @@ namespace Engine
 	{
 		D3DXVECTOR3			vPosition;
 		D3DXVECTOR3			vNormal;
+
 	}VTXPOSMESH;
 
 	/*D3DDECLUSAGE*/

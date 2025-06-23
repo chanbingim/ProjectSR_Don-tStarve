@@ -1,86 +1,114 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\",
+  "WorkspaceRootPath": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Sphere_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Sphere_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Collision_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Collision_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Box_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Box_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Box_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Sphere_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Sphere_Collision_Component.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Sphere_Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\Sphere_Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Box_Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\Box_Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Struct.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Engine_Struct.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Object_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Transform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Transform.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\Collision_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\Collision_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\Collision_Component.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Collision_Manager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\Collision_Manager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\UI_MoveAnim.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\Collision_Manager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\Collision_Manager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Level_GamePlay.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\UI_MoveAnim.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\UI_MoveAnim.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\ENGINESDK\\INC\\ENGINE_FUNCTION.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ENGINESDK\\INC\\ENGINE_FUNCTION.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -90,96 +118,149 @@
       "DocumentGroups": [
         {
           "DockedWidth": 197,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Collision_Component.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Component.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\Collision_Component.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Component.cpp",
-              "RelativeToolTip": "Engine\\Private\\Collision_Component.cpp",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAEoAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T15:13:24.963Z",
+              "DocumentIndex": 7,
+              "Title": "Engine_Struct.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Struct.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Engine_Struct.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Struct.h",
+              "RelativeToolTip": "Engine\\Public\\Engine_Struct.h",
+              "ViewState": "AQIAAAEAAAAAAAAAAIAwwBIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T23:47:47.959Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
+              "Title": "Transform.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Transform.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Transform.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Transform.cpp",
+              "RelativeToolTip": "Engine\\Private\\Transform.cpp",
+              "ViewState": "AQIAAJYAAAAAAAAAAIAwwIYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T23:22:58.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Collision_Manager.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Manager.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Manager.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\Collision_Manager.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Manager.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Manager.cpp",
               "RelativeToolTip": "Engine\\Private\\Collision_Manager.cpp",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAhwH8AAAABAAAAAAAAAA==",
+              "ViewState": "AQIAAGIAAAAAAAAAAIAwwGkAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:28:14.723Z",
+              "WhenOpened": "2025-06-23T23:21:09.772Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Terrain.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Terrain.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
-              "RelativeToolTip": "Client\\Private\\Terrain.cpp",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAHUAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:25:43.596Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Monster.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Monster.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
-              "RelativeToolTip": "Client\\Private\\Monster.cpp",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAxwEcAAAANAAAAAAAAAA==",
+              "Title": "Level_GamePlay.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Level_GamePlay.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeToolTip": "Client\\Private\\Level_GamePlay.cpp",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAADgAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:19:01.698Z",
+              "WhenOpened": "2025-06-23T23:13:25.679Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Camera.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Camera.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
+              "RelativeToolTip": "Client\\Private\\Camera.cpp",
+              "ViewState": "AQIAADAAAAAAAAAAAAAAAEgAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T23:01:07.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Object_Manager.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Object_Manager.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp",
+              "RelativeToolTip": "Engine\\Private\\Object_Manager.cpp",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAiwFIAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T22:38:36.652Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Player.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Player.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
-              "RelativeToolTip": "Client\\Private\\Player.cpp",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAxwGsAAAABAAAAAAAAAA==",
+              "Title": "Collision_Component.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Component.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Collision_Component.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Collision_Component.cpp",
+              "RelativeToolTip": "Engine\\Private\\Collision_Component.cpp",
+              "ViewState": "AQIAADsAAAAAAAAAAAAiwE4AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T13:59:31.388Z",
+              "WhenOpened": "2025-06-23T21:25:23.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Monster.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Monster.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
+              "RelativeToolTip": "Client\\Private\\Monster.cpp",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T21:07:13.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Player.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
+              "RelativeToolTip": "Client\\Private\\Player.cpp",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAywFsAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T20:36:36.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Sphere_Collision_Component.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Sphere_Collision_Component.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\Sphere_Collision_Component.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Sphere_Collision_Component.cpp",
-              "RelativeToolTip": "Engine\\Private\\Sphere_Collision_Component.cpp",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
+              "Title": "Box_Collision_Component.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Box_Collision_Component.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Box_Collision_Component.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Box_Collision_Component.cpp",
+              "RelativeToolTip": "Engine\\Private\\Box_Collision_Component.cpp",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAADQAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T13:48:33.495Z",
+              "WhenOpened": "2025-06-23T20:33:02.492Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "GameInstance.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\GameInstance.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
-              "RelativeToolTip": "Engine\\Private\\GameInstance.cpp",
-              "ViewState": "AgIAAPYAAAAAAAAAAAAAAP8AAAAYAAAAAAAAAA==",
+              "Title": "Sphere_Collision_Component.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Sphere_Collision_Component.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Sphere_Collision_Component.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Sphere_Collision_Component.cpp",
+              "RelativeToolTip": "Engine\\Private\\Sphere_Collision_Component.cpp",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAiwGQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:29:34.884Z",
+              "WhenOpened": "2025-06-23T13:48:33.495Z",
               "EditorCaption": ""
             }
           ]
@@ -190,159 +271,199 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "GameObject.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\GameObject.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h",
-              "RelativeToolTip": "Engine\\Public\\GameObject.h",
-              "ViewState": "AgIAABkAAAAAAAAAAADwvyYAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T14:53:58.768Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Box_Collision_Component.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Box_Collision_Component.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\Box_Collision_Component.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Box_Collision_Component.cpp",
-              "RelativeToolTip": "Engine\\Private\\Box_Collision_Component.cpp",
-              "ViewState": "AgIAADIAAAAAAAAAAAAhwD4AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:44:09.751Z",
+              "Title": "Box_Collision_Component.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Box_Collision_Component.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Box_Collision_Component.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Box_Collision_Component.h",
+              "RelativeToolTip": "Engine\\Public\\Box_Collision_Component.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T21:08:51.787Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "MainApp.cpp",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\MainApp.cpp",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
-              "RelativeToolTip": "Client\\Private\\MainApp.cpp",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAFUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-23T14:18:17.48Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Collision_Component.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Component.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\Collision_Component.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Component.h",
-              "RelativeToolTip": "Engine\\Public\\Collision_Component.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowCgAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Sphere_Collision_Component.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Sphere_Collision_Component.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Sphere_Collision_Component.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Sphere_Collision_Component.h",
+              "RelativeToolTip": "Engine\\Public\\Sphere_Collision_Component.h",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAowBkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T14:01:34.648Z"
+              "WhenOpened": "2025-06-23T21:08:47.444Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 20,
+              "Title": "Level_GamePlay.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h",
+              "RelativeDocumentMoniker": "Client\\Public\\Level_GamePlay.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h",
+              "RelativeToolTip": "Client\\Public\\Level_GamePlay.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T19:14:24.471Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Engine_Function.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
+              "RelativeDocumentMoniker": "EngineSDK\\Inc\\Engine_Function.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
+              "RelativeToolTip": "EngineSDK\\Inc\\Engine_Function.h",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAiwC8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T18:54:22.637Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GameObject.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\GameObject.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameObject.h",
+              "RelativeToolTip": "Engine\\Public\\GameObject.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T14:53:58.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MainApp.cpp",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\MainApp.cpp",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeToolTip": "Client\\Private\\MainApp.cpp",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAAAGIAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-23T14:18:17.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "Monster.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h",
               "RelativeDocumentMoniker": "Client\\Public\\Monster.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h",
               "RelativeToolTip": "Client\\Public\\Monster.h",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA4AAAAmAAAAAAAAAA==",
+              "ViewState": "AQIAACAAAAAAAAAAAAAAACAAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T14:13:51.287Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Engine_Function.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\Engine_Function.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
-              "RelativeToolTip": "Engine\\Public\\Engine_Function.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAywCUAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 15,
+              "Title": "Collision_Component.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Component.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Collision_Component.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Component.h",
+              "RelativeToolTip": "Engine\\Public\\Collision_Component.h",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAC8AAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T13:50:46.115Z"
+              "WhenOpened": "2025-06-23T20:40:38.045Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "GameInstance.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
               "RelativeDocumentMoniker": "Engine\\Public\\GameInstance.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
               "RelativeToolTip": "Engine\\Public\\GameInstance.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAsAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T13:30:28.939Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 23,
               "Title": "MouseSlotUI.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
               "RelativeDocumentMoniker": "Engine\\Public\\MouseSlotUI.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
               "RelativeToolTip": "Engine\\Public\\MouseSlotUI.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T13:12:15.248Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 14,
+              "Title": "Camera.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Camera.h",
+              "RelativeDocumentMoniker": "Client\\Public\\Camera.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Camera.h",
+              "RelativeToolTip": "Client\\Public\\Camera.h",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAACIAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T22:44:21.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "VIBuffer.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
               "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
               "RelativeToolTip": "Engine\\Public\\VIBuffer.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACUAAAABAAAAAAAAAA==",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T13:06:53.574Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 25,
               "Title": "UI_MoveAnim.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\UI_MoveAnim.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\UI_MoveAnim.h",
               "RelativeDocumentMoniker": "Client\\Public\\UI_MoveAnim.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\UI_MoveAnim.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\UI_MoveAnim.h",
               "RelativeToolTip": "Client\\Public\\UI_MoveAnim.h",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowBYAAAAVAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-21T09:41:16.146Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "Collision_Manager.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Manager.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Manager.h",
               "RelativeDocumentMoniker": "Engine\\Public\\Collision_Manager.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Manager.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Collision_Manager.h",
               "RelativeToolTip": "Engine\\Public\\Collision_Manager.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAAeAAAAAAAAAA==",
+              "ViewState": "AQIAAAUAAAAAAAAAAIAwwA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T08:14:22.413Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "Player.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
               "RelativeDocumentMoniker": "Client\\Public\\Player.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
               "RelativeToolTip": "Client\\Public\\Player.h",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB8AAAAcAAAAAAAAAA==",
+              "ViewState": "AQIAAAoAAAAAAAAAAIAwwCIAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T13:59:34.286Z"
+              "WhenOpened": "2025-06-23T13:59:34.286Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "VIBuffer_Terrain.h",
-              "DocumentMoniker": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
+              "DocumentMoniker": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
               "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Terrain.h",
-              "ToolTip": "C:\\Users\\gimch\\OneDrive\\\uBB38\uC11C\\GitHub\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
+              "ToolTip": "C:\\Users\\gimch\\Document\\Unreal_AnimatedShot-main\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
               "RelativeToolTip": "Engine\\Public\\VIBuffer_Terrain.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-23T10:01:08.054Z"
             }

@@ -54,7 +54,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	CameraDesc.fNear = 0.1f;
 	CameraDesc.fFar = 300.f;
 	CameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	CameraDesc.vAt = _float3(0.f, 0.f, 1.f);
 	CameraDesc.m_MoveSpeedSec = 5.f;
 	CameraDesc.m_TurnSpeedSec = D3DXToRadian(90.0f);
 
@@ -80,7 +80,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	for (size_t i = 0; i < 20; i++)
+	for (size_t i = 0; i < 2; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))

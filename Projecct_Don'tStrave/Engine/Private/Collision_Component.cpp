@@ -1,4 +1,5 @@
 #include "Collision_Component.h"
+#include "Collision_Manager.h"
 #include "GameObject.h"
 #include "Transform.h"
 
@@ -8,7 +9,9 @@ CCollision_Component::CCollision_Component(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CCollision_Component::CCollision_Component(const CCollision_Component& rhs)
-	: CComponent(rhs), m_eColType(rhs.m_eColType)
+	: CComponent(rhs),
+	m_eColType(rhs.m_eColType),
+	m_pMeshVtx(rhs.m_pMeshVtx)
 {
 }
 
@@ -22,8 +25,10 @@ HRESULT CCollision_Component::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	Collision_Desc* pCol_Desc = static_cast<COL_DESC*>(pArg);
+	COL_DESC* pCol_Desc = static_cast<COL_DESC*>(pArg);
 	m_pOwner = pCol_Desc->pOwner;
+
+	CCollision_Manager::GetInstance()->ADD_ColList(this);
 
 	return S_OK;
 }
@@ -31,30 +36,42 @@ HRESULT CCollision_Component::Initialize(void* pArg)
 void CCollision_Component::Update()
 {
 	_float3 Dir = {};
-	for (auto HitActor : m_HitActor)
+	for (auto OldHitActor = m_OldHitActor.begin(); OldHitActor != m_OldHitActor.end();)
 	{
-		ComputeDirToHitActor(HitActor, &Dir);
-		m_HitEnterfunc(HitActor, Dir);
-	}
+		auto iter = find(m_HitActor.begin(), m_HitActor.end(), (*OldHitActor));
 
-	for (auto OldHitActor : m_OldHitActor)
-	{
-		auto iter = find_if(m_HitActor.begin(), m_HitActor.end(), [&](CGameObject* Actor)
-					{
-						return  (Actor == OldHitActor) ? true : false;
-					});
-
-		ComputeDirToHitActor(OldHitActor, &Dir);
 		if (iter == m_HitActor.end())
 		{
-			m_HitExitfunc(OldHitActor, Dir);
-			Safe_Release(OldHitActor);
+			if (m_HitExitfunc)
+				m_HitExitfunc(*OldHitActor, Dir);
+
+			OldHitActor = m_OldHitActor.erase(OldHitActor);
 		}
 		else
-			m_HitOverlapfunc(OldHitActor, Dir);
+			OldHitActor++;
 	}
 
-	m_OldHitActor = m_HitActor;
+	for (auto HitActor : m_HitActor)
+	{
+		auto iter = find(m_OldHitActor.begin(), m_OldHitActor.end(), HitActor);
+		ComputeDirToHitActor(HitActor, &Dir);
+		if (iter == m_OldHitActor.end())
+		{
+			if (m_HitEnterfunc)
+				m_HitEnterfunc(HitActor, Dir);
+
+			m_OldHitActor.push_back(HitActor);
+		}
+		else
+		{
+			if (m_HitOverlapfunc)
+				m_HitOverlapfunc(HitActor, Dir);
+
+			
+		}
+		Safe_Release(HitActor);
+	}
+
 	m_HitActor.clear();
 }
 
@@ -64,16 +81,8 @@ void CCollision_Component::Render()
 
 void CCollision_Component::ADDHitGroup(CGameObject* pGameObject)
 {
-	auto iter = find_if(m_OldHitActor.begin(), m_OldHitActor.end(), [&](CGameObject* OldActor)
-				{
-					return  (OldActor == pGameObject) ? true : false;
-				});
-
-	if (iter == m_OldHitActor.end())
-	{
-		m_HitActor.push_back(pGameObject);
-		Safe_AddRef(pGameObject);
-	}
+	m_HitActor.push_back(pGameObject);
+	Safe_AddRef(pGameObject);
 }
 
 const list<CGameObject*>* CCollision_Component::GetOVerlapAllObejcts()
@@ -122,19 +131,11 @@ void CCollision_Component::Free()
 		Safe_Release(iter);
 
 	for (auto HitActor : m_HitActor)
-	{
-		auto iter = find_if(m_OldHitActor.begin(), m_OldHitActor.end(), [&](CGameObject* OldActor)
-					{
-						return  (OldActor == HitActor) ? true : false;
-					});
-
-		if (iter == m_OldHitActor.end())
-			Safe_Release(HitActor);
-	}
+		Safe_Release(HitActor);
 	
 	m_HitActor.clear();
 	m_OldHitActor.clear();
 
-	if (!m_bIsClone)
+	if (!m_isCloned)
 		Safe_Delete_Array(m_pMeshVtx);
 }

@@ -1,5 +1,4 @@
 #include "Box_Collision_Component.h"
-#include "Collision_Manager.h"
 #include "Transform.h"
 #include "GameObject.h"
 
@@ -10,19 +9,15 @@ CBox_Collision_Component::CBox_Collision_Component(LPDIRECT3DDEVICE9 pGraphic_De
 
 CBox_Collision_Component::CBox_Collision_Component(const CBox_Collision_Component& rhs)
     : CCollision_Component(rhs),
-    m_pBoxMesh(rhs.m_pBoxMesh),
-    m_pBox_Buffer(rhs.m_pBox_Buffer),
-    m_pMeshVtx(rhs.m_pMeshVtx)
+    m_pBoxMesh(rhs.m_pBoxMesh)
 {
     m_eColType = COLLISION_TYPE::BOX;
     m_pBoxMesh->AddRef();
-    m_pBox_Buffer->AddRef();
 }
 
 HRESULT CBox_Collision_Component::Initialize_Prototype()
 {
-    m_bIsClone = false;
-    D3DXCreateBox(m_pGraphic_Device, 1, 1, 1, &m_pBoxMesh, &m_pBox_Buffer);
+    D3DXCreateBox(m_pGraphic_Device, 1, 1, 1, &m_pBoxMesh, NULL);
     
     VTXPOSMESH* vertices;
     m_pMeshVtx = new _float3[m_pBoxMesh->GetNumVertices()];
@@ -39,11 +34,10 @@ HRESULT CBox_Collision_Component::Initialize_Prototype()
 
 HRESULT CBox_Collision_Component::Initialize(void* pArg)
 {
-    m_bIsClone = true;
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    CCollision_Manager::GetInstance()->ADD_ColList(this);
+   
 
     return S_OK;
 }
@@ -106,7 +100,8 @@ void CBox_Collision_Component::Free()
 {
     __super::Free();
 
-    CCollision_Manager::GetInstance()->Remove_ColList(this);
     Safe_Release(m_pBoxMesh);
-    Safe_Release(m_pBox_Buffer);
+
+    if (!m_isCloned)
+        Safe_Delete_Array(m_pMeshVtx);
 }

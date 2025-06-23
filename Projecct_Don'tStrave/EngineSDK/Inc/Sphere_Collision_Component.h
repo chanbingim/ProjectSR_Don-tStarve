@@ -23,9 +23,7 @@ public :
 
 private :
 	LPD3DXMESH			m_pSphereMesh = {};
-	LPD3DXBUFFER		m_pSpehre_Buffer = {};
 
-	_float3*			m_pMeshVtx = { nullptr };
 public :
 	static	CSphere_Collision_Component*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent*						Clone(void* pArg) override;

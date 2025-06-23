@@ -1,1 +1,4 @@
-﻿  Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
+﻿  Player.cpp
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(34,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(34,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

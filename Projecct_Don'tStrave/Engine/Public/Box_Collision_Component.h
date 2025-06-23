@@ -23,9 +23,6 @@ public:
 
 private:
 	LPD3DXMESH			m_pBoxMesh = {};
-	LPD3DXBUFFER		m_pBox_Buffer = {};
-
-	_float3*			m_pMeshVtx = { nullptr };
 
 public:
 	static	CBox_Collision_Component*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

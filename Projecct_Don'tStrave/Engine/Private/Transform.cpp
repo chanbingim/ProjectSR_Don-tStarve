@@ -134,7 +134,7 @@ void CTransform::Go_Straight(_float fTimeDelta)
 void CTransform::Go_Left(_float fTimeDelta)
 {
 	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
-	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+	_float3		vLook = GetWorldState(WORLDSTATE::RIGHT);
 
 	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
 	SetPosition(vPosition);
@@ -143,7 +143,7 @@ void CTransform::Go_Left(_float fTimeDelta)
 void CTransform::Go_Right(_float fTimeDelta)
 {
 	_float3		vPosition = GetWorldState(WORLDSTATE::POSITION);
-	_float3		vLook = GetWorldState(WORLDSTATE::LOOK);
+	_float3		vLook = GetWorldState(WORLDSTATE::RIGHT);
 
 	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * m_RateData.m_MoveSpeedSec * fTimeDelta;
 	SetPosition(vPosition);
