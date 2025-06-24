@@ -62,12 +62,12 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 	if (fMove = ptMouse.x - m_vOldMouse.x)
 	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * fMove * m_fSensor);
+		//m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * fMove * m_fSensor);
 	}
 
 	if (fMove = ptMouse.y - m_vOldMouse.y)
 	{
-		m_pTransformCom->TurnRate(m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT), fTimeDelta * fMove * m_fSensor);
+		//m_pTransformCom->TurnRate(m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT), fTimeDelta * fMove * m_fSensor);
 	}
 
 	/**/

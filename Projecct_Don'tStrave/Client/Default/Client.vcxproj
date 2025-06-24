@@ -146,6 +146,8 @@
     <ClInclude Include="..\public\AnimationUI.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\public\CraftingUI.h" />
+    <ClInclude Include="..\public\Hunger.h" />
     <ClInclude Include="..\Public\IMGUI\imconfig.h" />
     <ClInclude Include="..\Public\IMGUI\imgui.h" />
     <ClInclude Include="..\Public\IMGUI\imgui_impl_dx9.h" />
@@ -154,13 +156,17 @@
     <ClInclude Include="..\Public\IMGUI\imstb_rectpack.h" />
     <ClInclude Include="..\Public\IMGUI\imstb_textedit.h" />
     <ClInclude Include="..\Public\IMGUI\imstb_truetype.h" />
+    <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\public\Mouse.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\public\Slot.h" />
+    <ClInclude Include="..\public\SlotFrame.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
     <ClInclude Include="Client.h" />
@@ -171,6 +177,11 @@
   <ItemGroup>
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\CraftingUI.cpp" />
+    <ClCompile Include="..\private\Inventory.cpp" />
+    <ClCompile Include="..\private\Mouse.cpp" />
+    <ClCompile Include="..\private\Slot.cpp" />
+    <ClCompile Include="..\private\SlotFrame.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui_demo.cpp" />
@@ -187,6 +198,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\public\Hunger.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

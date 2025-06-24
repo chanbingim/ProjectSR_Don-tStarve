@@ -22,6 +22,9 @@ private :
 	virtual ~CMouseManager() = default;
 
 public:
+	CMouseSlotUI* Chagne_Slot(CMouseSlotUI* pSlot);
+
+public:
 	HRESULT						Initialize(void* pArg);
 	void						Update();
 	void						Render();

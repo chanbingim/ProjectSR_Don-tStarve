@@ -81,8 +81,14 @@ void CRenderer::Render_UI()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 	Render_Projection_UI();
 	Render_Ortho_UI();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 void CRenderer::Render_Projection_UI()

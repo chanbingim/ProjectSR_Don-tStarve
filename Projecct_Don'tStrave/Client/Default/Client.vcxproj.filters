@@ -151,6 +151,24 @@
     <ClInclude Include="..\public\UI_MoveAnim.h">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Slot.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Inventory.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SlotFrame.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mouse.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CraftingUI.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hunger.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -222,6 +240,24 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_MoveAnim.cpp">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Slot.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Inventory.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SlotFrame.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mouse.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CraftingUI.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\Hunger.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

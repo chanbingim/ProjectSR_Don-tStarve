@@ -53,6 +53,7 @@ public:
 
 
 #pragma region PICKING
+	class CMouseSlotUI*	Chagne_Slot(class CMouseSlotUI* pSlot = nullptr);
 	void			Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse);
 	_float3			GetMousePosition(_uint ID);
 	_bool			Picking_InWorldSpace(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);

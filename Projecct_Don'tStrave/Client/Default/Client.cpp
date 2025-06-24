@@ -132,7 +132,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
     hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
     g_hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-             CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+        CW_USEDEFAULT, 0,
+        windowRect.right - windowRect.left, windowRect.bottom - windowRect.top,
+        nullptr, nullptr, hInstance, nullptr);
 
    if (!g_hWnd)
    {

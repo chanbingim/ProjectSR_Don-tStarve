@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "Camera.h"
+#include "UserInterface.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -22,6 +23,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -91,6 +95,50 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
+{
+	CUserInterface::UIOBJECT_DESC Desc = {};
+
+	Desc.fX = g_iWinSizeX * 0.9;
+	Desc.fY = g_iWinSizeY * 0.3f;
+	Desc.fSizeX = 80.f;
+	Desc.fSizeY = 80.f;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+	
+
+	// Add Inventory
+	Desc.fSizeX = 800.f;
+	Desc.fSizeY = 150.f;
+	Desc.fX = g_iWinSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	// Add Silebar
+	Desc.fSizeX = 350.f;
+	Desc.fSizeY = 500.f;
+	Desc.fX = Desc.fSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_CraftingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	// Add Mouse
+	Desc.fSizeX = 50.f;
+	Desc.fSizeY = 50.f;
+	Desc.fX = g_iWinSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Mouse"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 {
@@ -112,6 +160,5 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVE
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
-
 
 }

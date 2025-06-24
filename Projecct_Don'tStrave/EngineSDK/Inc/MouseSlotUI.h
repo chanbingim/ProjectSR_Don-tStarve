@@ -2,7 +2,7 @@
 #include "UserInterface.h"
 
 NS_BEGIN(Engine)
-class CMouseSlotUI abstract : public CUserInterface
+class ENGINE_DLL CMouseSlotUI abstract : public CUserInterface
 {
 protected :
 	CMouseSlotUI(LPDIRECT3DDEVICE9  pGraphic_Device);

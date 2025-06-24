@@ -179,6 +179,11 @@ HRESULT CGameInstance::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRender
 
 #pragma region PICKING
 
+CMouseSlotUI* CGameInstance::Chagne_Slot(CMouseSlotUI* pSlot)
+{
+	return m_pMouseManager->Chagne_Slot(pSlot);
+}
+
 void CGameInstance::Transform_Picking_ToLocalSpace(const _float4x4* pWorldMatrixInverse)
 {
 	m_pMouseManager->Transform_ToLocalSpace(pWorldMatrixInverse);

@@ -2,6 +2,20 @@
 #include "MouseSlotUI.h"
 #include "Picking.h"
 
+CMouseSlotUI* CMouseManager::Chagne_Slot(CMouseSlotUI* pSlot)
+{
+	if (nullptr == pSlot)
+		return m_MouseSlot;
+
+	CMouseSlotUI* pTmpSlot = { nullptr };
+
+	pTmpSlot = m_MouseSlot;
+
+	m_MouseSlot = pSlot;
+
+	return pTmpSlot;
+}
+
 HRESULT CMouseManager::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
