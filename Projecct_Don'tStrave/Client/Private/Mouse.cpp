@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Slot.h"
+#include "Item.h"
 
 CMouse::CMouse(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -46,6 +47,8 @@ void CMouse::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
+    m_pSlot->Update(fTimeDelta);
+
     POINT pt{};
     GetCursorPos(&pt);
     ScreenToClient(g_hWnd, &pt);
@@ -55,6 +58,12 @@ void CMouse::Update(_float fTimeDelta)
     
     m_pTransform_Com->SetPosition(_float3(m_fX, m_fY, 0.f));
 
+    
+    ClickedEevent();
+    
+
+
+#pragma region TestCode
     if (GetKeyState('1') & 0x8000)
     {
         m_pSlot->Set_Info(1, 1, 50.f);
@@ -68,8 +77,8 @@ void CMouse::Update(_float fTimeDelta)
     {
         m_pSlot->Set_Info(5, 1, 50.f);
     }
-
-    m_pSlot->Update(fTimeDelta);
+#pragma endregion
+    
 }
 
 void CMouse::Late_Update(_float fTimeDelta)
@@ -88,6 +97,41 @@ HRESULT CMouse::Render()
     m_pSlot->Render();
 
     return S_OK;
+}
+void CMouse::ClickedEevent()
+{
+    _float3 vPickingPos = {};
+    _uint iItemID = m_pSlot->Get_ItemID();
+    if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+    {
+        if (0 != iItemID)
+        {
+            if (true == dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(
+                EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")
+            ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
+                TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
+            {
+
+                CItem::ITEM_DESC Desc = {};
+                Desc.iItemID = m_pSlot->Get_ItemID();
+                Desc.fDurability = 100.f;
+                Desc.eItemType = ITEM_TYPE::MERTARIAL;
+                Desc.iNumItem = 1;
+                Desc.vPosition = vPickingPos;
+
+                if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+                    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                {
+                    MSG_BOX("Failed to Add Item");
+                }
+
+                m_pSlot->Clear();
+            }
+        }
+    }
+
+    
+   
 }
 HRESULT CMouse::ADD_Components()
 {

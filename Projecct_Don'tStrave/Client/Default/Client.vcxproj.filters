@@ -169,6 +169,9 @@
     <ClInclude Include="..\public\Hunger.h">
       <Filter>대진호</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Item.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -257,6 +260,9 @@
       <Filter>대진호</Filter>
     </ClCompile>
     <ClCompile Include="..\public\Hunger.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item.cpp">
       <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>

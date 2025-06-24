@@ -1,10 +1,2 @@
-﻿  SlotFrame.cpp
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,22): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,22): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,46): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,46): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,70): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,70): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,94): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(56,94): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Item.cpp
   Client.vcxproj -> C:\Users\Jinho\source\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

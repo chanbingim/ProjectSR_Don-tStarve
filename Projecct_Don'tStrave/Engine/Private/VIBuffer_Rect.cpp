@@ -1,5 +1,7 @@
 #include "VIBuffer_Rect.h"
 
+#include "GameInstance.h"
+
 CVIBuffer_Rect::CVIBuffer_Rect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CVIBuffer { pGraphic_Device }
 {
@@ -17,6 +19,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2(0);
 	m_ePrimitiveType = D3DPT_TRIANGLELIST;	
 	m_iNumPrimitive = 2;	
+
+	m_pVertexPositions = new _float3[m_iNumVertices];
 
 	m_iIndexStride = 2;
 	m_iNumIndices = 6;
@@ -37,16 +41,16 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	/* 할당한 공간에 접근하여 값을 기록하낟. */
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	pVertices[0].vPosition = m_pVertexPositions[0] = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	pVertices[1].vPosition = m_pVertexPositions[1] = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	pVertices[2].vPosition = m_pVertexPositions[2] = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);	
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[3].vPosition = m_pVertexPositions[3] = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
 	m_pVB->Unlock();
@@ -77,6 +81,26 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 HRESULT CVIBuffer_Rect::Initialize(void* pArg)
 {
 	return S_OK;
+}
+
+_bool CVIBuffer_Rect::Picking(CTransform* pTransform, _float3* pOut)
+{
+	/* 마우스 정보를 지형의 로컬로 변환시킨다. */
+	m_pGameInstance->Transform_Picking_ToLocalSpace(&pTransform->Get_InverseWorldMat());
+
+	if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[0], m_pVertexPositions[1], m_pVertexPositions[2], pOut))
+	{
+		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+		return true;
+	}
+
+	if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[0], m_pVertexPositions[2], m_pVertexPositions[3], pOut))
+	{
+		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+		return true;
+	}
+
+	return false;
 }
 
 CVIBuffer_Rect* CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

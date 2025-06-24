@@ -21,7 +21,7 @@ public:
 
 public:
 	virtual _float Compute_Height(const _float3& vLocalPos);
-
+	virtual _bool Picking(class CTransform* pTransform, _float3* pOut);
 protected:
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
 	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };

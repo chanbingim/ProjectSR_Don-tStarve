@@ -3,144 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\SlotFrame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\SlotFrame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\Item.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\Item.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\Mouse.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\Mouse.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\Mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\MouseManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\MouseManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer_Rect.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\MouseManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\MouseManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\Slot.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\Slot.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\Hunger.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Hunger.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\Hunger.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Hunger.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\Slot.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Slot.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\CraftingUI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\CraftingUI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\CraftingUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\CraftingUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\private\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Level_GamePlay.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\UserInterface.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\UserInterface.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\UserInterface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\UserInterface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\SlotFrame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\SlotFrame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Default\\Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\public\\Inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Terrain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui_impl_dx9.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\IMGUI\\imgui_impl_dx9.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\IMGUI\\imgui.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\IMGUI\\imgui.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\public\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\private\\MouseManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\private\\MouseManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Client_Defines.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Client_Defines.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EngineSDK\\Inc\\MouseSlotUI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EngineSDK\\Inc\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\LandObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -150,277 +58,133 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Camera.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Camera.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
-              "RelativeToolTip": "Client\\Private\\Camera.cpp",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAEUAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Item.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Item.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Item.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Item.cpp",
+              "RelativeToolTip": "Client\\Private\\Item.cpp",
+              "ViewState": "AgIAAC4AAAAAAAAAAADwvzoAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T09:03:08.472Z",
+              "WhenOpened": "2025-06-24T10:14:45.746Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "GameInstance.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\GameInstance.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\GameInstance.h",
-              "RelativeToolTip": "Engine\\Public\\GameInstance.h",
-              "ViewState": "AgIAAC0AAAAAAAAAAAApwDAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:53:58.704Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MouseManager.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseManager.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\MouseManager.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseManager.h",
-              "RelativeToolTip": "Engine\\Public\\MouseManager.h",
-              "ViewState": "AgIAABEAAAAAAAAAAAApwBgAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:49:06.274Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "Engine_Function.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
-              "RelativeDocumentMoniker": "EngineSDK\\Inc\\Engine_Function.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
-              "RelativeToolTip": "EngineSDK\\Inc\\Engine_Function.h",
-              "ViewState": "AgIAACUAAAAAAAAAAAAQwC8AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:41:16.346Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "UserInterface.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\UserInterface.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\UserInterface.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\UserInterface.h",
-              "RelativeToolTip": "Engine\\Public\\UserInterface.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:34:24.267Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Engine_Function.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\Engine_Function.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
-              "RelativeToolTip": "Engine\\Public\\Engine_Function.h",
-              "ViewState": "AgIAACUAAAAAAAAAAAAQwC4AAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:34:10.53Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UserInterface.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\UserInterface.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\UserInterface.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\UserInterface.cpp",
-              "RelativeToolTip": "Engine\\Private\\UserInterface.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Player.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
+              "RelativeToolTip": "Client\\Private\\Player.cpp",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAqwG0AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T08:33:57.493Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Hunger.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Hunger.cpp",
-              "RelativeDocumentMoniker": "Client\\Public\\Hunger.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Hunger.cpp",
-              "RelativeToolTip": "Client\\Public\\Hunger.cpp",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAB4AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T08:11:07.366Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-24T02:37:18.606Z",
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Hunger.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Hunger.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Hunger.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Hunger.h",
-              "RelativeToolTip": "Client\\Public\\Hunger.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T08:09:11.925Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MouseManager.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\MouseManager.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\MouseManager.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\MouseManager.cpp",
-              "RelativeToolTip": "Engine\\Private\\MouseManager.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:54:39.862Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "VIBuffer_Rect.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Rect.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
-              "RelativeToolTip": "Engine\\Private\\VIBuffer_Rect.cpp",
-              "ViewState": "AgIAADUAAAAAAAAAAAAiwGAAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:47:27.995Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "GameInstance.cpp",
               "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\GameInstance.cpp",
               "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
               "RelativeToolTip": "Engine\\Private\\GameInstance.cpp",
-              "ViewState": "AgIAALYAAAAAAAAAAAAAwMEAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAMIAAAAAAAAAAAAuwMwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:47:01.199Z",
+              "WhenOpened": "2025-06-24T12:52:26.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MouseManager.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\MouseManager.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\MouseManager.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\MouseManager.cpp",
+              "RelativeToolTip": "Engine\\Private\\MouseManager.cpp",
+              "ViewState": "AgIAADwAAAAAAAAAAAAuwEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-24T12:50:40.77Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "VIBuffer.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer.cpp",
+              "RelativeToolTip": "Engine\\Private\\VIBuffer.cpp",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAvwFYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-24T12:46:19.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "VIBuffer_Terrain.h",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Terrain.h",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
+              "RelativeToolTip": "Engine\\Public\\VIBuffer_Terrain.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-24T12:43:44.874Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "VIBuffer.h",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer.h",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "RelativeToolTip": "Engine\\Public\\VIBuffer.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABcAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-24T12:39:35.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "VIBuffer_Terrain.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Terrain.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp",
+              "RelativeToolTip": "Engine\\Private\\VIBuffer_Terrain.cpp",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAgwM8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-24T12:38:56.54Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Texture.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\Texture.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp",
-              "RelativeToolTip": "Engine\\Private\\Texture.cpp",
-              "ViewState": "AgIAADsAAAAAAAAAAAApwEgAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "VIBuffer_Rect.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Rect.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
+              "RelativeToolTip": "Engine\\Private\\VIBuffer_Rect.cpp",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAvwFgAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:44:25.085Z"
+              "WhenOpened": "2025-06-24T12:37:41.497Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Renderer.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Renderer.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\Renderer.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\Renderer.cpp",
-              "RelativeToolTip": "Engine\\Private\\Renderer.cpp",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAIwFoAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:41:27.26Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Client.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp",
-              "RelativeDocumentMoniker": "Client\\Default\\Client.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp",
-              "RelativeToolTip": "Client\\Default\\Client.cpp",
-              "ViewState": "AgIAABUAAAAAAAAAAAArwBoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:30:05.631Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Terrain.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Terrain.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
-              "RelativeToolTip": "Client\\Private\\Terrain.cpp",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAADcAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:15:50.232Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "imgui_impl_dx9.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
-              "RelativeToolTip": "Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGwAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T07:15:44.237Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Loader.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Loader.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
-              "RelativeToolTip": "Client\\Private\\Loader.cpp",
-              "ViewState": "AgIAAK0AAAAAAAAAAAApwLAAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T06:48:11.314Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Level_GamePlay.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Level_GamePlay.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
-              "RelativeToolTip": "Client\\Private\\Level_GamePlay.cpp",
-              "ViewState": "AgIAADMAAAAAAAAAAAApwGMAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T06:47:11.57Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Level_GamePlay.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Level_GamePlay.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h",
-              "RelativeToolTip": "Client\\Public\\Level_GamePlay.h",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABcAAAAeAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "VIBuffer_Rect.h",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Rect.h",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
+              "RelativeToolTip": "Engine\\Public\\VIBuffer_Rect.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T06:46:53.237Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CraftingUI.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\CraftingUI.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\CraftingUI.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\CraftingUI.cpp",
-              "RelativeToolTip": "Client\\Private\\CraftingUI.cpp",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAAAI4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T03:58:51.015Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "CraftingUI.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\CraftingUI.h",
-              "RelativeDocumentMoniker": "Client\\Public\\CraftingUI.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\CraftingUI.h",
-              "RelativeToolTip": "Client\\Public\\CraftingUI.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T03:56:14.694Z"
+              "WhenOpened": "2025-06-24T12:37:28.188Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -430,157 +194,22 @@
               "RelativeDocumentMoniker": "Client\\Private\\Mouse.cpp",
               "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Mouse.cpp",
               "RelativeToolTip": "Client\\Private\\Mouse.cpp",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAwwCkAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T03:44:40.893Z",
+              "WhenOpened": "2025-06-24T12:09:39.059Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Mouse.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Mouse.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Mouse.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Mouse.h",
-              "RelativeToolTip": "Client\\Public\\Mouse.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T03:43:19.342Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SlotFrame.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\SlotFrame.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\SlotFrame.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\SlotFrame.cpp",
-              "RelativeToolTip": "Client\\Private\\SlotFrame.cpp",
-              "ViewState": "AgIAADoAAAAAAAAAAAAYwEcAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T03:26:25.056Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "SlotFrame.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\SlotFrame.h",
-              "RelativeDocumentMoniker": "Client\\Public\\SlotFrame.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\SlotFrame.h",
-              "RelativeToolTip": "Client\\Public\\SlotFrame.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACEAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T03:23:01.628Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Inventory.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Inventory.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Inventory.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Inventory.cpp",
-              "RelativeToolTip": "Client\\Private\\Inventory.cpp",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAAAJ4AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T03:12:00.795Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Inventory.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Inventory.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Inventory.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Inventory.h",
-              "RelativeToolTip": "Client\\Public\\Inventory.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T03:10:47.066Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "MouseSlotUI.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\MouseSlotUI.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Public\\MouseSlotUI.h",
-              "RelativeToolTip": "Engine\\Public\\MouseSlotUI.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T02:55:47.128Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "MouseSlotUI.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\MouseSlotUI.h",
-              "RelativeDocumentMoniker": "EngineSDK\\Inc\\MouseSlotUI.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\MouseSlotUI.h",
-              "RelativeToolTip": "EngineSDK\\Inc\\MouseSlotUI.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T02:53:09.451Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Player.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Player.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
-              "RelativeToolTip": "Client\\Private\\Player.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T02:37:18.606Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "imgui.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\IMGUI\\imgui.h",
-              "RelativeDocumentMoniker": "Client\\Public\\IMGUI\\imgui.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\IMGUI\\imgui.h",
-              "RelativeToolTip": "Client\\Public\\IMGUI\\imgui.h",
-              "ViewState": "AgIAAEgIAAAAAAAAAADgv1UIAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T02:34:24.527Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Slot.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Slot.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Slot.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Slot.h",
-              "RelativeToolTip": "Client\\Public\\Slot.h",
-              "ViewState": "AgIAACYAAAAAAAAAAAApwC4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T02:31:44.566Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Slot.cpp",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Slot.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Slot.cpp",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Private\\Slot.cpp",
-              "RelativeToolTip": "Client\\Private\\Slot.cpp",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Title": "LandObject.cpp",
+              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\LandObject.cpp",
+              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp",
+              "RelativeToolTip": "Engine\\Private\\LandObject.cpp",
+              "ViewState": "AgIAADIAAAAAAAAAAAAYwDsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T02:32:12.786Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "Client_Defines.h",
-              "DocumentMoniker": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Client_Defines.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Client_Defines.h",
-              "ToolTip": "C:\\Users\\Jinho\\source\\ProjectSR_Don-tStarve\\Projecct_Don\u0027tStrave\\Client\\Public\\Client_Defines.h",
-              "RelativeToolTip": "Client\\Public\\Client_Defines.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T02:31:03.391Z"
+              "WhenOpened": "2025-06-24T12:00:57.307Z"
             }
           ]
         },

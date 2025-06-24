@@ -20,6 +20,8 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+	virtual	void		ClickedEevent();
+
 private:
 	_float			m_fTimeAcc = {};
 	class CSlot*	m_pSlot = { nullptr };

@@ -17,7 +17,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	_bool Picking(class CTransform* pTransform, _float3* pOut);
+	virtual _bool Picking(class CTransform* pTransform, _float3* pOut)override;
 
 
 public:
