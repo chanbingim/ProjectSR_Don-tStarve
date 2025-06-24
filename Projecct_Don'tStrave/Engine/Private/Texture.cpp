@@ -49,7 +49,6 @@ HRESULT CTexture::Set_Texture(_uint iTextureIndex)
 {
 	if (iTextureIndex >= m_iNumTextures)
 		return E_FAIL;
-
 	m_pGraphic_Device->SetTexture(0, m_Textures[iTextureIndex]);	
 
 	return S_OK;

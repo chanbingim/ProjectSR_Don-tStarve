@@ -4,7 +4,6 @@
 #include "LandObject.h"
 #include "UserInterface.h"
 #include "PlayerAnim.h"
-#include "SwapObject.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -54,14 +53,15 @@ private:
 	CTransform*				m_pTransformCom = {nullptr};
 	CVIBuffer_Rect*			m_pVIBufferCom = {nullptr};
 	CAnimController*			m_pAnimController = {nullptr};
-	CTexture*				m_pTextureCom[100] = {nullptr};
-	CPlayerAnim*				m_pPlayerAnim[100] = {nullptr};
+	CTransform*				m_pAnimTransformCom = { nullptr };
+	CTexture*				m_pTextureCom[2][3][100] = {nullptr};
+	CPlayerAnim*				m_pPlayerAnim[2][3][100] = {nullptr};
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
-	CVIBuffer_Rect*			m_pSwapObjectVIBufferCom = { nullptr };
 	CAnimController*			m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[10] = {nullptr};
-	CSwapObject*				m_pSwapObjectPlayerAnim[10] = { nullptr };
+	CPlayerAnim*				m_pSwapObjectPlayerAnim[10] = { nullptr };
 	_uint					m_iMotion = {};
+	_uint					m_iDirection = {};
 	_uint					m_iSwapObject = {};
 private:
 	HRESULT Ready_Components();

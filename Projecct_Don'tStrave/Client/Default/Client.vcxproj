@@ -162,7 +162,6 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
-    <ClInclude Include="..\public\SwapObject.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
     <ClInclude Include="Client.h" />
@@ -173,7 +172,6 @@
   <ItemGroup>
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
-    <ClCompile Include="..\private\SwapObject.cpp" />
     <ClCompile Include="..\private\PlayerAnim.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />

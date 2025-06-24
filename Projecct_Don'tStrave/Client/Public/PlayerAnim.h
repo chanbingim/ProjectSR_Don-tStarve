@@ -13,8 +13,10 @@ public:
 	typedef struct Player_Desc
 	{
 		FRAME_DESC			Frame;
-		CTransform* pTransformCom;
-		_float3				StartPoint = {};
+		CTransform*			pParentTransformCom;
+		CTransform*			pTransformCom;
+		_float2				fSize = {};
+		_float3				fPoint = {};
 
 	}PLAYER_DESC;
 
@@ -31,11 +33,13 @@ public:
 	//여기서 텍스쳐 컴포넌트의 정보를 가지고있어도 되는거같은데
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			Render();
-	void					Render_End();
+	bool					IsEnd();
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	_float3					m_StartPoint = {};
+	CTransform*				m_pParentTransformCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	_float2					m_fSize = {};
+	_float3					m_fPoint = {};
 
 public:
 	static		CPlayerAnim* Create(void* pArg);

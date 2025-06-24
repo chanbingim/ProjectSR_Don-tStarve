@@ -39,7 +39,7 @@ void CAnimController::ChangeState(CState* pNewState)
 	//if (m_CurState)
 	//	Safe_Release(m_CurState);
 
-	if (pNewState)
+	if (pNewState && m_CurState != pNewState)
 	{
 		m_CurState = pNewState;
 		m_CurState->Reset_StateData();
