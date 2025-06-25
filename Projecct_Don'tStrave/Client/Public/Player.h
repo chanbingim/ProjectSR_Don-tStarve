@@ -14,7 +14,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-enum class MOTION {
+enum MOTION {
 	IDLE,
 	IDLE_TO_RUN,
 	RUN,
@@ -33,7 +33,14 @@ enum class MOTION {
 	ATTACK,
 	PICKUP,
 	GIVE,
-	END };
+	MOTION_END
+};
+enum DIR {
+	DOWN,
+	SIDE,
+	UP,
+	DIR_END
+};
 class CPlayer final : public CLandObject
 {
 private:
@@ -54,13 +61,14 @@ private:
 	CVIBuffer_Rect*			m_pVIBufferCom = {nullptr};
 	CAnimController*			m_pAnimController = {nullptr};
 	CTransform*				m_pAnimTransformCom = { nullptr };
-	CTexture*				m_pTextureCom[2][3][100] = {nullptr};
-	CPlayerAnim*				m_pPlayerAnim[2][3][100] = {nullptr};
+	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*				m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
 	CAnimController*			m_pSwapObjectAnimController = { nullptr };
-	CTexture*				m_pSwapObjectTextureCom[10] = {nullptr};
-	CPlayerAnim*				m_pSwapObjectPlayerAnim[10] = { nullptr };
-	_uint					m_iMotion = {};
+	CTexture*				m_pSwapObjectTextureCom[10][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*				m_pSwapObjectPlayerAnim[10][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	MOTION					m_tMotion = {};
+	DIR						m_tDir = {};
 	_uint					m_iDirection = {};
 	_uint					m_iSwapObject = {};
 private:

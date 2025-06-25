@@ -1,17 +1,12 @@
-﻿  AnimController.cpp
-  Component.cpp
+﻿  Component.cpp
   GameInstance.cpp
   GameObject.cpp
-  LandObject.cpp
   Level.cpp
   Level_Manager.cpp
   Object_Manager.cpp
   Prototype_Manager.cpp
-  Texture.cpp
-  Transform.cpp
+  VIBuffer_Rect.cpp
   VIBuffer_Terrain.cpp
-  UserInterface.cpp
   코드를 생성하고 있습니다...
-  LINK : ..\Bin\Debug\Engine.dll을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
      ../Bin/Debug/Engine.lib 라이브러리 및 ../Bin/Debug/Engine.exp 개체를 생성하고 있습니다.
   Engine.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Engine\Bin\Debug\Engine.dll

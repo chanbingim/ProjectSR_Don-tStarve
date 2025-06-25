@@ -15,15 +15,18 @@ HRESULT CPlayerAnim::Initialize(void* pArg)
     PLAYER_DESC* UI_MoveDesc = static_cast<PLAYER_DESC*>(pArg);
     if (UI_MoveDesc)
     {
+        m_iMax = UI_MoveDesc->Frame.pAnimTexture->Get_Frame();
+        UI_MoveDesc->Frame.iEndFrame = m_iMax;
+        UI_MoveDesc->Frame.fTimeRate = m_iMax / 30.f;
         __super::Initialize(pArg);
         m_pParentTransformCom = UI_MoveDesc->pParentTransformCom;
         Safe_AddRef(m_pParentTransformCom);
         m_pTransformCom = UI_MoveDesc->pTransformCom;
         Safe_AddRef(m_pTransformCom);
-        m_fSize = UI_MoveDesc->fSize;
-        m_fPoint = UI_MoveDesc->fPoint;
+        m_pVIBufferCom = UI_MoveDesc->pVIBufferCom;
+        Safe_AddRef(m_pVIBufferCom);
+        m_fSize = UI_MoveDesc->Frame.pAnimTexture->Get_Size();
     }
-
     return S_OK;
 }
 
@@ -42,19 +45,11 @@ void CPlayerAnim::Tick(_float fTimeDelta)
 
 void CPlayerAnim::Render()
 {
+    m_pTransformCom->SetPosition(m_pParentTransformCom->GetWorldState(WORLDSTATE::POSITION));
+    m_Frame.pAnimTexture->Set_Texture(0);
+    m_pVIBufferCom->SetUV(m_fSize.z, m_fSize.x, m_fSize.y, m_Frame.iStartFrame, m_iMax);
 
-    m_pTransformCom->SetScale(_float3(m_fSize.x / 400.f, m_fSize.y / 400.f, 0.f));
-    _float3		vPosition = m_pParentTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    _float3		vLook = m_pParentTransformCom->GetWorldState(WORLDSTATE::UP);
-
-    vPosition += *D3DXVec3Normalize(&vLook, &vLook) * (m_fPoint.y / 400.f);
-
-    vLook = m_pParentTransformCom->GetWorldState(WORLDSTATE::RIGHT);
-
-    vPosition += *D3DXVec3Normalize(&vLook, &vLook) * (m_fPoint.x / 400.f);
-
-    m_pTransformCom->SetPosition(vPosition);
-    m_Frame.pAnimTexture->Set_Texture(m_Frame.iStartFrame);
+    m_pTransformCom->SetScale(_float3(m_fSize.x / m_fSize.z / 200.f, m_fSize.y / ((m_iMax + 1) / (_uint)m_fSize.z + ((m_iMax + 1) % (_uint)m_fSize.z ? 1 : 0)) / 200.f, 0.f));
 }
 
 bool CPlayerAnim::IsEnd()
@@ -79,4 +74,5 @@ void CPlayerAnim::Free()
     __super::Free();
     Safe_Release(m_pParentTransformCom);
     Safe_Release(m_pTransformCom);
+    Safe_Release(m_pVIBufferCom);
 }

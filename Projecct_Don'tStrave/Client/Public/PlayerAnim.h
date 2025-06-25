@@ -4,6 +4,7 @@
 
 NS_BEGIN(Engine)
 class CTransform;
+class CVIBuffer_Rect;
 NS_END
 
 NS_BEGIN(Client)
@@ -13,10 +14,9 @@ public:
 	typedef struct Player_Desc
 	{
 		FRAME_DESC			Frame;
-		CTransform*			pParentTransformCom;
-		CTransform*			pTransformCom;
-		_float2				fSize = {};
-		_float3				fPoint = {};
+		CTransform* pParentTransformCom;
+		CTransform* pTransformCom;
+		CVIBuffer_Rect* pVIBufferCom;
 
 	}PLAYER_DESC;
 
@@ -38,9 +38,9 @@ public:
 private:
 	CTransform*				m_pParentTransformCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
-	_float2					m_fSize = {};
-	_float3					m_fPoint = {};
-
+	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	_float3					m_fSize = {};
+	_uint					m_iMax = {};
 public:
 	static		CPlayerAnim* Create(void* pArg);
 	virtual		void			Free() override;

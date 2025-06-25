@@ -111,3 +111,28 @@ void CVIBuffer_Rect::Free()
 
 
 }
+
+void CVIBuffer_Rect::SetUV(_uint x,_uint maxX, _uint maxY, _uint frame, _uint maxFrame)
+{
+
+	VTXPOSTEX* pVertices = { nullptr };
+
+	/* 할당한 공간에 접근하여 값을 기록하낟. */
+	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
+	
+	_float uX = (_float)maxX / x;
+	_float uY = (_float)maxY / ((maxFrame + 1) / x + ((maxFrame + 1) % x ? 1 : 0));
+	_float fx0 = (float)(uX * (frame % x)) / (_float)maxX;
+	_float fx1 = (float)((uX * (frame % x)) + uX) / (_float)maxX;
+
+
+
+	_float fy0 = (float)(uY * (frame / x)) / (_float)maxY;
+	_float fy1 = (float)(uY * (frame / x) + uY) / (_float)maxY;
+	pVertices[0].vTexcoord = _float2(fx0, fy0);
+	pVertices[1].vTexcoord = _float2(fx1, fy0);
+	pVertices[2].vTexcoord = _float2(fx1, fy1);
+	pVertices[3].vTexcoord = _float2(fx0, fy1);
+
+	m_pVB->Unlock();
+}
