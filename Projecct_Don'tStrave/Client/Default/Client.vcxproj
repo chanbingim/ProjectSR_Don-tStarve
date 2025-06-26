@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="..\public\AnimationUI.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\public\Character.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\PlayerAnim.h" />
     <ClInclude Include="..\Public\IMGUI\imconfig.h" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\Character.cpp" />
     <ClCompile Include="..\private\PlayerAnim.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />

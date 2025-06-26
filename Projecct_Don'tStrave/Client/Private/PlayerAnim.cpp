@@ -13,11 +13,11 @@ HRESULT CPlayerAnim::Initialize(void* pArg)
         return E_FAIL;
 
     PLAYER_DESC* UI_MoveDesc = static_cast<PLAYER_DESC*>(pArg);
+    m_iMax = UI_MoveDesc->Frame.pAnimTexture->Get_Frame();
+    UI_MoveDesc->Frame.iEndFrame = m_iMax - 1;
+    UI_MoveDesc->Frame.fTimeRate = m_iMax / 30.f;
     if (UI_MoveDesc)
     {
-        m_iMax = UI_MoveDesc->Frame.pAnimTexture->Get_Frame();
-        UI_MoveDesc->Frame.iEndFrame = m_iMax;
-        UI_MoveDesc->Frame.fTimeRate = m_iMax / 30.f;
         __super::Initialize(pArg);
         m_pParentTransformCom = UI_MoveDesc->pParentTransformCom;
         Safe_AddRef(m_pParentTransformCom);
@@ -49,7 +49,7 @@ void CPlayerAnim::Render()
     m_Frame.pAnimTexture->Set_Texture(0);
     m_pVIBufferCom->SetUV(m_fSize.z, m_fSize.x, m_fSize.y, m_Frame.iStartFrame, m_iMax);
 
-    m_pTransformCom->SetScale(_float3(m_fSize.x / m_fSize.z / 200.f, m_fSize.y / ((m_iMax + 1) / (_uint)m_fSize.z + ((m_iMax + 1) % (_uint)m_fSize.z ? 1 : 0)) / 200.f, 0.f));
+    m_pTransformCom->SetScale(_float3(m_fSize.x / m_fSize.z / 200.f, m_fSize.y / ((m_iMax) / (_uint)m_fSize.z + ((m_iMax) % (_uint)m_fSize.z ? 1 : 0)) / 200.f, 0.f));
 }
 
 bool CPlayerAnim::IsEnd()

@@ -157,6 +157,9 @@
     <ClInclude Include="..\public\PlayerAnim.h">
       <Filter>03. Character\Player\PlayerAnim</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Character.h">
+      <Filter>03. Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -231,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerAnim.cpp">
       <Filter>03. Character\Player\PlayerAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Character.cpp">
+      <Filter>03. Character</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

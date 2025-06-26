@@ -121,7 +121,7 @@ void CVIBuffer_Rect::SetUV(_uint x,_uint maxX, _uint maxY, _uint frame, _uint ma
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	
 	_float uX = (_float)maxX / x;
-	_float uY = (_float)maxY / ((maxFrame + 1) / x + ((maxFrame + 1) % x ? 1 : 0));
+	_float uY = (_float)maxY / ((maxFrame) / x + ((maxFrame) % x ? 1 : 0));
 	_float fx0 = (float)(uX * (frame % x)) / (_float)maxX;
 	_float fx1 = (float)((uX * (frame % x)) + uX) / (_float)maxX;
 

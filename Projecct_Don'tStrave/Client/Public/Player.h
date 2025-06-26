@@ -4,6 +4,7 @@
 #include "LandObject.h"
 #include "UserInterface.h"
 #include "PlayerAnim.h"
+#include "Character.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -15,10 +16,13 @@ NS_END
 NS_BEGIN(Client)
 
 enum MOTION {
+	BUCKED,
+	BUCK_PST,
 	IDLE,
 	IDLE_TO_RUN,
 	RUN,
 	RUN_TO_IDLE,
+	DIAL,
 	IDLE_TO_BUILD,
 	BUILD,
 	BUILD_TO_IDLE,
@@ -33,6 +37,9 @@ enum MOTION {
 	ATTACK,
 	PICKUP,
 	GIVE,
+	DAMAGE,
+	DEATH1,
+	DEATH2,
 	MOTION_END
 };
 enum DIR {
@@ -41,7 +48,18 @@ enum DIR {
 	UP,
 	DIR_END
 };
-class CPlayer final : public CLandObject
+enum SWAPOBJECT {
+	SWAPOBJECT_NONE,
+	SWAPOBJECT_AXE,
+	SWAPOBJECT_GOLDAXE,
+	SWAPOBJECT_PICKAXE,
+	SWAPOBJECT_GOLDPICKAXE,
+	SWAPOBJECT_SHOVEL,
+	SWAPOBJECT_GOLDSHOVEL,
+	SWAPOBJECT_TORCH,
+	SWAPOBJECT_END
+};
+class CPlayer final : public CCharacter
 {
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -55,22 +73,23 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
+	virtual void Damage() override;
+	virtual void Attack() override;
+	virtual void Death() override;
+	void			SetItem(SWAPOBJECT tItem);
 private:
-	CTransform*				m_pTransformCom = {nullptr};
-	CVIBuffer_Rect*			m_pVIBufferCom = {nullptr};
-	CAnimController*			m_pAnimController = {nullptr};
-	CTransform*				m_pAnimTransformCom = { nullptr };
 	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CPlayerAnim*				m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
 	CAnimController*			m_pSwapObjectAnimController = { nullptr };
-	CTexture*				m_pSwapObjectTextureCom[10][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-	CPlayerAnim*				m_pSwapObjectPlayerAnim[10][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
+	SWAPOBJECT				m_tItem = {};
 	_uint					m_iDirection = {};
 	_uint					m_iSwapObject = {};
+	_bool					m_bControll = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();

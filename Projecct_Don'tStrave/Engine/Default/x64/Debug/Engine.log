@@ -1,12 +1,2 @@
-﻿  Component.cpp
-  GameInstance.cpp
-  GameObject.cpp
-  Level.cpp
-  Level_Manager.cpp
-  Object_Manager.cpp
-  Prototype_Manager.cpp
-  VIBuffer_Rect.cpp
-  VIBuffer_Terrain.cpp
-  코드를 생성하고 있습니다...
-     ../Bin/Debug/Engine.lib 라이브러리 및 ../Bin/Debug/Engine.exp 개체를 생성하고 있습니다.
+﻿  VIBuffer_Rect.cpp
   Engine.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Engine\Bin\Debug\Engine.dll

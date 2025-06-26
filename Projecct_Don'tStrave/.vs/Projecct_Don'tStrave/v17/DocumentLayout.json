@@ -3,32 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\private\\PlayerAnim.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\PlayerAnim.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Loader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Prototype_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Prototype_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\private\\PlayerAnim.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\PlayerAnim.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\private\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\private\\Character.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\public\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\Character.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\public\\PlayerAnim.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\public\\PlayerAnim.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -39,8 +55,48 @@
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Texture.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\USERS\\KJH23\\ONEDRIVE\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\PROJECCT_DON\u0027TSTRAVE\\ENGINESDK\\INC\\VIBUFFER_RECT.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:ENGINESDK\\INC\\VIBUFFER_RECT.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\LandObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Object_Manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\USERS\\KJH23\\ONEDRIVE\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\PROJECCT_DON\u0027TSTRAVE\\ENGINESDK\\INC\\ENGINE_FUNCTION.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:ENGINESDK\\INC\\ENGINE_FUNCTION.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Default\\Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Layer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\Layer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\VIBuffer_Rect.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\State.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -53,10 +109,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\AnimController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -75,10 +127,6 @@
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\IMGUI\\imgui.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Private\\GameInstance.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\IMGUI\\imgui.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -87,20 +135,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EngineSDK\\Inc\\GameInstance.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\MainApp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui_impl_dx9.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\IMGUI\\imgui_impl_dx9.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EngineSDK\\Inc\\Engine_Function.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\VIBuffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -137,14 +173,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Defines.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{5D91A781-0BFD-4961-A376-5C432C7A94C1}|Engine\\Default\\Engine.vcxproj|solutionrelative:Engine\\Public\\Engine_Defines.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Public\\Loader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|solutionrelative:Client\\Private\\Level_GamePlay.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{96926959-E723-4D17-9C79-499821685FEB}|Client\\Default\\Client.vcxproj|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\private\\AnimationUI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -187,6 +215,10 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include\\d3dx9math.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\VIBuffer_Rect.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EngineSDK\\Inc\\VIBuffer_Rect.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -195,90 +227,272 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 253,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 244,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Player.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp*",
-              "RelativeToolTip": "Client\\Private\\Player.cpp*",
-              "ViewState": "AgIAAIwBAAAAAAAAAAAAANUBAABEAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Player.cpp",
+              "RelativeToolTip": "Client\\Private\\Player.cpp",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAIwLMAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-22T08:11:55.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "VIBuffer_Rect.h",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Rect.h",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
-              "RelativeToolTip": "Engine\\Public\\VIBuffer_Rect.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAgwBYAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T07:35:35.433Z",
+              "DocumentIndex": 5,
+              "Title": "Prototype_Manager.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Prototype_Manager.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Prototype_Manager.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Prototype_Manager.cpp",
+              "RelativeToolTip": "Engine\\Private\\Prototype_Manager.cpp",
+              "ViewState": "AgIAAC0AAAAAAAAAAAApwBkAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T06:06:01.227Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "Loader.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h",
+              "RelativeDocumentMoniker": "Client\\Public\\Loader.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h",
+              "RelativeToolTip": "Client\\Public\\Loader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T03:40:06.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Loader.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Loader.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp",
-              "RelativeToolTip": "Client\\Private\\Loader.cpp",
-              "ViewState": "AgIAAOAAAAAAAAAAAAAgwOYAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Loader.cpp*",
+              "RelativeToolTip": "Client\\Private\\Loader.cpp*",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAUwB0BAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-22T07:53:41.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "Level_GamePlay.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Level_GamePlay.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
+              "RelativeToolTip": "Client\\Private\\Level_GamePlay.cpp",
+              "ViewState": "AgIAADkAAAAAAAAAAAAgwEoAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-21T10:22:15.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "PlayerAnim.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\PlayerAnim.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\PlayerAnim.cpp",
               "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\PlayerAnim.cpp",
               "RelativeToolTip": "Client\\Private\\PlayerAnim.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAgwBEAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAApwDgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-24T06:57:38.694Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
+              "Title": "VIBuffer.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
+              "RelativeToolTip": "Engine\\Public\\VIBuffer.h",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAB4AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-24T07:25:18.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "VIBuffer_Rect.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Rect.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Rect.h",
+              "RelativeToolTip": "Engine\\Public\\VIBuffer_Rect.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-24T07:35:35.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Character.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Character.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Character.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Character.cpp",
+              "RelativeToolTip": "Client\\Private\\Character.cpp",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T06:47:27.139Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "Texture.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\Texture.cpp",
               "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Texture.cpp",
               "RelativeToolTip": "Engine\\Private\\Texture.cpp",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAgwIoAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAApwG8AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-24T07:32:45.51Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 15,
+              "Title": "Monster.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\Monster.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
+              "RelativeToolTip": "Client\\Private\\Monster.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-22T08:26:29.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LandObject.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\LandObject.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\LandObject.cpp",
+              "RelativeToolTip": "Engine\\Private\\LandObject.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T06:53:11.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GameInstance.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\GameInstance.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
+              "RelativeToolTip": "Engine\\Private\\GameInstance.cpp",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAAAKUAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-24T03:56:28.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Object_Manager.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Object_Manager.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Object_Manager.cpp",
+              "RelativeToolTip": "Engine\\Private\\Object_Manager.cpp",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAgwCAAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T05:54:44.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Engine_Function.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
+              "RelativeDocumentMoniker": "EngineSDK\\Inc\\Engine_Function.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
+              "RelativeToolTip": "EngineSDK\\Inc\\Engine_Function.h",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwC8AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-23T03:27:30.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Engine_Function.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Engine_Function.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Function.h",
+              "RelativeToolTip": "Engine\\Public\\Engine_Function.h",
+              "ViewState": "AgIAACIAAAAAAAAAAAApwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-26T06:05:57.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Client.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp",
+              "RelativeDocumentMoniker": "Client\\Default\\Client.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Default\\Client.cpp",
+              "RelativeToolTip": "Client\\Default\\Client.cpp",
+              "ViewState": "AgIAAB0AAAAAAAAAAAApwFQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T06:14:56.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MainApp.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeDocumentMoniker": "Client\\Private\\MainApp.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
+              "RelativeToolTip": "Client\\Private\\MainApp.cpp",
+              "ViewState": "AgIAAH0AAAAAAAAAAAApwIoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-22T07:54:56.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Layer.cpp",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Layer.cpp",
+              "RelativeDocumentMoniker": "Engine\\Private\\Layer.cpp",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Layer.cpp",
+              "RelativeToolTip": "Engine\\Private\\Layer.cpp",
+              "ViewState": "AgIAAB0AAAAAAAAAAAApwCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-26T05:54:44.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
               "Title": "VIBuffer_Rect.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Rect.cpp",
               "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Rect.cpp",
               "RelativeToolTip": "Engine\\Private\\VIBuffer_Rect.cpp",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAgwH8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHsAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-24T07:25:33.362Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 54,
               "Title": "VIBuffer_Rect.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\VIBuffer_Rect.h",
               "RelativeDocumentMoniker": "EngineSDK\\Inc\\VIBuffer_Rect.h",
@@ -286,12 +500,11 @@
               "RelativeToolTip": "EngineSDK\\Inc\\VIBuffer_Rect.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-25T10:49:37.052Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-25T10:49:37.052Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 24,
               "Title": "State.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\State.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\State.cpp",
@@ -299,12 +512,11 @@
               "RelativeToolTip": "Engine\\Private\\State.cpp",
               "ViewState": "AgIAABEAAAAAAAAAAAAgwCMAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-22T07:54:56.725Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T07:54:56.725Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 25,
               "Title": "UI_MoveAnim.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\UI_MoveAnim.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\UI_MoveAnim.cpp",
@@ -312,25 +524,11 @@
               "RelativeToolTip": "Client\\Private\\UI_MoveAnim.cpp",
               "ViewState": "AgIAACQAAAAAAAAAAAAQwDgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T09:38:25.443Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T09:38:25.443Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Monster.cpp",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Monster.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Monster.cpp",
-              "RelativeToolTip": "Client\\Private\\Monster.cpp",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAuwF8AAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-22T08:26:29.218Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 26,
               "Title": "Monster.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Monster.h",
               "RelativeDocumentMoniker": "Client\\Public\\Monster.h",
@@ -338,12 +536,11 @@
               "RelativeToolTip": "Client\\Public\\Monster.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-25T08:31:51.197Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-25T08:31:51.197Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 27,
               "Title": "AnimController.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\AnimController.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\AnimController.cpp",
@@ -355,7 +552,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 53,
               "Title": "d3dx9math.h",
               "DocumentMoniker": "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include\\d3dx9math.h",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include\\d3dx9math.h",
@@ -367,7 +564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 29,
               "Title": "VIBuffer_Terrain.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer_Terrain.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer_Terrain.cpp",
@@ -379,7 +576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 28,
               "Title": "VIBuffer.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\VIBuffer.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\VIBuffer.cpp",
@@ -391,7 +588,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 30,
               "Title": "imgui.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\IMGUI\\imgui.h",
               "RelativeDocumentMoniker": "Client\\Public\\IMGUI\\imgui.h",
@@ -403,19 +600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "GameInstance.cpp",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
-              "RelativeDocumentMoniker": "Engine\\Private\\GameInstance.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\GameInstance.cpp",
-              "RelativeToolTip": "Engine\\Private\\GameInstance.cpp",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEsAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-24T03:56:28.698Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 31,
               "Title": "imgui.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\IMGUI\\imgui.cpp",
@@ -427,19 +612,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "MainApp.cpp",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\MainApp.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\MainApp.cpp",
-              "RelativeToolTip": "Client\\Private\\MainApp.cpp",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAAADcAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-22T07:54:56.725Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 33,
               "Title": "imgui_impl_dx9.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\IMGUI\\imgui_impl_dx9.cpp",
@@ -451,7 +624,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 32,
               "Title": "GameInstance.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\GameInstance.h",
               "RelativeDocumentMoniker": "EngineSDK\\Inc\\GameInstance.h",
@@ -463,19 +636,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Engine_Function.h",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
-              "RelativeDocumentMoniker": "EngineSDK\\Inc\\Engine_Function.h",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\EngineSDK\\Inc\\Engine_Function.h",
-              "RelativeToolTip": "EngineSDK\\Inc\\Engine_Function.h",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T03:27:30.564Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 34,
               "Title": "VIBuffer_Terrain.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer_Terrain.h",
               "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer_Terrain.h",
@@ -487,19 +648,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "VIBuffer.h",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\VIBuffer.h",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\VIBuffer.h",
-              "RelativeToolTip": "Engine\\Public\\VIBuffer.h",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAcwB4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T07:25:18.369Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 35,
               "Title": "Camera.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Camera.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Camera.cpp",
@@ -511,7 +660,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 36,
               "Title": "Terrain.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Terrain.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Terrain.cpp",
@@ -523,7 +672,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 37,
               "Title": "Terrain.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Terrain.h",
               "RelativeDocumentMoniker": "Client\\Public\\Terrain.h",
@@ -535,7 +684,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 38,
               "Title": "Renderer.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Renderer.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\Renderer.cpp",
@@ -547,7 +696,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 39,
               "Title": "Transform.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\Transform.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\Transform.cpp",
@@ -559,7 +708,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 42,
               "Title": "Engine_Defines.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Engine_Defines.h",
               "RelativeDocumentMoniker": "Engine\\Public\\Engine_Defines.h",
@@ -571,31 +720,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "Loader.h",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h",
-              "RelativeDocumentMoniker": "Client\\Public\\Loader.h",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Loader.h",
-              "RelativeToolTip": "Client\\Public\\Loader.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-23T03:40:06.11Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "Level_GamePlay.cpp",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
-              "RelativeDocumentMoniker": "Client\\Private\\Level_GamePlay.cpp",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_GamePlay.cpp",
-              "RelativeToolTip": "Client\\Private\\Level_GamePlay.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T10:22:15.463Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 43,
               "Title": "AnimationUI.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\AnimationUI.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\AnimationUI.cpp",
@@ -607,7 +732,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 44,
               "Title": "Level_Loading.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_Loading.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Level_Loading.cpp",
@@ -619,7 +744,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 47,
               "Title": "Level_Logo.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Private\\Level_Logo.cpp",
               "RelativeDocumentMoniker": "Client\\Private\\Level_Logo.cpp",
@@ -631,7 +756,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 48,
               "Title": "Level_GamePlay.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_GamePlay.h",
               "RelativeDocumentMoniker": "Client\\Public\\Level_GamePlay.h",
@@ -643,7 +768,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 50,
               "Title": "Level_Loading.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Level_Loading.h",
               "RelativeDocumentMoniker": "Client\\Public\\Level_Loading.h",
@@ -656,51 +781,64 @@
           ]
         },
         {
-          "DockedWidth": 147,
+          "DockedWidth": 156,
           "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Texture.h",
-              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Texture.h",
-              "RelativeDocumentMoniker": "Engine\\Public\\Texture.h",
-              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Texture.h",
-              "RelativeToolTip": "Engine\\Public\\Texture.h",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAgwB8AAAASAAAAAAAAAA==",
+              "Title": "Character.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Character.h",
+              "RelativeDocumentMoniker": "Client\\Public\\Character.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Character.h",
+              "RelativeToolTip": "Client\\Public\\Character.h",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAgwCQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-24T07:32:49.427Z",
+              "WhenOpened": "2025-06-26T06:33:03.641Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
               "RelativeDocumentMoniker": "Client\\Public\\Player.h",
               "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\Player.h",
               "RelativeToolTip": "Client\\Public\\Player.h",
-              "ViewState": "AgIAACMAAAAAAAAAAAAgwDsAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-22T08:05:47.401Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "PlayerAnim.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\PlayerAnim.h",
               "RelativeDocumentMoniker": "Client\\Public\\PlayerAnim.h",
               "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\PlayerAnim.h",
               "RelativeToolTip": "Client\\Public\\PlayerAnim.h",
-              "ViewState": "AgIAABUAAAAAAAAAAAAgwCkAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-25T08:14:51.254Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 12,
+              "Title": "Texture.h",
+              "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Texture.h",
+              "RelativeDocumentMoniker": "Engine\\Public\\Texture.h",
+              "ToolTip": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Texture.h",
+              "RelativeToolTip": "Engine\\Public\\Texture.h",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-24T07:32:49.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
               "Title": "UI_MoveAnim.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\UI_MoveAnim.h",
               "RelativeDocumentMoniker": "Client\\Public\\UI_MoveAnim.h",
@@ -712,7 +850,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 40,
               "Title": "SoundManager.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\SoundManager.h",
               "RelativeDocumentMoniker": "Engine\\Public\\SoundManager.h",
@@ -724,7 +862,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 52,
               "Title": "map",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\include\\map",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.43.34808\\include\\map",
@@ -736,7 +874,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 45,
               "Title": "AnimationUI.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Client\\Public\\AnimationUI.h",
               "RelativeDocumentMoniker": "Client\\Public\\AnimationUI.h",
@@ -748,7 +886,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 51,
               "Title": "CMath.cpp",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Private\\CMath.cpp",
               "RelativeDocumentMoniker": "Engine\\Private\\CMath.cpp",
@@ -760,7 +898,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 46,
               "Title": "Transform.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\Transform.h",
               "RelativeDocumentMoniker": "Engine\\Public\\Transform.h",
@@ -772,7 +910,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 49,
               "Title": "CMath.h",
               "DocumentMoniker": "C:\\Users\\kjh23\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\SR\uD300\uACFC\uC81C\\Projecct_Don\u0027tStrave\\Engine\\Public\\CMath.h",
               "RelativeDocumentMoniker": "Engine\\Public\\CMath.h",

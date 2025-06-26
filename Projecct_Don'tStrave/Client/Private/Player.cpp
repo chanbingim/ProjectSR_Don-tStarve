@@ -2,15 +2,14 @@
 #include "GameInstance.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CCharacter{ pGraphic_Device }
 {
 
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CLandObject{ Prototype }
+	: CCharacter{ Prototype }
 {
-
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -20,11 +19,7 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	CLandObject::LANDOBJECT_DESC			Desc{};
-	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
-	Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
-
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
@@ -32,376 +27,51 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
 	m_pAnimTransformCom->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
-	
+
 	CPlayerAnim::PLAYER_DESC AnimDesc;
 	AnimDesc.pParentTransformCom = m_pTransformCom;
 	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::DOWN][MOTION::IDLE];
 	AnimDesc.pVIBufferCom = m_pVIBufferCom;
-	AnimDesc.Frame.bIsLoop = true;
 	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-	
 
-	m_pPlayerAnim[0][DIR::DOWN][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::SIDE][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 135;
-	
-
-	m_pPlayerAnim[0][DIR::SIDE][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::UP][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-	
-
-	m_pPlayerAnim[0][DIR::UP][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::DOWN][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[0][DIR::DOWN][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::SIDE][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[0][DIR::SIDE][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::UP][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[0][DIR::UP][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::DOWN][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pPlayerAnim[0][DIR::DOWN][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::SIDE][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pPlayerAnim[0][DIR::SIDE][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::UP][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-
-	m_pPlayerAnim[0][DIR::UP][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::DOWN][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	m_pPlayerAnim[0][DIR::DOWN][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::SIDE][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	m_pPlayerAnim[0][DIR::SIDE][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[0][DIR::UP][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pPlayerAnim[0][DIR::UP][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-
-
-
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::DOWN][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-
-	m_pPlayerAnim[1][DIR::DOWN][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::SIDE][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 135;
-
-	m_pPlayerAnim[1][DIR::SIDE][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::UP][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-
-	m_pPlayerAnim[1][DIR::UP][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::DOWN][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[1][DIR::DOWN][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::SIDE][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[1][DIR::SIDE][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::UP][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pPlayerAnim[1][DIR::UP][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::DOWN][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pPlayerAnim[1][DIR::DOWN][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::SIDE][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pPlayerAnim[1][DIR::SIDE][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::UP][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pPlayerAnim[1][DIR::UP][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::DOWN][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pPlayerAnim[1][DIR::DOWN][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::SIDE][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pPlayerAnim[1][DIR::SIDE][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pAnimTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pTextureCom[1][DIR::UP][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pPlayerAnim[1][DIR::UP][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-
-
-
-
-
-
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < DIR::DIR_END; ++j) {
+			for (int k = 0; k < MOTION::MOTION_END; ++k) {
+				if (m_pTextureCom[i][j][k]) {
+					AnimDesc.Frame.pAnimTexture = m_pTextureCom[i][j][k];
+					m_pPlayerAnim[i][j][k] = CPlayerAnim::Create(&AnimDesc);
+				}
+			}
+		}
+	}
 	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::DOWN][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::DOWN][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::SIDE][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 135;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::SIDE][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::UP][MOTION::IDLE];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 137;
-	AnimDesc.Frame.fTimeRate = 0.5f;
-
-	m_pSwapObjectPlayerAnim[0][DIR::UP][MOTION::IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::DOWN][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::DOWN][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::SIDE][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::SIDE][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::UP][MOTION::IDLE_TO_RUN];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 8;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::UP][MOTION::IDLE_TO_RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::DOWN][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::DOWN][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::SIDE][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::SIDE][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::UP][MOTION::RUN];
-	AnimDesc.Frame.bIsLoop = true;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 33;
-	
-
-	m_pSwapObjectPlayerAnim[0][DIR::UP][MOTION::RUN] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::DOWN][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pSwapObjectPlayerAnim[0][DIR::DOWN][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::SIDE][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pSwapObjectPlayerAnim[0][DIR::SIDE][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
-
-	AnimDesc.pParentTransformCom = m_pTransformCom;
-	AnimDesc.pTransformCom = m_pSwapObjectTransformCom;
-	AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[0][DIR::UP][MOTION::RUN_TO_IDLE];
-	AnimDesc.Frame.bIsLoop = false;
-	AnimDesc.Frame.iStartFrame = 0;
-	AnimDesc.Frame.iEndFrame = 16;
-	
-	m_pSwapObjectPlayerAnim[0][DIR::UP][MOTION::RUN_TO_IDLE] = CPlayerAnim::Create(&AnimDesc);
+	for (int i = 0; i < SWAPOBJECT::SWAPOBJECT_END; ++i) {
+		for (int j = 0; j < DIR::DIR_END; ++j) {
+			for (int k = 0; k < MOTION::MOTION_END; ++k) {
+				if (m_pSwapObjectTextureCom[i][j][k]) {
+					AnimDesc.Frame.pAnimTexture = m_pSwapObjectTextureCom[i][j][k];
+					m_pSwapObjectPlayerAnim[i][j][k] = CPlayerAnim::Create(&AnimDesc);
+				}
+			}
+		}
+	}
 
 
 
-	m_iSwapObject = 1;
-	m_pAnimController->ChangeState(m_pPlayerAnim[1][DIR::DOWN][MOTION::IDLE]);
+	m_iSwapObject = 0;
+	m_tMotion = MOTION::BUCKED;
+	m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;
+	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::DOWN][m_tMotion]);
 
-	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[0][DIR::DOWN][MOTION::IDLE]);
-
-
-
+	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][DIR::DOWN][m_tMotion]);
+	m_iMaxHp = 150;
+	m_iHp = m_iMaxHp;
+	m_iTemp = 0;
+	m_iAtk = 5;
+	m_iDef = 0;
+	m_iMaxHit = 10;
+	m_iHit = m_iMaxHit;
+	m_bControll = false;
 
 	return S_OK;
 }
@@ -412,89 +82,146 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	if (GetKeyState('W') & 0x8000 || GetKeyState('S') & 0x8000 || GetKeyState('D') & 0x8000 || GetKeyState('A') & 0x8000)
-	{
-		switch (m_tMotion)
-		{
-		case MOTION::IDLE_TO_RUN:
-			if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
-				m_tMotion = MOTION::RUN;
-		case MOTION::RUN:
-			break;
-		default:
-			m_tMotion = MOTION::IDLE_TO_RUN;
-			break;
-		}
-		if (GetKeyState('W') & 0x8000) {
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-			
-			vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
-			
-			m_pTransformCom->SetPosition(vPosition);
-			m_tDir = DIR::UP;
-			m_iDirection = 2;
-		}
-		if (GetKeyState('S') & 0x8000)
-		{
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-		
-			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
-		
-			m_pTransformCom->SetPosition(vPosition);
-			m_tDir = DIR::DOWN;
-			m_iDirection = 0;
-		}
-		if (GetKeyState('A') & 0x8000)
-		{
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
-		
-			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
-			m_pTransformCom->SetPosition(vPosition);
-		
-			m_iDirection = 1;
-		}
-		if (GetKeyState('D') & 0x8000)
-		{
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
-		
-			vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
-			m_pTransformCom->SetPosition(vPosition);
-		
-			m_iDirection = 1;
-		}
+	if (m_bControll) {
 
-		m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[0][m_iDirection][m_tMotion]);
-		m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+		if (GetKeyState('W') & 0x8000 || GetKeyState('S') & 0x8000 || GetKeyState('D') & 0x8000 || GetKeyState('A') & 0x8000)
+		{
+			switch (m_tMotion)
+			{
+			case MOTION::IDLE_TO_RUN:
+				if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
+					m_tMotion = MOTION::RUN;
+			case MOTION::RUN:
+				break;
+			default:
+				m_tMotion = MOTION::IDLE_TO_RUN;
+				break;
+			}
+			if (GetKeyState('W') & 0x8000) {
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+
+				m_pTransformCom->SetPosition(vPosition);
+				m_tDir = DIR::UP;
+				m_iDirection = 2;
+			}
+			if (GetKeyState('S') & 0x8000)
+			{
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+
+				m_pTransformCom->SetPosition(vPosition);
+				m_tDir = DIR::DOWN;
+				m_iDirection = 0;
+			}
+			if (GetKeyState('A') & 0x8000)
+			{
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
+
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				m_pTransformCom->SetPosition(vPosition);
+
+				m_iDirection = 1;
+			}
+			if (GetKeyState('D') & 0x8000)
+			{
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
+
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				m_pTransformCom->SetPosition(vPosition);
+				m_iDirection = 1;
+			}
+
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case  MOTION::IDLE_TO_RUN:
+			case  MOTION::RUN:
+				if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
+				{
+					m_tMotion = MOTION::RUN_TO_IDLE;
+
+					m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+					m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+				}
+				break;
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::ATTACK:
+				if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
+				{
+					m_tMotion = MOTION::IDLE;
+					m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+					m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+					m_bControll = false;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		if (GetKeyState(VK_SPACE) & 0x8000)
+		{
+			m_tMotion = MOTION::ATTACK;
+			m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+			m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+			m_bControll = false;
+		}
+		if (GetKeyState('F') & 0x8000)
+		{
+			Get_Damage(50);
+		}
 	}
 	else {
 		switch (m_tMotion)
 		{
-		case  MOTION::IDLE_TO_RUN:
-		case  MOTION::RUN:
+		case MOTION::BUCKED:
 			if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
 			{
-				m_tMotion = MOTION::RUN_TO_IDLE;
-
-				m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[0][m_iDirection][m_tMotion]);
+				m_tMotion = MOTION::BUCK_PST;
+				m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 				m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
 			}
 			break;
+		case MOTION::BUCK_PST:
+		case MOTION::DIAL:
 		case MOTION::RUN_TO_IDLE:
-			if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd())
-			{
+		case MOTION::BUILD_TO_IDLE:
+		case MOTION::PICKAXE_TO_IDLE:
+		case MOTION::SHOVEL_TO_IDLE:
+		case MOTION::ATTACK:
+		case MOTION::PICKUP:
+		case MOTION::GIVE:
+		case MOTION::DAMAGE:
+			if (m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]->IsEnd()) {
 				m_tMotion = MOTION::IDLE;
-				m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[0][m_iDirection][m_tMotion]);
+				m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 				m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+				m_bControll = true;
 			}
 			break;
-		default:
+		case MOTION::IDLE:
+			m_bControll = true;
 			break;
 		}
 	}
+
+	if (GetKeyState('R') & 0x8000)
+	{
+		m_iDirection = 0;
+		m_tMotion = MOTION::DIAL;
+		m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+		m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+		m_bControll = false;
+	}
+	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
 	if (GetKeyState('E') & 0x8000)
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
@@ -510,11 +237,15 @@ void CPlayer::Update(_float fTimeDelta)
 	if (GetKeyState('Z') & 0x8000)
 	{
 		m_iSwapObject = 0;
+		m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;
+		m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 		m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
 	}
 	if (GetKeyState('X') & 0x8000)
 	{
 		m_iSwapObject = 1;
+		m_tItem = SWAPOBJECT::SWAPOBJECT_AXE;
+		m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 		m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
 	}
 
@@ -524,7 +255,9 @@ void CPlayer::Update(_float fTimeDelta)
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pAnimController->Tick(fTimeDelta);
-	m_pSwapObjectAnimController->Tick(fTimeDelta);
+	if (m_tItem != SWAPOBJECT::SWAPOBJECT_NONE) {
+		m_pSwapObjectAnimController->Tick(fTimeDelta);
+	}
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
@@ -532,19 +265,59 @@ HRESULT CPlayer::Render()
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
+	if (m_iDirection == 0) {
 
-	m_pAnimController->Render();
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
-	m_pVIBufferCom->Render();
+		m_pAnimController->Render();
+		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
+		m_pVIBufferCom->Render();
 
-	m_pSwapObjectAnimController->Render();
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pSwapObjectTransformCom->Get_World());
-	m_pVIBufferCom->Render();
+		m_pSwapObjectAnimController->Render();
+		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pSwapObjectTransformCom->Get_World());
+		m_pVIBufferCom->Render();
+	}
+	else {
+
+		m_pSwapObjectAnimController->Render();
+		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pSwapObjectTransformCom->Get_World());
+		m_pVIBufferCom->Render();
+		m_pAnimController->Render();
+		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
+		m_pVIBufferCom->Render();
+	}
+
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
-
+	
 	return S_OK;
+}
+
+void CPlayer::Damage()
+{
+	m_bControll = false;
+	m_tMotion = MOTION::DAMAGE;
+	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+}
+
+void CPlayer::Attack()
+{
+	m_bControll = false;
+	m_tMotion = MOTION::ATTACK;
+	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+}
+
+void CPlayer::Death()
+{
+	m_bControll = false;
+	m_tMotion = MOTION::DEATH2;
+	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][DIR::SIDE][m_tMotion]);
+	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::SIDE][m_tMotion]);
+}
+
+void CPlayer::SetItem(SWAPOBJECT tItem)
+{
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -557,62 +330,117 @@ HRESULT CPlayer::Ready_Components()
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Idle_Loop_Down"),
-		TEXT("Com_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][0]))))
+		TEXT("Com_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Idle_Loop_Side"),
-		TEXT("Com_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][0]))))
+		TEXT("Com_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Idle_Loop_Up"),
-		TEXT("Com_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][0]))))
+		TEXT("Com_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pre_Down"),
-		TEXT("Com_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][1]))))
+		TEXT("Com_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pre_Side"),
-		TEXT("Com_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][1]))))
+		TEXT("Com_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pre_Up"),
-		TEXT("Com_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][1]))))
+		TEXT("Com_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Loop_Down"),
-		TEXT("Com_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][2]))))
+		TEXT("Com_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Loop_Side"),
-		TEXT("Com_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][2]))))
+		TEXT("Com_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Loop_Up"),
-		TEXT("Com_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][2]))))
+		TEXT("Com_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pst_Down"),
-		TEXT("Com_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][3]))))
+		TEXT("Com_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pst_Side"),
-		TEXT("Com_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][3]))))
+		TEXT("Com_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pst_Up"),
-		TEXT("Com_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][3]))))
+		TEXT("Com_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::RUN_TO_IDLE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Down"),
+		TEXT("Com_Atk_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Side"),
+		TEXT("Com_Atk_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Up"),
+		TEXT("Com_Atk_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Bucked"),
+		TEXT("Com_Bucked"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::BUCKED]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Buck_Pst"),
+		TEXT("Com_Buck_Pst"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::BUCK_PST]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Down"),
+		TEXT("Com_Damage_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Side"),
+		TEXT("Com_Damage_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Up"),
+		TEXT("Com_Damage_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death1"),
+		TEXT("Com_Death1"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DEATH1]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death2"),
+		TEXT("Com_Death2"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DEATH2]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Dial"),
+		TEXT("Com_Dial"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::DIAL]))))
 		return E_FAIL;
 
 
@@ -620,64 +448,111 @@ HRESULT CPlayer::Ready_Components()
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Idle_Loop_Down"),
-		TEXT("Com_Item_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][0]))))
+		TEXT("Com_Item_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Idle_Loop_Side"),
-		TEXT("Com_Item_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][0]))))
+		TEXT("Com_Item_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::IDLE]))))
 		return E_FAIL;
 
 	/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Idle_Loop_Up"),
-		TEXT("Com_Item_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][0]))))
+		TEXT("Com_Item_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::IDLE]))))
 		return E_FAIL;
 
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pre_Down"),
-		TEXT("Com_Item_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][1]))))
+		TEXT("Com_Item_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pre_Side"),
-		TEXT("Com_Item_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][1]))))
+		TEXT("Com_Item_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pre_Up"),
-		TEXT("Com_Item_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][1]))))
+		TEXT("Com_Item_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::IDLE_TO_RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Loop_Down"),
-		TEXT("Com_Item_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][2]))))
+		TEXT("Com_Item_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Loop_Side"),
-		TEXT("Com_Item_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][2]))))
+		TEXT("Com_Item_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Loop_Up"),
-		TEXT("Com_Item_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][2]))))
+		TEXT("Com_Item_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::RUN]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pst_Down"),
-		TEXT("Com_Item_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][3]))))
+		TEXT("Com_Item_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pst_Side"),
-		TEXT("Com_Item_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][3]))))
+		TEXT("Com_Item_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
 	/* Com_Item_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Run_Pst_Up"),
-		TEXT("Com_Item_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][3]))))
+		TEXT("Com_Item_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Down"),
+		TEXT("Com_Item_Atk_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Side"),
+		TEXT("Com_Item_Atk_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Up"),
+		TEXT("Com_Item_Atk_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::ATTACK]))))
+		return E_FAIL;
+
+	/* Com_Item_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Down"),
+		TEXT("Com_Item_Damage_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Item_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Side"),
+		TEXT("Com_Item_Damage_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Up"),
+		TEXT("Com_Item_Damage_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::DAMAGE]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Death1"),
+		TEXT("Com_Item_Death1"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::DEATH1]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Death2"),
+		TEXT("Com_Item_Death2"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::DEATH2]))))
+		return E_FAIL;
+
+	/* Com_Texture */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Dial"),
+		TEXT("Com_Item_Dial"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::DIAL]))))
+		return E_FAIL;
+
+
 
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
@@ -709,64 +584,111 @@ HRESULT CPlayer::Ready_Components()
 
 		/* Com_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Down"),
-			TEXT("Com_Axe_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::DOWN][0]))))
+			TEXT("Com_Axe_Idle_Loop_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::IDLE]))))
 			return E_FAIL;
 
 		/* Com_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Side"),
-			TEXT("Com_Axe_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::SIDE][0]))))
+			TEXT("Com_Axe_Idle_Loop_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::IDLE]))))
 			return E_FAIL;
 
 		/* Com_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Up"),
-			TEXT("Com_Axe_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::UP][0]))))
+			TEXT("Com_Axe_Idle_Loop_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::IDLE]))))
 			return E_FAIL;
 
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Down"),
-			TEXT("Com_Axe_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::DOWN][1]))))
+			TEXT("Com_Axe_Run_Pre_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::IDLE_TO_RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Side"),
-			TEXT("Com_Axe_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::SIDE][1]))))
+			TEXT("Com_Axe_Run_Pre_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::IDLE_TO_RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Up"),
-			TEXT("Com_Axe_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::UP][1]))))
+			TEXT("Com_Axe_Run_Pre_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::IDLE_TO_RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Down"),
-			TEXT("Com_Axe_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::DOWN][2]))))
+			TEXT("Com_Axe_Run_Loop_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Side"),
-			TEXT("Com_Axe_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::SIDE][2]))))
+			TEXT("Com_Axe_Run_Loop_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Up"),
-			TEXT("Com_Axe_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::UP][2]))))
+			TEXT("Com_Axe_Run_Loop_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::RUN]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Down"),
-			TEXT("Com_Axe_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::DOWN][3]))))
+			TEXT("Com_Axe_Run_Pst_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::RUN_TO_IDLE]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Side"),
-			TEXT("Com_Axe_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::SIDE][3]))))
+			TEXT("Com_Axe_Run_Pst_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::RUN_TO_IDLE]))))
 			return E_FAIL;
 
 		/* Com_Axe_Texture */
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Up"),
-			TEXT("Com_Axe_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[0][DIR::UP][3]))))
+			TEXT("Com_Axe_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::RUN_TO_IDLE]))))
 			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Down"),
+			TEXT("Com_Axe_Atk_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::ATTACK]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Side"),
+			TEXT("Com_Axe_Atk_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::ATTACK]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Up"),
+			TEXT("Com_Axe_Atk_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::ATTACK]))))
+			return E_FAIL;
+
+		/* Com_Axe_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Down"),
+			TEXT("Com_Axe_Damage_Down"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::DAMAGE]))))
+			return E_FAIL;
+
+		/* Com_Axe_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Side"),
+			TEXT("Com_Axe_Damage_Side"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::DAMAGE]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Up"),
+			TEXT("Com_Axe_Damage_Up"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::UP][MOTION::DAMAGE]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Death1"),
+			TEXT("Com_Axe_Death1"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::DEATH1]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Death2"),
+			TEXT("Com_Axe_Death2"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::SIDE][MOTION::DEATH2]))))
+			return E_FAIL;
+
+		/* Com_Texture */
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Dial"),
+			TEXT("Com_Axe_Dial"), reinterpret_cast<CComponent**>(&m_pSwapObjectTextureCom[SWAPOBJECT::SWAPOBJECT_AXE][DIR::DOWN][MOTION::DIAL]))))
+			return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -856,7 +778,7 @@ void CPlayer::Free()
 			}
 		}
 	}
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < SWAPOBJECT::SWAPOBJECT_END; ++i) {
 		for (int j = 0; j < DIR::DIR_END; ++j) {
 			for (int k = 0; k < MOTION::MOTION_END; ++k) {
 				if (m_pSwapObjectTextureCom[i][j][k]) {
