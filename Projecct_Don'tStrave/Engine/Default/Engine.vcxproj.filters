@@ -106,6 +106,18 @@
     <Filter Include="Utility\FMath">
       <UniqueIdentifier>{19bbbdf7-30b4-43ec-9d20-83952352c64c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Components\CollisionComponent">
+      <UniqueIdentifier>{67004a16-8e0d-45d6-8ff2-c5f7f1a30c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\CollisionComponent\BoxCollision">
+      <UniqueIdentifier>{f65632bf-f2e0-4932-9db9-fcd6fbb09a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\CollisionComponent\SphereCollision">
+      <UniqueIdentifier>{dbf5c1ad-f707-41d1-84c7-1a0cd8da4d54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\CollisionComponent\Manager">
+      <UniqueIdentifier>{31ee68f9-63fd-4d28-95ca-1c95f91dd94e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -226,6 +238,18 @@
       <Filter>Utility\FMath</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Font_Manager.h" />
+    <ClInclude Include="..\Public\Box_Collision_Component.h">
+      <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collision_Manager.h">
+      <Filter>System\Components\CollisionComponent\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sphere_Collision_Component.h">
+      <Filter>System\Components\CollisionComponent\SphereCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collision_Component.h">
+      <Filter>System\Components\CollisionComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -319,5 +343,17 @@
       <Filter>Utility\FMath</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Font_Manager.cpp" />
+    <ClCompile Include="..\Private\Box_Collision_Component.cpp">
+      <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collision_Manager.cpp">
+      <Filter>System\Components\CollisionComponent\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sphere_Collision_Component.cpp">
+      <Filter>System\Components\CollisionComponent\SphereCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collision_Component.cpp">
+      <Filter>System\Components\CollisionComponent</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

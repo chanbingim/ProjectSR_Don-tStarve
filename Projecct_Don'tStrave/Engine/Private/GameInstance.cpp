@@ -46,7 +46,6 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	CMouseManager::MOUSE_MANGER_DESC Mouse_Mgr_Data = {};
 	Mouse_Mgr_Data.pGraphic_Device = (*ppOut);
 	Mouse_Mgr_Data.handle = EngineDesc.hWnd;
-	Mouse_Mgr_Data.pMouseSlot = pMouse;
 
 	m_pMouseManager = CMouseManager::Create(&Mouse_Mgr_Data);
 	if (nullptr == m_pMouseManager)
