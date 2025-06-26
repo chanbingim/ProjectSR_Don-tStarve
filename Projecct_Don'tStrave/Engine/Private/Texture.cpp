@@ -111,7 +111,7 @@ HRESULT CTexture::Set_Texture(_uint iTextureIndex)
 
 _float3 CTexture::Get_Size()
 {
-	return _float3(m_iWidth, m_iHeight, m_iX);
+	return _float3((_float)m_iWidth, (_float)m_iHeight, (_float)m_iX);
 }
 
 _uint CTexture::Get_Frame()

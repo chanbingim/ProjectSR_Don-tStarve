@@ -147,6 +147,7 @@
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\public\Camera_Button.h" />
+    <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\public\Mouse.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\PlayerAnim.h" />
     <ClInclude Include="..\Public\QuickSlot_Button.h" />
     <ClInclude Include="..\public\Sanity.h" />
     <ClInclude Include="..\public\Slot.h" />
@@ -190,6 +192,7 @@
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\private\Camera_Button.cpp" />
+    <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
@@ -200,6 +203,7 @@
     <ClCompile Include="..\private\Item_Info.cpp" />
     <ClCompile Include="..\private\MiniMap_Button.cpp" />
     <ClCompile Include="..\private\Mouse.cpp" />
+    <ClCompile Include="..\Private\PlayerAnim.cpp" />
     <ClCompile Include="..\Private\QuickSlot_Button.cpp" />
     <ClCompile Include="..\private\Sanity.cpp" />
     <ClCompile Include="..\private\Slot.cpp" />

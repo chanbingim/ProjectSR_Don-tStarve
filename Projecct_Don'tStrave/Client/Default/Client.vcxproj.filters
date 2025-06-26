@@ -200,6 +200,12 @@
       <Filter>대진호</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Item_Info.h" />
+    <ClInclude Include="..\Public\Character.h">
+      <Filter>03. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerAnim.h">
+      <Filter>03. Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -321,5 +327,11 @@
       <Filter>대진호</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Item_Info.cpp" />
+    <ClCompile Include="..\Private\Character.cpp">
+      <Filter>03. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerAnim.cpp">
+      <Filter>03. Character</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
