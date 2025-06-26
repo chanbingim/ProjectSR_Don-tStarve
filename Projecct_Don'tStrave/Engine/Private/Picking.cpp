@@ -116,19 +116,17 @@ _bool CPicking::Picking_InLocalSpace(const _float3& vPointA, const _float3& vPoi
     return isColl;
 }
 
-CPicking* CPicking::Create(LPDIRECT3DDEVICE9 pGraphicDevice, HWND hWnd)
+CPicking* CPicking::Create(LPDIRECT3DDEVICE9 pGraphicDevice, HWND Handle)
 {
     CPicking* pInstance = new CPicking(pGraphicDevice);
-
-    if (FAILED(pInstance->Initialize(hWnd)))
+    if (FAILED(pInstance->Initialize(Handle)))
     {
-        MSG_BOX("Failed to Created : CPicking");
         Safe_Release(pInstance);
+        MSG_BOX("CREATE FAIL : PICKING");
     }
 
     return pInstance;
 }
-
 
 void CPicking::Free()
 {
@@ -136,3 +134,4 @@ void CPicking::Free()
 
     Safe_Release(m_pGraphic_Device);
 }
+ 

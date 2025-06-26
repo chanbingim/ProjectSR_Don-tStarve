@@ -44,6 +44,12 @@ public :
 	_matrix&						Get_World();
 	_matrix&						Get_InverseWorldMat();
 
+public :
+	void							Go_Straight(_float fTimeDelta);
+	void							Go_Left(_float fTimeDelta);
+	void							Go_Right(_float fTimeDelta);
+	void							Go_Backward(_float fTimeDelta);
+
 private :
 	TRANSFORM_DESC					m_RateData;
 
