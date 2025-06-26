@@ -144,9 +144,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\AnimationUI.h" />
+    <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\public\Camera_Button.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
+    <ClInclude Include="..\Public\Crafting_Button.h" />
+    <ClInclude Include="..\public\Health.h" />
+    <ClInclude Include="..\public\HeadUpDisplay.h" />
     <ClInclude Include="..\public\Hunger.h" />
     <ClInclude Include="..\Public\IMGUI\imconfig.h" />
     <ClInclude Include="..\Public\IMGUI\imgui.h" />
@@ -158,14 +164,18 @@
     <ClInclude Include="..\Public\IMGUI\imstb_truetype.h" />
     <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\Item_Info.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
+    <ClInclude Include="..\public\MiniMap_Button.h" />
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\public\Mouse.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\QuickSlot_Button.h" />
+    <ClInclude Include="..\public\Sanity.h" />
     <ClInclude Include="..\public\Slot.h" />
     <ClInclude Include="..\public\SlotFrame.h" />
     <ClInclude Include="..\Public\Terrain.h" />
@@ -177,11 +187,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\AnimationUI.cpp" />
+    <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\Camera_Button.cpp" />
+    <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
+    <ClCompile Include="..\Private\Crafting_Button.cpp" />
+    <ClCompile Include="..\private\Health.cpp" />
+    <ClCompile Include="..\private\HeadUpDisplay.cpp" />
     <ClCompile Include="..\private\Inventory.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\Item_Info.cpp" />
+    <ClCompile Include="..\private\MiniMap_Button.cpp" />
     <ClCompile Include="..\private\Mouse.cpp" />
+    <ClCompile Include="..\Private\QuickSlot_Button.cpp" />
+    <ClCompile Include="..\private\Sanity.cpp" />
     <ClCompile Include="..\private\Slot.cpp" />
     <ClCompile Include="..\private\SlotFrame.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />

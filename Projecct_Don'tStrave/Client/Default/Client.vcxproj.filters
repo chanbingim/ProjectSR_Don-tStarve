@@ -172,6 +172,34 @@
     <ClInclude Include="..\public\Item.h">
       <Filter>대진호</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Health.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sanity.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HeadUpDisplay.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Crafting_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MiniMap_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuickSlot_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Clock.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item_Info.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -265,5 +293,33 @@
     <ClCompile Include="..\private\Item.cpp">
       <Filter>대진호</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Health.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sanity.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HeadUpDisplay.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Crafting_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MiniMap_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuickSlot_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Clock.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Info.cpp" />
   </ItemGroup>
 </Project>

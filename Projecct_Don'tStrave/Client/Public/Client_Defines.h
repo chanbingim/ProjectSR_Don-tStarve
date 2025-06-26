@@ -10,6 +10,7 @@ namespace Client
 
 	enum class LEVEL { STATIC, LOADING, LOGO, GAMEPLAY, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT };
+	enum class SLOT { NORMAL, EQUIPMENT, INFO };
 }
 
 using namespace Client;

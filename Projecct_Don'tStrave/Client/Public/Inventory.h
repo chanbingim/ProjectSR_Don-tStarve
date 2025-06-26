@@ -2,9 +2,8 @@
 #include "Client_Defines.h"
 #include "UserInterface.h"
 
-
 NS_BEGIN(Client)
-
+class CSlot;
 class CInventory final : public CUserInterface
 {
 private:
@@ -20,7 +19,9 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+	CSlot* Find_Item(_uint iItemID);
 
+private:
 	vector<class CSlotFrame*> m_Slots = {};
 
 private:

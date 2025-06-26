@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 
 #include "SlotFrame.h"
-
+#include "Slot.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -23,7 +23,14 @@ HRESULT CInventory::Initialize_Prototype()
 
 HRESULT CInventory::Initialize(void* pArg)
 {
-    if (FAILED(__super::Initialize(pArg)))
+    CUserInterface::UIOBJECT_DESC Desc = {};
+
+    Desc.fSizeX = 900.f;
+    Desc.fSizeY = 150.f;
+    Desc.fX = g_iWinSizeX * 0.5f;
+    Desc.fY = g_iWinSizeY;
+
+    if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
     if (FAILED(ADD_Components()))
@@ -31,11 +38,12 @@ HRESULT CInventory::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
-    CUserInterface::UIOBJECT_DESC Desc = {};
 
     _float fPading = 3.f;
     _uint iOffset = {};
     CSlotFrame* pSlotFrame = { nullptr };
+
+    CSlotFrame::SLOTFRAME_DESC Slot_Desc = {};
 
     for (_uint i = 0; i < 15; ++i)
     {
@@ -47,9 +55,34 @@ HRESULT CInventory::Initialize(void* pArg)
         Desc.fX = (m_fX - m_fSizeX * 0.55f) + (Desc.fSizeX + fPading) * (i + 2) + iOffset;
         Desc.fY = g_iWinSizeY - 25.f;
 
-        pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Desc));
+        Slot_Desc.Desc = Desc;
+        Slot_Desc.iSlotType = 0;
 
+        pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
+
+
+        if (nullptr == pSlotFrame)
+            return E_FAIL;
+
+        m_Slots.push_back(pSlotFrame);
+    }
+
+    for (_uint i = 15; i < 19; ++i)
+    {
+        if (0 == i % 3)
+            iOffset += 5.f;
+
+        Desc.fSizeX = 40.f;
+        Desc.fSizeY = 40.f;
+        Desc.fX = (m_fX - m_fSizeX * 0.55f) + (Desc.fSizeX + fPading) * (i + 2) + iOffset;
+        Desc.fY = g_iWinSizeY - 25.f;
+
+        Slot_Desc.Desc = Desc;
+        Slot_Desc.iSlotType = i - 14;
+
+        pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
 
         if (nullptr == pSlotFrame)
             return E_FAIL;
@@ -95,6 +128,28 @@ HRESULT CInventory::Render()
     return S_OK;
 }
 
+CSlot* CInventory::Find_Item(_uint _iItemID)
+{
+    _bool bEmpty = { false };
+    CSlot* pEmptySlot = { nullptr };
+
+    for (auto pSlotFrame : m_Slots)
+    {
+        CSlot* pSlot = pSlotFrame->Get_Slot();
+        _uint iItemID = pSlot->Get_ItemID();
+
+        if (0 == iItemID && false == bEmpty)
+        {
+            bEmpty = true;
+            pEmptySlot = pSlot;
+        }
+        if (_iItemID == pSlot->Get_ItemID())
+            return pSlot;
+    }
+
+    return pEmptySlot;
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component
@@ -137,7 +192,7 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CGameObject* CInventory::Clone(void* pArg)
 {
-    CInventory* pInstance = new CInventory(*this);
+    CGameObject* pInstance = new CInventory(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {

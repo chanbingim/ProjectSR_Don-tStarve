@@ -43,6 +43,7 @@ public:
 
 #pragma region OBJECT_MANAGER
 	CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+	class CGameObject* Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex = 0);
 	HRESULT Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 #pragma endregion
 
@@ -68,6 +69,12 @@ public:
 	void Manager_SetChannelVolume(CHANNELID eID, float fVolume);
 #pragma endregion
 
+#pragma region FONT_MANAGER
+	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect);
+	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
+#pragma endregion
+
+
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
 	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -77,6 +84,7 @@ private:
 	class CRenderer*				m_pRenderer = { nullptr };
 	class CMouseManager*			m_pMouseManager = { nullptr };
 	class CSoundManager*			m_pSoundManager = { nullptr };
+	class CFont_Manager*			m_pFont_Manager = { nullptr };
 
 public:
 	void Release_Engine();

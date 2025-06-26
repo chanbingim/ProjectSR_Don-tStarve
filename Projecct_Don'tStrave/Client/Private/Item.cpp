@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Slot.h"
+#include "Inventory.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -50,21 +51,10 @@ void CItem::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 
+	ClickedEvent();
+
 	SetUp_OnTerrain(m_pTransform_Com, 0.5f);
 
-	_float3 vPickingPos = {};
-
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
-	{
-		if(GetAsyncKeyState(VK_RBUTTON) & 0x8000)
-		{
-			CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
-
-			pSlot->Set_Info(m_iItemID, m_iNumItem, m_fDurability);
-
-			m_isDead = true;
-		}
-	}
 }
 
 void CItem::Late_Update(_float fTimeDelta)
@@ -87,6 +77,51 @@ HRESULT CItem::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
+}
+
+void CItem::ClickedEvent()
+{
+	if (GetAsyncKeyState('P') & 0x8000)
+	{
+		_float3 vPickingPos = {};
+
+		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
+		{
+			CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
+
+			pSlot->Set_Info(m_iItemID, m_iNumItem, m_fDurability);
+
+			m_isDead = true;
+		}
+	}
+
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	{
+		_float3 vPickingPos = {};
+
+		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
+		{
+			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+			CSlot* pSlot = pInventory->Find_Item(m_iItemID);
+
+			if (nullptr == pSlot)
+				int a; // 인벤토리가 꽉참
+			else
+			{
+				_uint iItemID = pSlot->Get_ItemID();
+				if(0 == iItemID)
+				{
+					pSlot->Set_Info(m_iItemID, m_iNumItem, m_fDurability);
+					m_isDead = true;
+				}
+				else if (m_iItemID == iItemID)
+				{
+					pSlot->Add_Item(m_iNumItem);
+					m_isDead = true;
+				}
+			}
+		}
+	}
 }
 
 HRESULT CItem::ADD_Components()

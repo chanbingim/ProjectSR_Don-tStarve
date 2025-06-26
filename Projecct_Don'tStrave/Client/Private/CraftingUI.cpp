@@ -1,6 +1,9 @@
 #include "CraftingUI.h"
 #include "GameInstance.h"
 #include "Slot.h"
+#include "Crafting_Button.h"
+#include "QuickSlot_Button.h"
+#include "Item_Info.h"
 
 CCraftingUI::CCraftingUI(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -21,6 +24,7 @@ HRESULT CCraftingUI::Initialize_Prototype()
 HRESULT CCraftingUI::Initialize(void* pArg)
 {
     m_bHide = false;
+    m_pQuickSlots.reserve(5);
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -30,6 +34,41 @@ HRESULT CCraftingUI::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    CButton::BUTTON_DESC Desc = {};
+    Desc.fX = m_fX;
+    Desc.fY = m_fY;
+    Desc.fSizeX = 60.f;
+    Desc.fSizeY = 60.f;
+    Desc.fRelativeX = m_fSizeX * 0.52f;
+    Desc.fRelativeY = m_fSizeY * 0.5f - 60.f;
+    Desc.pParentTransform = m_pTransform_Com;
+
+    m_pOpenButton = dynamic_cast<CCrafting_Button*>(m_pGameInstance->Clone_Prototype(
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
+
+    for (_uint i = 0; i < 5; ++i)
+    {
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 60.f;
+        Desc.fSizeY = 60.f;
+        Desc.fRelativeX = m_fSizeX * 0.52f;
+        Desc.fRelativeY = m_fSizeY * 0.5f - 120.f - i * 60.f;
+        Desc.pParentTransform = m_pTransform_Com;
+
+        m_pQuickSlots.push_back(dynamic_cast<CQuickSlot_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuickSlot_Button"), &Desc)));
+    }
+
+    CUserInterface::UIOBJECT_DESC UI_Desc = {};
+
+    UI_Desc.fX = m_fX;
+    UI_Desc.fY = m_fY;
+    UI_Desc.fSizeX = m_fSizeX;
+    UI_Desc.fSizeY = m_fSizeY;
+
+    m_pItem_Info = dynamic_cast<CItem_Info*>(m_pGameInstance->Clone_Prototype(
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
 
     return S_OK;
 }
@@ -40,32 +79,16 @@ void CCraftingUI::Priority_Update(_float fTimeDelta)
 
 void CCraftingUI::Update(_float fTimeDelta)
 {
+    HoverEevent();
+
+    ClickedEevent();
+
+    m_pOpenButton->Update(fTimeDelta);
+
+    for (auto qButton : m_pQuickSlots)
+        qButton->Update(fTimeDelta);
+
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
-    if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-    {
-        _float3 vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
-        RECT rect = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
-
-        POINT pt{};
-        GetCursorPos(&pt);
-        ScreenToClient(g_hWnd, &pt);
-
-        if (true == PtInRect(&rect, pt))
-        {
-            if (true == m_bHide)
-            {
-                m_pTransform_Com->SetPosition(_float3((vPos.x + m_fSizeX * 0.8f), vPos.y, vPos.z));
-                m_fX += m_fSizeX * 0.8f;
-                m_bHide = false;
-            }
-            else
-            {
-                m_pTransform_Com->SetPosition(_float3((vPos.x - m_fSizeX * 0.8f), vPos.y, vPos.z));
-                m_fX += m_fSizeX * -0.8f;
-                m_bHide = true;
-            }
-        }
-    }
 }
 
 void CCraftingUI::Late_Update(_float fTimeDelta)
@@ -74,14 +97,51 @@ void CCraftingUI::Late_Update(_float fTimeDelta)
 
 HRESULT CCraftingUI::Render()
 {
+    m_pOpenButton->Render();
+
+    for (auto qButton : m_pQuickSlots)
+        qButton->Render();
+
     m_pTexture_Com->Set_Texture(0);
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
     m_pVIBuffer_Com->Render();
 
+    m_pItem_Info->Render();
 
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    
     return S_OK;
+}
+
+void CCraftingUI::HoverEevent()
+{
+}
+
+void CCraftingUI::ClickedEevent()
+{
+    if (true == m_pOpenButton->OnClick())
+    {
+        _float3 vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+        
+        if (true == m_bHide)
+        {
+            m_pTransform_Com->SetPosition(_float3((vPos.x + m_fSizeX * 0.95f), vPos.y, vPos.z));
+            m_fX += m_fSizeX;
+            m_bHide = false;
+        }
+        else
+        {
+            m_pTransform_Com->SetPosition(_float3((vPos.x - m_fSizeX * 0.95f), vPos.y, vPos.z));
+            m_fX += m_fSizeX * -1.f;
+            m_bHide = true;
+        }
+    }
 }
 
 HRESULT CCraftingUI::ADD_Components()
@@ -144,4 +204,12 @@ void CCraftingUI::Free()
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
+
+    Safe_Release(m_pOpenButton);
+    Safe_Release(m_pItem_Info);
+
+    for (auto pButton : m_pQuickSlots)
+        Safe_Release(pButton);
+
+    m_pQuickSlots.clear();
 }

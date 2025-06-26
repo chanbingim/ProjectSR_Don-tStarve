@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CHunger::CHunger(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CUserInterface{ pGraphic_Device }
+    : CHeadUpDisplay{ pGraphic_Device }
 {
 }
 
 CHunger::CHunger(const CHunger& Prototype)
-    : CUserInterface{ Prototype }
+    : CHeadUpDisplay{ Prototype }
 {
 }
 
@@ -22,10 +22,17 @@ HRESULT CHunger::Initialize(void* pArg)
     m_iTextureIndex = 0;
     m_fTimeAcc = 0.f;
 
-    if (FAILED(__super::Initialize(pArg)))
-        return E_FAIL;
+    CUserInterface::UIOBJECT_DESC Desc = {};
+
+    Desc.fX = g_iWinSizeX - 110.f;
+    Desc.fY = g_iWinSizeY * 0.25f;
+    Desc.fSizeX = 70.f;
+    Desc.fSizeY = 70.f;
 
     if (FAILED(ADD_Components()))
+        return E_FAIL;
+
+    if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
     __super::UpdatePosition();
@@ -64,7 +71,14 @@ HRESULT CHunger::Render()
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
     m_pVIBuffer_Com->Render();
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    
 
     return S_OK;
 }

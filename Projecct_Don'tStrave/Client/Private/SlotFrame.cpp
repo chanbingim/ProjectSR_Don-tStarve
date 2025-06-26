@@ -20,20 +20,24 @@ HRESULT CSlotFrame::Initialize_Prototype()
 
 HRESULT CSlotFrame::Initialize(void* pArg)
 {
-    if (FAILED(__super::Initialize(pArg)))
+    SLOTFRAME_DESC* pDesc = static_cast<SLOTFRAME_DESC*>(pArg);
+
+    m_iSlotType = pDesc->iSlotType;
+
+    CUserInterface::UIOBJECT_DESC Desc = {};
+
+    Desc.fX = pDesc->Desc.fX;
+    Desc.fY = pDesc->Desc.fY;
+    Desc.fSizeX = pDesc->Desc.fSizeX;
+    Desc.fSizeY = pDesc->Desc.fSizeY;
+
+    if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
     __super::UpdatePosition();
-
-    CUserInterface::UIOBJECT_DESC Desc = {};
-
-    Desc.fSizeX = m_fSizeX;
-    Desc.fSizeY = m_fSizeY;
-    Desc.fX = m_fX;
-    Desc.fY = m_fY;
 
     m_pSlot = static_cast<class CSlot*>(m_pGameInstance->Clone_Prototype(
         PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &Desc));
@@ -96,7 +100,7 @@ void CSlotFrame::Late_Update(_float fTimeDelta)
 
 HRESULT CSlotFrame::Render()
 {
-    m_pTexture_Com->Set_Texture(0);
+    m_pTexture_Com->Set_Texture(m_iSlotType);
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 

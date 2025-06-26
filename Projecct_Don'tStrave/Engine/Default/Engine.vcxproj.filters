@@ -225,6 +225,7 @@
     <ClInclude Include="..\Public\CMath.h">
       <Filter>Utility\FMath</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Font_Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -317,5 +318,6 @@
     <ClCompile Include="..\Private\CMath.cpp">
       <Filter>Utility\FMath</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Font_Manager.cpp" />
   </ItemGroup>
 </Project>

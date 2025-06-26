@@ -35,6 +35,8 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta);
 	virtual HRESULT	 Render();
 
+	void ClickedEvent();
+
 private:
 	ITEM_TYPE		m_eItemType{};
 	_uint			m_iItemID{};

@@ -19,8 +19,16 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta) override;
 	virtual HRESULT	 Render() override;
 
+	virtual void HoverEevent();
+	virtual void ClickedEevent();
+	
 private:
-	_bool m_bHide = {};
+	_bool					m_bHide = {};
+
+	class CButton*			m_pOpenButton = {};
+	class CItem_Info*		m_pItem_Info = { nullptr };
+
+	vector<class CButton*>	m_pQuickSlots = {};
 
 private:
 	HRESULT ADD_Components();

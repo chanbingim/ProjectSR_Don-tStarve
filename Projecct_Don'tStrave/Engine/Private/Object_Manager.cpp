@@ -19,6 +19,15 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& st
 	return pLayer->Get_Component(strComponentTag, iIndex);	
 }
 
+CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	return pLayer->Get_GameObject(iIndex);
+}
+
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;

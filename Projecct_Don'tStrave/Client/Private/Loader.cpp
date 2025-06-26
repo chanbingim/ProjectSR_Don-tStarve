@@ -9,7 +9,16 @@
 #include "Mouse.h"
 #include "CraftingUI.h"
 #include "Hunger.h"
+#include "Health.h"
+#include "Sanity.h"
 #include "Item.h"
+#include "Crafting_Button.h"
+#include "Camera_Button.h"
+#include "MiniMap_Button.h"
+#include "QuickSlot_Button.h"
+#include "Clock.h"
+#include "Item_Info.h"
+
 
 #include "GameInstance.h"
 
@@ -116,6 +125,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Hunger"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/hunger/Hunger_0%d.png"), 51))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Health */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Health"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Health/Health_0%d.png"), 51))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Sanity */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sanity"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Sanity/Sanity_0%d.png"), 51))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_Inventory */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Inventory"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/MainInventory.png"), 1))))
@@ -128,7 +148,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY),TEXT("Prototype_Component_Texture_Slot"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/MainInventory_back.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/SlotFrame%d.png"), 5))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Item */
@@ -145,6 +165,36 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Number"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/FontTexture/Pont%d.png"), 11))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_CraftBar_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CraftBar_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/CraftBar_Button%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_MiniMap_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/MinMap_Button.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_QuickSlot_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuickSlot_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/QuickSlot_Button.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Clock_Frame */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Frame"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Clock/Clock_Frame.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Clock_Point */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Point"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Clock/Clock_Point.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Camera_Button */
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Camera_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/Camera_Button%d.png"), 2))))
+		return E_FAIL;*/
 
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 	/* For.Prototype_Component_VIBuffer_Terrain */
@@ -180,6 +230,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CHunger::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Health */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Health"),
+		CHealth::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sanity */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Sanity"),
+		CSanity::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"),
 		CSlot::Create(m_pGraphic_Device))))
@@ -203,6 +263,50 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Item */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
 		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Crafting_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
+		CCrafting_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Crafting_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Button"),
+		CMiniMap_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	/* For.Prototype_GameObject_QuickSlot_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuickSlot_Button"),
+		CQuickSlot_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Clock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Clock"),
+		CClock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Item_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"),
+		CItem_Info::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera_Button */ // 인게임 카메라에 추가
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Button"),
+		CCamera_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;*/
+
+	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("나눔고딕코딩"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("굴림"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("굴림"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("나눔고딕코딩"))))
 		return E_FAIL;
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

@@ -1,10 +1,10 @@
 #pragma once
 #include "Client_Defines.h"
-#include "UserInterface.h"
+#include "HeadUpDisplay.h"
 
 NS_BEGIN(Client)
 
-class CHunger final : public CUserInterface
+class CHunger final : public CHeadUpDisplay
 {
 private:
 	CHunger(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -18,10 +18,6 @@ public:
 	virtual void	 Update(_float fTimeDelta)override;
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
-
-private:
-	_uint	m_iTextureIndex = {};
-	_float	m_fTimeAcc = {};
 
 private:
 	HRESULT ADD_Components();

@@ -33,6 +33,8 @@ public:
 
 private:
 	class CTransform*				m_pTransformCom = { nullptr };
+	class CCamera_Button*			m_pButton_Left = { nullptr };
+	class CCamera_Button*			m_pButton_Right = { nullptr };
 	_float4x4						m_ProjMatrix = { };
 
 	_float							m_fFov = {};

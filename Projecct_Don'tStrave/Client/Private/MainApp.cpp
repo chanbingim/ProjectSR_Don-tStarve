@@ -5,6 +5,7 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
+#include "Camera_Button.h"
 
 Client::CMainApp::CMainApp()	
 	: m_pGameInstance { CGameInstance::GetInstance() }
@@ -102,6 +103,15 @@ HRESULT CMainApp::Ready_Prototypes()
 	/* For.Prototype_Component_Loding_Textrue */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Loading"),
 			   CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/LogoBack/LogoBack_%d.png"), 38))))
+		return E_FAIL;
+
+	// Test Code
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Camera_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/Camera_Button%d.png"), 2))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"),
+		CCamera_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera */

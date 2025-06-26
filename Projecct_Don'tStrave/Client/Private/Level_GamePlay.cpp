@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 #include "UserInterface.h"
+#include "Button.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -13,6 +14,7 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -99,25 +101,31 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 {
 	CUserInterface::UIOBJECT_DESC Desc = {};
 
-	Desc.fX = g_iWinSizeX * 0.9;
-	Desc.fY = g_iWinSizeY * 0.3f;
-	Desc.fSizeX = 80.f;
-	Desc.fSizeY = 80.f;
-	
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
-		return E_FAIL;
-	
-
 	// Add Inventory
-	Desc.fSizeX = 800.f;
-	Desc.fSizeY = 150.f;
-	Desc.fX = g_iWinSizeX * 0.5f;
-	Desc.fY = g_iWinSizeY;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
+	// Add Huger
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Health
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Health"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Sanity
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Sanity"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+	
+	// Add Clock
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Clock"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+	
 	// Add Silebar
 	Desc.fSizeX = 350.f;
 	Desc.fSizeY = 500.f;
@@ -134,6 +142,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 	Desc.fY = g_iWinSizeY * 0.5f;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Mouse"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

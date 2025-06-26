@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "SoundManager.h"
 #include "MouseSlotUI.h"
+#include "Font_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -53,6 +54,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 	m_pSoundManager = CSoundManager::Create();
 	if (nullptr == m_pSoundManager)
+		return E_FAIL;
+
+	m_pFont_Manager = CFont_Manager::Create(*ppOut);
+	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
 
 	return S_OK;
@@ -161,6 +166,11 @@ CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const _wstring& strL
 	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag, strComponentTag, iIndex);	
 }
 
+CGameObject* CGameInstance::Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	return m_pObject_Manager->Get_GameObject(iLevelIndex, strLayerTag, iIndex);
+}
+
 HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
@@ -232,10 +242,23 @@ void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
 }
 #pragma endregion
 
+#pragma region FONT_MANAGER
+void CGameInstance::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect)
+{
+	m_pFont_Manager->Render_Font(strFontTag, pText, pRect);
+}
+HRESULT CGameInstance::Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName)
+{
+	return m_pFont_Manager->Add_Font(strFontTag, iSize, pFontName);
+}
+
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
 	DestroyInstance();
 
+	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pMouseManager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pRenderer);

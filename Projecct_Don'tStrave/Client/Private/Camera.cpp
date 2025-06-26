@@ -1,6 +1,7 @@
 #include "Camera.h"
 
 #include "GameInstance.h"
+#include "Camera_Button.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -44,6 +45,23 @@ HRESULT CCamera::Initialize(void* pArg)
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
+
+	CCamera_Button::CameraButton_Desc Desc = {};
+	Desc.fSizeX = 50.f;
+	Desc.fSizeY = 50.f;
+	Desc.fX = g_iWinSizeX - 150.f;
+	Desc.fY = g_iWinSizeY - 50.f;
+	Desc.iTextIndex = 0;
+
+ 	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
+
+	Desc.fX = g_iWinSizeX - 50.f;
+	Desc.fY = g_iWinSizeY - 50.f;
+	Desc.iTextIndex = 1;
+
+	m_pButton_Right = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 	
 	return S_OK;
 }
@@ -59,6 +77,17 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 	_float			fMove = {};
 
+	m_pButton_Left->Update(fTimeDelta);
+	m_pButton_Right->Update(fTimeDelta);
+
+	if (true == m_pButton_Right->OnClick())
+	{
+		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * 10.f);
+	}
+	else if (true == m_pButton_Left->OnClick())
+	{
+		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta * 10.f);
+	}
 
 	if (fMove = ptMouse.x - m_vOldMouse.x)
 	{
@@ -81,6 +110,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
+	
 
 }
 
@@ -91,6 +121,9 @@ void CCamera::Late_Update(_float fTimeDelta)
 
 HRESULT CCamera::Render()
 {
+	m_pButton_Left->Render();
+	m_pButton_Right->Render();
+
 	return S_OK;
 }
 
@@ -133,4 +166,7 @@ void CCamera::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+
+	Safe_Release(m_pButton_Left);
+	Safe_Release(m_pButton_Right);
 }

@@ -146,11 +146,19 @@ void CSlot::Render_Item()
 {
     m_pTexture_Com->Set_Texture(m_iItemID);
 
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
     m_pVIBuffer_Com->Render();
 
     m_pTexture_Com_NumItem->Set_Texture(m_iNumItem);
 
+    
+
     m_pVIBuffer_Com->Render();
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 CSlot* CSlot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

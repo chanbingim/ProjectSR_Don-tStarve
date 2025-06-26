@@ -52,11 +52,11 @@ void CMouse::Update(_float fTimeDelta)
     POINT pt{};
     GetCursorPos(&pt);
     ScreenToClient(g_hWnd, &pt);
-    m_fX = pt.x - g_iWinSizeX * 0.5f;
-    m_fY = -pt.y + g_iWinSizeY * 0.5f;
+
+    m_fX = pt.x;
+    m_fY = pt.y;
     
-    
-    m_pTransform_Com->SetPosition(_float3(m_fX, m_fY, 0.f));
+    m_pTransform_Com->SetPosition(_float3(pt.x - g_iWinSizeX * 0.5f, -pt.y + g_iWinSizeY * 0.5f, 0.f));
 
     
     ClickedEevent();
@@ -88,13 +88,27 @@ void CMouse::Late_Update(_float fTimeDelta)
 
 HRESULT CMouse::Render()
 {
-    m_pTexture_Com->Set_Texture(0);
+    
+    //m_pTexture_Com->Set_Texture(0);
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pVIBuffer_Com->Render();
+    //m_pVIBuffer_Com->Render();
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
     m_pSlot->Render();
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+    RECT Rect = { m_fX - m_fSizeX,m_fY - m_fSizeY,m_fX + m_fSizeX, m_fY + m_fSizeY };
+    
+    
+    m_pGameInstance->Render_Font(TEXT("Item_Count_14"), TEXT("ащ╠Б"), &Rect);
+    
+    
 
     return S_OK;
 }
@@ -176,6 +190,8 @@ HRESULT CMouse::Add_Slot()
         return E_FAIL;
 
     m_pGameInstance->Chagne_Slot(m_pSlot);
+
+    Safe_AddRef(m_pSlot);
 
     return S_OK;
 }
