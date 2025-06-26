@@ -149,8 +149,6 @@ void CVIBuffer_Rect::SetUV(_uint x,_uint maxX, _uint maxY, _uint frame, _uint ma
 	_float fx0 = (float)(uX * (frame % x)) / (_float)maxX;
 	_float fx1 = (float)((uX * (frame % x)) + uX) / (_float)maxX;
 
-
-
 	_float fy0 = (float)(uY * (frame / x)) / (_float)maxY;
 	_float fy1 = (float)(uY * (frame / x) + uY) / (_float)maxY;
 	pVertices[0].vTexcoord = _float2(fx0, fy0);

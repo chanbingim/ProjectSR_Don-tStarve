@@ -1,6 +1,9 @@
 #ifndef Engine_Macro_h__
 #define Engine_Macro_h__
 
+
+#define			MAX_KEY					255
+
 #define			ENUM_CLASS(ENUM)		static_cast<unsigned int>(ENUM)
 #define			EnumToInt(ENUM)			static_cast<unsigned int>(ENUM)
 

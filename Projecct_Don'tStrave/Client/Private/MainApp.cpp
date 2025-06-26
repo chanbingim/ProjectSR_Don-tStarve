@@ -54,8 +54,9 @@ HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
+	Render_FPS();
 	m_pGameInstance->Draw();
-
+	
 	m_pGameInstance->Render_End();
 
 	return S_OK;
@@ -135,6 +136,23 @@ HRESULT CMainApp::Ready_Prototypes()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMainApp::Render_FPS()
+{
+	m_pFrame++;
+	m_AccFrameTime += m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+
+	if (m_AccFrameTime >= 1.f)
+	{
+		WCHAR pFrameStr[100] = {};
+
+		wsprintf(pFrameStr, TEXT("Frame : %d"), m_pFrame);
+		SetWindowText(g_hWnd, pFrameStr);
+
+		m_pFrame = 0;
+		m_AccFrameTime = 0;
+	}
 }
 
 CMainApp* Client::CMainApp::Create()

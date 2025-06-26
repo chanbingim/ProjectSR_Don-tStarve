@@ -10,6 +10,7 @@
 #include "SoundManager.h"
 #include "MouseSlotUI.h"
 #include "Font_Manager.h"
+#include "KeyManager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -59,11 +60,17 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
 
+	m_pKey_Manager = CKeyManager::Create();
+	if (nullptr == m_pKey_Manager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+	m_pKey_Manager->BeginKeyInput();
+
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
 	m_pMouseManager->Update();
@@ -75,6 +82,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Clear_DeadObj();
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pKey_Manager->EndKeyInput();
 }
 
 HRESULT CGameInstance::Draw()
@@ -250,7 +259,23 @@ HRESULT CGameInstance::Add_Font(const _wstring strFontTag, _uint iSize, const _t
 {
 	return m_pFont_Manager->Add_Font(strFontTag, iSize, pFontName);
 }
+#pragma endregion
 
+#pragma region KEY_INPUT
+_bool CGameInstance::KeyPressed(_uint KeyNum)
+{
+	return m_pKey_Manager->GetKeyPressed(KeyNum);
+}
+
+_bool CGameInstance::KeyDown(_uint KeyNum)
+{
+	return m_pKey_Manager->GetKeyDown(KeyNum);
+}
+
+_bool CGameInstance::KeyUp(_uint KeyNum)
+{
+	return m_pKey_Manager->GetKeyUp(KeyNum);
+}
 #pragma endregion
 
 void CGameInstance::Release_Engine()
