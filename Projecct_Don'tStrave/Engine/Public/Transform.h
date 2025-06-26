@@ -22,6 +22,7 @@ public :
 	virtual		HRESULT				Initialize(void* pArg) override;
 
 	void							SetPosition(const _float3& _vPosition);
+
 	//이건 쿼터니언 공부해서 써보기
 	void							SetRotation(const _float3& _vRotation);
 

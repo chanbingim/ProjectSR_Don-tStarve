@@ -2,16 +2,64 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
+#include "UserInterface.h"
+#include "PlayerAnim.h"
+#include "Character.h"
 
 NS_BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CAnimController;
 NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer final : public CLandObject
+enum MOTION {
+	BUCKED,
+	BUCK_PST,
+	IDLE,
+	IDLE_TO_RUN,
+	RUN,
+	RUN_TO_IDLE,
+	DIAL,
+	IDLE_TO_BUILD,
+	BUILD,
+	BUILD_TO_IDLE,
+	IDLE_TO_AXE,
+	AXE,
+	IDLE_TO_PICKAXE,
+	PICKAXE,
+	PICKAXE_TO_IDLE,
+	IDLE_TO_SHOVEL,
+	SHOVEL,
+	SHOVEL_TO_IDLE,
+	ATTACK,
+	PICKUP,
+	GIVE,
+	DAMAGE,
+	DEATH1,
+	DEATH2,
+	MOTION_END
+};
+enum DIR {
+	DOWN,
+	SIDE,
+	UP,
+	DIR_END
+};
+enum SWAPOBJECT {
+	SWAPOBJECT_NONE,
+	SWAPOBJECT_AXE,
+	SWAPOBJECT_GOLDAXE,
+	SWAPOBJECT_PICKAXE,
+	SWAPOBJECT_GOLDPICKAXE,
+	SWAPOBJECT_SHOVEL,
+	SWAPOBJECT_GOLDSHOVEL,
+	SWAPOBJECT_TORCH,
+	SWAPOBJECT_END
+};
+class CPlayer final : public CCharacter
 {
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -25,13 +73,23 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
+	virtual void Damage() override;
+	virtual void Attack() override;
+	virtual void Death() override;
+	void			SetItem(SWAPOBJECT tItem);
 private:
-	CTexture*				m_pTextureCom = { nullptr };
-	CTransform*				m_pTransformCom = { nullptr };	
-	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-
-	
+	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*				m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CTransform*				m_pSwapObjectTransformCom = { nullptr };
+	CAnimController*			m_pSwapObjectAnimController = { nullptr };
+	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	MOTION					m_tMotion = {};
+	DIR						m_tDir = {};
+	SWAPOBJECT				m_tItem = {};
+	_uint					m_iDirection = {};
+	_uint					m_iSwapObject = {};
+	_bool					m_bControll = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
