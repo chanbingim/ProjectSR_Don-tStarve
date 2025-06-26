@@ -58,6 +58,15 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, cons
 	return S_OK;
 }
 
+list<CGameObject*>* CObject_Manager::GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLayerLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	return pLayer->GetAllObjects();
+}
+
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)

@@ -18,7 +18,7 @@ public:
 
 protected:
 	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
-	class CGameInstance* m_pGameInstance = { nullptr };
+	class CGameInstance*	m_pGameInstance = { nullptr };
 	_bool					m_isCloned = { false };
 
 public:

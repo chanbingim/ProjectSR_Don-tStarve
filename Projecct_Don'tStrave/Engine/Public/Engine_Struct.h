@@ -12,6 +12,14 @@ namespace Engine
 	}ENGINE_DESC;
 
 	/*D3DDECLUSAGE*/
+	typedef struct tagVertexPositionMesh
+	{
+		D3DXVECTOR3			vPosition;
+		D3DXVECTOR3			vNormal;
+
+	}VTXPOSMESH;
+
+	/*D3DDECLUSAGE*/
 	typedef struct tagVertexPositionTexcoord
 	{
 		D3DXVECTOR3			vPosition;

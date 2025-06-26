@@ -5,6 +5,7 @@
 /* 레벨별로 사용해야 할 객체들을 분리하여 보관한다. */
 
 NS_BEGIN(Engine)
+class CGameObject;
 
 class CObject_Manager final : public CBase
 {
@@ -20,6 +21,7 @@ public:
 
 	/* 원형을 찾고 복제하여 레이어에 추가한다. */
 	HRESULT Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg);
+	list<CGameObject*>*			GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);

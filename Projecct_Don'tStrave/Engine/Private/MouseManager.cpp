@@ -25,7 +25,6 @@ HRESULT CMouseManager::Initialize(void* pArg)
 	if (nullptr == MouseMgr_Data)
 		return E_FAIL;
 
-	m_MouseSlot = MouseMgr_Data->pMouseSlot;
 	m_MouseData = CPicking::Create(MouseMgr_Data->pGraphic_Device, MouseMgr_Data->handle);
 	return S_OK;
 }
@@ -71,6 +70,20 @@ _bool CMouseManager::Picking_InLocalSpace(const _float3& vPointA, const _float3&
 		return false;
 
 	return m_MouseData->Picking_InLocalSpace(vPointA, vPointB, vPointC,pOut);
+}
+
+_bool CMouseManager::Setting_Mouse(CMouseSlotUI* Mouse)
+{
+	if (nullptr == Mouse)
+		return false;
+
+	m_MouseSlot = Mouse;
+	return true;
+}
+
+CMouseSlotUI* CMouseManager::Get_CurMouse()
+{
+	return m_MouseSlot;
 }
 
 CMouseManager* CMouseManager::Create(void* pArg)
