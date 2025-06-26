@@ -90,14 +90,6 @@ HRESULT CMonster::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;	
 
-	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -168,5 +160,5 @@ void CMonster::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pCollision_Com);
+
 }

@@ -36,8 +36,8 @@ private:
 	_float3				m_vRayPos[ENUM_CLASS(RAY::END)];
 
 public:
-	static	CPicking*	Create(LPDIRECT3DDEVICE9 pGraphicDevice, HWND Handle);
-	virtual void		Free() override;
+	static CPicking* Create(LPDIRECT3DDEVICE9 pGraphicDevice, HWND hWnd);
+	virtual void Free() override;
 };
 
 NS_END

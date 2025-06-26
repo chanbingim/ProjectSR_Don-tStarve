@@ -3,7 +3,6 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
-class CTransform;
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
@@ -25,9 +24,7 @@ public:
 		return m_isDead;
 	}
 
-	class CComponent*	Find_Component(const _wstring& strComponentTag);
-	CTransform*			GetTransfrom() { return m_pTransformCom; }
-
+	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 protected:
 	int							m_iData;
@@ -35,7 +32,6 @@ protected:
 	class CGameInstance*		m_pGameInstance = { nullptr };
 	_bool						m_isDead = { false };
 
-	CTransform* m_pTransformCom = {nullptr};
 	map<const _wstring, class CComponent*>		m_Components;
 
 protected:
