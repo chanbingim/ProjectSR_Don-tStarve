@@ -7,7 +7,7 @@ NS_BEGIN(Engine)
 class CCSVReader final : public CFileReader
 {
 public:
-	HRESULT	ReadCSVData(const char* FileURL, const char delimiter, vector<string>* OutListVec);
+	HRESULT	ReadCSVData(const char* FileURL, const char delimiter, vector<string>* OutLoadVec);
 
 	HRESULT SaveCSVData(const char* SaveFilePath, vector<BASE_DATA_STRUCT>* vecSaveData );
 };

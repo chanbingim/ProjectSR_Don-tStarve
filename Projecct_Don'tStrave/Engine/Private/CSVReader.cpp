@@ -4,10 +4,14 @@
 #include <streambuf>
 #include <sstream>
 
-HRESULT CCSVReader::ReadCSVData(const char* FileURL, const char delimiter, vector<string>* OutListVec)
+HRESULT CCSVReader::ReadCSVData(const char* FileURL, const char delimiter, vector<string>* OutLoadVec)
 {
 	ifstream fFileStream(FileURL);
-	string Row, Col;
+	vector<string>	ReadDataVec = {};
+	vector<_float3>	ReadVec = {};
+
+	ReadDataVec.reserve(50);
+	string Row, Col, Cell;
 
 	if (!fFileStream.is_open())
 		return E_FAIL;
@@ -15,10 +19,33 @@ HRESULT CCSVReader::ReadCSVData(const char* FileURL, const char delimiter, vecto
 	while (getline(fFileStream, Col))
 	{
 		stringstream sStream(Col);
+
 		while (getline(sStream, Row, delimiter))
 		{
-			(*OutListVec).push_back(Row);
+			(*OutLoadVec).push_back(Row);
 		}
+
+		/*BASE_DATA_STRUCT ReadData;
+		while (getline(sStream, Row, delimiter))
+		{
+			stringstream sCellStream(Row);
+			_float3 vec = {};
+
+			if (sCellStream >> vec.x >> vec.y >> vec.z)
+			{
+				ReadVec.push_back(vec);
+			}
+			else
+				ReadData.szTexturePath = Row;
+		}
+
+		ReadData.Scale = ReadVec[0];
+		ReadData.Rotation = ReadVec[1];
+		ReadData.Position = ReadVec[2];
+		(*OutLoadVec).push_back(ReadData);
+
+		ReadDataVec.clear();
+		ReadVec.clear();*/
 	}
 
 	fFileStream.close();

@@ -76,9 +76,6 @@
     <Filter Include="System\Components\VIBuffer\Terrian">
       <UniqueIdentifier>{a0b8d52b-8d10-4be5-890b-2e3c8f5d8402}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\File\BaseData">
-      <UniqueIdentifier>{5643cc3f-d9d2-402c-9561-8a77a56b03a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Picking">
       <UniqueIdentifier>{25f67e78-280a-4fda-9583-5bdb1e68c112}</UniqueIdentifier>
     </Filter>
@@ -210,9 +207,6 @@
     <ClInclude Include="..\Public\VIBuffer_Terrain.h">
       <Filter>System\Components\VIBuffer\Terrian</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\BaseStruct.h">
-      <Filter>Utility\File\BaseData</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Component.h">
       <Filter>System\Components</Filter>
     </ClInclude>
@@ -256,6 +250,7 @@
     <ClInclude Include="..\public\KeyManager.h">
       <Filter>Utility\KeyInput</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -364,5 +359,6 @@
     <ClCompile Include="..\private\KeyManager.cpp">
       <Filter>Utility\KeyInput</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CUtility.cpp" />
   </ItemGroup>
 </Project>
