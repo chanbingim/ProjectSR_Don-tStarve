@@ -268,6 +268,12 @@
     <ClInclude Include="..\Public\PlayerAnim.h">
       <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Spider.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpiderHouse.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -396,6 +402,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\PlayerAnim.cpp">
       <Filter>03. Character\Player\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Spider.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpiderHouse.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

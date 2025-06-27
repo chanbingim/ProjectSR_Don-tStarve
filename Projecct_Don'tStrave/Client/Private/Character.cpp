@@ -38,6 +38,7 @@ void CCharacter::Update(_float fTimeDelta)
 
 void CCharacter::Late_Update(_float fTimeDelta)
 {
+    SetUp_OnTerrain(m_pTransformCom, 0.f);
 }
 
 HRESULT CCharacter::Render()
@@ -55,9 +56,18 @@ void CCharacter::Get_Damage(_uint iAtk)
         else {
             m_iHit -= max(0, iAtk - m_iDef);
             if (0 >= m_iHit) {
-                m_iHit = m_iMaxHit;
                 Damage();
+                m_iHit = m_iMaxHit;
             }
         }
     }
+}
+
+void CCharacter::Free()
+{
+    __super::Free();
+    Safe_Release(m_pTransformCom);
+    Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pAnimController);
+    Safe_Release(m_pAnimTransformCom);
 }

@@ -85,9 +85,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Spider"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
 			return E_FAIL;
 	}

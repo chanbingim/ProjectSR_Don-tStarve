@@ -5,6 +5,8 @@
 #include "UserInterface.h"
 #include "PlayerAnim.h"
 #include "Character.h"
+#include "Health.h"
+#include "Hunger.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -15,39 +17,6 @@ NS_END
 
 NS_BEGIN(Client)
 
-enum MOTION {
-	BUCKED,
-	BUCK_PST,
-	IDLE,
-	IDLE_TO_RUN,
-	RUN,
-	RUN_TO_IDLE,
-	DIAL,
-	IDLE_TO_BUILD,
-	BUILD,
-	BUILD_TO_IDLE,
-	IDLE_TO_AXE,
-	AXE,
-	IDLE_TO_PICKAXE,
-	PICKAXE,
-	PICKAXE_TO_IDLE,
-	IDLE_TO_SHOVEL,
-	SHOVEL,
-	SHOVEL_TO_IDLE,
-	ATTACK,
-	PICKUP,
-	GIVE,
-	DAMAGE,
-	DEATH1,
-	DEATH2,
-	MOTION_END
-};
-enum DIR {
-	DOWN,
-	SIDE,
-	UP,
-	DIR_END
-};
 enum SWAPOBJECT {
 	SWAPOBJECT_NONE,
 	SWAPOBJECT_AXE,
@@ -61,6 +30,36 @@ enum SWAPOBJECT {
 };
 class CPlayer final : public CCharacter
 {
+	enum MOTION {
+		BUCKED,
+		BUCK_PST,
+		IDLE,
+		IDLE_TO_RUN,
+		RUN,
+		RUN_TO_IDLE,
+		DIAL,
+		IDLE_TO_BUILD,
+		BUILD,
+		BUILD_TO_IDLE,
+		IDLE_TO_AXE,
+		AXE,
+		IDLE_TO_PICKAXE,
+		PICKAXE,
+		PICKAXE_TO_IDLE,
+		IDLE_TO_SHOVEL,
+		SHOVEL,
+		SHOVEL_TO_IDLE,
+		ATTACK,
+		PICKUP,
+		GIVE,
+		DAMAGE,
+		DEATH1,
+		DEATH2,
+		GHOST_APPEAR,
+		GHOST_IDLE,
+		GHOST_DISSIPATE,
+		MOTION_END
+	};
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -73,9 +72,13 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	HRESULT			SetAnimation(_uint i, DIR dir, MOTION motion);
+	HRESULT			AddAnimation(_uint i, DIR dir, MOTION motion);
 	virtual void Damage() override;
 	virtual void Attack() override;
 	virtual void Death() override;
+	_uint		Get_Hp();
+	_uint		Get_Hunger();
 	void			SetItem(SWAPOBJECT tItem);
 private:
 	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
@@ -89,13 +92,12 @@ private:
 	SWAPOBJECT				m_tItem = {};
 	_uint					m_iDirection = {};
 	_uint					m_iSwapObject = {};
+	_uint					m_iHunger = {};
 	_bool					m_bControll = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
-
-
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

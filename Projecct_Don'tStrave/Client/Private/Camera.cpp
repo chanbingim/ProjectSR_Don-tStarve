@@ -111,14 +111,14 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta * 10.f);
 	}
 
-	if (GetKeyState('W') & 0x8000)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		m_pTransformCom->Go_Backward(-fTimeDelta);
-	}
+	//if (GetKeyState('W') & 0x8000)
+	//{
+	//	m_pTransformCom->Go_Straight(fTimeDelta);
+	//}
+	//if (GetKeyState('S') & 0x8000)
+	//{
+	//	m_pTransformCom->Go_Backward(-fTimeDelta);
+	//}
 	if (GetKeyState('A') & 0x8000)
 	{
 		m_pTransformCom->Go_Left(-fTimeDelta);

@@ -81,11 +81,12 @@ HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFile
 	LPDIRECT3DBASETEXTURE9		pTexture = { nullptr };  
 
 	HRESULT hr = TEXTURE::PLANE == eType ?  
-		D3DXCreateTextureFromFile(m_pGraphic_Device, str.c_str(), reinterpret_cast<LPDIRECT3DTEXTURE9*>(&pTexture)) :
+		D3DXCreateTextureFromFileEx( m_pGraphic_Device, str.c_str(), D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_DXT5, D3DPOOL_MANAGED,
+			D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, reinterpret_cast<LPDIRECT3DTEXTURE9*>(&pTexture)) :
 		D3DXCreateCubeTextureFromFile(m_pGraphic_Device, str.c_str(), reinterpret_cast<LPDIRECT3DCUBETEXTURE9*>(&pTexture));
-	if (FAILED(hr))  
-		return E_FAIL;  
-	m_Textures.push_back(pTexture);  
+	if (FAILED(hr))
+		return E_FAIL;
+	m_Textures.push_back(pTexture);
 	
 	D3DXIMAGE_INFO imageInfo;  
 	if (SUCCEEDED(D3DXGetImageInfoFromFile(str.c_str(), &imageInfo))) {

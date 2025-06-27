@@ -180,6 +180,8 @@
     <ClInclude Include="..\public\Sanity.h" />
     <ClInclude Include="..\public\Slot.h" />
     <ClInclude Include="..\public\SlotFrame.h" />
+    <ClInclude Include="..\public\Spider.h" />
+    <ClInclude Include="..\public\SpiderHouse.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
     <ClInclude Include="Client.h" />
@@ -208,6 +210,8 @@
     <ClCompile Include="..\private\Sanity.cpp" />
     <ClCompile Include="..\private\Slot.cpp" />
     <ClCompile Include="..\private\SlotFrame.cpp" />
+    <ClCompile Include="..\private\Spider.cpp" />
+    <ClCompile Include="..\private\SpiderHouse.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui_demo.cpp" />
