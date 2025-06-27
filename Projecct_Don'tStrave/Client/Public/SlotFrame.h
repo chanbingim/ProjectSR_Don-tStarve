@@ -29,15 +29,16 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 	
-	
 private:
 	_bool	m_bClick = {};
-	_uint	m_iSlotType = {};
+	SLOT	m_eSlotType = {};
 	CSlot*	m_pSlot = { nullptr };
 
 private:
-	HRESULT ADD_Components();
-	void	Key_Input();
+	virtual void	HoverEevent()override;
+	virtual void	ClickedEevent()override;
+
+	HRESULT			ADD_Components();
 
 public:
 	static CSlotFrame* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

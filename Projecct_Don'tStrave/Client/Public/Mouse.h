@@ -20,15 +20,19 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	virtual	void		ClickedEevent();
+	void  ClickedEevent();
+	void Update_HoverObject(class CItem* pItem);
 
 private:
+	_bool			m_bPutDown = {};
 	_float			m_fTimeAcc = {};
 	class CSlot*	m_pSlot = { nullptr };
+	_wstring		m_MouseMessage = {};
 
 private:
 	HRESULT ADD_Components();
 	HRESULT Add_Slot();
+	
 
 public:
 	static CMouse* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

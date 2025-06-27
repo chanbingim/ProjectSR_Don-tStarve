@@ -12,20 +12,13 @@ NS_BEGIN(Client)
 
 class CItem : public CLandObject
 {
-public:
-	typedef struct Item_Desc
-	{
-		ITEM_TYPE		eItemType{};
-		_uint			iItemID{};
-		_uint			iNumItem{};
-		_float			fDurability{};
-		_float3			vPosition{};
-	}ITEM_DESC;
-
 private:
 	CItem(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CItem(const CItem& Prototype);
 	virtual ~CItem() = default;
+
+public:
+	ITEM_DESC& Get_Info(){ return m_Item_Desc; }
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -35,13 +28,11 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta);
 	virtual HRESULT	 Render();
 
+	void HoverEvent();
 	void ClickedEvent();
 
 private:
-	ITEM_TYPE		m_eItemType{};
-	_uint			m_iItemID{};
-	_uint			m_iNumItem{};
-	_float			m_fDurability{};
+	ITEM_DESC	m_Item_Desc = {};
 
 	CTexture*	m_pTexture_Com = { nullptr };
 	CTransform*	m_pTransform_Com = { nullptr };
@@ -49,6 +40,7 @@ private:
 
 private:
 	HRESULT ADD_Components();
+	void Update_Item(_float fTimeDelta);
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

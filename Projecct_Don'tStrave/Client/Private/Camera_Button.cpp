@@ -43,8 +43,6 @@ void CCamera_Button::Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
     HoverEevent();
-
-    ClickedEevent();
 }
 
 void CCamera_Button::Late_Update(_float fTimeDelta)
@@ -57,13 +55,7 @@ HRESULT CCamera_Button::Render()
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
     m_pVIBuffer_Com->Render();
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
     return S_OK;
 }
@@ -71,14 +63,17 @@ HRESULT CCamera_Button::Render()
 void CCamera_Button::HoverEevent()
 {
     if (true == isMouseOver())
+    {
+        ClickedEevent();
         m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
+    }
     else
         m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
 }
 
 void CCamera_Button::ClickedEevent()
 {
-    if ((true == isMouseOver()) && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
         m_isClicked = true;
     else
         m_isClicked = false;

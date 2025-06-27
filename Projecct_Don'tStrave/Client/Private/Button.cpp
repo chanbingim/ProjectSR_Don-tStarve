@@ -1,5 +1,6 @@
 #include "Button.h"
-#include "Transform.h"
+
+#include "GameInstance.h"
 
 CButton::CButton(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CUserInterface{pGraphic_Device}

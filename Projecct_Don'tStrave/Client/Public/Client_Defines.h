@@ -10,7 +10,17 @@ namespace Client
 
 	enum class LEVEL { STATIC, LOADING, LOGO, GAMEPLAY, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT };
-	enum class SLOT { NORMAL, EQUIPMENT, INFO };
+	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
+
+	typedef struct Item_Desc
+	{
+		ITEM_TYPE		eItemType{};
+		SLOT			eSlot{};
+		unsigned int	iItemID{};
+		unsigned int	iNumItem{};
+		float			fDurability{};
+		D3DXVECTOR3		vPosition{};
+	}ITEM_DESC;
 }
 
 using namespace Client;
