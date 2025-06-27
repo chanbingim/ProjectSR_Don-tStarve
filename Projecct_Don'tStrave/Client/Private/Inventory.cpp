@@ -65,7 +65,7 @@ HRESULT CInventory::Initialize(void* pArg)
         if (nullptr == pSlotFrame)
             return E_FAIL;
 
-        m_Slots.push_back(pSlotFrame);
+        m_SlotFrames.push_back(pSlotFrame);
     }
 
     for (_uint i = 15; i < 19; ++i)
@@ -87,7 +87,7 @@ HRESULT CInventory::Initialize(void* pArg)
         if (nullptr == pSlotFrame)
             return E_FAIL;
 
-        m_Slots.push_back(pSlotFrame);
+        m_SlotFrames.push_back(pSlotFrame);
     }
 
     return S_OK;
@@ -95,22 +95,22 @@ HRESULT CInventory::Initialize(void* pArg)
 
 void CInventory::Priority_Update(_float fTimeDelta)
 {
-    for (auto pSlot : m_Slots)
-        pSlot->Priority_Update(fTimeDelta);
+    for (auto pSlotFrame : m_SlotFrames)
+        pSlotFrame->Priority_Update(fTimeDelta);
 }
 
 void CInventory::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    for (auto pSlot : m_Slots)
-        pSlot->Update(fTimeDelta);
+    for (auto pSlotFrame : m_SlotFrames)
+        pSlotFrame->Update(fTimeDelta);
 }
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
-    for (auto pSlot : m_Slots)
-        pSlot->Late_Update(fTimeDelta);
+    for (auto pSlotFrame : m_SlotFrames)
+        pSlotFrame->Late_Update(fTimeDelta);
 }
 
 HRESULT CInventory::Render()
@@ -122,8 +122,8 @@ HRESULT CInventory::Render()
     m_pVIBuffer_Com->Render();
 
 
-    for (auto pSlot : m_Slots)
-        pSlot->Render();
+    for (auto pSlotFrame : m_SlotFrames)
+        pSlotFrame->Render();
 
     return S_OK;
 }
@@ -133,9 +133,9 @@ CSlot* CInventory::Find_Item(_uint _iItemID)
     _bool bEmpty = { false };
     CSlot* pEmptySlot = { nullptr };
 
-    for (auto pSlotFrame : m_Slots)
+    for (_uint i = 0; i < 15; ++i)
     {
-        CSlot* pSlot = pSlotFrame->Get_Slot();
+        CSlot* pSlot = m_SlotFrames[i]->Get_Slot();
         _uint iItemID = pSlot->Get_ItemID();
 
         if (0 == iItemID && false == bEmpty)
@@ -148,6 +148,32 @@ CSlot* CInventory::Find_Item(_uint _iItemID)
     }
 
     return pEmptySlot;
+}
+
+CSlot* CInventory::Find_Slot(SLOT eSlot)
+{
+    switch (eSlot)
+    {
+    case Client::SLOT::NORMAL:
+        return nullptr;
+        break;
+
+    case Client::SLOT::HAND:
+        return m_SlotFrames[15]->Get_Slot();
+        break;
+
+    case Client::SLOT::HAT:
+        return m_SlotFrames[16]->Get_Slot();
+        break;
+
+    case Client::SLOT::ARMOR:
+        return m_SlotFrames[17]->Get_Slot();
+        break;
+
+    default:
+        break;
+    }
+    return nullptr;
 }
 
 HRESULT CInventory::ADD_Components()
@@ -207,9 +233,9 @@ void CInventory::Free()
 {
     __super::Free();
 
-    for (auto pSlot : m_Slots)
-        Safe_Release(pSlot);
-    m_Slots.clear();
+    for (auto pSlotFrame : m_SlotFrames)
+        Safe_Release(pSlotFrame);
+    m_SlotFrames.clear();
 
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);

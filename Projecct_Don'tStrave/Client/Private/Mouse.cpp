@@ -22,6 +22,9 @@ HRESULT CMouse::Initialize_Prototype()
 
 HRESULT CMouse::Initialize(void* pArg)
 {
+    m_bPutDown = false;
+
+    m_MouseMessage = L"";
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -39,13 +42,16 @@ HRESULT CMouse::Initialize(void* pArg)
 
 void CMouse::Priority_Update(_float fTimeDelta)
 {
+    
     m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
     m_pSlot->Priority_Update(fTimeDelta);
+
+    m_MouseMessage = L"";
 }
 
 void CMouse::Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+    
 
     m_pSlot->Update(fTimeDelta);
 
@@ -53,29 +59,54 @@ void CMouse::Update(_float fTimeDelta)
     GetCursorPos(&pt);
     ScreenToClient(g_hWnd, &pt);
 
-    m_fX = pt.x;
-    m_fY = pt.y;
-    
-    m_pTransform_Com->SetPosition(_float3(pt.x - g_iWinSizeX * 0.5f, -pt.y + g_iWinSizeY * 0.5f, 0.f));
+    m_fX = (_float)pt.x;
+    m_fY = (_float)pt.y;
+ 
+    m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 
-    
     ClickedEevent();
-    
-
 
 #pragma region TestCode
+    ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        m_pSlot->Set_Info(1, 1, 50.f);
+        Desc.iItemID = 1;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
     }
     if (GetKeyState('2') & 0x8000)
     {
-        m_pSlot->Set_Info(2, 1, 50.f);
+        Desc.iItemID = 2;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
 
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('3') & 0x8000)
+    {
+        Desc.iItemID = 3;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
     }
     if (GetKeyState('5') & 0x8000)
     {
-        m_pSlot->Set_Info(5, 1, 50.f);
+        Desc.iItemID = 5;
+        Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
     }
 #pragma endregion
     
@@ -83,7 +114,7 @@ void CMouse::Update(_float fTimeDelta)
 
 void CMouse::Late_Update(_float fTimeDelta)
 {
-
+    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
 HRESULT CMouse::Render()
@@ -94,19 +125,15 @@ HRESULT CMouse::Render()
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
     //m_pVIBuffer_Com->Render();
+     RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
+    m_pSlot->Render(Rect);
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-    m_pSlot->Render();
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-    RECT Rect = { m_fX - m_fSizeX,m_fY - m_fSizeY,m_fX + m_fSizeX, m_fY + m_fSizeY };
+    Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
     
+    D3DXCOLOR white = { 1.f, 1.f, 1.f, 1.f };
+    m_pGameInstance->Render_Font(TEXT("Font_18"), m_MouseMessage.c_str(), &Rect, white);
+    //m_pGameInstance->Render_Font(TEXT("Font_18"), TEXT("나무 \n 줍기"), &Rect);
     
-    m_pGameInstance->Render_Font(TEXT("Item_Count_14"), TEXT("줍기"), &Rect);
     
     
 
@@ -116,36 +143,44 @@ void CMouse::ClickedEevent()
 {
     _float3 vPickingPos = {};
     _uint iItemID = m_pSlot->Get_ItemID();
-    if ((GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
     {
-        if (0 != iItemID)
+        if (false == m_bPutDown)
         {
-            if (true == dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(
-                EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")
-            ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
-                TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
+            if(0 != iItemID)
             {
-
-                CItem::ITEM_DESC Desc = {};
-                Desc.iItemID = m_pSlot->Get_ItemID();
-                Desc.fDurability = 100.f;
-                Desc.eItemType = ITEM_TYPE::MERTARIAL;
-                Desc.iNumItem = 1;
-                Desc.vPosition = vPickingPos;
-
-                if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
-                    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                if (true == dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(
+                    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")
+                ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
+                    TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
                 {
-                    MSG_BOX("Failed to Add Item");
-                }
+                    ITEM_DESC Desc = m_pSlot->Get_Info();
+                    Desc.vPosition = vPickingPos;
 
-                m_pSlot->Clear();
+                    if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+                        EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                    {
+                        MSG_BOX("Failed to Add Item");
+                    }
+
+                    m_pSlot->Clear();
+                    m_bPutDown = true;
+                    return;
+                }
             }
         }
+        else
+        {
+            m_bPutDown = false;
+        }
     }
-
-    
    
+}
+void CMouse::Update_HoverObject(CItem* pItem)
+{
+    ITEM_DESC Desc = pItem->Get_Info();
+    m_MouseMessage = to_wstring(Desc.iItemID);
 }
 HRESULT CMouse::ADD_Components()
 {

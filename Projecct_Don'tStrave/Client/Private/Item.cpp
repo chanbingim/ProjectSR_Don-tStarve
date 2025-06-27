@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Slot.h"
 #include "Inventory.h"
+#include "Mouse.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -30,10 +31,11 @@ HRESULT CItem::Initialize(void* pArg)
 
 	ITEM_DESC* Item_Desc = static_cast<ITEM_DESC*>(pArg);
 
-	m_eItemType = Item_Desc->eItemType;
-	m_iItemID = Item_Desc->iItemID;
-	m_iNumItem = Item_Desc->iNumItem;
-	m_fDurability = Item_Desc->fDurability;
+	m_Item_Desc.eItemType = Item_Desc->eItemType;
+	m_Item_Desc.iItemID = Item_Desc->iItemID;
+	m_Item_Desc.iNumItem = Item_Desc->iNumItem;
+	m_Item_Desc.fDurability = Item_Desc->fDurability;
+	m_Item_Desc.eSlot = Item_Desc->eSlot;
 
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
@@ -51,10 +53,11 @@ void CItem::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 
-	ClickedEvent();
+	HoverEvent();
 
 	SetUp_OnTerrain(m_pTransform_Com, 0.5f);
 
+	Update_Item(fTimeDelta);
 }
 
 void CItem::Late_Update(_float fTimeDelta)
@@ -66,7 +69,7 @@ HRESULT CItem::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-	m_pTexture_Com->Set_Texture(m_iItemID);
+	m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -79,44 +82,50 @@ HRESULT CItem::Render()
 	return S_OK;
 }
 
+void CItem::HoverEvent()
+{
+	_float3 vPickingPos = {};
+
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
+	{
+		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverObject(this);
+		ClickedEvent();
+	}
+}
+
 void CItem::ClickedEvent()
 {
-	if (GetAsyncKeyState('P') & 0x8000)
+	if (m_pGameInstance->KeyDown(VK_LBUTTON))
 	{
-		_float3 vPickingPos = {};
+		CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
 
-		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
-		{
-			CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
+		pSlot->Set_Info(m_Item_Desc);
 
-			pSlot->Set_Info(m_iItemID, m_iNumItem, m_fDurability);
-
-			m_isDead = true;
-		}
+		m_isDead = true;
 	}
 
-	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
 		_float3 vPickingPos = {};
 
 		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
 		{
 			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
-			CSlot* pSlot = pInventory->Find_Item(m_iItemID);
+			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
 
 			if (nullptr == pSlot)
-				int a; // 인벤토리가 꽉참
+				int a{}; // 인벤토리가 꽉참
 			else
 			{
 				_uint iItemID = pSlot->Get_ItemID();
 				if(0 == iItemID)
 				{
-					pSlot->Set_Info(m_iItemID, m_iNumItem, m_fDurability);
+					pSlot->Set_Info(m_Item_Desc);
 					m_isDead = true;
 				}
-				else if (m_iItemID == iItemID)
+				else if (m_Item_Desc.iItemID == iItemID)
 				{
-					pSlot->Add_Item(m_iNumItem);
+					pSlot->Merge_Item(m_Item_Desc);
 					m_isDead = true;
 				}
 			}
@@ -144,6 +153,25 @@ HRESULT CItem::ADD_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CItem::Update_Item(_float fTimeDelta)
+{
+	switch (m_Item_Desc.eItemType)
+	{
+	case Client::ITEM_TYPE::MERTARIAL:
+		break;
+
+	case Client::ITEM_TYPE::FOOD:
+		m_Item_Desc.fDurability -= 3.f * fTimeDelta;
+		break;
+
+	case Client::ITEM_TYPE::EQUIPMENT:
+		break;
+
+	default:
+		break;
+	}
 }
 
 CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
