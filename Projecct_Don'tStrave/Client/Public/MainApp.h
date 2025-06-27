@@ -22,6 +22,9 @@ private:
 	CGameInstance*		m_pGameInstance = { nullptr };
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };
 
+	_int				m_pFrame = {};
+	_float				m_AccFrameTime = {};
+
 private:
 	HRESULT Initialize();
 	void Update(_float fTimeDelta);
@@ -30,6 +33,8 @@ private:
 	HRESULT Ready_Default_Setting();
 	HRESULT Start_Level(LEVEL eLevelID);
 	HRESULT Ready_Prototypes();
+
+	void	Render_FPS();
 
 public:
 	static CMainApp* Create();

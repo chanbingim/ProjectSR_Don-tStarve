@@ -74,6 +74,11 @@ public:
 	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
 #pragma endregion
 
+#pragma region KEY_INPUT
+	_bool			KeyPressed(_uint KeyNum);
+	_bool			KeyDown(_uint KeyNum);
+	_bool			KeyUp(_uint KeyNum);
+#pragma endregion
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
@@ -85,6 +90,7 @@ private:
 	class CMouseManager*			m_pMouseManager = { nullptr };
 	class CSoundManager*			m_pSoundManager = { nullptr };
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
+	class CKeyManager*				m_pKey_Manager = { nullptr };
 
 public:
 	void Release_Engine();

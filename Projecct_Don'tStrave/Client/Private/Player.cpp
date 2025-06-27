@@ -222,19 +222,19 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 	m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
-	if (GetKeyState('E') & 0x8000)
+	if (m_pGameInstance->KeyUp('E'))
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 		m_pAnimTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 		m_pSwapObjectTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
-	if (GetKeyState('Q') & 0x8000)
+	if (m_pGameInstance->KeyDown('Q'))
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 		m_pAnimTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 		m_pSwapObjectTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 	}
-	if (GetKeyState('Z') & 0x8000)
+	if (m_pGameInstance->KeyPressed('Z'))
 	{
 		m_iSwapObject = 0;
 		m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;

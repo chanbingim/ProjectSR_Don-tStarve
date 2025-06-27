@@ -118,6 +118,9 @@
     <Filter Include="System\Components\CollisionComponent\Manager">
       <UniqueIdentifier>{31ee68f9-63fd-4d28-95ca-1c95f91dd94e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\KeyInput">
+      <UniqueIdentifier>{bf857751-b10d-4aca-afac-fbadb76e2fd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -250,6 +253,9 @@
     <ClInclude Include="..\Public\Collision_Component.h">
       <Filter>System\Components\CollisionComponent</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KeyManager.h">
+      <Filter>Utility\KeyInput</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -354,6 +360,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collision_Component.cpp">
       <Filter>System\Components\CollisionComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KeyManager.cpp">
+      <Filter>Utility\KeyInput</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

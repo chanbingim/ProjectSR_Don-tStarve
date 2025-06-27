@@ -77,6 +77,66 @@
     <Filter Include="04. GmaeUI\TestUI\UIAnimtaion">
       <UniqueIdentifier>{a0e117ae-e8ae-4b19-8877-5968c6b5d264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\Button">
+      <UniqueIdentifier>{9ea2ce25-be92-41aa-a101-3853c70614f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CarftingUI">
+      <UniqueIdentifier>{0b061c47-9b65-4b63-9b03-50a7cb052c9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Clock">
+      <UniqueIdentifier>{6b25b80e-8cf5-4ab3-b520-b16d783e23d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Inventory">
+      <UniqueIdentifier>{dfb698db-21ea-4208-83e7-89e4d383a519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Mouse">
+      <UniqueIdentifier>{44bd28e7-1211-4723-aea9-1a750b23c6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\HeadDisplay">
+      <UniqueIdentifier>{74530e51-8d4b-4b09-9c1f-1f652223af8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\HeadDisplay\Hunger">
+      <UniqueIdentifier>{d35bfcbf-4c25-407f-bcd2-a2768d09892f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\HeadDisplay\Health">
+      <UniqueIdentifier>{fd1d6f7b-705f-4c35-8129-551bdac4d68a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\HeadDisplay\Sanity">
+      <UniqueIdentifier>{e752cae9-ac34-42e7-93a1-526ceb80fefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Inventory\Slot">
+      <UniqueIdentifier>{872a8d89-6891-412d-94d8-705109ff726d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Inventory\Slot\Frame">
+      <UniqueIdentifier>{c6f0a21c-8bab-4244-8686-c0776d48f058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CarftingUI\Item_Info">
+      <UniqueIdentifier>{689649bb-b16e-462b-9ee0-37a31573ac2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item">
+      <UniqueIdentifier>{7817ae02-c097-42e0-be53-caf18a458217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\ButtonBase">
+      <UniqueIdentifier>{de684610-1880-47d7-a228-abb878acc461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Camera_Button">
+      <UniqueIdentifier>{c70dd14b-3882-4664-944f-f386edd9ebfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Crafting_Button">
+      <UniqueIdentifier>{09360b47-78d2-49a6-aea8-475b78be962a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\MinMap_Button">
+      <UniqueIdentifier>{e098e466-e546-4c64-ad25-91d956b14ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\QuickSlot_Button">
+      <UniqueIdentifier>{8cf3cebc-51b4-43ea-9a8d-35f69639c412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\UIEffect">
+      <UniqueIdentifier>{5bf24bac-6fc2-4ea8-be46-8c70e0d5ec9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Player\Animation">
+      <UniqueIdentifier>{9277ac16-937c-4c83-856e-37a271b834f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -151,60 +211,62 @@
     <ClInclude Include="..\public\UI_MoveAnim.h">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Slot.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Inventory.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SlotFrame.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Mouse.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CraftingUI.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Hunger.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Item.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Health.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Sanity.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\HeadUpDisplay.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Button.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Crafting_Button.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Camera_Button.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\MiniMap_Button.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\QuickSlot_Button.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Clock.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Item_Info.h" />
     <ClInclude Include="..\Public\Character.h">
       <Filter>03. Character</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Clock.h">
+      <Filter>04. GmaeUI\Clock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HeadUpDisplay.h">
+      <Filter>04. GmaeUI\HeadDisplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mouse.h">
+      <Filter>04. GmaeUI\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hunger.h">
+      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Health.h">
+      <Filter>04. GmaeUI\HeadDisplay\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sanity.h">
+      <Filter>04. GmaeUI\HeadDisplay\Sanity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CraftingUI.h">
+      <Filter>04. GmaeUI\CarftingUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Slot.h">
+      <Filter>04. GmaeUI\Inventory\Slot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SlotFrame.h">
+      <Filter>04. GmaeUI\Inventory\Slot\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Inventory.h">
+      <Filter>04. GmaeUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item_Info.h">
+      <Filter>04. GmaeUI\CarftingUI\Item_Info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item.h">
+      <Filter>05. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>04. GmaeUI\Button\ButtonBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera_Button.h">
+      <Filter>04. GmaeUI\Button\Camera_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Crafting_Button.h">
+      <Filter>04. GmaeUI\Button\Crafting_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MiniMap_Button.h">
+      <Filter>04. GmaeUI\Button\MinMap_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuickSlot_Button.h">
+      <Filter>04. GmaeUI\Button\QuickSlot_Button</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\PlayerAnim.h">
-      <Filter>03. Character</Filter>
+      <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,60 +340,62 @@
     <ClCompile Include="..\private\UI_MoveAnim.cpp">
       <Filter>04. GmaeUI\TestUI\UIAnimtaion</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Slot.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Inventory.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SlotFrame.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Mouse.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\CraftingUI.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\public\Hunger.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Item.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Health.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Sanity.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\HeadUpDisplay.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Button.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Crafting_Button.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Camera_Button.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\MiniMap_Button.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\QuickSlot_Button.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Clock.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Item_Info.cpp" />
     <ClCompile Include="..\Private\Character.cpp">
       <Filter>03. Character</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Clock.cpp">
+      <Filter>04. GmaeUI\Clock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HeadUpDisplay.cpp">
+      <Filter>04. GmaeUI\HeadDisplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mouse.cpp">
+      <Filter>04. GmaeUI\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\Hunger.cpp">
+      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Health.cpp">
+      <Filter>04. GmaeUI\HeadDisplay\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sanity.cpp">
+      <Filter>04. GmaeUI\HeadDisplay\Sanity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CraftingUI.cpp">
+      <Filter>04. GmaeUI\CarftingUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Slot.cpp">
+      <Filter>04. GmaeUI\Inventory\Slot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SlotFrame.cpp">
+      <Filter>04. GmaeUI\Inventory\Slot\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Inventory.cpp">
+      <Filter>04. GmaeUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Info.cpp">
+      <Filter>04. GmaeUI\CarftingUI\Item_Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item.cpp">
+      <Filter>05. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>04. GmaeUI\Button\ButtonBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera_Button.cpp">
+      <Filter>04. GmaeUI\Button\Camera_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Crafting_Button.cpp">
+      <Filter>04. GmaeUI\Button\Crafting_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MiniMap_Button.cpp">
+      <Filter>04. GmaeUI\Button\MinMap_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuickSlot_Button.cpp">
+      <Filter>04. GmaeUI\Button\QuickSlot_Button</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\PlayerAnim.cpp">
-      <Filter>03. Character</Filter>
+      <Filter>03. Character\Player\Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
