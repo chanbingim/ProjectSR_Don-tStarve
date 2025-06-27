@@ -91,6 +91,7 @@ private:
 	class CSoundManager*			m_pSoundManager = { nullptr };
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
 	class CKeyManager*				m_pKey_Manager = { nullptr };
+	class CCollision_Manager*		m_pCollision_Manager = { nullptr };
 
 public:
 	void Release_Engine();
