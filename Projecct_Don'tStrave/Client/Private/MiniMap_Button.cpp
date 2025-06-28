@@ -46,8 +46,6 @@ void CMiniMap_Button::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
     HoverEevent();
-
-    ClickedEevent();
 }
 
 void CMiniMap_Button::Late_Update(_float fTimeDelta)
@@ -60,13 +58,7 @@ HRESULT CMiniMap_Button::Render()
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
     m_pVIBuffer_Com->Render();
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
     return S_OK;
 }
@@ -83,7 +75,10 @@ void CMiniMap_Button::ClickedEevent()
 void CMiniMap_Button::HoverEevent()
 {
     if (true == isMouseOver())
+    {
         m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
+        ClickedEevent();
+    }
     else
         m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
 }

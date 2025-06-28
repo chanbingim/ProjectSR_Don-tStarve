@@ -69,10 +69,6 @@ HRESULT CClock::Render()
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
     m_pVIBuffer_Com->Render();
 
     m_pTexture_Com_Clock->Set_Texture(0);
@@ -81,12 +77,12 @@ HRESULT CClock::Render()
 
     m_pVIBuffer_Com->Render();
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
     // Test Code
     RECT rect = { m_fX - m_fSizeX*0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
     wstring s = to_wstring(m_iDate) + L"ÀÏ";
-    m_pGameInstance->Render_Font(TEXT("Date_40"), s.c_str(), &rect);
+
+    D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
+    m_pGameInstance->Render_Font(TEXT("Date_40"), s.c_str(), &rect, white);
 
     return S_OK;
 }

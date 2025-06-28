@@ -1,6 +1,7 @@
 #include "Slot.h"
 
 #include "GameInstance.h"
+#include "Item.h"
 
 CSlot::CSlot(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CMouseSlotUI{ pGraphic_Device }
@@ -12,19 +13,35 @@ CSlot::CSlot(const CSlot& Prototype)
 {
 }
 
+void CSlot::Set_Info(ITEM_DESC& Item_Desc)
+{
+    memcpy(&m_Item_Desc, &Item_Desc, sizeof(ITEM_DESC));
+}
+
+ITEM_DESC& CSlot::Get_Info()
+{
+    return m_Item_Desc;
+}
+
 void CSlot::Merge_Item(CSlot* pSlot)
 {
-    m_iNumItem += pSlot->m_iNumItem;
-    m_fDurability = (m_fDurability + pSlot->m_fDurability) * 0.5f;
+    ITEM_DESC Desc = pSlot->Get_Info();
+
+    m_Item_Desc.iNumItem += Desc.iNumItem;
+    m_Item_Desc.fDurability = min(Desc.fDurability , m_Item_Desc.fDurability);
 
     pSlot->Clear();
 }
 
+void CSlot::Merge_Item(ITEM_DESC& Item_Desc)
+{
+    m_Item_Desc.iNumItem += Item_Desc.iNumItem;
+    m_Item_Desc.fDurability = (Item_Desc.fDurability + Item_Desc.fDurability) * 0.5f;
+}
+
 void CSlot::Clear()
 {
-    m_iItemID = 0;
-    m_iNumItem = 0;
-    m_fDurability = 0.f;
+    ZeroMemory(&m_Item_Desc, sizeof(ITEM_DESC));
 }
 
 HRESULT CSlot::Initialize_Prototype()
@@ -34,14 +51,13 @@ HRESULT CSlot::Initialize_Prototype()
 
 HRESULT CSlot::Initialize(void* pArg)
 {
-    m_iItemID = 0;
+    ZeroMemory(&m_Item_Desc, sizeof(ITEM_DESC));
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
-
 
 
     return S_OK;
@@ -53,8 +69,6 @@ void CSlot::Priority_Update(_float fTimeDelta)
 
 void CSlot::Update(_float fTimeDelta)
 {
-
-
     Update_Item(fTimeDelta);
 }
 
@@ -63,11 +77,11 @@ void CSlot::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSlot::Render()
+HRESULT CSlot::Render(RECT& rcText)
 {
-    if (0 != m_iItemID)
+    if (0 != m_Item_Desc.iItemID)
     {
-        Render_Item();
+        Render_Item(rcText);
     }
 
     return S_OK;
@@ -112,13 +126,13 @@ void CSlot::Key_Input()
 
 void CSlot::Update_Item(_float fTimeDelta)
 {
-    switch (m_eItemType)
+    switch (m_Item_Desc.eItemType)
     {
     case Client::ITEM_TYPE::MERTARIAL:
         break;
 
     case Client::ITEM_TYPE::FOOD:
-        m_fDurability -= 3.f * fTimeDelta;
+        m_Item_Desc.fDurability -= 3.f * fTimeDelta;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
         break;
@@ -129,12 +143,12 @@ void CSlot::Update_Item(_float fTimeDelta)
 
 void CSlot::Render_ItemState()
 {
-    if (0 != m_iItemID && m_eItemType == ITEM_TYPE::FOOD)
+    if (m_Item_Desc.eItemType == ITEM_TYPE::FOOD)
     {
         int iTextureIndex = {};
 
-        if (1.f < m_fDurability)
-            iTextureIndex = 50 - static_cast<_uint>(m_fDurability);
+        if (1.f < m_Item_Desc.fDurability)
+            iTextureIndex = static_cast<_uint>((100.f - m_Item_Desc.fDurability) * 0.5f);
 
         m_pTexture_Com_ItemState->Set_Texture(iTextureIndex);
 
@@ -142,23 +156,21 @@ void CSlot::Render_ItemState()
     }
 }
 
-void CSlot::Render_Item()
+void CSlot::Render_Item(RECT& rcText)
 {
-    m_pTexture_Com->Set_Texture(m_iItemID);
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
 
     m_pVIBuffer_Com->Render();
 
-    m_pTexture_Com_NumItem->Set_Texture(m_iNumItem);
+    //m_pTexture_Com_NumItem->Set_Texture(m_Item_Desc.iNumItem);
 
+    //m_pVIBuffer_Com->Render();
+
+    //RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
     
-
-    m_pVIBuffer_Com->Render();
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    D3DXCOLOR Black = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+    m_pGameInstance->Render_Font(TEXT("Font_20"), TEXT("1"), &rcText, Black);
+    
 }
 
 CSlot* CSlot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

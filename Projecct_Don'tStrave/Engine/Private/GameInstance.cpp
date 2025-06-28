@@ -256,9 +256,9 @@ void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
 #pragma endregion
 
 #pragma region FONT_MANAGER
-void CGameInstance::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect)
+void CGameInstance::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat)
 {
-	m_pFont_Manager->Render_Font(strFontTag, pText, pRect);
+	m_pFont_Manager->Render_Font(strFontTag, pText, pRect, Color, Fomat);
 }
 HRESULT CGameInstance::Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName)
 {

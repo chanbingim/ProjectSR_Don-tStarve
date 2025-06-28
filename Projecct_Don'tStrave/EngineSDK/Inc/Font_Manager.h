@@ -11,7 +11,7 @@ private:
 
 public:
 	HRESULT Initialize();
-	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect);
+	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat);
 
 	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
 
