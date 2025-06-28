@@ -547,6 +547,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CItem_Info::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Collision */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Sphere_Collision"),
+		CSphere_Collision_Component::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Camera_Button */ // 인게임 카메라에 추가
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Button"),
 		CCamera_Button::Create(m_pGraphic_Device))))
