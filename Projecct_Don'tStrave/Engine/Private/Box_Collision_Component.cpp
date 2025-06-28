@@ -56,7 +56,7 @@ HRESULT CBox_Collision_Component::ComputeBounding(_float3* Min, _float3* Max)
 {
     D3DXComputeBoundingBox(m_pMeshVtx,
                            m_pBoxMesh->GetNumVertices(),
-                           m_pBoxMesh->GetNumBytesPerVertex(),
+                           sizeof(_float3),
                            Min, Max);
 
     auto Transform = m_pOwner->GetTransfrom();

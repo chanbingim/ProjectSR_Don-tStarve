@@ -68,7 +68,6 @@ void CCollision_Component::Update()
 				m_HitOverlapfunc(HitActor, Dir);
 			
 		}
-		Safe_Release(HitActor);
 	}
 
 	m_HitActor.clear();
@@ -81,7 +80,6 @@ void CCollision_Component::Render()
 void CCollision_Component::ADDHitGroup(CGameObject* pGameObject)
 {
 	m_HitActor.push_back(pGameObject);
-	Safe_AddRef(pGameObject);
 }
 
 const list<CGameObject*>* CCollision_Component::GetOVerlapAllObejcts()
@@ -131,11 +129,8 @@ void CCollision_Component::Free()
 {
 	__super::Free();
 
-	for (auto iter : m_OldHitActor)
-		Safe_Release(iter);
+	CCollision_Manager::GetInstance()->Remove_ColList(this);
 
-	for (auto HitActor : m_HitActor)
-		Safe_Release(HitActor);
 	
 	m_HitActor.clear();
 	m_OldHitActor.clear();

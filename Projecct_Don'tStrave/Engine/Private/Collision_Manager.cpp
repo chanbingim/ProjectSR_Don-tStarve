@@ -83,7 +83,6 @@ void CCollision_Manager::ADD_ColList(CCollision_Component* pCol_Component)
     if (iter == m_pCol_List[typeIndex].end())
     {
         m_pCol_List[typeIndex].push_back(pCol_Component);
-        Safe_AddRef(pCol_Component);
     }
 }
 
@@ -95,7 +94,9 @@ void CCollision_Manager::Remove_ColList(CCollision_Component* pCol_Component)
     if (iter == m_pCol_List[typeIndex].end())
         return;
     else
-        Safe_Release(pCol_Component);
+    {
+        m_pCol_List[typeIndex].erase(iter);
+    }
 }
 
 _bool CCollision_Manager::AxisAlignedBoundBox(CCollision_Component* pCol, CCollision_Component* pOtherCol)
@@ -152,12 +153,12 @@ void CCollision_Manager::Free()
 {
     __super::Free();
 
-    for (_uint i = 0; i < ENUM_CLASS(COLLISION_TYPE::END); ++i)
+   /* for (_uint i = 0; i < ENUM_CLASS(COLLISION_TYPE::END); ++i)
     {
         for (auto iter : m_pCol_List[i])
         {
             Safe_Release(iter);
         }
         m_pCol_List[i].clear();
-    }
+    }*/
 }

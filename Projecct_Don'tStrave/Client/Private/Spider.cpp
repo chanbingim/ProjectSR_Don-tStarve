@@ -355,7 +355,8 @@ void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			Attack();
 		}
 		else if (m_tMotion == ATTACK && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-			Death();
+
+			m_isDead = true;
 		}
 	}
 }

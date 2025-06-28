@@ -36,6 +36,7 @@ public :
 	void							BindEnterFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
 	void							BindOverlapFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
 	void							BindExitFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
+	void							SetCollisionSize(_float3 scale);
 
 protected:
 	CGameObject*					m_pOwner = { nullptr };
@@ -44,6 +45,8 @@ protected:
 	COLLISION_TYPE					m_eColType = {};
 	list<CGameObject*>				m_HitActor;
 	list<CGameObject*>				m_OldHitActor;
+	_float3							m_vScale = { 1.f, 1.f, 1.f };
+
 
 	function<void(CGameObject* HitActor, _float3& _Dir)>		m_HitEnterfunc = {};
 	function<void(CGameObject* HitActor, _float3& _Dir)>		m_HitExitfunc = {};
