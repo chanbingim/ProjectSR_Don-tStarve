@@ -35,17 +35,19 @@ HRESULT CItem_Info::Initialize(void* pArg)
 
     m_rcItemName = {
        static_cast<LONG>(m_fX - m_fSizeX * 0.5f),
-       static_cast<LONG>(m_fY - m_fSizeY * 0.5f + 10.f),
+       static_cast<LONG>(m_fY - m_fSizeY * 0.1f + 10.f),
        static_cast<LONG>(m_fX),
-       static_cast<LONG>(m_fY - m_fSizeY * 0.5f + 30.f) };
+       static_cast<LONG>(m_fY - m_fSizeY * 0.3f + 55.f) };
 
     m_rcItemInfo = {
-        static_cast<LONG>(m_fX - m_fSizeX * 0.5f),
-        static_cast<LONG>(m_fY - m_fSizeY * 0.5f),
-        static_cast<LONG>(m_fX),
-        static_cast<LONG>(m_fY + m_fSizeY * 0.5f) };
+        static_cast<LONG>(m_fX - m_fSizeX * 0.5f + 20.f),
+        static_cast<LONG>(m_fY - m_fSizeY * 0.3f + 70.f),
+        static_cast<LONG>(m_fX - 20.f),
+        static_cast<LONG>(m_fY + m_fSizeY * 0.3f) };
 
     __super::UpdatePosition();
+
+    m_SelectedItemID = 0;
 
     return S_OK;
 }
@@ -56,31 +58,35 @@ void CItem_Info::Priority_Update(_float fTimeDelta)
 
 void CItem_Info::Update(_float fTimeDelta)
 {
-
+    
 }
 
 void CItem_Info::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CItem_Info::Render()
+HRESULT CItem_Info::Render(CTransform* pTransform)
 {
-    m_pTexture_Com->Set_Texture(0);
+    m_pTexture_Com->Set_Texture(m_SelectedItemID);
 
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    //m_pVIBuffer_Com->Render();
+    _float3 vPos = pTransform->GetWorldState(WORLDSTATE::POSITION);
+    _float3 vScale = pTransform->GetScale();
 
-    // Test Code
-    /*RECT rect = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
-    wstring s = to_wstring(m_iDate) + L"ÀÏ";
-    m_pGameInstance->Render_Font(TEXT("Date_40"), s.c_str(), &rect);*/
+    pTransform->SetPosition(_float3(vPos.x + 80.f, vPos.y - 100.f, 0.f));
+    pTransform->SetScale(_float3(45.f, 45.f, 1.f));
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+
+    m_pVIBuffer_Com->Render();
+
+    pTransform->SetPosition(vPos);
+    pTransform->SetScale(vScale);
 
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
     
-    m_pGameInstance->Render_Font(TEXT("Font_18"), TEXT("È½ºÒ"), &m_rcItemName, white);
+    m_pGameInstance->Render_Font(TEXT("Font_25"), TEXT("È½ºÒ"), &m_rcItemName, white);
 
-    m_pGameInstance->Render_Font(TEXT("Font_14"), TEXT("¼³¸í..."), &m_rcItemInfo, white, DT_LEFT);
+    m_pGameInstance->Render_Font(TEXT("Font_14"), TEXT("¼³¸í...fire....."), &m_rcItemInfo, white, DT_LEFT);
 
 
     return S_OK;
@@ -89,7 +95,7 @@ HRESULT CItem_Info::Render()
 HRESULT CItem_Info::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -112,6 +118,21 @@ HRESULT CItem_Info::ADD_Components()
 
 
     return S_OK;
+}
+
+void CItem_Info::Update_Rect(_float fX, _float fY)
+{
+    m_rcItemName = {
+       static_cast<LONG>(fX - m_fSizeX * 0.5f),
+       static_cast<LONG>(fY + 70.f),
+       static_cast<LONG>(fX),
+       static_cast<LONG>(fY + 100.f ) };
+
+    m_rcItemInfo = {
+        static_cast<LONG>(fX - m_fSizeX * 0.5f + 20.f),
+        static_cast<LONG>(fY + 130.f ),
+        static_cast<LONG>(fX + m_fSizeX * 0.5f),
+        static_cast<LONG>(fY + 300.f) };
 }
 
 CItem_Info* CItem_Info::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

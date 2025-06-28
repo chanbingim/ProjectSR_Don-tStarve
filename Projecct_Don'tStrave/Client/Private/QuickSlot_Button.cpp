@@ -26,6 +26,8 @@ HRESULT CQuickSlot_Button::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    m_iTextureIndex = 2;
+
     return S_OK;
 }
 
@@ -48,7 +50,7 @@ void CQuickSlot_Button::Late_Update(_float fTimeDelta)
 
 HRESULT CQuickSlot_Button::Render()
 {
-    m_pTexture_Com->Set_Texture(m_iTextureIndex);
+    m_pTexture_Com->Set_Texture(0);
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 

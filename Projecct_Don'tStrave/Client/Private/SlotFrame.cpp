@@ -60,7 +60,13 @@ void CSlotFrame::Update(_float fTimeDelta)
 
     HoverEevent();
 
-    m_pSlot->Update(fTimeDelta);
+    
+    if (m_eSlotType == m_pSlot->Get_Info().eSlot)
+    {
+        m_pSlot->Update(fTimeDelta);
+    }
+    m_pSlot->Update_Count();
+    
 }
 
 void CSlotFrame::Late_Update(_float fTimeDelta)
@@ -78,9 +84,7 @@ HRESULT CSlotFrame::Render()
 
     m_pSlot->Render_ItemState();
 
-    RECT Rect = { LONG(m_fX - m_fSizeX - 5.f), LONG(m_fY - m_fSizeY - 8.f),LONG(m_fX + m_fSizeX- 5.f), LONG(m_fY + m_fSizeY - 8.f) };
-
-    m_pSlot->Render(Rect);
+    m_pSlot->Render(m_pTransform_Com);
 
     return S_OK;
 }

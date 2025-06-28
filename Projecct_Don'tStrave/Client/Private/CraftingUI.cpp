@@ -3,7 +3,9 @@
 #include "Slot.h"
 #include "Crafting_Button.h"
 #include "QuickSlot_Button.h"
+#include "Category_Button.h"
 #include "Item_Info.h"
+#include "Item_Button.h"
 
 CCraftingUI::CCraftingUI(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -24,6 +26,9 @@ HRESULT CCraftingUI::Initialize_Prototype()
 HRESULT CCraftingUI::Initialize(void* pArg)
 {
     m_bHide = false;
+
+    m_iCategoryIndex = 0;
+
     m_pQuickSlots.reserve(5);
 
     if (FAILED(__super::Initialize(pArg)))
@@ -70,6 +75,135 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     m_pItem_Info = dynamic_cast<CItem_Info*>(m_pGameInstance->Clone_Prototype(
         PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
 
+    for(_uint i = 0; i < 6; ++i)
+    {
+        Desc.iTextureIndex = i;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 30.f;
+        Desc.fSizeY = 30.f;
+        Desc.fRelativeX = -m_fSizeX * 0.35f + i * 35.f;
+        Desc.fRelativeY = m_fSizeY * 0.35f;
+        Desc.pParentTransform = m_pTransform_Com;
+        m_pCategorys.push_back(dynamic_cast<CCategory_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
+    }
+
+    _uint ItemButtons = 1;
+
+    for (_uint i = 0; i < 5; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+            m_pItem_Buttons[0].push_back(pItem_Button);
+    }
+    for (_uint i = 0; i < 3; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+            m_pItem_Buttons[1].push_back(pItem_Button);
+    }
+    for (_uint i = 0; i < 2; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+        {
+            m_pItem_Buttons[2].push_back(pItem_Button);
+        }
+    }
+    for (_uint i = 0; i < 2; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+        {
+            m_pItem_Buttons[3].push_back(pItem_Button);
+        }
+    }
+    for (_uint i = 0; i < 2; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+        {
+            m_pItem_Buttons[4].push_back(pItem_Button);
+        }
+    }
+    for (_uint i = 0; i < 4; ++i)
+    {
+        Desc.iTextureIndex = ItemButtons++;
+        Desc.fX = m_fX;
+        Desc.fY = m_fY;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 50.f;
+        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        Desc.fRelativeY = m_fSizeY * 0.15f;
+        Desc.pParentTransform = m_pTransform_Com;
+        CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+
+        if (nullptr != pItem_Button)
+        {
+            m_pItem_Buttons[5].push_back(pItem_Button);
+        }
+    }
+    
+    m_pCategorys[0]->Select_Button();
+    for (_uint i = 0; i < 6; ++i)
+    {
+        m_pItem_Buttons[i][0]->Select_Button();
+        m_iItemBtnIndex[i] = 0;
+    }
+    
+
     return S_OK;
 }
 
@@ -87,6 +221,39 @@ void CCraftingUI::Update(_float fTimeDelta)
 
     for (auto qButton : m_pQuickSlots)
         qButton->Update(fTimeDelta);
+
+    m_pItem_Info->Update_Rect(m_fX, m_fY);
+    
+    // 카테고리 버튼 업데이트
+    _uint iNumCategory = m_pCategorys.size();
+
+    for (_uint i = 0; i < iNumCategory; ++i)
+    {
+        m_pCategorys[i]->Update(fTimeDelta);
+        if (m_iCategoryIndex != i && m_pCategorys[i]->OnClick())
+        {
+            m_pCategorys[m_iCategoryIndex]->Select_Button();
+            m_pCategorys[i]->Select_Button();
+            m_iCategoryIndex = i;
+            break;
+        }
+    }
+
+    // 아이템 버튼 업데이트
+    _uint iNumItemBtn = m_pItem_Buttons[m_iCategoryIndex].size();
+
+    for (_uint i = 0; i < iNumItemBtn; ++i)
+    {
+        m_pItem_Buttons[m_iCategoryIndex][i]->Update(fTimeDelta);
+        if (m_iItemBtnIndex[m_iCategoryIndex] != i && m_pItem_Buttons[m_iCategoryIndex][i]->OnClick())
+        {
+            m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Select_Button();
+            m_pItem_Buttons[m_iCategoryIndex][i]->Select_Button();
+            m_iItemBtnIndex[m_iCategoryIndex] = i;
+            break;
+        }
+    }
+    m_pItem_Info->Set_ITem(m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Get_ItemID());
 
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
@@ -108,8 +275,14 @@ HRESULT CCraftingUI::Render()
 
     m_pVIBuffer_Com->Render();
 
-    m_pItem_Info->Render();
-    
+    m_pItem_Info->Render(m_pTransform_Com);
+
+    for (auto pButton : m_pCategorys)
+        pButton->Render();
+
+    for (auto pItemBtn : m_pItem_Buttons[m_iCategoryIndex])
+        pItemBtn->Render();
+
     return S_OK;
 }
 

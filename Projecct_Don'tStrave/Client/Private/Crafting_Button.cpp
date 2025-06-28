@@ -26,6 +26,8 @@ HRESULT CCrafting_Button::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    m_iTextureIndex = 0;
+
     return S_OK;
 }
 

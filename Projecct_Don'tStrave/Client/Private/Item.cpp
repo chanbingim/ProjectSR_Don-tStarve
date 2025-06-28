@@ -41,6 +41,7 @@ HRESULT CItem::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransform_Com->SetPosition(Item_Desc->vPosition);
+	m_pTransform_Com->SetScale(_float3(0.4f,0.4f,0.4f));
 
 	return S_OK;
 }
