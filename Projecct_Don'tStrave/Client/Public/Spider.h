@@ -6,6 +6,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
+class CSphere_Collision_Component;
 NS_END
 
 NS_BEGIN(Client)
@@ -52,6 +53,7 @@ public:
 private:
 	CTexture*				m_pTextureCom[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
 	CPlayerAnim*				m_pSpiderAnim[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	CSphere_Collision_Component* m_pSphereCollisionCom = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	_bool					m_bMove = {};

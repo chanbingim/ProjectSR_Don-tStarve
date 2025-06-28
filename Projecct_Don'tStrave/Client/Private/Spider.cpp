@@ -113,6 +113,7 @@ void CSpider::Update(_float fTimeDelta)
 			break;
 		}
 	}
+	m_pSphereCollisionCom->Update();
 }
 
 void CSpider::Late_Update(_float fTimeDelta)
@@ -130,6 +131,7 @@ HRESULT CSpider::Render()
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
 	m_pVIBufferCom->Render();
 
+	m_pSphereCollisionCom->Render();
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
 
@@ -284,6 +286,13 @@ HRESULT CSpider::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* Com_Collision */
+	CSphere_Collision_Component::COL_DESC Col_Desc = {};
+	Col_Desc.pOwner = this;
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Sphere_Collision"),
+		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pSphereCollisionCom), &Col_Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -353,6 +362,7 @@ CGameObject* CSpider::Clone(void* pArg)
 void CSpider::Free()
 {
 	__super::Free();
+	Safe_Release(m_pSphereCollisionCom);
 	for (int j = 0; j < DIR::DIR_END; ++j) {
 		for (int k = 0; k < MOTION::MOTION_END; ++k) {
 			if (m_pTextureCom[j][k]) {

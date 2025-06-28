@@ -88,7 +88,7 @@ private:
 	CAnimController*			m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CSphere_Collision_Component* m_pSphereCollision = { nullptr };
+	CSphere_Collision_Component* m_pSphereCollisionCom = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};
