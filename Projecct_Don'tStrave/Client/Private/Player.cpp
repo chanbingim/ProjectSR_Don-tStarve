@@ -76,6 +76,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iHit = m_iMaxHit;
 	m_bControll = false;
 
+	m_pCollision_Com->SetCollisionSize({0.3f, 0.f ,0.f});
+
+
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -332,10 +335,6 @@ HRESULT CPlayer::Render()
 	}
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
-
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
-	m_pCollision_Com->Render();
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }
@@ -703,8 +702,8 @@ HRESULT CPlayer::Ready_Components()
 	CBox_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 	return S_OK;
 }

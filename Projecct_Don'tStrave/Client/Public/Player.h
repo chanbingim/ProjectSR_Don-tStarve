@@ -83,12 +83,12 @@ public:
 	void			SetItem(SWAPOBJECT tItem);
 private:
 	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-	CPlayerAnim*				m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+	CPlayerAnim*			m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
-	CAnimController*			m_pSwapObjectAnimController = { nullptr };
+	CAnimController*		m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CCollision_Component	*	m_pCollision_Com = { nullptr };
+	CPlayerAnim*			m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	CCollision_Component*	m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};

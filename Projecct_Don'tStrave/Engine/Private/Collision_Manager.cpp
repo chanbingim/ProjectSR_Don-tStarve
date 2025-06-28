@@ -46,37 +46,18 @@ void CCollision_Manager::Update()
                 if (ColFlag)
                 {
                     Src->ADDHitGroup(Dst->GetOwner());
+                    ADD_UpdateList(Dst);
                 }
-            }
-            Src->Update();
-        }
-
-        for (_uint j = i + 1; j < ENUM_CLASS(COLLISION_TYPE::END); ++j)
-        {
-            for (auto& Src : m_pCol_List[i])
-            {
-                for (auto& Dst : m_pCol_List[j])
-                {
-                    _bool ColFlag = false;
-                    switch (j)
-                    {
-                    case 1 :
-                        if (CompareBoxToSphere(Src, Dst))
-                        {
-                            ColFlag = true;
-                        }
-                        break;
-                    }
-
-                    if (ColFlag)
-                    {
-                        Src->ADDHitGroup(Dst->GetOwner());
-                    }
-                }
-                Src->Update();
             }
         }
     }
+
+    CompareSphereListToBoxList(&m_pCol_List[ENUM_CLASS(COLLISION_TYPE::SPHERE)], &m_pCol_List[ENUM_CLASS(COLLISION_TYPE::BOX)]);
+
+    for (auto iter : m_UpdateList)
+        iter->Update();
+
+    m_UpdateList.clear();
 }
 
 void CCollision_Manager::ADD_ColList(CCollision_Component* pCol_Component)
@@ -102,6 +83,13 @@ void CCollision_Manager::Remove_ColList(CCollision_Component* pCol_Component)
     {
         m_pCol_List[typeIndex].erase(iter);
     }
+}
+
+void CCollision_Manager::ADD_UpdateList(CCollision_Component* pCol)
+{
+    auto iter = find(m_UpdateList.begin(), m_UpdateList.end(), pCol);
+    if (iter == m_UpdateList.end())
+        m_UpdateList.push_back(pCol);
 }
 
 _bool CCollision_Manager::AxisAlignedBoundBox(CCollision_Component* pCol, CCollision_Component* pOtherCol)
@@ -174,10 +162,28 @@ _bool CCollision_Manager::CompareBoxToSphere(CCollision_Component* pCol, CCollis
     _float3 Dist = SrcCenter - BoxNearPoint;
     _float  Length = D3DXVec3Length(&Dist);
 
-    if (SrcRadius <= Length)
+    if (SrcRadius >= Length)
         return true;
 
     return false;
+}
+
+void CCollision_Manager::CompareSphereListToBoxList(list<CCollision_Component*>* pSrcList, list<CCollision_Component*>* pDstList)
+{
+    for (auto& Src : *pSrcList)
+    {
+        for (auto& Dst : *pDstList)
+        {
+            if (CompareBoxToSphere(Src, Dst))
+            {
+                Src->ADDHitGroup(Dst->GetOwner());
+                Dst->ADDHitGroup(Src->GetOwner());
+
+                ADD_UpdateList(Dst);
+                ADD_UpdateList(Src);
+            }
+        }
+    }
 }
 
 void CCollision_Manager::Free()

@@ -54,7 +54,7 @@ HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Ra
 {
     D3DXComputeBoundingSphere(m_pMeshVtx,
         m_pSphereMesh->GetNumVertices(),
-        m_pSphereMesh->GetNumBytesPerVertex(),
+        sizeof(_float3),
         Center, Radius);
 
     auto Transform = m_pOwner->GetTransfrom();
@@ -62,9 +62,12 @@ HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Ra
     {
         _matrix scaleMat = {};
         _matrix WorldMat = Transform->Get_World();
+        _float3 ScaleVec = Transform->GetScale();
+        FLOAT Length = 1.f;
 
-        FLOAT Length = D3DXVec3Length(&m_vScale);
-        *Radius = *Radius * Length;
+        *Radius = (*Radius) * D3DXVec3Length(&ScaleVec);
+        if (m_vScale.x != 0.f)
+            *Radius *= m_vScale.x;
 
         D3DXVec3TransformCoord(Center, Center, &WorldMat);
         return S_OK;
