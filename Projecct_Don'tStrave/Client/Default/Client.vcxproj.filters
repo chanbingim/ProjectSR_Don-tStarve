@@ -268,19 +268,11 @@
     <ClInclude Include="..\Public\PlayerAnim.h">
       <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\public\TutorialLevel.h">
       <Filter>김찬빈</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Enviorment_Object.h">
       <Filter>김찬빈</Filter>
-=======
-    <ClInclude Include="..\public\Spider.h">
-      <Filter>김정환</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SpiderHouse.h">
-      <Filter>김정환</Filter>
->>>>>>> origin/06_27_kjh
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -411,19 +403,11 @@
     <ClCompile Include="..\Private\PlayerAnim.cpp">
       <Filter>03. Character\Player\Animation</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\private\TutorialLevel.cpp">
       <Filter>김찬빈</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Enviorment_Object.cpp">
       <Filter>김찬빈</Filter>
-=======
-    <ClCompile Include="..\private\Spider.cpp">
-      <Filter>김정환</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SpiderHouse.cpp">
-      <Filter>김정환</Filter>
->>>>>>> origin/06_27_kjh
     </ClCompile>
   </ItemGroup>
 </Project>
