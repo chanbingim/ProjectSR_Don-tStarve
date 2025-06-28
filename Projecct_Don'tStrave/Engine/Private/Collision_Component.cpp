@@ -27,6 +27,7 @@ HRESULT CCollision_Component::Initialize(void* pArg)
 
 	COL_DESC* pCol_Desc = static_cast<COL_DESC*>(pArg);
 	m_pOwner = pCol_Desc->pOwner;
+	m_pTransform = m_pOwner->GetTransfrom();
 
 	CCollision_Manager::GetInstance()->ADD_ColList(this);
 

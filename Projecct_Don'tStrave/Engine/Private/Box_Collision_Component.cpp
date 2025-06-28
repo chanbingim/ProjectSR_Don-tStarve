@@ -49,6 +49,7 @@ void CBox_Collision_Component::Update()
 
 void CBox_Collision_Component::Render()
 {
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
     m_pBoxMesh->DrawSubset(0);
 }
 
@@ -59,17 +60,17 @@ HRESULT CBox_Collision_Component::ComputeBounding(_float3* Min, _float3* Max)
                            sizeof(_float3),
                            Min, Max);
 
-    auto Transform = m_pOwner->GetTransfrom();
-    if (Transform)
+    if (m_pTransform)
     {
-        _matrix scaleMat = {};
-        _matrix WorldMat = Transform->Get_World();
+        _matrix scaleMat{};
+        _float3 Position = m_pTransform->GetWorldState(WORLDSTATE::POSITION);
 
+        D3DXMatrixTranslation(&m_WorldMat, Position.x, Position.y, Position.z);
         D3DXMatrixScaling(&scaleMat, m_vScale.x, m_vScale.y, m_vScale.z);
-        WorldMat *= scaleMat;
+        m_WorldMat *= scaleMat;
 
-        D3DXVec3TransformCoord(Min, Min, &WorldMat);
-        D3DXVec3TransformCoord(Max, Max, &WorldMat);
+        D3DXVec3TransformCoord(Min, Min, &m_WorldMat);
+        D3DXVec3TransformCoord(Max, Max, &m_WorldMat);
         return S_OK;
     }
 
