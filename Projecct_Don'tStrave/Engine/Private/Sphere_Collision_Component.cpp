@@ -60,7 +60,11 @@ HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Ra
     auto Transform = m_pOwner->GetTransfrom();
     if (Transform)
     {
+        _matrix scaleMat = {};
         _matrix WorldMat = Transform->Get_World();
+
+        FLOAT Length = D3DXVec3Length(&m_vScale);
+        *Radius = *Radius * Length;
 
         D3DXVec3TransformCoord(Center, Center, &WorldMat);
         return S_OK;

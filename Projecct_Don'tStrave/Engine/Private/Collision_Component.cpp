@@ -109,6 +109,11 @@ void CCollision_Component::BindExitFunction(function<void(CGameObject* HitActor,
 	m_HitExitfunc = Func;
 }
 
+void CCollision_Component::SetCollisionSize(_float3 scale)
+{
+	m_vScale = scale;
+}
+
 void CCollision_Component::ComputeDirToHitActor(CGameObject* pOwner, _float3* pOutDir)
 {
 	_matrix SrcWorldMat = m_pOwner->GetTransfrom()->Get_World();

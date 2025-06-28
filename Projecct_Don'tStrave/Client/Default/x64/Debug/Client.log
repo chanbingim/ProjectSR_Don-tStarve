@@ -1,2 +1,77 @@
-﻿  Loader.cpp
+﻿  Camera.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(47,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(47,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(147,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(147,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Character.cpp
+  Crafting_Button.cpp
+  Level_GamePlay.cpp
+  Level_Loading.cpp
+  Level_Logo.cpp
+  Loader.cpp
+  MainApp.cpp
+  Monster.cpp
+  Player.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(28,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(28,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PlayerAnim.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\PlayerAnim.cpp(50,56): warning C4244: '인수': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\PlayerAnim.cpp(50,45): warning C4244: '인수': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\PlayerAnim.cpp(50,34): warning C4244: '인수': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  QuickSlot_Button.cpp
+  Spider.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Spider.cpp(28,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Spider.cpp(28,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderHouse.cpp
+  Terrain.cpp
+  AnimationUI.cpp
+  Button.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,24): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,24): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,48): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,48): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,72): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,72): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,96): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Button.cpp(83,96): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Camera_Button.cpp
+  Clock.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,24): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,24): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,46): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,46): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,69): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,69): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,92): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Clock.cpp(81,92): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CraftingUI.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Enviorment_Object.cpp
+  HeadUpDisplay.cpp
+  Health.cpp
+  Inventory.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Inventory.cpp(51,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Inventory.cpp(74,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Item.cpp
+  Item_Info.cpp
+  MiniMap_Button.cpp
+  Mouse.cpp
+  Sanity.cpp
+  Slot.cpp
+  SlotFrame.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,22): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,22): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,46): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,46): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,70): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,70): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,94): warning C4838: 'Engine::_float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SlotFrame.cpp(90,94): warning C4244: '초기화 중': 'Engine::_float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TutorialLevel.cpp
+  UI_MoveAnim.cpp
+  Hunger.cpp
+  Client.cpp
+  코드를 생성하고 있습니다...
+  LINK : ..\Bin\Debug\Client.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

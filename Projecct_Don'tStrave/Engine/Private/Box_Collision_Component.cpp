@@ -62,7 +62,11 @@ HRESULT CBox_Collision_Component::ComputeBounding(_float3* Min, _float3* Max)
     auto Transform = m_pOwner->GetTransfrom();
     if (Transform)
     {
+        _matrix scaleMat = {};
         _matrix WorldMat = Transform->Get_World();
+
+        D3DXMatrixScaling(&scaleMat, m_vScale.x, m_vScale.y, m_vScale.z);
+        WorldMat *= scaleMat;
 
         D3DXVec3TransformCoord(Min, Min, &WorldMat);
         D3DXVec3TransformCoord(Max, Max, &WorldMat);
