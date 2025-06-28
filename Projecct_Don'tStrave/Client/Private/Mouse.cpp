@@ -36,6 +36,10 @@ HRESULT CMouse::Initialize(void* pArg)
 
     if (FAILED(Add_Slot()))
         return E_FAIL;
+    m_fSizeX = 40.f;
+    m_fSizeY = 40.f;
+
+    __super::UpdatePosition();
 
     return S_OK;
 }
@@ -52,8 +56,10 @@ void CMouse::Priority_Update(_float fTimeDelta)
 void CMouse::Update(_float fTimeDelta)
 {
     
+    if(SLOT::NORMAL ==  m_pSlot->Get_Info().eSlot)
+        m_pSlot->Update(fTimeDelta);
 
-    m_pSlot->Update(fTimeDelta);
+    m_pSlot->Update_Count();
 
     POINT pt{};
     GetCursorPos(&pt);
@@ -62,8 +68,8 @@ void CMouse::Update(_float fTimeDelta)
     m_fX = (_float)pt.x;
     m_fY = (_float)pt.y;
  
-    m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
-
+    //m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+    __super::UpdatePosition();
     ClickedEevent();
 
 #pragma region TestCode
@@ -126,7 +132,7 @@ HRESULT CMouse::Render()
 
     //m_pVIBuffer_Com->Render();
      RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
-    m_pSlot->Render(Rect);
+    m_pSlot->Render(m_pTransform_Com);
 
     Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
     

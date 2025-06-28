@@ -46,19 +46,19 @@ HRESULT CCamera::Initialize(void* pArg)
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
 
-	CCamera_Button::CameraButton_Desc Desc = {};
+	CButton::BUTTON_DESC Desc = {};
 	Desc.fSizeX = 50.f;
 	Desc.fSizeY = 50.f;
 	Desc.fX = g_iWinSizeX - 150.f;
 	Desc.fY = g_iWinSizeY - 50.f;
-	Desc.iTextIndex = 0;
+	Desc.iTextureIndex = 0;
 
  	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 
 	Desc.fX = g_iWinSizeX - 50.f;
 	Desc.fY = g_iWinSizeY - 50.f;
-	Desc.iTextIndex = 1;
+	Desc.iTextureIndex = 1;
 
 	m_pButton_Right = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
