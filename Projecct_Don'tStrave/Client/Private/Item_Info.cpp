@@ -168,4 +168,7 @@ void CItem_Info::Free()
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
+
+    //Safe_Release(m_pBtnCreate);
+    //Safe_Release(m_pBtnAddToQuickSlot);
 }

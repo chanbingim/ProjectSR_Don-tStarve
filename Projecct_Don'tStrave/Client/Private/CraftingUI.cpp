@@ -377,6 +377,17 @@ void CCraftingUI::Free()
 
     for (auto pButton : m_pQuickSlots)
         Safe_Release(pButton);
-
     m_pQuickSlots.clear();
+
+    for (auto pButton : m_pCategorys)
+        Safe_Release(pButton);
+    m_pCategorys.clear();
+
+    for (_uint i = 0; i < 6; ++i)
+    {
+        for (auto pButton : m_pItem_Buttons[i])
+            Safe_Release(pButton);
+        m_pItem_Buttons[i].clear();
+    }
+    
 }
