@@ -21,6 +21,20 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    if (nullptr == pArg)
+    {
+
+    }
+    else
+    {
+        GAMEOBJECT_DESC* TeerrainDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+
+        m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
+        m_pTransformCom->SetScale(TeerrainDesc->vScale);
+        m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+    }
+
+    D3DXMatrixIdentity(&m_WorldMat);
     return S_OK;
 }
 
@@ -38,7 +52,24 @@ void CEnviornment_Object::Update(_float fTimeDelta)
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &CameraView);
     D3DXMatrixInverse(&CameraView, NULL, &CameraView);
 
-    m_pTransformCom->LookAt(*((_float3*)&CameraView.m[3]));
+    _float3 right = *(_float3*)&CameraView.m[0];
+    _float3 up = *(_float3*)&CameraView.m[1];
+    _float3 look = *(_float3*)&CameraView.m[2];
+
+    // (선택) 정규화 + 스케일 적용
+    _float3 scale = m_pTransformCom->GetScale();
+    D3DXVec3Normalize(&right, &right);
+    D3DXVec3Normalize(&up, &up);
+    D3DXVec3Normalize(&look, &look);
+
+    right *= scale.x;
+    up *= scale.y;
+    look *= scale.z;
+
+    memcpy((_float3*)&m_WorldMat.m[0], right, sizeof(_float3));
+    memcpy((_float3*)&m_WorldMat.m[1], up, sizeof(_float3));
+    memcpy((_float3*)&m_WorldMat.m[2], look, sizeof(_float3));
+    memcpy((_float3*)&m_WorldMat.m[3], m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), sizeof(_float3));
 }
 
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
@@ -50,8 +81,8 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
 
 HRESULT CEnviornment_Object::Render()
 {
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
-
+    //m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
     m_pTexture_Com->Set_Texture(0);
     m_pVIBuffer_Com->Render();
 
@@ -72,7 +103,7 @@ HRESULT CEnviornment_Object::ADD_Components()
         return E_FAIL;
 
     /* Com_VIBuffer */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
         return E_FAIL;
 

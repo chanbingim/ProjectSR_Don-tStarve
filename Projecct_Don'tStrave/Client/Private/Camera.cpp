@@ -121,7 +121,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	//}
 	if (GetKeyState('A') & 0x8000)
 	{
-		m_pTransformCom->Go_Left(-fTimeDelta);
+		m_pTransformCom->Go_Left(fTimeDelta);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{

@@ -19,8 +19,8 @@ HRESULT CTutorialLevel::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("CameraLayer"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -67,7 +67,7 @@ HRESULT CTutorialLevel::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CTutorialLevel::Ready_Layer_Enviornment(const _wstring& strLayerTag)
 {
-	Parse_ObejectData("../Bin/Resources/DataStruct/TutorialMapData/MapEnvironment.csv",
+	Parse_ObejectData("../Bin/Resources/DataStruct/TutorialMapData/Enviornment.csv",
 						ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Environment"),
 						ENUM_CLASS(LEVEL::TUTORIAL), strLayerTag);
 

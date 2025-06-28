@@ -152,6 +152,7 @@
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
+    <ClInclude Include="..\public\DropItemComponent.h" />
     <ClInclude Include="..\public\Enviorment_Object.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
+    <ClCompile Include="..\private\DropItemComponent.cpp" />
     <ClCompile Include="..\private\Enviorment_Object.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />

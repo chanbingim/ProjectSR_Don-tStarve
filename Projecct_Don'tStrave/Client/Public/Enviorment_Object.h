@@ -6,6 +6,8 @@
 NS_BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
+class CCollision_Component;
+class CAnimController;
 NS_END
 
 NS_BEGIN(Client)
@@ -25,9 +27,13 @@ public :
 	virtual HRESULT		Render() override;
 
 protected :
+	_matrix				m_WorldMat = {};
+
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
-	CTexture*			m_pTexture_Com = { nullptr };
-	CVIBuffer_Rect*		m_pVIBuffer_Com = { nullptr };
+	CTexture*				m_pTexture_Com = { nullptr };
+	CVIBuffer_Rect*			m_pVIBuffer_Com = { nullptr };
+	CCollision_Component*	m_pCollision_Com = { nullptr };
+	CAnimController*		m_pAnimation_Com = { nullptr };
 
 private :
 	HRESULT				ADD_Components();

@@ -16,6 +16,7 @@
 #include "Camera_Button.h"
 #include "MiniMap_Button.h"
 #include "QuickSlot_Button.h"
+#include "Enviorment_Object.h"
 #include "Clock.h"
 #include "Item_Info.h"
 
@@ -505,6 +506,11 @@ HRESULT CLoader::Loading_For_Tutorial()
 	/* For.Prototype_GameObject_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Enviornment */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Environment"),
+		CEnviornment_Object::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

@@ -286,6 +286,7 @@
     <ClInclude Include="..\Public\SpiderHouse.h">
       <Filter>03. Character\Monster\Spider\House</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DropItemComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -427,5 +428,6 @@
     <ClCompile Include="..\Private\SpiderHouse.cpp">
       <Filter>03. Character\Monster\Spider\House</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\DropItemComponent.cpp" />
   </ItemGroup>
 </Project>
