@@ -1,6 +1,7 @@
 #include "GameInstance.h"
 
 #include "Prototype_Manager.h"
+#include "Collision_Manager.h"
 #include "Object_Manager.h"
 #include "MouseManager.h"
 #include "Graphic_Device.h"
@@ -64,6 +65,8 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pKey_Manager)
 		return E_FAIL;
 
+	m_pCollision_Manager = CCollision_Manager::GetInstance();
+
 	return S_OK;
 }
 
@@ -80,6 +83,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
 	m_pObject_Manager->Clear_DeadObj();
+
+	m_pCollision_Manager->Update();
 
 	m_pLevel_Manager->Update(fTimeDelta);
 
@@ -251,9 +256,9 @@ void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
 #pragma endregion
 
 #pragma region FONT_MANAGER
-void CGameInstance::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect)
+void CGameInstance::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat)
 {
-	m_pFont_Manager->Render_Font(strFontTag, pText, pRect);
+	m_pFont_Manager->Render_Font(strFontTag, pText, pRect, Color, Fomat);
 }
 HRESULT CGameInstance::Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName)
 {
@@ -290,6 +295,8 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pSoundManager);
+	Safe_Release(m_pKey_Manager);
+	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pGraphic_Device);
 }
 

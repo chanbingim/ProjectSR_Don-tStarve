@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Slot.h"
+#include "Inventory.h"
 
 CSlotFrame::CSlotFrame(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -22,7 +23,7 @@ HRESULT CSlotFrame::Initialize(void* pArg)
 {
     SLOTFRAME_DESC* pDesc = static_cast<SLOTFRAME_DESC*>(pArg);
 
-    m_iSlotType = pDesc->iSlotType;
+    m_eSlotType = static_cast<SLOT>(pDesc->iSlotType);
 
     CUserInterface::UIOBJECT_DESC Desc = {};
 
@@ -40,7 +41,7 @@ HRESULT CSlotFrame::Initialize(void* pArg)
     __super::UpdatePosition();
 
     m_pSlot = static_cast<class CSlot*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &pDesc->Desc));
 
     if (nullptr == m_pSlot)
         return E_FAIL;
@@ -55,40 +56,9 @@ void CSlotFrame::Priority_Update(_float fTimeDelta)
 
 void CSlotFrame::Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+    //m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    RECT rc = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
-
-    POINT pt{};
-    GetCursorPos(&pt);
-    ScreenToClient(g_hWnd, &pt);
-
-    if (PtInRect(&rc, pt))
-    {
-        m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
-
-        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-        {
-            if (!m_bClick)
-            {
-                if (m_pSlot->Get_ItemID() == dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot())->Get_ItemID())
-                    m_pSlot->Merge_Item(dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot()));
-                else
-                    m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
-            }
-            m_bClick = true;
-        }
-        else
-        {
-            m_bClick = false;
-        }
-    }
-    else
-    {
-        m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
-    }
-
-    Key_Input();
+    HoverEevent();
 
     m_pSlot->Update(fTimeDelta);
 }
@@ -100,7 +70,7 @@ void CSlotFrame::Late_Update(_float fTimeDelta)
 
 HRESULT CSlotFrame::Render()
 {
-    m_pTexture_Com->Set_Texture(m_iSlotType);
+    m_pTexture_Com->Set_Texture(EnumToInt(m_eSlotType));
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
@@ -108,10 +78,69 @@ HRESULT CSlotFrame::Render()
 
     m_pSlot->Render_ItemState();
 
-    m_pSlot->Render();
+    RECT Rect = { LONG(m_fX - m_fSizeX - 5.f), LONG(m_fY - m_fSizeY - 8.f),LONG(m_fX + m_fSizeX- 5.f), LONG(m_fY + m_fSizeY - 8.f) };
 
+    m_pSlot->Render(Rect);
 
     return S_OK;
+}
+
+void CSlotFrame::HoverEevent()
+{
+    RECT rc = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+
+    POINT pt{};
+    GetCursorPos(&pt);
+    ScreenToClient(g_hWnd, &pt);
+
+    if (PtInRect(&rc, pt))
+    {
+        ClickedEevent();
+        m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
+    }
+    else
+    {
+        m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
+    }
+}
+
+void CSlotFrame::ClickedEevent()
+{
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
+        CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
+
+        if(m_eSlotType == SLOT::NORMAL)
+        {
+            if (m_pSlot->Get_ItemID() == pSlot->Get_ItemID())
+                m_pSlot->Merge_Item(pSlot);
+            else
+                m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
+        }
+        else
+        {
+            if (m_eSlotType == pSlot->Get_Info().eSlot)
+                m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
+            else if(0 == pSlot->Get_ItemID())
+                m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
+        }
+    }
+
+    if (m_pGameInstance->KeyDown(VK_RBUTTON))
+    {
+        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
+        
+        CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
+        
+        if (nullptr == pSlot)
+            return;
+
+        ITEM_DESC Desc = pSlot->Get_Info();
+
+        pSlot->Set_Info(m_pSlot->Get_Info());
+
+        m_pSlot->Set_Info(Desc);
+    }
 }
 
 HRESULT CSlotFrame::ADD_Components()
@@ -141,10 +170,6 @@ HRESULT CSlotFrame::ADD_Components()
     return S_OK;
 }
 
-void CSlotFrame::Key_Input()
-{
-
-}
 
 CSlotFrame* CSlotFrame::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

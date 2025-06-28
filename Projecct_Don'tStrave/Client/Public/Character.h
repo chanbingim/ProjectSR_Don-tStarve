@@ -13,6 +13,15 @@ class CVIBuffer_Rect;
 class CAnimController;
 NS_END
 
+NS_BEGIN(Client)
+
+enum DIR {
+	DOWN,
+	SIDE,
+	UP,
+	DIR_END
+};
+
 class CCharacter : public CLandObject
 {
 protected:
@@ -38,10 +47,11 @@ protected:
 	_uint			m_iAtk = {};
 	_uint			m_iDef = {};
 	_uint			m_iMaxHit = {};
-	_uint			m_iHit = {};
-	CTransform* m_pTransformCom = { nullptr };
+	_int			m_iHit = {};
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CAnimController* m_pAnimController = { nullptr };
 	CTransform* m_pAnimTransformCom = { nullptr };
+public:
+	virtual void Free() override;
 };
-
+NS_END

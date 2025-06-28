@@ -152,6 +152,10 @@
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
+    <ClInclude Include="..\public\Enviorment_Object.h" />
+    <ClInclude Include="..\Public\Spider.h" />
+    <ClInclude Include="..\Public\SpiderHouse.h" />
+    <ClInclude Include="..\public\TutorialLevel.h" />
     <ClInclude Include="..\public\Health.h" />
     <ClInclude Include="..\public\HeadUpDisplay.h" />
     <ClInclude Include="..\public\Hunger.h" />
@@ -196,6 +200,10 @@
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
+    <ClCompile Include="..\private\Enviorment_Object.cpp" />
+    <ClCompile Include="..\Private\Spider.cpp" />
+    <ClCompile Include="..\Private\SpiderHouse.cpp" />
+    <ClCompile Include="..\private\TutorialLevel.cpp" />
     <ClCompile Include="..\private\Health.cpp" />
     <ClCompile Include="..\private\HeadUpDisplay.cpp" />
     <ClCompile Include="..\private\Inventory.cpp" />

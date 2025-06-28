@@ -2,7 +2,7 @@
 
 #include "Terrain.h"
 #include "Player.h"
-#include "Monster.h"
+#include "Spider.h"
 #include "Slot.h"
 #include "SlotFrame.h"
 #include "Inventory.h"
@@ -71,6 +71,10 @@ HRESULT CLoader::Loading()
 	case LEVEL::GAMEPLAY:
 		hr = Loading_For_GamePlay();
 		break;
+
+	case LEVEL::TUTORIAL :
+		hr = Loading_For_Tutorial();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -110,6 +114,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Terrain/Tile0.jpg"), 1))))
 		return E_FAIL;
+
+#pragma region Player
+
 
 
 	/* For.Prototype_Component_Loding_Textrue */
@@ -171,47 +178,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Run_Pst_Up"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/run_pst_up")))))
 		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/atk_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/atk_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/atk_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Bucked"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/bucked")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Buck_Pst"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/buck_pst")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/damage_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/damage_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/damage_up")))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_Loding_Textrue */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death1"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/death")))))
@@ -221,94 +187,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death2"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/death2")))))
 		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Dial"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/dial")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_loop_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Build_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/build_pst_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Give_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/give_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Give_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/give_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Give_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/give_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Pickup_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/pickup_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Pickup_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/pickup_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Pickup_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/NoItem/pickup_up")))))
-		return E_FAIL;
-
-
-
-
-
-
-
-
 
 
 	/* For.Prototype_Component_Loding_Textrue */
@@ -371,36 +249,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/atk_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/atk_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/atk_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/damage_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/damage_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/damage_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Death1"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/death")))))
 		return E_FAIL;
@@ -410,375 +258,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/death2")))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Dial"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/dial")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Build_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/build_pst_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_loop_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Chop_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/chop_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Give_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/give_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Give_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/give_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Give_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/give_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_In_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_in_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_In_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_in_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_In_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_in_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Out_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_out_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Out_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_out_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Out_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/item_out_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Light_Fire_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/light_fire_pst_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_loop_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickaxe_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickaxe_pst_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickup_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickup_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickup_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickup_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Pickup_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/pickup_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_loop_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Shovel_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Player/Wilson/Item/shovel_pst_up")))))
-		return E_FAIL;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/idle_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/idle_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Idle_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/idle_loop_up")))))
-		return E_FAIL;
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_loop_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_loop_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Loop_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_loop_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pre_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pre_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pre_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pre_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pst_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pst_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Run_Pst_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/run_pst_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/atk_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/atk_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Atk_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/atk_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Down"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/damage_down")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Side"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/damage_side")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Damage_Up"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/damage_up")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Death1"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/death")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Death2"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/death2")))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Loding_Textrue */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Axe_Dial"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Axe/dial")))))
-		return E_FAIL;
-
-
-	
+#pragma endregion
 
 	/* For.Prototype_Component_Texture_Player */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player"),
@@ -885,8 +365,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pGraphic_Device))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Spider"),
+		CSpider::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Mouse */
@@ -959,6 +439,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CItem_Info::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Collision */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_dhere_Collision"),
+		CSphere_Collision_Component::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Camera_Button */ // 인게임 카메라에 추가
 	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Button"),
 		CCamera_Button::Create(m_pGraphic_Device))))
@@ -966,16 +451,60 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("나눔고딕코딩"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("굴림"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("굴림"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("나눔고딕코딩"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_20"), 20, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	m_strMessage = TEXT("로딩이 완료되었습니다..");
+
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Tutorial()
+{
+	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+	/* For.Prototype_Component_Texture_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Monster"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Monster/Ma.jpg"), 1))))
+		return E_FAIL;
+
+	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
+
+	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 130, 130))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

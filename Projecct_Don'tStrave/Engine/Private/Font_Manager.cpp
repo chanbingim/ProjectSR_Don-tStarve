@@ -26,10 +26,10 @@ HRESULT CFont_Manager::Add_Font(const _wstring strFontTag, _uint iSize, const _t
     D3DXFONT_DESC           FontDesc{};
     FontDesc.Height = iSize;
     FontDesc.Width = 0;
-    FontDesc.Weight = FW_BOLD;
+    FontDesc.Weight = FW_HEAVY;
     FontDesc.MipLevels = 1;
     FontDesc.Italic = 0;
-    FontDesc.CharSet = HANGEUL_CHARSET;
+    FontDesc.CharSet = 0;
     lstrcpy(FontDesc.FaceName, pFontName);
 
     if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &FontDesc, &pFont)))
@@ -40,16 +40,17 @@ HRESULT CFont_Manager::Add_Font(const _wstring strFontTag, _uint iSize, const _t
     return S_OK;
 }
 
-void CFont_Manager::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect)
+void CFont_Manager::Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat)
 {
     m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 
     auto iter = m_pFonts.find(strFontTag);
     
-    DWORD Fomat = DT_CENTER | DT_VCENTER;
+    //DWORD Fomat = DT_CENTER | DT_VCENTER;
+
     // DT_CENTER
     if(iter != m_pFonts.end())
-        (*iter).second->DrawTextW(m_pSprite, pText, lstrlen(pText), pRect, Fomat , D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+        (*iter).second->DrawTextW(m_pSprite, pText, lstrlen(pText), pRect, Fomat, Color);
     
     m_pSprite->End();
 }

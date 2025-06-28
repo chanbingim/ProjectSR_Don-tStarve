@@ -41,8 +41,6 @@ void CCrafting_Button::Update(_float fTimeDelta)
 
     HoverEevent();
 
-    ClickedEevent();
-
 }
 
 void CCrafting_Button::Late_Update(_float fTimeDelta)
@@ -55,13 +53,7 @@ HRESULT CCrafting_Button::Render()
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
     m_pVIBuffer_Com->Render();
-
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
     return S_OK;
 }
@@ -71,14 +63,20 @@ void CCrafting_Button::HoverEevent()
     _float3 vPos = {};
 
     if (true == isMouseOver())
+    {
         m_iTextureIndex = 1;
+        ClickedEevent();
+    }
     else
+    {
         m_iTextureIndex = 0;
+        m_isClicked = false;
+    }
 }
 
 void CCrafting_Button::ClickedEevent()
 {
-    if ((true == isMouseOver()) && (GetAsyncKeyState(VK_LBUTTON) & 0x8000))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
         m_isClicked = true;
     else
         m_isClicked = false;

@@ -27,8 +27,13 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
 		return E_FAIL;
+
+	
 
 	return S_OK;
 }
@@ -73,25 +78,38 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	for (size_t i = 0; i < 1; i++)
-	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
-			return E_FAIL;
-	}
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Spider"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
 			return E_FAIL;
 	}
 
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Mouse(const _wstring& strLayerTag)
+{
+	CUserInterface::UIOBJECT_DESC Desc = {};
+
+	// Add Mouse
+	Desc.fSizeX = 50.f;
+	Desc.fSizeY = 50.f;
+	Desc.fX = g_iWinSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Mouse"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -134,14 +152,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_CraftingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
 		return E_FAIL;
 
-	// Add Mouse
-	Desc.fSizeX = 50.f;
-	Desc.fSizeY = 50.f;
-	Desc.fX = g_iWinSizeX * 0.5f;
-	Desc.fY = g_iWinSizeY * 0.5f;
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_Mouse"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
-		return E_FAIL;
+	
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
@@ -149,6 +160,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+
 
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)

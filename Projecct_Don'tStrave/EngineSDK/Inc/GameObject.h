@@ -7,6 +7,17 @@ class CTransform;
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
+public:
+	typedef struct GameObject_Desc
+	{
+		_float3			vScale = {};
+		_float3			vRotation = {};
+		_float3			vPosition = {};
+
+		_wstring		TextruePath = {};
+
+	}GAMEOBJECT_DESC;
+
 protected:
 	CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject(const CGameObject& Prototype);

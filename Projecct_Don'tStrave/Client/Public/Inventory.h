@@ -20,9 +20,10 @@ public:
 	virtual HRESULT	 Render()override;
 
 	CSlot* Find_Item(_uint iItemID);
+	CSlot* Find_Slot(SLOT eSlot);
 
 private:
-	vector<class CSlotFrame*> m_Slots = {};
+	vector<class CSlotFrame*> m_SlotFrames = {};
 
 private:
 	HRESULT ADD_Components();

@@ -66,7 +66,6 @@ void CCollision_Component::Update()
 		{
 			if (m_HitOverlapfunc)
 				m_HitOverlapfunc(HitActor, Dir);
-
 			
 		}
 		Safe_Release(HitActor);

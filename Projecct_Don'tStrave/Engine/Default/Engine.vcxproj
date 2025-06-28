@@ -144,17 +144,17 @@
   <ItemGroup>
     <ClInclude Include="..\Public\AnimController.h" />
     <ClInclude Include="..\Public\Base.h" />
-    <ClInclude Include="..\Public\BaseStruct.h" />
     <ClInclude Include="..\Public\Box_Collision_Component.h" />
     <ClInclude Include="..\Public\BufferComponents.h" />
     <ClInclude Include="..\Public\CMath.h" />
     <ClInclude Include="..\Public\Collision_Component.h" />
     <ClInclude Include="..\Public\Collision_Manager.h" />
     <ClInclude Include="..\Public\Component.h" />
+    <ClInclude Include="..\Public\CSVReader.h" />
+    <ClInclude Include="..\Public\CUtility.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\public\KeyManager.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
-    <ClInclude Include="..\Public\CSVReader.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
@@ -196,10 +196,11 @@
     <ClCompile Include="..\Private\Collision_Component.cpp" />
     <ClCompile Include="..\Private\Collision_Manager.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
+    <ClCompile Include="..\Private\CSVReader.cpp" />
+    <ClCompile Include="..\Private\CUtility.cpp" />
     <ClCompile Include="..\Private\Font_Manager.cpp" />
     <ClCompile Include="..\private\KeyManager.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
-    <ClCompile Include="..\Private\CSVReader.cpp" />
     <ClCompile Include="..\Private\File.cpp" />
     <ClCompile Include="..\Private\FileReader.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />

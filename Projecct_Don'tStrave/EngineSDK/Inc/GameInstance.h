@@ -70,7 +70,7 @@ public:
 #pragma endregion
 
 #pragma region FONT_MANAGER
-	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect);
+	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat = DT_CENTER | DT_VCENTER);
 	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
 #pragma endregion
 
@@ -91,6 +91,7 @@ private:
 	class CSoundManager*			m_pSoundManager = { nullptr };
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
 	class CKeyManager*				m_pKey_Manager = { nullptr };
+	class CCollision_Manager*		m_pCollision_Manager = { nullptr };
 
 public:
 	void Release_Engine();
