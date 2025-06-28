@@ -137,4 +137,9 @@ CGameObject* CEnviornment_Object::Clone(void* pArg)
 void CEnviornment_Object::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pTransformCom);
+    Safe_Release(m_pTexture_Com);
+    Safe_Release(m_pVIBuffer_Com);
+
 }
