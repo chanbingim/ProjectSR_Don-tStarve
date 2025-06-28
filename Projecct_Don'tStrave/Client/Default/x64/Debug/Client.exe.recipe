@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
       <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe</FullPath>
+=======
+      <FullPath>C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe</FullPath>
+>>>>>>> origin/06_27_kjh
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
