@@ -29,22 +29,29 @@ public:
 	virtual void	 Priority_Update(_float fTimeDelta)override;
 	virtual void	 Update(_float fTimeDelta)override;
 	virtual void	 Late_Update(_float fTimeDelta)override;
-	HRESULT			 Render(RECT& rcText);
+	HRESULT			 Render(CTransform* pTransform);
 
+	void			 Update_Count();
 	void			 Render_ItemState();
 
 private:
 	_bool		m_bKey = {};
+	_uint		m_iDigit = {};
+	_uint		m_TextSize = {};
 	Item_Desc	m_Item_Desc = {};
-
+	
 	CTexture*	m_pTexture_Com_ItemState = { nullptr };
 	CTexture*	m_pTexture_Com_NumItem = { nullptr };
+
+	_float3		   m_Positions[7] = {};
+	vector <_uint> m_TextureIndexes = {};
 
 private:
 	HRESULT ADD_Components();
 	void	Key_Input();
 	void	Update_Item(_float fTimeDelta);
-	void	Render_Item(RECT& rcText);
+	
+	void	Render_Item(CTransform* pTransform);
 
 public:
 	static CSlot* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

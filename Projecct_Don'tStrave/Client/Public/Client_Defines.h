@@ -19,6 +19,7 @@ namespace Client
 	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT };
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
+	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 
 	typedef struct Item_Desc
 	{

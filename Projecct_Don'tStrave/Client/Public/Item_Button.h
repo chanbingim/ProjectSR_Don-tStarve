@@ -4,12 +4,15 @@
 
 NS_BEGIN(Client)
 
-class CCamera_Button final : public CButton
+class CItem_Button final : public CButton
 {
 private:
-	CCamera_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCamera_Button(const CCamera_Button& Prototype);
-	virtual ~CCamera_Button() = default;
+	CItem_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CItem_Button(const CItem_Button& Prototype);
+	virtual ~CItem_Button() = default;
+
+public:
+	void Select_Button() { m_isSelected = !m_isSelected; }
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;
@@ -21,15 +24,18 @@ public:
 
 	virtual void HoverEevent() override;
 	virtual void ClickedEevent() override;
+	
 
 private:
-	_uint m_iTextureIndex = {};
+	_bool		m_isSelected = {};
+	CTexture*	m_pBackGroundTexture_Com = { nullptr };
 
 private:
 	virtual HRESULT ADD_Components();
+	
 
 public:
-	static CCamera_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CItem_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free() override;
 };

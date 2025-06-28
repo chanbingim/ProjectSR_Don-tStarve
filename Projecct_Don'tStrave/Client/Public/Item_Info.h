@@ -12,12 +12,17 @@ private:
 	virtual ~CItem_Info() = default;
 
 public:
+	void Set_ITem(_uint iItemID) { m_SelectedItemID = iItemID; }
+	
+public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
 	virtual void	 Priority_Update(_float fTimeDelta)override;
 	virtual void	 Update(_float fTimeDelta)override;
 	virtual void	 Late_Update(_float fTimeDelta)override;
-	virtual HRESULT	 Render()override;
+	HRESULT			 Render(CTransform* pTransform);
+
+	void			Update_Rect(_float fX, _float fY);
 
 private:
 	_uint	m_SelectedItemID = {};
@@ -35,6 +40,7 @@ private:
 
 private:
 	HRESULT ADD_Components();
+	
 
 public:
 	static CItem_Info* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
