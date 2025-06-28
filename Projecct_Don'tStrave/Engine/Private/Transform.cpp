@@ -38,7 +38,6 @@ void CTransform::SetPosition(const _float3& _vPosition)
 
 void CTransform::SetRotation(const _float3& _vRotation)
 {
-
 }
 
 void CTransform::SetRotAxis(const _float3& _vAxis, _float _fAngle)
@@ -71,9 +70,9 @@ void CTransform::LookAt(const _float3& _fDir)
 {
 	_float3 vScale = GetScale();
 	*(_float3*)m_WorldMat.m[EnumToInt(WORLDSTATE::LOOK)] = _fDir - GetWorldState(WORLDSTATE::POSITION);
-	auto vLook = _fDir - GetWorldState(WORLDSTATE::POSITION);
+	auto vUp = _float3(0.f, 1.f, 0.f);
 	D3DXVec3Cross(	(_float3*)m_WorldMat.m[EnumToInt(WORLDSTATE::RIGHT)],
-					(_float3*)m_WorldMat.m[EnumToInt(WORLDSTATE::UP)],
+					&vUp,
 					(_float3*)m_WorldMat.m[EnumToInt(WORLDSTATE::LOOK)]);
 
 	D3DXVec3Cross(  (_float3*)m_WorldMat.m[EnumToInt(WORLDSTATE::UP)],

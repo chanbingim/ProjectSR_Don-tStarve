@@ -42,12 +42,13 @@ public:
 	void		Get_Damage(_uint iAtk);
 protected:
 	_uint			m_iMaxHp = {};
-	_uint			m_iHp = {};
 	_uint			m_iTemp = {};
 	_uint			m_iAtk = {};
 	_uint			m_iDef = {};
 	_uint			m_iMaxHit = {};
-	_int			m_iHit = {};
+	_int				m_iHp = {};
+	_int				m_iHit = {};
+	_bool			m_bAttack;
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CAnimController* m_pAnimController = { nullptr };
 	CTransform* m_pAnimTransformCom = { nullptr };

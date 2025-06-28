@@ -33,7 +33,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
 		return E_FAIL;
 
-	
+	if(FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
+		return E_FAIL;
 
 	return S_OK;
 }

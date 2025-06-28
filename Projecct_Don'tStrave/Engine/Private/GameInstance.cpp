@@ -189,6 +189,11 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const 
 	return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
 }
 
+HRESULT CGameInstance::Initialize_Late(_uint iPrototypeLevelIndex)
+{
+	return m_pObject_Manager->Initialize_Late(iPrototypeLevelIndex);
+}
+
 #pragma endregion
 
 #pragma region RENDERER

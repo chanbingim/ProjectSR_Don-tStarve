@@ -21,6 +21,11 @@ HRESULT CMonster::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	return S_OK;
+}
+
+HRESULT CMonster::Initialize_Late()
+{
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0));
 	return S_OK;
 }

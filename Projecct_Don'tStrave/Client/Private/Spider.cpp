@@ -8,7 +8,7 @@ CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CSpider::CSpider(const CSpider& Prototype)
-	: CMonster{ Prototype }, m_id{Prototype.m_id}
+	: CMonster{ Prototype }
 {
 }
 
@@ -68,56 +68,69 @@ void CSpider::Priority_Update(_float fTimeDelta)
 
 void CSpider::Update(_float fTimeDelta)
 {
-	_float3 move = m_pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
-		if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+	if (m_tMotion == MOTION::DEATH) {
+		if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
+			m_isDead = true;
+		}
+	}
+	else {
+		_float3 move = m_pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		if ((abs(move.x) + abs(move.z)) / 2.f < 2 && !m_pPlayer->IsGhost()) {
+			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+				switch (m_tMotion)
+				{
+				case MOTION::TAUNT:
+					if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
+						m_tMotion = MOTION::IDLE_TO_RUN;
+					}
+					break;
+				case MOTION::DAMAGE:
+				case MOTION::ATTACK:
+					if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
+						m_tMotion = MOTION::IDLE;
+					}
+					break;
+				default:
+					m_tDir = DIR::DIR_END;
+					m_tMotion = MOTION::TAUNT;
+					break;
+				}
+				SetAnimation(m_tDir, m_tMotion);
+			}
+			else {
+				if (m_tMotion == MOTION::IDLE_TO_RUN && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd())
+				{
+					m_tMotion = MOTION::RUN;
+					SetAnimation(m_tDir, m_tMotion);
+				}
+				D3DXVec3Normalize(&move, &move);
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				vPosition += move * fTimeDelta;
+				m_pTransformCom->SetPosition(vPosition);
+			}
+		}
+		else {
 			switch (m_tMotion)
 			{
-			case MOTION::TAUNT:
+			case MOTION::RUN:
 				if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-					m_tMotion = MOTION::IDLE_TO_RUN;
+					m_tMotion = MOTION::RUN_TO_IDLE;
+					SetAnimation(m_tDir, m_tMotion);
 				}
 				break;
 			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
+					m_tDir = DIR::DIR_END;
+					m_tMotion = MOTION::IDLE;
+					SetAnimation(m_tDir, m_tMotion);
+				}
 				break;
 			default:
-				m_tDir = DIR::DIR_END;
-				m_tMotion = MOTION::TAUNT;
 				break;
 			}
-			SetAnimation(m_tDir, m_tMotion);
-		}
-		else {
-			if (m_tMotion == MOTION::IDLE_TO_RUN && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd())
-			{
-				m_tMotion = MOTION::RUN;
-				SetAnimation(m_tDir, m_tMotion);
-			}
-			D3DXVec3Normalize(&move, &move);
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			vPosition += move * fTimeDelta;
-			m_pTransformCom->SetPosition(vPosition);
-		}
-	}
-	else{
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-				m_tMotion = MOTION::RUN_TO_IDLE;
-				SetAnimation(m_tDir, m_tMotion);
-			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::RUN_TO_IDLE:
-			if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-				m_tDir = DIR::DIR_END;
-				m_tMotion = MOTION::IDLE;
-				SetAnimation(m_tDir, m_tMotion);
-			}
-			break;
-		default:
-			break;
 		}
 	}
 }
@@ -127,9 +140,6 @@ void CSpider::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 	m_pAnimController->Tick(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
-	if (MOTION::DEATH == m_tMotion && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-		m_isDead = true;
-	}
 }
 
 HRESULT CSpider::Render()
@@ -142,19 +152,20 @@ HRESULT CSpider::Render()
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
-	//m_pCollision_Com->Render();
 
 	return S_OK;
 }
 
 void CSpider::Damage()
 {
+	m_tDir = DIR::DIR_END;
 	m_tMotion = MOTION::DAMAGE;
 	SetAnimation(m_tDir, m_tMotion);
 }
 
 void CSpider::Attack()
 {
+	m_bAttack = true;
 	m_tMotion = MOTION::ATTACK;
 	SetAnimation(m_tDir, m_tMotion);
 }
@@ -169,10 +180,7 @@ void CSpider::Death()
 HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
 {
 	AddAnimation(dir, motion);
-	DIR _dir = dir;
-	if (DIR::DIR_END == dir)
-		_dir = DIR::DOWN;
-	m_pAnimController->ChangeState(m_pSpiderAnim[_dir][motion]);
+	m_pAnimController->ChangeState(m_pSpiderAnim[m_tDir][motion]);
 	return S_OK;
 }
 
@@ -329,8 +337,6 @@ HRESULT CSpider::Begin_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-
-
 	return S_OK;
 }
 
@@ -350,15 +356,14 @@ void CSpider::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (dynamic_cast<CPlayer*>(HitActor) && m_tMotion != DEATH) {
-		/*if (m_tMotion != ATTACK) {
+	if (dynamic_cast<CPlayer*>(HitActor) && !m_pPlayer->IsGhost() && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		if (m_tMotion != ATTACK) {
 			Attack();
 		}
-		else if (m_tMotion == ATTACK && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
-
-			m_isDead = true;
-		}*/
-		m_isDead = true;
+		else if (m_tMotion == ATTACK && m_bAttack && m_pSpiderAnim[m_tDir][m_tMotion]->IsAttack(22)) {
+			m_pPlayer->Get_Damage(30);
+			m_bAttack = false;
+		}
 	}
 }
 
@@ -383,7 +388,6 @@ CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 CGameObject* CSpider::Clone(void* pArg)
 {
 	CSpider* pInstance = new CSpider(*this);
-	m_id++;
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		MSG_BOX("Failed to Cloned : CSpider");
