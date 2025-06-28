@@ -76,6 +76,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iHit = m_iMaxHit;
 	m_bControll = false;
 
+	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
 	return S_OK;
 }
 
@@ -89,10 +92,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	if (m_bControll) {
-
-		if (0 < m_pSphereCollisionCom->GetOVerlapAllObejcts()->size()) {
-			Get_Damage(5);
-		}
 		if (GetKeyState('W') & 0x8000 || GetKeyState('S') & 0x8000 || GetKeyState('D') & 0x8000 || GetKeyState('A') & 0x8000)
 		{
 			switch (m_tMotion)
@@ -112,7 +111,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
 
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
@@ -125,7 +124,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
 
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
@@ -138,7 +137,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
 					m_tDir = DIR::SIDE;
@@ -150,7 +149,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
 					m_tDir = DIR::SIDE;
@@ -297,7 +296,6 @@ void CPlayer::Update(_float fTimeDelta)
 		SetAnimation(m_iSwapObject, (DIR)m_iDirection, m_tMotion);
 		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
 	}
-	m_pSphereCollisionCom->Update();
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -333,9 +331,9 @@ HRESULT CPlayer::Render()
 		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
 		m_pVIBufferCom->Render();
 	}
-	m_pSphereCollisionCom->Render();
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
+	m_pCollision_Com->Render();
 	
 	return S_OK;
 }
@@ -596,46 +594,6 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Down"),
-	//		TEXT("Com_Atk_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Side"),
-	//		TEXT("Com_Atk_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Atk_Up"),
-	//		TEXT("Com_Atk_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Bucked"),
-	//		TEXT("Com_Bucked"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::BUCKED]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Buck_Pst"),
-	//		TEXT("Com_Buck_Pst"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::BUCK_PST]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Down"),
-	//		TEXT("Com_Damage_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Side"),
-	//		TEXT("Com_Damage_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Damage_Up"),
-	//		TEXT("Com_Damage_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::UP][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-
 		/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death1"),
 		TEXT("Com_Death1"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DEATH1]))))
@@ -645,14 +603,6 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Death2"),
 		TEXT("Com_Death2"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::SIDE][MOTION::DEATH2]))))
 		return E_FAIL;
-
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Dial"),
-	//		TEXT("Com_Dial"), reinterpret_cast<CComponent**>(&m_pTextureCom[0][DIR::DOWN][MOTION::DIAL]))))
-	//		return E_FAIL;
-
-
-
 
 		/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Idle_Loop_Down"),
@@ -715,36 +665,6 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Item_Run_Pst_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::RUN_TO_IDLE]))))
 		return E_FAIL;
 
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Down"),
-	//		TEXT("Com_Item_Atk_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Side"),
-	//		TEXT("Com_Item_Atk_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Atk_Up"),
-	//		TEXT("Com_Item_Atk_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::ATTACK]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Item_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Down"),
-	//		TEXT("Com_Item_Damage_Down"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::DOWN][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Item_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Side"),
-	//		TEXT("Com_Item_Damage_Side"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-	//
-	//	/* Com_Texture */
-	//	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Damage_Up"),
-	//		TEXT("Com_Item_Damage_Up"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::UP][MOTION::DAMAGE]))))
-	//		return E_FAIL;
-
 		/* Com_Texture */
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Player_Item_Death1"),
 		TEXT("Com_Item_Death1"), reinterpret_cast<CComponent**>(&m_pTextureCom[1][DIR::SIDE][MOTION::DEATH1]))))
@@ -778,11 +698,11 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_AnimController2"), (CComponent**)&m_pSwapObjectAnimController)))
 		return E_FAIL;
 
-	/* Com_Collision */
-	CSphere_Collision_Component::COL_DESC Col_Desc = {};
+	CBox_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Sphere_Collision"),
-		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pSphereCollisionCom), &Col_Desc)))
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 	return S_OK;
 }
@@ -824,6 +744,18 @@ HRESULT CPlayer::End_RenderState()
 	return S_OK;
 }
 
+void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+}
+
+void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+}
+
+void CPlayer::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+{
+}
+
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPlayer* pInstance = new CPlayer(pGraphic_Device);
@@ -857,7 +789,7 @@ void CPlayer::Free()
 	Safe_Release(m_pSwapObjectAnimController);
 
 
-	Safe_Release(m_pSphereCollisionCom);
+	Safe_Release(m_pCollision_Com);
 
 	for (int i = 0; i < 2; ++i) {
 		for (int j = 0; j < DIR::DIR_END; ++j) {

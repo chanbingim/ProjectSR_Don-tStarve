@@ -34,6 +34,7 @@ public:
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			Render();
 	bool					IsEnd();
+	bool					IsAttack();
 private:
 	CTransform*				m_pParentTransformCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };

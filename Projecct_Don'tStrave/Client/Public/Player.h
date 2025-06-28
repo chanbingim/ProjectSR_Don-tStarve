@@ -13,7 +13,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
-class CSphere_Collision_Component;
+class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
@@ -88,7 +88,7 @@ private:
 	CAnimController*			m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CSphere_Collision_Component* m_pSphereCollisionCom = { nullptr };
+	CCollision_Component	*	m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};
@@ -100,6 +100,10 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+
+	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
+	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

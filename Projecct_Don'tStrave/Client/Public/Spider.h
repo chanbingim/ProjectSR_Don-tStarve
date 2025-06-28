@@ -6,7 +6,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
-class CSphere_Collision_Component;
+class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
@@ -53,14 +53,19 @@ public:
 private:
 	CTexture*				m_pTextureCom[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
 	CPlayerAnim*				m_pSpiderAnim[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CSphere_Collision_Component* m_pSphereCollisionCom = { nullptr };
+	CCollision_Component* m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	_bool					m_bMove = {};
+	_uint					m_id = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+
+	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
+	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CSpider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
