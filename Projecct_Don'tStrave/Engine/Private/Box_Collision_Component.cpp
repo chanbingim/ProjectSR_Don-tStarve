@@ -105,7 +105,4 @@ void CBox_Collision_Component::Free()
     __super::Free();
 
     Safe_Release(m_pBoxMesh);
-
-    if (!m_isCloned)
-        Safe_Delete_Array(m_pMeshVtx);
 }

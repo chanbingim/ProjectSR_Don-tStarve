@@ -1,4 +1,5 @@
 #include "Collision_Manager.h"
+#include "GameObject.h"
 #include "Box_Collision_Component.h"
 #include "Sphere_Collision_Component.h"
 
@@ -61,10 +62,6 @@ void CCollision_Manager::Update()
                 if (ColFlag)
                 {
                     Src->ADDHitGroup(Dst->GetOwner());
-                    Dst->ADDHitGroup(Src->GetOwner());
-
-                    m_bColCheck[DstIndex] = true;
-                    m_bColCheck[SrcIndex] = true;
                 }
                 DstIndex++;
             }

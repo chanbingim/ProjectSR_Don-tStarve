@@ -130,7 +130,6 @@ void CCollision_Component::Free()
 	__super::Free();
 
 	CCollision_Manager::GetInstance()->Remove_ColList(this);
-
 	
 	m_HitActor.clear();
 	m_OldHitActor.clear();

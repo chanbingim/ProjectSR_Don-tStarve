@@ -351,13 +351,14 @@ void CSpider::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (dynamic_cast<CPlayer*>(HitActor) && m_tMotion != DEATH) {
-		if (m_tMotion != ATTACK) {
+		/*if (m_tMotion != ATTACK) {
 			Attack();
 		}
 		else if (m_tMotion == ATTACK && m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
 
 			m_isDead = true;
-		}
+		}*/
+		m_isDead = true;
 	}
 }
 

@@ -333,8 +333,11 @@ HRESULT CPlayer::Render()
 	}
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pCollision_Com->Render();
-	
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	return S_OK;
 }
 
