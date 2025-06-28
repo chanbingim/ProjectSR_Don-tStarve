@@ -323,7 +323,6 @@ HRESULT CPlayer::Render()
 		//m_pVIBufferCom->Render();
 	}
 	else {
-
 		//m_pSwapObjectAnimController->Render();
 		//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pSwapObjectTransformCom->Get_World());
 		//m_pVIBufferCom->Render();

@@ -22,12 +22,12 @@ public :
 
 private :
 	list<CCollision_Component*>		m_pCol_List[ENUM_CLASS(COLLISION_TYPE::END)] = {};
-	vector<_bool>					m_bColCheck;
 
 private :
 	_bool		AxisAlignedBoundBox(CCollision_Component* pCol, CCollision_Component* pOtherCol);
 	_bool		SphereCol(CCollision_Component* pCol, CCollision_Component* pOtherCol);
 	_bool		OrientedBoundingBox(CCollision_Component* pCol, CCollision_Component* pOtherCol);
+	_bool		CompareBoxToSphere(CCollision_Component* pCol, CCollision_Component* pOtherCol);
 
 public :
 	virtual		void				Free();

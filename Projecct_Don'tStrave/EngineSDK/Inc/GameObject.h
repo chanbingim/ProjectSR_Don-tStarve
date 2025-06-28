@@ -39,7 +39,6 @@ public:
 	class CComponent*	Find_Component(const _wstring& strComponentTag);
 	CTransform*			GetTransfrom() { return m_pTransformCom; }
 
-
 protected:
 	int							m_iData;
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
