@@ -137,6 +137,12 @@
     <Filter Include="03. Character\Player\Animation">
       <UniqueIdentifier>{9277ac16-937c-4c83-856e-37a271b834f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Character\Monster\Spider">
+      <UniqueIdentifier>{32c4a147-d075-4c3d-abbc-8db4aa4f7bc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\House">
+      <UniqueIdentifier>{be023e22-a383-44b9-bea2-e4fc17aca4c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -274,6 +280,12 @@
     <ClInclude Include="..\public\Enviorment_Object.h">
       <Filter>김찬빈</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Spider.h">
+      <Filter>03. Character\Monster\Spider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderHouse.h">
+      <Filter>03. Character\Monster\Spider\House</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -408,6 +420,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Enviorment_Object.cpp">
       <Filter>김찬빈</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Spider.cpp">
+      <Filter>03. Character\Monster\Spider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderHouse.cpp">
+      <Filter>03. Character\Monster\Spider\House</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -21,17 +21,21 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	GAMEOBJECT_DESC* TeerrainDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
-	m_pTransformCom->SetScale(TeerrainDesc->vScale);
-	m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+	if (nullptr == pArg)
+	{
+
+	}
+	else
+	{
+		GAMEOBJECT_DESC* TeerrainDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+
+		m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
+		m_pTransformCom->SetScale(TeerrainDesc->vScale);
+		m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+	}
 
 	return S_OK;
 }
