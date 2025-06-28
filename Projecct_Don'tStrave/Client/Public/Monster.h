@@ -2,6 +2,10 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
+#include "UserInterface.h"
+#include "PlayerAnim.h"
+#include "Character.h"
+#include "Player.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -12,9 +16,9 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CMonster final : public CLandObject
+class CMonster : public CCharacter
 {
-private:
+protected:
 	CMonster(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMonster(const CMonster& Prototype);
 	virtual ~CMonster() = default;
@@ -26,20 +30,9 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-private:
-	CTexture*				m_pTextureCom = { nullptr };
-	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-	CCollision_Component*	m_pCollision_Com = { nullptr };
-	
-private:
-	HRESULT Ready_Components();
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
-
+protected:
+	CPlayer* m_pPlayer = {};
 public:
-	static CMonster* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };
 

@@ -23,7 +23,11 @@ HRESULT CHeadUpDisplay::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+<<<<<<< HEAD
     /*m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+=======
+    m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0));
+>>>>>>> origin/06_27_kjh
 
     if (nullptr == m_pPlayer)
         return E_FAIL;*/
