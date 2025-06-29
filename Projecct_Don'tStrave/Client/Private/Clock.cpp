@@ -79,7 +79,7 @@ HRESULT CClock::Render()
 
     // Test Code
     RECT rect = { m_fX - m_fSizeX*0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
-    wstring s = to_wstring(m_iDate) + L"ÀÏ";
+    wstring s = L"Day" + to_wstring(m_iDate);
 
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
     m_pGameInstance->Render_Font(TEXT("Date_40"), s.c_str(), &rect, white);

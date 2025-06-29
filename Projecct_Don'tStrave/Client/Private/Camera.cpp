@@ -53,6 +53,8 @@ HRESULT CCamera::Initialize(void* pArg)
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 0;
 
+
+
  	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 
@@ -97,16 +99,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	}
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
-}
 
-void CCamera::Update(_float fTimeDelta)
-{
-	
-
-}
-
-void CCamera::Late_Update(_float fTimeDelta)
-{
 	if (m_pPlayerTransformCom != nullptr) {
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
@@ -122,6 +115,17 @@ void CCamera::Late_Update(_float fTimeDelta)
 	}
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
+}
+
+void CCamera::Update(_float fTimeDelta)
+{
+	
+
+}
+
+void CCamera::Late_Update(_float fTimeDelta)
+{
+	
 }
 
 HRESULT CCamera::Render()

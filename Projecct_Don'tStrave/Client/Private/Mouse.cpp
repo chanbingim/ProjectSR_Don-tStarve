@@ -1,6 +1,7 @@
 #include "Mouse.h"
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
 #include "Slot.h"
 #include "Item.h"
 
@@ -41,6 +42,10 @@ HRESULT CMouse::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+
+    Safe_AddRef(m_pPlayerTransform_Com);
+
     return S_OK;
 }
 
@@ -55,9 +60,6 @@ void CMouse::Priority_Update(_float fTimeDelta)
 
 void CMouse::Update(_float fTimeDelta)
 {
-    
-    if(SLOT::NORMAL ==  m_pSlot->Get_Info().eSlot)
-        m_pSlot->Update(fTimeDelta);
 
     m_pSlot->Update_Count();
 
@@ -70,7 +72,7 @@ void CMouse::Update(_float fTimeDelta)
  
     //m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     __super::UpdatePosition();
-    ClickedEevent();
+    
 
 #pragma region TestCode
     ITEM_DESC Desc = {};
@@ -120,6 +122,10 @@ void CMouse::Update(_float fTimeDelta)
 
 void CMouse::Late_Update(_float fTimeDelta)
 {
+    if (SLOT::NORMAL == m_pSlot->Get_Info().eSlot)
+        m_pSlot->Update(fTimeDelta);
+
+    ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
@@ -161,6 +167,16 @@ void CMouse::ClickedEevent()
                 ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
                     TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
                 {
+
+                    _float3 vDistance = vPickingPos - m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+
+                    if (1.f <= D3DXVec3Length(&vDistance))
+                    {
+                        m_bPutDown = false;
+                        return;
+                    }
+
+
                     ITEM_DESC Desc = m_pSlot->Get_Info();
                     Desc.vPosition = vPickingPos;
 
@@ -185,8 +201,7 @@ void CMouse::ClickedEevent()
 }
 void CMouse::Update_HoverObject(CItem* pItem)
 {
-    ITEM_DESC Desc = pItem->Get_Info();
-    m_MouseMessage = to_wstring(Desc.iItemID);
+    m_MouseMessage = CItem_Manager::GetInstance()->Get_ItemData(pItem->Get_Info().iItemID).strName;
 }
 HRESULT CMouse::ADD_Components()
 {
@@ -267,6 +282,7 @@ void CMouse::Free()
     __super::Free();
 
     Safe_Release(m_pSlot);
+    Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
