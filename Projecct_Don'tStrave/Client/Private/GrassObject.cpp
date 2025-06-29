@@ -83,6 +83,7 @@ HRESULT CGrassObject::ADD_Components()
         TEXT("Com_Picked_Texture"), reinterpret_cast<CComponent**>(&m_Broken_pTexture_Com))))
         return E_FAIL;
 
+   
     /* Com_Collision */
     CBox_Collision_Component::Collision_Desc Col_Desc = {};
     Col_Desc.pOwner = this;

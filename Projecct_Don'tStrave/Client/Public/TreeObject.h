@@ -1,7 +1,14 @@
 #pragma once
 #include "Enviornment_Object.h"
 
+NS_BEGIN(Engine)
+class CAnimController;
+NS_END
+
 NS_BEGIN(Client)
+
+class CEnv_Animation;
+
 class CTreeObject : public CEnviornment_Object
 {
 private:
@@ -22,6 +29,9 @@ private:
 	CTexture*			m_Fall_Left_pTexture_Com = { nullptr };
 	CTexture*			m_Fall_Right_pTexture_Com = { nullptr };
 	CTexture*			m_Broken_pTexture_Com = { nullptr };
+
+	CAnimController*	m_Animation_Com = { nullptr };
+	CEnv_Animation*		m_AnimationState[5] = {};
 
 private:
 	HRESULT				ADD_Components();

@@ -1,5 +1,6 @@
 #include "Level_Manager.h"
 #include "GameInstance.h"
+#include "Collision_Manager.h"
 
 #include "Level.h"
 
@@ -13,6 +14,7 @@ HRESULT CLevel_Manager::Change_Level(CLevel* pNewLevel)
 {
 	if (nullptr != m_pCurrentLevel)
 	{
+		CCollision_Manager::GetInstance()->Reset_Collision();
 		m_pGameInstance->Clear_Resources(m_pCurrentLevel->Get_LevelID());
 
 		Safe_Release(m_pCurrentLevel);

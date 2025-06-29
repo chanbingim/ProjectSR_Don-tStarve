@@ -41,6 +41,7 @@ void CAnimController::ChangeState(CState* pNewState)
 
 	if (pNewState)
 	{
+
 		m_CurState = pNewState;
 		m_CurState->Reset_StateData();
 	}
