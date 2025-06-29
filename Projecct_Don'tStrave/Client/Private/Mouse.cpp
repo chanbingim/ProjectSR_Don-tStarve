@@ -232,7 +232,6 @@ HRESULT CMouse::Add_Slot()
 
     m_pGameInstance->Chagne_Slot(m_pSlot);
 
-    Safe_AddRef(m_pSlot);
 
     return S_OK;
 }
