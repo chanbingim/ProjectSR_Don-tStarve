@@ -118,6 +118,9 @@
     <Filter Include="Utility\KeyInput">
       <UniqueIdentifier>{bf857751-b10d-4aca-afac-fbadb76e2fd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Font">
+      <UniqueIdentifier>{5876f8d9-4620-4986-9fb7-e00803978bc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -234,7 +237,6 @@
     <ClInclude Include="..\Public\CMath.h">
       <Filter>Utility\FMath</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\Public\Box_Collision_Component.h">
       <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
     </ClInclude>
@@ -251,6 +253,9 @@
       <Filter>Utility\KeyInput</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUtility.h" />
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>System\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -343,7 +348,6 @@
     <ClCompile Include="..\Private\CMath.cpp">
       <Filter>Utility\FMath</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Font_Manager.cpp" />
     <ClCompile Include="..\Private\Box_Collision_Component.cpp">
       <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
     </ClCompile>
@@ -360,5 +364,8 @@
       <Filter>Utility\KeyInput</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUtility.cpp" />
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>System\Font</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

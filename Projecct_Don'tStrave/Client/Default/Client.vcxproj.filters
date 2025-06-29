@@ -143,6 +143,36 @@
     <Filter Include="03. Character\Monster\Spider\House">
       <UniqueIdentifier>{be023e22-a383-44b9-bea2-e4fc17aca4c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Objects\Environment">
+      <UniqueIdentifier>{f3b1aac8-bb2a-4850-8ee4-bf1e297b9096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Tree">
+      <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Rock">
+      <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Portal">
+      <UniqueIdentifier>{d3cbe031-fec7-484d-87a7-7f9724e5c696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Grass">
+      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Tutorial">
+      <UniqueIdentifier>{afa615c8-0cf7-42b3-a0de-45c432b250aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. ClientComponent">
+      <UniqueIdentifier>{d8994de0-89ed-4227-868c-491c6675bec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Item_Button">
+      <UniqueIdentifier>{b190d287-ddfb-4661-a8ff-9f1dc71ec7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Category_Button">
+      <UniqueIdentifier>{afc9605e-1ce1-4b69-a89b-9e31b91d57f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\EnvAnimation">
+      <UniqueIdentifier>{992723a9-e316-4bda-8b6f-c109379e725d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -274,26 +304,41 @@
     <ClInclude Include="..\Public\PlayerAnim.h">
       <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\TutorialLevel.h">
-      <Filter>김찬빈</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Enviorment_Object.h">
-      <Filter>김찬빈</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Spider.h">
       <Filter>03. Character\Monster\Spider</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SpiderHouse.h">
       <Filter>03. Character\Monster\Spider\House</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\DropItemComponent.h">
-      <Filter>김찬빈</Filter>
+    <ClInclude Include="..\public\PortalObject.h">
+      <Filter>02. Objects\Environment\Portal</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Category_Button.h">
-      <Filter>대진호</Filter>
+    <ClInclude Include="..\public\GrassObject.h">
+      <Filter>02. Objects\Environment\Grass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RockObject.h">
+      <Filter>02. Objects\Environment\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Enviornment_Object.h">
+      <Filter>02. Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TutorialLevel.h">
+      <Filter>01. Levels\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DropItemComponent.h">
+      <Filter>06. ClientComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TreeObject.h">
+      <Filter>02. Objects\Environment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Button.h">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Button\Item_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Category_Button.h">
+      <Filter>04. GmaeUI\Button\Category_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Env_Animation.h">
+      <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -424,26 +469,41 @@
     <ClCompile Include="..\Private\PlayerAnim.cpp">
       <Filter>03. Character\Player\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\TutorialLevel.cpp">
-      <Filter>김찬빈</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Enviorment_Object.cpp">
-      <Filter>김찬빈</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Spider.cpp">
       <Filter>03. Character\Monster\Spider</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SpiderHouse.cpp">
       <Filter>03. Character\Monster\Spider\House</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\DropItemComponent.cpp">
-      <Filter>김찬빈</Filter>
+    <ClCompile Include="..\private\PortalObject.cpp">
+      <Filter>02. Objects\Environment\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Category_Button.cpp">
-      <Filter>대진호</Filter>
+    <ClCompile Include="..\private\GrassObject.cpp">
+      <Filter>02. Objects\Environment\Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RockObject.cpp">
+      <Filter>02. Objects\Environment\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TreeObject.cpp">
+      <Filter>02. Objects\Environment\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enviornment_Object.cpp">
+      <Filter>02. Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TutorialLevel.cpp">
+      <Filter>01. Levels\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DropItemComponent.cpp">
+      <Filter>06. ClientComponent</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Button.cpp">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Button\Item_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Category_Button.cpp">
+      <Filter>04. GmaeUI\Button\Category_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Env_Animation.cpp">
+      <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

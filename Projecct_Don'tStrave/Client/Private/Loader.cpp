@@ -16,7 +16,14 @@
 #include "Camera_Button.h"
 #include "MiniMap_Button.h"
 #include "QuickSlot_Button.h"
-#include "Enviorment_Object.h"
+
+#pragma region ENVIORN_MENT
+#include "GrassObject.h"
+#include "RockObject.h"
+#include "PortalObject.h"
+#include "TreeObject.h"
+#pragma endregion
+
 #include "Category_Button.h"
 #include "Clock.h"
 #include "Item_Info.h"
@@ -499,6 +506,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 HRESULT CLoader::Loading_For_Tutorial()
 {
 	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+#pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 2))))
@@ -509,12 +517,90 @@ HRESULT CLoader::Loading_For_Tutorial()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Monster/Ma.jpg"), 1))))
 		return E_FAIL;
 
+#pragma region Rock
+	/* For.Prototype_Component_Texture_Rock_Healthy */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Idle"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Healthy/Healthy_000.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Rock_Damaged */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Damaged"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Damaged/Damaged_000.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Rock_Broken */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Broken"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Broken/Broken_000.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region GoldLock
+	/* For.Prototype_Component_Texture_GlodLock */
+	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;*/
+#pragma endregion
+
+#pragma region Spawner
+	/* For.Prototype_Component_Texture_Spawner_Idle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Spawner"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Spawner/Spawner_%d.png"), 2))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Tree_Motion
+	/* For.Prototype_Component_Texture_Tree_Idle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Idle"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Idle/Idle_0%d.png"), 80))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Tree_Fall_L */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Left"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Left/Fall_Left_0%d.png"), 38))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Tree_Fall_R */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Right"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Right/Fall_Right_0%d.png"), 38))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Tree_Chop */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Chop"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Chop/Chop_0%d.png"), 15))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Tree_Stump */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Stump"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Stump/Stump_000.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Grass
+	/* For.Prototype_Component_Texture_Grass_Idle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Idle"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Idle/Idle_0%d.png"), 15))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Grass_Pick */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Pick"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Pick/Pick_0%d.png"), 15))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Grass_Picked */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Picked"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Picked/Picked_000.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+	
+#pragma endregion
+
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
+#pragma region OBJECT
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
@@ -530,10 +616,29 @@ HRESULT CLoader::Loading_For_Tutorial()
 		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Enviornment */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Environment"),
-		CEnviornment_Object::Create(m_pGraphic_Device))))
+#pragma region ENVIORN_MENT
+	/* For.Prototype_GameObject_Grass */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Grass"),
+		CGrassObject::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_Portal */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Protal"),
+		CPortalObject::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Rock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Rock"),
+		CRockObject::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Tree */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Tree"),
+		CTreeObject::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

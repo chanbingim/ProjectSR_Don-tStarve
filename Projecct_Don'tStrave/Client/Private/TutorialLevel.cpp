@@ -38,6 +38,23 @@ HRESULT CTutorialLevel::Render()
 	return S_OK;
 }
 
+_wstring CTutorialLevel::GetEnv_ObejctTag(_uint iID)
+{
+	switch (iID)
+	{
+	case 1 :
+		return TEXT("Prototype_GameObject_Env_Protal");
+	case 2:
+		return TEXT("Prototype_GameObject_Env_Grass");
+	case 3:
+		return TEXT("Prototype_GameObject_Env_Rock");
+	case 4:
+		return TEXT("Prototype_GameObject_Env_Tree");
+	case 5:
+		return TEXT("");
+	}
+}
+
 HRESULT CTutorialLevel::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 	Parse_ObejectData(  "../Bin/Resources/DataStruct/TutorialMapData/MapData.csv",
@@ -67,10 +84,28 @@ HRESULT CTutorialLevel::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CTutorialLevel::Ready_Layer_Enviornment(const _wstring& strLayerTag)
 {
-	Parse_ObejectData("../Bin/Resources/DataStruct/TutorialMapData/Enviornment.csv",
-						ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Environment"),
-						ENUM_CLASS(LEVEL::TUTORIAL), strLayerTag);
+	//¸Ê µ¥ÀÌÅÍ °¡Á®¿Í¼­ ÆÄ½Ì
+	vector<BASE_DATA_STRUCT> vecBaseData;
+	LoadMapData("../Bin/Resources/DataStruct/TutorialMapData/Enviornment.csv", &vecBaseData);
 
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);
+
+	for (size_t i = 0; i < vecBaseData.size(); ++i)
+	{
+		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
+		WCHAR TexPath[MAX_PATH] = {};
+
+		ObjectDesc.vScale = vecBaseData[i].Scale;
+		ObjectDesc.vRotation = vecBaseData[i].Rotation;
+		ObjectDesc.vPosition = vecBaseData[i].Position;
+
+		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
+		ObjectDesc.TextruePath = TexPath;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

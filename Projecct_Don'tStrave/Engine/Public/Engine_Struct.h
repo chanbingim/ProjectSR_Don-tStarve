@@ -40,7 +40,7 @@ namespace Engine
 
 		//텍스쳐 경로
 		string			szTexturePath;
-
+		_int			iID;
 	}BASE_DATA_STRUCT;
 }
 
