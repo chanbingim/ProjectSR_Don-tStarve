@@ -1,26 +1,24 @@
-#include "Camera_Button.h"
+#include "Category_Button.h"
 #include "GameInstance.h"
 
-CCamera_Button::CCamera_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCategory_Button::CCategory_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CButton{ pGraphic_Device }
 {
 }
 
-CCamera_Button::CCamera_Button(const CCamera_Button& Prototype)
+CCategory_Button::CCategory_Button(const CCategory_Button& Prototype)
     :CButton{ Prototype }
 {
 }
 
-HRESULT CCamera_Button::Initialize_Prototype()
+HRESULT CCategory_Button::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CCamera_Button::Initialize(void* pArg)
+HRESULT CCategory_Button::Initialize(void* pArg)
 {
-    BUTTON_DESC* pDesc = static_cast<BUTTON_DESC*>(pArg);
-
-    m_iTextureIndex = pDesc->iTextureIndex;
+    m_isSelected = false;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -28,50 +26,54 @@ HRESULT CCamera_Button::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    
     __super::UpdatePosition();
 
     return S_OK;
 }
 
-void CCamera_Button::Priority_Update(_float fTimeDelta)
+void CCategory_Button::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CCamera_Button::Update(_float fTimeDelta)
+void CCategory_Button::Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+
+    __super::Update(fTimeDelta);
 
     HoverEevent();
 }
 
-void CCamera_Button::Late_Update(_float fTimeDelta)
+void CCategory_Button::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CCamera_Button::Render()
+HRESULT CCategory_Button::Render()
 {
-     m_pTexture_Com->Set_Texture(m_iTextureIndex);
-
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+
+    m_pBackGroundTexture_Com->Set_Texture(0);
+
+    m_pVIBuffer_Com->Render();
+
+    m_pTexture_Com->Set_Texture(m_iTextureIndex);
 
     m_pVIBuffer_Com->Render();
 
     return S_OK;
 }
 
-void CCamera_Button::HoverEevent()
+void CCategory_Button::HoverEevent()
 {
     if (true == isMouseOver())
     {
         ClickedEevent();
-        m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
+        m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.1f, m_fSizeY * 1.1f, 1.f));
     }
     else
         m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
 }
 
-void CCamera_Button::ClickedEevent()
+void CCategory_Button::ClickedEevent()
 {
     if (m_pGameInstance->KeyDown(VK_LBUTTON))
         m_isClicked = true;
@@ -80,7 +82,7 @@ void CCamera_Button::ClickedEevent()
 
 }
 
-HRESULT CCamera_Button::ADD_Components()
+HRESULT CCategory_Button::ADD_Components()
 {
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
@@ -94,45 +96,52 @@ HRESULT CCamera_Button::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Camera_Button"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Category"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
+        return E_FAIL;
+
+    // Background Texture 
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
+        TEXT("Com_TextureBack"),
+        reinterpret_cast<CComponent**>(&m_pBackGroundTexture_Com))))
         return E_FAIL;
 
     return S_OK;
 }
 
-CCamera_Button* CCamera_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCategory_Button* CCategory_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CCamera_Button* pInstance = new CCamera_Button(pGraphic_Device);
+    CCategory_Button* pInstance = new CCategory_Button(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Create : CCamera_Button");
+        MSG_BOX("Failed to Create : CCategory_Button");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CCamera_Button::Clone(void* pArg)
+CGameObject* CCategory_Button::Clone(void* pArg)
 {
-    CGameObject* pInstance = new CCamera_Button(*this);
+    CGameObject* pInstance = new CCategory_Button(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CCamera_Button");
+        MSG_BOX("Failed to Cloned : CCategory_Button");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CCamera_Button::Free()
+void CCategory_Button::Free()
 {
     __super::Free();
 
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
+    Safe_Release(m_pBackGroundTexture_Com);
 }

@@ -59,6 +59,24 @@ HRESULT CSlot::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    __super::UpdatePosition();
+    _uint iCountSize = { 20 };
+    _float3 vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+    vPos.y -= 10.f;
+    m_Positions[0] = _float3(vPos.x - iCountSize * 0.5f, vPos.y, 0.f);
+    m_Positions[1] = _float3(vPos.x + iCountSize * 0.5f, vPos.y, 0.f);
+    m_Positions[2] = _float3(vPos.x - iCountSize, vPos.y, 0.f);
+    m_Positions[3] = _float3(vPos.x, vPos.y, 0.f);
+    m_Positions[4] = _float3(vPos.x + iCountSize, vPos.y, 0.f);
+    m_Positions[5] = _float3(vPos.x - iCountSize * 1.5f, vPos.y, 0.f);
+    m_Positions[6] = _float3(vPos.x + iCountSize * 1.5f, vPos.y, 0.f);
+
+    m_TextureIndexes.reserve(4);
+    
+    for (_uint i = 0; i < 4; ++i)
+    {
+        m_TextureIndexes.push_back(0);
+    }
 
     return S_OK;
 }
@@ -70,6 +88,7 @@ void CSlot::Priority_Update(_float fTimeDelta)
 void CSlot::Update(_float fTimeDelta)
 {
     Update_Item(fTimeDelta);
+    //Update_Count();
 }
 
 void CSlot::Late_Update(_float fTimeDelta)
@@ -77,11 +96,13 @@ void CSlot::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSlot::Render(RECT& rcText)
+HRESULT CSlot::Render(CTransform* pTransform)
 {
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 80);
+
     if (0 != m_Item_Desc.iItemID)
     {
-        Render_Item(rcText);
+        Render_Item(pTransform);
     }
 
     return S_OK;
@@ -113,7 +134,12 @@ HRESULT CSlot::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
         return E_FAIL;
 
-    //Engine::CTransform::TRANSFORM_DESC Transform_Desc = { 5.f, D3DXToRadian(90.f) };
+    Engine::CTransform::TRANSFORM_DESC Desc = { 5.f, D3DXToRadian(90.f) };
+
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
+        TEXT("Com_Transform"),
+        reinterpret_cast<CComponent**>(&m_pTransform_Com), &Desc)))
+        return E_FAIL;
 
 
     return S_OK;
@@ -135,9 +161,66 @@ void CSlot::Update_Item(_float fTimeDelta)
         m_Item_Desc.fDurability -= 3.f * fTimeDelta;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
+        m_Item_Desc.fDurability -= 1.f * fTimeDelta;
         break;
     default:
         break;
+    }
+}
+
+void CSlot::Update_Count()
+{
+    m_iDigit = 0;
+    m_TextureIndexes.assign(4, 0);
+
+    if(SLOT::NORMAL == m_Item_Desc.eSlot)
+    {
+        if (10 <= m_Item_Desc.iNumItem)
+        {
+            m_TextureIndexes[0] = m_Item_Desc.iNumItem / 10;
+            ++m_iDigit;
+
+            m_TextureIndexes[1] = m_Item_Desc.iNumItem % 10;
+            ++m_iDigit;
+        }
+        else
+        {
+            m_TextureIndexes[0] = m_Item_Desc.iNumItem;
+            ++m_iDigit;
+        }
+
+        
+    }
+    else
+    {
+        m_TextureIndexes[0] = 11;
+        ++m_iDigit;
+
+        if (100.f <= m_Item_Desc.fDurability)
+        {
+            m_TextureIndexes[1] = 1;
+            ++m_iDigit;
+
+            m_TextureIndexes[2] = static_cast<_uint>(m_Item_Desc.fDurability / 10.f - 10);
+            ++m_iDigit;
+           
+            m_TextureIndexes[3] = static_cast<_uint>(static_cast<_uint>(m_Item_Desc.fDurability) % 10);
+            ++m_iDigit;
+        }
+        else if (10.f <= m_Item_Desc.fDurability)
+        {
+            m_TextureIndexes[1] = static_cast<_uint>(m_Item_Desc.fDurability / 10.f);
+            ++m_iDigit;
+
+            m_TextureIndexes[2] = static_cast<_uint>(static_cast<_uint>(m_Item_Desc.fDurability) % 10);
+            ++m_iDigit;
+        }
+        else
+        {
+            m_TextureIndexes[1] = static_cast<_uint>(m_Item_Desc.fDurability);
+            ++m_iDigit;
+        }
+
     }
 }
 
@@ -156,20 +239,105 @@ void CSlot::Render_ItemState()
     }
 }
 
-void CSlot::Render_Item(RECT& rcText)
+void CSlot::Render_Item(CTransform* pTransform)
 {
+    
+
     m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
 
     m_pVIBuffer_Com->Render();
 
-    //m_pTexture_Com_NumItem->Set_Texture(m_Item_Desc.iNumItem);
+    _float3 vPos = pTransform->GetWorldState(WORLDSTATE::POSITION);
 
-    //m_pVIBuffer_Com->Render();
+    pTransform->SetPosition(_float3(vPos.x, vPos.y + 10.f, 0.f));
+    pTransform->SetScale(_float3(20.f, 20.f, 0.f));
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
 
-    //RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
-    
-    D3DXCOLOR Black = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
-    m_pGameInstance->Render_Font(TEXT("Font_20"), TEXT("1"), &rcText, Black);
+
+    if (SLOT::NORMAL == m_Item_Desc.eSlot)
+    {
+        if (1 == m_iDigit)
+        {
+
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+            m_pVIBuffer_Com->Render();
+
+        }
+        else
+        {
+            pTransform->SetPosition(_float3(vPos.x - 8.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x + 8.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+            m_pVIBuffer_Com->Render();
+        }
+
+    }
+    else
+    {
+        if (2 == m_iDigit)
+        {
+            pTransform->SetPosition(_float3(vPos.x - 7.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x + 7.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+            m_pVIBuffer_Com->Render();
+
+        }
+        else if (3 == m_iDigit)
+        {
+            pTransform->SetPosition(_float3(vPos.x - 14.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x + 14.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+            m_pVIBuffer_Com->Render();
+
+
+        }
+        else if (4 == m_iDigit)
+        {
+            pTransform->SetScale(_float3(18.f, 18.f, 0.f));
+            pTransform->SetPosition(_float3(vPos.x - 18.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x - 6.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x + 6.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[3]);
+            m_pVIBuffer_Com->Render();
+
+            pTransform->SetPosition(_float3(vPos.x + 18.f, vPos.y + 9.f, 0.f));
+            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+            m_pVIBuffer_Com->Render();
+        }
+    }
+
+    pTransform->SetPosition(vPos);
+
     
 }
 
@@ -207,4 +375,5 @@ void CSlot::Free()
     Safe_Release(m_pTexture_Com_NumItem);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);
+    Safe_Release(m_pTransform_Com);
 }

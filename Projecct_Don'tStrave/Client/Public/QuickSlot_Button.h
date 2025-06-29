@@ -23,9 +23,6 @@ public:
 	virtual void ClickedEevent() override;
 
 private:
-	_uint m_iTextureIndex = {};
-
-private:
 	virtual HRESULT ADD_Components();
 
 public:
