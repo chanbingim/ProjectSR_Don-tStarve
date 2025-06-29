@@ -16,11 +16,8 @@
 #include "Camera_Button.h"
 #include "MiniMap_Button.h"
 #include "QuickSlot_Button.h"
-<<<<<<< HEAD
 #include "Enviorment_Object.h"
-=======
 #include "Category_Button.h"
->>>>>>> origin/06_28_bjh
 #include "Clock.h"
 #include "Item_Info.h"
 #include "Item_Button.h"

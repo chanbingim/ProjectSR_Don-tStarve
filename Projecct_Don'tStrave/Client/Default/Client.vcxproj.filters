@@ -289,6 +289,12 @@
     <ClInclude Include="..\public\DropItemComponent.h">
       <Filter>김찬빈</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Category_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -432,6 +438,12 @@
     </ClCompile>
     <ClCompile Include="..\private\DropItemComponent.cpp">
       <Filter>김찬빈</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Category_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Button.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
