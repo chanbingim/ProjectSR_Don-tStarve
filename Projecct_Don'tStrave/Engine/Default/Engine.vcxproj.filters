@@ -251,6 +251,7 @@
       <Filter>Utility\KeyInput</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUtility.h" />
+    <ClInclude Include="..\Public\AlphaObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -360,5 +361,6 @@
       <Filter>Utility\KeyInput</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUtility.cpp" />
+    <ClCompile Include="..\Private\AlphaObject.cpp" />
   </ItemGroup>
 </Project>

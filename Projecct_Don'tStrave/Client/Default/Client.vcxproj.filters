@@ -295,6 +295,9 @@
     <ClInclude Include="..\Public\Item_Button.h">
       <Filter>대진호</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Character_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -444,6 +447,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Button.cpp">
       <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Character_Manager.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

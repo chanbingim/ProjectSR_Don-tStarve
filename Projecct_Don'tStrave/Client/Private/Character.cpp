@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CLandObject{ pGraphic_Device }
+    : CAlphaObject{ pGraphic_Device }
 {
 }
 
 CCharacter::CCharacter(const CCharacter& Prototype)
-    : CLandObject{ Prototype }
+    : CAlphaObject{ Prototype }
 {
 }
 
@@ -21,7 +21,7 @@ HRESULT CCharacter::Initialize(void* pArg)
     CLandObject::LANDOBJECT_DESC			Desc{};
     Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
     Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
-
+    //m_pCharacterInstance = CCharacter_Manager::GetInstance();
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
@@ -30,6 +30,7 @@ HRESULT CCharacter::Initialize(void* pArg)
 
 void CCharacter::Priority_Update(_float fTimeDelta)
 {
+    m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 }
 
 void CCharacter::Update(_float fTimeDelta)
@@ -39,6 +40,7 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     SetUp_OnTerrain(m_pTransformCom, 0.f);
+    Compute_CamDistance(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 }
 
 HRESULT CCharacter::Render()
@@ -60,6 +62,37 @@ void CCharacter::Get_Damage(_uint iAtk)
                 m_iHit = m_iMaxHit;
             }
         }
+    }
+}
+
+void CCharacter::SetDir()
+{
+    m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION) - m_fMoving;
+    if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+        m_fAngle = D3DXToDegree(acosf(m_fMoving.x / sqrtf(powf(m_fMoving.x, 2) + powf(m_fMoving.z, 2))));
+        if (0 < m_fMoving.z) {
+            m_fAngle = 360.f - m_fAngle;
+        }
+    }
+    _float3 look = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+    _float lookAngle = D3DXToDegree(acosf(look.x / sqrtf(powf(look.x, 2) + powf(look.z, 2))));
+    if (0 < look.z) {
+        lookAngle = 360.f - lookAngle;
+    }
+    _float fAngle = lookAngle - m_fAngle;
+    if (0 > fAngle) {
+        fAngle += 360;
+    }
+    if ((0.f <= fAngle && fAngle < 45.f) || (fAngle < 360.f && fAngle >= 315.f)) {
+        m_tMoveDIr = MOVE_DIR::MOVE_UP;
+    }else if ((fAngle < 135.f && fAngle >= 45.f)) {
+        m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
+    }
+    else if (fAngle < 225.f && fAngle >= 135.f) {
+        m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
+    }
+    else if (fAngle < 315.f && fAngle >= 225.f) {
+        m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
     }
 }
 

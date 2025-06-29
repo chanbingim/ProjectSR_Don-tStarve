@@ -51,6 +51,14 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+void CGameObject::Damage()
+{
+}
+
+void CGameObject::Death()
+{
+}
+
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {

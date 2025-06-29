@@ -47,7 +47,16 @@ void CPlayerAnim::Render()
 {
     m_pTransformCom->SetPosition(m_pParentTransformCom->GetWorldState(WORLDSTATE::POSITION));
     m_Frame.pAnimTexture->Set_Texture(0);
-    m_pVIBufferCom->SetUV(m_fSize.z, m_fSize.x, m_fSize.y, m_Frame.iStartFrame, m_iMax);
+    m_pVIBufferCom->SetUV(m_fSize.z, m_fSize.x, m_fSize.y, m_Frame.iStartFrame, m_iMax, false);
+
+    m_pTransformCom->SetScale(_float3(m_fSize.x / m_fSize.z / 200.f, m_fSize.y / ((m_iMax) / (_uint)m_fSize.z + ((m_iMax) % (_uint)m_fSize.z ? 1 : 0)) / 200.f, 0.f));
+}
+
+void CPlayerAnim::Render(_bool mirror)
+{
+    m_pTransformCom->SetPosition(m_pParentTransformCom->GetWorldState(WORLDSTATE::POSITION));
+    m_Frame.pAnimTexture->Set_Texture(0);
+    m_pVIBufferCom->SetUV(m_fSize.z, m_fSize.x, m_fSize.y, m_Frame.iStartFrame, m_iMax, mirror);
 
     m_pTransformCom->SetScale(_float3(m_fSize.x / m_fSize.z / 200.f, m_fSize.y / ((m_iMax) / (_uint)m_fSize.z + ((m_iMax) % (_uint)m_fSize.z ? 1 : 0)) / 200.f, 0.f));
 }

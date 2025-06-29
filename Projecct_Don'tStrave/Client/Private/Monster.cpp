@@ -32,6 +32,7 @@ HRESULT CMonster::Initialize_Late()
 
 void CMonster::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CMonster::Update(_float fTimeDelta)

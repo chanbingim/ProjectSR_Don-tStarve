@@ -3,9 +3,6 @@
 
 NS_BEGIN(Engine)
 class CTexture;
-class CTransform;
-class CVIBuffer_Rect;
-class CAnimController;
 class CCollision_Component;
 NS_END
 

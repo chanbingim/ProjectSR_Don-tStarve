@@ -85,28 +85,14 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 	m_pButton_Left->Update(fTimeDelta);
 	m_pButton_Right->Update(fTimeDelta);
-
-
-	if (GetKeyState('A') & 0x8000)
-	{
-		m_pTransformCom->Go_Left(fTimeDelta);
+	if (m_pButton_Left->OnClick()) {
+		m_pPlayerTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 	}
-	if (GetKeyState('D') & 0x8000)
-	{
-		m_pTransformCom->Go_Right(fTimeDelta);
+	if (m_pButton_Right->OnClick()) {
+		m_pPlayerTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
-}
-
-void CCamera::Update(_float fTimeDelta)
-{
-	
-
-}
-
-void CCamera::Late_Update(_float fTimeDelta)
-{
 	if (m_pPlayerTransformCom != nullptr) {
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
@@ -122,6 +108,16 @@ void CCamera::Late_Update(_float fTimeDelta)
 	}
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
+}
+
+void CCamera::Update(_float fTimeDelta)
+{
+	
+
+}
+
+void CCamera::Late_Update(_float fTimeDelta)
+{
 }
 
 HRESULT CCamera::Render()

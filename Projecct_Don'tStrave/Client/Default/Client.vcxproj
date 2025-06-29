@@ -149,6 +149,7 @@
     <ClInclude Include="..\public\Camera_Button.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
     <ClInclude Include="..\Public\Character.h" />
+    <ClInclude Include="..\public\Character_Manager.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="..\private\Camera_Button.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
+    <ClCompile Include="..\private\Character_Manager.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
