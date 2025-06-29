@@ -40,6 +40,7 @@ private:
 
 public:
 	static CObject_Manager* Create(_uint iNumLevels);
+	HRESULT	Initialize_Late(_uint iLayerLevelIndex);
 	virtual void Free() override;
 
 };

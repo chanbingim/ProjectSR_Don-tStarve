@@ -53,11 +53,10 @@ public:
 private:
 	CTexture*				m_pTextureCom[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
 	CPlayerAnim*				m_pSpiderAnim[DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CCollision_Component* m_pCollision_Com = { nullptr };
+	CCollision_Component*	m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	_bool					m_bMove = {};
-	_uint					m_id = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();

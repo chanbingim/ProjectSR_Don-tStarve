@@ -66,29 +66,33 @@ HRESULT CCamera::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCamera::Initialize_Late()
+{
+	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+	return S_OK;
+}
+
 void CCamera::Priority_Update(_float fTimeDelta)
 {
-
-
-	if (GetKeyState(VK_UP) & 0x8000)
-	{
-
-		_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-
-		vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-
-		m_pTransformCom->SetPosition(vPosition);
-	}
-	if (GetKeyState(VK_DOWN) & 0x8000)
-	{
-		_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-
-		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-
-		m_pTransformCom->SetPosition(vPosition);
-	}
+	//if (GetKeyState(VK_UP) & 0x8000)
+	//{
+	//
+	//	_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	//	_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+	//
+	//	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+	//
+	//	m_pTransformCom->SetPosition(vPosition);
+	//}
+	//if (GetKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	//	_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+	//
+	//	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+	//
+	//	m_pTransformCom->SetPosition(vPosition);
+	//}
 
 	/* 카메라의 움직임에 대한 처리를 모두 수행한다. */
 	POINT		ptMouse{};
@@ -102,14 +106,14 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	m_pButton_Left->Update(fTimeDelta);
 	m_pButton_Right->Update(fTimeDelta);
 
-	if (true == m_pButton_Right->OnClick())
-	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * 10.f);
-	}
-	else if (true == m_pButton_Left->OnClick())
-	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta * 10.f);
-	}
+	//if (true == m_pButton_Right->OnClick())
+	//{
+	//	m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * 10.f);
+	//}
+	//else if (true == m_pButton_Left->OnClick())
+	//{
+	//	m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta * 10.f);
+	//}
 
 	//if (GetKeyState('W') & 0x8000)
 	//{
@@ -119,6 +123,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	//{
 	//	m_pTransformCom->Go_Backward(-fTimeDelta);
 	//}
+<<<<<<< HEAD
 	if (GetKeyState('A') & 0x8000)
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
@@ -127,6 +132,16 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
+=======
+	//if (GetKeyState('A') & 0x8000)
+	//{
+	//	m_pTransformCom->Go_Left(-fTimeDelta);
+	//}
+	//if (GetKeyState('D') & 0x8000)
+	//{
+	//	m_pTransformCom->Go_Right(fTimeDelta);
+	//}
+>>>>>>> origin/0628_kjh
 
 
 	if (fMove = ptMouse.x - m_vOldMouse.x)
@@ -140,8 +155,6 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	}
 
 
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
 
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
@@ -155,7 +168,21 @@ void CCamera::Update(_float fTimeDelta)
 
 void CCamera::Late_Update(_float fTimeDelta)
 {
+	if (m_pPlayerTransformCom != nullptr) {
+		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
+		_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
+		_float3	turn = vPosition - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+		vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
 
+		float z = sqrtf(powf(turn.x, 2) + powf(turn.y, 2));
+		float player = acosf(turn.x / z);
+		m_pTransformCom->SetPosition(vPosition);
+		m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
+	}
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
 }
 
 HRESULT CCamera::Render()

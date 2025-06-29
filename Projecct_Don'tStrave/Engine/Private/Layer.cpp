@@ -36,6 +36,19 @@ HRESULT CLayer::Add_GameObject(CGameObject* pGameObject)
 	return S_OK;
 }
 
+HRESULT CLayer::Initialize_Late()
+{
+	auto	iter_end = m_GameObjects.end();
+
+	for (auto iter = m_GameObjects.begin(); iter != iter_end; ++iter)
+	{
+		if (FAILED((*iter)->Initialize_Late())) {
+			MSG_BOX("Failed to Initialize Late : CLayer");
+		}
+	}
+	return S_OK;
+}
+
 void CLayer::Priority_Update(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_GameObjects)

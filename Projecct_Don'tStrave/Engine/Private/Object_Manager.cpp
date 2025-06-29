@@ -142,6 +142,18 @@ CObject_Manager* CObject_Manager::Create(_uint iNumLevels)
 	return pInstance;
 }
 
+HRESULT CObject_Manager::Initialize_Late(_uint iLayerLevelIndex)
+{
+	for (auto& Pair : m_pLayers[iLayerLevelIndex])
+	{
+		if (FAILED(Pair.second->Initialize_Late()))
+		{
+			Pair.second->Clear_DeadObj();
+		}
+	}
+	return S_OK;
+}
+
 
 void CObject_Manager::Free()
 {

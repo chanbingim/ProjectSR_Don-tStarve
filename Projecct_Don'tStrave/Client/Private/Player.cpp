@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameInstance.h"
+#include "Monster.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -25,7 +26,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
+	m_pTransformCom->SetPosition(_float3(10.f, 0.f, 10.f));
 	m_pAnimTransformCom->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 
 	
@@ -70,15 +71,19 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iHunger = 100;
 	m_iHp = m_iMaxHp;
 	m_iTemp = 0;
-	m_iAtk = 5;
+	m_iAtk = 50;
 	m_iDef = 0;
 	m_iMaxHit = 10;
 	m_iHit = m_iMaxHit;
 	m_bControll = false;
+<<<<<<< HEAD
 
 	m_pCollision_Com->SetCollisionSize({1.f, 1.f ,1.f});
 
 
+=======
+	m_bIsGhost = false;
+>>>>>>> origin/0628_kjh
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -114,7 +119,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
 
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
@@ -127,7 +132,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
 
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
@@ -140,7 +145,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
+				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
 					m_tDir = DIR::SIDE;
@@ -152,7 +157,7 @@ void CPlayer::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 10.f * fTimeDelta;
+				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 				if (MOTION::GHOST_IDLE != m_tMotion) {
 					m_tDir = DIR::SIDE;
@@ -190,14 +195,15 @@ void CPlayer::Update(_float fTimeDelta)
 				break;
 			}
 		}
-		//if (GetKeyState(VK_SPACE) & 0x8000)
-		//{
-		//	m_tMotion = MOTION::ATTACK;
-		//	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
-		//	SetAnimation(m_iSwapObject, (DIR)m_iDirection, m_tMotion);
-		//	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
-		//	m_bControll = false;
-		//}
+		if (GetKeyState(VK_SPACE) & 0x8000)
+		{
+			Attack();
+			//m_tMotion = MOTION::ATTACK;
+			//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
+			//SetAnimation(m_iSwapObject, (DIR)m_iDirection, m_tMotion);
+			////m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
+			//m_bControll = false;
+		}
 		if (m_pGameInstance->KeyDown('F'))
 		{
 			Get_Damage(50);
@@ -271,19 +277,19 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
 	SetAnimation(m_iSwapObject, (DIR)m_iDirection, m_tMotion);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_iDirection][m_tMotion]);
-	if (m_pGameInstance->KeyDown('E'))
+	if (m_pGameInstance->KeyPressed('E'))
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 		m_pAnimTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 		m_pSwapObjectTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 	}
-	if (m_pGameInstance->KeyDown('Q'))
+	if (m_pGameInstance->KeyPressed('Q'))
 	{
 		m_pTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 		m_pAnimTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 		m_pSwapObjectTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
 	}
-	if (m_pGameInstance->KeyPressed('Z'))
+	if (m_pGameInstance->KeyPressed('Y'))
 	{
 		m_iSwapObject = 0;
 		m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;
@@ -336,8 +342,11 @@ HRESULT CPlayer::Render()
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
 
+<<<<<<< HEAD
 	m_pCollision_Com->Render();
 
+=======
+>>>>>>> origin/0628_kjh
 	return S_OK;
 }
 
@@ -352,6 +361,7 @@ void CPlayer::Damage()
 
 void CPlayer::Attack()
 {
+	m_bAttack = true;
 	m_bControll = false;
 	m_tMotion = MOTION::ATTACK;
 	m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_iDirection][m_tMotion]);
@@ -362,6 +372,7 @@ void CPlayer::Attack()
 void CPlayer::Death()
 {
 	m_bControll = false;
+	m_bIsGhost = true;
 	m_tMotion = MOTION::DEATH2;
 	m_tDir = DIR::DOWN;
 	m_iDirection = 0;
@@ -753,6 +764,12 @@ void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	//if (HitActor == m_pWorkObject) {
+		if (dynamic_cast<CMonster*>(HitActor) && m_bAttack && m_tMotion == MOTION::ATTACK && m_pPlayerAnim[m_iSwapObject][(DIR)m_iDirection][m_tMotion]->IsAttack(10)) {
+			dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_iAtk);
+			m_bAttack = false;
+		}
+	//}
 }
 
 void CPlayer::EndHitActor(CGameObject* HitActor, _float3& _Dir)

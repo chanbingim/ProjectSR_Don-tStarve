@@ -29,6 +29,11 @@ HRESULT CGameObject::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CGameObject::Initialize_Late()
+{
+	return S_OK;
+}
+
 void CGameObject::Priority_Update(_float fTimeDelta)
 {
 }

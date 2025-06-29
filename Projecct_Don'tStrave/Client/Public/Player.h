@@ -81,14 +81,21 @@ public:
 	_uint		Get_Hp();
 	_uint		Get_Hunger();
 	void			SetItem(SWAPOBJECT tItem);
+	_bool		IsGhost() { return m_bIsGhost; }
 private:
 	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CPlayerAnim*			m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
 	CAnimController*		m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
+<<<<<<< HEAD
 	CPlayerAnim*			m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
 	CCollision_Component*	m_pCollision_Com = { nullptr };
+=======
+	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	CGameObject*				m_pWorkObject = { nullptr };
+	CCollision_Component	*	m_pCollision_Com = { nullptr };
+>>>>>>> origin/0628_kjh
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};
@@ -96,6 +103,8 @@ private:
 	_uint					m_iSwapObject = {};
 	_uint					m_iHunger = {};
 	_bool					m_bControll = {};
+	_bool					m_bIsGhost = {};
+	_bool					m_bAttack = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
