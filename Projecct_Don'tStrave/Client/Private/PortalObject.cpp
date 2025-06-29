@@ -48,9 +48,7 @@ void CPortalObject::Late_Update(_float fTimeDelta)
 
 HRESULT CPortalObject::Render()
 {
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
     m_Idle_pTexture_Com->Set_Texture(0);
-
     m_pVIBuffer_Com->Render();
 
     return S_OK;

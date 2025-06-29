@@ -83,9 +83,7 @@ void CRockObject::Late_Update(_float fTimeDelta)
 
 HRESULT CRockObject::Render()
 {
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
 	m_Animation_Com->Render();
-
 	m_pVIBuffer_Com->Render();
 
 	return S_OK;

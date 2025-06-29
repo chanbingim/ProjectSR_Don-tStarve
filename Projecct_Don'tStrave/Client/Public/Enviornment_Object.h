@@ -30,7 +30,7 @@ public :
 	virtual HRESULT		Render() override;
 
 protected :
-	_matrix				m_WorldMat = {};
+	
 
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
 	CTexture*				m_Idle_pTexture_Com = { nullptr };
