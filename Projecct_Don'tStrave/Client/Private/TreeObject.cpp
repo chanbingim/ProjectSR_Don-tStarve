@@ -94,6 +94,8 @@ void CTreeObject::Late_Update(_float fTimeDelta)
 
 HRESULT CTreeObject::Render()
 {
+    __super::Render();
+
     m_Animation_Com->Render();
     m_pVIBuffer_Com->Render();
 

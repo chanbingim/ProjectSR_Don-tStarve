@@ -83,6 +83,8 @@ void CRockObject::Late_Update(_float fTimeDelta)
 
 HRESULT CRockObject::Render()
 {
+	__super::Render();
+
 	m_Animation_Com->Render();
 	m_pVIBuffer_Com->Render();
 

@@ -56,6 +56,7 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
 
 HRESULT CEnviornment_Object::Render()
 {
+    __super::Render();
     //m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
  
     m_Idle_pTexture_Com->Set_Texture(0);
