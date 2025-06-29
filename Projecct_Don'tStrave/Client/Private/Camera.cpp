@@ -74,26 +74,6 @@ HRESULT CCamera::Initialize_Late()
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
-	//if (GetKeyState(VK_UP) & 0x8000)
-	//{
-	//
-	//	_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	//	_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-	//
-	//	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-	//
-	//	m_pTransformCom->SetPosition(vPosition);
-	//}
-	//if (GetKeyState(VK_DOWN) & 0x8000)
-	//{
-	//	_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	//	_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-	//
-	//	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-	//
-	//	m_pTransformCom->SetPosition(vPosition);
-	//}
-
 	/* 카메라의 움직임에 대한 처리를 모두 수행한다. */
 	POINT		ptMouse{};
 
@@ -106,24 +86,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	m_pButton_Left->Update(fTimeDelta);
 	m_pButton_Right->Update(fTimeDelta);
 
-	//if (true == m_pButton_Right->OnClick())
-	//{
-	//	m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * 10.f);
-	//}
-	//else if (true == m_pButton_Left->OnClick())
-	//{
-	//	m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), -fTimeDelta * 10.f);
-	//}
 
-	//if (GetKeyState('W') & 0x8000)
-	//{
-	//	m_pTransformCom->Go_Straight(fTimeDelta);
-	//}
-	//if (GetKeyState('S') & 0x8000)
-	//{
-	//	m_pTransformCom->Go_Backward(-fTimeDelta);
-	//}
-<<<<<<< HEAD
 	if (GetKeyState('A') & 0x8000)
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
@@ -132,30 +95,6 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
-=======
-	//if (GetKeyState('A') & 0x8000)
-	//{
-	//	m_pTransformCom->Go_Left(-fTimeDelta);
-	//}
-	//if (GetKeyState('D') & 0x8000)
-	//{
-	//	m_pTransformCom->Go_Right(fTimeDelta);
-	//}
->>>>>>> origin/0628_kjh
-
-
-	if (fMove = ptMouse.x - m_vOldMouse.x)
-	{
-		//m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta * fMove * m_fSensor);
-	}
-
-	if (fMove = ptMouse.y - m_vOldMouse.y)
-	{
-		//m_pTransformCom->TurnRate(m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT), fTimeDelta * fMove * m_fSensor);
-	}
-
-
-
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
 }

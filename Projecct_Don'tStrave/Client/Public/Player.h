@@ -88,14 +88,11 @@ private:
 	CTransform*				m_pSwapObjectTransformCom = { nullptr };
 	CAnimController*		m_pSwapObjectAnimController = { nullptr };
 	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-<<<<<<< HEAD
+
 	CPlayerAnim*			m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
+	CGameObject*			m_pWorkObject = { nullptr };
 	CCollision_Component*	m_pCollision_Com = { nullptr };
-=======
-	CPlayerAnim*				m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CGameObject*				m_pWorkObject = { nullptr };
-	CCollision_Component	*	m_pCollision_Com = { nullptr };
->>>>>>> origin/0628_kjh
+
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};
@@ -105,6 +102,7 @@ private:
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();

@@ -76,14 +76,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_iMaxHit = 10;
 	m_iHit = m_iMaxHit;
 	m_bControll = false;
-<<<<<<< HEAD
+
 
 	m_pCollision_Com->SetCollisionSize({1.f, 1.f ,1.f});
 
-
-=======
 	m_bIsGhost = false;
->>>>>>> origin/0628_kjh
+
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -342,11 +340,8 @@ HRESULT CPlayer::Render()
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
 
-<<<<<<< HEAD
-	m_pCollision_Com->Render();
+	//m_pCollision_Com->Render();
 
-=======
->>>>>>> origin/0628_kjh
 	return S_OK;
 }
 
