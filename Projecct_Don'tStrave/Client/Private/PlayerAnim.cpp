@@ -57,6 +57,11 @@ bool CPlayerAnim::IsEnd()
     return m_Frame.iStartFrame == m_Frame.iEndFrame;
 }
 
+bool CPlayerAnim::IsAttack(_uint iAttackFrame)
+{
+    return m_Frame.iStartFrame == iAttackFrame;
+}
+
 CPlayerAnim* CPlayerAnim::Create(void* pArg)
 {
     CPlayerAnim* pInstance = new CPlayerAnim();

@@ -1,4 +1,5 @@
 #include "Collision_Manager.h"
+#include "GameObject.h"
 #include "Box_Collision_Component.h"
 #include "Sphere_Collision_Component.h"
 
@@ -10,8 +11,6 @@ CCollision_Manager::CCollision_Manager()
 
 HRESULT CCollision_Manager::Initialize()
 {
-    m_bColCheck.resize(200, false);
-
     return S_OK;
 }
 
@@ -19,22 +18,8 @@ void CCollision_Manager::Update()
 {
     for (_uint i = 0; i < ENUM_CLASS(COLLISION_TYPE::END); ++i)
     {
-        _uint SrcIndex{}; 
-
-        if (m_bColCheck.size() < m_pCol_List[i].size())
-            m_bColCheck.resize(m_pCol_List[i].size(), false);
-        else
-            fill(m_bColCheck.begin(), m_bColCheck.end(), false);
-
         for (auto& Src : m_pCol_List[i])
         {
-            if (m_bColCheck[SrcIndex])
-            {
-                SrcIndex++;
-                continue;
-            }
-
-            _uint DstIndex{};
             for (auto& Dst : m_pCol_List[i])
             {
                 if (Src == Dst)
@@ -43,7 +28,7 @@ void CCollision_Manager::Update()
                 _bool ColFlag = false;
                 switch (i)
                 {
-                case 0 :
+                case 0:
                     if (AxisAlignedBoundBox(Src, Dst))
                     {
                         ColFlag = true;
@@ -61,17 +46,18 @@ void CCollision_Manager::Update()
                 if (ColFlag)
                 {
                     Src->ADDHitGroup(Dst->GetOwner());
-                    Dst->ADDHitGroup(Src->GetOwner());
-
-                    m_bColCheck[DstIndex] = true;
-                    m_bColCheck[SrcIndex] = true;
+                    ADD_UpdateList(Dst);
                 }
-                DstIndex++;
             }
-            Src->Update();
-            SrcIndex++;
         }
     }
+
+    CompareSphereListToBoxList(&m_pCol_List[ENUM_CLASS(COLLISION_TYPE::SPHERE)], &m_pCol_List[ENUM_CLASS(COLLISION_TYPE::BOX)]);
+
+    for (auto iter : m_UpdateList)
+        iter->Update();
+
+    m_UpdateList.clear();
 }
 
 void CCollision_Manager::ADD_ColList(CCollision_Component* pCol_Component)
@@ -83,7 +69,6 @@ void CCollision_Manager::ADD_ColList(CCollision_Component* pCol_Component)
     if (iter == m_pCol_List[typeIndex].end())
     {
         m_pCol_List[typeIndex].push_back(pCol_Component);
-        Safe_AddRef(pCol_Component);
     }
 }
 
@@ -95,7 +80,16 @@ void CCollision_Manager::Remove_ColList(CCollision_Component* pCol_Component)
     if (iter == m_pCol_List[typeIndex].end())
         return;
     else
-        Safe_Release(pCol_Component);
+    {
+        m_pCol_List[typeIndex].erase(iter);
+    }
+}
+
+void CCollision_Manager::ADD_UpdateList(CCollision_Component* pCol)
+{
+    auto iter = find(m_UpdateList.begin(), m_UpdateList.end(), pCol);
+    if (iter == m_UpdateList.end())
+        m_UpdateList.push_back(pCol);
 }
 
 _bool CCollision_Manager::AxisAlignedBoundBox(CCollision_Component* pCol, CCollision_Component* pOtherCol)
@@ -148,16 +142,60 @@ _bool CCollision_Manager::OrientedBoundingBox(CCollision_Component* pCol, CColli
     return false;
 }
 
+_bool CCollision_Manager::CompareBoxToSphere(CCollision_Component* pCol, CCollision_Component* pOtherCol)
+{
+    //AABB 충돌 로직구현
+   //구의 경계 상자의 크기를 계산해 주는 함수 
+    _float3 SrcCenter{};
+    _float  SrcRadius{};
+    _float3 DstMin, DstMax;
+    _float3 BoxNearPoint = {};
+
+    static_cast<CSphere_Collision_Component*>(pCol)->ComputeBounding(&SrcCenter, &SrcRadius);
+    if (FAILED(static_cast<CBox_Collision_Component*>(pOtherCol)->ComputeBounding(&DstMin, &DstMax)))
+        return false;
+
+    BoxNearPoint.x = max(DstMin.x, min(DstMax.x, SrcCenter.x));
+    BoxNearPoint.y = max(DstMin.y, min(DstMax.y, SrcCenter.y));
+    BoxNearPoint.z = max(DstMin.z, min(DstMax.z, SrcCenter.z));
+
+    _float3 Dist = SrcCenter - BoxNearPoint;
+    _float  Length = D3DXVec3Length(&Dist);
+
+    if (SrcRadius >= Length)
+        return true;
+
+    return false;
+}
+
+void CCollision_Manager::CompareSphereListToBoxList(list<CCollision_Component*>* pSrcList, list<CCollision_Component*>* pDstList)
+{
+    for (auto& Src : *pSrcList)
+    {
+        for (auto& Dst : *pDstList)
+        {
+            if (CompareBoxToSphere(Src, Dst))
+            {
+                Src->ADDHitGroup(Dst->GetOwner());
+                Dst->ADDHitGroup(Src->GetOwner());
+
+                ADD_UpdateList(Dst);
+                ADD_UpdateList(Src);
+            }
+        }
+    }
+}
+
 void CCollision_Manager::Free()
 {
     __super::Free();
 
-    for (_uint i = 0; i < ENUM_CLASS(COLLISION_TYPE::END); ++i)
+   /* for (_uint i = 0; i < ENUM_CLASS(COLLISION_TYPE::END); ++i)
     {
         for (auto iter : m_pCol_List[i])
         {
             Safe_Release(iter);
         }
         m_pCol_List[i].clear();
-    }
+    }*/
 }

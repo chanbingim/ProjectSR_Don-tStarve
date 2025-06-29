@@ -23,7 +23,7 @@ public:
 
 private:
 	LPD3DXMESH			m_pBoxMesh = {};
-
+	
 public:
 	static	CBox_Collision_Component*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent*					Clone(void* pArg) override;

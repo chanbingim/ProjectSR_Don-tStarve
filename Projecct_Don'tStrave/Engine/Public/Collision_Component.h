@@ -3,21 +3,22 @@
 
 NS_BEGIN(Engine)
 class CGameObject;
+class CTransform;
 
 class ENGINE_DLL CCollision_Component abstract : public CComponent
 {
-public :
+public:
 	typedef struct Collision_Desc
 	{
-		CGameObject*		pOwner = {nullptr};
+		CGameObject* pOwner = {nullptr};
 	}COL_DESC;
 
-protected :
+protected:
 	CCollision_Component(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCollision_Component(const CCollision_Component& rhs);
 	virtual ~CCollision_Component() = default;
 
-public :
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 
@@ -36,14 +37,20 @@ public :
 	void							BindEnterFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
 	void							BindOverlapFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
 	void							BindExitFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
+	void							SetCollisionSize(_float3 scale);
 
 protected:
 	CGameObject*					m_pOwner = { nullptr };
+	CTransform*						m_pTransform = { nullptr };
+
 	_float3*						m_pMeshVtx = { nullptr };
 
+	_matrix							m_WorldMat = {};
 	COLLISION_TYPE					m_eColType = {};
 	list<CGameObject*>				m_HitActor;
 	list<CGameObject*>				m_OldHitActor;
+	_float3							m_vScale = { 1.f, 1.f, 1.f };
+
 
 	function<void(CGameObject* HitActor, _float3& _Dir)>		m_HitEnterfunc = {};
 	function<void(CGameObject* HitActor, _float3& _Dir)>		m_HitExitfunc = {};

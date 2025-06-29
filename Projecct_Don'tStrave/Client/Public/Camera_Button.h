@@ -6,12 +6,6 @@ NS_BEGIN(Client)
 
 class CCamera_Button final : public CButton
 {
-public:
-	typedef struct CameraButton_Desc : public BUTTON_DESC
-	{
-		_uint iTextIndex = {};
-	}CAMERABUTTON_DESC;
-
 private:
 	CCamera_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCamera_Button(const CCamera_Button& Prototype);

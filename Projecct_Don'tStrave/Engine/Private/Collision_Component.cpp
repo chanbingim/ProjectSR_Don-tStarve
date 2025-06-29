@@ -27,6 +27,7 @@ HRESULT CCollision_Component::Initialize(void* pArg)
 
 	COL_DESC* pCol_Desc = static_cast<COL_DESC*>(pArg);
 	m_pOwner = pCol_Desc->pOwner;
+	m_pTransform = m_pOwner->GetTransfrom();
 
 	CCollision_Manager::GetInstance()->ADD_ColList(this);
 
@@ -68,7 +69,6 @@ void CCollision_Component::Update()
 				m_HitOverlapfunc(HitActor, Dir);
 			
 		}
-		Safe_Release(HitActor);
 	}
 
 	m_HitActor.clear();
@@ -81,7 +81,6 @@ void CCollision_Component::Render()
 void CCollision_Component::ADDHitGroup(CGameObject* pGameObject)
 {
 	m_HitActor.push_back(pGameObject);
-	Safe_AddRef(pGameObject);
 }
 
 const list<CGameObject*>* CCollision_Component::GetOVerlapAllObejcts()
@@ -109,6 +108,11 @@ void CCollision_Component::BindExitFunction(function<void(CGameObject* HitActor,
 	m_HitExitfunc = Func;
 }
 
+void CCollision_Component::SetCollisionSize(_float3 scale)
+{
+	m_vScale = scale;
+}
+
 void CCollision_Component::ComputeDirToHitActor(CGameObject* pOwner, _float3* pOutDir)
 {
 	_matrix SrcWorldMat = m_pOwner->GetTransfrom()->Get_World();
@@ -126,11 +130,7 @@ void CCollision_Component::Free()
 {
 	__super::Free();
 
-	for (auto iter : m_OldHitActor)
-		Safe_Release(iter);
-
-	for (auto HitActor : m_HitActor)
-		Safe_Release(HitActor);
+	CCollision_Manager::GetInstance()->Remove_ColList(this);
 	
 	m_HitActor.clear();
 	m_OldHitActor.clear();

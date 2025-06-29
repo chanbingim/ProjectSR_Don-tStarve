@@ -47,6 +47,7 @@ void CSphere_Collision_Component::Update()
 
 void CSphere_Collision_Component::Render()
 {
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
     m_pSphereMesh->DrawSubset(0);
 }
 
@@ -54,15 +55,19 @@ HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Ra
 {
     D3DXComputeBoundingSphere(m_pMeshVtx,
         m_pSphereMesh->GetNumVertices(),
-        m_pSphereMesh->GetNumBytesPerVertex(),
+        sizeof(_float3),
         Center, Radius);
 
-    auto Transform = m_pOwner->GetTransfrom();
-    if (Transform)
+    if (m_pTransform)
     {
-        _matrix WorldMat = Transform->Get_World();
+        _float3 Position = m_pTransform->GetWorldState(WORLDSTATE::POSITION);
 
-        D3DXVec3TransformCoord(Center, Center, &WorldMat);
+        D3DXMatrixTranslation(&m_WorldMat, Position.x, Position.y, Position.z);
+        FLOAT Length = 1.f;
+
+        *Radius = (*Radius) * m_vScale.x;
+        D3DXVec3TransformCoord(Center, Center, &m_WorldMat);
+
         return S_OK;
     }
 

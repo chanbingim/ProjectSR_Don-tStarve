@@ -36,6 +36,7 @@ public :
 	void							LookAt(const _float3& _fDir);
 
 	void							SetScale(const _float3& _vScale);
+	void							LookInverse();
 
 	_float3							GetWorldState(WORLDSTATE eWorld_Sate);
 	_float3							GetRotation();

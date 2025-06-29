@@ -18,9 +18,9 @@ HRESULT CCamera_Button::Initialize_Prototype()
 
 HRESULT CCamera_Button::Initialize(void* pArg)
 {
-    CAMERABUTTON_DESC* pDesc = static_cast<CAMERABUTTON_DESC*>(pArg);
+    BUTTON_DESC* pDesc = static_cast<BUTTON_DESC*>(pArg);
 
-    m_iTextureIndex = pDesc->iTextIndex;
+    m_iTextureIndex = pDesc->iTextureIndex;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;

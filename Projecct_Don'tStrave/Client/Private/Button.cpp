@@ -20,10 +20,13 @@ HRESULT CButton::Initialize_Prototype()
 HRESULT CButton::Initialize(void* pArg)
 {
     m_isClicked = false;
+    m_isHovered = false;
 
     BUTTON_DESC* pDesc = static_cast<BUTTON_DESC*>(pArg);
 
     CUserInterface::UIOBJECT_DESC Desc = {};
+
+    m_iTextureIndex = pDesc->iTextureIndex;
 
     Desc.fX = pDesc->fX + pDesc->fRelativeX;
     Desc.fY = pDesc->fY + pDesc->fRelativeY;
@@ -36,6 +39,8 @@ HRESULT CButton::Initialize(void* pArg)
     m_pParentTransform = pDesc->pParentTransform;
 
     Safe_AddRef(m_pParentTransform);
+    
+        
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -86,7 +91,7 @@ _bool CButton::isMouseOver()
     GetCursorPos(&pt);
     ScreenToClient(g_hWnd, &pt);
 
-    return PtInRect(&rect, pt);
+    return m_isHovered = PtInRect(&rect, pt);
 }
 
 void CButton::Free()

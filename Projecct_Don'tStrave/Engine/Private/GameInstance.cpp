@@ -82,9 +82,9 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
-	m_pObject_Manager->Clear_DeadObj();
-
 	m_pCollision_Manager->Update();
+
+	m_pObject_Manager->Clear_DeadObj();
 
 	m_pLevel_Manager->Update(fTimeDelta);
 
@@ -187,6 +187,11 @@ CGameObject* CGameInstance::Get_GameObject(_uint iLevelIndex, const _wstring& st
 HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
+}
+
+HRESULT CGameInstance::Initialize_Late(_uint iPrototypeLevelIndex)
+{
+	return m_pObject_Manager->Initialize_Late(iPrototypeLevelIndex);
 }
 
 #pragma endregion

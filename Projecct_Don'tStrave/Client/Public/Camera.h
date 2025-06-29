@@ -26,6 +26,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize_Late() override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -33,6 +34,7 @@ public:
 
 private:
 	class CTransform*				m_pTransformCom = { nullptr };
+	class CTransform*				m_pPlayerTransformCom = { nullptr };
 	class CCamera_Button*			m_pButton_Left = { nullptr };
 	class CCamera_Button*			m_pButton_Right = { nullptr };
 	_float4x4						m_ProjMatrix = { };
