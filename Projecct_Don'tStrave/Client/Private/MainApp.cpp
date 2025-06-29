@@ -1,11 +1,13 @@
 #include "MainApp.h"
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
 
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
 #include "Camera_Button.h"
+
 
 Client::CMainApp::CMainApp()	
 	: m_pGameInstance { CGameInstance::GetInstance() }
@@ -173,6 +175,8 @@ void Client::CMainApp::Free()
 	__super::Free();
 
 	Safe_Release(m_pGraphic_Device);
+
+	CItem_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 
