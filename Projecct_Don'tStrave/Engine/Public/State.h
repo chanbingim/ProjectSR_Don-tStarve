@@ -33,6 +33,7 @@ public :
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			Render();
 
+	void					SetTexture(CTexture* pTextureCom);
 	void					SetFrameRate(_float _ftimeRate);
 
 protected :

@@ -73,7 +73,7 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CEnviornment_Object::Render()

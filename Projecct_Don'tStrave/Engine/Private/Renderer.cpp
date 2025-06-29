@@ -34,6 +34,7 @@ void CRenderer::Render()
 {
 	Render_Priority();
 	Render_NonBlend();
+	Render_AlphaTest();
 	Render_Blend();
 	Render_UI();
 }
@@ -64,6 +65,24 @@ void CRenderer::Render_NonBlend()
 	m_RenderObjects[ENUM_CLASS(RENDER::NONBLEND)].clear();
 }
 
+void CRenderer::Render_AlphaTest()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+
+	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].clear();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
 void CRenderer::Render_Blend()
 {
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
@@ -82,8 +101,6 @@ void CRenderer::Render_UI()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	Render_Projection_UI();
 	Render_Ortho_UI();

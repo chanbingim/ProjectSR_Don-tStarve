@@ -59,6 +59,11 @@ void CState::Render()
 
 }
 
+void CState::SetTexture(CTexture* pTextureCom)
+{
+    m_Frame.pAnimTexture = pTextureCom;
+}
+
 void CState::SetFrameRate(_float _ftimeRate)
 {
     m_Frame.fTimeRate = _ftimeRate;

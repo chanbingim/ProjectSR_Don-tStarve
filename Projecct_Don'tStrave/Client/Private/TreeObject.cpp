@@ -19,7 +19,38 @@ CTreeObject::CTreeObject(const CTreeObject& rhs) :
 
 HRESULT CTreeObject::Initialize_Prototype()
 {
+#pragma region Animation State
+    CEnv_Animation::FRAME_DESC Frame = {};
+    Frame.iStartFrame = 0;
+    Frame.iEndFrame = 79;
+    Frame.fTimeRate = 1.0f;
+    Frame.bIsLoop = true;
+    m_AnimationState[0] = CEnv_Animation::Create(&Frame);
 
+    Frame.iStartFrame = 0;
+    Frame.iEndFrame = 37;
+    Frame.fTimeRate = 1.0f;
+    Frame.bIsLoop = false;
+    m_AnimationState[1] = CEnv_Animation::Create(&Frame);
+
+    Frame.iStartFrame = 0;
+    Frame.iEndFrame = 37;
+    Frame.fTimeRate = 1.0f;
+    Frame.bIsLoop = false;
+    m_AnimationState[2] = CEnv_Animation::Create(&Frame);
+
+    Frame.iStartFrame = 0;
+    Frame.iEndFrame = 14;
+    Frame.fTimeRate = 1.0f;
+    Frame.bIsLoop = false;
+    m_AnimationState[3] = CEnv_Animation::Create(&Frame);
+
+    Frame.iStartFrame = 0;
+    Frame.iEndFrame = 1;
+    Frame.fTimeRate = 1.0f;
+    Frame.bIsLoop = true;
+    m_AnimationState[4] = CEnv_Animation::Create(&Frame);
+#pragma endregion
    
     return S_OK;
 }
@@ -32,50 +63,16 @@ HRESULT CTreeObject::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-
-#pragma region Animation State
-    CEnv_Animation::FRAME_DESC Frame = {};
-    Frame.pAnimTexture = m_Idle_pTexture_Com;
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 79;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[0] = CEnv_Animation::Create(&Frame);
-
-    Frame.pAnimTexture = m_Fall_Left_pTexture_Com;
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 37;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[1] = CEnv_Animation::Create(&Frame);
-
-    Frame.pAnimTexture = m_Fall_Right_pTexture_Com;
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 37;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[2] = CEnv_Animation::Create(&Frame);
-
-    Frame.pAnimTexture = m_Damaged_pTexture_Com;
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 14;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[3] = CEnv_Animation::Create(&Frame);
-
-    Frame.pAnimTexture = m_Broken_pTexture_Com;
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 1;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[4] = CEnv_Animation::Create(&Frame);
-#pragma endregion
+    m_AnimationState[0]->SetTexture(m_Idle_pTexture_Com);
+    m_AnimationState[1]->SetTexture(m_Fall_Left_pTexture_Com);
+    m_AnimationState[2]->SetTexture(m_Fall_Right_pTexture_Com);
+    m_AnimationState[3]->SetTexture(m_Damaged_pTexture_Com);
+    m_AnimationState[4]->SetTexture(m_Broken_pTexture_Com);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
-    m_Animation_Com->ChangeState(m_AnimationState[0]);
     return S_OK;
 }
 
