@@ -29,6 +29,7 @@ private:
 	_uint m_iItemBtnIndex[EnumToInt(CATEGORY::END)] = {};
 
 	class CButton*			m_pOpenButton = {};
+	class CCreate_Button*	m_pCreateButton = {};
 	class CItem_Info*		m_pItem_Info = { nullptr };
 	vector<class CCategory_Button*> m_pCategorys = {};
 	vector<class CItem_Button*> m_pItem_Buttons[EnumToInt(CATEGORY::END)];

@@ -1,16 +1,18 @@
 #pragma once
 #include "Client_Defines.h"
-#include "UserInterface.h"
+#include "Button.h"
 
 NS_BEGIN(Client)
-class CSlot;
-class CInventory final : public CUserInterface
+
+class CCreate_Button final : public CButton
 {
 private:
-	CInventory(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CInventory(const CInventory& Prototype);
-	virtual ~CInventory() = default;
+	CCreate_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CCreate_Button(const CCreate_Button& Prototype);
+	virtual ~CCreate_Button() = default;
 
+public:
+	void Set_Item(_uint iItemID) { m_iItemID = iItemID; }
 public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
@@ -19,20 +21,22 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	CSlot* Find_Item(_uint iItemID);
-	CSlot* Find_Slot(SLOT eSlot);
-	_uint Check_ItemCount(_uint iItem);
+	virtual void HoverEevent() override;
+	virtual void ClickedEevent() override;
+
 
 private:
-	vector<class CSlotFrame*> m_SlotFrames = {};
+	
 
 private:
-	HRESULT ADD_Components();
+	virtual HRESULT ADD_Components();
+
 
 public:
-	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CCreate_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free() override;
 };
 
 NS_END
+

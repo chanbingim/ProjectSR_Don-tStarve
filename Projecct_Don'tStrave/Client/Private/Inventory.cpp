@@ -176,6 +176,22 @@ CSlot* CInventory::Find_Slot(SLOT eSlot)
     return nullptr;
 }
 
+_uint CInventory::Check_ItemCount(_uint iItem)
+{
+    _uint iItemCount = { 0 };
+
+    for (auto pSlotFrame : m_SlotFrames)
+    {
+        ITEM_DESC Desc = pSlotFrame->Get_Slot()->Get_Info();
+        if (iItem == Desc.iItemID)
+        {
+            iItemCount += Desc.iNumItem;
+        }
+    }
+
+    return iItemCount;
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component
