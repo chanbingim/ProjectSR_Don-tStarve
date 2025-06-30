@@ -35,14 +35,17 @@ HRESULT CLandObject::Initialize(void* pArg)
 
 void CLandObject::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CLandObject::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CLandObject::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CLandObject::Render()

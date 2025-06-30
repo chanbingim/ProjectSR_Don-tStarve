@@ -177,5 +177,5 @@ void CGrassObject::Free()
     Safe_Release(m_Animation_Com);
 
     for (int i = 0; i < 3; ++i)
-        Safe_Release(m_Animation_Com);
+        Safe_Release(m_AnimationState[i]);
 }

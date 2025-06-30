@@ -53,6 +53,8 @@ _wstring CTutorialLevel::GetEnv_ObejctTag(_uint iID)
 	case 5:
 		return TEXT("");
 	}
+
+	return TEXT("");
 }
 
 HRESULT CTutorialLevel::Ready_Layer_BackGround(const _wstring& strLayerTag)

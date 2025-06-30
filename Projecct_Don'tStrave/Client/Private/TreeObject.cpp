@@ -200,6 +200,7 @@ void CTreeObject::Free()
     Safe_Release(m_Broken_pTexture_Com);
     Safe_Release(m_Fall_Right_pTexture_Com);
     Safe_Release(m_Fall_Left_pTexture_Com);
+    Safe_Release(m_Animation_Com);
 
     for (int i = 0; i < 5; ++i)
         Safe_Release(m_AnimationState[i]);
