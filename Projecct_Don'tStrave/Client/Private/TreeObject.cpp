@@ -73,6 +73,7 @@ HRESULT CTreeObject::Initialize(void* pArg)
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
+    m_Animation_Com->ChangeState(m_AnimationState[0]);
     return S_OK;
 }
 
@@ -98,7 +99,6 @@ HRESULT CTreeObject::Render()
 
     m_Animation_Com->Render();
     m_pVIBuffer_Com->Render();
-
     return S_OK;
 }
 
