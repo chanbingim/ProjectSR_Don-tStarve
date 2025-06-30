@@ -68,7 +68,10 @@ HRESULT CCamera::Initialize(void* pArg)
 
 HRESULT CCamera::Initialize_Late()
 {
-	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("PlayerLayer"), TEXT("Com_Transform"), 0));
+
+	if (!m_pPlayerTransformCom)
+		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 	return S_OK;
 }
 

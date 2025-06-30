@@ -30,6 +30,8 @@ public:
         if (nullptr != m_pInstance && 0 == m_pInstance->Release()) {
             m_pInstance = nullptr;
         }
+        int a = m_pInstance->m_ObjectList.size();
+        int b = 0;
     }
 private:
     list<CGameObject*> m_ObjectList = { nullptr };

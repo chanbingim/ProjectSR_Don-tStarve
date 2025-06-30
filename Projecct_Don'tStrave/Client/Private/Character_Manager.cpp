@@ -28,6 +28,9 @@ void CCharacter_Manager::Add_Object(CGameObject* pGameObject)
 
 void CCharacter_Manager::Remove_Object(CGameObject* pGameObject)
 {
+	int a = 0;
+	a = m_pInstance->m_ObjectList.size();
+	int b = 100;
 	auto iter = find(m_ObjectList.begin(), m_ObjectList.end(), pGameObject);
 	if (iter != m_ObjectList.end())
 		m_ObjectList.erase(iter);

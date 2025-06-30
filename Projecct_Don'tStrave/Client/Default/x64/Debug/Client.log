@@ -1,3 +1,5 @@
-﻿  Character_Manager.cpp
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\private\Character_Manager.cpp(42,48): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Character.cpp
+C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\Character_Manager.h(33,15): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '../Private/Character.cpp'을(를) 컴파일하는 중)
+  
   Client.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

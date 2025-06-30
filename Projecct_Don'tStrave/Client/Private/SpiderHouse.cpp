@@ -175,12 +175,12 @@ HRESULT CSpiderHouse::AddAnimation(MOTION motion)
 			str += L"/death";
 			break;
 		}
-		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
 			TEXT("Com_" + str), reinterpret_cast<CComponent**>(&m_pTextureCom[motion]))))
 		{
-			m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
+			m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
 				CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, str.c_str()));
-			__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
+			__super::Add_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
 				TEXT("Com_" + str), reinterpret_cast<CComponent**>(&m_pTextureCom[motion]));
 
 		}

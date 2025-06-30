@@ -19,11 +19,18 @@ HRESULT CCharacter::Initialize_Prototype()
 HRESULT CCharacter::Initialize(void* pArg)
 {
     CLandObject::LANDOBJECT_DESC			Desc{};
-    Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
-    Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
+    Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("BackGroundLayer"), TEXT("Com_Transform")));
+    if (Desc.pLandTransform) {
+        Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("BackGroundLayer"), TEXT("Com_VIBuffer")));
+    }
+    else {
+        Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
+        Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
+    }
     m_pCharacterInstance = CCharacter_Manager::GetInstance();
     m_pCharacterInstance->AddRef();
     m_pCharacterInstance->Add_Object(this);
+    m_fAngle = 90;
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
@@ -101,7 +108,7 @@ void CCharacter::SetDir()
 void CCharacter::Free()
 {
     m_pCharacterInstance->Remove_Object(this);
-    //m_pCharacterInstance->DestroyInstance();
+    m_pCharacterInstance->DestroyInstance();
     __super::Free();
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
