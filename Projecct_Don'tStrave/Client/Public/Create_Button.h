@@ -12,8 +12,6 @@ private:
 	virtual ~CCreate_Button() = default;
 
 public:
-	void Set_Item(_uint iItemID) { m_iItemID = iItemID; }
-public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
 	virtual void	 Priority_Update(_float fTimeDelta)override;
@@ -24,9 +22,6 @@ public:
 	virtual void HoverEevent() override;
 	virtual void ClickedEevent() override;
 
-
-private:
-	
 
 private:
 	virtual HRESULT ADD_Components();

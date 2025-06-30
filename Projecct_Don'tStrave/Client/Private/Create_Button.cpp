@@ -20,7 +20,6 @@ HRESULT CCreate_Button::Initialize_Prototype()
 
 HRESULT CCreate_Button::Initialize(void* pArg)
 {
-    m_iItemID = 1;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -102,16 +101,6 @@ HRESULT CCreate_Button::ADD_Components()
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
-        TEXT("Com_Texture"),
-        reinterpret_cast<CComponent**>(&m_pBackGroundTexture_Com))))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
-        TEXT("Com_Texture"),
-        reinterpret_cast<CComponent**>(&m_pItemTexture_Com))))
         return E_FAIL;
 
     return S_OK;
