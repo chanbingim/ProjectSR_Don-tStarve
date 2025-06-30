@@ -40,21 +40,28 @@ HRESULT CCharacter::Initialize(void* pArg)
 
 void CCharacter::Priority_Update(_float fTimeDelta)
 {
+    __super::Priority_Update(fTimeDelta);
+
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 }
 
 void CCharacter::Update(_float fTimeDelta)
 {
+    __super::Update(fTimeDelta);
 }
 
 void CCharacter::Late_Update(_float fTimeDelta)
 {
+    __super::Late_Update(fTimeDelta);
+
     SetUp_OnTerrain(m_pTransformCom, 0.f);
     Compute_CamDistance(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 }
 
 HRESULT CCharacter::Render()
 {
+    __super::Render();
+
     return S_OK;
 }
 

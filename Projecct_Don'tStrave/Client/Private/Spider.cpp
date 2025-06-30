@@ -72,6 +72,7 @@ void CSpider::Priority_Update(_float fTimeDelta)
 
 void CSpider::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 	switch (m_tMotion)
 	{
 	case Client::CSpider::IDLE_TO_RUN:
@@ -174,11 +175,12 @@ void CSpider::Late_Update(_float fTimeDelta)
 
 HRESULT CSpider::Render()
 {
+	__super::Render();
+
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
 	m_pSpiderAnim[m_tDir][m_tMotion]->Render(MOVE_DIR::MOVE_LEFT == m_tMoveDIr);
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
 	m_pVIBufferCom->Render();
 
 	if (FAILED(End_RenderState()))

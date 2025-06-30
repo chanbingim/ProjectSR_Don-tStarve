@@ -24,18 +24,22 @@ HRESULT CAlphaObject::Initialize(void* pArg)
 
 void CAlphaObject::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CAlphaObject::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CAlphaObject::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CAlphaObject::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

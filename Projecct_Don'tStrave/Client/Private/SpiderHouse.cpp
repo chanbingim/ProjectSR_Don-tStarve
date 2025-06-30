@@ -49,6 +49,8 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 
 void CSpiderHouse::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
+
 	m_fTimeAcc += fTimeDelta;
 	if (m_fTimeAcc >= 15.f) {
 
@@ -70,6 +72,8 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 
 void CSpiderHouse::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
+
 	switch (m_tMotion)
 	{
 	case MOTION::SMALL_DAMAGE:
@@ -120,10 +124,11 @@ void CSpiderHouse::Late_Update(_float fTimeDelta)
 
 HRESULT CSpiderHouse::Render()
 {
+	__super::Render();
+
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 	m_pAnimController->Render();
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
 	m_pVIBufferCom->Render();
 
 	if (FAILED(End_RenderState()))
