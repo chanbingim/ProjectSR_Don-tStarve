@@ -345,8 +345,9 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	if (m_tItem != SWAPOBJECT::SWAPOBJECT_NONE) {
 		m_pSwapObjectAnimController->Tick(fTimeDelta);
 	}
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 	SetDir();
+	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
 }
 
 HRESULT CPlayer::Render()

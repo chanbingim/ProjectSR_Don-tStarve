@@ -74,9 +74,8 @@ HRESULT CEnviornment_Object::Render()
 
     __super::Render();
     m_pVIBuffer_Com->Render();
-
-    Safe_Release(pTex);
     End_Billboard();
+
     return S_OK;
 }
 
