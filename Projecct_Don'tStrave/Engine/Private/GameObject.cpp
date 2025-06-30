@@ -43,12 +43,13 @@ void CGameObject::Priority_Update(_float fTimeDelta)
 
 void CGameObject::Update(_float fTimeDelta)
 {
-	if (m_bEnableBillboard)
-		Excute_Billboard();
+
 }
 
 void CGameObject::Late_Update(_float fTimeDelta)
 {
+	if (m_bEnableBillboard)
+		Excute_Billboard();
 }
 
 HRESULT CGameObject::Render()
