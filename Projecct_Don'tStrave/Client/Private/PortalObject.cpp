@@ -48,10 +48,8 @@ void CPortalObject::Late_Update(_float fTimeDelta)
 
 HRESULT CPortalObject::Render()
 {
-    __super::Render();
-
     m_Idle_pTexture_Com->Set_Texture(0);
-    m_pVIBuffer_Com->Render();
+    __super::Render();
 
     return S_OK;
 }

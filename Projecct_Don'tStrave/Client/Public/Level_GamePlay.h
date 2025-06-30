@@ -16,15 +16,18 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	HRESULT			LoadFileData(const char* MapName);
+
 private:
-	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_BackGround(const char* FilePath, const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Camera(const char* FilePath, const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Enviornment(const char* FilePath, const _wstring& strLayerTag);
+
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Enviornment(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Mouse(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UserInterface(const _wstring& strLayerTag);
-	
+
 private:
 	_wstring			GetEnv_ObejctTag(_uint iID);
 

@@ -48,14 +48,11 @@ void CGameObject::Update(_float fTimeDelta)
 
 void CGameObject::Late_Update(_float fTimeDelta)
 {
-	if (m_bEnableBillboard)
-		Excute_Billboard();
+
 }
 
 HRESULT CGameObject::Render()
 {
-	if (m_bEnableBillboard)
-		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_BillboardMat);
 
 	return S_OK;
 }
@@ -96,31 +93,55 @@ HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& s
 	return S_OK;
 }
 
-void CGameObject::Excute_Billboard()
+HRESULT CGameObject::Setting_Shader(const WCHAR* ShaderName)
 {
-	_matrix CameraView = {};
+	LPD3DXBUFFER		pErr = NULL;
+	if (FAILED(D3DXCreateEffectFromFile(m_pGraphic_Device, ShaderName, NULL, NULL, 0, NULL, &m_pEffect, &pErr)))
+	{
+		if (pErr)
+		{
+			OutputDebugStringA((char*)pErr->GetBufferPointer());
+			MessageBoxA(nullptr, (char*)pErr->GetBufferPointer(), "FX Load Error", MB_OK);
+			pErr->Release();
+		}
+		return E_FAIL;
+	}
+	else
+	{
+		D3DXDeclaratorFromFVF(D3DFVF_CUSTOMVERTEX, decl);
+		m_hTechnique = m_pEffect->GetTechniqueByName("main");
+	}
 
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &CameraView);
-	D3DXMatrixInverse(&CameraView, NULL, &CameraView);
+	return S_OK;
+}
 
-	_float3 right = *(_float3*)&CameraView.m[0];
-	_float3 up = *(_float3*)&CameraView.m[1];
-	_float3 look = *(_float3*)&CameraView.m[2];
+void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex)
+{
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_ViewMat);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
+	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
+	m_pEffect->SetTechnique(m_hTechnique);
+	
+	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_matrix testMat = _InvWorldMat;
+	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 
-	// (선택) 정규화 + 스케일 적용
-	_float3 scale = m_pTransformCom->GetScale();
-	D3DXVec3Normalize(&right, &right);
-	D3DXVec3Normalize(&up, &up);
-	D3DXVec3Normalize(&look, &look);
+	m_pEffect->SetMatrix("WorldMat", &testMat);
+	m_pEffect->SetMatrix("ViewMat", &m_ViewMat);
+	m_pEffect->SetMatrix("ProjdMat", &m_ProMat);
 
-	right *= scale.x;
-	up *= scale.y;
-	look *= scale.z;
+	m_pEffect->SetTexture("Tex", pTex);
 
-	memcpy((_float3*)&m_BillboardMat.m[0], right, sizeof(_float3));
-	memcpy((_float3*)&m_BillboardMat.m[1], up, sizeof(_float3));
-	memcpy((_float3*)&m_BillboardMat.m[2], look, sizeof(_float3));
-	memcpy((_float3*)&m_BillboardMat.m[3], m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), sizeof(_float3));
+	m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
+	m_pEffect->Begin(NULL, 0);
+	m_pEffect->BeginPass(0);
+}
+
+void CGameObject::End_Billboard()
+{
+	m_pEffect->EndPass();
+	m_pEffect->End();
+	m_pEffect->OnResetDevice();
 }
 
 void CGameObject::Free()
@@ -131,6 +152,10 @@ void CGameObject::Free()
 		Safe_Release(Pair.second);
 
 	m_Components.clear();
+
+	if (m_pEffect)
+		m_pEffect->OnResetDevice();
+	Safe_Release(m_pEffect);
 
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);

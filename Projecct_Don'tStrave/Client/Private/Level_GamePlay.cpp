@@ -13,19 +13,10 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
+	if (FAILED(LoadFileData("TutorialMapData")))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
@@ -50,20 +41,39 @@ HRESULT CLevel_GamePlay::Render()
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 {
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
-	//	return E_FAIL;
-	Parse_ObejectData("../Bin/Resources/DataStruct/TutorialMapData/MapData.csv",
+	char		FilePath[MAX_PATH] = {};
+	sprintf_s(FilePath, "../Bin/Resources/DataStruct/%s", MapName);
+
+	if (FAILED(Ready_Layer_BackGround(FilePath, TEXT("Layer_BackGround"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Camera(FilePath, TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
+		return E_FAIL;
+}
+
+
+HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wstring& strLayerTag)
+{
+	char		File[MAX_PATH] = {};
+	sprintf_s(File, "%s/MapData.csv", FilePath);
+
+	Parse_ObejectData(File,
 		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag);
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
 
 	return S_OK;
 
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring& strLayerTag)
 {
 	CCamera::CAMERA_DESC			CameraDesc{};
 	CameraDesc.fFov = D3DXToRadian(60.0f);
@@ -90,7 +100,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
 	for (size_t i = 0; i < 10; i++)
 	{
@@ -102,11 +112,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _wstring& strLayerTag)
 {
+	char		File[MAX_PATH] = {};
+	sprintf_s(File, "%s/Enviornment.csv", FilePath);
+
 	//¸Ê µ¥ÀÌÅÍ °¡Á®¿Í¼­ ÆÄ½Ì
 	vector<BASE_DATA_STRUCT> vecBaseData;
-	LoadMapData("../Bin/Resources/DataStruct/TutorialMapData/Enviornment.csv", &vecBaseData);
+	LoadMapData(File, &vecBaseData);
 
 	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
 	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);

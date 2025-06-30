@@ -53,15 +53,23 @@ protected:
 	CTransform*					m_pTransformCom = {nullptr};
 	map<const _wstring, class CComponent*>		m_Components;
 
+	LPD3DXEFFECT					m_pEffect = { nullptr };
+	D3DXHANDLE						m_hTechnique = { nullptr };
+	LPDIRECT3DVERTEXDECLARATION9	m_pDecl;
+	D3DVERTEXELEMENT9				decl[MAX_FVF_DECL_SIZE];
+
 protected:
 	HRESULT Add_Component(	_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, 
 							const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
-private :
-	_matrix				m_BillboardMat = {};
+	HRESULT	Setting_Shader(const WCHAR* ShaderName);
+	void				Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex);
+	void				End_Billboard();
 
 private :
-	void				Excute_Billboard();
+	_matrix				m_BillboardMat = {};
+	_matrix				m_ViewMat = {};
+	_matrix				m_ProMat = {};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

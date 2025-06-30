@@ -74,13 +74,15 @@ void CAnimationUI::Late_Update(_float fTimeDelta)
 
 HRESULT CAnimationUI::Render()
 {
+    _matrix ViewMat, ProMat;
+    LPDIRECT3DBASETEXTURE9 pTex = nullptr;
     if (FAILED(__super::Render()))
         return E_FAIL;
 
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
     m_pAnimController->Render();
     m_pVIBuffer_Com->Render();
-
+        
     return E_NOTIMPL;
 }
 
@@ -147,4 +149,6 @@ void CAnimationUI::Free()
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pAnimController);
     Safe_Release(m_pUIMoveAnim);
+
+
 }

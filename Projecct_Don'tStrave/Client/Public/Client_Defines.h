@@ -4,6 +4,8 @@
 #include "../Default/framework.h"
 #include "File.h"
 
+
+
 namespace Client
 {
 	typedef struct GamePlayStr

@@ -50,6 +50,10 @@ HRESULT CVIBuffer::Render()
 	return S_OK;
 }
 
+void CVIBuffer::Begin_Render()
+{
+}
+
 _float CVIBuffer::Compute_Height(const _float3& vLocalPos)
 {
 	/* */

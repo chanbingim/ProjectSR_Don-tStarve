@@ -542,4 +542,9 @@
       <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BillBoard.fx">
+      <Filter>김찬빈</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>

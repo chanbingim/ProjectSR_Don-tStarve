@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "GameObject.h"
-#include "AlphaObject.h"
+#include "Transform.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -84,6 +84,13 @@ void CRenderer::Render_AlphaTest()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			return Sur_z > Dst_z;
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
 	{
 		if (nullptr != pRenderObject)
@@ -98,10 +105,10 @@ void CRenderer::Render_AlphaTest()
 
 void CRenderer::Render_Blend()
 {
-	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+	/*m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
 			return static_cast<CAlphaObject*>(pSour)->Get_CamDistance() > static_cast<CAlphaObject*>(pDest)->Get_CamDistance();
-		});
+		});*/
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
 	{

@@ -1,5 +1,6 @@
 #include "Spider.h"
 #include "GameInstance.h"
+#include "Camera.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -61,6 +62,8 @@ HRESULT CSpider::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+	Setting_Shader(L"BillBoard.fx");
 
 	return S_OK;
 }
@@ -168,28 +171,37 @@ void CSpider::Update(_float fTimeDelta)
 
 void CSpider::Late_Update(_float fTimeDelta)
 {
-	
 	SetDir();
 	m_pAnimController->Tick(fTimeDelta);
-	
 	m_pTransformCom->SetScale(m_pAnimTransformCom->GetScale());
-	__super::Late_Update(fTimeDelta);
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
+	/*__super::Late_Update(fTimeDelta);*/
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	
 }
 
 HRESULT CSpider::Render()
 {
 	__super::Render();
-
-	if (FAILED(Begin_RenderState()))
+	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+	auto Camera = dynamic_cast<CCamera*>(Obj);
+	if (nullptr == Camera)
 		return E_FAIL;
+	/*if (FAILED(Begin_RenderState()))
+		return E_FAIL;*/
+	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
 
 	m_pSpiderAnim[m_tDir][m_tMotion]->Render(MOVE_DIR::MOVE_LEFT == m_tMoveDIr);
+	m_pGraphic_Device->GetTexture(0, &pTex);
+
+	Excute_Billboard(Camera->GetInvViewMat(), pTex);
 	m_pVIBufferCom->Render();
 
-	if (FAILED(End_RenderState()))
-		return E_FAIL;
+	Safe_Release(pTex);
+	End_Billboard();
+
+	/*if (FAILED(End_RenderState()))
+		return E_FAIL;*/
 
 	return S_OK;
 }

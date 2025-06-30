@@ -45,22 +45,33 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(Start_Level(LEVEL::LOGO)))
 		return E_FAIL;	
 
+	if (FAILED(ReadShader()))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
 void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+
+	
+
+
 }
 
 HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
+	
+
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
 	m_pGameInstance->Render_End();
+
 
 	return S_OK;
 }
@@ -141,6 +152,13 @@ HRESULT CMainApp::Ready_Prototypes()
 	return S_OK;
 }
 
+HRESULT CMainApp::ReadShader()
+{
+	
+
+	return S_OK;
+}
+
 void CMainApp::Render_FPS()
 {
 	m_pFrame++;
@@ -180,6 +198,10 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
+
+
+
+	
 
 	Safe_Release(m_pGameInstance);	
 }

@@ -113,6 +113,8 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	}
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
+
+	D3DXMatrixInverse(&m_InvViewMatrix, NULL, &m_pTransformCom->Get_InverseWorldMat());
 }
 
 void CCamera::Update(_float fTimeDelta)
@@ -132,6 +134,11 @@ HRESULT CCamera::Render()
 	m_pButton_Right->Render();
 
 	return S_OK;
+}
+
+const _float4x4& CCamera::GetInvViewMat()
+{
+	return m_InvViewMatrix;
 }
 
 HRESULT CCamera::Ready_Components(void* pArg)
