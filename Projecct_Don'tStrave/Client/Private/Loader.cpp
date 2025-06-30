@@ -28,9 +28,11 @@
 #include "Clock.h"
 #include "Item_Info.h"
 #include "Item_Button.h"
+#include "Create_Button.h"
 
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -312,7 +314,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_Item */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Item%d.png"), 36))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Itemicon/Item%d.png"), 52))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_ItemState */
@@ -338,6 +340,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_QuickSlot_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuickSlot_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/QuickSlot_Button.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Create_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/CreateButton%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Clock_Frame */
@@ -459,6 +466,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CItem_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_CCreate_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Create_Button"),
+		CCreate_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Clock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Clock"),
 		CClock::Create(m_pGraphic_Device))))
@@ -487,10 +499,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("나눔고딕"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("HY견고딕"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
@@ -505,6 +517,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 HRESULT CLoader::Loading_For_Tutorial()
 {
+	m_strMessage = TEXT("아이템 정보를 가져오는 중... ");
+	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
+
 	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 #pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */

@@ -1,6 +1,7 @@
 #include "Item_Info.h"
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
 
 CItem_Info::CItem_Info(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -83,10 +84,11 @@ HRESULT CItem_Info::Render(CTransform* pTransform)
     pTransform->SetScale(vScale);
 
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
-    
-    m_pGameInstance->Render_Font(TEXT("Font_25"), TEXT("È½ºÒ"), &m_rcItemName, white);
+    ITEM_DATA data = CItem_Manager::GetInstance()->Get_ItemData(m_SelectedItemID);
 
-    m_pGameInstance->Render_Font(TEXT("Font_14"), TEXT("¼³¸í...fire....."), &m_rcItemInfo, white, DT_LEFT);
+    m_pGameInstance->Render_Font(TEXT("Font_25"), data.strName.c_str(), &m_rcItemName, white);
+
+    m_pGameInstance->Render_Font(TEXT("Font_14"), data.strExplanation.c_str(), &m_rcItemInfo, white, DT_LEFT);
 
 
     return S_OK;

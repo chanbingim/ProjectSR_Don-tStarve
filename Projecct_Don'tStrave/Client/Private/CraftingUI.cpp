@@ -6,6 +6,7 @@
 #include "Category_Button.h"
 #include "Item_Info.h"
 #include "Item_Button.h"
+#include "Create_Button.h"
 
 CCraftingUI::CCraftingUI(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -50,6 +51,17 @@ HRESULT CCraftingUI::Initialize(void* pArg)
 
     m_pOpenButton = dynamic_cast<CCrafting_Button*>(m_pGameInstance->Clone_Prototype(
         PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
+   
+    Desc.fX = m_fX;
+    Desc.fY = m_fY;
+    Desc.fSizeX = 80.f;
+    Desc.fSizeY = 40.f;
+    Desc.fRelativeX = 100.f;
+    Desc.fRelativeY = -m_fSizeY * 0.5f + 60.f;
+    Desc.pParentTransform = m_pTransform_Com;
+
+    m_pCreateButton = dynamic_cast<CCreate_Button*>(m_pGameInstance->Clone_Prototype(
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Create_Button"), &Desc));
 
     for (_uint i = 0; i < 5; ++i)
     {
@@ -91,7 +103,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
 
     _uint ItemButtons = 1;
 
-    for (_uint i = 0; i < 5; ++i)
+    for (_uint i = 0; i < 3; ++i)
     {
         Desc.iTextureIndex = ItemButtons++;
         Desc.fX = m_fX;
@@ -123,7 +135,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         if (nullptr != pItem_Button)
             m_pItem_Buttons[1].push_back(pItem_Button);
     }
-    for (_uint i = 0; i < 2; ++i)
+    for (_uint i = 0; i < 1; ++i)
     {
         Desc.iTextureIndex = ItemButtons++;
         Desc.fX = m_fX;
@@ -141,7 +153,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
             m_pItem_Buttons[2].push_back(pItem_Button);
         }
     }
-    for (_uint i = 0; i < 2; ++i)
+    for (_uint i = 0; i < 4; ++i)
     {
         Desc.iTextureIndex = ItemButtons++;
         Desc.fX = m_fX;
@@ -177,7 +189,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
             m_pItem_Buttons[4].push_back(pItem_Button);
         }
     }
-    for (_uint i = 0; i < 4; ++i)
+    for (_uint i = 0; i < 5; ++i)
     {
         Desc.iTextureIndex = ItemButtons++;
         Desc.fX = m_fX;
@@ -222,38 +234,44 @@ void CCraftingUI::Update(_float fTimeDelta)
     for (auto qButton : m_pQuickSlots)
         qButton->Update(fTimeDelta);
 
-    m_pItem_Info->Update_Rect(m_fX, m_fY);
-    
-    // 카테고리 버튼 업데이트
-    _uint iNumCategory = m_pCategorys.size();
-
-    for (_uint i = 0; i < iNumCategory; ++i)
+    if(false == m_bHide)
     {
-        m_pCategorys[i]->Update(fTimeDelta);
-        if (m_iCategoryIndex != i && m_pCategorys[i]->OnClick())
-        {
-            m_pCategorys[m_iCategoryIndex]->Select_Button();
-            m_pCategorys[i]->Select_Button();
-            m_iCategoryIndex = i;
-            break;
-        }
-    }
+        m_pCreateButton->Update(fTimeDelta);
 
-    // 아이템 버튼 업데이트
-    _uint iNumItemBtn = m_pItem_Buttons[m_iCategoryIndex].size();
+        m_pItem_Info->Update_Rect(m_fX, m_fY);
 
-    for (_uint i = 0; i < iNumItemBtn; ++i)
-    {
-        m_pItem_Buttons[m_iCategoryIndex][i]->Update(fTimeDelta);
-        if (m_iItemBtnIndex[m_iCategoryIndex] != i && m_pItem_Buttons[m_iCategoryIndex][i]->OnClick())
+        // 카테고리 버튼 업데이트
+        _uint iNumCategory = m_pCategorys.size();
+
+        for (_uint i = 0; i < iNumCategory; ++i)
         {
-            m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Select_Button();
-            m_pItem_Buttons[m_iCategoryIndex][i]->Select_Button();
-            m_iItemBtnIndex[m_iCategoryIndex] = i;
-            break;
+            m_pCategorys[i]->Update(fTimeDelta);
+            if (m_iCategoryIndex != i && m_pCategorys[i]->OnClick())
+            {
+                m_pCategorys[m_iCategoryIndex]->Select_Button();
+                m_pCategorys[i]->Select_Button();
+                m_iCategoryIndex = i;
+                break;
+            }
         }
+
+        // 아이템 버튼 업데이트
+        _uint iNumItemBtn = m_pItem_Buttons[m_iCategoryIndex].size();
+
+        for (_uint i = 0; i < iNumItemBtn; ++i)
+        {
+            m_pItem_Buttons[m_iCategoryIndex][i]->Update(fTimeDelta);
+            if (m_iItemBtnIndex[m_iCategoryIndex] != i && m_pItem_Buttons[m_iCategoryIndex][i]->OnClick())
+            {
+                m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Select_Button();
+                m_pItem_Buttons[m_iCategoryIndex][i]->Select_Button();
+                m_iItemBtnIndex[m_iCategoryIndex] = i;
+                break;
+            }
+        }
+        _uint iSelectedID = m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Get_ItemID();
+        m_pItem_Info->Set_Item(iSelectedID);
     }
-    m_pItem_Info->Set_ITem(m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Get_ItemID());
 
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
@@ -275,13 +293,18 @@ HRESULT CCraftingUI::Render()
 
     m_pVIBuffer_Com->Render();
 
-    m_pItem_Info->Render(m_pTransform_Com);
+    if (false == m_bHide)
+    {
+        m_pCreateButton->Render();
 
-    for (auto pButton : m_pCategorys)
-        pButton->Render();
+        m_pItem_Info->Render(m_pTransform_Com);
 
-    for (auto pItemBtn : m_pItem_Buttons[m_iCategoryIndex])
-        pItemBtn->Render();
+        for (auto pButton : m_pCategorys)
+            pButton->Render();
+
+        for (auto pItemBtn : m_pItem_Buttons[m_iCategoryIndex])
+            pItemBtn->Render();
+    }
 
     return S_OK;
 }
@@ -373,6 +396,7 @@ void CCraftingUI::Free()
     Safe_Release(m_pVIBuffer_Com);
 
     Safe_Release(m_pOpenButton);
+    Safe_Release(m_pCreateButton);
     Safe_Release(m_pItem_Info);
 
     for (auto pButton : m_pQuickSlots)

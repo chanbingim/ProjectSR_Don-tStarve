@@ -27,7 +27,8 @@ private:
 	_bool			m_bPutDown = {};
 	_float			m_fTimeAcc = {};
 	class CSlot*	m_pSlot = { nullptr };
-	_wstring		m_MouseMessage = {};
+	wstring			m_MouseMessage = {};
+	CTransform*		m_pPlayerTransform_Com = {};
 
 private:
 	HRESULT ADD_Components();
