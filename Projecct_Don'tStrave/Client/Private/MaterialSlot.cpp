@@ -80,7 +80,7 @@ HRESULT CMaterialSlot::Render()
 	case 1:
 		m_pTransform_Com->SetPosition(_float3(m_fX - 100.f, m_fY + 30.f, 1.f));
 		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-		m_pBackGroundTexture_Com->Set_Texture(0);
+		//m_pBackGroundTexture_Com->Set_Texture(0);
 		m_pVIBuffer_Com->Render();
 		m_pItemTexture_Com->Set_Texture(m_iMaterials[0]);
 		m_pVIBuffer_Com->Render();
@@ -155,4 +155,9 @@ CGameObject* CMaterialSlot::Clone(void* pArg)
 void CMaterialSlot::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTexture_Com);
+	Safe_Release(m_pItemTexture_Com);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBuffer_Com);
 }
