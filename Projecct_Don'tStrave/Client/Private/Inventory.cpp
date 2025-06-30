@@ -59,7 +59,7 @@ HRESULT CInventory::Initialize(void* pArg)
         Slot_Desc.iSlotType = 0;
 
         pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
 
 
         if (nullptr == pSlotFrame)
@@ -82,7 +82,7 @@ HRESULT CInventory::Initialize(void* pArg)
         Slot_Desc.iSlotType = i - 14;
 
         pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
 
         if (nullptr == pSlotFrame)
             return E_FAIL;
@@ -195,7 +195,7 @@ _uint CInventory::Check_ItemCount(_uint iItem)
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Inventory"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Inventory"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

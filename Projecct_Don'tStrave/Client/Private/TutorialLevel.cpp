@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "Level_Loading.h"
+#include "UserInterface.h"
 #include "Terrain.h"
 #include "Camera.h"
 #include "CUtility.h"
@@ -27,6 +28,9 @@ HRESULT CTutorialLevel::Initialize()
 
 	if (FAILED(Ready_Layer_Monster(TEXT("MonsterLayer"))))
 		return E_FAIL;
+
+	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
+		return E_FAIL;
 	
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::TUTORIAL))))
 		return E_FAIL;
@@ -49,6 +53,51 @@ HRESULT CTutorialLevel::Ready_Layer_Monster(const _wstring& strLayerTag)
 			ENUM_CLASS(LEVEL::TUTORIAL), strLayerTag)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CTutorialLevel::Ready_Layer_UserInterface(const _wstring& strLayerTag)
+{
+	CUserInterface::UIOBJECT_DESC Desc = {};
+
+	// Add Inventory
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Huger
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Health
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_Health"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Sanity
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_Sanity"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Clock
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_Clock"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	// Add Silebar
+	Desc.fSizeX = 350.f;
+	Desc.fSizeY = 500.f;
+	Desc.fX = Desc.fSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_CraftingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }

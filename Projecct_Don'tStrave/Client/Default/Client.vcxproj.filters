@@ -173,6 +173,18 @@
     <Filter Include="02. Objects\Environment\EnvAnimation">
       <UniqueIdentifier>{992723a9-e316-4bda-8b6f-c109379e725d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Character\Manager">
+      <UniqueIdentifier>{0d7c4ce4-6a5e-4c93-bd0d-e52f05044e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Create_Button">
+      <UniqueIdentifier>{f36b13ae-a298-400b-8f76-5743d0dc7182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Manager">
+      <UniqueIdentifier>{cd869639-578b-400c-a851-cbfaa8579a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CarftingUI\Matrial_Slot">
+      <UniqueIdentifier>{869ff721-a892-4748-95a8-5a325b571ce4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -341,19 +353,16 @@
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Character_Manager.h">
-      <Filter>김정환</Filter>
+      <Filter>03. Character\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Create_Button.h">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Manager.h">
-      <Filter>대진호</Filter>
+      <Filter>05. Item\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MaterialSlot.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\SwapObject.h">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -520,20 +529,17 @@
     <ClCompile Include="..\private\Env_Animation.cpp">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Character_Manager.cpp">
+      <Filter>03. Character\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\Create_Button.cpp">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Item_Manager.cpp">
-      <Filter>대진호</Filter>
+      <Filter>05. Item\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MaterialSlot.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\SwapObject.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Character_Manager.cpp">
-      <Filter>김정환</Filter>
+      <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

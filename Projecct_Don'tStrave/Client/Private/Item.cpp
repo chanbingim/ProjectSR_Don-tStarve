@@ -23,8 +23,8 @@ HRESULT CItem::Initialize_Prototype()
 HRESULT CItem::Initialize(void* pArg)
 {
 	CLandObject::LANDOBJECT_DESC			Desc{};
-	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
-	Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
+	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
+	Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -89,7 +89,7 @@ void CItem::HoverEvent()
 
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
 	{
-		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverObject(this);
+		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::OBJECT), TEXT("Layer_Mouse")))->Update_HoverObject(this);
 		ClickedEvent();
 	}
 }
@@ -111,7 +111,7 @@ void CItem::ClickedEvent()
 
 		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
 		{
-			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::OBJECT), TEXT("Layer_UserInterface"), 0));
 			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
 
 			if (nullptr == pSlot)
@@ -148,7 +148,7 @@ HRESULT CItem::ADD_Components()
 		reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Item"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
 		return E_FAIL;

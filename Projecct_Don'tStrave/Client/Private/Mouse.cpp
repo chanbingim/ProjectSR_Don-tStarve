@@ -206,7 +206,7 @@ void CMouse::Update_HoverObject(CItem* pItem)
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Item"),
         TEXT("Com_Texture_Item"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -240,7 +240,7 @@ HRESULT CMouse::Add_Slot()
     Desc.fY = m_fY;
 
     m_pSlot = static_cast<CSlot*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Slot"), &Desc));
 
     if (nullptr == m_pSlot)
         return E_FAIL;

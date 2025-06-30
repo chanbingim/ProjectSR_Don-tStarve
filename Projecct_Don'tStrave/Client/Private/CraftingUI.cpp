@@ -50,7 +50,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     Desc.pParentTransform = m_pTransform_Com;
 
     m_pOpenButton = dynamic_cast<CCrafting_Button*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
    
     Desc.fX = m_fX;
     Desc.fY = m_fY;
@@ -61,7 +61,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     Desc.pParentTransform = m_pTransform_Com;
 
     m_pCreateButton = dynamic_cast<CCreate_Button*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Create_Button"), &Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Create_Button"), &Desc));
 
     for (_uint i = 0; i < 5; ++i)
     {
@@ -74,7 +74,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.pParentTransform = m_pTransform_Com;
 
         m_pQuickSlots.push_back(dynamic_cast<CQuickSlot_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuickSlot_Button"), &Desc)));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_QuickSlot_Button"), &Desc)));
     }
 
     CUserInterface::UIOBJECT_DESC UI_Desc = {};
@@ -85,7 +85,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     UI_Desc.fSizeY = m_fSizeY;
 
     m_pItem_Info = dynamic_cast<CItem_Info*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
 
     for(_uint i = 0; i < 6; ++i)
     {
@@ -98,7 +98,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.35f;
         Desc.pParentTransform = m_pTransform_Com;
         m_pCategorys.push_back(dynamic_cast<CCategory_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
     }
 
     _uint ItemButtons = 1;
@@ -114,7 +114,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[0].push_back(pItem_Button);
@@ -130,7 +130,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[1].push_back(pItem_Button);
@@ -146,7 +146,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -164,7 +164,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -182,7 +182,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -200,7 +200,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -337,7 +337,7 @@ void CCraftingUI::ClickedEevent()
 HRESULT CCraftingUI::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SideBar"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_SideBar"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

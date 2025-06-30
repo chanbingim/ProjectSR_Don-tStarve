@@ -166,7 +166,6 @@
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
-    <ClInclude Include="..\Public\SwapObject.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TutorialLevel.h" />
     <ClInclude Include="..\public\Health.h" />
@@ -227,7 +226,6 @@
     <ClCompile Include="..\private\RockObject.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
-    <ClCompile Include="..\Private\SwapObject.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\TutorialLevel.cpp" />
     <ClCompile Include="..\private\Health.cpp" />

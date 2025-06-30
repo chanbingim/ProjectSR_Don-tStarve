@@ -41,7 +41,7 @@ HRESULT CSlotFrame::Initialize(void* pArg)
     __super::UpdatePosition();
 
     m_pSlot = static_cast<class CSlot*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &pDesc->Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Slot"), &pDesc->Desc));
 
     if (nullptr == m_pSlot)
         return E_FAIL;
@@ -132,7 +132,7 @@ void CSlotFrame::ClickedEevent()
 
     if (m_pGameInstance->KeyDown(VK_RBUTTON))
     {
-        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
+        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::OBJECT), TEXT("Layer_UserInterface")));
         
         CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
         
@@ -150,7 +150,7 @@ void CSlotFrame::ClickedEevent()
 HRESULT CSlotFrame::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Slot"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
