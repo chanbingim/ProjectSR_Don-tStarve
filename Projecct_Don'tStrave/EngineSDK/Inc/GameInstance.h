@@ -34,6 +34,7 @@ public:
 
 #pragma region LEVEL_MANAGER
 	HRESULT Change_Level(class CLevel* pNewLevel);
+	HRESULT Reset_CurLevel();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -71,8 +72,8 @@ public:
 #pragma endregion
 
 #pragma region FONT_MANAGER
-	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat = DT_CENTER | DT_VCENTER);
-	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
+	void		Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat = DT_CENTER | DT_VCENTER);
+	HRESULT		Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
 #pragma endregion
 
 #pragma region KEY_INPUT

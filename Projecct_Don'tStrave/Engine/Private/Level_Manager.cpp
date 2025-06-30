@@ -14,9 +14,7 @@ HRESULT CLevel_Manager::Change_Level(CLevel* pNewLevel)
 {
 	if (nullptr != m_pCurrentLevel)
 	{
-		CCollision_Manager::GetInstance()->Reset_Collision();
 		m_pGameInstance->Clear_Resources(m_pCurrentLevel->Get_LevelID());
-
 		Safe_Release(m_pCurrentLevel);
 	}	
 
@@ -39,6 +37,11 @@ HRESULT CLevel_Manager::Render()
 		return E_FAIL;	
 
 	return m_pCurrentLevel->Render();
+}
+
+void CLevel_Manager::CurrentLevelReset()
+{
+	m_pCurrentLevel->ResetLevelData();
 }
 
 CLevel_Manager* CLevel_Manager::Create()

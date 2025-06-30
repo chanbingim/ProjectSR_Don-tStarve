@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "GameInstance.h"
+#include "Collision_Manager.h"
 #include "File.h"
 
 #include "CUtility.h"
@@ -26,6 +27,11 @@ void CLevel::Update(_float fTimeDelta)
 HRESULT CLevel::Render()
 {
     return S_OK;
+}
+
+void CLevel::ResetLevelData()
+{
+    CCollision_Manager::GetInstance()->Reset_Collision();
 }
 
 HRESULT CLevel::Parse_ObejectData(const char* LoatFilePath, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag)

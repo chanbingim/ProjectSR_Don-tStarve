@@ -70,7 +70,10 @@ HRESULT CCamera::Initialize(void* pArg)
 
 HRESULT CCamera::Initialize_Late()
 {
-	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("PlayerLayer"), TEXT("Com_Transform"), 0));
+
+	if (!m_pPlayerTransformCom)
+		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 	return S_OK;
 }
 
@@ -95,10 +98,6 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	}
 
 	m_vOldMouse = _float2(ptMouse.x, ptMouse.y);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/0629_kjh
 	if (m_pPlayerTransformCom != nullptr) {
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
@@ -124,10 +123,7 @@ void CCamera::Update(_float fTimeDelta)
 
 void CCamera::Late_Update(_float fTimeDelta)
 {
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/0629_kjh
+
 }
 
 HRESULT CCamera::Render()

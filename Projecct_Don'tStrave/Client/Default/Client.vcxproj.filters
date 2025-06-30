@@ -340,6 +340,21 @@
     <ClInclude Include="..\public\Env_Animation.h">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Character_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Create_Button.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Manager.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MaterialSlot.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SwapObject.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -504,6 +519,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Env_Animation.cpp">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Create_Button.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Manager.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MaterialSlot.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SwapObject.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Character_Manager.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

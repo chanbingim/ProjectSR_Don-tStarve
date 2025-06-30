@@ -22,6 +22,34 @@ HRESULT CTutorialLevel::Initialize()
 	if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Player(TEXT("PlayerLayer"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Monster(TEXT("MonsterLayer"))))
+		return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::TUTORIAL))))
+		return E_FAIL;
+	return S_OK;
+}
+
+HRESULT CTutorialLevel::Ready_Layer_Player(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
+		ENUM_CLASS(LEVEL::TUTORIAL), strLayerTag)))
+		return E_FAIL;
+	return S_OK;
+}
+
+HRESULT CTutorialLevel::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	for (size_t i = 0; i < 10; i++)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
+			ENUM_CLASS(LEVEL::TUTORIAL), strLayerTag)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -108,11 +136,6 @@ HRESULT CTutorialLevel::Ready_Layer_Enviornment(const _wstring& strLayerTag)
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 			return E_FAIL;
 	}
-	return S_OK;
-}
-
-HRESULT CTutorialLevel::Ready_Layer_Player(const _wstring& strLayerTag)
-{
 	return S_OK;
 }
 

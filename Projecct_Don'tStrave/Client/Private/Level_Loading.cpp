@@ -38,7 +38,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		GetKeyState(VK_RETURN) & 0x8000)
 	{
 		CLevel* pNewLevel = { nullptr };
-
+		m_pGameInstance->Reset_CurLevel();
 		switch (m_eNextLevelID)
 		{
 		case LEVEL::LOGO:

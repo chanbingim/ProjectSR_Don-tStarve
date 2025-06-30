@@ -1,4 +1,5 @@
-﻿  AnimController.cpp
+﻿  AlphaObject.cpp
+  AnimController.cpp
   Base.cpp
   Box_Collision_Component.cpp
   CMath.cpp
@@ -17,9 +18,9 @@
   Graphic_Device.cpp
   LandObject.cpp
   Layer.cpp
-  Level.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  Level.cpp
   Level_Manager.cpp
   MouseManager.cpp
   MouseSlotUI.cpp
