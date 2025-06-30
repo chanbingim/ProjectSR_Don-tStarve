@@ -39,6 +39,18 @@ void CRenderer::Render()
 	Render_UI();
 }
 
+void CRenderer::ResetRenderer()
+{
+	_uint EndIndex = ENUM_CLASS(RENDER::END);
+	for (_uint i = 0; i < EndIndex; ++i)
+	{
+		for (auto& pRenderObject : m_RenderObjects[i])
+			Safe_Release(pRenderObject);
+
+		m_RenderObjects[i].clear();
+	}
+}
+
 void CRenderer::Render_Priority()
 {
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::PRIORITY)])

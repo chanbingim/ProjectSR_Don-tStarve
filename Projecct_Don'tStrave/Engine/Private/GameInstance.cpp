@@ -104,6 +104,7 @@ void CGameInstance::Clear_Resources(_uint iLevelIndex)
 {
 	m_pPrototype_Manager->Clear(iLevelIndex);
 	m_pObject_Manager->Clear(iLevelIndex);
+	m_pRenderer->ResetRenderer();
 }
 
 _float CGameInstance::Random_Normal()
