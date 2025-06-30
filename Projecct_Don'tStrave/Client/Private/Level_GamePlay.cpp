@@ -3,7 +3,7 @@
 
 #include "Camera.h"
 #include "UserInterface.h"
-#include "Button.h"
+#include "CUtility.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -13,11 +13,13 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+	if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
@@ -29,10 +31,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
+		return E_FAIL;
 
-	if(FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
+	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
 	return S_OK;
@@ -50,9 +52,12 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+	//	return E_FAIL;
+	Parse_ObejectData("../Bin/Resources/DataStruct/TutorialMapData/MapData.csv",
+		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 
@@ -97,6 +102,33 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const _wstring& strLayerTag)
+{
+	//¸Ê µ¥ÀÌÅÍ °¡Á®¿Í¼­ ÆÄ½Ì
+	vector<BASE_DATA_STRUCT> vecBaseData;
+	LoadMapData("../Bin/Resources/DataStruct/TutorialMapData/Enviornment.csv", &vecBaseData);
+
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);
+
+	for (size_t i = 0; i < vecBaseData.size(); ++i)
+	{
+		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
+		WCHAR TexPath[MAX_PATH] = {};
+
+		ObjectDesc.vScale = vecBaseData[i].Scale;
+		ObjectDesc.vRotation = vecBaseData[i].Rotation;
+		ObjectDesc.vPosition = vecBaseData[i].Position;
+
+		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
+		ObjectDesc.TextruePath = TexPath;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
+			return E_FAIL;
+	}
+	return S_OK;
+}
+
 HRESULT CLevel_GamePlay::Ready_Layer_Mouse(const _wstring& strLayerTag)
 {
 	CUserInterface::UIOBJECT_DESC Desc = {};
@@ -118,46 +150,63 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 	CUserInterface::UIOBJECT_DESC Desc = {};
 
 	// Add Inventory
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Huger
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Health
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Health"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Sanity
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Sanity"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
-	
+
 	// Add Clock
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Clock"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
-	
+
 	// Add Silebar
 	Desc.fSizeX = 350.f;
 	Desc.fSizeY = 500.f;
 	Desc.fX = Desc.fSizeX * 0.5f;
 	Desc.fY = g_iWinSizeY * 0.5f;
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_CraftingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
 		return E_FAIL;
 
-	
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
+}
+
+_wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
+{
+	switch (iID)
+	{
+	case 1:
+		return TEXT("Prototype_GameObject_Env_Protal");
+	case 2:
+		return TEXT("Prototype_GameObject_Env_Grass");
+	case 3:
+		return TEXT("Prototype_GameObject_Env_Rock");
+	case 4:
+		return TEXT("Prototype_GameObject_Env_Tree");
+	case 5:
+		return TEXT("");
+	}
+
+	return TEXT("");
 }
 
 

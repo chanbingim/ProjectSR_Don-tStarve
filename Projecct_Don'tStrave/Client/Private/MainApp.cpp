@@ -6,6 +6,7 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
+#include "Character_Manager.h"
 #include "Camera_Button.h"
 
 

@@ -80,7 +80,7 @@ HRESULT CSanity::Render()
 HRESULT CSanity::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Sanity"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sanity"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

@@ -20,7 +20,7 @@ HRESULT CMaterialSlot::Initialize_Prototype()
 
 HRESULT CMaterialSlot::Initialize(void* pArg)
 {
-	m_pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::OBJECT), TEXT("Layer_UserInterface"), 0));
+	m_pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
 
 	return S_OK;
 }
@@ -113,12 +113,12 @@ HRESULT CMaterialSlot::ADD_Components()
 		reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Item"),
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
 		TEXT("Com_ItemTexture"),
 		reinterpret_cast<CComponent**>(&m_pItemTexture_Com))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Slot"),
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
 		TEXT("Com_FrameTexture"),
 		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
 		return E_FAIL;

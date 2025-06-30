@@ -163,14 +163,19 @@ void CSpider::Update(_float fTimeDelta)
 			}
 		}
 	}
+	
 }
 
 void CSpider::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	
 	SetDir();
 	m_pAnimController->Tick(fTimeDelta);
+	
+	m_pTransformCom->SetScale(m_pAnimTransformCom->GetScale());
+	__super::Late_Update(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	
 }
 
 HRESULT CSpider::Render()
@@ -290,12 +295,12 @@ HRESULT CSpider::AddAnimation(DIR dir, MOTION motion)
 			str += L"_up";
 			break;
 		}
-		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
 			TEXT("Com_" + str), reinterpret_cast<CComponent**>(&m_pTextureCom[m_tDir][motion]))))
 		{
-			m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
+			m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
 				CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, str.c_str()));
-			__super::Add_Component(ENUM_CLASS(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_" + str),
+			__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
 				TEXT("Com_" + str), reinterpret_cast<CComponent**>(&m_pTextureCom[m_tDir][motion]));
 
 		}
