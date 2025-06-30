@@ -122,10 +122,14 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 	m_pEffect->SetTechnique(m_hTechnique);
 	
-	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 	_matrix testMat = _InvWorldMat;
+	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float4 Size = {};
+
+	memcpy(Size, m_pTransformCom->GetScale(), sizeof(_float3));
 	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 
+	m_pEffect->SetVector("vScale", &Size);
 	m_pEffect->SetMatrix("WorldMat", &testMat);
 	m_pEffect->SetMatrix("ViewMat", &m_ViewMat);
 	m_pEffect->SetMatrix("ProjdMat", &m_ProMat);
