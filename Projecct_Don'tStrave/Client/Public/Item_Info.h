@@ -12,7 +12,7 @@ private:
 	virtual ~CItem_Info() = default;
 
 public:
-	void Set_ITem(_uint iItemID) { m_SelectedItemID = iItemID; }
+	void Set_Item(_uint iItemID) { m_SelectedItemID = iItemID; }
 	
 public:
 	virtual HRESULT  Initialize_Prototype()override;

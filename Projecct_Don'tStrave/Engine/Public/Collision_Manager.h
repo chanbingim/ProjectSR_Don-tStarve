@@ -20,6 +20,8 @@ public :
 	void		ADD_ColList(CCollision_Component* pCol_Component);
 	void		Remove_ColList(CCollision_Component* pCol_Component);
 
+	void		Reset_Collision();
+
 private :
 	list<CCollision_Component*>		m_pCol_List[ENUM_CLASS(COLLISION_TYPE::END)] = {};
 	list<CCollision_Component*>		m_UpdateList;

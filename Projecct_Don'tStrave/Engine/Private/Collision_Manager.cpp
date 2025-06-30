@@ -85,6 +85,15 @@ void CCollision_Manager::Remove_ColList(CCollision_Component* pCol_Component)
     }
 }
 
+void CCollision_Manager::Reset_Collision()
+{
+    size_t endIndex = ENUM_CLASS(COLLISION_TYPE::END);
+    for (size_t i = 0; i < endIndex; ++i)
+        m_pCol_List[i].clear();
+
+    m_UpdateList.clear();
+}
+
 void CCollision_Manager::ADD_UpdateList(CCollision_Component* pCol)
 {
     auto iter = find(m_UpdateList.begin(), m_UpdateList.end(), pCol);

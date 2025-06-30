@@ -18,7 +18,8 @@ private:
 public:
 	HRESULT Initialize();
 	HRESULT Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
-	void Render();
+	void	Render();
+	void	ResetRenderer();;
 
 private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
@@ -30,6 +31,7 @@ private:
 private:
 	void Render_Priority();
 	void Render_NonBlend();
+	void Render_AlphaTest();
 	void Render_Blend();
 	
 	void Render_UI();

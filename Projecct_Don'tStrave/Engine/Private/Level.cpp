@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "GameInstance.h"
+#include "Collision_Manager.h"
 #include "File.h"
 
 #include "CUtility.h"
@@ -26,6 +27,11 @@ void CLevel::Update(_float fTimeDelta)
 HRESULT CLevel::Render()
 {
     return S_OK;
+}
+
+void CLevel::ResetLevelData()
+{
+    CCollision_Manager::GetInstance()->Reset_Collision();
 }
 
 HRESULT CLevel::Parse_ObejectData(const char* LoatFilePath, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag)
@@ -62,23 +68,30 @@ void CLevel::LoadMapData(const char* MapFilePath, vector<BASE_DATA_STRUCT>* pOut
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
-    for (_uint i = 0; i < ReadData.size(); i += 4)
+    for (_uint i = 0; i < ReadData.size(); i += 5)
     {
         BASE_DATA_STRUCT Data;
 
-        for (_uint j = i; j < i + 3; ++j)
+        for (_uint j = i; j < i + 4; ++j)
         {
             _float3 vec;
             stringstream CellStream(ReadData[j]);
 
-            if (CellStream >> vec.x >> vec.y >> vec.z)
-                ReadVec.push_back(vec);
+            if(j == i + 3)
+                CellStream >> Data.iID;
+            else
+            {
+                if (CellStream >> vec.x >> vec.y >> vec.z)
+                    ReadVec.push_back(vec);
+            }
+
         }
 
         Data.Scale = ReadVec[0];
         Data.Rotation = ReadVec[1];
+        Data.szTexturePath = ReadData[i + 4];
         Data.Position = ReadVec[2];
-        Data.szTexturePath = ReadData[i + 3];
+        
         (*pOut).push_back(Data);
         ReadVec.clear();
     }

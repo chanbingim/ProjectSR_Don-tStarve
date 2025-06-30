@@ -20,9 +20,14 @@ private:
 	HRESULT				Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT				Ready_Layer_Enviornment(const _wstring& strLayerTag);
 	HRESULT				Ready_Layer_Player(const _wstring& strLayerTag);
+	HRESULT				Ready_Layer_Monster(const _wstring& strLayerTag);
+	HRESULT				Ready_Layer_UserInterface(const _wstring& strLayerTag);
+
+private :
+	_wstring			GetEnv_ObejctTag(_uint iID);
 
 public:
-	static CTutorialLevel*	Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID);
+	static CTutorialLevel* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID);
 	virtual void			Free() override;
 
 };

@@ -16,10 +16,11 @@ namespace Client
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
 
-	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, END };
+	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, OBJECT, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT, STRUCTURE};
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
+	enum class FOOD { MEAT, FRUIT, END };
 
 	typedef struct Item_Desc
 	{
@@ -34,18 +35,24 @@ namespace Client
 	typedef struct Item_Data
 	{
 		unsigned int	iItemID{};
-		string			strName{};
+		wstring		strName{};
+		wstring			strKorName{};
 		ITEM_TYPE		eItemType{};
-		string			strKorName{};
 		SLOT			eSlot{};
-		string			strExplanation = {};
-		unsigned int    iMaterial_Count{};
+		unsigned int	iMaxStack{};
 		unsigned int	iMaterialID_1{};
 		unsigned int	iNumMaterial_1{};
 		unsigned int	iMaterialID_2{};
 		unsigned int	iNumMaterial_2{};
 		unsigned int	iMaterialID_3{};
 		unsigned int	iNumMaterial_3{};
+		wstring			strExplanation = {};
+		wstring			strLines = {};
+		unsigned int	iHealthChange{};
+		unsigned int	iHungerChange{};
+		unsigned int	iSanityChange{};
+		unsigned int	iRotTime{};
+		FOOD			eFoodtype{};
 	}ITEM_DATA;
 }
 

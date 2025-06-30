@@ -104,6 +104,7 @@ void CGameInstance::Clear_Resources(_uint iLevelIndex)
 {
 	m_pPrototype_Manager->Clear(iLevelIndex);
 	m_pObject_Manager->Clear(iLevelIndex);
+	m_pRenderer->ResetRenderer();
 }
 
 _float CGameInstance::Random_Normal()
@@ -154,6 +155,12 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 HRESULT CGameInstance::Change_Level(CLevel* pNewLevel)
 {
 	return m_pLevel_Manager->Change_Level(pNewLevel);
+}
+
+HRESULT CGameInstance::Reset_CurLevel()
+{
+	m_pLevel_Manager->CurrentLevelReset();
+	return S_OK;
 }
 
 #pragma endregion
@@ -269,6 +276,7 @@ HRESULT CGameInstance::Add_Font(const _wstring strFontTag, _uint iSize, const _t
 {
 	return m_pFont_Manager->Add_Font(strFontTag, iSize, pFontName);
 }
+
 #pragma endregion
 
 #pragma region KEY_INPUT

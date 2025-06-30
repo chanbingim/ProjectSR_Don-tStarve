@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "GameObject.h"
+#include "AlphaObject.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -34,8 +35,21 @@ void CRenderer::Render()
 {
 	Render_Priority();
 	Render_NonBlend();
+	Render_AlphaTest();
 	Render_Blend();
 	Render_UI();
+}
+
+void CRenderer::ResetRenderer()
+{
+	_uint EndIndex = ENUM_CLASS(RENDER::END);
+	for (_uint i = 0; i < EndIndex; ++i)
+	{
+		for (auto& pRenderObject : m_RenderObjects[i])
+			Safe_Release(pRenderObject);
+
+		m_RenderObjects[i].clear();
+	}
 }
 
 void CRenderer::Render_Priority()
@@ -64,8 +78,31 @@ void CRenderer::Render_NonBlend()
 	m_RenderObjects[ENUM_CLASS(RENDER::NONBLEND)].clear();
 }
 
+void CRenderer::Render_AlphaTest()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+
+	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].clear();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
 void CRenderer::Render_Blend()
 {
+	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return static_cast<CAlphaObject*>(pSour)->Get_CamDistance() > static_cast<CAlphaObject*>(pDest)->Get_CamDistance();
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
 	{
 		if (nullptr != pRenderObject)
@@ -82,8 +119,6 @@ void CRenderer::Render_UI()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	Render_Projection_UI();
 	Render_Ortho_UI();

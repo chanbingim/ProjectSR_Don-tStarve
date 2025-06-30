@@ -13,9 +13,6 @@
     <Filter Include="Utility\Base\GraphicDevice">
       <UniqueIdentifier>{d17ba8ae-9e37-4640-ae3d-236b8cdbff3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Define">
-      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\File">
       <UniqueIdentifier>{f1f856c8-073b-4d30-b6d0-1c0bbc983aed}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     </Filter>
     <Filter Include="System\GameInstance\Level">
       <UniqueIdentifier>{4113abc8-6f3c-4fd0-bdcb-c0732c91610a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Define\HeaderSet">
-      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\GameInstance\Level\Manager">
       <UniqueIdentifier>{e8f90d77-60ac-4cda-a437-ba8051bdeb0f}</UniqueIdentifier>
@@ -118,6 +112,18 @@
     <Filter Include="Utility\KeyInput">
       <UniqueIdentifier>{bf857751-b10d-4aca-afac-fbadb76e2fd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Font">
+      <UniqueIdentifier>{5876f8d9-4620-4986-9fb7-e00803978bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GameObject\ALPHA">
+      <UniqueIdentifier>{fa021581-7ebd-4f33-bfc8-885e6a614e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Define">
+      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Define\HeaderSet">
+      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -127,22 +133,22 @@
       <Filter>Utility\Base\GraphicDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Defines.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Enum.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Function.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Macro.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Struct.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Typedef.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\File.h">
       <Filter>Utility\File</Filter>
@@ -160,10 +166,10 @@
       <Filter>Utility\Timer\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BufferComponents.h">
-      <Filter>Define\HeaderSet</Filter>
+      <Filter>System\Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FunctionHeaders.h">
-      <Filter>Define\HeaderSet</Filter>
+      <Filter>System\Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GameInstance.h">
       <Filter>System\GameInstance</Filter>
@@ -234,7 +240,6 @@
     <ClInclude Include="..\Public\CMath.h">
       <Filter>Utility\FMath</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\Public\Box_Collision_Component.h">
       <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
     </ClInclude>
@@ -251,6 +256,12 @@
       <Filter>Utility\KeyInput</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUtility.h" />
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>System\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AlphaObject.h">
+      <Filter>System\GameObject\ALPHA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -343,7 +354,6 @@
     <ClCompile Include="..\Private\CMath.cpp">
       <Filter>Utility\FMath</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Font_Manager.cpp" />
     <ClCompile Include="..\Private\Box_Collision_Component.cpp">
       <Filter>System\Components\CollisionComponent\BoxCollision</Filter>
     </ClCompile>
@@ -360,5 +370,11 @@
       <Filter>Utility\KeyInput</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUtility.cpp" />
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>System\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AlphaObject.cpp">
+      <Filter>System\GameObject\ALPHA</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

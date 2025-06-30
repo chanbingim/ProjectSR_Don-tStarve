@@ -20,7 +20,7 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
-	
+	void	ResetLevelData();
 
 protected:
 	class CGameInstance*	m_pGameInstance = { nullptr };

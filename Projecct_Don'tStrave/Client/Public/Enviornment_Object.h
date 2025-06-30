@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "LandObject.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -11,9 +11,12 @@ class CAnimController;
 NS_END
 
 NS_BEGIN(Client)
-class CEnviornment_Object : public CGameObject
+class CEnviornment_Object : public CLandObject
 {
-private :
+public:
+	enum class Enviornment_STATE { IDLE, DAMAGED, BROKEN, END };
+
+protected :
 	CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CEnviornment_Object(const CEnviornment_Object& rhs);
 	virtual ~CEnviornment_Object() = default;
@@ -27,17 +30,13 @@ public :
 	virtual HRESULT		Render() override;
 
 protected :
-	_matrix				m_WorldMat = {};
+	
 
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
-	CTexture*				m_pTexture_Com = { nullptr };
+	CTexture*				m_Idle_pTexture_Com = { nullptr };
 	CVIBuffer_Rect*			m_pVIBuffer_Com = { nullptr };
 	CCollision_Component*	m_pCollision_Com = { nullptr };
-	CAnimController*		m_pAnimation_Com = { nullptr };
 
-private :
-	HRESULT				ADD_Components();
-	
 public :
 	static		CEnviornment_Object* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual		CGameObject*		Clone(void* pArg) override;

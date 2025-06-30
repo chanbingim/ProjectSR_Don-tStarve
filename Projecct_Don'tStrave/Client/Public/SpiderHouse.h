@@ -1,6 +1,10 @@
 #pragma once
 #include "Monster.h"
 
+NS_BEGIN(Engine)
+class CTexture;
+class CCollision_Component;
+NS_END
 
 NS_BEGIN(Client)
 class CSpiderHouse : public CMonster
@@ -40,6 +44,7 @@ private:
 	CPlayerAnim* m_pSpiderHouseAnim[MOTION::MOTION_END] = { nullptr };
 	CCollision_Component* m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
+	_float					m_fTimeAcc = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();

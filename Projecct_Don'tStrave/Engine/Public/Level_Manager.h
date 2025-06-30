@@ -17,6 +17,8 @@ public:
 	void Update(_float fTimeDelta);
 	HRESULT Render();
 
+	void	CurrentLevelReset();
+
 private:
 	class CLevel*			m_pCurrentLevel = { nullptr };
 	class CGameInstance*	m_pGameInstance = { nullptr };

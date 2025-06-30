@@ -33,6 +33,7 @@ public:
 	//여기서 텍스쳐 컴포넌트의 정보를 가지고있어도 되는거같은데
 	virtual void			Tick(_float fTimeDelta);
 	virtual void			Render();
+	void					Render(_bool mirror);
 	bool					IsEnd();
 	bool					IsAttack(_uint iAttackFrame);
 private:

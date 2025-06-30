@@ -31,6 +31,8 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual void		Damage();
+	virtual void		Death();
 
 public:
 	_bool isDead() const {
@@ -42,17 +44,24 @@ public:
 
 
 protected:
+	_bool						m_bEnableBillboard = { false };
 	int							m_iData;
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	class CGameInstance*		m_pGameInstance = { nullptr };
 	_bool						m_isDead = { false };
 
-	CTransform* m_pTransformCom = {nullptr};
+	CTransform*					m_pTransformCom = {nullptr};
 	map<const _wstring, class CComponent*>		m_Components;
 
 protected:
 	HRESULT Add_Component(	_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, 
 							const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
+
+private :
+	_matrix				m_BillboardMat = {};
+
+private :
+	void				Excute_Billboard();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
