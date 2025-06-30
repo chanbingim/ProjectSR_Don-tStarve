@@ -55,7 +55,7 @@ HRESULT CSpider::Initialize(void* pArg)
 	m_iHit = m_iMaxHit;
 	m_bMove = false;
 
-	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
+	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -66,10 +66,35 @@ HRESULT CSpider::Initialize(void* pArg)
 
 void CSpider::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CSpider::Update(_float fTimeDelta)
 {
+	switch (m_tMotion)
+	{
+	case Client::CSpider::IDLE_TO_RUN:
+	case Client::CSpider::RUN:
+	case Client::CSpider::RUN_TO_IDLE:
+	case Client::CSpider::ATTACK:
+		switch (m_tMoveDIr)
+		{
+		case MOVE_DIR::MOVE_DOWN:
+			m_tDir = DIR::DOWN;
+			break;
+		case MOVE_DIR::MOVE_LEFT:
+		case MOVE_DIR::MOVE_RIGHT:
+			m_tDir = DIR::SIDE;
+			break;
+		case MOVE_DIR::MOVE_UP:
+			m_tDir = DIR::UP;
+			break;
+		default:
+			break;
+		}
+		SetAnimation(m_tDir, m_tMotion);
+		break;
+	}
 	if (m_tMotion == MOTION::DEATH) {
 		if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
 			m_isDead = true;
@@ -89,6 +114,7 @@ void CSpider::Update(_float fTimeDelta)
 				case MOTION::DAMAGE:
 				case MOTION::ATTACK:
 					if (m_pSpiderAnim[m_tDir][m_tMotion]->IsEnd()) {
+						m_tDir = DIR::DIR_END;
 						m_tMotion = MOTION::IDLE;
 					}
 					break;
@@ -140,6 +166,7 @@ void CSpider::Update(_float fTimeDelta)
 void CSpider::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	SetDir();
 	m_pAnimController->Tick(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
@@ -148,7 +175,8 @@ HRESULT CSpider::Render()
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
-	m_pAnimController->Render();
+
+	m_pSpiderAnim[m_tDir][m_tMotion]->Render(MOVE_DIR::MOVE_LEFT == m_tMoveDIr);
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pAnimTransformCom->Get_World());
 	m_pVIBufferCom->Render();
 
@@ -310,8 +338,8 @@ HRESULT CSpider::Ready_Components()
 	CBox_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
-		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -345,7 +373,7 @@ HRESULT CSpider::Begin_RenderState()
 HRESULT CSpider::End_RenderState()
 {
 	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1);
+	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -371,7 +399,6 @@ void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpider::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	int a = 0;
 }
 
 CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

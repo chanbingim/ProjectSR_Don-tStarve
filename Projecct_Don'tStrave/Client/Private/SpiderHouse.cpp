@@ -35,7 +35,10 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 	m_iTemp = 0;
 	m_iDef = 0;
 	m_iMaxHit = 0;
+	m_fTimeAcc = 0.f;
 	m_iHit = m_iMaxHit;
+
+	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -46,10 +49,66 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 
 void CSpiderHouse::Priority_Update(_float fTimeDelta)
 {
+	m_fTimeAcc += fTimeDelta;
+	if (m_fTimeAcc >= 15.f) {
+
+		switch (m_tMotion) {
+		case SMALL:
+			m_tMotion = MOTION::SMALL_TO_MEDIUM;
+			break;
+		case MEDIUM:
+			m_tMotion = MOTION::MEDIUM_TO_LARGE;
+			break;
+		case LARGE:
+			m_tMotion = MOTION::LARGE_TO_QUEEN;
+			break;
+		}
+		SetAnimation(m_tMotion);
+		m_fTimeAcc = 0.f;
+	}
 }
 
 void CSpiderHouse::Update(_float fTimeDelta)
 {
+	switch (m_tMotion)
+	{
+	case MOTION::SMALL_DAMAGE:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_tMotion = MOTION::SMALL;
+		}
+		break;
+	case MOTION::SMALL_TO_MEDIUM:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_tMotion = MOTION::MEDIUM;
+		}
+		break;
+	case MOTION::MEDIUM_DAMAGE:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_tMotion = MOTION::MEDIUM;
+		}
+		break;
+	case MOTION::MEDIUM_TO_LARGE:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_tMotion = MOTION::LARGE;
+		}
+		break;
+	case MOTION::LARGE_DAMAGE:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_tMotion = MOTION::LARGE;
+		}
+		break;
+	case MOTION::LARGE_TO_QUEEN:
+		if (m_pSpiderHouseAnim[m_tMotion]->IsEnd()) {
+			m_isDead = true;
+		}
+		break;
+	case MOTION::DEATH:
+		if (m_fTimeAcc >= 5.f) {
+			m_isDead = true;
+		}
+		break;
+	}
+	SetAnimation(m_tMotion);
 }
 
 void CSpiderHouse::Late_Update(_float fTimeDelta)
@@ -163,13 +222,41 @@ void CSpiderHouse::Attack()
 
 void CSpiderHouse::Death()
 {
+	m_fTimeAcc = 0.f;
 	m_tMotion = MOTION::DEATH;
 	SetAnimation(m_tMotion);
 }
 
 HRESULT CSpiderHouse::Ready_Components()
 {
-	return E_NOTIMPL;
+	/* Com_Transform */
+	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Anim_Transform"), reinterpret_cast<CComponent**>(&m_pAnimTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
+		TEXT("Com_AnimController"), (CComponent**)&m_pAnimController)))
+		return E_FAIL;
+
+	/* Com_VIBuffer */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* Com_Collision */
+	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	Col_Desc.pOwner = this;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CSpiderHouse::Begin_RenderState()
@@ -183,7 +270,7 @@ HRESULT CSpiderHouse::Begin_RenderState()
 
 HRESULT CSpiderHouse::End_RenderState()
 {
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1);
+	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return S_OK;
@@ -219,10 +306,9 @@ CGameObject* CSpiderHouse::Clone(void* pArg)
 	CSpiderHouse* pInstance = new CSpiderHouse(*this);
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CSpider");
+		MSG_BOX("Failed to Cloned : CSpiderHouse");
 		Safe_Release(pInstance);
 	}
-
 	return pInstance;
 }
 

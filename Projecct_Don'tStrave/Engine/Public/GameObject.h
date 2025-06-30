@@ -31,6 +31,8 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual void		Damage();
+	virtual void		Death();
 
 public:
 	_bool isDead() const {

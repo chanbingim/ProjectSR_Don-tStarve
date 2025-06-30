@@ -3,6 +3,8 @@
 #include "Terrain.h"
 #include "Player.h"
 #include "Spider.h"
+#include "SpiderHouse.h"
+
 #include "Slot.h"
 #include "SlotFrame.h"
 #include "Inventory.h"
@@ -394,6 +396,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Spider"),
 		CSpider::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SpiderHouse"),
+		CSpiderHouse::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Mouse */
