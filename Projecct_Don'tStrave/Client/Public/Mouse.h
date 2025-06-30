@@ -24,6 +24,7 @@ public:
 	void Update_HoverObject(class CItem* pItem);
 
 private:
+	_uint			m_iMouseState = {};
 	_bool			m_bPutDown = {};
 	_float			m_fTimeAcc = {};
 	class CSlot*	m_pSlot = { nullptr };

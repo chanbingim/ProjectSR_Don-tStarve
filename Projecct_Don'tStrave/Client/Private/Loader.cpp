@@ -29,6 +29,7 @@
 #include "Category_Button.h"
 #include "Clock.h"
 #include "Item_Info.h"
+#include "MaterialSlot.h"
 #include "Item_Button.h"
 #include "Create_Button.h"
 
@@ -384,12 +385,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/SlotFrame%d.png"), 5))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/SlotFrame%d.png"), 7))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Item */
+	/* For.Prototype_Component_Texture_ItemIcon */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Itemicon/Item%d.png"), 52))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_ItemObject */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemObject"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Item%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_ItemState */
@@ -400,6 +406,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_Number */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Number"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/FontTexture/num-%d.png"), 12))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Mouse */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Mouse"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Mouse/Mouse%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_CraftBar_Button */
@@ -572,6 +583,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Item_Info */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"),
 		CItem_Info::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_MaterialSlot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MaterialSlot"),
+		CMaterialSlot::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Mouse */
@@ -1077,6 +1093,9 @@ HRESULT CLoader::Loading_For_Tutorial()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_32"), 32, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))

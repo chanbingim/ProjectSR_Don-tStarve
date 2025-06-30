@@ -24,7 +24,7 @@ HRESULT CMouse::Initialize_Prototype()
 HRESULT CMouse::Initialize(void* pArg)
 {
     m_bPutDown = false;
-
+    m_iMouseState = 0;
     m_MouseMessage = L"";
 
     if (FAILED(__super::Initialize(pArg)))
@@ -37,8 +37,8 @@ HRESULT CMouse::Initialize(void* pArg)
 
     if (FAILED(Add_Slot()))
         return E_FAIL;
-    m_fSizeX = 40.f;
-    m_fSizeY = 40.f;
+    m_fSizeX = 65.f;
+    m_fSizeY = 65.f;
 
     __super::UpdatePosition();
 
@@ -78,7 +78,7 @@ void CMouse::Update(_float fTimeDelta)
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        Desc.iItemID = 1;
+        Desc.iItemID = 35;
         Desc.eItemType = ITEM_TYPE::MERTARIAL;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -88,7 +88,7 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('2') & 0x8000)
     {
-        Desc.iItemID = 2;
+        Desc.iItemID = 36;
         Desc.eItemType = ITEM_TYPE::MERTARIAL;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -98,9 +98,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('3') & 0x8000)
     {
-        Desc.iItemID = 3;
-        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
-        Desc.eSlot = SLOT::HAND;
+        Desc.iItemID = 37;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -108,7 +108,7 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('5') & 0x8000)
     {
-        Desc.iItemID = 5;
+        Desc.iItemID = 44;
         Desc.eItemType = ITEM_TYPE::FOOD;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -127,27 +127,33 @@ void CMouse::Late_Update(_float fTimeDelta)
 
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+
 }
 
 HRESULT CMouse::Render()
 {
     
-    //m_pTexture_Com->Set_Texture(0);
-
+    m_pTexture_Com->Set_Texture(0);
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-
-    //m_pVIBuffer_Com->Render();
-     RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
     m_pSlot->Render(m_pTransform_Com);
+    if (0 != m_iMouseState)
+    {
+        m_fY -= 40.f;
+        __super::UpdatePosition();
+        m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+        m_pVIBuffer_Com->Render();
 
-    Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
-    
-    D3DXCOLOR white = { 1.f, 1.f, 1.f, 1.f };
-    m_pGameInstance->Render_Font(TEXT("Font_18"), m_MouseMessage.c_str(), &Rect, white);
-    //m_pGameInstance->Render_Font(TEXT("Font_18"), TEXT("나무 \n 줍기"), &Rect);
-    
-    
-    
+
+        D3DXCOLOR white = { 0.95f, 0.95f, 0.95f, 1.f };
+        RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
+        m_pGameInstance->Render_Font(TEXT("Date_40"), m_MouseMessage.c_str(), &Rect, white);
+
+        Rect = { LONG(m_fX - m_fSizeX + 45), LONG(m_fY - m_fSizeY),LONG(m_fX + m_fSizeX + 45), LONG(m_fY + m_fSizeY) };
+        m_pGameInstance->Render_Font(TEXT("Date_40"), TEXT(":Pick"), &Rect, white);
+
+
+        m_fY += 40.f;
+    }
 
     return S_OK;
 }
@@ -206,8 +212,8 @@ void CMouse::Update_HoverObject(CItem* pItem)
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
-        TEXT("Com_Texture_Item"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Mouse"),
+        TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
 
