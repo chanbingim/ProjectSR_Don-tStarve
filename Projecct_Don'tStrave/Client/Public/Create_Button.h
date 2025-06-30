@@ -12,6 +12,9 @@ private:
 	virtual ~CCreate_Button() = default;
 
 public:
+	void Set_Button(_uint iTextureIndex) { m_iTextureIndex = iTextureIndex; }
+
+public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
 	virtual void	 Priority_Update(_float fTimeDelta)override;

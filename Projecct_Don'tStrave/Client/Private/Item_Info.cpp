@@ -44,7 +44,7 @@ HRESULT CItem_Info::Initialize(void* pArg)
         static_cast<LONG>(m_fX - m_fSizeX * 0.5f + 20.f),
         static_cast<LONG>(m_fY - m_fSizeY * 0.3f + 70.f),
         static_cast<LONG>(m_fX - 20.f),
-        static_cast<LONG>(m_fY + m_fSizeY * 0.3f) };
+        static_cast<LONG>(m_fY + m_fSizeY * 0.3f -10.f) };
 
     __super::UpdatePosition();
 

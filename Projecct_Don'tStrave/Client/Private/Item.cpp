@@ -70,7 +70,8 @@ HRESULT CItem::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-	m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
+	//m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
+	m_pTexture_Com->Set_Texture(1);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -148,7 +149,7 @@ HRESULT CItem::ADD_Components()
 		reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemObject"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
 		return E_FAIL;

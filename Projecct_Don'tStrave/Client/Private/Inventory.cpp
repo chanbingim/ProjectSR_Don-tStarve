@@ -192,6 +192,32 @@ _uint CInventory::Check_ItemCount(_uint iItem)
     return iItemCount;
 }
 
+void CInventory::Use_Item(_uint iItem, _uint iCount)
+{
+    for (auto pSlotFrame : m_SlotFrames)
+    {
+        CSlot* pSlot = pSlotFrame->Get_Slot();
+        ITEM_DESC Desc = pSlot->Get_Info();
+        if (iItem == Desc.iItemID)
+        {
+            int iNum = Desc.iNumItem;
+            for(_uint i = 0; i < Desc.iNumItem; ++i)
+            {
+                --iCount;
+                --iNum;
+                if (0 == iNum)
+                {
+                    pSlot->Clear();
+                    break;
+                }
+                if (0 == iCount)
+                    return;
+            }
+
+        }
+    }
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component

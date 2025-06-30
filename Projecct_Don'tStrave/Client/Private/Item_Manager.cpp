@@ -8,7 +8,7 @@ CItem_Manager::CItem_Manager()
 
 const ITEM_DATA& CItem_Manager::Get_ItemData(_uint iItemID) const
 {
-	if (m_ItemDataSize > iItemID)
+	if (m_ItemDataSize < iItemID)
 		return m_ItemDatas[0];
 
 	return m_ItemDatas[iItemID];
@@ -19,6 +19,8 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
     CFile Reader = {};
     vector<string>      ReadData = {};
 
+    m_ItemDataSize = 0;
+
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
@@ -27,7 +29,7 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
     for (_uint i = 0; i < iDataSize; )
     {
         ITEM_DATA Data;
-
+        ++m_ItemDataSize;
         Data.iItemID = static_cast<unsigned int>(std::stoi(ReadData[i++]));
 
         WCHAR szData[128];
