@@ -4,7 +4,7 @@
 #include "AlphaObject.h"
 #include "UserInterface.h"
 #include "PlayerAnim.h"
-//#include "Character_Manager.h"
+#include "Character_Manager.h"
 
 
 NS_BEGIN(Engine)
@@ -65,7 +65,7 @@ protected:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CAnimController* m_pAnimController = { nullptr };
 	CTransform* m_pAnimTransformCom = { nullptr };
-	//CCharacter_Manager* m_pCharacterInstance = { nullptr };
+	CCharacter_Manager* m_pCharacterInstance = { nullptr };
 public:
 	virtual void Free() override;
 };

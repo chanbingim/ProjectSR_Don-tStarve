@@ -1,25 +1,3 @@
 ﻿  Character_Manager.cpp
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,14): error C2473: 'operator new': 함수 정의로 보이지만 매개 변수 목록이 없습니다.
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,14): error C7525: 인라인 변수에는 '/std:c++17' 이상이 필요합니다.
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,14): error C2365: 'operator new': 재정의: 이전 정의는 '함수'입니다.
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,26): error C2143: 구문 오류: ';'이(가) '(' 앞에 없습니다.
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,33): error C2059: 구문 오류: ','
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,58): error C2059: 구문 오류: ')'
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,60): error C2143: 구문 오류: ';'이(가) '{' 앞에 없습니다.
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Public\IMGUI\imgui.h(2139,60): error C2447: '{': 함수 헤더가 없습니다. 이전 스타일의 형식 목록입니까?
-  (소스 파일 '../private/Character_Manager.cpp'을(를) 컴파일하는 중)
-  
+C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\private\Character_Manager.cpp(42,48): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\돈스타브\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

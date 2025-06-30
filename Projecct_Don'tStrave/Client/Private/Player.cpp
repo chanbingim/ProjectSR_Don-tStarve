@@ -183,9 +183,15 @@ void CPlayer::Update(_float fTimeDelta)
 				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 			}
-
 		}
 		else {
+			if (nullptr != m_pWorkObject) {
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3 move = m_pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+				vPosition += *D3DXVec3Normalize(&move, &move) * 2.f * fTimeDelta;
+				m_pTransformCom->SetPosition(vPosition);
+			}
 			switch (m_tMotion)
 			{
 			case  MOTION::IDLE_TO_RUN:
@@ -216,7 +222,11 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-			Attack();
+			list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this);
+			if (0 < objects.size()) {
+				m_pWorkObject = objects.front();
+			}
+			//Attack();
 			//m_tMotion = MOTION::ATTACK;
 			//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_tDir][m_tMotion]);
 			//SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
