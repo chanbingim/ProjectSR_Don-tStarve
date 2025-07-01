@@ -236,12 +236,15 @@ void CCraftingUI::Update(_float fTimeDelta)
     m_pOpenButton->Update(fTimeDelta);
 
     for (auto qButton : m_pQuickSlots)
-        qButton->Update(fTimeDelta);
+    {
+        if(!m_bHide || 0 != qButton->Get_ItemID())
+            qButton->Update(fTimeDelta);
+    }
 
     if(false == m_bHide)
     {
         
-
+        m_pItem_Info->Update(fTimeDelta);
         m_pItem_Info->Update_Rect(m_fX, m_fY);
         m_pMaterialSlot->Update(fTimeDelta);
 
@@ -291,7 +294,10 @@ HRESULT CCraftingUI::Render()
     m_pOpenButton->Render();
 
     for (auto qButton : m_pQuickSlots)
-        qButton->Render();
+    {
+        if (!m_bHide || 0 != qButton->Get_ItemID())
+            qButton->Render();
+    }
 
     m_pTexture_Com->Set_Texture(0);
 
@@ -336,6 +342,31 @@ void CCraftingUI::ClickedEevent()
             m_pTransform_Com->SetPosition(_float3((vPos.x - m_fSizeX * 0.95f), vPos.y, vPos.z));
             m_fX += m_fSizeX * -1.f;
             m_bHide = true;
+        }
+    }
+}
+
+_bool CCraftingUI::Add_QuickSlot(_uint iItemID)
+{
+    for (_uint i =0; i < 5; ++i)
+    {
+        if (0 == m_pQuickSlots[i]->Get_ItemID())
+        {
+            m_pQuickSlots[i]->Set_Item(iItemID);
+            return true;
+        }
+    }
+    return false;
+}
+
+void CCraftingUI::Remove_QuickSlot(_uint iItemID)
+{
+    for (_uint i = 0; i < 5; ++i)
+    {
+        if (iItemID == m_pQuickSlots[i]->Get_ItemID())
+        {
+            m_pQuickSlots[i]->Set_Item(0);
+            break;
         }
     }
 }

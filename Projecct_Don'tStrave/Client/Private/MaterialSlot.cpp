@@ -154,8 +154,6 @@ void CMaterialSlot::Late_Update(_float fTimeDelta)
 
 HRESULT CMaterialSlot::Render()
 {
-	m_pCreateButton->Render();
-
 	switch (m_iNumNeeded)
 	{
 	case 1:
@@ -218,6 +216,11 @@ HRESULT CMaterialSlot::Render()
 	default:
 		break;
 	}
+
+	m_pTransform_Com->SetPosition(m_SlotPositions[0]);
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+
+	m_pCreateButton->Render();
 
 	return S_OK;
 }

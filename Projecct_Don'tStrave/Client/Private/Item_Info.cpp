@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+#include "BookMark_Button.h"
+#include "CraftingUI.h"
 
 CItem_Info::CItem_Info(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -35,7 +37,7 @@ HRESULT CItem_Info::Initialize(void* pArg)
         return E_FAIL;
 
     m_rcItemName = {
-       static_cast<LONG>(m_fX - m_fSizeX * 0.5f),
+       static_cast<LONG>(m_fX - m_fSizeX * 0.5f ),
        static_cast<LONG>(m_fY - m_fSizeY * 0.1f + 10.f),
        static_cast<LONG>(m_fX),
        static_cast<LONG>(m_fY - m_fSizeY * 0.3f + 55.f) };
@@ -50,6 +52,21 @@ HRESULT CItem_Info::Initialize(void* pArg)
 
     m_SelectedItemID = 0;
 
+    CButton::BUTTON_DESC Button_Desc = {};
+
+    Button_Desc.fX = m_fX;
+    Button_Desc.fY = m_fY;
+    Button_Desc.fSizeX = 30.f;
+    Button_Desc.fSizeY = 30.f;
+    Button_Desc.fRelativeX = -m_fSizeX * 0.5f + 15.f;
+    Button_Desc.fRelativeY = 55.f;
+    Button_Desc.pParentTransform = m_pTransform_Com;
+
+    m_pBookMark_Button = dynamic_cast<CBookMark_Button*>(m_pGameInstance->Clone_Prototype(
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BookMark_Button"), &Button_Desc));
+
+    m_BookMark.assign(19, false);
+
     return S_OK;
 }
 
@@ -59,6 +76,25 @@ void CItem_Info::Priority_Update(_float fTimeDelta)
 
 void CItem_Info::Update(_float fTimeDelta)
 {
+    m_pBookMark_Button->Update(fTimeDelta);
+
+    m_pBookMark_Button->isSelected(m_BookMark[m_SelectedItemID]);
+    
+
+    if (true == m_pBookMark_Button->OnClick())
+    {
+        if (false == m_BookMark[m_SelectedItemID])
+        {
+            if(dynamic_cast<CCraftingUI*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 5))->Add_QuickSlot(m_SelectedItemID))
+                m_BookMark[m_SelectedItemID] = !m_BookMark[m_SelectedItemID];
+        }
+        else
+        {
+            dynamic_cast<CCraftingUI*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 5))->Remove_QuickSlot(m_SelectedItemID);
+            m_BookMark[m_SelectedItemID] = !m_BookMark[m_SelectedItemID];
+        }
+        
+    }
     
 }
 
@@ -68,13 +104,15 @@ void CItem_Info::Late_Update(_float fTimeDelta)
 
 HRESULT CItem_Info::Render(CTransform* pTransform)
 {
+    m_pBookMark_Button->Render();
+
     m_pTexture_Com->Set_Texture(m_SelectedItemID);
 
 
     _float3 vPos = pTransform->GetWorldState(WORLDSTATE::POSITION);
     _float3 vScale = pTransform->GetScale();
 
-    pTransform->SetPosition(_float3(vPos.x + 80.f, vPos.y - 100.f, 0.f));
+    pTransform->SetPosition(_float3(vPos.x + 100.f, vPos.y - 100.f, 0.f));
     pTransform->SetScale(_float3(45.f, 45.f, 1.f));
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
 
@@ -86,10 +124,9 @@ HRESULT CItem_Info::Render(CTransform* pTransform)
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
     ITEM_DATA data = CItem_Manager::GetInstance()->Get_ItemData(m_SelectedItemID);
 
-    m_pGameInstance->Render_Font(TEXT("Font_25"), data.strName.c_str(), &m_rcItemName, white);
+    m_pGameInstance->Render_Font(TEXT("Date_40"), data.strName.c_str(), &m_rcItemName, white);
 
     m_pGameInstance->Render_Font(TEXT("Font_14"), data.strExplanation.c_str(), &m_rcItemInfo, white, DT_LEFT);
-
 
     return S_OK;
 }
@@ -116,19 +153,16 @@ HRESULT CItem_Info::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-   
-
-
     return S_OK;
 }
 
 void CItem_Info::Update_Rect(_float fX, _float fY)
 {
     m_rcItemName = {
-       static_cast<LONG>(fX - m_fSizeX * 0.5f),
-       static_cast<LONG>(fY + 70.f),
-       static_cast<LONG>(fX),
-       static_cast<LONG>(fY + 100.f ) };
+       static_cast<LONG>(fX - m_fSizeX * 0.5f - 40.f),
+       static_cast<LONG>(fY + 75.f),
+       static_cast<LONG>(fX + 70.f),
+       static_cast<LONG>(fY + 105.f ) };
 
     m_rcItemInfo = {
         static_cast<LONG>(fX - m_fSizeX * 0.5f + 20.f),
@@ -171,6 +205,6 @@ void CItem_Info::Free()
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
 
-    //Safe_Release(m_pBtnCreate);
+    Safe_Release(m_pBookMark_Button);
     //Safe_Release(m_pBtnAddToQuickSlot);
 }
