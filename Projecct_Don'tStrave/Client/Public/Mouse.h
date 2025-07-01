@@ -21,14 +21,17 @@ public:
 	virtual HRESULT	 Render()override;
 
 	void  ClickedEevent();
-	void Update_HoverObject(class CItem* pItem);
+	void Update_HoverItem(_uint itemID);
+	void Update_HoverSlot(_uint itemID);
+	void Update_Hover(_uint itemID);
 
 private:
 	_uint			m_iMouseState = {};
 	_bool			m_bPutDown = {};
 	_float			m_fTimeAcc = {};
 	class CSlot*	m_pSlot = { nullptr };
-	wstring			m_MouseMessage = {};
+	wstring			m_strInfoMessage = {};
+	wstring			m_strInteraction = {};
 	CTransform*		m_pPlayerTransform_Com = {};
 
 private:

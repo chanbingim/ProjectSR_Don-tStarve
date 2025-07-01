@@ -129,7 +129,7 @@ _matrix& CTransform::Get_World()
 
 _matrix& CTransform::Get_InverseWorldMat()
 {
-	return *D3DXMatrixInverse(&m_InvWorldMat, nullptr, &m_WorldMat);;
+ 	return *D3DXMatrixInverse(&m_InvWorldMat, nullptr, &m_WorldMat);;
 }
 
 void CTransform::Go_Straight(_float fTimeDelta)

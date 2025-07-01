@@ -33,6 +33,7 @@ private:
 	_bool	m_bClick = {};
 	SLOT	m_eSlotType = {};
 	CSlot*	m_pSlot = { nullptr };
+	class CMouse* m_pMouse = { nullptr };
 
 private:
 	virtual void	HoverEevent()override;

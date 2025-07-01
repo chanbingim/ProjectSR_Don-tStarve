@@ -31,7 +31,9 @@
 #include "Item_Info.h"
 #include "MaterialSlot.h"
 #include "Item_Button.h"
+#include "BookMark_Button.h"
 #include "Create_Button.h"
+#include "Material_Item.h"
 
 
 #include "GameInstance.h"
@@ -395,7 +397,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_ItemObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemObject"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Item%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Item%d.png"), 52, true))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_ItemState */
@@ -431,6 +433,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_Create_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/CreateButton%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Bookmark_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Bookmark_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/Bookmark%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Clock_Frame */
@@ -545,6 +552,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Material_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+		CMaterial_Item::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Crafting_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
 		CCrafting_Button::Create(m_pGraphic_Device))))
@@ -573,6 +585,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_CCreate_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Create_Button"),
 		CCreate_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_BookMark_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BookMark_Button"),
+		CBookMark_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Clock */
@@ -611,7 +628,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_30"), 30, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
@@ -1032,6 +1055,11 @@ HRESULT CLoader::Loading_For_Tutorial()
 	/* For.Prototype_GameObject_Item */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
 		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Material_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+		CMaterial_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Crafting_Button */

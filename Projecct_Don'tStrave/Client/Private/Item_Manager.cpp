@@ -8,7 +8,7 @@ CItem_Manager::CItem_Manager()
 
 const ITEM_DATA& CItem_Manager::Get_ItemData(_uint iItemID) const
 {
-	if (m_ItemDataSize < iItemID)
+	if (52 < iItemID)
 		return m_ItemDatas[0];
 
 	return m_ItemDatas[iItemID];
@@ -67,6 +67,7 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
         
         m_ItemDatas.push_back(Data);
     }
+
 
     ITEM_DATA DataTemp = m_ItemDatas[1];
 }

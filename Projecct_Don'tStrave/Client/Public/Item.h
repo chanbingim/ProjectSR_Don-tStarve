@@ -12,7 +12,7 @@ NS_BEGIN(Client)
 
 class CItem : public CLandObject
 {
-private:
+protected:
 	CItem(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CItem(const CItem& Prototype);
 	virtual ~CItem() = default;
@@ -31,14 +31,13 @@ public:
 	void HoverEvent();
 	void ClickedEvent();
 
-private:
+protected:
 	ITEM_DESC	m_Item_Desc = {};
 
 	CTexture*	m_pTexture_Com = { nullptr };
-	CTransform*	m_pTransform_Com = { nullptr };
 	CVIBuffer*	m_pVIBuffer_Com = { nullptr };
 
-private:
+protected:
 	HRESULT ADD_Components();
 	void Update_Item(_float fTimeDelta);
 
