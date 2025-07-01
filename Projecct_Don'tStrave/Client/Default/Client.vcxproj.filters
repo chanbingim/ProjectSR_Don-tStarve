@@ -185,6 +185,12 @@
     <Filter Include="04. GmaeUI\CarftingUI\Matrial_Slot">
       <UniqueIdentifier>{869ff721-a892-4748-95a8-5a325b571ce4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderManager">
+      <UniqueIdentifier>{2a9f4c5d-70a6-4b89-808a-12c3cf82eb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderManager\Shader">
+      <UniqueIdentifier>{9cfce48f-d0fd-415b-9552-226a522c09e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -364,6 +370,12 @@
     <ClInclude Include="..\Public\MaterialSlot.h">
       <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ParticleShader.h">
+      <Filter>ShaderManager\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SnowParticle.h">
+      <Filter>김찬빈</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -541,9 +553,18 @@
     <ClCompile Include="..\Private\MaterialSlot.cpp">
       <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\ParticleShader.cpp">
+      <Filter>ShaderManager\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SnowParticle.cpp">
+      <Filter>김찬빈</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
+      <Filter>김찬빈</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.fx">
       <Filter>김찬빈</Filter>
     </FxCompile>
   </ItemGroup>

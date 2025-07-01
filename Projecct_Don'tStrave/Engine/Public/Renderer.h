@@ -30,13 +30,22 @@ private:
 
 private:
 	void Render_Priority();
+
+#pragma region NONE_BLEND
 	void Render_NonBlend();
 	void Render_AlphaTest();
+#pragma endregion
+
+#pragma region BLEND
 	void Render_Blend();
-	
+	void Render_Particle();
+#pragma endregion
+
+#pragma region USER_INTERFACE
 	void Render_UI();
 	void Render_Projection_UI();
 	void Render_Ortho_UI();
+#pragma endregion
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

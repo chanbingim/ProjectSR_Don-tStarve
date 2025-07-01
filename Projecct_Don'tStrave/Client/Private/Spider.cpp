@@ -190,7 +190,6 @@ HRESULT CSpider::Render()
 	/*if (FAILED(Begin_RenderState()))
 		return E_FAIL;*/
 	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
-
 	m_pSpiderAnim[m_tDir][m_tMotion]->Render(MOVE_DIR::MOVE_LEFT == m_tMoveDIr);
 	m_pGraphic_Device->GetTexture(0, &pTex);
 

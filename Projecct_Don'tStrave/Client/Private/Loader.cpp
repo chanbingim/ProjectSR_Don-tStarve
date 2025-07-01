@@ -18,6 +18,7 @@
 #include "Camera_Button.h"
 #include "MiniMap_Button.h"
 #include "QuickSlot_Button.h"
+#include "SnowParticle.h"
 
 #pragma region ENVIORN_MENT
 #include "GrassObject.h"
@@ -448,6 +449,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
+
+
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 #pragma region GAMEPLAY
@@ -579,6 +582,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CMouse::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region SNOW_PARITCLE
+	/* For.Prototype_GameObject_SnowParticle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow_Particle"),
+		CSnowParticle::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");

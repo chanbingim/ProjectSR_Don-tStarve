@@ -162,8 +162,10 @@
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
+    <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\public\RockObject.h" />
+    <ClInclude Include="..\public\SnowParticle.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
     <ClInclude Include="..\public\TreeObject.h" />
@@ -222,8 +224,10 @@
     <ClCompile Include="..\Private\Item_Button.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\MaterialSlot.cpp" />
+    <ClCompile Include="..\private\ParticleShader.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
+    <ClCompile Include="..\private\SnowParticle.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
@@ -271,6 +275,9 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">main</EntryPointName>
       <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DisableOptimizations>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Particle.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>

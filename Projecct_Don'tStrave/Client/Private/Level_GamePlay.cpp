@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 #include "UserInterface.h"
+#include "SnowParticle.h"
 #include "CUtility.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
@@ -23,6 +24,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
@@ -57,6 +61,10 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;
+
+	
+
+	return S_OK;
 }
 
 
@@ -198,6 +206,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Snow_Particle"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

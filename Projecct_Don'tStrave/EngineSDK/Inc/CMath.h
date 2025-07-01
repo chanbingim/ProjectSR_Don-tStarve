@@ -9,6 +9,9 @@ class ENGINE_DLL CMath
 public :
 	static _float3		LerpVec3(_float3& StartVec, _float3& EndVec, _float t);
 	static _float		LerpTurn(_float StartAngle, _float EndAngle, _float t);
+	static	DWORD		FtoDw(float f);
+
+	
 
 	template<typename T>
 	static T			Lerp(T first, T second, _float t);

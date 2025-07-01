@@ -28,6 +28,8 @@ private:
 	HRESULT Ready_Layer_Mouse(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UserInterface(const _wstring& strLayerTag);
 
+	HRESULT	Ready_Layer_Particle(const _wstring& strLayerTag);
+
 private:
 	_wstring			GetEnv_ObejctTag(_uint iID);
 

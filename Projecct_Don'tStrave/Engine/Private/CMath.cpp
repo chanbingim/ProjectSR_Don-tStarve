@@ -12,3 +12,8 @@ _float CMath::LerpTurn(_float StartAngle, _float EndAngle, _float t)
 {
     return Lerp<_float>(StartAngle, EndAngle, Clamp<_float>(t, 0.f, 1.f));
 }
+
+DWORD CMath::FtoDw(float f)
+{
+    return *((DWORD*)&f);
+}

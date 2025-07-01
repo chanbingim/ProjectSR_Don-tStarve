@@ -4,7 +4,7 @@
 #include "../Default/framework.h"
 #include "File.h"
 
-
+#define D3DFVF_PARTICLEVERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_PSIZE) // 변경 했음
 
 namespace Client
 {
