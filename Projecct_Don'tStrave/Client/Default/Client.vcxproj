@@ -168,6 +168,7 @@
     <ClInclude Include="..\public\SnowParticle.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
+    <ClInclude Include="..\public\SpiderQueen.h" />
     <ClInclude Include="..\public\SpiderWarrior.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
     <ClInclude Include="..\public\TreeObject.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="..\private\SnowParticle.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
+    <ClCompile Include="..\private\SpiderQueen.cpp" />
     <ClCompile Include="..\private\SpiderWarrior.cpp" />
     <ClCompile Include="..\Private\tinyxml2.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />

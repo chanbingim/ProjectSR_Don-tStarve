@@ -382,6 +382,9 @@
     <ClInclude Include="..\public\SpiderWarrior.h">
       <Filter>김정환</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\SpiderQueen.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -569,6 +572,9 @@
       <Filter>김정환</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SpiderWarrior.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpiderQueen.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>

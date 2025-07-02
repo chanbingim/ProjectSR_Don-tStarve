@@ -7,26 +7,27 @@ class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
-class CSpiderHouse : public CMonster
+
+class CSpiderQueen : public CMonster
 {
 	enum MOTION {
-		SMALL,
-		SMALL_DAMAGE,
-		SMALL_TO_MEDIUM,
-		MEDIUM,
-		MEDIUM_DAMAGE,
-		MEDIUM_TO_LARGE,
-		LARGE,
-		LARGE_DAMAGE,
-		LARGE_TO_QUEEN,
-		LARGE_TO_SMALL,
+		IDLE,
+		IDLE_TO_RUN,
+		RUN,
+		RUN_TO_IDLE,
+		ATTACK,
+		IDLE_TO_SLEEP,
+		SLEEP,
+		SLEEP_TO_IDLE,
+		DAMAGE,
+		TAUNT,
 		DEATH,
 		MOTION_END
 	};
 private:
-	CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSpiderHouse(const CSpiderHouse& Prototype);
-	virtual ~CSpiderHouse() = default;
+	CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSpiderQueen(const CSpiderQueen& Prototype);
+	virtual ~CSpiderQueen() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -35,14 +36,17 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	HRESULT			SetAnimation(MOTION motion);
+	HRESULT			SetAnimation(DIR dir, MOTION motion);
 	virtual void Damage() override;
 	virtual void Attack() override;
 	virtual void Death() override;
 private:
 	CCollision_Component* m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
-	_float					m_fTimeAcc = {};
+	DIR						m_tDir = {};
+	_bool					m_bMove = {};
+	_float					m_fAtkCool = {};
+	_float3					m_fDash = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
@@ -52,7 +56,7 @@ private:
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
-	static CSpiderHouse* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSpiderQueen* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

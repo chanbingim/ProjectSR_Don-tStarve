@@ -344,7 +344,6 @@ void CCharacter::RenderAnimation(const wstring& animName)
 }
 
 
-
 void CCharacter::Free()
 {
     __super::Free();
