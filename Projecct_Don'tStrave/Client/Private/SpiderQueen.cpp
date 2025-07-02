@@ -1,26 +1,27 @@
-#include "Spider.h"
+#include "SpiderQueen.h"
 #include "GameInstance.h"
 #include "Camera.h"
 
-CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderQueen::CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
 {
 
 }
 
-CSpider::CSpider(const CSpider& Prototype)
+CSpiderQueen::CSpiderQueen(const CSpiderQueen& Prototype)
 	: CMonster{ Prototype }
 {
 }
 
-HRESULT CSpider::Initialize_Prototype()
+HRESULT CSpiderQueen::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
-	LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
+	AddTexture("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml", L"../Bin/Resources/Textures/Monster/SpiderQueen/");
+	LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml");
+	LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen_2.scml");
 	return S_OK;
 }
 
-HRESULT CSpider::Initialize(void* pArg)
+HRESULT CSpiderQueen::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -53,18 +54,18 @@ HRESULT CSpider::Initialize(void* pArg)
 }
 
 
-void CSpider::Priority_Update(_float fTimeDelta)
+void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	for (auto target : m_pCharacterInstance->Get_NearObject(this)) {
-		if (!dynamic_cast<CSpider*>(target)) {
+		if (!dynamic_cast<CSpiderQueen*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}
 }
 
-void CSpider::Update(_float fTimeDelta)
+void CSpiderQueen::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
@@ -117,10 +118,6 @@ void CSpider::Update(_float fTimeDelta)
 				switch (m_tMotion)
 				{
 				case MOTION::TAUNT:
-					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
-					break;
 				case MOTION::DAMAGE:
 				case MOTION::ATTACK:
 					if (m_iLength <= m_fAniTime) {
@@ -128,8 +125,9 @@ void CSpider::Update(_float fTimeDelta)
 					}
 					break;
 				default:
-					SetAnimation(DIR::DIR_END, MOTION::TAUNT);
-					m_sAnim;
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					}
 					break;
 				}
 			}
@@ -168,7 +166,7 @@ void CSpider::Update(_float fTimeDelta)
 
 }
 
-void CSpider::Late_Update(_float fTimeDelta)
+void CSpiderQueen::Late_Update(_float fTimeDelta)
 {
 
 	SetDir();
@@ -177,7 +175,7 @@ void CSpider::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSpider::Render()
+HRESULT CSpiderQueen::Render()
 {
 	__super::Render();
 
@@ -210,23 +208,23 @@ HRESULT CSpider::Render()
 	return S_OK;
 }
 
-void CSpider::Damage()
+void CSpiderQueen::Damage()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
-void CSpider::Attack()
+void CSpiderQueen::Attack()
 {
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
-void CSpider::Death()
+void CSpiderQueen::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
-HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
+HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir || (MOTION::IDLE == motion && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
@@ -261,26 +259,8 @@ HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::SLEEP_TO_IDLE:
 		m_sAnim = L"sleep_pst";
 		break;
-	case MOTION::IDLE_TO_EAT:
-		m_sAnim = L"eat";
-		break;
-	case MOTION::EAT:
-		m_sAnim = L"eat_loop";
-		break;
-	case MOTION::EAT_TO_IDLE:
-		m_sAnim = L"eat_pst";
-		break;
 	case MOTION::DAMAGE:
 		m_sAnim = L"hit";
-		break;
-	case MOTION::IDLE_TO_COWER:
-		m_sAnim = L"cower_pre";
-		break;
-	case MOTION::COWER:
-		m_sAnim = L"cower_loop";
-		break;
-	case MOTION::COWER_TO_IDLE:
-		m_sAnim = L"cower_pst";
 		break;
 	case MOTION::TAUNT:
 		m_sAnim = L"taunt";
@@ -304,7 +284,7 @@ HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpider::Ready_Components()
+HRESULT CSpiderQueen::Ready_Components()
 {
 	/* Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
@@ -328,7 +308,7 @@ HRESULT CSpider::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CSpider::Begin_RenderState()
+HRESULT CSpiderQueen::Begin_RenderState()
 {
 	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
 
@@ -353,7 +333,7 @@ HRESULT CSpider::Begin_RenderState()
 	return S_OK;
 }
 
-HRESULT CSpider::End_RenderState()
+HRESULT CSpiderQueen::End_RenderState()
 {
 	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
@@ -363,18 +343,18 @@ HRESULT CSpider::End_RenderState()
 	return S_OK;
 }
 
-void CSpider::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (HitActor == m_pTarget) {
 		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 			if (m_tMotion != ATTACK) {
 				Attack();
 			}
-			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
+			else if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
 				m_pTarget->Get_Damage(m_iAtk);
 				m_bAttack = false;
 			}
@@ -382,13 +362,13 @@ void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 	}
 }
 
-void CSpider::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderQueen::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderQueen* CSpiderQueen::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSpider* pInstance = new CSpider(pGraphic_Device);
+	CSpiderQueen* pInstance = new CSpiderQueen(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -399,19 +379,19 @@ CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CSpider::Clone(void* pArg)
+CGameObject* CSpiderQueen::Clone(void* pArg)
 {
-	CSpider* pInstance = new CSpider(*this);
+	CSpiderQueen* pInstance = new CSpiderQueen(*this);
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CSpider");
+		MSG_BOX("Failed to Cloned : CSpiderQueen");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSpider::Free()
+void CSpiderQueen::Free()
 {
 	__super::Free();
 	Safe_Release(m_pCollision_Com);

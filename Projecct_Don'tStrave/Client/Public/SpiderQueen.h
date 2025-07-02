@@ -8,7 +8,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CSpider : public CMonster
+class CSpiderQueen : public CMonster
 {
 	enum MOTION {
 		IDLE,
@@ -19,21 +19,15 @@ class CSpider : public CMonster
 		IDLE_TO_SLEEP,
 		SLEEP,
 		SLEEP_TO_IDLE,
-		IDLE_TO_EAT,
-		EAT,
-		EAT_TO_IDLE,
 		DAMAGE,
-		IDLE_TO_COWER,
-		COWER,
-		COWER_TO_IDLE,
 		TAUNT,
 		DEATH,
 		MOTION_END
 	};
 private:
-	CSpider(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSpider(const CSpider& Prototype);
-	virtual ~CSpider() = default;
+	CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSpiderQueen(const CSpiderQueen& Prototype);
+	virtual ~CSpiderQueen() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -51,6 +45,8 @@ private:
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
 	_bool					m_bMove = {};
+	_float					m_fAtkCool = {};
+	_float3					m_fDash = {};
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
@@ -60,7 +56,7 @@ private:
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
-	static CSpider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSpiderQueen* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

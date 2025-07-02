@@ -19,6 +19,7 @@ class CSpiderHouse : public CMonster
 		LARGE,
 		LARGE_DAMAGE,
 		LARGE_TO_QUEEN,
+		LARGE_TO_SMALL,
 		DEATH,
 		MOTION_END
 	};
@@ -35,13 +36,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(MOTION motion);
-	HRESULT			AddAnimation(MOTION motion);
 	virtual void Damage() override;
 	virtual void Attack() override;
 	virtual void Death() override;
 private:
-	CTexture* m_pTextureCom[MOTION::MOTION_END] = { nullptr };
-	CPlayerAnim* m_pSpiderHouseAnim[MOTION::MOTION_END] = { nullptr };
 	CCollision_Component* m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	_float					m_fTimeAcc = {};

@@ -74,7 +74,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(_uint i, DIR dir, MOTION motion);
-	HRESULT			AddAnimation(_uint i, DIR dir, MOTION motion);
 	virtual void Damage() override;
 	virtual void Attack() override;
 	virtual void Death() override;
@@ -83,15 +82,8 @@ public:
 	void			SetItem(SWAPOBJECT tItem);
 	_bool		IsGhost() { return m_bIsGhost; }
 private:
-	CTexture*				m_pTextureCom[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-	CPlayerAnim*			m_pPlayerAnim[2][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-	CTransform*				m_pSwapObjectTransformCom = { nullptr };
-	CAnimController*		m_pSwapObjectAnimController = { nullptr };
-	CTexture*				m_pSwapObjectTextureCom[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = {nullptr};
-
-	CPlayerAnim*			m_pSwapObjectPlayerAnim[SWAPOBJECT_END][DIR::DIR_END][MOTION::MOTION_END] = { nullptr };
-	CGameObject*			m_pWorkObject = { nullptr };
-	CCollision_Component*	m_pCollision_Com = { nullptr };
+	CGameObject* m_pWorkObject = { nullptr };
+	CCollision_Component* m_pCollision_Com = { nullptr };
 
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
@@ -102,7 +94,6 @@ private:
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
-
 private:
 	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
