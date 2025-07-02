@@ -1,26 +1,26 @@
-#include "Spider.h"
+#include "SpiderWarrior.h"
 #include "GameInstance.h"
-#include "Camera.h"
 
-CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
 {
 
 }
 
-CSpider::CSpider(const CSpider& Prototype)
+CSpiderWarrior::CSpiderWarrior(const CSpiderWarrior& Prototype)
 	: CMonster{ Prototype }
 {
 }
 
-HRESULT CSpider::Initialize_Prototype()
+HRESULT CSpiderWarrior::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
-	LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
+	AddTexture("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml", L"../Bin/Resources/Textures/Monster/SpiderWarrior/");
+	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml");
+	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spiderwarrior.scml");
 	return S_OK;
 }
 
-HRESULT CSpider::Initialize(void* pArg)
+HRESULT CSpiderWarrior::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -40,6 +40,7 @@ HRESULT CSpider::Initialize(void* pArg)
 	m_iDef = 0;
 	m_iMaxHit = 10;
 	m_iHit = m_iMaxHit;
+	m_fAtkCool = 5.f;
 	m_bMove = false;
 
 
@@ -53,18 +54,18 @@ HRESULT CSpider::Initialize(void* pArg)
 }
 
 
-void CSpider::Priority_Update(_float fTimeDelta)
+void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	for (auto target : m_pCharacterInstance->Get_NearObject(this)) {
-		if (!dynamic_cast<CSpider*>(target)) {
+		if (!dynamic_cast<CSpiderWarrior*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}
 }
 
-void CSpider::Update(_float fTimeDelta)
+void CSpiderWarrior::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
@@ -87,6 +88,7 @@ void CSpider::Update(_float fTimeDelta)
 	case MOTION::RUN:
 	case MOTION::RUN_TO_IDLE:
 	case MOTION::ATTACK:
+	case MOTION::DASH_ATTACK:
 		switch (m_tMoveDIr)
 		{
 		case MOVE_DIR::MOVE_DOWN:
@@ -110,10 +112,33 @@ void CSpider::Update(_float fTimeDelta)
 			m_isDead = true;
 		}
 	}
+	else if (m_tMotion == MOTION::DASH_ATTACK) {
+		if (m_iLength <= m_fAniTime) {
+			m_tMotion = MOTION::IDLE;
+			SetAnimation(m_tDir, m_tMotion);
+		}
+		else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
+			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			vPosition += m_fDash * fTimeDelta;
+			m_pTransformCom->SetPosition(vPosition);
+		}
+	}
 	else if (m_pTarget) {
 		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
-			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+			m_fAtkCool -= fTimeDelta;
+			if (0.f >= m_fAtkCool) {
+				if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::DASH_ATTACK);
+					m_fAtkCool = 5.f;
+					D3DXVec3Normalize(&move, &move);
+					m_fDash = move * 5;
+				}
+				else {
+					SetAnimation(DIR::DIR_END, MOTION::TAUNT);
+				}
+			}
+			else if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
 				case MOTION::TAUNT:
@@ -168,7 +193,7 @@ void CSpider::Update(_float fTimeDelta)
 
 }
 
-void CSpider::Late_Update(_float fTimeDelta)
+void CSpiderWarrior::Late_Update(_float fTimeDelta)
 {
 
 	SetDir();
@@ -177,7 +202,7 @@ void CSpider::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSpider::Render()
+HRESULT CSpiderWarrior::Render()
 {
 	__super::Render();
 
@@ -210,23 +235,23 @@ HRESULT CSpider::Render()
 	return S_OK;
 }
 
-void CSpider::Damage()
+void CSpiderWarrior::Damage()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
-void CSpider::Attack()
+void CSpiderWarrior::Attack()
 {
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
-void CSpider::Death()
+void CSpiderWarrior::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
-HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
+HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir || (MOTION::IDLE == motion && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
@@ -251,6 +276,9 @@ HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
 		break;
 	case MOTION::ATTACK:
 		m_sAnim = L"atk";
+		break;
+	case MOTION::DASH_ATTACK:
+		m_sAnim = L"warrior_atk";
 		break;
 	case MOTION::IDLE_TO_SLEEP:
 		m_sAnim = L"sleep_pre";
@@ -304,7 +332,7 @@ HRESULT CSpider::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpider::Ready_Components()
+HRESULT CSpiderWarrior::Ready_Components()
 {
 	/* Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
@@ -328,7 +356,7 @@ HRESULT CSpider::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CSpider::Begin_RenderState()
+HRESULT CSpiderWarrior::Begin_RenderState()
 {
 	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
 
@@ -353,7 +381,7 @@ HRESULT CSpider::Begin_RenderState()
 	return S_OK;
 }
 
-HRESULT CSpider::End_RenderState()
+HRESULT CSpiderWarrior::End_RenderState()
 {
 	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
@@ -363,14 +391,19 @@ HRESULT CSpider::End_RenderState()
 	return S_OK;
 }
 
-void CSpider::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	if (dynamic_cast<CCharacter*>(HitActor)) {
+		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion == DASH_ATTACK) {
+			m_pTarget->Get_Damage(m_iAtk);
+		}
+	}
 }
 
-void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (HitActor == m_pTarget) {
-		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DASH_ATTACK && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 			if (m_tMotion != ATTACK) {
 				Attack();
 			}
@@ -382,13 +415,13 @@ void CSpider::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 	}
 }
 
-void CSpider::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderWarrior::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderWarrior* CSpiderWarrior::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSpider* pInstance = new CSpider(pGraphic_Device);
+	CSpiderWarrior* pInstance = new CSpiderWarrior(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -399,19 +432,19 @@ CSpider* CSpider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CSpider::Clone(void* pArg)
+CGameObject* CSpiderWarrior::Clone(void* pArg)
 {
-	CSpider* pInstance = new CSpider(*this);
+	CSpiderWarrior* pInstance = new CSpiderWarrior(*this);
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CSpider");
+		MSG_BOX("Failed to Cloned : CSpiderWarrior");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSpider::Free()
+void CSpiderWarrior::Free()
 {
 	__super::Free();
 	Safe_Release(m_pCollision_Com);

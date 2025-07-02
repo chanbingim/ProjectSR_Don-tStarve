@@ -376,6 +376,12 @@
     <ClInclude Include="..\public\SnowParticle.h">
       <Filter>김찬빈</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\tinyxml2.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpiderWarrior.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -558,6 +564,12 @@
     </ClCompile>
     <ClCompile Include="..\private\SnowParticle.cpp">
       <Filter>김찬빈</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\tinyxml2.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpiderWarrior.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

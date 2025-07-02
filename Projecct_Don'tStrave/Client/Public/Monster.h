@@ -32,7 +32,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 protected:
-	CPlayer* m_pPlayer = {};
+	CCharacter* m_pTarget = {};
 public:
 	virtual void Free() override;
 };

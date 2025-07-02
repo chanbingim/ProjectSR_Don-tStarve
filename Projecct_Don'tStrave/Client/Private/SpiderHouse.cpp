@@ -13,6 +13,8 @@ CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
 
 HRESULT CSpiderHouse::Initialize_Prototype()
 {
+	AddTexture("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", L"../Bin/Resources/Textures/Monster/spiderhouse/");
+	LoadScml("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml");
 	return S_OK;
 }
 
@@ -23,9 +25,9 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+	LoadImageFile();
 
 	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
-	m_pAnimTransformCom->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 
 
 	m_tMotion = MOTION::SMALL;
@@ -118,7 +120,6 @@ void CSpiderHouse::Update(_float fTimeDelta)
 void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	m_pAnimController->Tick(fTimeDelta);
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
@@ -128,7 +129,6 @@ HRESULT CSpiderHouse::Render()
 
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
-	m_pAnimController->Render();
 	m_pVIBufferCom->Render();
 
 	if (FAILED(End_RenderState()))
@@ -140,7 +140,6 @@ HRESULT CSpiderHouse::Render()
 HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 {
 	AddAnimation(motion);
-	m_pAnimController->ChangeState(m_pSpiderHouseAnim[motion]);
 	return S_OK;
 }
 
@@ -150,34 +149,34 @@ HRESULT CSpiderHouse::AddAnimation(MOTION motion)
 		wstring str = L"../Bin/Resources/Textures/Monster/SpiderHouse";
 		switch (motion) {
 		case SMALL:
-			str += L"/small";
+			str += L"cocoon_small";
 			break;
 		case SMALL_DAMAGE:
-			str += L"/small_damage";
+			str += L"cocoon_small_hit";
 			break;
 		case SMALL_TO_MEDIUM:
-			str += L"/small_to_medium";
+			str += L"grow_small_to_medium";
 			break;
 		case MEDIUM:
-			str += L"/medium";
+			str += L"cocoon_medium";
 			break;
 		case MEDIUM_DAMAGE:
-			str += L"/medium_damage";
+			str += L"cocoon_medium_hit";
 			break;
 		case MEDIUM_TO_LARGE:
-			str += L"/medium_to_large";
+			str += L"grow_medium_to_large";
 			break;
 		case LARGE:
-			str += L"/large";
+			str += L"cocoon_large";
 			break;
 		case LARGE_DAMAGE:
-			str += L"/large_damage";
+			str += L"cocoon_large_hit";
 			break;
 		case LARGE_TO_QUEEN:
-			str += L"/large_to_queen";
+			str += L"cocoon_large_burst";
 			break;
 		case DEATH:
-			str += L"/death";
+			str += L"cocoon_dead";
 			break;
 		}
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + str),
@@ -189,17 +188,6 @@ HRESULT CSpiderHouse::AddAnimation(MOTION motion)
 				TEXT("Com_" + str), reinterpret_cast<CComponent**>(&m_pTextureCom[motion]));
 
 		}
-
-		CPlayerAnim::PLAYER_DESC AnimDesc;
-		AnimDesc.pParentTransformCom = m_pTransformCom;
-		AnimDesc.pTransformCom = m_pAnimTransformCom;
-		AnimDesc.pVIBufferCom = m_pVIBufferCom;
-		AnimDesc.Frame.iStartFrame = 0;
-		AnimDesc.Frame.bIsLoop = true;
-
-		/* Com_Texture */
-		AnimDesc.Frame.pAnimTexture = m_pTextureCom[motion];
-		m_pSpiderHouseAnim[motion] = CPlayerAnim::Create(&AnimDesc);
 	}
 
 	return S_OK;
@@ -238,14 +226,6 @@ HRESULT CSpiderHouse::Ready_Components()
 	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Anim_Transform"), reinterpret_cast<CComponent**>(&m_pAnimTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
-		TEXT("Com_AnimController"), (CComponent**)&m_pAnimController)))
 		return E_FAIL;
 
 	/* Com_VIBuffer */
