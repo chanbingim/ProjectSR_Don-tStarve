@@ -206,6 +206,7 @@ void Client::CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 
 	CItem_Manager::DestroyInstance();
+	CCharacter_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 

@@ -1,23 +1,4 @@
-﻿  Camera.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Character.cpp
-  Chest.cpp
+﻿  BookMark_Button.cpp
   Level_GamePlay.cpp
-  Level_Logo.cpp
-  MainApp.cpp
-  Spider.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Spider.cpp(32,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Spider.cpp(32,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  SpiderQueen.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderQueen.cpp(33,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderQueen.cpp(33,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Enviornment_Object.cpp
-  Item.cpp
-  SnowParticle.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SnowParticle.cpp(117,35): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  TutorialLevel.cpp
   코드를 생성하고 있습니다...
   Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
