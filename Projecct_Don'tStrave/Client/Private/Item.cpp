@@ -22,6 +22,8 @@ HRESULT CItem::Initialize_Prototype()
 
 HRESULT CItem::Initialize(void* pArg)
 {
+	m_bEnableBillboard = true;
+
 	CLandObject::LANDOBJECT_DESC			Desc{};
 	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
 	Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
@@ -37,11 +39,16 @@ HRESULT CItem::Initialize(void* pArg)
 	m_Item_Desc.fDurability = Item_Desc->fDurability;
 	m_Item_Desc.eSlot = Item_Desc->eSlot;
 
-	if (FAILED(ADD_Components()))
+
+	m_pTransformCom->SetPosition(Item_Desc->vPosition);
+
+	m_pPlayerTransform_Com = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(
+		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (nullptr == m_pPlayerTransform_Com)
 		return E_FAIL;
 
-	m_pTransform_Com->SetPosition(Item_Desc->vPosition);
-	m_pTransform_Com->SetScale(_float3(0.4f, 0.4f, 1.f));
+	Safe_AddRef(m_pPlayerTransform_Com);
 
 	return S_OK;
 }
@@ -52,33 +59,33 @@ void CItem::Priority_Update(_float fTimeDelta)
 
 void CItem::Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	HoverEvent();
 
-	SetUp_OnTerrain(m_pTransform_Com, 0.5f);
+	SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);
 }
 
 void CItem::Late_Update(_float fTimeDelta)
 {
-
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CItem::Render()
 {
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100);
+	
+
+	__super::Render();
 
 	m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
 	m_pVIBuffer_Com->Render();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
 	return S_OK;
 }
@@ -87,29 +94,20 @@ void CItem::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
 	{
-		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverObject(this);
+		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
 		ClickedEvent();
 	}
 }
 
 void CItem::ClickedEvent()
 {
-	if (m_pGameInstance->KeyDown(VK_LBUTTON))
-	{
-		CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
-
-		pSlot->Set_Info(m_Item_Desc);
-
-		m_isDead = true;
-	}
-
 	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
 		_float3 vPickingPos = {};
 
-		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransform_Com, &vPickingPos))
+		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
 		{
 			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
 			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
@@ -145,10 +143,10 @@ HRESULT CItem::ADD_Components()
 
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"),
-		reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
+		reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_Desc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemObject"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
 		return E_FAIL;
@@ -173,6 +171,16 @@ void CItem::Update_Item(_float fTimeDelta)
 	default:
 		break;
 	}
+}
+
+_bool CItem::isInRange()
+{
+	_float3 vRange = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+	if (0.8f >= D3DXVec3Length(&vRange))
+		return true;
+
+	return false;
 }
 
 CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -208,6 +216,7 @@ void CItem::Free()
 	__super::Free();
 
 	Safe_Release(m_pTexture_Com);
-	Safe_Release(m_pTransform_Com);
+	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBuffer_Com);
+	Safe_Release(m_pPlayerTransform_Com);
 }

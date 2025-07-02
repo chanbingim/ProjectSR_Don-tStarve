@@ -1,25 +1,24 @@
-#include "Create_Button.h"
+#include "BookMark_Button.h"
 #include "GameInstance.h"
-#include "Item_Manager.h"
-#include "Inventory.h"
 
-CCreate_Button::CCreate_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBookMark_Button::CBookMark_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CButton{ pGraphic_Device }
 {
 }
 
-CCreate_Button::CCreate_Button(const CCreate_Button& Prototype)
+CBookMark_Button::CBookMark_Button(const CBookMark_Button& Prototype)
     :CButton{ Prototype }
 {
 }
 
-HRESULT CCreate_Button::Initialize_Prototype()
+HRESULT CBookMark_Button::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CCreate_Button::Initialize(void* pArg)
+HRESULT CBookMark_Button::Initialize(void* pArg)
 {
+    m_isSelected = false;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -29,64 +28,59 @@ HRESULT CCreate_Button::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
-    m_pTransform_Com->SetPosition(_float3(m_fX + 40.f - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
-
     return S_OK;
 }
 
-void CCreate_Button::Priority_Update(_float fTimeDelta)
+void CBookMark_Button::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CCreate_Button::Update(_float fTimeDelta)
+void CBookMark_Button::Update(_float fTimeDelta)
 {
-    
 
     __super::Update(fTimeDelta);
 
     HoverEevent();
 }
 
-void CCreate_Button::Late_Update(_float fTimeDelta)
+void CBookMark_Button::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CCreate_Button::Render()
+HRESULT CBookMark_Button::Render()
 {
-    m_pTransform_Com->SetPosition(_float3(m_fX + 30.f - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
-
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pTexture_Com->Set_Texture(m_iTextureIndex);
+    m_pTexture_Com->Set_Texture(m_isSelected);
 
     m_pVIBuffer_Com->Render();
 
     return S_OK;
 }
 
-void CCreate_Button::HoverEevent()
+void CBookMark_Button::HoverEevent()
 {
     if (true == isMouseOver())
     {
         ClickedEevent();
-        m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.1f, m_fSizeY * 1.1f, 1.f));
     }
-    else
-        m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
 
 }
 
-void CCreate_Button::ClickedEevent()
+void CBookMark_Button::ClickedEevent()
 {
-    if (0 != m_iTextureIndex && m_pGameInstance->KeyDown(VK_LBUTTON))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
         m_isClicked = true;
+    }
     else
         m_isClicked = false;
 
+
 }
 
-HRESULT CCreate_Button::ADD_Components()
+HRESULT CBookMark_Button::ADD_Components()
 {
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
@@ -100,7 +94,7 @@ HRESULT CCreate_Button::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Bookmark_Button"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -108,33 +102,33 @@ HRESULT CCreate_Button::ADD_Components()
     return S_OK;
 }
 
-CCreate_Button* CCreate_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBookMark_Button* CBookMark_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CCreate_Button* pInstance = new CCreate_Button(pGraphic_Device);
+    CBookMark_Button* pInstance = new CBookMark_Button(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Create : CCreate_Button");
+        MSG_BOX("Failed to Create : CItem_Button");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CCreate_Button::Clone(void* pArg)
+CGameObject* CBookMark_Button::Clone(void* pArg)
 {
-    CGameObject* pInstance = new CCreate_Button(*this);
+    CGameObject* pInstance = new CBookMark_Button(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CCreate_Button");
+        MSG_BOX("Failed to Cloned : CItem_Button");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CCreate_Button::Free()
+void CBookMark_Button::Free()
 {
     __super::Free();
 

@@ -24,8 +24,9 @@ HRESULT CMouse::Initialize_Prototype()
 HRESULT CMouse::Initialize(void* pArg)
 {
     m_bPutDown = false;
-
-    m_MouseMessage = L"";
+    m_iMouseState = 0;
+    m_strInfoMessage = L"";
+    m_strInteraction = L"";
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -35,10 +36,11 @@ HRESULT CMouse::Initialize(void* pArg)
 
     m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, 1.f));
 
+
     if (FAILED(Add_Slot()))
         return E_FAIL;
-    m_fSizeX = 40.f;
-    m_fSizeY = 40.f;
+    m_fSizeX = 65.f;
+    m_fSizeY = 65.f;
 
     __super::UpdatePosition();
 
@@ -55,7 +57,9 @@ void CMouse::Priority_Update(_float fTimeDelta)
     m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
     m_pSlot->Priority_Update(fTimeDelta);
 
-    m_MouseMessage = L"";
+    m_strInfoMessage = L"";
+    m_iMouseState = 0;
+
 }
 
 void CMouse::Update(_float fTimeDelta)
@@ -78,7 +82,7 @@ void CMouse::Update(_float fTimeDelta)
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        Desc.iItemID = 1;
+        Desc.iItemID = 35;
         Desc.eItemType = ITEM_TYPE::MERTARIAL;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -88,7 +92,7 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('2') & 0x8000)
     {
-        Desc.iItemID = 2;
+        Desc.iItemID = 36;
         Desc.eItemType = ITEM_TYPE::MERTARIAL;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -98,9 +102,19 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('3') & 0x8000)
     {
-        Desc.iItemID = 3;
-        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
-        Desc.eSlot = SLOT::HAND;
+        Desc.iItemID = 37;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('4') & 0x8000)
+    {
+        Desc.iItemID = 38;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -108,8 +122,18 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('5') & 0x8000)
     {
-        Desc.iItemID = 5;
+        Desc.iItemID = 44;
         Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('6') & 0x8000)
+    {
+        Desc.iItemID = 14;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -127,27 +151,35 @@ void CMouse::Late_Update(_float fTimeDelta)
 
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+
 }
 
 HRESULT CMouse::Render()
 {
-    
-    //m_pTexture_Com->Set_Texture(0);
-
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-
-    //m_pVIBuffer_Com->Render();
-     RECT Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
     m_pSlot->Render(m_pTransform_Com);
 
-    Rect = { LONG(m_fX - m_fSizeX), LONG(m_fY - m_fSizeY - 20.f),LONG(m_fX + m_fSizeX), LONG(m_fY + m_fSizeY - 20.f) };
-    
-    D3DXCOLOR white = { 1.f, 1.f, 1.f, 1.f };
-    m_pGameInstance->Render_Font(TEXT("Font_18"), m_MouseMessage.c_str(), &Rect, white);
-    //m_pGameInstance->Render_Font(TEXT("Font_18"), TEXT("나무 \n 줍기"), &Rect);
-    
-    
-    
+    if (0 != m_iMouseState)
+    {
+        m_fX -= 30.f;
+        m_fY -= 40.f;
+        m_pTexture_Com->Set_Texture(m_iMouseState - 1);
+        __super::UpdatePosition();
+        m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+        m_pVIBuffer_Com->Render();
+
+
+        D3DXCOLOR white = { 0.95f, 0.95f, 0.95f, 1.f };
+        RECT Rect = { LONG(m_fX+ 30.f - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + 30.f + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
+        m_pGameInstance->Render_Font(TEXT("MouseInfo_40"), m_strInfoMessage.c_str(), &Rect, white);
+
+        Rect = { LONG(m_fX + 60.f - m_fSizeX* 0.5f), LONG(m_fY - m_fSizeY),LONG(m_fX + 50.f + m_fSizeX), LONG(m_fY + m_fSizeY) };
+        m_pGameInstance->Render_Font(TEXT("MouseInfo_40"), m_strInteraction.c_str(), &Rect, white, DT_LEFT | DT_SINGLELINE | DT_VCENTER);
+
+
+        m_fY += 40.f;
+        m_fX += 50.f;
+    }
 
     return S_OK;
 }
@@ -178,13 +210,42 @@ void CMouse::ClickedEevent()
 
 
                     ITEM_DESC Desc = m_pSlot->Get_Info();
+                    vPickingPos.y = 0.f;
                     Desc.vPosition = vPickingPos;
 
-                    if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
-                        EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                    if (ITEM_TYPE::MERTARIAL == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).eItemType)
                     {
-                        MSG_BOX("Failed to Add Item");
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
                     }
+                    else if (5 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (14 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    
 
                     m_pSlot->Clear();
                     m_bPutDown = true;
@@ -199,15 +260,69 @@ void CMouse::ClickedEevent()
     }
    
 }
-void CMouse::Update_HoverObject(CItem* pItem)
+void CMouse::Update_HoverItem(_uint itemID)
 {
-    m_MouseMessage = CItem_Manager::GetInstance()->Get_ItemData(pItem->Get_Info().iItemID).strName;
+    ITEM_DATA Data = CItem_Manager::GetInstance()->Get_ItemData(itemID);
+    m_strInfoMessage = Data.strName;
+
+    switch (Data.eItemType)
+    {
+    case ITEM_TYPE::MERTARIAL:
+        m_iMouseState = 2;
+        m_strInteraction = L":Pick";
+        break;
+
+    case ITEM_TYPE::FOOD:
+        m_iMouseState = 2;
+        m_strInteraction = L":Pick";
+        break;
+
+    case ITEM_TYPE::EQUIPMENT:
+        m_iMouseState = 2;
+        m_strInteraction = L":Pick";
+        break;
+
+    default:
+        break;
+    }
+       
 }
+void CMouse::Update_HoverSlot(_uint itemID)
+{
+    ITEM_DATA Data = CItem_Manager::GetInstance()->Get_ItemData(itemID);
+    m_strInfoMessage = Data.strName;
+
+    switch (Data.eItemType)
+    {
+    case ITEM_TYPE::MERTARIAL:
+        m_iMouseState = 2;
+        m_strInteraction = L":Inspect";
+        break;
+
+    case ITEM_TYPE::FOOD:
+        m_iMouseState = 2;
+        m_strInteraction = L":Eat";
+        break;
+
+    case ITEM_TYPE::EQUIPMENT:
+        m_iMouseState = 2;
+        m_strInteraction = L":Equip";
+        break;
+
+    default:
+        break;
+    }
+}
+void CMouse::Update_Hover(_uint itemID)
+{
+
+}
+
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
-        TEXT("Com_Texture_Item"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Mouse"),
+        TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
 

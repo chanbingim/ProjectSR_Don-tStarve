@@ -48,7 +48,7 @@ HRESULT CInventory::Initialize(void* pArg)
     for (_uint i = 0; i < 15; ++i)
     {
         if (0 == i % 5)
-            iOffset += 5.f;
+            iOffset += 5;
 
         Desc.fSizeX = 40.f;
         Desc.fSizeY = 40.f;
@@ -71,7 +71,7 @@ HRESULT CInventory::Initialize(void* pArg)
     for (_uint i = 15; i < 19; ++i)
     {
         if (0 == i % 3)
-            iOffset += 5.f;
+            iOffset += 5;
 
         Desc.fSizeX = 40.f;
         Desc.fSizeY = 40.f;
@@ -190,6 +190,32 @@ _uint CInventory::Check_ItemCount(_uint iItem)
     }
 
     return iItemCount;
+}
+
+void CInventory::Use_Item(_uint iItem, _uint iCount)
+{
+    for (auto pSlotFrame : m_SlotFrames)
+    {
+        CSlot* pSlot = pSlotFrame->Get_Slot();
+        ITEM_DESC Desc = pSlot->Get_Info();
+        if (iItem == Desc.iItemID)
+        {
+            int iNum = Desc.iNumItem;
+            for(_uint i = 0; i < Desc.iNumItem; ++i)
+            {
+                --iCount;
+                --iNum;
+                if (0 == iNum)
+                {
+                    pSlot->Clear();
+                    break;
+                }
+                if (0 == iCount)
+                    return;
+            }
+
+        }
+    }
 }
 
 HRESULT CInventory::ADD_Components()

@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Slot.h"
 #include "Inventory.h"
+#include "Mouse.h"
 
 CSlotFrame::CSlotFrame(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -46,6 +47,13 @@ HRESULT CSlotFrame::Initialize(void* pArg)
     if (nullptr == m_pSlot)
         return E_FAIL;
 
+    m_pMouse = dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")));
+
+    if (nullptr == m_pMouse)
+        return E_FAIL;
+
+    
+
     return S_OK;
 }
 
@@ -60,7 +68,6 @@ void CSlotFrame::Update(_float fTimeDelta)
 
     HoverEevent();
 
-    
     if (m_eSlotType == m_pSlot->Get_Info().eSlot)
     {
         m_pSlot->Update(fTimeDelta);
@@ -91,7 +98,7 @@ HRESULT CSlotFrame::Render()
 
 void CSlotFrame::HoverEevent()
 {
-    RECT rc = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+    RECT rc = { (LONG)(m_fX - m_fSizeX * 0.5f), (LONG)(m_fY - m_fSizeY * 0.5f), (LONG)(m_fX + m_fSizeX * 0.5f), (LONG)(m_fY + m_fSizeY * 0.5f) };
 
     POINT pt{};
     GetCursorPos(&pt);
@@ -100,6 +107,9 @@ void CSlotFrame::HoverEevent()
     if (PtInRect(&rc, pt))
     {
         ClickedEevent();
+        _uint iItemID = m_pSlot->Get_ItemID();
+        if (0 != iItemID)
+            m_pMouse->Update_HoverSlot(iItemID);
         m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
     }
     else

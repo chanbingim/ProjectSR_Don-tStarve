@@ -4,15 +4,15 @@
 
 NS_BEGIN(Client)
 
-class CCategory_Button final : public CButton
+class CBookMark_Button final : public CButton
 {
 private:
-	CCategory_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCategory_Button(const CCategory_Button& Prototype);
-	virtual ~CCategory_Button() = default;
+	CBookMark_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBookMark_Button(const CBookMark_Button& Prototype);
+	virtual ~CBookMark_Button() = default;
 
 public:
-	void Select_Button() { m_isSelected = !m_isSelected; }
+	void	isSelected(_bool isSelected) { m_isSelected = isSelected; }
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;
@@ -25,19 +25,17 @@ public:
 	virtual void HoverEevent() override;
 	virtual void ClickedEevent() override;
 
+
 private:
 	_bool		m_isSelected = {};
-	_uint		m_iSlotIndex = {};
-	CTexture*	m_pBackGroundTexture_Com = { nullptr };
 
 private:
 	virtual HRESULT ADD_Components();
 
 public:
-	static CCategory_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CBookMark_Button* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free() override;
 };
 
 NS_END
-
