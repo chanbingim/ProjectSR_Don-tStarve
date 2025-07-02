@@ -133,6 +133,9 @@
     <Filter Include="System\Components\ParticleComponent\System">
       <UniqueIdentifier>{2eb96c5f-78cf-4098-b855-b789c96bc869}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Components\Light_Component">
+      <UniqueIdentifier>{9cd36981-50fd-4ebf-a067-f34d13db4585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -277,6 +280,9 @@
     <ClInclude Include="..\public\ParticleSystemComponent.h">
       <Filter>System\Components\ParticleComponent\System</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\LightComponent.h">
+      <Filter>System\Components\Light_Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -396,6 +402,9 @@
     </ClCompile>
     <ClCompile Include="..\private\ParticleSystemComponent.cpp">
       <Filter>System\Components\ParticleComponent\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LightComponent.cpp">
+      <Filter>System\Components\Light_Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

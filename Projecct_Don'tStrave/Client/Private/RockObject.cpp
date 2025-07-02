@@ -20,26 +20,7 @@ CRockObject::CRockObject(const CRockObject& rhs) :
 HRESULT CRockObject::Initialize_Prototype()
 {
 
-#pragma region Animation State
-	CEnv_Animation::FRAME_DESC Frame = {};
-	Frame.iStartFrame = 0;
-	Frame.iEndFrame = 0;
-	Frame.fTimeRate = 2.0f;
-	Frame.bIsLoop = true;
-	m_AnimationState[0] = CEnv_Animation::Create(&Frame);
 
-	Frame.iStartFrame = 0;
-	Frame.iEndFrame = 0;
-	Frame.fTimeRate = 1.0f;
-	Frame.bIsLoop = false;
-	m_AnimationState[1] = CEnv_Animation::Create(&Frame);
-
-	Frame.iStartFrame = 0;
-	Frame.iEndFrame = 0;
-	Frame.fTimeRate = 1.0f;
-	Frame.bIsLoop = true;
-	m_AnimationState[2] = CEnv_Animation::Create(&Frame);
-#pragma endregion
 
 	return S_OK;
 }
@@ -52,9 +33,7 @@ HRESULT CRockObject::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_AnimationState[0]->SetTexture(m_Idle_pTexture_Com);
-	m_AnimationState[1]->SetTexture(m_Damaged_pTexture_Com);
-	m_AnimationState[2]->SetTexture(m_Broken_pTexture_Com);
+	ADD_AnimationState();
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -131,6 +110,33 @@ HRESULT CRockObject::ADD_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CRockObject::ADD_AnimationState()
+{
+#pragma region Animation State
+	CEnv_Animation::FRAME_DESC Frame = {};
+	Frame.iStartFrame = 0;
+	Frame.iEndFrame = 0;
+	Frame.fTimeRate = 2.0f;
+	Frame.bIsLoop = true;
+	m_AnimationState[0] = CEnv_Animation::Create(&Frame);
+	m_AnimationState[0]->SetTexture(m_Idle_pTexture_Com);
+
+	Frame.iStartFrame = 0;
+	Frame.iEndFrame = 0;
+	Frame.fTimeRate = 1.0f;
+	Frame.bIsLoop = false;
+	m_AnimationState[1] = CEnv_Animation::Create(&Frame);
+	m_AnimationState[1]->SetTexture(m_Damaged_pTexture_Com);
+	
+	Frame.iStartFrame = 0;
+	Frame.iEndFrame = 0;
+	Frame.fTimeRate = 1.0f;
+	Frame.bIsLoop = true;
+	m_AnimationState[2] = CEnv_Animation::Create(&Frame);
+	m_AnimationState[2]->SetTexture(m_Broken_pTexture_Com);
+#pragma endregion
 }
 
 void CRockObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

@@ -83,6 +83,11 @@ HRESULT CPortalObject::ADD_Components()
     return S_OK;
 }
 
+void CPortalObject::ADD_AnimationState()
+{
+
+}
+
 void CPortalObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 
