@@ -22,21 +22,12 @@ HRESULT CMaterial_Item::Initialize_Prototype()
 
 HRESULT CMaterial_Item::Initialize(void* pArg)
 {
+	if (FAILED(__super::ADD_Components()))
+		return E_FAIL;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	ITEM_DESC* Item_Desc = static_cast<ITEM_DESC*>(pArg);
-
-	m_Item_Desc.eItemType = Item_Desc->eItemType;
-	m_Item_Desc.iItemID = Item_Desc->iItemID;
-	m_Item_Desc.iNumItem = Item_Desc->iNumItem;
-	m_Item_Desc.fDurability = Item_Desc->fDurability;
-	m_Item_Desc.eSlot = Item_Desc->eSlot;
-
-	/*if (FAILED(ADD_Components()))
-		return E_FAIL;*/
-
-	//m_pTransform_Com->SetPosition(Item_Desc->vPosition);
 	_float3 size = m_pTexture_Com->Get_Size(m_Item_Desc.iItemID);
 	_float fMinSize = max(size.x, size.y);
 
@@ -88,23 +79,7 @@ void CMaterial_Item::HoverEvent()
 
 HRESULT CMaterial_Item::ADD_Components()
 {
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"),
-		reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
-		return E_FAIL;
-
-	Engine::CTransform::TRANSFORM_DESC Transform_Desc = { 5.f, D3DXToRadian(90.f) };
-
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"),
-		reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_Desc)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemObject"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
-		return E_FAIL;
-
+	
 	return S_OK;
 }
 
@@ -158,8 +133,4 @@ CGameObject* CMaterial_Item::Clone(void* pArg)
 void CMaterial_Item::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTexture_Com);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBuffer_Com);
 }

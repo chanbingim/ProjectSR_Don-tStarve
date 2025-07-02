@@ -24,9 +24,6 @@ HRESULT CItem::Initialize(void* pArg)
 {
 	m_bEnableBillboard = true;
 
-	if (FAILED(ADD_Components()))
-		return E_FAIL;
-
 	CLandObject::LANDOBJECT_DESC			Desc{};
 	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
 	Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
@@ -45,14 +42,13 @@ HRESULT CItem::Initialize(void* pArg)
 
 	m_pTransformCom->SetPosition(Item_Desc->vPosition);
 
-	_float3 size = m_pTexture_Com->Get_Size(m_Item_Desc.iItemID);
-	_float fMinSize = max(size.x, size.y);
+	m_pPlayerTransform_Com = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(
+		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
+	if (nullptr == m_pPlayerTransform_Com)
+		return E_FAIL;
 
-	m_pTransformCom->SetScale(vSize);
-
-
+	Safe_AddRef(m_pPlayerTransform_Com);
 
 	return S_OK;
 }
@@ -177,6 +173,16 @@ void CItem::Update_Item(_float fTimeDelta)
 	}
 }
 
+_bool CItem::isInRange()
+{
+	_float3 vRange = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+	if (0.8f >= D3DXVec3Length(&vRange))
+		return true;
+
+	return false;
+}
+
 CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CItem* pInstance = new CItem(pGraphic_Device);
@@ -212,4 +218,5 @@ void CItem::Free()
 	Safe_Release(m_pTexture_Com);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBuffer_Com);
+	Safe_Release(m_pPlayerTransform_Com);
 }

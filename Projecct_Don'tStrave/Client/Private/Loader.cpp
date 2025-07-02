@@ -34,6 +34,8 @@
 #include "BookMark_Button.h"
 #include "Create_Button.h"
 #include "Material_Item.h"
+#include "CampFire.h"
+#include "Chest.h"
 
 
 #include "GameInstance.h"
@@ -460,6 +462,40 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/ItemFrame_%d.png"), 2))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_CampFire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire/CampFire__00%d.png"), 3))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_CampFire_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire_Fire/CampFire_Fire__0%d.png"), 16))))
+		return E_FAIL;
+
+#pragma region Chest
+	/* For.Prototype_Component_Texture_Chest_IDLE */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_IDLE"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/IDLE/chest__000.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Chest_PLACE */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_PLACE"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Place/chest__00%d.png"), 10))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Chest_OPEN */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_OPEN"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Open/chest__00%d.png"), 5))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Chest_CLOSE */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_CLOSE"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Close/chest__00%d.png"), 8))))
+		return E_FAIL;
+#pragma endregion
+
+	
+
 
 #pragma endregion
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
@@ -547,16 +583,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CCraftingUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
-		CItem::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Material_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
-		CMaterial_Item::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* For.Prototype_GameObject_Crafting_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
 		CCrafting_Button::Create(m_pGraphic_Device))))
@@ -612,10 +638,35 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CMouse::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region ITEM
+	/* For.Prototype_GameObject_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Material_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+		CMaterial_Item::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_CamFire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
+		CCampFire::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_CamFire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
+		CChest::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma endregion
 
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
 
+#pragma region FONT
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
@@ -636,6 +687,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
+#pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

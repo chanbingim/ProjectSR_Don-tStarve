@@ -33,6 +33,7 @@ public:
 
 protected:
 	ITEM_DESC	m_Item_Desc = {};
+	CTransform* m_pPlayerTransform_Com = { nullptr };
 
 	CTexture*	m_pTexture_Com = { nullptr };
 	CVIBuffer*	m_pVIBuffer_Com = { nullptr };
@@ -40,6 +41,7 @@ protected:
 protected:
 	HRESULT ADD_Components();
 	void Update_Item(_float fTimeDelta);
+	_bool isInRange();
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

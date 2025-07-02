@@ -110,10 +110,30 @@ void CMouse::Update(_float fTimeDelta)
 
         m_pSlot->Set_Info(Desc);
     }
+    if (GetKeyState('4') & 0x8000)
+    {
+        Desc.iItemID = 38;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
     if (GetKeyState('5') & 0x8000)
     {
         Desc.iItemID = 44;
         Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('6') & 0x8000)
+    {
+        Desc.iItemID = 14;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -201,6 +221,22 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
+                    else if (5 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (14 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
                     else
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
@@ -277,6 +313,11 @@ void CMouse::Update_HoverSlot(_uint itemID)
         break;
     }
 }
+void CMouse::Update_Hover(_uint itemID)
+{
+
+}
+
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
