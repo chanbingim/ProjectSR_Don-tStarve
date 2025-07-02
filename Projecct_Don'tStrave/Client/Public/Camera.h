@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "FrustomCamera.h"
 
 #include "GameInstance.h"
 
 NS_BEGIN(Client)
 
-class CCamera final : public CGameObject
+class CCamera final : public CFrustomCamera
 {
 public:
 	typedef struct tagCameraDesc : public CTransform::TRANSFORM_DESC
@@ -32,20 +32,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	const _float4x4&				GetInvViewMat();
-
 private:
-	class CTransform*				m_pTransformCom = { nullptr };
 	class CTransform*				m_pPlayerTransformCom = { nullptr };
 	class CCamera_Button*			m_pButton_Left = { nullptr };
 	class CCamera_Button*			m_pButton_Right = { nullptr };
-	_float4x4						m_ProjMatrix = { };
-	_float4x4						m_InvViewMatrix = { };
-
-	_float							m_fFov = {};
-	_float							m_fAspect = {};
-	_float							m_fNear = {};
-	_float							m_fFar = {};
 
 private:
 	_float2							m_vOldMouse = {};

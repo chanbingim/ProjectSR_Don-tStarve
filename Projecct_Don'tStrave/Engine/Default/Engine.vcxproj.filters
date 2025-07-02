@@ -136,6 +136,9 @@
     <Filter Include="System\Components\Light_Component">
       <UniqueIdentifier>{9cd36981-50fd-4ebf-a067-f34d13db4585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\GameObject\FrustomCamera">
+      <UniqueIdentifier>{f47e8ef9-0b01-48c7-aed6-0e2833799d4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -283,6 +286,9 @@
     <ClInclude Include="..\Public\LightComponent.h">
       <Filter>System\Components\Light_Component</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FrustomCamera.h">
+      <Filter>System\GameObject\FrustomCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -405,6 +411,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\LightComponent.cpp">
       <Filter>System\Components\Light_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FrustomCamera.cpp">
+      <Filter>System\GameObject\FrustomCamera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

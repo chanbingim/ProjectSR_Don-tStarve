@@ -154,6 +154,7 @@
     <ClInclude Include="..\Public\CSVReader.h" />
     <ClInclude Include="..\Public\CUtility.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
+    <ClInclude Include="..\public\FrustomCamera.h" />
     <ClInclude Include="..\public\KeyManager.h" />
     <ClInclude Include="..\Public\LightComponent.h" />
     <ClInclude Include="..\public\ParticleSystemComponent.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\Private\CSVReader.cpp" />
     <ClCompile Include="..\Private\CUtility.cpp" />
     <ClCompile Include="..\Private\Font_Manager.cpp" />
+    <ClCompile Include="..\private\FrustomCamera.cpp" />
     <ClCompile Include="..\private\KeyManager.cpp" />
     <ClCompile Include="..\Private\LightComponent.cpp" />
     <ClCompile Include="..\private\ParticleSystemComponent.cpp" />

@@ -54,8 +54,13 @@ void CEnviornment_Object::Update(_float fTimeDelta)
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+    class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+    auto Camera = dynamic_cast<CCamera*>(Obj);
+    if (nullptr == Camera)
+        return;
 
-    m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+    if(Camera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+        m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CEnviornment_Object::Render()

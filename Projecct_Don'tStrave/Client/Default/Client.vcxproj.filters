@@ -215,6 +215,9 @@
     <Filter Include="05. Item\Material">
       <UniqueIdentifier>{40920331-0b9a-4902-befe-f31fb8d6ef1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Particle">
+      <UniqueIdentifier>{aa9389bd-c0e9-40cb-8080-5712c3cf1866}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -397,9 +400,6 @@
     <ClInclude Include="..\public\ParticleShader.h">
       <Filter>ShaderManager\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\SnowParticle.h">
-      <Filter>김찬빈</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\tinyxml2.h">
       <Filter>Defines\XML</Filter>
     </ClInclude>
@@ -423,6 +423,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Material_Item.h">
       <Filter>05. Item\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SnowParticle.h">
+      <Filter>07. Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -604,9 +607,6 @@
     <ClCompile Include="..\private\ParticleShader.cpp">
       <Filter>ShaderManager\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\SnowParticle.cpp">
-      <Filter>김찬빈</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\tinyxml2.cpp">
       <Filter>Defines\XML</Filter>
     </ClCompile>
@@ -631,6 +631,9 @@
     <ClCompile Include="..\Private\Material_Item.cpp">
       <Filter>05. Item\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\SnowParticle.cpp">
+      <Filter>07. Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
@@ -639,8 +642,5 @@
     <FxCompile Include="Particle.fx">
       <Filter>김찬빈</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

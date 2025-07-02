@@ -4,17 +4,18 @@
 #include "Camera_Button.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+	: CFrustomCamera { pGraphic_Device }
 {
 }
 
 CCamera::CCamera(const CCamera& Prototype)
-	: CGameObject{ Prototype }
+	: CFrustomCamera{ Prototype }
 {
 }
 
 HRESULT CCamera::Initialize_Prototype()
 {
+	__super::Initialize_Prototype();
 	return S_OK;
 }
 
@@ -52,8 +53,6 @@ HRESULT CCamera::Initialize(void* pArg)
 	Desc.fX = g_iWinSizeX - 150.f;
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 0;
-
-
 
  	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
@@ -111,10 +110,8 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		m_pTransformCom->SetPosition(vPosition);
 		m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
 	}
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
 
-	D3DXMatrixInverse(&m_InvViewMatrix, NULL, &m_pTransformCom->Get_InverseWorldMat());
+	Compute_CameraMatrix();
 }
 
 void CCamera::Update(_float fTimeDelta)
@@ -134,11 +131,6 @@ HRESULT CCamera::Render()
 	m_pButton_Right->Render();
 
 	return S_OK;
-}
-
-const _float4x4& CCamera::GetInvViewMat()
-{
-	return m_InvViewMatrix;
 }
 
 HRESULT CCamera::Ready_Components(void* pArg)
