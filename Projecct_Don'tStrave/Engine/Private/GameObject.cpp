@@ -66,6 +66,20 @@ void CGameObject::Death()
 }
 
 
+_float CGameObject::Get_CameraDistance()
+{
+	_float3			vCamPos = {};
+	_float4x4		ViewMatrix = {};
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
+	
+	memcpy(&vCamPos, &ViewMatrix.m[3], sizeof(_float3));
+
+	_float3			vDir = vCamPos - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	return D3DXVec3Length(&vDir);
+}
+
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto	iter = m_Components.find(strComponentTag);

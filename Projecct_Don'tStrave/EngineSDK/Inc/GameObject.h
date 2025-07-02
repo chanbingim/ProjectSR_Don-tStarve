@@ -39,6 +39,9 @@ public:
 		return m_isDead;
 	}
 
+	_float				Get_CameraDistance();
+
+
 	class CComponent*	Find_Component(const _wstring& strComponentTag);
 	CTransform*			GetTransfrom() { return m_pTransformCom; }
 
@@ -63,6 +66,7 @@ protected:
 							const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
 	HRESULT	Setting_Shader(const WCHAR* ShaderName);
+
 	void				Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex);
 	void				End_Billboard();
 

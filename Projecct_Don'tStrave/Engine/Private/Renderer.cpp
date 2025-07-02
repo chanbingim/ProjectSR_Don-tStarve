@@ -98,9 +98,7 @@ void CRenderer::Render_AlphaTest()
 
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
@@ -119,9 +117,7 @@ void CRenderer::Render_Blend()
 {
 	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
@@ -139,9 +135,7 @@ void CRenderer::Render_Particle()
 {
 	m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
