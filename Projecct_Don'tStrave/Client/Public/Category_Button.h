@@ -27,6 +27,7 @@ public:
 
 private:
 	_bool		m_isSelected = {};
+	_uint		m_iSlotIndex = {};
 	CTexture*	m_pBackGroundTexture_Com = { nullptr };
 
 private:

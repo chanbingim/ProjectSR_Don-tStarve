@@ -30,7 +30,6 @@ public:
 	void Clear_DeadObj();
 
 private:
-
 	_uint								m_iNumLevels = {};
 	map<const _wstring, class CLayer*>* m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };

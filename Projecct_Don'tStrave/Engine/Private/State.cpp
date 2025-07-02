@@ -26,13 +26,13 @@ HRESULT CState::Reset_StateData()
 {
     m_AccTime = 0;
     m_Frame.iStartFrame = 0;
-    m_Frame.fTimeRate = 1.0f;
 
     return S_OK;
 }
 
 void CState::Tick(_float fTimeDelta)
 {
+    m_AccTime += fTimeDelta;
     if (m_AccTime >= m_fFrameTime)
     {
         if (m_Frame.iStartFrame < m_Frame.iEndFrame)
@@ -46,8 +46,6 @@ void CState::Tick(_float fTimeDelta)
         }
         m_AccTime = 0;
     }
-    else
-        m_AccTime += fTimeDelta;
 
    /* if (m_Notify[m_Frame.iStartFrame])
         m_Notify[m_Frame.iStartFrame]();*/

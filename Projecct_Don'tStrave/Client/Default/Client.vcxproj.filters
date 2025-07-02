@@ -185,6 +185,36 @@
     <Filter Include="04. GmaeUI\CarftingUI\Matrial_Slot">
       <UniqueIdentifier>{869ff721-a892-4748-95a8-5a325b571ce4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderManager">
+      <UniqueIdentifier>{2a9f4c5d-70a6-4b89-808a-12c3cf82eb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderManager\Shader">
+      <UniqueIdentifier>{9cfce48f-d0fd-415b-9552-226a522c09e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines\XML">
+      <UniqueIdentifier>{e519a068-0d16-4011-b61c-2f8ab1d4bf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\SpiderQueen">
+      <UniqueIdentifier>{2e100f79-dd27-409c-928d-d2bbdad6f44a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\SpiderWarrior">
+      <UniqueIdentifier>{7d079bd0-1c9f-4478-9cd3-1666445765b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\Bookmark_Button">
+      <UniqueIdentifier>{7846bbea-c151-4308-84a5-e3187aa23fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\CampFire">
+      <UniqueIdentifier>{6bbcff06-be85-4cf3-b3e6-4b7ac8cf513d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Chest">
+      <UniqueIdentifier>{d456d3ef-4b25-4282-bb76-74e1e8830a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\State">
+      <UniqueIdentifier>{fb9b0583-2389-44dc-8f05-db115fe44e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Material">
+      <UniqueIdentifier>{40920331-0b9a-4902-befe-f31fb8d6ef1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -364,6 +394,36 @@
     <ClInclude Include="..\Public\MaterialSlot.h">
       <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ParticleShader.h">
+      <Filter>ShaderManager\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SnowParticle.h">
+      <Filter>김찬빈</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\tinyxml2.h">
+      <Filter>Defines\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderWarrior.h">
+      <Filter>03. Character\Monster\Spider\SpiderWarrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderQueen.h">
+      <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BookMark_Button.h">
+      <Filter>04. GmaeUI\Button\Bookmark_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CampFire.h">
+      <Filter>05. Item\CampFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chest.h">
+      <Filter>05. Item\Chest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemState.h">
+      <Filter>05. Item\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Material_Item.h">
+      <Filter>05. Item\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -541,5 +601,46 @@
     <ClCompile Include="..\Private\MaterialSlot.cpp">
       <Filter>04. GmaeUI\CarftingUI\Matrial_Slot</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\ParticleShader.cpp">
+      <Filter>ShaderManager\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SnowParticle.cpp">
+      <Filter>김찬빈</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\tinyxml2.cpp">
+      <Filter>Defines\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderWarrior.cpp">
+      <Filter>03. Character\Monster\Spider\SpiderWarrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderQueen.cpp">
+      <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BookMark_Button.cpp">
+      <Filter>04. GmaeUI\Button\Bookmark_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CampFire.cpp">
+      <Filter>05. Item\CampFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chest.cpp">
+      <Filter>05. Item\Chest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemState.cpp">
+      <Filter>05. Item\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Material_Item.cpp">
+      <Filter>05. Item\Material</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BillBoard.fx">
+      <Filter>김찬빈</Filter>
+    </FxCompile>
+    <FxCompile Include="Particle.fx">
+      <Filter>김찬빈</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

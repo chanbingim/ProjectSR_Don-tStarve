@@ -1,6 +1,8 @@
 #include "Enviornment_Object.h"
 #include "GameInstance.h"
 
+#include "Camera.h"
+
 CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CLandObject(pGraphic_Device)
 {
@@ -32,6 +34,8 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
     }
 
     m_bEnableBillboard = true;
+    Setting_Shader(L"BillBoard.fx");
+
     return S_OK;
 }
 
@@ -56,7 +60,21 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
 
 HRESULT CEnviornment_Object::Render()
 {
+    class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+    auto Camera = dynamic_cast<CCamera*>(Obj);
+    if (nullptr == Camera)
+        return E_FAIL;
+    /*if (FAILED(Begin_RenderState()))
+        return E_FAIL;*/
+
+    LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
+
+    m_pGraphic_Device->GetTexture(0, &pTex);
+    Excute_Billboard(Camera->GetInvViewMat(), pTex);
+
     __super::Render();
+    m_pVIBuffer_Com->Render();
+    End_Billboard();
 
     return S_OK;
 }

@@ -48,7 +48,7 @@ HRESULT CInventory::Initialize(void* pArg)
     for (_uint i = 0; i < 15; ++i)
     {
         if (0 == i % 5)
-            iOffset += 5.f;
+            iOffset += 5;
 
         Desc.fSizeX = 40.f;
         Desc.fSizeY = 40.f;
@@ -59,7 +59,7 @@ HRESULT CInventory::Initialize(void* pArg)
         Slot_Desc.iSlotType = 0;
 
         pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
 
 
         if (nullptr == pSlotFrame)
@@ -71,7 +71,7 @@ HRESULT CInventory::Initialize(void* pArg)
     for (_uint i = 15; i < 19; ++i)
     {
         if (0 == i % 3)
-            iOffset += 5.f;
+            iOffset += 5;
 
         Desc.fSizeX = 40.f;
         Desc.fSizeY = 40.f;
@@ -82,7 +82,7 @@ HRESULT CInventory::Initialize(void* pArg)
         Slot_Desc.iSlotType = i - 14;
 
         pSlotFrame = reinterpret_cast<CSlotFrame*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"), &Slot_Desc));
 
         if (nullptr == pSlotFrame)
             return E_FAIL;
@@ -192,10 +192,36 @@ _uint CInventory::Check_ItemCount(_uint iItem)
     return iItemCount;
 }
 
+void CInventory::Use_Item(_uint iItem, _uint iCount)
+{
+    for (auto pSlotFrame : m_SlotFrames)
+    {
+        CSlot* pSlot = pSlotFrame->Get_Slot();
+        ITEM_DESC Desc = pSlot->Get_Info();
+        if (iItem == Desc.iItemID)
+        {
+            int iNum = Desc.iNumItem;
+            for(_uint i = 0; i < Desc.iNumItem; ++i)
+            {
+                --iCount;
+                --iNum;
+                if (0 == iNum)
+                {
+                    pSlot->Clear();
+                    break;
+                }
+                if (0 == iCount)
+                    return;
+            }
+
+        }
+    }
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Inventory"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Inventory"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

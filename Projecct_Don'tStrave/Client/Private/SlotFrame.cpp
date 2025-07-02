@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Slot.h"
 #include "Inventory.h"
+#include "Mouse.h"
 
 CSlotFrame::CSlotFrame(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -41,10 +42,17 @@ HRESULT CSlotFrame::Initialize(void* pArg)
     __super::UpdatePosition();
 
     m_pSlot = static_cast<class CSlot*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Slot"), &pDesc->Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"), &pDesc->Desc));
 
     if (nullptr == m_pSlot)
         return E_FAIL;
+
+    m_pMouse = dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")));
+
+    if (nullptr == m_pMouse)
+        return E_FAIL;
+
+    
 
     return S_OK;
 }
@@ -60,7 +68,6 @@ void CSlotFrame::Update(_float fTimeDelta)
 
     HoverEevent();
 
-    
     if (m_eSlotType == m_pSlot->Get_Info().eSlot)
     {
         m_pSlot->Update(fTimeDelta);
@@ -91,7 +98,7 @@ HRESULT CSlotFrame::Render()
 
 void CSlotFrame::HoverEevent()
 {
-    RECT rc = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+    RECT rc = { (LONG)(m_fX - m_fSizeX * 0.5f), (LONG)(m_fY - m_fSizeY * 0.5f), (LONG)(m_fX + m_fSizeX * 0.5f), (LONG)(m_fY + m_fSizeY * 0.5f) };
 
     POINT pt{};
     GetCursorPos(&pt);
@@ -100,6 +107,9 @@ void CSlotFrame::HoverEevent()
     if (PtInRect(&rc, pt))
     {
         ClickedEevent();
+        _uint iItemID = m_pSlot->Get_ItemID();
+        if (0 != iItemID)
+            m_pMouse->Update_HoverSlot(iItemID);
         m_pTransform_Com->SetScale(_float3(m_fSizeX * 1.2f, m_fSizeY * 1.2f, 1.f));
     }
     else
@@ -132,7 +142,7 @@ void CSlotFrame::ClickedEevent()
 
     if (m_pGameInstance->KeyDown(VK_RBUTTON))
     {
-        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::OBJECT), TEXT("Layer_UserInterface")));
+        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
         
         CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
         
@@ -150,7 +160,7 @@ void CSlotFrame::ClickedEevent()
 HRESULT CSlotFrame::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Slot"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

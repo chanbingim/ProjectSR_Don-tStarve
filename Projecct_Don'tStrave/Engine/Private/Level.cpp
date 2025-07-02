@@ -65,7 +65,7 @@ void CLevel::LoadMapData(const char* MapFilePath, vector<BASE_DATA_STRUCT>* pOut
     vector<string>      ReadData = {};
     vector<_float3>     ReadVec = {};
 
-    ReadData.reserve(500);
+    ReadData.reserve(1000);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
     for (_uint i = 0; i < ReadData.size(); i += 5)

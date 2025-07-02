@@ -1,12 +1,14 @@
 #include "CraftingUI.h"
 #include "GameInstance.h"
 #include "Slot.h"
+#include "MaterialSlot.h"
 #include "Crafting_Button.h"
 #include "QuickSlot_Button.h"
 #include "Category_Button.h"
 #include "Item_Info.h"
 #include "Item_Button.h"
 #include "Create_Button.h"
+
 
 CCraftingUI::CCraftingUI(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -50,18 +52,9 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     Desc.pParentTransform = m_pTransform_Com;
 
     m_pOpenButton = dynamic_cast<CCrafting_Button*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"), &Desc));
    
-    Desc.fX = m_fX;
-    Desc.fY = m_fY;
-    Desc.fSizeX = 80.f;
-    Desc.fSizeY = 40.f;
-    Desc.fRelativeX = 100.f;
-    Desc.fRelativeY = -m_fSizeY * 0.5f + 60.f;
-    Desc.pParentTransform = m_pTransform_Com;
-
-    m_pCreateButton = dynamic_cast<CCreate_Button*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Create_Button"), &Desc));
+    
 
     for (_uint i = 0; i < 5; ++i)
     {
@@ -74,7 +67,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.pParentTransform = m_pTransform_Com;
 
         m_pQuickSlots.push_back(dynamic_cast<CQuickSlot_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_QuickSlot_Button"), &Desc)));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuickSlot_Button"), &Desc)));
     }
 
     CUserInterface::UIOBJECT_DESC UI_Desc = {};
@@ -85,7 +78,15 @@ HRESULT CCraftingUI::Initialize(void* pArg)
     UI_Desc.fSizeY = m_fSizeY;
 
     m_pItem_Info = dynamic_cast<CItem_Info*>(m_pGameInstance->Clone_Prototype(
-        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"), &UI_Desc));
+
+    UI_Desc.fX = m_fX;
+    UI_Desc.fY = m_fY;
+    UI_Desc.fSizeX = m_fSizeX;
+    UI_Desc.fSizeY = m_fSizeY;
+
+    m_pMaterialSlot = dynamic_cast<CMaterialSlot*>(m_pGameInstance->Clone_Prototype(
+        PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MaterialSlot"), &UI_Desc));
 
     for(_uint i = 0; i < 6; ++i)
     {
@@ -98,9 +99,10 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.35f;
         Desc.pParentTransform = m_pTransform_Com;
         m_pCategorys.push_back(dynamic_cast<CCategory_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
     }
 
+#pragma region ITEM_BUTTON
     _uint ItemButtons = 1;
 
     for (_uint i = 0; i < 3; ++i)
@@ -114,7 +116,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[0].push_back(pItem_Button);
@@ -130,7 +132,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[1].push_back(pItem_Button);
@@ -146,7 +148,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -164,7 +166,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -182,7 +184,7 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
@@ -200,15 +202,17 @@ HRESULT CCraftingUI::Initialize(void* pArg)
         Desc.fRelativeY = m_fSizeY * 0.15f;
         Desc.pParentTransform = m_pTransform_Com;
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::OBJECT), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
 
         if (nullptr != pItem_Button)
         {
             m_pItem_Buttons[5].push_back(pItem_Button);
         }
     }
-    
+#pragma endregion
+
     m_pCategorys[0]->Select_Button();
+
     for (_uint i = 0; i < 6; ++i)
     {
         m_pItem_Buttons[i][0]->Select_Button();
@@ -232,13 +236,17 @@ void CCraftingUI::Update(_float fTimeDelta)
     m_pOpenButton->Update(fTimeDelta);
 
     for (auto qButton : m_pQuickSlots)
-        qButton->Update(fTimeDelta);
+    {
+        if(!m_bHide || 0 != qButton->Get_ItemID())
+            qButton->Update(fTimeDelta);
+    }
 
     if(false == m_bHide)
     {
-        m_pCreateButton->Update(fTimeDelta);
-
+        
+        m_pItem_Info->Update(fTimeDelta);
         m_pItem_Info->Update_Rect(m_fX, m_fY);
+        m_pMaterialSlot->Update(fTimeDelta);
 
         // 카테고리 버튼 업데이트
         _uint iNumCategory = m_pCategorys.size();
@@ -271,6 +279,7 @@ void CCraftingUI::Update(_float fTimeDelta)
         }
         _uint iSelectedID = m_pItem_Buttons[m_iCategoryIndex][m_iItemBtnIndex[m_iCategoryIndex]]->Get_ItemID();
         m_pItem_Info->Set_Item(iSelectedID);
+        m_pMaterialSlot->Set_Item(iSelectedID);
     }
 
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
@@ -285,7 +294,10 @@ HRESULT CCraftingUI::Render()
     m_pOpenButton->Render();
 
     for (auto qButton : m_pQuickSlots)
-        qButton->Render();
+    {
+        if (!m_bHide || 0 != qButton->Get_ItemID())
+            qButton->Render();
+    }
 
     m_pTexture_Com->Set_Texture(0);
 
@@ -295,9 +307,9 @@ HRESULT CCraftingUI::Render()
 
     if (false == m_bHide)
     {
-        m_pCreateButton->Render();
-
         m_pItem_Info->Render(m_pTransform_Com);
+
+        m_pMaterialSlot->Render();
 
         for (auto pButton : m_pCategorys)
             pButton->Render();
@@ -334,10 +346,35 @@ void CCraftingUI::ClickedEevent()
     }
 }
 
+_bool CCraftingUI::Add_QuickSlot(_uint iItemID)
+{
+    for (_uint i =0; i < 5; ++i)
+    {
+        if (0 == m_pQuickSlots[i]->Get_ItemID())
+        {
+            m_pQuickSlots[i]->Set_Item(iItemID);
+            return true;
+        }
+    }
+    return false;
+}
+
+void CCraftingUI::Remove_QuickSlot(_uint iItemID)
+{
+    for (_uint i = 0; i < 5; ++i)
+    {
+        if (iItemID == m_pQuickSlots[i]->Get_ItemID())
+        {
+            m_pQuickSlots[i]->Set_Item(0);
+            break;
+        }
+    }
+}
+
 HRESULT CCraftingUI::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_SideBar"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SideBar"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -396,8 +433,8 @@ void CCraftingUI::Free()
     Safe_Release(m_pVIBuffer_Com);
 
     Safe_Release(m_pOpenButton);
-    Safe_Release(m_pCreateButton);
     Safe_Release(m_pItem_Info);
+    Safe_Release(m_pMaterialSlot);
 
     for (auto pButton : m_pQuickSlots)
         Safe_Release(pButton);

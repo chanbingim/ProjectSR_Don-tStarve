@@ -70,7 +70,7 @@ HRESULT CCamera::Initialize(void* pArg)
 
 HRESULT CCamera::Initialize_Late()
 {
-	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("PlayerLayer"), TEXT("Com_Transform"), 0));
+	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
 	if (!m_pPlayerTransformCom)
 		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
@@ -113,6 +113,8 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	}
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_InverseWorldMat());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(&m_ProjMatrix, m_fFov, m_fAspect, m_fNear, m_fFar));
+
+	D3DXMatrixInverse(&m_InvViewMatrix, NULL, &m_pTransformCom->Get_InverseWorldMat());
 }
 
 void CCamera::Update(_float fTimeDelta)
@@ -132,6 +134,11 @@ HRESULT CCamera::Render()
 	m_pButton_Right->Render();
 
 	return S_OK;
+}
+
+const _float4x4& CCamera::GetInvViewMat()
+{
+	return m_InvViewMatrix;
 }
 
 HRESULT CCamera::Ready_Components(void* pArg)

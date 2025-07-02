@@ -48,10 +48,8 @@ void CPortalObject::Late_Update(_float fTimeDelta)
 
 HRESULT CPortalObject::Render()
 {
-    __super::Render();
-
     m_Idle_pTexture_Com->Set_Texture(0);
-    m_pVIBuffer_Com->Render();
+    __super::Render();
 
     return S_OK;
 }
@@ -83,6 +81,11 @@ HRESULT CPortalObject::ADD_Components()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CPortalObject::ADD_AnimationState()
+{
+
 }
 
 void CPortalObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

@@ -6,6 +6,7 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
+#include "Character_Manager.h"
 #include "Camera_Button.h"
 
 
@@ -44,22 +45,33 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(Start_Level(LEVEL::LOGO)))
 		return E_FAIL;	
 
+	if (FAILED(ReadShader()))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
 void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+
+	
+
+
 }
 
 HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
+	
+
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
 	m_pGameInstance->Render_End();
+
 
 	return S_OK;
 }
@@ -118,6 +130,16 @@ HRESULT CMainApp::Ready_Prototypes()
 			   CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/LogoBack/LogoBack_%d.png"), 38))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Snow_Textrue */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Snow_Texture"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Paritcle_Sys */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
+		CParticleSystemComponent::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	// Test Code
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Camera_Button"),
@@ -136,6 +158,13 @@ HRESULT CMainApp::Ready_Prototypes()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Anim_UI"),
 		CAnimationUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::ReadShader()
+{
+	
 
 	return S_OK;
 }
@@ -179,6 +208,10 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
+
+
+
+	
 
 	Safe_Release(m_pGameInstance);	
 }

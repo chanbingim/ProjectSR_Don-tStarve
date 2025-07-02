@@ -33,10 +33,11 @@ private:
 	_float3		m_vTexture_Position = {};
 	CTexture*	m_pBackTexture_Com = {};
 	
+	vector<_bool> m_BookMark = {};
 	vector<class CSlotFrame*> m_pMetarials = {};
 
 	class CButton* m_pBtnCreate = { nullptr };
-	class CButton* m_pBtnAddToQuickSlot = { nullptr };
+	class CBookMark_Button* m_pBookMark_Button= { nullptr };
 
 private:
 	HRESULT ADD_Components();

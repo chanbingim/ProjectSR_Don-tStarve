@@ -29,7 +29,7 @@ HRESULT CCreate_Button::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
-    
+    m_pTransform_Com->SetPosition(_float3(m_fX + 40.f - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
 
     return S_OK;
 }
@@ -54,6 +54,8 @@ void CCreate_Button::Late_Update(_float fTimeDelta)
 
 HRESULT CCreate_Button::Render()
 {
+    m_pTransform_Com->SetPosition(_float3(m_fX + 30.f - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
+
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
     m_pTexture_Com->Set_Texture(m_iTextureIndex);
@@ -98,7 +100,7 @@ HRESULT CCreate_Button::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Create_Button"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;

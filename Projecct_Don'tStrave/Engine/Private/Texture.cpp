@@ -17,6 +17,40 @@ CTexture::CTexture(const CTexture& Prototype)
 {
 	for (auto& pTexture : m_Textures)
 		Safe_AddRef(pTexture);
+	m_vecSize = Prototype.m_vecSize;
+}
+
+HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures, _bool bSaveSize)
+{
+	m_iNumTextures = iNumTextures;
+
+	m_Textures.reserve(m_iNumTextures);
+
+	for (size_t i = 0; i < iNumTextures; i++)
+	{
+		LPDIRECT3DBASETEXTURE9		pTexture = { nullptr };
+		_tchar		szFileName[MAX_PATH] = {};
+
+		wsprintf(szFileName, pTextureFilePath, i);
+
+		HRESULT hr = TEXTURE::PLANE == eType ?
+			D3DXCreateTextureFromFile(m_pGraphic_Device, szFileName, reinterpret_cast<LPDIRECT3DTEXTURE9*>(&pTexture)) :
+			D3DXCreateCubeTextureFromFile(m_pGraphic_Device, szFileName, reinterpret_cast<LPDIRECT3DCUBETEXTURE9*>(&pTexture));
+		if (FAILED(hr))
+			return E_FAIL;
+		m_Textures.push_back(pTexture);
+
+		D3DXIMAGE_INFO imageInfo;
+		if (SUCCEEDED(D3DXGetImageInfoFromFile(szFileName, &imageInfo))) {
+			m_vecSize.push_back({ static_cast<FLOAT>(imageInfo.Width), static_cast<FLOAT>(imageInfo.Height) });
+		}
+		else {
+			m_vecSize.push_back({ 0.f,0.f });
+		}
+	}
+	
+	return S_OK;
+
 }
 
 HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures)
@@ -35,8 +69,9 @@ HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFile
 		HRESULT hr = TEXTURE::PLANE == eType ?
 			D3DXCreateTextureFromFile(m_pGraphic_Device, szFileName, reinterpret_cast<LPDIRECT3DTEXTURE9*>(&pTexture)) :
 			D3DXCreateCubeTextureFromFile(m_pGraphic_Device, szFileName, reinterpret_cast<LPDIRECT3DCUBETEXTURE9*>(&pTexture));
-		if (FAILED(hr))
+		if (FAILED(hr)) {
 			return E_FAIL;
+		}
 		m_Textures.push_back(pTexture);
 	}
 
@@ -62,37 +97,37 @@ HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFile
 	m_Textures.reserve(m_iNumTextures);  
 	
 
-	const _tchar* fileName = {};
-	_tchar		szFileName[MAX_PATH] = {};
-
-	//wsprintf(szFileName, pTextureFilePath, "\\*.dds");
-	wstring str = pTextureFilePath;
-	str += L"/*.dds";
-	WIN32_FIND_DATAW data;
-	HANDLE hFind;
-	if ((hFind = FindFirstFileW(str.c_str(), &data)) != INVALID_HANDLE_VALUE)
-	{
-		str = pTextureFilePath;
-		str += L"/";
-		str += data.cFileName;
-		swscanf_s(data.cFileName, L"%d_%d.dds", &m_iX, &m_iFrame);
-	}
+	//const _tchar* fileName = {};
+	//_tchar		szFileName[MAX_PATH] = {};
+	//
+	////wsprintf(szFileName, pTextureFilePath, "\\*.dds");
+	//wstring str = pTextureFilePath;
+	//str += L"/*.dds";
+	//WIN32_FIND_DATAW data;
+	//HANDLE hFind;
+	//if ((hFind = FindFirstFileW(str.c_str(), &data)) != INVALID_HANDLE_VALUE)
+	//{
+	//	str = pTextureFilePath;
+	//	str += L"/";
+	//	str += data.cFileName;
+	//	swscanf_s(data.cFileName, L"%d_%d.dds", &m_iX, &m_iFrame);
+	//}
 
 	LPDIRECT3DBASETEXTURE9		pTexture = { nullptr };  
 
 	HRESULT hr = TEXTURE::PLANE == eType ?  
-		D3DXCreateTextureFromFileEx( m_pGraphic_Device, str.c_str(), D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_DXT5, D3DPOOL_MANAGED,
+		D3DXCreateTextureFromFileEx( m_pGraphic_Device, pTextureFilePath, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_DXT5, D3DPOOL_MANAGED,
 			D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, reinterpret_cast<LPDIRECT3DTEXTURE9*>(&pTexture)) :
-		D3DXCreateCubeTextureFromFile(m_pGraphic_Device, str.c_str(), reinterpret_cast<LPDIRECT3DCUBETEXTURE9*>(&pTexture));
+		D3DXCreateCubeTextureFromFile(m_pGraphic_Device, pTextureFilePath, reinterpret_cast<LPDIRECT3DCUBETEXTURE9*>(&pTexture));
 	if (FAILED(hr))
 		return E_FAIL;
 	m_Textures.push_back(pTexture);
 	
-	D3DXIMAGE_INFO imageInfo;  
-	if (SUCCEEDED(D3DXGetImageInfoFromFile(str.c_str(), &imageInfo))) {
-		m_iWidth = imageInfo.Width;  
-		m_iHeight = imageInfo.Height;  
-	}
+	//D3DXIMAGE_INFO imageInfo;  
+	//if (SUCCEEDED(D3DXGetImageInfoFromFile(str.c_str(), &imageInfo))) {
+	//	m_iWidth = imageInfo.Width;  
+	//	m_iHeight = imageInfo.Height;  
+	//}
 	return S_OK;  
 }  
 
@@ -115,9 +150,26 @@ _float3 CTexture::Get_Size()
 	return _float3((_float)m_iWidth, (_float)m_iHeight, (_float)m_iX);
 }
 
+_float3 CTexture::Get_Size(_uint iTextureIndex)
+{
+	return _float3(m_vecSize[iTextureIndex].x, m_vecSize[iTextureIndex].y, 1.f);
+}
 _uint CTexture::Get_Frame()
 {
 	return m_iFrame;
+}
+
+CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures, _bool bSaveSize)
+{
+	CTexture* pInstance = new CTexture(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype(eType, pTextureFilePath, iNumTextures, bSaveSize)))
+	{
+		MSG_BOX("Failed to Created : CTexture");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures)

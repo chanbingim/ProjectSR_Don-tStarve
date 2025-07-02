@@ -90,13 +90,13 @@ HRESULT CClock::Render()
 HRESULT CClock::ADD_Components()
 {
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Clock_Frame"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Frame"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
 
     // Texture Component
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Clock_Point"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Point"),
         TEXT("Com_Texture_Clock"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com_Clock))))
         return E_FAIL;

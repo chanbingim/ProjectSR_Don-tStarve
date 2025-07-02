@@ -31,8 +31,9 @@ public:
             m_pInstance = nullptr;
         }
     }
+
 private:
-    list<CGameObject*> m_ObjectList = { nullptr };
+    list<CGameObject*> m_ObjectList = { };
     static CCharacter_Manager* m_pInstance;
     virtual void Free() override;
 };

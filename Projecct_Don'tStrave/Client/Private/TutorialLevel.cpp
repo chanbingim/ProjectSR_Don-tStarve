@@ -14,19 +14,22 @@ CTutorialLevel::CTutorialLevel(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID
 
 HRESULT CTutorialLevel::Initialize()
 {
-	if (FAILED(Ready_Layer_BackGround(TEXT("BackGroundLayer"))))
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("CameraLayer"))))
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Enviornment(TEXT("EnviornmenLayer"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("PlayerLayer"))))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(TEXT("MonsterLayer"))))
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
@@ -57,32 +60,48 @@ HRESULT CTutorialLevel::Ready_Layer_Monster(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CTutorialLevel::Ready_Layer_Mouse(const _wstring& strLayerTag)
+{
+	CUserInterface::UIOBJECT_DESC Desc = {};
+
+	// Add Mouse
+	Desc.fSizeX = 50.f;
+	Desc.fSizeY = 50.f;
+	Desc.fX = g_iWinSizeX * 0.5f;
+	Desc.fY = g_iWinSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_Mouse"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CTutorialLevel::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 {
 	CUserInterface::UIOBJECT_DESC Desc = {};
 
 	// Add Inventory
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Inventory"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Huger
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Hunger"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Health
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Health"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Sanity
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Sanity"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
 	// Add Clock
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Clock"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
@@ -91,11 +110,11 @@ HRESULT CTutorialLevel::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 	Desc.fSizeY = 500.f;
 	Desc.fX = Desc.fSizeX * 0.5f;
 	Desc.fY = g_iWinSizeY * 0.5f;
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_CraftingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::OBJECT),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 

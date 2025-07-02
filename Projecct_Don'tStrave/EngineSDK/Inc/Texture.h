@@ -16,6 +16,7 @@ private:
 	virtual ~CTexture() = default;
 
 public:
+	virtual HRESULT Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures, _bool bSaveSize);
 	virtual HRESULT Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures);
 	virtual HRESULT Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFilePath);
 	virtual HRESULT Initialize(void* pArg);
@@ -23,6 +24,7 @@ public:
 public:
 	HRESULT Set_Texture(_uint iTextureIndex);
 	_float3	Get_Size();
+	_float3 Get_Size(_uint iTextureIndex);
 	_uint	Get_Frame();
 private:
 	_uint									m_iNumTextures = {};
@@ -31,8 +33,10 @@ private:
 	_uint									m_iX = {};
 	_uint									m_iFrame = {};
 	vector<LPDIRECT3DBASETEXTURE9>			m_Textures;
+	vector<_float2>			m_vecSize = {};
 
 public:
+	static CTexture* Create(LPDIRECT3DDEVICE9 pGraphic_Device, TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures, _bool bSaveSize);
 	static CTexture* Create(LPDIRECT3DDEVICE9 pGraphic_Device, TEXTURE eType, const _tchar* pTextureFilePath, _uint iNumTextures);
 	static CTexture* Create(LPDIRECT3DDEVICE9 pGraphic_Device, TEXTURE eType, const _tchar* pTextureFilePath);
 	virtual CComponent* Clone(void* pArg) override;

@@ -111,19 +111,19 @@ HRESULT CSlot::Render(CTransform* pTransform)
 HRESULT CSlot::ADD_Components()
 {
     // Texture Component Item
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Item"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
         TEXT("Com_Texture_Item"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
 
     // Texture Component ItemState
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_ItemState"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemState"),
         TEXT("Com_Texture_ItemState"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com_ItemState))))
         return E_FAIL;
 
     // Texture Component ItemState
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Number"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Number"),
         TEXT("Com_Texture_Number"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com_NumItem))))
         return E_FAIL;

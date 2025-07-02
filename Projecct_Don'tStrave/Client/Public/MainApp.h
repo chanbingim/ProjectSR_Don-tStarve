@@ -33,6 +33,11 @@ private:
 	HRESULT Ready_Default_Setting();
 	HRESULT Start_Level(LEVEL eLevelID);
 	HRESULT Ready_Prototypes();
+	HRESULT	ReadShader();
+
+	
+	
+
 
 	void	Render_FPS();
 

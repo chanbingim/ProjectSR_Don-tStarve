@@ -124,6 +124,18 @@
     <Filter Include="System\Define\HeaderSet">
       <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Shader">
+      <UniqueIdentifier>{feba6f8c-a61f-4133-983f-068574f120c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\ParticleComponent">
+      <UniqueIdentifier>{2087dfc0-8512-4089-a27f-c710d7718b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\ParticleComponent\System">
+      <UniqueIdentifier>{2eb96c5f-78cf-4098-b855-b789c96bc869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Light_Component">
+      <UniqueIdentifier>{9cd36981-50fd-4ebf-a067-f34d13db4585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -262,6 +274,15 @@
     <ClInclude Include="..\Public\AlphaObject.h">
       <Filter>System\GameObject\ALPHA</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Shader.h">
+      <Filter>System\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ParticleSystemComponent.h">
+      <Filter>System\Components\ParticleComponent\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LightComponent.h">
+      <Filter>System\Components\Light_Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -375,6 +396,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\AlphaObject.cpp">
       <Filter>System\GameObject\ALPHA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader.cpp">
+      <Filter>System\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ParticleSystemComponent.cpp">
+      <Filter>System\Components\ParticleComponent\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LightComponent.cpp">
+      <Filter>System\Components\Light_Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

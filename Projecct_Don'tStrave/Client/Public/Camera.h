@@ -32,12 +32,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	const _float4x4&				GetInvViewMat();
+
 private:
 	class CTransform*				m_pTransformCom = { nullptr };
 	class CTransform*				m_pPlayerTransformCom = { nullptr };
 	class CCamera_Button*			m_pButton_Left = { nullptr };
 	class CCamera_Button*			m_pButton_Right = { nullptr };
 	_float4x4						m_ProjMatrix = { };
+	_float4x4						m_InvViewMatrix = { };
 
 	_float							m_fFov = {};
 	_float							m_fAspect = {};
@@ -47,6 +50,7 @@ private:
 private:
 	_float2							m_vOldMouse = {};
 	_float							m_fSensor = { 0.2f };
+
 private:
 	HRESULT Ready_Components(void* pArg);
 public:

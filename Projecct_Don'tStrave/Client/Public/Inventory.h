@@ -22,6 +22,7 @@ public:
 	CSlot* Find_Item(_uint iItemID);
 	CSlot* Find_Slot(SLOT eSlot);
 	_uint Check_ItemCount(_uint iItem);
+	void Use_Item(_uint iItem, _uint iCount);
 
 private:
 	vector<class CSlotFrame*> m_SlotFrames = {};

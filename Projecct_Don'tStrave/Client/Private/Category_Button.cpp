@@ -19,7 +19,7 @@ HRESULT CCategory_Button::Initialize_Prototype()
 HRESULT CCategory_Button::Initialize(void* pArg)
 {
     m_isSelected = false;
-
+    m_iSlotIndex = 0;
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
@@ -41,17 +41,26 @@ void CCategory_Button::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
     HoverEevent();
+
+    if (true == m_isSelected)
+    {
+        m_iSlotIndex = 5;
+    }
+    else
+        m_iSlotIndex = 0;
 }
 
 void CCategory_Button::Late_Update(_float fTimeDelta)
 {
+    
 }
 
 HRESULT CCategory_Button::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
-    m_pBackGroundTexture_Com->Set_Texture(0);
+    m_pBackGroundTexture_Com->Set_Texture(m_iSlotIndex); 
+
 
     m_pVIBuffer_Com->Render();
 
@@ -96,13 +105,13 @@ HRESULT CCategory_Button::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Category"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Category"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
 
     // Background Texture 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::OBJECT), TEXT("Prototype_Component_Texture_Slot"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
         TEXT("Com_TextureBack"),
         reinterpret_cast<CComponent**>(&m_pBackGroundTexture_Com))))
         return E_FAIL;

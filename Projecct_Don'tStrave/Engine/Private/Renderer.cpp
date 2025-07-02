@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "GameObject.h"
-#include "AlphaObject.h"
+#include "Transform.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -34,9 +34,21 @@ HRESULT CRenderer::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRenderObje
 void CRenderer::Render()
 {
 	Render_Priority();
+
+#pragma region NONE_BLEND
 	Render_NonBlend();
 	Render_AlphaTest();
+#pragma endregion
+
+#pragma region BLEND
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
 	Render_Blend();
+	Render_Particle();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+#pragma endregion
+
 	Render_UI();
 }
 
@@ -84,6 +96,13 @@ void CRenderer::Render_AlphaTest()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			return Sur_z > Dst_z;
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
 	{
 		if (nullptr != pRenderObject)
@@ -100,7 +119,9 @@ void CRenderer::Render_Blend()
 {
 	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			return static_cast<CAlphaObject*>(pSour)->Get_CamDistance() > static_cast<CAlphaObject*>(pDest)->Get_CamDistance();
+			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			return Sur_z > Dst_z;
 		});
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
@@ -112,6 +133,32 @@ void CRenderer::Render_Blend()
 	}
 
 	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].clear();
+}
+
+void CRenderer::Render_Particle()
+{
+	m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
+			return Sur_z > Dst_z;
+		});
+
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
+
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+
+	m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)].clear();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
 }
 
 void CRenderer::Render_UI()
