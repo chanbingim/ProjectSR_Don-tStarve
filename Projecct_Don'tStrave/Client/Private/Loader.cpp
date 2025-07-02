@@ -38,6 +38,7 @@
 #include "Create_Button.h"
 #include "Material_Item.h"
 #include "CampFire.h"
+#include "Fire.h"
 #include "Chest.h"
 
 
@@ -333,8 +334,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_CampFire_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire_Fire"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire_Fire/CampFire_Fire__0%d.png"), 16))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire_Fire/fire__00%d.png"), 10))))
 		return E_FAIL;
+
 
 #pragma region Chest
 	/* For.Prototype_Component_Texture_Chest_IDLE */
@@ -541,6 +543,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
 		CCampFire::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"),
+		CFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_CamFire */
