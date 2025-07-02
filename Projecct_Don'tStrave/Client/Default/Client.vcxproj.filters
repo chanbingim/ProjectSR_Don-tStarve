@@ -191,6 +191,15 @@
     <Filter Include="ShaderManager\Shader">
       <UniqueIdentifier>{9cfce48f-d0fd-415b-9552-226a522c09e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Defines\XML">
+      <UniqueIdentifier>{e519a068-0d16-4011-b61c-2f8ab1d4bf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\SpiderQueen">
+      <UniqueIdentifier>{2e100f79-dd27-409c-928d-d2bbdad6f44a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\SpiderWarrior">
+      <UniqueIdentifier>{7d079bd0-1c9f-4478-9cd3-1666445765b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -376,6 +385,15 @@
     <ClInclude Include="..\public\SnowParticle.h">
       <Filter>김찬빈</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\tinyxml2.h">
+      <Filter>Defines\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderWarrior.h">
+      <Filter>03. Character\Monster\Spider\SpiderWarrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderQueen.h">
+      <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -559,6 +577,15 @@
     <ClCompile Include="..\private\SnowParticle.cpp">
       <Filter>김찬빈</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\tinyxml2.cpp">
+      <Filter>Defines\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderWarrior.cpp">
+      <Filter>03. Character\Monster\Spider\SpiderWarrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderQueen.cpp">
+      <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
@@ -567,5 +594,8 @@
     <FxCompile Include="Particle.fx">
       <Filter>김찬빈</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
