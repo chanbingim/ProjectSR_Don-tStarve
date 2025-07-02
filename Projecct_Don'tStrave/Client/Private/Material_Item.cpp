@@ -35,6 +35,7 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 
 	m_pTransformCom->SetScale(vSize);
 
+
 	return S_OK;
 }
 

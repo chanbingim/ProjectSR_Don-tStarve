@@ -520,13 +520,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-<<<<<<< HEAD
 #pragma region SNOW_PARITCLE
 	/* For.Prototype_GameObject_SnowParticle */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow_Particle"),
 		CSnowParticle::Create(m_pGraphic_Device))))
 		return E_FAIL;
-=======
+#pragma endregion
+
 #pragma region ITEM
 	/* For.Prototype_GameObject_Item */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
@@ -547,10 +547,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
 		CChest::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
->>>>>>> origin/06_30_bjh_1
-#pragma endregion
-
 #pragma endregion
 
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");

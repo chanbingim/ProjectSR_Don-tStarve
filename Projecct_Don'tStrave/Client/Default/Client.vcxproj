@@ -144,12 +144,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\AnimationUI.h" />
+    <ClInclude Include="..\Public\BookMark_Button.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\public\Camera_Button.h" />
+    <ClInclude Include="..\Public\CampFire.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Character_Manager.h" />
+    <ClInclude Include="..\Public\Chest.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
@@ -159,9 +162,11 @@
     <ClInclude Include="..\Public\Enviornment_Object.h" />
     <ClInclude Include="..\public\Env_Animation.h" />
     <ClInclude Include="..\public\GrassObject.h" />
+    <ClInclude Include="..\Public\ItemState.h" />
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
+    <ClInclude Include="..\Public\Material_Item.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\public\RockObject.h" />
@@ -210,12 +215,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\AnimationUI.cpp" />
+    <ClCompile Include="..\Private\BookMark_Button.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\private\Camera_Button.cpp" />
+    <ClCompile Include="..\Private\CampFire.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Character_Manager.cpp" />
+    <ClCompile Include="..\Private\Chest.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
@@ -224,9 +232,11 @@
     <ClCompile Include="..\private\Enviornment_Object.cpp" />
     <ClCompile Include="..\private\Env_Animation.cpp" />
     <ClCompile Include="..\private\GrassObject.cpp" />
+    <ClCompile Include="..\Private\ItemState.cpp" />
     <ClCompile Include="..\Private\Item_Button.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\MaterialSlot.cpp" />
+    <ClCompile Include="..\Private\Material_Item.cpp" />
     <ClCompile Include="..\private\ParticleShader.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />

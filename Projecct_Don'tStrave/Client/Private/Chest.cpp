@@ -6,6 +6,7 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "ITemState.h"
+#include <Camera.h>
 
 
 CChest::CChest(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -37,6 +38,9 @@ HRESULT CChest::Initialize(void* pArg)
 
 	m_pTransformCom->SetScale(_float3(1.5f, 0.9f, 1.f));
 	_float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+	m_bEnableBillboard = true;
+	Setting_Shader(L"BillBoard.fx");
 
 	return S_OK;
 }
@@ -91,11 +95,22 @@ HRESULT CChest::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100);
 
-	CLandObject::Render();
 
+	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+	auto Camera = dynamic_cast<CCamera*>(Obj);
+	if (nullptr == Camera)
+		return E_FAIL;
+
+	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
 	m_pAnimController->Render();
 
+	m_pGraphic_Device->GetTexture(0, &pTex);
+	Excute_Billboard(Camera->GetInvViewMat(), pTex);
+
+	CLandObject::Render();
 	m_pVIBuffer_Com->Render();
+	End_Billboard();
+
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 

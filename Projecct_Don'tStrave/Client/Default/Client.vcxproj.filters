@@ -200,6 +200,21 @@
     <Filter Include="03. Character\Monster\Spider\SpiderWarrior">
       <UniqueIdentifier>{7d079bd0-1c9f-4478-9cd3-1666445765b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\Button\Bookmark_Button">
+      <UniqueIdentifier>{7846bbea-c151-4308-84a5-e3187aa23fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\CampFire">
+      <UniqueIdentifier>{6bbcff06-be85-4cf3-b3e6-4b7ac8cf513d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Chest">
+      <UniqueIdentifier>{d456d3ef-4b25-4282-bb76-74e1e8830a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\State">
+      <UniqueIdentifier>{fb9b0583-2389-44dc-8f05-db115fe44e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Material">
+      <UniqueIdentifier>{40920331-0b9a-4902-befe-f31fb8d6ef1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -394,6 +409,21 @@
     <ClInclude Include="..\Public\SpiderQueen.h">
       <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BookMark_Button.h">
+      <Filter>04. GmaeUI\Button\Bookmark_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CampFire.h">
+      <Filter>05. Item\CampFire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Chest.h">
+      <Filter>05. Item\Chest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemState.h">
+      <Filter>05. Item\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Material_Item.h">
+      <Filter>05. Item\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -585,6 +615,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\SpiderQueen.cpp">
       <Filter>03. Character\Monster\Spider\SpiderQueen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BookMark_Button.cpp">
+      <Filter>04. GmaeUI\Button\Bookmark_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CampFire.cpp">
+      <Filter>05. Item\CampFire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Chest.cpp">
+      <Filter>05. Item\Chest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemState.cpp">
+      <Filter>05. Item\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Material_Item.cpp">
+      <Filter>05. Item\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
