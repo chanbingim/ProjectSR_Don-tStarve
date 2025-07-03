@@ -158,9 +158,6 @@
     <Filter Include="02. Objects\Environment\Grass">
       <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\Tutorial">
-      <UniqueIdentifier>{afa615c8-0cf7-42b3-a0de-45c432b250aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. ClientComponent">
       <UniqueIdentifier>{d8994de0-89ed-4227-868c-491c6675bec6}</UniqueIdentifier>
     </Filter>
@@ -369,9 +366,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Enviornment_Object.h">
       <Filter>02. Objects\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TutorialLevel.h">
-      <Filter>01. Levels\Tutorial</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DropItemComponent.h">
       <Filter>06. ClientComponent</Filter>
@@ -586,9 +580,6 @@
     <ClCompile Include="..\private\Enviornment_Object.cpp">
       <Filter>02. Objects\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\TutorialLevel.cpp">
-      <Filter>01. Levels\Tutorial</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\DropItemComponent.cpp">
       <Filter>06. ClientComponent</Filter>
     </ClCompile>
@@ -646,7 +637,7 @@
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>대진호</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\Terrian_Manager.cpp">
+    <ClCompile Include="..\Private\Terrian_Manager.cpp">
       <Filter>02. Objects\Terrain\Manager</Filter>
     </ClCompile>
   </ItemGroup>
