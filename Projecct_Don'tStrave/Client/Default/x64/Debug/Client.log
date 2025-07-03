@@ -1,11 +1,2 @@
-﻿  Terrian_Manager.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(17,32): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(23,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(24,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(32,41): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(45,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(46,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(51,34): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Level_Loading.cpp
-  코드를 생성하고 있습니다...
+﻿  Character.cpp
   Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

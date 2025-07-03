@@ -36,7 +36,10 @@ HRESULT CCharacter::Initialize(void* pArg)
     }
 
     m_pTerrian_Manager = CTerrian_Manager::GetInstance();
+    Safe_AddRef(m_pTerrian_Manager);
+
     m_pCharacterInstance = CCharacter_Manager::GetInstance();
+    
 
     m_pCharacterInstance->AddRef();
     m_pCharacterInstance->Add_Object(this);
@@ -375,7 +378,9 @@ void CCharacter::Free()
             Safe_Release(file.pTexture);
         }
     }
-    Safe_Release(m_pTerrian_Manager);
+    if(m_pTerrian_Manager)
+        Safe_Release(m_pTerrian_Manager);
+
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
 }
