@@ -2,6 +2,10 @@
 #include "Client_Defines.h"
 #include "UserInterface.h"
 
+NS_BEGIN(Engine)
+class CLightComponent;
+NS_END
+
 NS_BEGIN(Client)
 
 class CClock final : public CUserInterface
@@ -20,10 +24,12 @@ public:
 	virtual HRESULT	 Render()override;
 
 private:
-	_uint		m_iDate = {};
-	_float		m_fGameTime = {};
-	CTransform* m_pTransform_Com_Clock = { nullptr };
-	CTexture*	m_pTexture_Com_Clock = { nullptr };
+	_uint				m_iDate = {};
+	_float				m_fGameTime = {};
+	CTransform*			m_pTransform_Com_Clock = { nullptr };
+	CTexture*			m_pTexture_Com_Clock = { nullptr };
+	CLightComponent*	m_pLightComponent = { nullptr };
+	D3DLIGHT9			m_Light{};
 
 private:
 	HRESULT ADD_Components();

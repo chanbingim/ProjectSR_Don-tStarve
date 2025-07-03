@@ -38,6 +38,16 @@ HRESULT CClock::Initialize(void* pArg)
     m_pTransform_Com_Clock->SetScale(_float3(m_fSizeX*0.8f, m_fSizeY* 0.8f, 1.f));
     m_pTransform_Com_Clock->SetPosition(_float3(m_fX - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
 
+    m_Light.Type = D3DLIGHT_DIRECTIONAL;
+
+    m_Light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+    m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+    m_Light.Direction = _float3(0.f, -1.f, 0.f);
+
+    m_pGraphic_Device->SetLight(0, &m_Light);
+
+    m_pGraphic_Device->LightEnable(0, true);
+
     return S_OK;
 }
 
@@ -50,6 +60,22 @@ void CClock::Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
     m_fGameTime += fTimeDelta;
+
+    if (10.f < m_fGameTime && 20.f > m_fGameTime)
+    {
+        m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
+        m_pGraphic_Device->SetLight(0, &m_Light);
+    }
+    else if (20.f <= m_fGameTime && 40.f >= m_fGameTime)
+    {
+        m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+        m_pGraphic_Device->SetLight(0, &m_Light);
+    }
+    else
+    {
+        m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+        m_pGraphic_Device->SetLight(0, &m_Light);
+    }
 
    if (60.f <= m_fGameTime)
     {
@@ -78,7 +104,7 @@ HRESULT CClock::Render()
     m_pVIBuffer_Com->Render();
 
     // Test Code
-    RECT rect = { m_fX - m_fSizeX*0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
+    RECT rect = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
     wstring s = L"Day" + to_wstring(m_iDate);
 
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
@@ -120,6 +146,19 @@ HRESULT CClock::ADD_Components()
         TEXT("Com_Transform_Clock"),
         reinterpret_cast<CComponent**>(&m_pTransform_Com_Clock), &Transform_Desc)))
         return E_FAIL;
+    
+
+    
+
+    /*CLightComponent::LIGHT_DESC Light_Desc= {};
+
+    Light_Desc.LightData;*/
+
+    //// Transform Component
+    //if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
+    //    TEXT("Com_Transform_Clock"),
+    //    reinterpret_cast<CComponent**>(&m_pLightComponent), &Light_Desc)))
+    //    return E_FAIL;
 
 
     return S_OK;
@@ -161,4 +200,5 @@ void CClock::Free()
 
     Safe_Release(m_pTexture_Com_Clock);
     Safe_Release(m_pTransform_Com_Clock);
+    Safe_Release(m_pLightComponent);
 }

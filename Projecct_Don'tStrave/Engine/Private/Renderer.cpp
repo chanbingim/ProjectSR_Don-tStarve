@@ -157,6 +157,7 @@ void CRenderer::Render_Particle()
 
 void CRenderer::Render_UI()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -165,6 +166,7 @@ void CRenderer::Render_UI()
 	Render_Ortho_UI();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 void CRenderer::Render_Projection_UI()

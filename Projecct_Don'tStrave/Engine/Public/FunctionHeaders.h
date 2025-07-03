@@ -6,3 +6,4 @@
 #include "Sphere_Collision_Component.h"
 #include "ParticleSystemComponent.h"
 #include "AnimController.h"
+#include "LightComponent.h"

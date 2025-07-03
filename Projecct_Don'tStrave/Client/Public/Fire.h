@@ -6,15 +6,16 @@ NS_BEGIN(Engine);
 class CState;
 class CAnimController;
 NS_END
+
 NS_BEGIN(Client);
 
-class CCampFire : public CItem
+class CFire : public CItem
 {
-	enum class STATE {IDLE, DEAD, PREVIEW};
+
 private:
-	CCampFire(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCampFire(const CCampFire& Prototype);
-	virtual ~CCampFire() = default;
+	CFire(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFire(const CFire& Prototype);
+	virtual ~CFire() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -24,25 +25,24 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta);
 	virtual HRESULT	 Render();
 
-	void HoverEvent();
+	void Update_Fire(_float fValue);
 
 private:
 	_uint m_iFireLevel = {};
-	_float m_fFireOffset = {};
 
-	class CFire* m_pFire = { nullptr };
+	CState* m_pFireState_Com[3] = { nullptr };
 
-	CCampFire::STATE	m_ePreState = {};
-	CCampFire::STATE	m_eCurState = {};
+	CAnimController* m_pAnimController = { nullptr };
+	D3DLIGHT9		LightDesc{};
 
 private:
 	HRESULT ADD_Components();
 	void Update_Item(_float fTimeDelta);
-	void Update_Fire(_float fValue);
+	
 
 
 public:
-	static CCampFire* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFire* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

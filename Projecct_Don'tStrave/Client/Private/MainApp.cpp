@@ -8,6 +8,7 @@
 #include "AnimationUI.h"
 #include "Character_Manager.h"
 #include "Camera_Button.h"
+#include "LightComponent.h"
 
 
 Client::CMainApp::CMainApp()	
@@ -65,8 +66,6 @@ HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-	
-
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
@@ -78,7 +77,15 @@ HRESULT Client::CMainApp::Render()
 
 HRESULT CMainApp::Ready_Default_Setting()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	// 재질 설정
+	D3DMATERIAL9		MaterialDesc{};
+	MaterialDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MaterialDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+
+
+	m_pGraphic_Device->SetMaterial(&MaterialDesc);
 
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -138,6 +145,11 @@ HRESULT CMainApp::Ready_Prototypes()
 	/* For.Prototype_Component_Paritcle_Sys */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
 		CParticleSystemComponent::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Paritcle_Sys */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
+		CLightComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	// Test Code

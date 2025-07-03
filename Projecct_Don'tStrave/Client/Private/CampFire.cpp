@@ -6,7 +6,8 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "ITemState.h"
-
+#include "Camera.h"
+#include "Fire.h"
 
 CCampFire::CCampFire(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
@@ -35,13 +36,13 @@ HRESULT CCampFire::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pAnimController->ChangeState(m_pFireState_Com[m_iFireLevel]);
-
-	m_pTransformCom->SetScale(_float3(0.7f, 0.35f, 1.f));
+	m_pTransformCom->SetScale(_float3(0.7f, 0.7f, 1.f));
 	_float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 
-	m_pFireTransform_Com->SetPosition(_float3(vPos.x, vPos.y+0.5f, vPos.z));
-	m_pFireTransform_Com->SetScale(_float3(0.5f, 1.f, 1.f));
+	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"), pArg));
+
+	m_bEnableBillboard = true;
+	Setting_Shader(L"BillBoard.fx");
 
 	return S_OK;
 }
@@ -62,14 +63,13 @@ void CCampFire::Update(_float fTimeDelta)
 		if (0.f < m_Item_Desc.fDurability)
 		{
 			m_Item_Desc.fDurability -= 0.02f;
-			Update_Fire(-0.0001f);
+			//Update_Fire(-0.0001f);
+			m_pFire->Update_Fire(-0.0001f);
+			m_pFire->Update(fTimeDelta);
 		}
 		else
 			m_eCurState = CCampFire::STATE::DEAD;
-		
-		SetUp_OnTerrain(m_pFireTransform_Com, m_fFireOffset);
 
-		m_pAnimController->Tick(fTimeDelta);
 		break;
 	case Client::CCampFire::STATE::DEAD:
 		
@@ -95,21 +95,28 @@ HRESULT CCampFire::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 50);
 
+	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+	auto Camera = dynamic_cast<CCamera*>(Obj);
+	if (nullptr == Camera)
+		return E_FAIL;
+
+
+	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
+
+	m_pGraphic_Device->GetTexture(0, &pTex);
+	Excute_Billboard(Camera->GetInvViewMat(), pTex);
+
 	m_pTexture_Com->Set_Texture(EnumToInt(m_eCurState));
 
 	CLandObject::Render();
 
 	m_pVIBuffer_Com->Render();
+	End_Billboard();
 
 	switch (m_eCurState)
 	{
 	case Client::CCampFire::STATE::IDLE:
-
-		m_pAnimController->Render();
-
-		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pFireTransform_Com->Get_World());
-
-		m_pVIBuffer_Com->Render();
+		m_pFire->Render();
 		break;
 	case Client::CCampFire::STATE::DEAD:
 		break;
@@ -118,6 +125,7 @@ HRESULT CCampFire::Render()
 	default:
 		break;
 	}
+	
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
@@ -151,50 +159,11 @@ HRESULT CCampFire::ADD_Components()
 		reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_Desc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_FireTransform"),
-		reinterpret_cast<CComponent**>(&m_pFireTransform_Com), &Transform_Desc)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
-		TEXT("Com_AnimController"), (CComponent**)&m_pAnimController)))
-		return E_FAIL;
-
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire_Fire"),
-		TEXT("Com_FireTexture"),
-		reinterpret_cast<CComponent**>(&m_pFireTexture_Com))))
-		return E_FAIL;
-
-	CState::FRAME_DESC Desc = {};
-
-	Desc.iStartFrame = 0;
-	Desc.iEndFrame = 15;
-	Desc.fTimeRate = 1.f;
-	Desc.pAnimTexture = m_pFireTexture_Com;
-	Desc.bIsLoop = true;
-
-	m_pFireState_Com[0] = CItemState::Create(&Desc);
-
-	Desc.iStartFrame = 6;
-	Desc.iEndFrame = 10;
-	Desc.fTimeRate = 0.5f;
-	Desc.pAnimTexture = m_pFireTexture_Com;
-	Desc.bIsLoop = true;
-
-	m_pFireState_Com[1] = CItemState::Create(&Desc);
-
-	Desc.iStartFrame = 11;
-	Desc.iEndFrame = 15;
-	Desc.fTimeRate = 0.5f;
-	Desc.pAnimTexture = m_pFireTexture_Com;
-	Desc.bIsLoop = true;
-
-	m_pFireState_Com[2] = CItemState::Create(&Desc);
 
 	return S_OK;
 }
@@ -208,12 +177,12 @@ void CCampFire::Update_Item(_float fTimeDelta)
 	}*/
 }
 
-void CCampFire::Update_Fire(_float fValue)
-{
-	m_fFireOffset += fValue * 0.5f;
-	_float3 vScale = m_pFireTransform_Com->GetScale();
-	m_pFireTransform_Com->SetScale(_float3(vScale.x + fValue, vScale.y + fValue, 1.f));
-}
+//void CCampFire::Update_Fire(_float fValue)
+//{
+//	m_fFireOffset += fValue * 0.5f;
+//	_float3 vScale = m_pFireTransform_Com->GetScale();
+//	m_pFireTransform_Com->SetScale(_float3(vScale.x + fValue, vScale.y + fValue, 1.f));
+//}
 
 CCampFire* CCampFire::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -247,12 +216,5 @@ void CCampFire::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pAnimController);
-
-	for (auto pState : m_pFireState_Com)
-		Safe_Release(pState);
-
-	Safe_Release(m_pFireTransform_Com);
-
-	//Safe_Release(m_pFireTexture_Com);
+	Safe_Release(m_pFire);
 }
