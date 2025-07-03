@@ -180,6 +180,7 @@ HRESULT CCharacter::LoadImageFile()
             }
         }
     }
+    m_fAniTime = 0;
     m_iLength = 100;
     return S_OK;
 }
@@ -242,7 +243,7 @@ void CCharacter::RenderAnimation(const wstring& animName)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
     for (auto& anim : m_tAnimation.tAnimationsVec) {
-        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), animName.size())) {
+        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), anim.szName.size())) {
             pAnim = &anim;
             break;
         }
