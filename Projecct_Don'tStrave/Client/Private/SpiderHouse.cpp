@@ -53,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 15.f) {
+	if (m_fTimeAcc >= 5.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -96,6 +96,9 @@ void CSpiderHouse::Update(_float fTimeDelta)
 	case MOTION::LARGE_TO_QUEEN:
 		if (m_iLength <= m_fAniTime) {
 			SetAnimation(MOTION::LARGE_TO_SMALL);
+
+			_float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderQueen"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &pos);
 		}
 		break;
 	case MOTION::LARGE_TO_SMALL:

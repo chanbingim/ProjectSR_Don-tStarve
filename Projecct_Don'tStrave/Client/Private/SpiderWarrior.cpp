@@ -44,7 +44,7 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 	m_bMove = false;
 
 
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -58,8 +58,8 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
-	for (auto target : m_pCharacterInstance->Get_NearObject(this)) {
-		if (!dynamic_cast<CSpiderWarrior*>(target)) {
+	for (auto target : m_pCharacterInstance->Get_NearObject(this, 5.f)) {
+		if (!dynamic_cast<CMonster*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}
@@ -167,6 +167,32 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				vPosition += move * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
+			}
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					D3DXVec3Normalize(&move, &move);
+					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					vPosition += move * fTimeDelta;
+					m_pTransformCom->SetPosition(vPosition);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}

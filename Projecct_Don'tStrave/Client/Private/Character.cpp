@@ -109,16 +109,16 @@ void CCharacter::SetDir()
     if (0 > fAngle) {
         fAngle += 360;
     }
-    if ((0.f <= fAngle && fAngle < 45.f) || (fAngle < 360.f && fAngle >= 315.f)) {
+    if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
         m_tMoveDIr = MOVE_DIR::MOVE_UP;
     }
-    else if ((fAngle < 135.f && fAngle >= 45.f)) {
+    else if ((fAngle < 130.f && fAngle >= 40.f)) {
         m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
     }
-    else if (fAngle < 225.f && fAngle >= 135.f) {
+    else if (fAngle < 220.f && fAngle >= 130.f) {
         m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
     }
-    else if (fAngle < 315.f && fAngle >= 225.f) {
+    else if (fAngle < 310.f && fAngle >= 220.f) {
         m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
     }
 }
@@ -180,6 +180,7 @@ HRESULT CCharacter::LoadImageFile()
             }
         }
     }
+    m_iLength = 100;
     return S_OK;
 }
 
@@ -248,7 +249,7 @@ void CCharacter::RenderAnimation(const wstring& animName)
     }
     if (!pAnim) return;
     m_iLength = pAnim->iLength;
-    m_fAniTime = fmod(m_fAniTime, static_cast<float>(m_iLength));
+    m_fAniTime = fmod(m_fAniTime, (_float)m_iLength);
 
 
     const KEY_DESC* pPrevKey = nullptr;

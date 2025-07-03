@@ -33,14 +33,14 @@ void CCharacter_Manager::Remove_Object(CGameObject* pGameObject)
 		m_ObjectList.erase(iter);
 }
 
-list<CGameObject*> CCharacter_Manager::Get_NearObject(CGameObject* pGameObject)
+list<CGameObject*> CCharacter_Manager::Get_NearObject(CGameObject* pGameObject, _float fDistance)
 {
 	list<CGameObject*> NearObjects;
 	for (auto object : m_ObjectList) {
 		if (pGameObject != object) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pGameObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
 			_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-			if (10.f > distance) {
+			if (fDistance > distance) {
 				NearObjects.push_back(object);
 			}
 		}

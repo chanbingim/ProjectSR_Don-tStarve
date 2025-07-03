@@ -51,7 +51,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bControll = false;
 
 
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_bIsGhost = false;
 
@@ -124,39 +124,34 @@ void CPlayer::Update(_float fTimeDelta)
 				SetAnimation(m_iSwapObject, m_tDir, MOTION::IDLE_TO_RUN);
 				break;
 			}
+			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3		vMove = {0.f ,0.f ,0.f};
 			if (GetKeyState('W') & 0x8000) {
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
-
-				m_pTransformCom->SetPosition(vPosition);
+				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
 			if (GetKeyState('S') & 0x8000)
 			{
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
-
-				m_pTransformCom->SetPosition(vPosition);
+				vMove -= *D3DXVec3Normalize(&vLook, &vLook);
 			}
 			if (GetKeyState('A') & 0x8000)
 			{
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
+				vMove -= *D3DXVec3Normalize(&vLook, &vLook);
 			}
 			if (GetKeyState('D') & 0x8000)
 			{
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
 
-				vPosition += *D3DXVec3Normalize(&vLook, &vLook) * 2.f * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
+				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
+
+			vPosition += *D3DXVec3Normalize(&vMove, &vMove) * 2.f * fTimeDelta;
+			m_pTransformCom->SetPosition(vPosition);
 		}
 		else {
 			if (nullptr != m_pWorkObject) {
@@ -191,7 +186,7 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-			list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this);
+			list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this, 3.f);
 			if (0 < objects.size()) {
 				m_pWorkObject = objects.front();
 			}
@@ -214,10 +209,9 @@ void CPlayer::Update(_float fTimeDelta)
 			m_bControll = true;
 			break;
 		case MOTION::BUCKED:
-			if (m_iLength <= m_fAniTime)
+			if (m_iLength < m_fAniTime)
 			{
 				SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::BUCK_PST);
-				//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 			}
 			break;
 		case MOTION::BUCK_PST:
@@ -490,11 +484,11 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 	return S_OK;
 }

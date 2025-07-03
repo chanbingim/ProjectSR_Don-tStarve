@@ -30,7 +30,8 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 		return E_FAIL;
 	LoadImageFile();
 
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
+	_float3 pos = *static_cast<_float3*>(pArg);
+	m_pTransformCom->SetPosition(pos);
 
 
 	SetAnimation(m_tDir, MOTION::IDLE);
@@ -58,8 +59,8 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
-	for (auto target : m_pCharacterInstance->Get_NearObject(this)) {
-		if (!dynamic_cast<CSpiderQueen*>(target)) {
+	for (auto target : m_pCharacterInstance->Get_NearObject(this, 7.f)) {
+		if (!dynamic_cast<CMonster*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}
@@ -71,19 +72,6 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	switch (m_tMotion)
 	{
 	case IDLE:
-		switch (m_tMoveDIr)
-		{
-		case MOVE_DIR::MOVE_DOWN:
-			m_tDir = DIR::DOWN;
-			break;
-		case MOVE_DIR::MOVE_UP:
-			m_tDir = DIR::UP;
-			break;
-		default:
-			break;
-		}
-		SetAnimation(m_tDir, m_tMotion);
-		break;
 	case MOTION::IDLE_TO_RUN:
 	case MOTION::RUN:
 	case MOTION::RUN_TO_IDLE:
@@ -113,11 +101,10 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	}
 	else if (m_pTarget) {
 		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+		if ((abs(move.x) + abs(move.z)) / 2.f < 5) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
-				case MOTION::TAUNT:
 				case MOTION::DAMAGE:
 				case MOTION::ATTACK:
 					if (m_iLength <= m_fAniTime) {
@@ -125,9 +112,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 					}
 					break;
 				default:
-					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 					break;
 				}
 			}
@@ -140,6 +125,32 @@ void CSpiderQueen::Update(_float fTimeDelta)
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				vPosition += move * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
+			}
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					D3DXVec3Normalize(&move, &move);
+					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					vPosition += move * fTimeDelta;
+					m_pTransformCom->SetPosition(vPosition);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}

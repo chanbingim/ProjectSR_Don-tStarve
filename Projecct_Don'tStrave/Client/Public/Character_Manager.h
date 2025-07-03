@@ -17,7 +17,7 @@ public:
     HRESULT Initialize();
     void Add_Object(CGameObject* pGameObject);
     void Remove_Object(CGameObject* pGameObject);
-    list<CGameObject*> Get_NearObject(CGameObject* pGameObject);
+    list<CGameObject*> Get_NearObject(CGameObject* pGameObject, _float fDistance);
     static CCharacter_Manager* GetInstance() {
         if (nullptr == m_pInstance) {
 
