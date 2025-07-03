@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "AnimationUI.h"
 #include "Character_Manager.h"
+#include "Terrian_Manager.h"
 #include "Camera_Button.h"
 #include "LightComponent.h"
 
@@ -49,6 +50,7 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(ReadShader()))
 		return E_FAIL;
 
+	CTerrian_Manager::GetInstance()->Initialize({64, 64});
 
 	return S_OK;
 }
@@ -218,13 +220,10 @@ void Client::CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 
 	CItem_Manager::DestroyInstance();
+	CTerrian_Manager::DestroyInstance();
 	CCharacter_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
-
-
-
-	
 
 	Safe_Release(m_pGameInstance);	
 }

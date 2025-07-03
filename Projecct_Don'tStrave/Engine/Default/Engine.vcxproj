@@ -157,6 +157,7 @@
     <ClInclude Include="..\public\FrustomCamera.h" />
     <ClInclude Include="..\public\KeyManager.h" />
     <ClInclude Include="..\Public\LightComponent.h" />
+    <ClInclude Include="..\public\Light_Manager.h" />
     <ClInclude Include="..\public\ParticleSystemComponent.h" />
     <ClInclude Include="..\public\Shader.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="..\private\FrustomCamera.cpp" />
     <ClCompile Include="..\private\KeyManager.cpp" />
     <ClCompile Include="..\Private\LightComponent.cpp" />
+    <ClCompile Include="..\private\Light_Manager.cpp" />
     <ClCompile Include="..\private\ParticleSystemComponent.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />

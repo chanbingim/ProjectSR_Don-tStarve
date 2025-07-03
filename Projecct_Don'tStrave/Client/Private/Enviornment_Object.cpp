@@ -9,7 +9,8 @@ CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
 }
 
 CEnviornment_Object::CEnviornment_Object(const CEnviornment_Object& rhs) :
-    CLandObject(rhs)
+    CLandObject(rhs),
+    m_EnviornmentID(rhs.m_EnviornmentID)
 {
 }
 
@@ -82,6 +83,30 @@ HRESULT CEnviornment_Object::Render()
     End_Billboard();
 
     return S_OK;
+}
+
+_wstring CEnviornment_Object::GetEnviornmnetName()
+{
+    switch (m_EnviornmentID)
+    {
+    case 1 :
+        return TEXT("Portal");
+    case 2:
+        return TEXT("Grass");
+    case 3:
+        return TEXT("Rock");
+    case 4:
+        return TEXT("Tree");
+    case 5:
+        return TEXT("Gold Vein");
+    }
+
+    return TEXT("");;
+}
+
+_uint CEnviornment_Object::GetEnviormentID()
+{
+    return m_EnviornmentID;
 }
 
 CEnviornment_Object* CEnviornment_Object::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

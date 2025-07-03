@@ -1,4 +1,8 @@
 #include "Character.h"
+
+#include "Terrain.h"
+#include "Terrian_Manager.h"
+
 #include "GameInstance.h"
 #include "Camera.h"
 
@@ -31,7 +35,9 @@ HRESULT CCharacter::Initialize(void* pArg)
         Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
     }
 
+    m_pTerrian_Manager = CTerrian_Manager::GetInstance();
     m_pCharacterInstance = CCharacter_Manager::GetInstance();
+
     m_pCharacterInstance->AddRef();
     m_pCharacterInstance->Add_Object(this);
     m_fAngle = 90;
@@ -46,6 +52,8 @@ HRESULT CCharacter::Initialize(void* pArg)
 void CCharacter::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
+  
+
     m_fAniTime += fTimeDelta * 500;
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 }
@@ -58,8 +66,16 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+    _float3 Character_Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+    auto Terrian = m_pTerrian_Manager->GetOnTerrian(Character_Pos);
+    if (Terrian)
+    {
+        m_pLandVIBuffer = Terrian->GetCurVIBuffer();
+        m_pLandTransform = Terrian->GetTransfrom();
 
-    SetUp_OnTerrain(m_pTransformCom, 0.f);
+        SetUp_OnTerrain(m_pTransformCom, 0.f);
+    }
+
     Compute_CamDistance(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 }
 
@@ -181,7 +197,7 @@ HRESULT CCharacter::LoadImageFile()
         }
     }
     m_fAniTime = 0;
-    m_iLength = 100;
+    m_iLength = 1000;
     return S_OK;
 }
 
@@ -359,6 +375,7 @@ void CCharacter::Free()
             Safe_Release(file.pTexture);
         }
     }
+    Safe_Release(m_pTerrian_Manager);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
 }

@@ -22,6 +22,7 @@ public :
 	virtual void					Render();
 
 	void							ChangeState(CState* pNewState);
+	_bool							AnimationFinished();
 
 private :
 	//FSM을 통해서 Texture을 이동하든 뭘하든 하는 거는 어떨까

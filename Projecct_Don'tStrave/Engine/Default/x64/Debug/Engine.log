@@ -12,14 +12,15 @@
   FrustomCamera.cpp
   KeyManager.cpp
   LightComponent.cpp
+  Light_Manager.cpp
   ParticleSystemComponent.cpp
   Shader.cpp
   SoundManager.cpp
   File.cpp
   FileReader.cpp
-  GameInstance.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  GameInstance.cpp
   GameObject.cpp
   Graphic_Device.cpp
   LandObject.cpp
@@ -39,9 +40,9 @@
   Timer_Manager.cpp
   Transform.cpp
   UserInterface.cpp
-  VIBuffer.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  VIBuffer.cpp
   VIBuffer_Rect.cpp
   VIBuffer_Terrain.cpp
   코드를 생성하고 있습니다...

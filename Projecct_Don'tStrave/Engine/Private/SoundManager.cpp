@@ -9,6 +9,7 @@ void CSoundManager::Initialize()
 	m_pSystem->init( 32, FMOD_INIT_NORMAL, NULL);
 
 	LoadSoundFile();
+	m_pSystem->setDriver(0);
 }
 
 CSoundManager* CSoundManager::Create()
@@ -47,7 +48,10 @@ void CSoundManager::Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, flo
 
 	bool bPlay = FALSE;
 
-	m_pSystem->playSound(iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
+	FMOD_RESULT res = m_pSystem->playSound(iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
+	if (res != FMOD_OK) {
+		printf("playSound error: %s\n", FMOD_ErrorString(res));
+	}
 	m_pChannelArr[eID]->setVolume(fVolume);
 	m_pSystem->update();
 }

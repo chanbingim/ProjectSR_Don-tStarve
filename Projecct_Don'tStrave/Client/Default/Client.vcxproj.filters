@@ -218,6 +218,9 @@
     <Filter Include="07. Particle">
       <UniqueIdentifier>{aa9389bd-c0e9-40cb-8080-5712c3cf1866}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Objects\Terrain\Manager">
+      <UniqueIdentifier>{7509a4f3-a7b4-4478-b125-8e2cbe75238b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -430,6 +433,9 @@
     <ClInclude Include="..\Public\Fire.h">
       <Filter>대진호</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Terrian_Manager.h">
+      <Filter>02. Objects\Terrain\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -639,6 +645,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Terrian_Manager.cpp">
+      <Filter>02. Objects\Terrain\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

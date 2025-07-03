@@ -5,6 +5,7 @@
 CGrassObject::CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
+    m_EnviornmentID = 2;
 }
 
 CGrassObject::CGrassObject(const CGrassObject& rhs) :

@@ -15,6 +15,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CTerrian_Manager;
+
 enum DIR {
 	DOWN,
 	SIDE,
@@ -135,10 +137,12 @@ protected:
 	_float			m_fAniTime = {};
 	wstring			m_sAnim;
 
-	Entity m_tAnimation = {};
-	vector<IMAGE_FOLDER_DESC> m_tImageVec = {};
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CCharacter_Manager* m_pCharacterInstance = { nullptr };
+	Entity						m_tAnimation = {};
+	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
+	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
+	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
+	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
+
 public:
 	virtual void Free() override;
 };

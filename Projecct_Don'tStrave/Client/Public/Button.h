@@ -32,8 +32,6 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	
-
 protected:
 	_bool		m_isClicked = {};
 	_bool		m_isHovered = {};

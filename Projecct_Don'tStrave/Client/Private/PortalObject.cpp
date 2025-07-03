@@ -4,6 +4,7 @@
 CPortalObject::CPortalObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
+    m_EnviornmentID = 1;
 }
 
 CPortalObject::CPortalObject(const CPortalObject& rhs) :

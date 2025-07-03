@@ -134,7 +134,7 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_ViewMat);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
 	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
-	m_pEffect->SetTechnique(m_hTechnique);
+	//m_pEffect->SetTechnique(m_hTechnique);
 	
 	_matrix testMat = _InvWorldMat;
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
@@ -143,7 +143,8 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 	memcpy(Size, m_pTransformCom->GetScale(), sizeof(_float3));
 	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 
-	m_pEffect->SetVector("vScale", &Size);
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &testMat);
+	/*m_pEffect->SetVector("vScale", &Size);
 	m_pEffect->SetMatrix("WorldMat", &testMat);
 	m_pEffect->SetMatrix("ViewMat", &m_ViewMat);
 	m_pEffect->SetMatrix("ProjdMat", &m_ProMat);
@@ -152,14 +153,14 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 
 	m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
 	m_pEffect->Begin(NULL, 0);
-	m_pEffect->BeginPass(0);
+	m_pEffect->BeginPass(0);*/
 }
 
 void CGameObject::End_Billboard()
 {
-	m_pEffect->EndPass();
-	m_pEffect->End();
-	m_pEffect->OnResetDevice();
+	//m_pEffect->EndPass();
+	//m_pEffect->End();
+	//m_pEffect->OnResetDevice();
 }
 
 void CGameObject::Free()

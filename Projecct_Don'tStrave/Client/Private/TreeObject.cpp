@@ -5,6 +5,7 @@
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
+    m_EnviornmentID = 4;
 }
 
 CTreeObject::CTreeObject(const CTreeObject& rhs) : 

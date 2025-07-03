@@ -176,6 +176,7 @@
     <ClInclude Include="..\Public\SpiderHouse.h" />
     <ClInclude Include="..\Public\SpiderQueen.h" />
     <ClInclude Include="..\Public\SpiderWarrior.h" />
+    <ClInclude Include="..\public\Terrian_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TutorialLevel.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\public\Hunger.cpp" />
+    <ClCompile Include="..\Public\Terrian_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

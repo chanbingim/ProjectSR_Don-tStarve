@@ -5,6 +5,7 @@
 CRockObject::CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CEnviornment_Object(pGraphic_Device)
 {
+	m_EnviornmentID = 3;
 }
 
 CRockObject::CRockObject(const CRockObject& rhs) :

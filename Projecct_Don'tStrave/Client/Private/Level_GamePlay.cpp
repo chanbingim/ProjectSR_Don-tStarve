@@ -4,6 +4,8 @@
 #include "Camera.h"
 #include "UserInterface.h"
 #include "SnowParticle.h"
+#include "Terrian_Manager.h"
+#include "Terrain.h"
 #include "CUtility.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
@@ -14,6 +16,8 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 10.0f);
+
 	if (FAILED(LoadFileData("TutorialMapData")))
 		return E_FAIL;
 
@@ -28,7 +32,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
-
+	
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
@@ -37,6 +41,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -76,6 +81,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 	Parse_ObejectData(File,
 		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
+	if (nullptr == GroundObejcts)
+		return E_FAIL;
+
+	for (auto iter : *GroundObejcts)
+	{
+		auto Terrian = dynamic_cast<CTerrain *>(iter);
+		if(Terrian)
+		CTerrian_Manager::GetInstance()->ADD_Terrian(Terrian);
+	}
 
 	return S_OK;
 

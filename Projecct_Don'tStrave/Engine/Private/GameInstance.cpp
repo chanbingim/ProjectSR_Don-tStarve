@@ -8,6 +8,7 @@
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
 #include "Renderer.h"
+#include "Light_Manager.h"
 #include "SoundManager.h"
 #include "MouseSlotUI.h"
 #include "Font_Manager.h"
@@ -67,6 +68,11 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 	m_pCollision_Manager = CCollision_Manager::GetInstance();
 
+#pragma region LIGHT_MANAGER
+	m_pLight_Manager = CLight_Manager::GetInstance();
+	m_pLight_Manager->Initialize(*ppOut);
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -87,6 +93,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Clear_DeadObj();
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pLight_Manager->UpdateLight();
 
 	m_pKey_Manager->EndKeyInput();
 }
@@ -191,6 +199,11 @@ CGameObject* CGameInstance::Get_GameObject(_uint iLevelIndex, const _wstring& st
 	return m_pObject_Manager->Get_GameObject(iLevelIndex, strLayerTag, iIndex);
 }
 
+list<class CGameObject*>* CGameInstance::GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->GetAllObejctsToLayer(iLayerLevelIndex, strLayerTag);
+}
+
 HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
@@ -243,7 +256,7 @@ _bool CGameInstance::Picking_InLocalSpace(const _float3& vPointA, const _float3&
 #pragma region SOUND_MANAGER
 void CGameInstance::Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, float fVolume)
 {
-	m_pSoundManager->Manager_PlayBGM(pSoundKey, fVolume);
+	m_pSoundManager->Manager_PlaySound(pSoundKey, eID, fVolume);
 }
 
 void CGameInstance::Manager_PlayBGM(const TCHAR* pSoundKey, float fVolume)
@@ -309,6 +322,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pKey_Manager);
+	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pGraphic_Device);
 }

@@ -400,7 +400,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 130, 130))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 65, 65))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Terrain */

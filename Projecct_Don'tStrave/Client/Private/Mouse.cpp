@@ -2,6 +2,10 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+
+#include "Terrian_Manager.h"
+#include "Terrain.h"
+
 #include "Slot.h"
 #include "Item.h"
 
@@ -194,9 +198,9 @@ void CMouse::ClickedEevent()
         {
             if(0 != iItemID)
             {
-                if (true == dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(
-                    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")
-                ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
+                auto Player_Pos = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+                if (true == CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos)->GetCurVIBuffer()
+                    ->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
                     TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
                 {
 

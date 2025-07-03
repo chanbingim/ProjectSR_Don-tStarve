@@ -16,6 +16,7 @@ using namespace std;
 
 #include "fmod.h"
 #include "fmod.hpp"
+#include <fmod_errors.h>
 #pragma comment(lib, "fmod_vc.lib")
 #pragma comment(lib, "fmodL_vc.lib")
 #include <io.h>

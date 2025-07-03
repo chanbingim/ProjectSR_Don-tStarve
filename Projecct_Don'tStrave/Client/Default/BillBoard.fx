@@ -51,17 +51,17 @@ VS_OUTPUT VS(VS_INPUT input)
     return Out;
 }
 
-float4 PS(VS_OUTPUT In) : COLOR
-{
-    return tex2D(Samp, In.Tex);
-}
+//float4 PS(VS_OUTPUT In) : COLOR
+//{
+//    return tex2D(Samp, In.Tex);
+//}
 
 technique main
 {
     Pass P0
     {
         VertexShader = compile vs_2_0 VS();
-        PixelShader = compile ps_2_0 PS();
+        //PixelShader = compile ps_2_0 PS();
 
     }
 }

@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Light_Manager.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -35,6 +36,7 @@ void CRenderer::Render()
 {
 	Render_Priority();
 
+	CLight_Manager::GetInstance()->Enable_Light();
 #pragma region NONE_BLEND
 	Render_NonBlend();
 	Render_AlphaTest();
@@ -166,7 +168,6 @@ void CRenderer::Render_UI()
 	Render_Ortho_UI();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 void CRenderer::Render_Projection_UI()

@@ -35,12 +35,14 @@ public :
 
 	void					SetTexture(CTexture* pTextureCom);
 	void					SetFrameRate(_float _ftimeRate);
+	_bool					IsFinised();
 
 protected :
 	FRAME_DESC					m_Frame = {};
 
 	_float						m_AccTime = {};
 	_float						m_fFrameTime = {};
+	_bool						m_bIsFinish = { false };
 
 	vector<function<void()>>	m_Notify;
 

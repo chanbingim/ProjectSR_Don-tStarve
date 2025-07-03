@@ -2,11 +2,14 @@
 #include "Component.h"
 
 NS_BEGIN(Engine)
+class CGameObject;
+
 class ENGINE_DLL CLightComponent final : public CComponent
 {
 public :
 	typedef struct Light_Desc
 	{
+		CGameObject*	pOwner = { nullptr };
 		D3DLIGHT9		LightData;
 
 	}LIGHT_DESC;
@@ -21,7 +24,7 @@ public:
 	virtual		HRESULT				Initialize_Prototype();
 	virtual		HRESULT				Initialize(void* pArg);
 
-	virtual		void				Render_Light();
+	virtual		void				Render_Light(_uint LightUstage = 0);
 
 	const	D3DLIGHT9&	GetLightData() { return m_LightData; }
 
@@ -45,7 +48,10 @@ public:
 	// ShaderSettingData
 	void	SetAttenuation(_float fAtn0, _float fAtn1, _float fAtn2);
 
+	CGameObject*			GetOwner();
+
 protected:
+	CGameObject*					m_pOwner = { nullptr };
 	D3DLIGHT9						m_LightData;
 
 public : 
