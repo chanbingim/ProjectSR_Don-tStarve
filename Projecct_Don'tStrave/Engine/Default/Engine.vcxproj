@@ -191,6 +191,7 @@
     <ClInclude Include="..\Public\Transform.h" />
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\Public\VIBuffer.h" />
+    <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
   </ItemGroup>
@@ -236,6 +237,7 @@
     <ClCompile Include="..\Private\Transform.cpp" />
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\Private\VIBuffer.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
   </ItemGroup>

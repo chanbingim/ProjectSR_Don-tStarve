@@ -218,6 +218,15 @@
     <Filter Include="02. Objects\Terrain\Manager">
       <UniqueIdentifier>{7509a4f3-a7b4-4478-b125-8e2cbe75238b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Particle\SpriteEffect">
+      <UniqueIdentifier>{360931ae-be66-4ff2-b3cf-55f2d259a30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\SkyBox">
+      <UniqueIdentifier>{5127a3f8-368a-49c8-8492-b035a6ed4d2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Fire">
+      <UniqueIdentifier>{078119ab-a0e0-4328-b85b-ff07b8b8f3d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -424,11 +433,17 @@
     <ClInclude Include="..\public\SnowParticle.h">
       <Filter>07. Particle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Fire.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Terrian_Manager.h">
       <Filter>02. Objects\Terrain\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SkyBox.h">
+      <Filter>02. Objects\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpriteEffect.h">
+      <Filter>07. Particle\SpriteEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fire.h">
+      <Filter>05. Item\Fire</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -634,11 +649,17 @@
     <ClCompile Include="..\private\SnowParticle.cpp">
       <Filter>07. Particle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Fire.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Terrian_Manager.cpp">
       <Filter>02. Objects\Terrain\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SkyBox.cpp">
+      <Filter>02. Objects\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpriteEffect.cpp">
+      <Filter>07. Particle\SpriteEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fire.cpp">
+      <Filter>05. Item\Fire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

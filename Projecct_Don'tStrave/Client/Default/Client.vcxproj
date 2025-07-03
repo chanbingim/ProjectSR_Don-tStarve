@@ -171,11 +171,13 @@
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\public\RockObject.h" />
+    <ClInclude Include="..\public\SkyBox.h" />
     <ClInclude Include="..\public\SnowParticle.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
     <ClInclude Include="..\Public\SpiderQueen.h" />
     <ClInclude Include="..\Public\SpiderWarrior.h" />
+    <ClInclude Include="..\public\SpriteEffect.h" />
     <ClInclude Include="..\public\Terrian_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
     <ClInclude Include="..\public\TreeObject.h" />
@@ -242,11 +244,13 @@
     <ClCompile Include="..\private\ParticleShader.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
+    <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SnowParticle.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
     <ClCompile Include="..\Private\SpiderQueen.cpp" />
     <ClCompile Include="..\Private\SpiderWarrior.cpp" />
+    <ClCompile Include="..\private\SpriteEffect.cpp" />
     <ClCompile Include="..\Private\Terrian_Manager.cpp" />
     <ClCompile Include="..\Private\tinyxml2.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
