@@ -186,11 +186,11 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-			list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this, 3.f);
-			if (0 < objects.size()) {
-				m_pWorkObject = objects.front();
-			}
-			//Attack();
+			//list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this, 3.f);
+			//if (0 < objects.size()) {
+			//	m_pWorkObject = objects.front();
+			//}
+			Attack();
 			//m_tMotion = MOTION::ATTACK;
 			//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_tDir][m_tMotion]);
 			//SetAnimation(m_iSwapObject, m_tDir, m_tMotion);

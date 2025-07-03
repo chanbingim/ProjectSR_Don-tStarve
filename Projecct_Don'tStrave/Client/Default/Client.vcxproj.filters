@@ -427,6 +427,9 @@
     <ClInclude Include="..\public\SnowParticle.h">
       <Filter>07. Particle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Fire.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -633,6 +636,9 @@
     </ClCompile>
     <ClCompile Include="..\private\SnowParticle.cpp">
       <Filter>07. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fire.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

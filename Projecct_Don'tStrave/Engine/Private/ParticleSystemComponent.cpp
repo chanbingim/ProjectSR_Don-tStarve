@@ -169,6 +169,7 @@ CComponent* CParticleSystemComponent::Clone(void* pArg)
 void CParticleSystemComponent::Free()
 {
 	__super::Free();
-	m_particles.clear();
 	Safe_Release(m_pVertexBuffer);
+	m_particles.clear();
+
 }
