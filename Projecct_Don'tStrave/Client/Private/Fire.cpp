@@ -44,13 +44,17 @@ HRESULT CFire::Initialize(void* pArg)
 
 	LightDesc.Type = D3DLIGHT_POINT;
 
-	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	LightDesc.Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.f);
-	LightDesc.Position = _float3(vPos.x, vPos.y + 1.f, vPos.z);
-	LightDesc.Range = 3.f;
+	LightDesc.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
+	LightDesc.Ambient = D3DXCOLOR(0.8f, 0.8f, 1.f, 1.f);
+	LightDesc.Position = _float3(vPos.x, vPos.y + 0.5f, vPos.z);
+	LightDesc.Range = 5.f;
+	LightDesc.Attenuation0 = 0.f;
+	LightDesc.Attenuation2 = 0.3f;
+	LightDesc.Attenuation2 = 0.8f;
 
 
 	m_pGraphic_Device->SetLight(1, &LightDesc);
+	m_pGraphic_Device->LightEnable(1, true);
 
 	return S_OK;
 }
