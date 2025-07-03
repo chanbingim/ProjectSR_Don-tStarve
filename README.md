@@ -9,7 +9,7 @@
 # 작업 일정
 # 김찬빈 : https://chambray-gecko-c78.notion.site/2187540c8a8880bba798efdf784f66d1?v=2187540c8a8880219782000c743f9a4b&source=copy_link
 # 배진호 : https://www.notion.so/218bdc03b1888083bdc8ee3ebd440c46?source=copy_link
-# 김정환 : 
+# 김정환 : https://reflective-moth-4dd.notion.site/Don-t-Strave-21bb8b14d4578048a5d2d98d27ab30c9?source=copy_link
 
 # 게임 로고화면
 ![image](https://github.com/user-attachments/assets/768800f8-8315-41ff-baa8-46ff8b3ef34b)
