@@ -5,6 +5,7 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include "UIEffect.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -53,6 +54,10 @@ HRESULT CItem::Initialize(void* pArg)
 	Setting_Shader(L"BillBoard.fx");
 
 	Safe_AddRef(m_pPlayerTransform_Com);
+
+	m_pMouse = dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")));
+
+	Safe_AddRef(m_pMouse);
 
 	return S_OK;
 }
@@ -127,17 +132,16 @@ void CItem::ClickedEvent()
 				int a{}; // 인벤토리가 꽉참
 			else
 			{
-				_uint iItemID = pSlot->Get_ItemID();
-				if(0 == iItemID)
-				{
-					pSlot->Set_Info(m_Item_Desc);
-					m_isDead = true;
-				}
-				else if (m_Item_Desc.iItemID == iItemID)
-				{
-					pSlot->Merge_Item(m_Item_Desc);
-					m_isDead = true;
-				}
+				CUIEffect::UIEFFECT_DESC Desc = {};
+
+				Desc.iItemID = m_Item_Desc.iItemID;
+				Desc.pSlot = pSlot;
+				memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
+
+				m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+					EnumToInt(LEVEL::GAMEPLAY),TEXT("Layer_UIEffect"), &Desc);
+
+				m_isDead = true;
 			}
 		}
 	}
@@ -226,6 +230,7 @@ void CItem::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pMouse);
 	Safe_Release(m_pTexture_Com);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBuffer_Com);

@@ -40,6 +40,8 @@
 #include "CampFire.h"
 #include "Fire.h"
 #include "Chest.h"
+#include "UIEffect.h"
+#include "ChestUI.h"
 
 
 #include "GameInstance.h"
@@ -317,7 +319,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Clock/Clock_Point.png"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Clock_Point */
+	/* For.Prototype_Component_Texture_Category */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Category"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Category/Category_%d.png"), 6))))
 		return E_FAIL;
@@ -358,6 +360,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_CLOSE"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Close/chest__00%d.png"), 8))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_ChestUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ChestUI"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/ChestUI/frame__0%d.png"), 11))))
+		return E_FAIL;
+
 #pragma endregion
 
 	
@@ -466,6 +474,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CCraftingUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_ChestUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ChestUI"),
+		CChestUI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Crafting_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
 		CCrafting_Button::Create(m_pGraphic_Device))))
@@ -519,6 +532,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Mouse */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Mouse"),
 		CMouse::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UIEffect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+		CUIEffect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 

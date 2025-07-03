@@ -23,13 +23,12 @@ HRESULT CHeadUpDisplay::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    /*m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
-=======
     m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0));
->>>>>>> origin/06_27_kjh
+
+    Safe_AddRef(m_pPlayer);
 
     if (nullptr == m_pPlayer)
-        return E_FAIL;*/
+        return E_FAIL;
 
     return S_OK;
 }
@@ -57,4 +56,6 @@ HRESULT CHeadUpDisplay::Render()
 void CHeadUpDisplay::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pPlayer);
 }

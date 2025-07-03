@@ -24,7 +24,7 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
-    _uint iDataSize = ReadData.size();
+    _uint iDataSize = static_cast<_uint>(ReadData.size());
 
     for (_uint i = 0; i < iDataSize; )
     {
@@ -39,8 +39,6 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strKorName = szData;
 
-        //Data.strName = ReadData[i++];
-        //Data.strKorName = ReadData[i++];
         Data.eItemType = static_cast<ITEM_TYPE>(std::stoi(ReadData[i++]));
         Data.eSlot = static_cast<SLOT>(std::stoi(ReadData[i++]));
         Data.iMaxStack = static_cast<unsigned int>(std::stoi(ReadData[i++]));
@@ -57,8 +55,6 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strLines = szData;
 
-        //Data.strExplanation = ReadData[i++];
-        //Data.strLines = ReadData[i++];
         Data.iHealthChange = static_cast<unsigned int>(std::stoi(ReadData[i++]));
         Data.iHungerChange = static_cast<unsigned int>(std::stoi(ReadData[i++]));
         Data.iSanityChange = static_cast<unsigned int>(std::stoi(ReadData[i++]));

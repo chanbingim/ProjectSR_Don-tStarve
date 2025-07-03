@@ -104,7 +104,7 @@ HRESULT CClock::Render()
     m_pVIBuffer_Com->Render();
 
     // Test Code
-    RECT rect = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f,m_fX + m_fSizeX * 0.5f,m_fY + m_fSizeY * 0.5f };
+    RECT rect = { LONG(m_fX - m_fSizeX * 0.5f), LONG(m_fY - m_fSizeY * 0.5f), LONG(m_fX + m_fSizeX * 0.5f), LONG(m_fY + m_fSizeY * 0.5f) };
     wstring s = L"Day" + to_wstring(m_iDate);
 
     D3DXCOLOR white = { 1.f,1.f,1.f,1.f };

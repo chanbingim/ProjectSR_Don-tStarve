@@ -15,6 +15,16 @@ CSlotFrame::CSlotFrame(const CSlotFrame& Prototype)
 {
 }
 
+void CSlotFrame::Update_SlotPosition(_float fX, _float fY)
+{
+    m_fX = fX;
+    m_fY = fY;
+
+    __super::UpdatePosition();
+
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+}
+
 HRESULT CSlotFrame::Initialize_Prototype()
 {
     return S_OK;
@@ -64,7 +74,6 @@ void CSlotFrame::Priority_Update(_float fTimeDelta)
 
 void CSlotFrame::Update(_float fTimeDelta)
 {
-    //m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
     HoverEevent();
 
@@ -73,6 +82,17 @@ void CSlotFrame::Update(_float fTimeDelta)
         m_pSlot->Update(fTimeDelta);
     }
     m_pSlot->Update_Count();
+
+    if (m_eSlotType == SLOT::HAND)
+    {
+        _uint iItemID = m_pSlot->Get_ItemID();
+
+        // 플레이어에게 장착 알려주는 로직 추가
+
+        // 1 번 도끼
+        
+        // 8 번 창
+    }
     
 }
 

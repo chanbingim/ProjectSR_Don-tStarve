@@ -23,6 +23,15 @@ ITEM_DESC& CSlot::Get_Info()
     return m_Item_Desc;
 }
 
+_float3& CSlot::Get_Position()
+{
+    _float3 vPos = { 0.f, 0.f, 0.f };
+    if (nullptr != m_pTransform_Com)
+         vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+
+    return vPos;
+}
+
 void CSlot::Merge_Item(CSlot* pSlot)
 {
     ITEM_DESC Desc = pSlot->Get_Info();
@@ -59,18 +68,6 @@ HRESULT CSlot::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    __super::UpdatePosition();
-    _uint iCountSize = { 20 };
-    _float3 vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
-    vPos.y -= 10.f;
-    m_Positions[0] = _float3(vPos.x - iCountSize * 0.5f, vPos.y, 0.f);
-    m_Positions[1] = _float3(vPos.x + iCountSize * 0.5f, vPos.y, 0.f);
-    m_Positions[2] = _float3(vPos.x - iCountSize, vPos.y, 0.f);
-    m_Positions[3] = _float3(vPos.x, vPos.y, 0.f);
-    m_Positions[4] = _float3(vPos.x + iCountSize, vPos.y, 0.f);
-    m_Positions[5] = _float3(vPos.x - iCountSize * 1.5f, vPos.y, 0.f);
-    m_Positions[6] = _float3(vPos.x + iCountSize * 1.5f, vPos.y, 0.f);
-
     m_TextureIndexes.reserve(4);
     
     for (_uint i = 0; i < 4; ++i)
@@ -98,6 +95,8 @@ void CSlot::Late_Update(_float fTimeDelta)
 
 HRESULT CSlot::Render(CTransform* pTransform)
 {
+    m_pTransform_Com = pTransform;
+
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 80);
 
     if (0 != m_Item_Desc.iItemID)
@@ -132,13 +131,6 @@ HRESULT CSlot::ADD_Components()
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
         reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
-        return E_FAIL;
-
-    Engine::CTransform::TRANSFORM_DESC Desc = { 5.f, D3DXToRadian(90.f) };
-
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-        TEXT("Com_Transform"),
-        reinterpret_cast<CComponent**>(&m_pTransform_Com), &Desc)))
         return E_FAIL;
 
 
@@ -338,7 +330,6 @@ void CSlot::Render_Item(CTransform* pTransform)
 
     pTransform->SetPosition(vPos);
 
-    
 }
 
 CSlot* CSlot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

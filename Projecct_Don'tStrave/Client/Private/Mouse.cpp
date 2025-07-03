@@ -122,8 +122,8 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('5') & 0x8000)
     {
-        Desc.iItemID = 44;
-        Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.iItemID = 14;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -315,7 +315,14 @@ void CMouse::Update_HoverSlot(_uint itemID)
 }
 void CMouse::Update_Hover(_uint itemID)
 {
+    ITEM_DATA Data = CItem_Manager::GetInstance()->Get_ItemData(itemID);
+    m_strInfoMessage = Data.strName;
+}
 
+void CMouse::Update_Hover(const wstring strMessage, const _uint iMouseState)
+{
+    m_iMouseState = iMouseState;
+    m_strInteraction = strMessage;
 }
 
 HRESULT CMouse::ADD_Components()
