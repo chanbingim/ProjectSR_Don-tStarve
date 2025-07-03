@@ -484,12 +484,14 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* Com_Collision */
 	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
 		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
+
 	return S_OK;
 }
 

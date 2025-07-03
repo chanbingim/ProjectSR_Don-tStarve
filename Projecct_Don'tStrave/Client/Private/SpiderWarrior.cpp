@@ -372,11 +372,11 @@ HRESULT CSpiderWarrior::Ready_Components()
 		return E_FAIL;
 
 	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 
 	return S_OK;

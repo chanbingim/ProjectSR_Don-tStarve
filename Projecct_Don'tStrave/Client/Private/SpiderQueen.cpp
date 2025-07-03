@@ -45,7 +45,7 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 	m_bMove = false;
 
 
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 1.f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -309,11 +309,11 @@ HRESULT CSpiderQueen::Ready_Components()
 		return E_FAIL;
 
 	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
 	Col_Desc.pOwner = this;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 
 	return S_OK;
