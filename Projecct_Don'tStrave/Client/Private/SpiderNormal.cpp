@@ -1,46 +1,38 @@
-#include "SpiderWarrior.h"
+#include "SpiderNormal.h"
 #include "GameInstance.h"
+#include "Camera.h"
 
-CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderNormal::CSpiderNormal(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
 {
 
 }
 
-CSpiderWarrior::CSpiderWarrior(const CSpiderWarrior& Prototype)
+CSpiderNormal::CSpiderNormal(const CSpiderNormal& Prototype)
 	: CSpider{ Prototype }
 {
 }
 
-HRESULT CSpiderWarrior::Initialize_Prototype()
+HRESULT CSpiderNormal::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml", L"../Bin/Resources/Textures/Monster/SpiderWarrior/");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spiderwarrior.scml");
+	AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
+	LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
 	return S_OK;
 }
 
-HRESULT CSpiderWarrior::Initialize(void* pArg)
+HRESULT CSpiderNormal::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	LoadImageFile();
-
 	_float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 	m_pTransformCom->SetPosition(pos + _float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f)));
 
 
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_iMaxHp = 100;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_iAtk = 30;
-	m_iMaxHit = 10;
-	m_iHit = m_iMaxHit;
-	m_fAtkCool = 5.f;
 	m_bMove = false;
-
+	m_fMoveTIme = 0.f;
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
@@ -52,12 +44,12 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 }
 
 
-void CSpiderWarrior::Priority_Update(_float fTimeDelta)
+void CSpiderNormal::Priority_Update(_float fTimeDelta)
 {
 	if (m_bOutHouse) {
 		__super::Priority_Update(fTimeDelta);
 		m_pTarget = nullptr;
-		for (auto target : m_pCharacterInstance->Get_NearObject(this, 5.f)) {
+		for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f)) {
 			if (!dynamic_cast<CMonster*>(target)) {
 				m_pTarget = dynamic_cast<CCharacter*>(target);
 			}
@@ -65,9 +57,8 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 	}
 }
 
-void CSpiderWarrior::Update(_float fTimeDelta)
+void CSpiderNormal::Update(_float fTimeDelta)
 {
-
 	if (m_bOutHouse) {
 		__super::Update(fTimeDelta);
 		switch (m_tMotion)
@@ -90,7 +81,6 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 		case MOTION::RUN:
 		case MOTION::RUN_TO_IDLE:
 		case MOTION::ATTACK:
-		case MOTION::DASH_ATTACK:
 			switch (m_tMoveDIr)
 			{
 			case MOVE_DIR::MOVE_DOWN:
@@ -114,33 +104,10 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				m_isDead = true;
 			}
 		}
-		else if (m_tMotion == MOTION::DASH_ATTACK) {
-			if (m_iLength <= m_fAniTime) {
-				m_tMotion = MOTION::IDLE;
-				SetAnimation(m_tDir, m_tMotion);
-			}
-			else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				vPosition += m_fDash * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
-			}
-		}
 		else if (m_pTarget) {
 			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
-				m_fAtkCool -= fTimeDelta;
-				if (0.f >= m_fAtkCool) {
-					if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::DASH_ATTACK);
-						m_fAtkCool = 5.f;
-						D3DXVec3Normalize(&move, &move);
-						m_fDash = move * 5;
-					}
-					else {
-						SetAnimation(m_tDir, MOTION::TAUNT);
-					}
-				}
-				else if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 					switch (m_tMotion)
 					{
 					case MOTION::TAUNT:
@@ -172,17 +139,85 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				}
 			}
 			else {
+
+				m_fMoveTIme += fTimeDelta;
+				if (m_fMoveTIme > 10) {
+					if (m_fMoveTIme > 40) {
+						_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+						vPosition += m_fRandomMove * m_fSpeed * fTimeDelta;
+						m_pTransformCom->SetPosition(vPosition);
+						if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+							SetAnimation(m_tDir, MOTION::RUN);
+						}
+						if (m_fMoveTIme > 70) {
+							m_fMoveTIme = 0;
+						}
+					}
+					else {
+						m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+						D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+						m_fMoveTIme += 30 + (rand() % 20);
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					}
+				}
+				else {
+					switch (m_tMotion)
+					{
+					case MOTION::RUN:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+						}
+						else {
+							D3DXVec3Normalize(&move, &move);
+							_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+							vPosition += move * m_fSpeed * fTimeDelta;
+							m_pTransformCom->SetPosition(vPosition);
+						}
+						break;
+					case MOTION::ATTACK:
+					case MOTION::RUN_TO_IDLE:
+					case MOTION::TAUNT:
+					case MOTION::DAMAGE:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		else {
+			m_fMoveTIme += fTimeDelta;
+			if (m_fMoveTIme > 10) {
+				if (m_fMoveTIme > 40) {
+					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					vPosition += m_fRandomMove * m_fSpeed * fTimeDelta;
+					if (vPosition.x < 0 || vPosition.z < 0) {
+						m_fMoveTIme = 0;
+					}
+					m_pTransformCom->SetPosition(vPosition);
+					if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::RUN);
+					}
+					if (m_fMoveTIme > 70) {
+						m_fMoveTIme = 0;
+					}
+				}
+				else {
+					m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+					D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+					m_fMoveTIme += 30 + (rand() % 20);
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				}
+			}
+			else {
 				switch (m_tMotion)
 				{
 				case MOTION::RUN:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-					}
-					else {
-						D3DXVec3Normalize(&move, &move);
-						_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-						vPosition += move * m_fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(vPosition);
 					}
 					break;
 				case MOTION::ATTACK:
@@ -198,30 +233,10 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				}
 			}
 		}
-		else {
-			switch (m_tMotion)
-			{
-			case MOTION::RUN:
-				if (m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-				}
-				break;
-			case MOTION::ATTACK:
-			case MOTION::RUN_TO_IDLE:
-			case MOTION::TAUNT:
-			case MOTION::DAMAGE:
-				if (m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::IDLE);
-				}
-				break;
-			default:
-				break;
-			}
-		}
 	}
 }
 
-void CSpiderWarrior::Late_Update(_float fTimeDelta)
+void CSpiderNormal::Late_Update(_float fTimeDelta)
 {
 	if (m_bOutHouse) {
 		SetDir();
@@ -231,10 +246,11 @@ void CSpiderWarrior::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSpiderWarrior::Render()
+HRESULT CSpiderNormal::Render()
 {
 	if (m_bOutHouse) {
 		__super::Render();
+
 		if (FAILED(Begin_RenderState()))
 			return E_FAIL;
 
@@ -243,32 +259,32 @@ HRESULT CSpiderWarrior::Render()
 		if (FAILED(End_RenderState()))
 			return E_FAIL;
 	}
-
 	return S_OK;
 }
 
-void CSpiderWarrior::Damage()
+void CSpiderNormal::Damage()
 {
+	__super::Damage();
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
-void CSpiderWarrior::Attack()
+void CSpiderNormal::Attack()
 {
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
-void CSpiderWarrior::Death()
+void CSpiderNormal::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
-void CSpiderWarrior::OutHouse()
+void CSpiderNormal::OutHouse()
 {
 	m_bOutHouse = true;
 }
 
-HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
+HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
@@ -293,9 +309,6 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 		break;
 	case MOTION::ATTACK:
 		m_sAnim = L"atk";
-		break;
-	case MOTION::DASH_ATTACK:
-		m_sAnim = L"warrior_atk";
 		break;
 	case MOTION::IDLE_TO_SLEEP:
 		m_sAnim = L"sleep_pre";
@@ -349,7 +362,7 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpiderWarrior::Begin_RenderState()
+HRESULT CSpiderNormal::Begin_RenderState()
 {
 	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
 
@@ -374,7 +387,7 @@ HRESULT CSpiderWarrior::Begin_RenderState()
 	return S_OK;
 }
 
-HRESULT CSpiderWarrior::End_RenderState()
+HRESULT CSpiderNormal::End_RenderState()
 {
 	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
@@ -384,19 +397,14 @@ HRESULT CSpiderWarrior::End_RenderState()
 	return S_OK;
 }
 
-void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderNormal::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (dynamic_cast<CCharacter*>(HitActor)) {
-		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion == DASH_ATTACK) {
-			m_pTarget->Get_Damage(m_iAtk);
-		}
-	}
 }
 
-void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (HitActor == m_pTarget) {
-		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DASH_ATTACK && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 			if (m_tMotion != ATTACK) {
 				Attack();
 			}
@@ -408,13 +416,13 @@ void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 	}
 }
 
-void CSpiderWarrior::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+void CSpiderNormal::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CSpiderWarrior* CSpiderWarrior::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSpiderNormal* CSpiderNormal::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSpiderWarrior* pInstance = new CSpiderWarrior(pGraphic_Device);
+	CSpiderNormal* pInstance = new CSpiderNormal(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -425,19 +433,19 @@ CSpiderWarrior* CSpiderWarrior::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CSpiderWarrior::Clone(void* pArg)
+CGameObject* CSpiderNormal::Clone(void* pArg)
 {
-	CSpiderWarrior* pInstance = new CSpiderWarrior(*this);
+	CSpiderNormal* pInstance = new CSpiderNormal(*this);
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CSpiderWarrior");
+		MSG_BOX("Failed to Cloned : CSpiderNormal");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSpiderWarrior::Free()
+void CSpiderNormal::Free()
 {
 	__super::Free();
 	Safe_Release(m_pCollision_Com);

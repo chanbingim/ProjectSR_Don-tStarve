@@ -8,7 +8,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CSpiderWarrior : public CSpider
+class CSpiderNormal : public CSpider
 {
 	enum MOTION {
 		IDLE,
@@ -16,7 +16,6 @@ class CSpiderWarrior : public CSpider
 		RUN,
 		RUN_TO_IDLE,
 		ATTACK,
-		DASH_ATTACK,
 		IDLE_TO_SLEEP,
 		SLEEP,
 		SLEEP_TO_IDLE,
@@ -32,9 +31,9 @@ class CSpiderWarrior : public CSpider
 		MOTION_END
 	};
 private:
-	CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSpiderWarrior(const CSpiderWarrior& Prototype);
-	virtual ~CSpiderWarrior() = default;
+	CSpiderNormal(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSpiderNormal(const CSpiderNormal& Prototype);
+	virtual ~CSpiderNormal() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -50,10 +49,9 @@ public:
 	virtual void OutHouse() override;
 private:
 	MOTION					m_tMotion = {};
-	DIR						m_tDir = {};
+	_float					m_fMoveTIme = {};
+	_float3					m_fRandomMove = {};
 	_bool					m_bMove = {};
-	_float					m_fAtkCool = {};
-	_float3					m_fDash = {};
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
@@ -62,7 +60,7 @@ private:
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
-	static CSpiderWarrior* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSpiderNormal* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

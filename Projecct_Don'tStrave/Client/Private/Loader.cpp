@@ -2,7 +2,7 @@
 
 #include "Terrain.h"
 #include "Player.h"
-#include "Spider.h"
+#include "SpiderNormal.h"
 #include "SpiderWarrior.h"
 #include "SpiderHouse.h"
 #include "SpiderQueen.h"
@@ -44,6 +44,8 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+#include "PlayerData_Manager.h"
+#include "MonsterData_Manager.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -132,6 +134,12 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
+	m_strMessage = TEXT("캐릭터 정보를 가져오는 중... ");
+	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
+
+	m_strMessage = TEXT("몬스터 정보를 가져오는 중... ");
+	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
+
 	m_strMessage = TEXT("아이템 정보를 가져오는 중... ");
 	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
 
@@ -380,7 +388,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
-		CSpider::Create(m_pGraphic_Device))))
+		CSpiderNormal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */
@@ -786,7 +794,7 @@ HRESULT CLoader::Loading_For_Tutorial()
 
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
-		CSpider::Create(m_pGraphic_Device))))
+		CSpiderNormal::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_VIBuffer_Terrain */

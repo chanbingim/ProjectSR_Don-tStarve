@@ -26,22 +26,13 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 	LoadImageFile();
 
-	_float3 pos = *static_cast<_float3*>(pArg);
-	m_pTransformCom->SetPosition(pos);
+	MONSTER_DATA data = *static_cast<MONSTER_DATA*>(pArg);
+	m_pTransformCom->SetPosition(data.fPos);
 
 
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_iMaxHp = 100;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_iAtk = 30;
-	m_iDef = 0;
-	m_iMaxHit = 10;
-	m_iHit = m_iMaxHit;
 	m_bMove = false;
 
 
@@ -123,7 +114,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 				}
 				D3DXVec3Normalize(&move, &move);
 				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				vPosition += move * fTimeDelta;
+				vPosition += move * m_fSpeed * fTimeDelta;
 				m_pTransformCom->SetPosition(vPosition);
 			}
 		}
@@ -137,7 +128,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 				else {
 					D3DXVec3Normalize(&move, &move);
 					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					vPosition += move * fTimeDelta;
+					vPosition += move * m_fSpeed * fTimeDelta;
 					m_pTransformCom->SetPosition(vPosition);
 				}
 				break;
@@ -295,29 +286,6 @@ HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpiderQueen::Ready_Components()
-{
-	/* Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* Com_Collision */
-	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
-		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
-	return S_OK;
-}
 
 HRESULT CSpiderQueen::Begin_RenderState()
 {

@@ -61,6 +61,7 @@ class CPlayer final : public CCharacter
 		GHOST_DISSIPATE,
 		MOTION_END
 	};
+
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -77,25 +78,28 @@ public:
 	virtual void Damage() override;
 	virtual void Attack() override;
 	virtual void Death() override;
-	_uint		Get_Hp();
-	_uint		Get_Hunger();
+	virtual void		Get_Damage(_uint iAtk) override;
+	PLAYER_DESC		Get_Player();
 	void			SetItem(SWAPOBJECT tItem);
 	_bool		IsGhost() { return m_bIsGhost; }
 private:
 	CGameObject* m_pWorkObject = { nullptr };
-	CCollision_Component* m_pCollision_Com = { nullptr };
 
 	MOTION					m_tMotion = {};
-	DIR						m_tDir = {};
 	SWAPOBJECT				m_tItem = {};
+	_float					m_fAtkRatio = {};
+	_float					m_fDefRatio = {};
 	_uint					m_iDirection = {};
 	_uint					m_iSwapObject = {};
+	_uint					m_iMaxHunger = {};
+	_uint					m_iMaxMental = {};
+	_uint					m_iDef = {};
 	_uint					m_iHunger = {};
+	_uint					m_iMental = {};
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
 private:
-	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

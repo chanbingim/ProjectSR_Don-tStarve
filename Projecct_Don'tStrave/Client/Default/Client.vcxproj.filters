@@ -349,7 +349,7 @@
     <ClInclude Include="..\Public\PlayerAnim.h">
       <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Spider.h">
+    <ClInclude Include="..\Public\SpiderNormal.h">
       <Filter>03. Character\Monster\Spider</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SpiderHouse.h">
@@ -429,6 +429,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Fire.h">
       <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MonsterData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Spider.h">
+      <Filter>김정환</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -559,7 +568,7 @@
     <ClCompile Include="..\Private\PlayerAnim.cpp">
       <Filter>03. Character\Player\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Spider.cpp">
+    <ClCompile Include="..\Private\SpiderNormal.cpp">
       <Filter>03. Character\Monster\Spider</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SpiderHouse.cpp">
@@ -639,6 +648,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\PlayerData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Spider.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

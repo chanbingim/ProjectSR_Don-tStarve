@@ -2,13 +2,14 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+#include "PlayerData_Manager.h"
+#include "MonsterData_Manager.h"
 
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
 #include "Character_Manager.h"
 #include "Camera_Button.h"
-#include "LightComponent.h"
 
 
 Client::CMainApp::CMainApp()	
@@ -214,12 +215,12 @@ CMainApp* Client::CMainApp::Create()
 void Client::CMainApp::Free()
 {
 	__super::Free();
-
 	Safe_Release(m_pGraphic_Device);
 
+	CPlayerData_Manager::DestroyInstance();
+	CMonsterData_Manager::DestroyInstance();
 	CItem_Manager::DestroyInstance();
 	CCharacter_Manager::DestroyInstance();
-
 	m_pGameInstance->Release_Engine();
 
 

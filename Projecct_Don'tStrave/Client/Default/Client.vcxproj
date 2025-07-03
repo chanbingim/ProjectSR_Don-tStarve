@@ -168,11 +168,14 @@
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
     <ClInclude Include="..\Public\Material_Item.h" />
+    <ClInclude Include="..\public\MonsterData_Manager.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
+    <ClInclude Include="..\public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SnowParticle.h" />
-    <ClInclude Include="..\Public\Spider.h" />
+    <ClInclude Include="..\public\Spider.h" />
+    <ClInclude Include="..\Public\SpiderNormal.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
     <ClInclude Include="..\Public\SpiderQueen.h" />
     <ClInclude Include="..\Public\SpiderWarrior.h" />
@@ -239,11 +242,13 @@
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\MaterialSlot.cpp" />
     <ClCompile Include="..\Private\Material_Item.cpp" />
+    <ClCompile Include="..\private\MonsterData_Manager.cpp" />
     <ClCompile Include="..\private\ParticleShader.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
     <ClCompile Include="..\private\SnowParticle.cpp" />
-    <ClCompile Include="..\Private\Spider.cpp" />
+    <ClCompile Include="..\private\Spider.cpp" />
+    <ClCompile Include="..\Private\SpiderNormal.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
     <ClCompile Include="..\Private\SpiderQueen.cpp" />
     <ClCompile Include="..\Private\SpiderWarrior.cpp" />
@@ -279,6 +284,7 @@
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\public\Hunger.cpp" />
+    <ClCompile Include="..\public\PlayerData_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
