@@ -42,6 +42,16 @@ HRESULT CFire::Initialize(void* pArg)
 
 	Setting_Shader(L"BillBoard.fx");
 
+	LightDesc.Type = D3DLIGHT_POINT;
+
+	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	LightDesc.Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.f);
+	LightDesc.Position = _float3(vPos.x, vPos.y + 1.f, vPos.z);
+	LightDesc.Range = 3.f;
+
+
+	m_pGraphic_Device->SetLight(1, &LightDesc);
+
 	return S_OK;
 }
 

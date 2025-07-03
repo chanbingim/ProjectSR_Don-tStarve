@@ -33,6 +33,7 @@ private:
 	CState* m_pFireState_Com[3] = { nullptr };
 
 	CAnimController* m_pAnimController = { nullptr };
+	D3DLIGHT9		LightDesc{};
 
 private:
 	HRESULT ADD_Components();
