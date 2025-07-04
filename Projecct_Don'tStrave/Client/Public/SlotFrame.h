@@ -20,6 +20,7 @@ private:
 
 public:
 	CSlot* Get_Slot() { return m_pSlot; }
+	void Update_SlotPosition(_float fX, _float fY);
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;

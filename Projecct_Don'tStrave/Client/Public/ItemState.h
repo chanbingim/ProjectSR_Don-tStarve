@@ -21,6 +21,9 @@ public:
 	virtual void			Render();
 
 public:
+	_bool isEndFrame();
+
+public:
 	static CItemState* Create(void* pArg);
 	virtual		void		Free() override;
 };

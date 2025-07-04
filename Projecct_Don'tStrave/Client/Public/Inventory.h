@@ -19,10 +19,10 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	CSlot* Find_Item(_uint iItemID);
-	CSlot* Find_Slot(SLOT eSlot);
-	_uint Check_ItemCount(_uint iItem);
-	void Use_Item(_uint iItem, _uint iCount);
+	CSlot*	Find_Item(_uint iItemID);
+	CSlot*	Find_Slot(SLOT eSlot);
+	_uint	Check_ItemCount(_uint iItem);
+	void	Use_Item(_uint iItem, _uint iCount);
 
 private:
 	vector<class CSlotFrame*> m_SlotFrames = {};

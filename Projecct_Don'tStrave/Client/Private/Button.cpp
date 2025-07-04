@@ -85,7 +85,7 @@ HRESULT CButton::ADD_Components()
 
 _bool CButton::isMouseOver()
 {
-    RECT rect = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+    RECT rect = { LONG(m_fX - m_fSizeX * 0.5f), LONG(m_fY - m_fSizeY * 0.5f), LONG(m_fX + m_fSizeX * 0.5f), LONG(m_fY + m_fSizeY * 0.5f )};
 
     POINT pt{};
     GetCursorPos(&pt);

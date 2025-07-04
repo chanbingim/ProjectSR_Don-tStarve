@@ -31,6 +31,11 @@ void CItemState::Render()
     m_Frame.pAnimTexture->Set_Texture(m_Frame.iStartFrame);
 }
 
+_bool CItemState::isEndFrame()
+{
+    return m_Frame.iStartFrame == m_Frame.iEndFrame;
+}
+
 CItemState* CItemState::Create(void* pArg)
 {
     CItemState* pInstance = new CItemState();

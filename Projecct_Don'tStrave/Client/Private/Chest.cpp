@@ -6,7 +6,8 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "ITemState.h"
-#include <Camera.h>
+#include "Camera.h"
+#include "ChestUI.h"
 
 
 CChest::CChest(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -42,6 +43,8 @@ HRESULT CChest::Initialize(void* pArg)
 	m_bEnableBillboard = true;
 	Setting_Shader(L"BillBoard.fx");
 
+	m_pChestUI = dynamic_cast<CChestUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ChestUI")));
+
 	return S_OK;
 }
 
@@ -55,6 +58,8 @@ void CChest::Update(_float fTimeDelta)
 
 	HoverEvent();
 
+	Change_State();
+
 	switch (m_eCurState)
 	{
 	case Client::CChest::STATE::IDLE:
@@ -66,9 +71,15 @@ void CChest::Update(_float fTimeDelta)
 	case Client::CChest::STATE::OPEN:
 		if (false == __super::isInRange())
 			m_eCurState = CChest::STATE::CLOSE;
+		m_pChestUI->Update(fTimeDelta);
 		break;
 
 	case Client::CChest::STATE::CLOSE:
+		if (!dynamic_cast<CItemState*>(m_State_Com[EnumToInt(CChest::STATE::CLOSE)])->isEndFrame())
+		{
+			m_pChestUI->Update(fTimeDelta);
+		}
+
 		break;
 
 	case Client::CChest::STATE::END:
@@ -80,7 +91,7 @@ void CChest::Update(_float fTimeDelta)
 
 	SetUp_OnTerrain(m_pTransformCom, 0.f);
 
-	Change_State();
+	
 
 	m_pAnimController->Tick(fTimeDelta);
 
@@ -123,7 +134,8 @@ void CChest::HoverEvent()
 
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
 	{
-		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
+		if(STATE::OPEN != m_eCurState)
+			m_pMouse->Update_Hover(L":Open", 2);
 		ClickedEvent();
 	}
 }
@@ -208,7 +220,7 @@ HRESULT CChest::ADD_Components()
 
 	Desc.iStartFrame = 0;
 	Desc.iEndFrame = 7;
-	Desc.fTimeRate = 1.f;
+	Desc.fTimeRate = 2.f;
 	Desc.pAnimTexture = m_Texture_Com[EnumToInt(CChest::STATE::CLOSE)];
 	Desc.bIsLoop = false;
 
@@ -229,10 +241,10 @@ void CChest::Change_State()
 		case Client::CChest::STATE::PLACE:
 			break;
 		case Client::CChest::STATE::OPEN:
-
+			m_pChestUI->Change_State(CChestUI::STATE::OPEN);
 			break;
 		case Client::CChest::STATE::CLOSE:
-
+			m_pChestUI->Change_State(CChestUI::STATE::CLOSE);
 			break;
 		case Client::CChest::STATE::END:
 			break;
@@ -285,5 +297,6 @@ void CChest::Free()
 		Safe_Release(m_Texture_Com[i]);
 		Safe_Release(m_State_Com[i]);
 	}
+	Safe_Release(m_pChestUI);
 
 }
