@@ -91,6 +91,7 @@ namespace Client
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
 	}MONSTER_DATA;
+
 }
 
 using namespace Client;

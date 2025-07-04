@@ -1,5 +1,6 @@
 #include "Monster.h"
 
+#include "UserInterface.h"
 #include "GameInstance.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)

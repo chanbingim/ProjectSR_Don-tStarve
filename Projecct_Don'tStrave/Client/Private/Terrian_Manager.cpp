@@ -49,6 +49,7 @@ void CTerrian_Manager::ADD_Terrian(CTerrain* pTerrian)
         return;
 
     m_pTerrian[IndexY * m_Size.x + IndexX] = pTerrian;
+    Safe_AddRef(pTerrian);
 }
 
 void CTerrian_Manager::Clear()

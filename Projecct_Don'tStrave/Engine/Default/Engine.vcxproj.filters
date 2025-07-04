@@ -58,9 +58,6 @@
     <Filter Include="System\GameObject\Manager">
       <UniqueIdentifier>{baad7120-0d08-4d29-bcbe-59a843f1c0c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Components\Transform_Component">
-      <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Components\Texture_Component">
       <UniqueIdentifier>{04bd9fd9-cc56-44e6-8f38-14f26f956505}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,9 @@
     </Filter>
     <Filter Include="System\Components\VIBuffer\Cube">
       <UniqueIdentifier>{4f8c5de3-f9b0-44cf-90ea-92b5194bbb45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Transform_Component">
+      <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

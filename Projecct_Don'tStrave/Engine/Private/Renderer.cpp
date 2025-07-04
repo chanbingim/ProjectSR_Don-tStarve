@@ -36,7 +36,7 @@ void CRenderer::Render()
 {
 	Render_Priority();
 
-	CLight_Manager::GetInstance()->Enable_Light();
+	//CLight_Manager::GetInstance()->Enable_Light();
 #pragma region NONE_BLEND
 	Render_NonBlend();
 	Render_AlphaTest();

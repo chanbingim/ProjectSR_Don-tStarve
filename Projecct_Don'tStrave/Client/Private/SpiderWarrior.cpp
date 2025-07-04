@@ -2,6 +2,7 @@
 #include "SpiderHouse.h"
 #include "SpiderQueen.h"
 #include "GameInstance.h"
+#include "XML_Manager.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -16,9 +17,9 @@ CSpiderWarrior::CSpiderWarrior(const CSpiderWarrior& Prototype)
 
 HRESULT CSpiderWarrior::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml", L"../Bin/Resources/Textures/Monster/SpiderWarrior/");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spiderwarrior.scml");
+	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml", L"../Bin/Resources/Textures/Monster/SpiderWarrior/", &m_tImageVec);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spider.scml", &m_tAnimation);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderWarrior/spiderwarrior.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -353,20 +354,6 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 
 HRESULT CSpiderWarrior::Begin_RenderState()
 {
-	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
-
-	/*
-	float4		vSourColor, vDestColor;
-	vSourColor.rgb * vSourColor.a + vDestColor.rgb * (1.f - vSourColor.a);
-	*/
-
-	//
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//
-
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -378,8 +365,6 @@ HRESULT CSpiderWarrior::Begin_RenderState()
 
 HRESULT CSpiderWarrior::End_RenderState()
 {
-	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 

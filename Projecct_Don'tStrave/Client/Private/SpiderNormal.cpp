@@ -1,6 +1,7 @@
 #include "SpiderNormal.h"
 #include "GameInstance.h"
 #include "SpiderHouse.h"
+#include "XML_Manager.h"
 #include "SpiderQueen.h"
 #include "Camera.h"
 
@@ -17,8 +18,11 @@ CSpiderNormal::CSpiderNormal(const CSpiderNormal& Prototype)
 
 HRESULT CSpiderNormal::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
-	LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
+	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/", &m_tImageVec);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml", &m_tAnimation);
+
+	//AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
+	//LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
 	return S_OK;
 }
 
@@ -366,20 +370,6 @@ HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 
 HRESULT CSpiderNormal::Begin_RenderState()
 {
-	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
-
-	/*
-	float4		vSourColor, vDestColor;
-	vSourColor.rgb * vSourColor.a + vDestColor.rgb * (1.f - vSourColor.a);
-	*/
-
-	//
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//
-
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -391,8 +381,6 @@ HRESULT CSpiderNormal::Begin_RenderState()
 
 HRESULT CSpiderNormal::End_RenderState()
 {
-	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 

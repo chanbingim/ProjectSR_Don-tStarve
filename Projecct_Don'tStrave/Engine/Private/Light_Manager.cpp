@@ -27,7 +27,7 @@ HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
 	_uint Index = ENUM_CLASS(LightType);
 
 	auto iter = find(m_Lightlist[Index].begin(), m_Lightlist[Index].end(), pLight);
-	if (iter == m_Lightlist[Index].end())
+	if (iter != m_Lightlist[Index].end())
 		return E_FAIL;
 
 	m_Lightlist[Index].push_back(pLight);
@@ -62,8 +62,13 @@ void CLight_Manager::Enable_Light()
 	for (_uint i = 1; i <= 7; ++i)
 	{
 		if (iter == ApplyLight_End)
+		{
+			for(int j = i; j <= 7; ++j)
+				m_pGraphic_Device->LightEnable(i, false);
 			break;
+		}
 
+		m_pGraphic_Device->LightEnable(i, true);
 		(*iter)->Render_Light(i);
 		iter++;
 	}

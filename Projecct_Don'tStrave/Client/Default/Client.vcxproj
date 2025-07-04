@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\AinimationObject.h" />
     <ClInclude Include="..\public\AnimationUI.h" />
     <ClInclude Include="..\Public\BookMark_Button.h" />
     <ClInclude Include="..\public\Button.h" />
@@ -216,12 +217,15 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\UIEffect.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
+    <ClInclude Include="..\Public\XMLDataStruct.h" />
+    <ClInclude Include="..\public\XML_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\AinimationObject.cpp" />
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\Private\BookMark_Button.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
@@ -291,6 +295,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\private\XML_Manager.cpp" />
     <ClCompile Include="..\public\Hunger.cpp" />
     <ClCompile Include="..\Public\PlayerData_Manager.cpp" />
     <ClCompile Include="Client.cpp" />

@@ -4,12 +4,12 @@
 #include "Camera.h"
 
 CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CLandObject(pGraphic_Device)
+    CAinimationObject(pGraphic_Device)
 {
 }
 
 CEnviornment_Object::CEnviornment_Object(const CEnviornment_Object& rhs) :
-    CLandObject(rhs),
+    CAinimationObject(rhs),
     m_EnviornmentID(rhs.m_EnviornmentID)
 {
 }
@@ -60,8 +60,9 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
     if (nullptr == Camera)
         return;
 
-    if(Camera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
-        m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+  
+    //if(Camera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+    m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
 HRESULT CEnviornment_Object::Render()
@@ -139,6 +140,6 @@ void CEnviornment_Object::Free()
 
     Safe_Release(m_pTransformCom);
     Safe_Release(m_Idle_pTexture_Com);
-    Safe_Release(m_pVIBuffer_Com);
+    Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pCollision_Com);
 }

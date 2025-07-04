@@ -3,19 +3,20 @@
 #include "Terrain.h"
 #include "Terrian_Manager.h"
 
+#include "XML_Manager.h"
+#include "Character_Manager.h"
 #include "GameInstance.h"
+
 #include "Camera.h"
 
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CAlphaObject{ pGraphic_Device }
+    : CAinimationObject{ pGraphic_Device }
 {
 }
 
 CCharacter::CCharacter(const CCharacter& Prototype)
-    : CAlphaObject{ Prototype },
-    m_tAnimation{ Prototype.m_tAnimation },
-    m_tImageVec{ Prototype.m_tImageVec }
+    : CAinimationObject{ Prototype }
 {
 }
 
@@ -36,11 +37,7 @@ HRESULT CCharacter::Initialize(void* pArg)
         Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
     }
 
-    m_pTerrian_Manager = CTerrian_Manager::GetInstance();
-    Safe_AddRef(m_pTerrian_Manager);
-
     m_pCharacterInstance = CCharacter_Manager::GetInstance();
-    
 
     m_pCharacterInstance->AddRef();
     m_pCharacterInstance->Add_Object(this);
@@ -81,8 +78,6 @@ void CCharacter::Late_Update(_float fTimeDelta)
 
         SetUp_OnTerrain(m_pTransformCom, 0.f);
     }
-
-    Compute_CamDistance(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 }
 
 HRESULT CCharacter::Render()
@@ -145,122 +140,6 @@ void CCharacter::SetDir()
     }
 }
 
-HRESULT CCharacter::AddTexture(const _char* pScmlFilePath, const _tchar* pTextureFilePath)
-{
-    tinyxml2::XMLDocument doc;
-    if (tinyxml2::XML_SUCCESS != doc.LoadFile(pScmlFilePath)) {
-        return E_FAIL;
-    }
-
-    tinyxml2::XMLElement* root = doc.FirstChildElement("spriter_data");
-
-    for (tinyxml2::XMLElement* folderElem = root->FirstChildElement("folder"); folderElem; folderElem = folderElem->NextSiblingElement("folder")) {
-        IMAGE_FOLDER_DESC folder;
-        folder.iId = folderElem->IntAttribute("id");
-
-        folder.szName = Get_wstring(folderElem->Attribute("name"));
-        for (tinyxml2::XMLElement* fileElem = folderElem->FirstChildElement("file"); fileElem; fileElem = fileElem->NextSiblingElement("file")) {
-
-            IMAGE_FILE_DESC file;
-            file.iId = fileElem->IntAttribute("id");
-            file.szName = pTextureFilePath;
-            file.szName += Get_wstring(fileElem->Attribute("name"));
-            //if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-            //    TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
-            //{
-            //    m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-            //        CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
-            //    __super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-            //        TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
-            //}
-            file.pTexture = nullptr;
-            m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
-            
-            file.fSize.x = fileElem->FloatAttribute("width");
-            file.fSize.y = fileElem->FloatAttribute("height");
-            file.fPivot.x = fileElem->FloatAttribute("pivot_x");
-            file.fPivot.y = fileElem->FloatAttribute("pivot_y");
-            folder.tFilesVec.push_back(file);
-        }
-        m_tImageVec.push_back(folder);
-    }
-    return S_OK;
-}
-
-HRESULT CCharacter::LoadImageFile()
-{
-    for (auto& folder : m_tImageVec) {
-        for (auto& file : folder.tFilesVec) {
-            if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
-            {
-                m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                    CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
-                __super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                    TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
-            }
-        }
-    }
-    m_fAniTime = 0;
-    m_iLength = 1000;
-    return S_OK;
-}
-
-HRESULT CCharacter::LoadScml(const char* filename)
-{
-    tinyxml2::XMLDocument doc;
-    if (doc.LoadFile(filename) != tinyxml2::XML_SUCCESS) {
-        return E_FAIL;
-    }
-    tinyxml2::XMLElement* root = doc.FirstChildElement("spriter_data");
-    tinyxml2::XMLElement* entityElem = root->FirstChildElement("entity");
-    m_tAnimation.szName = Get_wstring(entityElem->Attribute("name"));
-    for (tinyxml2::XMLElement* animElem = entityElem->FirstChildElement("animation"); animElem; animElem = animElem->NextSiblingElement("animation")) {
-        SCML_ANIMATION_DESC anim;
-        anim.szName = Get_wstring(animElem->Attribute("name"));
-        anim.iLength = animElem->IntAttribute("length");
-
-        tinyxml2::XMLElement* mainlineElem = animElem->FirstChildElement("mainline");
-        for (tinyxml2::XMLElement* KeyElem = mainlineElem->FirstChildElement("key"); KeyElem; KeyElem = KeyElem->NextSiblingElement("key")) {
-            MAINKEY_DESC key;
-            key.iTime = KeyElem->IntAttribute("time");
-            for (tinyxml2::XMLElement* objectRef = KeyElem->FirstChildElement("object_ref"); objectRef; objectRef = objectRef->NextSiblingElement("object_ref")) {
-                OBJECT_REF_DESC ref;
-                ref.iTimeline = objectRef->IntAttribute("timeline");
-                ref.iZindex = objectRef->IntAttribute("z_index");
-                key.tRefVec.push_back(ref);
-            }
-            anim.tMainlinesVec.tKeysVec.push_back(key);
-        }
-        for (tinyxml2::XMLElement* timelineElem = animElem->FirstChildElement("timeline"); timelineElem; timelineElem = timelineElem->NextSiblingElement("timeline")) {
-            TIMELINE_DESC timeline;
-            timeline.iId = timelineElem->IntAttribute("id");
-            timeline.szName = Get_wstring(timelineElem->Attribute("name"));
-            for (tinyxml2::XMLElement* keyElem = timelineElem->FirstChildElement("key"); keyElem; keyElem = keyElem->NextSiblingElement("key")) {
-                KEY_DESC key;
-                key.iId = keyElem->IntAttribute("id");
-                key.iTime = keyElem->IntAttribute("time");
-                tinyxml2::XMLElement* objElem = keyElem->FirstChildElement("object");
-                if (objElem) {
-                    key.tObj.iFolder = objElem->IntAttribute("folder");
-                    key.tObj.iFile = objElem->IntAttribute("file");
-                    key.tObj.fPos.x = objElem->FloatAttribute("x");
-                    key.tObj.fPos.y = objElem->FloatAttribute("y");
-                    key.tObj.fAngle = objElem->FloatAttribute("angle");
-                    key.tObj.fScale.x = objElem->FloatAttribute("scale_x", 1.0f);
-                    key.tObj.fScale.y = objElem->FloatAttribute("scale_y", 1.0f);
-                }
-                timeline.tKeysVec.push_back(key);
-            }
-            anim.tTimelinesVec.push_back(timeline);
-            //reverse(anim.tTimelinesVec.begin(), anim.tTimelinesVec.end());
-        }
-        m_tAnimation.tAnimationsVec.push_back(anim);
-    }
-    return S_OK;
-}
-
 void CCharacter::RenderAnimation(const wstring& animName)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
@@ -273,7 +152,6 @@ void CCharacter::RenderAnimation(const wstring& animName)
     if (!pAnim) return;
     m_iLength = pAnim->iLength;
     m_fAniTime = fmod(m_fAniTime, (_float)m_iLength);
-
 
     const KEY_DESC* pPrevKey = nullptr;
     const KEY_DESC* pNextKey = nullptr;
@@ -405,8 +283,6 @@ void CCharacter::Free()
             Safe_Release(file.pTexture);
         }
     }
-    if(m_pTerrian_Manager)
-        Safe_Release(m_pTerrian_Manager);
 
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);

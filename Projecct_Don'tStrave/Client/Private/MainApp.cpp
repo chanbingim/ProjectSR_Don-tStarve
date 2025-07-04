@@ -10,6 +10,7 @@
 #include "AnimationUI.h"
 #include "Character_Manager.h"
 #include "Terrian_Manager.h"
+#include "XML_Manager.h"
 #include "Camera_Button.h"
 
 
@@ -52,6 +53,7 @@ HRESULT Client::CMainApp::Initialize()
 		return E_FAIL;
 
 	CTerrian_Manager::GetInstance()->Initialize({64, 64});
+	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
 
 	return S_OK;
 }
@@ -69,6 +71,7 @@ HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
@@ -223,6 +226,7 @@ void Client::CMainApp::Free()
 	CMonsterData_Manager::DestroyInstance();
 	CItem_Manager::DestroyInstance();
 	CTerrian_Manager::DestroyInstance();
+	CXML_Manager::DestroyInstance();
 	CCharacter_Manager::DestroyInstance();
 	m_pGameInstance->Release_Engine();
 

@@ -1,5 +1,5 @@
 #include "Texture.h"  
-#include <Windows.h>  
+#include <Windows.h>
 
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)  
 : CComponent{ pGraphic_Device }  
@@ -95,23 +95,6 @@ HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFile
 	m_iNumTextures = 1;  
 	
 	m_Textures.reserve(m_iNumTextures);  
-	
-
-	//const _tchar* fileName = {};
-	//_tchar		szFileName[MAX_PATH] = {};
-	//
-	////wsprintf(szFileName, pTextureFilePath, "\\*.dds");
-	//wstring str = pTextureFilePath;
-	//str += L"/*.dds";
-	//WIN32_FIND_DATAW data;
-	//HANDLE hFind;
-	//if ((hFind = FindFirstFileW(str.c_str(), &data)) != INVALID_HANDLE_VALUE)
-	//{
-	//	str = pTextureFilePath;
-	//	str += L"/";
-	//	str += data.cFileName;
-	//	swscanf_s(data.cFileName, L"%d_%d.dds", &m_iX, &m_iFrame);
-	//}
 
 	LPDIRECT3DBASETEXTURE9		pTexture = { nullptr };  
 
@@ -122,12 +105,7 @@ HRESULT CTexture::Initialize_Prototype(TEXTURE eType, const _tchar* pTextureFile
 	if (FAILED(hr))
 		return E_FAIL;
 	m_Textures.push_back(pTexture);
-	
-	//D3DXIMAGE_INFO imageInfo;  
-	//if (SUCCEEDED(D3DXGetImageInfoFromFile(str.c_str(), &imageInfo))) {
-	//	m_iWidth = imageInfo.Width;  
-	//	m_iHeight = imageInfo.Height;  
-	//}
+
 	return S_OK;  
 }  
 

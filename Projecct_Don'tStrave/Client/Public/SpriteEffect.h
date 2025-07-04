@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "AinimationObject.h"
 
 NS_BEGIN(Engine)
 class CVIBuffer_Rect;
 NS_END
 
 NS_BEGIN(Client)
-class CSpriteEffect : public CGameObject
+class CSpriteEffect : public CAinimationObject
 {
 private:
 	CSpriteEffect(LPDIRECT3DDEVICE9 pGraphic_Device);

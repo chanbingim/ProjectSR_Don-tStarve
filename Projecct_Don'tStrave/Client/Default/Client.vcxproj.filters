@@ -227,11 +227,20 @@
     <Filter Include="05. Item\Fire">
       <UniqueIdentifier>{078119ab-a0e0-4328-b85b-ff07b8b8f3d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\ChestUI">
+      <UniqueIdentifier>{39c34cf7-08ce-4070-8763-45f92cf4f119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML Manager">
+      <UniqueIdentifier>{05678005-b20f-42a7-af20-e44113d77cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML Manager\Struct">
+      <UniqueIdentifier>{ec70bae3-d226-4bfa-be22-aca118cfee1a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03. Character\Monster\Spider\Normal">
       <UniqueIdentifier>{ffb87d21-df8b-49eb-9fa8-5b597b272073}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GmaeUI\ChestUI">
-      <UniqueIdentifier>{39c34cf7-08ce-4070-8763-45f92cf4f119}</UniqueIdentifier>
+    <Filter Include="02. Objects\AnimationObject">
+      <UniqueIdentifier>{58c82889-b1fa-41e3-9440-3fcc6460c681}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +475,15 @@
     <ClInclude Include="..\Public\ChestUI.h">
       <Filter>04. GmaeUI\ChestUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\XML_Manager.h">
+      <Filter>XML Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\XMLDataStruct.h">
+      <Filter>XML Manager\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AinimationObject.h">
+      <Filter>02. Objects\AnimationObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -696,6 +714,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ChestUI.cpp">
       <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\XML_Manager.cpp">
+      <Filter>XML Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AinimationObject.cpp">
+      <Filter>02. Objects\AnimationObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

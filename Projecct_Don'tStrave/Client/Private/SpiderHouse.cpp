@@ -1,5 +1,7 @@
 #include "SpiderHouse.h"
 #include "GameInstance.h"
+
+#include "XML_Manager.h"
 #include "MonsterData_Manager.h"
 #include "Spider.h"
 
@@ -15,8 +17,8 @@ CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
 
 HRESULT CSpiderHouse::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", L"../Bin/Resources/Textures/Monster/SpiderHouse/");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml");
+	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", L"../Bin/Resources/Textures/Monster/SpiderHouse/", &m_tImageVec);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -283,7 +285,6 @@ HRESULT CSpiderHouse::Begin_RenderState()
 
 HRESULT CSpiderHouse::End_RenderState()
 {
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return S_OK;

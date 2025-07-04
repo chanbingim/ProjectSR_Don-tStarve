@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Monster.h"
+#include "XML_Manager.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -15,12 +17,16 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", L"../Bin/Resources/Textures/Player/Wilson/");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_atk.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml");
+	auto XML_Instance = CXML_Manager::GetInstance();
+	//XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
+	//XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", L"../Bin/Resources/Textures/Player/Wilson/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", &m_tAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_atk.scml", &m_tAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml", &m_tAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml", &m_tAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -306,9 +312,11 @@ HRESULT CPlayer::Render()
 		return E_FAIL;
 	if (DIR::DOWN == m_tDir) {
 		RenderAnimation(m_sAnim);
+		//RenderAnimation(TEXT("idle_normal"));
 	}
 	else {
 		RenderAnimation(m_sAnim);
+		//RenderAnimation(TEXT("idle_normal"));
 	}
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
@@ -490,20 +498,6 @@ HRESULT CPlayer::SetAnimation(_uint i, DIR dir, MOTION motion)
 
 HRESULT CPlayer::Begin_RenderState()
 {
-	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
-
-	/*
-	float4		vSourColor, vDestColor;
-	vSourColor.rgb * vSourColor.a + vDestColor.rgb * (1.f - vSourColor.a);
-	*/
-
-	//
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//
-
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -517,8 +511,6 @@ HRESULT CPlayer::Begin_RenderState()
 
 HRESULT CPlayer::End_RenderState()
 {
-	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 

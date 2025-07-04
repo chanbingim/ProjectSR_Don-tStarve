@@ -184,31 +184,31 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region Tree_Motion
-	/* For.Prototype_Component_Texture_Tree_Idle */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Idle"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Idle/Idle_0%d.png"), 80))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Fall_L */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Left"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Left/Fall_Left_0%d.png"), 38))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Fall_R */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Right"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Right/Fall_Right_0%d.png"), 38))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Chop */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Chop"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Chop/Chop_0%d.png"), 15))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Stump */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Stump"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Stump/Stump_000.png"), 1))))
-		return E_FAIL;
-#pragma endregion
+//	/* For.Prototype_Component_Texture_Tree_Idle */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Idle"),
+//		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Idle/Idle_0%d.png"), 80))))
+//		return E_FAIL;
+//
+//	/* For.Prototype_Component_Texture_Tree_Fall_L */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Left"),
+//		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Left/Fall_Left_0%d.png"), 38))))
+//		return E_FAIL;
+//
+//	/* For.Prototype_Component_Texture_Tree_Fall_R */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Right"),
+//		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Right/Fall_Right_0%d.png"), 38))))
+//		return E_FAIL;
+//
+//	/* For.Prototype_Component_Texture_Tree_Chop */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Chop"),
+//		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Chop/Chop_0%d.png"), 15))))
+//		return E_FAIL;
+//
+//	/* For.Prototype_Component_Texture_Tree_Stump */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Stump"),
+//		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Stump/Stump_000.png"), 1))))
+//		return E_FAIL;
+//#pragma endregion
 
 #pragma region Grass
 	/* For.Prototype_Component_Texture_Grass_Idle */

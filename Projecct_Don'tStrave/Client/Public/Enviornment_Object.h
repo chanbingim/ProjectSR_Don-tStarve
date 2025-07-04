@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "LandObject.h"
+#include "AinimationObject.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -11,7 +10,7 @@ class CAnimController;
 NS_END
 
 NS_BEGIN(Client)
-class CEnviornment_Object : public CLandObject
+class CEnviornment_Object : public CAinimationObject
 {
 public:
 	enum class Enviornment_STATE { IDLE, DAMAGED, BROKEN, END };

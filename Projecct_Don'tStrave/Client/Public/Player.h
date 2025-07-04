@@ -29,6 +29,7 @@ enum SWAPOBJECT {
 	SWAPOBJECT_TORCH,
 	SWAPOBJECT_END
 };
+
 class CPlayer final : public CCharacter
 {
 	enum MOTION {
@@ -99,6 +100,7 @@ private:
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
+
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();

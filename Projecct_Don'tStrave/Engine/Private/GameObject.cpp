@@ -131,19 +131,21 @@ HRESULT CGameObject::Setting_Shader(const WCHAR* ShaderName)
 
 void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex)
 {
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_ViewMat);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
 	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
-	//m_pEffect->SetTechnique(m_hTechnique);
 	
 	_matrix testMat = _InvWorldMat;
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	_float4 Size = {};
+	_float3 scale = m_pTransformCom->GetScale();
 
-	memcpy(Size, m_pTransformCom->GetScale(), sizeof(_float3));
+	(_float3)testMat.m[0] *= scale.x;
+	(_float3)testMat.m[1] *= scale.y;
+	(_float3)testMat.m[2] *= scale.z;
+
 	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &testMat);
+
 	/*m_pEffect->SetVector("vScale", &Size);
 	m_pEffect->SetMatrix("WorldMat", &testMat);
 	m_pEffect->SetMatrix("ViewMat", &m_ViewMat);
