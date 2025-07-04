@@ -11,6 +11,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
+class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
@@ -34,7 +35,6 @@ enum MOVE_DIR {
 
 class CCharacter : public CAlphaObject
 {
-
 	typedef struct Object_desc {
 		_uint iFolder;
 		_uint iFile;
@@ -94,6 +94,14 @@ class CCharacter : public CAlphaObject
 		wstring szName;
 		vector<IMAGE_FILE_DESC> tFilesVec;
 	}IMAGE_FOLDER_DESC;
+
+	typedef struct Character_desc {
+		_uint			m_iMaxHp = {};
+		_uint			m_iTemp = {};
+		_uint			m_iAtk = {};
+		_uint			m_iDef = {};
+		_uint			m_iMaxHit = {};
+	}CHARACTER_DESC;
 protected:
 	CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCharacter(const CCharacter& Prototype);
@@ -113,7 +121,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual void		Attack() = 0;
-	void		Get_Damage(_uint iAtk);
+	virtual void		Get_Damage(_uint iAtk);
 	void		SetDir();
 	HRESULT AddTexture(const _char* pScmlFilePath, const _tchar* pTextureFilePath);
 	HRESULT LoadImageFile();
@@ -123,12 +131,13 @@ protected:
 	_uint			m_iMaxHp = {};
 	_uint			m_iTemp = {};
 	_uint			m_iAtk = {};
-	_uint			m_iDef = {};
+	_float			m_fSpeed = {};
 	_uint			m_iMaxHit = {};
 	_float3			m_fMoving = {};
 	_float			m_fAngle = {};
 	_float			m_fCamDistance = {};
 	MOVE_DIR			m_tMoveDIr = {};
+	DIR				m_tDir = {};
 	_uint			m_iDir = {};
 	_int				m_iHp = {};
 	_int				m_iHit = {};
@@ -137,13 +146,22 @@ protected:
 	_float			m_fAniTime = {};
 	wstring			m_sAnim;
 
+<<<<<<< HEAD
 	Entity						m_tAnimation = {};
 	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
 	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
 	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
 	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
 
+=======
+	Entity m_tAnimation = {};
+	vector<IMAGE_FOLDER_DESC> m_tImageVec = {};
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
+	CCollision_Component* m_pCollision_Com = { nullptr };
+	CCharacter_Manager* m_pCharacterInstance = { nullptr };
+>>>>>>> origin/0703__kjh
 public:
+	HRESULT Ready_Components();
 	virtual void Free() override;
 };
 NS_END

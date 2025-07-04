@@ -56,6 +56,41 @@ namespace Client
 		unsigned int	iRotTime{};
 		FOOD			eFoodtype{};
 	}ITEM_DATA;
+
+	typedef struct Player_Desc {
+		_uint			iMaxHp = {};
+		_uint			iMaxHunger = {};
+		_uint			iMaxMental = {};
+		_uint			iHp = {};
+		_uint			iTemp = {};
+		_uint			iHunger = {};
+		_uint			iMental = {};
+	}PLAYER_DESC;
+
+	typedef struct Player_Data {
+		_uint			iId = {};
+		wstring			strName = {};
+		_uint			iMaxHp = {};
+		_uint			iMaxHunger = {};
+		_uint			iMaxMental = {};
+		_float			fAtk = {};
+		_float			fDef = {};
+	}PLAYER_DATA;
+
+	typedef struct Monster_Data {
+		_uint			iId = {};
+		wstring			strPath = {};
+		wstring			strName = {};
+		_uint			iMaxHp = {};
+		_uint			iAtk = {};
+		_float			fSpeed = {};
+		_uint			iAtkDistance = {};
+		_uint			iAtkSpeed = {};
+		_uint			iHitMax = {};
+		wstring			strWilsonDial = {};
+		wstring			strWigfridDial = {};
+		_float3			fPos = { 0.f,0.f,0.f };
+	}MONSTER_DATA;
 }
 
 using namespace Client;
