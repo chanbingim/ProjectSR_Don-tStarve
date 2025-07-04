@@ -26,13 +26,12 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 		return E_FAIL;
 	LoadImageFile();
 	m_pMonsterVec.clear();
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
 
 	SetAnimation(MOTION::SMALL);
 
-	MONSTER_DATA data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
 	size_t max = (rand() % 4) + 3;
-	data.fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	data.fPos = m_pMonsterData->fPos;;
 	for (size_t i = 0; i < max; i++)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
@@ -75,7 +74,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	MONSTER_DATA data;
+	MONSTER_DESC data;
 	switch (m_tMotion)
 	{
 	case MOTION::SMALL_DAMAGE:
@@ -85,29 +84,22 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	case MOTION::SMALL_TO_MEDIUM:
 		if (m_iLength <= m_fAniTime) {
+
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(4);
-			m_iId = data.iId;
-			m_iMaxHp = data.iMaxHp;
-			m_iAtk = data.iAtk;
-			m_fSpeed = data.fSpeed;
-			m_iAtkDistance = data.iAtkDistance;
-			m_iAtkSpeed = data.iAtkSpeed;
-			m_iMaxHit = data.iHitMax;
+			m_pMonsterData->iId = data.iId;
+			m_pMonsterData->iMaxHp = data.iMaxHp;
+			m_pMonsterData->iHp = data.iMaxHp;
 
-			m_iHp = m_iMaxHp;
-			m_iHit = m_iMaxHit;
-
-			MONSTER_DATA data;
 			size_t max = (rand() % 4);
 			for (size_t i = 0; i < max; i++)
 			{
 				if (2 < rand() % 10) {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
-					data.fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					data.fPos = m_pMonsterData->fPos;;
 				}
 				else {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
-					data.fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					data.fPos = m_pMonsterData->fPos;;
 				}
 				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 			}
@@ -120,19 +112,12 @@ void CSpiderHouse::Update(_float fTimeDelta)
 	case MOTION::MEDIUM_TO_LARGE:
 		if (m_iLength <= m_fAniTime) {
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(5);
-			m_iId = data.iId;
-			m_iMaxHp = data.iMaxHp;
-			m_iAtk = data.iAtk;
-			m_fSpeed = data.fSpeed;
-			m_iAtkDistance = data.iAtkDistance;
-			m_iAtkSpeed = data.iAtkSpeed;
-			m_iMaxHit = data.iHitMax;
+			m_pMonsterData->iId = data.iId;
+			m_pMonsterData->iMaxHp = data.iMaxHp;
+			m_pMonsterData->iHp = data.iMaxHp;
 
-			m_iHp = m_iMaxHp;
-			m_iHit = m_iMaxHit;
-
-			MONSTER_DATA data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
-			data.fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
+			data.fPos = m_pMonsterData->fPos;;
 			size_t max = (rand() % 4);
 			for (size_t i = 0; i < max; i++)
 			{
@@ -146,9 +131,9 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	case MOTION::LARGE_TO_QUEEN:
 		if (m_iLength <= m_fAniTime) {
-			SetAnimation(MOTION::LARGE_TO_SMALL);
-			MONSTER_DATA data = CMonsterData_Manager::GetInstance()->Get_MonsterData(2);
-			data.fPos= m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			m_isDead = true;
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(2);
+			data.fPos= m_pMonsterData->fPos;;
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		break;

@@ -22,7 +22,7 @@ HRESULT CSpider::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	MONSTER_DATA data = *static_cast<MONSTER_DATA*>(pArg);
+	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pTransformCom->SetPosition(data.fPos);
 
 	for (auto target : m_pCharacterInstance->Get_NearObject(this, 0.1f)) {

@@ -51,7 +51,6 @@ public:
 private:
 	MOTION					m_tMotion = {};
 	DIR						m_tDir = {};
-	_bool					m_bMove = {};
 	_float					m_fAtkCool = {};
 	_float3					m_fDash = {};
 private:

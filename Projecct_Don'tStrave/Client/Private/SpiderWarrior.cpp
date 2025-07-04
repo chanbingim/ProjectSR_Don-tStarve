@@ -29,19 +29,8 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 
 	LoadImageFile();
 
-	_float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3 pos = m_pMonsterData->fPos;;
 	m_pTransformCom->SetPosition(pos + _float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f)));
-
-
-	SetAnimation(m_tDir, MOTION::IDLE);
-	m_iMaxHp = 100;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_iAtk = 30;
-	m_iMaxHit = 10;
-	m_iHit = m_iMaxHit;
-	m_fAtkCool = 5.f;
-	m_bMove = false;
 
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
@@ -122,13 +111,12 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				SetAnimation(m_tDir, m_tMotion);
 			}
 			else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				vPosition += m_fDash * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
+				m_pMonsterData->fPos += m_fDash * fTimeDelta;
+				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 			}
 		}
 		else if (m_pTarget) {
-			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
 			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
 				m_fAtkCool -= fTimeDelta;
 				if (0.f >= m_fAtkCool) {
@@ -168,9 +156,9 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 						SetAnimation(m_tDir, MOTION::RUN);
 					}
 					D3DXVec3Normalize(&move, &move);
-					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					vPosition += move * m_fSpeed * fTimeDelta;
-					m_pTransformCom->SetPosition(vPosition);
+					
+					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 				}
 			}
 			else {
@@ -182,9 +170,8 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 					}
 					else {
 						D3DXVec3Normalize(&move, &move);
-						_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-						vPosition += move * m_fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(vPosition);
+						m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+						m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 					}
 					break;
 				case MOTION::ATTACK:
@@ -390,7 +377,7 @@ void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (dynamic_cast<CCharacter*>(HitActor)) {
 		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion == DASH_ATTACK) {
-			m_pTarget->Get_Damage(m_iAtk);
+			m_pTarget->Get_Damage(m_pMonsterData->iAtk);
 		}
 	}
 }
@@ -403,7 +390,7 @@ void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				Attack();
 			}
 			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-				m_pTarget->Get_Damage(m_iAtk);
+				m_pTarget->Get_Damage(m_pMonsterData->iAtk);
 				m_bAttack = false;
 			}
 		}

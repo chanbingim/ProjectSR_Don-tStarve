@@ -13,12 +13,11 @@ private:
 	virtual ~CPlayerData_Manager() = default;
 
 public:
-	const PLAYER_DATA& Get_PlayerData(_uint iItemID) const;
+	const PLAYER_DESC& Get_PlayerData(_uint iItemID) const;
 	void	LoadPlayerData(const char* MapFilePath);
 private:
 	_uint					m_iPlayerDataSize = {};
-	vector<PLAYER_DATA>		m_tPlayerDataVec = {};
-
+	vector<PLAYER_DESC>		m_tPlayerDataVec = {};
 public:
 	virtual void Free() override;
 };
