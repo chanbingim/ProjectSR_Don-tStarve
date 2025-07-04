@@ -278,13 +278,7 @@ void CCharacter::Free()
         m_pCharacterInstance->Remove_Object(this);
         Safe_Release(m_pCharacterInstance);
     }
-    for (auto& folder : m_tImageVec) {
-        for (auto& file : folder.tFilesVec) {
-            Safe_Release(file.pTexture);
-        }
-    }
 
     Safe_Release(m_pTransformCom);
-    Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pCollision_Com);
 }

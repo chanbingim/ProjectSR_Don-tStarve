@@ -364,5 +364,4 @@ CGameObject* CSpiderQueen::Clone(void* pArg)
 void CSpiderQueen::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }

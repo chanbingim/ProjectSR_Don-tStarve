@@ -1,12 +1,12 @@
 #include "SpriteEffect.h"
 
 CSpriteEffect::CSpriteEffect(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CGameObject(m_pGraphic_Device)
+    CAinimationObject(m_pGraphic_Device)
 {
 }
 
 CSpriteEffect::CSpriteEffect(const CSpriteEffect& rhs) :
-    CGameObject(rhs)
+    CAinimationObject(rhs)
 {
 }
 

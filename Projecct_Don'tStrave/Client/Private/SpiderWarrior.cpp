@@ -427,5 +427,4 @@ CGameObject* CSpiderWarrior::Clone(void* pArg)
 void CSpiderWarrior::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }

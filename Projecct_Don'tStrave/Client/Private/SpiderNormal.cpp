@@ -438,5 +438,4 @@ CGameObject* CSpiderNormal::Clone(void* pArg)
 void CSpiderNormal::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }

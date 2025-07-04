@@ -24,15 +24,7 @@ public:
 	virtual HRESULT		Render() override;
 
 private:
-	CTexture*			m_Broken_pTexture_Com = { nullptr };
-	CTexture*			m_Damaged_pTexture_Com = { nullptr };
-
-	CAnimController*	m_Animation_Com = { nullptr };
-	CEnv_Animation*		m_AnimationState[3] = {};
-
-private:
 	HRESULT				ADD_Components();
-	void				ADD_AnimationState();
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

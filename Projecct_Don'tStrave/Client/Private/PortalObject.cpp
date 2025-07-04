@@ -1,6 +1,8 @@
 #include "PortalObject.h"
 #include "GameInstance.h"
 
+#include "XML_Manager.h"
+
 CPortalObject::CPortalObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
@@ -14,6 +16,10 @@ CPortalObject::CPortalObject(const CPortalObject& rhs) :
 
 HRESULT CPortalObject::Initialize_Prototype()
 {
+    //auto XML_Instance = CXML_Manager::GetInstance();
+    //XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
+    //XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+
     return S_OK;
 }
 
@@ -24,6 +30,8 @@ HRESULT CPortalObject::Initialize(void* pArg)
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
+
+    LoadImageFile();
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -68,11 +76,6 @@ HRESULT CPortalObject::ADD_Components()
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
         return E_FAIL;
 
-    /* Com_Idle_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Spawner"),
-        TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_Idle_pTexture_Com))))
-        return E_FAIL;
-
     /* Com_Collision */
     CBox_Collision_Component::Collision_Desc Col_Desc = {};
     Col_Desc.pOwner = this;
@@ -82,11 +85,6 @@ HRESULT CPortalObject::ADD_Components()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CPortalObject::ADD_AnimationState()
-{
-
 }
 
 void CPortalObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

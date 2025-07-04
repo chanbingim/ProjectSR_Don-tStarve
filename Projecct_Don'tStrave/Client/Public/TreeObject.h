@@ -24,22 +24,17 @@ public:
 	virtual void		Late_Update(_float fTimeDelta) override;
 	virtual HRESULT		Render() override;
 
-private:	
-	CTexture*			m_Damaged_pTexture_Com = { nullptr };
-	CTexture*			m_Fall_Left_pTexture_Com = { nullptr };
-	CTexture*			m_Fall_Right_pTexture_Com = { nullptr };
-	CTexture*			m_Broken_pTexture_Com = { nullptr };
-
-	CAnimController*	m_Animation_Com = { nullptr };
-	CEnv_Animation*		m_AnimationState[5] = {};
-
 private:
 	HRESULT				ADD_Components();
-	void				ADD_AnimationState();
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
+
+private :
+	_wstring				m_FrontName = {};
+	const WCHAR*			m_TailName = {};
+
 
 public:
 	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

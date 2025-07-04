@@ -71,7 +71,7 @@ HRESULT CAinimationObject::LoadImageFile()
     }
 
     m_fAniTime = 0;
-    //m_iLength = 1000;
+    m_iLength = 1000;
     return S_OK;
 }
 
@@ -234,4 +234,11 @@ void CAinimationObject::Free()
 {
     __super::Free();
     Safe_Release(m_pTerrian_Manager);
+    Safe_Release(m_pVIBufferCom);
+
+    for (auto& Folderiter : m_tImageVec)
+    {
+        for (auto& Fileiter : Folderiter.tFilesVec)
+            Safe_Release(Fileiter.pTexture);
+    }
 }

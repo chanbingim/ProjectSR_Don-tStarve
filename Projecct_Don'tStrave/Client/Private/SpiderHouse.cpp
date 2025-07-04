@@ -329,5 +329,4 @@ CGameObject* CSpiderHouse::Clone(void* pArg)
 void CSpiderHouse::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }
