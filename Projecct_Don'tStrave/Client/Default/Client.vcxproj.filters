@@ -230,6 +230,9 @@
     <Filter Include="03. Character\Monster\Spider\Normal">
       <UniqueIdentifier>{ffb87d21-df8b-49eb-9fa8-5b597b272073}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\ChestUI">
+      <UniqueIdentifier>{39c34cf7-08ce-4070-8763-45f92cf4f119}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -457,6 +460,12 @@
     <ClInclude Include="..\Public\SpiderNormal.h">
       <Filter>03. Character\Monster\Spider\Normal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UIEffect.h">
+      <Filter>04. GmaeUI\UIEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChestUI.h">
+      <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -681,6 +690,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\SpiderNormal.cpp">
       <Filter>03. Character\Monster\Spider\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIEffect.cpp">
+      <Filter>04. GmaeUI\UIEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChestUI.cpp">
+      <Filter>04. GmaeUI\ChestUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

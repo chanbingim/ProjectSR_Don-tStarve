@@ -153,6 +153,7 @@
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Character_Manager.h" />
     <ClInclude Include="..\Public\Chest.h" />
+    <ClInclude Include="..\Public\ChestUI.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="..\public\Slot.h" />
     <ClInclude Include="..\public\SlotFrame.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\UIEffect.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -230,6 +232,7 @@
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Character_Manager.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
+    <ClCompile Include="..\Private\ChestUI.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
@@ -271,6 +274,7 @@
     <ClCompile Include="..\private\Sanity.cpp" />
     <ClCompile Include="..\private\Slot.cpp" />
     <ClCompile Include="..\private\SlotFrame.cpp" />
+    <ClCompile Include="..\Private\UIEffect.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui_demo.cpp" />
