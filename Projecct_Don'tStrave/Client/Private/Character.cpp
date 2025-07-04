@@ -94,16 +94,16 @@ HRESULT CCharacter::Render()
 
 void CCharacter::Get_Damage(_uint iAtk)
 {
-    if (0 <= m_iHp) {
-        m_iHp -= max(0, iAtk);
-        if (0 >= m_iHp) {
+    if (0 <= m_pChar->iHp) {
+        m_pChar->iHp -= max(0, iAtk);
+        if (0 >= m_pChar->iHp) {
             Death();
         }
         else {
-            m_iHit -= max(0, iAtk);
-            if (0 >= m_iHit) {
+            m_pChar->iHit -= max(0, iAtk);
+            if (0 >= m_pChar->iHit) {
                 Damage();
-                m_iHit = m_iMaxHit;
+                m_pChar->iHit = m_pChar->iMaxHit;
             }
         }
     }

@@ -364,9 +364,6 @@
     <ClInclude Include="..\Public\PlayerAnim.h">
       <Filter>03. Character\Player\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Spider.h">
-      <Filter>03. Character\Monster\Spider</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\SpiderHouse.h">
       <Filter>03. Character\Monster\Spider\House</Filter>
     </ClInclude>
@@ -465,6 +462,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ChestUI.h">
       <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Spider.h">
+      <Filter>03. Character\Monster\Spider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Pig.h">
+      <Filter>김정환</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +699,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ChestUI.cpp">
       <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Pig.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

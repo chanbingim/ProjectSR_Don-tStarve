@@ -6,7 +6,7 @@ CMonsterData_Manager::CMonsterData_Manager()
 {
 }
 
-const MONSTER_DATA& CMonsterData_Manager::Get_MonsterData(_uint iMonsterID) const
+const MONSTER_DESC& CMonsterData_Manager::Get_MonsterData(_uint iMonsterID) const
 {
     if (m_iMonsterDataSize < iMonsterID)
         return m_tMonsterDataVec[0];
@@ -27,14 +27,14 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
 
     for (_uint i = 0; i < iDataSize; )
     {
-        MONSTER_DATA Data;
+        MONSTER_DESC Data;
         ++m_iMonsterDataSize;
         Data.iId = static_cast<_uint>(std::stoi(ReadData[i++]));
 
         WCHAR szData[128];
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strPath = szData;
-
+        
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strName = szData;
 
@@ -44,7 +44,7 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
         Data.iAtkDistance = static_cast<_uint>(std::stoi(ReadData[i++]));
         Data.iAtkSpeed = static_cast<_uint>(std::stoi(ReadData[i++]));
 
-        Data.iHitMax = static_cast<_uint>(std::stoi(ReadData[i++]));
+        Data.iMaxHit = static_cast<_uint>(std::stoi(ReadData[i++]));
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strWilsonDial = szData;
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);

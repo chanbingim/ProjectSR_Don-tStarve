@@ -28,7 +28,7 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
-	_float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3 pos = m_pMonsterData->fPos;
 	m_pTransformCom->SetPosition(pos + _float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f)));
 
 
@@ -107,7 +107,7 @@ void CSpiderNormal::Update(_float fTimeDelta)
 			}
 		}
 		else if (m_pTarget) {
-			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
 			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
 				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 					switch (m_tMotion)
@@ -135,9 +135,9 @@ void CSpiderNormal::Update(_float fTimeDelta)
 						SetAnimation(m_tDir, MOTION::RUN);
 					}
 					D3DXVec3Normalize(&move, &move);
-					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					vPosition += move * m_fSpeed * fTimeDelta;
-					m_pTransformCom->SetPosition(vPosition);
+
+					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 				}
 			}
 			else {
@@ -145,9 +145,8 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				m_fMoveTIme += fTimeDelta;
 				if (m_fMoveTIme > 10) {
 					if (m_fMoveTIme > 40) {
-						_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-						vPosition += m_fRandomMove * m_fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(vPosition);
+						m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+						m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 						if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
 							SetAnimation(m_tDir, MOTION::RUN);
 						}
@@ -171,9 +170,9 @@ void CSpiderNormal::Update(_float fTimeDelta)
 						}
 						else {
 							D3DXVec3Normalize(&move, &move);
-							_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-							vPosition += move * m_fSpeed * fTimeDelta;
-							m_pTransformCom->SetPosition(vPosition);
+
+							m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+							m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 						}
 						break;
 					case MOTION::ATTACK:
@@ -194,12 +193,12 @@ void CSpiderNormal::Update(_float fTimeDelta)
 			m_fMoveTIme += fTimeDelta;
 			if (m_fMoveTIme > 10) {
 				if (m_fMoveTIme > 40) {
-					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					vPosition += m_fRandomMove * m_fSpeed * fTimeDelta;
-					if (vPosition.x < 0 || vPosition.z < 0) {
+
+					m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+					if (m_pMonsterData->fPos.x < 0 || m_pMonsterData->fPos.z < 0) {
 						m_fMoveTIme = 0;
 					}
-					m_pTransformCom->SetPosition(vPosition);
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 					if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::RUN);
 					}
@@ -411,7 +410,7 @@ void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				Attack();
 			}
 			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-				m_pTarget->Get_Damage(m_iAtk);
+				m_pTarget->Get_Damage(m_pMonsterData->iAtk);
 				m_bAttack = false;
 			}
 		}

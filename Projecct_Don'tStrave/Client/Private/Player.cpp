@@ -31,29 +31,35 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	LoadImageFile();
 
-	m_pTransformCom->SetPosition(_float3(0.f, 0.f, 0.f));
-
-	m_iSwapObject = 0;
-	m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;
-	SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::BUCKED);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::DOWN][m_tMotion]);
 
 
-	PLAYER_DATA data = *static_cast<PLAYER_DATA*>(pArg);
+	PLAYER_DESC data = *static_cast<PLAYER_DESC*>(pArg);
+	m_pPlayer = new PLAYER_DATA;
+	
+	m_pPlayer->iMaxHp = data.iMaxHp;
+	m_pPlayer->iMaxHunger = data.iMaxHunger;
+	m_pPlayer->iMaxMental = data.iMaxMental;
+	m_pPlayer->iHp = data.iMaxHp;
+	m_pPlayer->iHunger = data.iMaxHunger;
+	m_pPlayer->iMental = data.iMaxMental;
+	m_pPlayer->tItem = SWAPOBJECT::NONE;
+	m_pPlayer->fSpeed = 4.f;
 
-	m_iMaxHp = data.iMaxHp;
-	m_iMaxHunger = data.iMaxHunger;
-	m_iMaxMental = data.iMaxMental;
-	m_iHunger = m_iMaxHunger;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_fAtkRatio = data.fAtk;
-	m_fDefRatio = data.fDef;
-	m_iAtk = 10;
-	m_iDef = 0;
-	m_iMaxHit = 10;
-	m_iHit = m_iMaxHit;
+	m_pPlayer->iTemp = 0;
+	m_pPlayer->fAtkRatio = data.fAtk;
+	m_pPlayer->fDefRatio = data.fDef;
+	m_pPlayer->iAtk = 10;
+	m_pPlayer->iDef = 0;
+	m_pPlayer->iMaxHit = 10;
+	m_pPlayer->iHit = 10;
+	m_pPlayer->fPos = data.fPos;
+	m_pPlayer->pWorkObject = nullptr;
+	SetAnimation(DIR::DIR_END, MOTION::BUCKED);
 
+	m_pChar = m_pPlayer;
+
+	m_pTransformCom->SetPosition({ 0.f, 0.f, 0.f });
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
@@ -69,7 +75,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
-	if (0 >= m_iHunger) {
+	if (0 >= m_pPlayer->iHunger) {
 		Death();
 	}
 }
@@ -115,7 +121,7 @@ void CPlayer::Update(_float fTimeDelta)
 				m_tDir = DIR::UP;
 				break;
 			}
-			SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
+			SetAnimation(m_tDir, m_tMotion);
 		}
 		if (GetKeyState('W') & 0x8000 || GetKeyState('S') & 0x8000 || GetKeyState('D') & 0x8000 || GetKeyState('A') & 0x8000)
 		{
@@ -125,15 +131,14 @@ void CPlayer::Update(_float fTimeDelta)
 				break;
 			case MOTION::IDLE_TO_RUN:
 				if (m_iLength <= m_fAniTime) {
-					SetAnimation(m_iSwapObject, m_tDir, MOTION::RUN);
+					SetAnimation(m_tDir, MOTION::RUN);
 				}
 			case MOTION::RUN:
 				break;
 			default:
-				SetAnimation(m_iSwapObject, m_tDir, MOTION::IDLE_TO_RUN);
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 				break;
 			}
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float3		vMove = {0.f ,0.f ,0.f};
 			if (GetKeyState('W') & 0x8000) {
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
@@ -159,16 +164,15 @@ void CPlayer::Update(_float fTimeDelta)
 				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
 
-			vPosition += *D3DXVec3Normalize(&vMove, &vMove) * 2.f * fTimeDelta;
-			m_pTransformCom->SetPosition(vPosition);
+			m_pPlayer->fPos += *D3DXVec3Normalize(&vMove, &vMove) * 2.f * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pPlayer->fPos);
 		}
 		else {
-			if (nullptr != m_pWorkObject) {
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float3 move = m_pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			if (nullptr != m_pPlayer->pWorkObject) {
+				_float3 move = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pPlayer->fPos;
 
-				vPosition += *D3DXVec3Normalize(&move, &move) * 2.f * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
+				m_pPlayer->fPos += *D3DXVec3Normalize(&move, &move) * 2.f * fTimeDelta;
+				m_pTransformCom->SetPosition(m_pPlayer->fPos);
 			}
 			switch (m_tMotion)
 			{
@@ -176,7 +180,7 @@ void CPlayer::Update(_float fTimeDelta)
 			case  MOTION::RUN:
 				if (m_iLength <= m_fAniTime)
 				{
-					SetAnimation(m_iSwapObject, m_tDir, MOTION::RUN_TO_IDLE);
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
 					//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 				}
 				break;
@@ -184,7 +188,7 @@ void CPlayer::Update(_float fTimeDelta)
 			case MOTION::ATTACK:
 				if (m_iLength <= m_fAniTime)
 				{
-					SetAnimation(m_iSwapObject, m_tDir, MOTION::IDLE);
+					SetAnimation(m_tDir, MOTION::IDLE);
 					//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 					m_bControll = false;
 				}
@@ -202,7 +206,7 @@ void CPlayer::Update(_float fTimeDelta)
 			Attack();
 			//m_tMotion = MOTION::ATTACK;
 			//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_tDir][m_tMotion]);
-			//SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
+			//SetAnimation(m_tDir, m_tMotion);
 			////m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 			//m_bControll = false;
 		}
@@ -220,7 +224,7 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::BUCKED:
 			if (m_iLength < m_fAniTime)
 			{
-				SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::BUCK_PST);
+				SetAnimation(DIR::DIR_END, MOTION::BUCK_PST);
 			}
 			break;
 		case MOTION::BUCK_PST:
@@ -234,7 +238,7 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::GIVE:
 		case MOTION::DAMAGE:
 			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_iSwapObject, m_tDir, MOTION::IDLE);
+				SetAnimation(m_tDir, MOTION::IDLE);
 				//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 				m_bControll = true;
 			}
@@ -242,14 +246,13 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::DEATH1:
 		case MOTION::DEATH2:
 			if (m_iLength <= m_fAniTime) {
-				m_iSwapObject = 0;
-				SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::GHOST_APPEAR);
+				SetAnimation(DIR::DIR_END, MOTION::GHOST_APPEAR);
 				//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 			}
 			break;
 		case MOTION::GHOST_APPEAR:
 			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::GHOST_IDLE);
+				SetAnimation(DIR::DIR_END, MOTION::GHOST_IDLE);
 				//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 				m_bControll = true;
 			}
@@ -259,7 +262,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetKeyState('R') & 0x8000)
 	{
-		SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::DIAL);
+		SetAnimation(DIR::DIR_END, MOTION::DIAL);
 		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 		m_bControll = false;
 	}
@@ -267,7 +270,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_isDead = true;
 	}
-	SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
+	SetAnimation(m_tDir, m_tMotion);
 
 	if (m_pGameInstance->KeyPressed('E'))
 	{
@@ -279,21 +282,14 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	if (m_pGameInstance->KeyPressed('Y'))
 	{
-		m_iSwapObject = 0;
-		m_tItem = SWAPOBJECT::SWAPOBJECT_NONE;
-		SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
+		m_pPlayer->tItem = SWAPOBJECT::NONE;
+		SetAnimation(m_tDir, m_tMotion);
 		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 	}
 	if (GetKeyState('X') & 0x8000)
 	{
-		m_iSwapObject = 1;
-		m_tItem = SWAPOBJECT::SWAPOBJECT_AXE;
-		SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
-		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
-	}
-	if (GetKeyState('L') & 0x8000)
-	{
-		SetAnimation(m_iSwapObject, m_tDir, PICKUP);
+		m_pPlayer->tItem = SWAPOBJECT::AXE;
+		SetAnimation(m_tDir, m_tMotion);
 		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 	}
 }
@@ -303,6 +299,9 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 	SetDir();
 	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
+		m_pPlayer->pWorkObject = nullptr;
+	}
 }
 
 HRESULT CPlayer::Render()
@@ -326,7 +325,7 @@ HRESULT CPlayer::Render()
 void CPlayer::Damage()
 {
 	m_bControll = false;
-	SetAnimation(m_iSwapObject, m_tDir, MOTION::DAMAGE);
+	SetAnimation(m_tDir, MOTION::DAMAGE);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 }
 
@@ -334,7 +333,7 @@ void CPlayer::Attack()
 {
 	m_bAttack = true;
 	m_bControll = false;
-	SetAnimation(m_iSwapObject, m_tDir, MOTION::ATTACK);
+	SetAnimation(m_tDir, MOTION::ATTACK);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 }
 
@@ -344,33 +343,25 @@ void CPlayer::Death()
 	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
 	//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][DIR::SIDE][m_tMotion]);
-	SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::DEATH2);
+	SetAnimation(DIR::DIR_END, MOTION::DEATH2);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::SIDE][m_tMotion]);
 }
 
 void CPlayer::Get_Damage(_uint iAtk)
 {
-	__super::Get_Damage(max(0, iAtk - (m_iDef * m_fDefRatio)));
+	__super::Get_Damage(max(0, iAtk - (m_pPlayer->iDef * m_pPlayer->fDefRatio)));
 }
 
-PLAYER_DESC CPlayer::Get_Player()
+PLAYER_DATA* CPlayer::Get_Player()
 {
-	PLAYER_DESC player;
-	player.iMaxHp = m_iMaxHp;
-	player.iMaxHunger = m_iMaxHunger;
-	player.iMaxMental = m_iMaxMental;
-	player.iHp = m_iHp;
-	player.iHunger = m_iHunger;
-	player.iMental = m_iMental;
-	player.iTemp = m_iTemp;
-	return player;
+	return m_pPlayer;
 }
 
 void CPlayer::SetItem(SWAPOBJECT tItem)
 {
 }
 
-HRESULT CPlayer::SetAnimation(_uint i, DIR dir, MOTION motion)
+HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 {
 	if (motion != m_tMotion) {
 		m_fAniTime = 0.f;
@@ -487,7 +478,7 @@ HRESULT CPlayer::SetAnimation(_uint i, DIR dir, MOTION motion)
 		}
 		m_tDir = dir;
 	}
-	if (i) {
+	if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
 		m_sAnim += L"_item";
 	}
 	return S_OK;
@@ -538,7 +529,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	//if (HitActor == m_pWorkObject) {
 	if (dynamic_cast<CMonster*>(HitActor) && m_bAttack && m_tMotion == MOTION::ATTACK && 330 <= (int)m_fAniTime) {
-		dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_iAtk * m_fAtkRatio);
+		dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
 		m_bAttack = false;
 	}
 	//}
@@ -579,4 +570,5 @@ void CPlayer::Free()
 	__super::Free();
 
 	Safe_Release(m_pCollision_Com);
+	Safe_Delete(m_pPlayer);
 }

@@ -6,7 +6,7 @@ CPlayerData_Manager::CPlayerData_Manager()
 {
 }
 
-const PLAYER_DATA& CPlayerData_Manager::Get_PlayerData(_uint iPlayerID) const
+const PLAYER_DESC& CPlayerData_Manager::Get_PlayerData(_uint iPlayerID) const
 {
     if (m_iPlayerDataSize < iPlayerID)
         return m_tPlayerDataVec[0];
@@ -27,7 +27,7 @@ void CPlayerData_Manager::LoadPlayerData(const char* MapFilePath)
 
     for (_uint i = 0; i < iDataSize; )
     {
-        PLAYER_DATA Data;
+        PLAYER_DESC Data;
         ++m_iPlayerDataSize;
         Data.iId = static_cast<_uint>(std::stoi(ReadData[i++]));
         WCHAR szData[128];
