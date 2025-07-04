@@ -28,7 +28,7 @@ private:
 	_float				m_fGameTime = {};
 	CTransform*			m_pTransform_Com_Clock = { nullptr };
 	CTexture*			m_pTexture_Com_Clock = { nullptr };
-	CLightComponent*	m_pLightComponent = { nullptr };
+	CLightComponent*	m_pLight_Com = { nullptr };
 	D3DLIGHT9			m_Light{};
 
 private:
