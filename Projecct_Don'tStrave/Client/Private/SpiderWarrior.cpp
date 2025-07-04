@@ -1,14 +1,16 @@
 #include "SpiderWarrior.h"
+#include "SpiderHouse.h"
+#include "SpiderQueen.h"
 #include "GameInstance.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMonster{ pGraphic_Device }
+	: CSpider{ pGraphic_Device }
 {
 
 }
 
 CSpiderWarrior::CSpiderWarrior(const CSpiderWarrior& Prototype)
-	: CMonster{ Prototype }
+	: CSpider{ Prototype }
 {
 }
 
@@ -25,11 +27,10 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 	LoadImageFile();
 
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
+	_float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	m_pTransformCom->SetPosition(pos + _float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f)));
 
 
 	SetAnimation(m_tDir, MOTION::IDLE);
@@ -37,7 +38,6 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 	m_iHp = m_iMaxHp;
 	m_iTemp = 0;
 	m_iAtk = 30;
-	m_iDef = 0;
 	m_iMaxHit = 10;
 	m_iHit = m_iMaxHit;
 	m_fAtkCool = 5.f;
@@ -56,117 +56,148 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 
 void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
-	__super::Priority_Update(fTimeDelta);
-	m_pTarget = nullptr;
-	for (auto target : m_pCharacterInstance->Get_NearObject(this, 5.f)) {
-		if (!dynamic_cast<CMonster*>(target)) {
-			m_pTarget = dynamic_cast<CCharacter*>(target);
+	if (m_bOutHouse) {
+		__super::Priority_Update(fTimeDelta);
+		m_pTarget = nullptr;
+		for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f)) {
+			if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
+				m_pTarget = dynamic_cast<CCharacter*>(target);
+			}
 		}
 	}
 }
 
 void CSpiderWarrior::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
-	switch (m_tMotion)
-	{
-	case IDLE:
-		switch (m_tMoveDIr)
+
+	if (m_bOutHouse) {
+		__super::Update(fTimeDelta);
+		switch (m_tMotion)
 		{
-		case MOVE_DIR::MOVE_DOWN:
-			m_tDir = DIR::DOWN;
-			break;
-		case MOVE_DIR::MOVE_UP:
-			m_tDir = DIR::UP;
-			break;
-		default:
-			break;
-		}
-		SetAnimation(m_tDir, m_tMotion);
-		break;
-	case MOTION::IDLE_TO_RUN:
-	case MOTION::RUN:
-	case MOTION::RUN_TO_IDLE:
-	case MOTION::ATTACK:
-	case MOTION::DASH_ATTACK:
-		switch (m_tMoveDIr)
-		{
-		case MOVE_DIR::MOVE_DOWN:
-			m_tDir = DIR::DOWN;
-			break;
-		case MOVE_DIR::MOVE_LEFT:
-		case MOVE_DIR::MOVE_RIGHT:
-			m_tDir = DIR::SIDE;
-			break;
-		case MOVE_DIR::MOVE_UP:
-			m_tDir = DIR::UP;
-			break;
-		default:
-			break;
-		}
-		SetAnimation(m_tDir, m_tMotion);
-		break;
-	}
-	if (m_tMotion == MOTION::DEATH) {
-		if (m_iLength <= m_fAniTime) {
-			m_isDead = true;
-		}
-	}
-	else if (m_tMotion == MOTION::DASH_ATTACK) {
-		if (m_iLength <= m_fAniTime) {
-			m_tMotion = MOTION::IDLE;
+		case IDLE:
+			switch (m_tMoveDIr)
+			{
+			case MOVE_DIR::MOVE_DOWN:
+				m_tDir = DIR::DOWN;
+				break;
+			case MOVE_DIR::MOVE_UP:
+				m_tDir = DIR::UP;
+				break;
+			default:
+				break;
+			}
 			SetAnimation(m_tDir, m_tMotion);
+			break;
+		case MOTION::IDLE_TO_RUN:
+		case MOTION::RUN:
+		case MOTION::RUN_TO_IDLE:
+		case MOTION::ATTACK:
+		case MOTION::DASH_ATTACK:
+			switch (m_tMoveDIr)
+			{
+			case MOVE_DIR::MOVE_DOWN:
+				m_tDir = DIR::DOWN;
+				break;
+			case MOVE_DIR::MOVE_LEFT:
+			case MOVE_DIR::MOVE_RIGHT:
+				m_tDir = DIR::SIDE;
+				break;
+			case MOVE_DIR::MOVE_UP:
+				m_tDir = DIR::UP;
+				break;
+			default:
+				break;
+			}
+			SetAnimation(m_tDir, m_tMotion);
+			break;
 		}
-		else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
-			_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			vPosition += m_fDash * fTimeDelta;
-			m_pTransformCom->SetPosition(vPosition);
+		if (m_tMotion == MOTION::DEATH) {
+			if (m_iLength <= m_fAniTime) {
+				m_isDead = true;
+			}
 		}
-	}
-	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
-			m_fAtkCool -= fTimeDelta;
-			if (0.f >= m_fAtkCool) {
-				if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::DASH_ATTACK);
-					m_fAtkCool = 5.f;
-					D3DXVec3Normalize(&move, &move);
-					m_fDash = move * 5;
+		else if (m_tMotion == MOTION::DASH_ATTACK) {
+			if (m_iLength <= m_fAniTime) {
+				m_tMotion = MOTION::IDLE;
+				SetAnimation(m_tDir, m_tMotion);
+			}
+			else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
+				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				vPosition += m_fDash * fTimeDelta;
+				m_pTransformCom->SetPosition(vPosition);
+			}
+		}
+		else if (m_pTarget) {
+			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+				m_fAtkCool -= fTimeDelta;
+				if (0.f >= m_fAtkCool) {
+					if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::DASH_ATTACK);
+						m_fAtkCool = 5.f;
+						D3DXVec3Normalize(&move, &move);
+						m_fDash = move * 5;
+					}
+					else {
+						SetAnimation(m_tDir, MOTION::TAUNT);
+					}
+				}
+				else if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+					switch (m_tMotion)
+					{
+					case MOTION::TAUNT:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+						}
+						break;
+					case MOTION::DAMAGE:
+					case MOTION::ATTACK:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
+						break;
+					default:
+						SetAnimation(m_tDir, MOTION::TAUNT);
+						m_sAnim;
+						break;
+					}
 				}
 				else {
-					SetAnimation(DIR::DIR_END, MOTION::TAUNT);
+					if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::RUN);
+					}
+					D3DXVec3Normalize(&move, &move);
+					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					vPosition += move * m_fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(vPosition);
 				}
 			}
-			else if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
+			else {
 				switch (m_tMotion)
 				{
-				case MOTION::TAUNT:
+				case MOTION::RUN:
 					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+					}
+					else {
+						D3DXVec3Normalize(&move, &move);
+						_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+						vPosition += move * m_fSpeed * fTimeDelta;
+						m_pTransformCom->SetPosition(vPosition);
 					}
 					break;
-				case MOTION::DAMAGE:
 				case MOTION::ATTACK:
+				case MOTION::RUN_TO_IDLE:
+				case MOTION::TAUNT:
+				case MOTION::DAMAGE:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::IDLE);
 					}
 					break;
 				default:
-					SetAnimation(DIR::DIR_END, MOTION::TAUNT);
-					m_sAnim;
 					break;
 				}
-			}
-			else {
-				if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
-				{
-					SetAnimation(m_tDir, MOTION::RUN);
-				}
-				D3DXVec3Normalize(&move, &move);
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				vPosition += move * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
 			}
 		}
 		else {
@@ -175,12 +206,6 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-				}
-				else {
-					D3DXVec3Normalize(&move, &move);
-					_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					vPosition += move * fTimeDelta;
-					m_pTransformCom->SetPosition(vPosition);
 				}
 				break;
 			case MOTION::ATTACK:
@@ -196,67 +221,30 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 			}
 		}
 	}
-	else {
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::TAUNT:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::IDLE);
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
 }
 
 void CSpiderWarrior::Late_Update(_float fTimeDelta)
 {
-
-	SetDir();
-	__super::Late_Update(fTimeDelta);
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	if (m_bOutHouse) {
+		SetDir();
+		__super::Late_Update(fTimeDelta);
+		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	}
 
 }
 
 HRESULT CSpiderWarrior::Render()
 {
-	__super::Render();
+	if (m_bOutHouse) {
+		__super::Render();
+		if (FAILED(Begin_RenderState()))
+			return E_FAIL;
 
+		RenderAnimation(m_sAnim);
 
-	if (FAILED(Begin_RenderState()))
-		return E_FAIL;
-
-	RenderAnimation(m_sAnim);
-
-	if (FAILED(End_RenderState()))
-		return E_FAIL;
-	//class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
-	//auto Camera = dynamic_cast<CCamera*>(Obj);
-	//if (nullptr == Camera)
-	//	return E_FAIL;
-	///*if (FAILED(Begin_RenderState()))
-	//	return E_FAIL;*/
-	//LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
-	//m_pGraphic_Device->GetTexture(0, &pTex);
-	//
-	//Excute_Billboard(Camera->GetInvViewMat(), pTex);
-	//m_pVIBufferCom->Render();
-	//
-	//Safe_Release(pTex);
-	//End_Billboard();
-
-	/*if (FAILED(End_RenderState()))
-		return E_FAIL;*/
+		if (FAILED(End_RenderState()))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -277,9 +265,14 @@ void CSpiderWarrior::Death()
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
+void CSpiderWarrior::OutHouse()
+{
+	m_bOutHouse = true;
+}
+
 HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || (MOTION::IDLE == motion && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
@@ -355,30 +348,6 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim += L"_up";
 		break;
 	}
-	return S_OK;
-}
-
-HRESULT CSpiderWarrior::Ready_Components()
-{
-	/* Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* Com_Collision */
-	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
-		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 

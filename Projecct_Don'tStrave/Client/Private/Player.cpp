@@ -29,8 +29,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 	LoadImageFile();
 
 	m_pTransformCom->SetPosition(_float3(0.f, 0.f, 0.f));
@@ -40,19 +38,26 @@ HRESULT CPlayer::Initialize(void* pArg)
 	SetAnimation(m_iSwapObject, DIR::DIR_END, MOTION::BUCKED);
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::DOWN][m_tMotion]);
 
-	m_iMaxHp = 150;
-	m_iHunger = 100;
+
+	PLAYER_DATA data = *static_cast<PLAYER_DATA*>(pArg);
+
+	m_iMaxHp = data.iMaxHp;
+	m_iMaxHunger = data.iMaxHunger;
+	m_iMaxMental = data.iMaxMental;
+	m_iHunger = m_iMaxHunger;
 	m_iHp = m_iMaxHp;
 	m_iTemp = 0;
-	m_iAtk = 50;
+	m_fAtkRatio = data.fAtk;
+	m_fDefRatio = data.fDef;
+	m_iAtk = 10;
 	m_iDef = 0;
 	m_iMaxHit = 10;
 	m_iHit = m_iMaxHit;
-	m_bControll = false;
 
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
+	m_bControll = true;
 	m_bIsGhost = false;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
@@ -72,6 +77,10 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	if (m_bControll) {
+		if (MOTION::BUCKED == m_tMotion) {
+			m_fAniTime = 0.f;
+			m_bControll = false;
+		}
 		switch (m_tMotion)
 		{
 		case CPlayer::IDLE:
@@ -334,14 +343,22 @@ void CPlayer::Death()
 	//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][DIR::SIDE][m_tMotion]);
 }
 
-_uint CPlayer::Get_Hp()
+void CPlayer::Get_Damage(_uint iAtk)
 {
-	return m_iHp;
+	__super::Get_Damage(max(0, iAtk - (m_iDef * m_fDefRatio)));
 }
 
-_uint CPlayer::Get_Hunger()
+PLAYER_DESC CPlayer::Get_Player()
 {
-	return m_iHunger;
+	PLAYER_DESC player;
+	player.iMaxHp = m_iMaxHp;
+	player.iMaxHunger = m_iMaxHunger;
+	player.iMaxMental = m_iMaxMental;
+	player.iHp = m_iHp;
+	player.iHunger = m_iHunger;
+	player.iMental = m_iMental;
+	player.iTemp = m_iTemp;
+	return PLAYER_DESC();
 }
 
 void CPlayer::SetItem(SWAPOBJECT tItem)
@@ -471,30 +488,6 @@ HRESULT CPlayer::SetAnimation(_uint i, DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CPlayer::Ready_Components()
-{
-	/* Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* Com_Collision */
-	CSphere_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
-		TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CPlayer::Begin_RenderState()
 {
 	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
@@ -540,7 +533,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	//if (HitActor == m_pWorkObject) {
 	if (dynamic_cast<CMonster*>(HitActor) && m_bAttack && m_tMotion == MOTION::ATTACK && 330 <= (int)m_fAniTime) {
-		dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_iAtk);
+		dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_iAtk * m_fAtkRatio);
 		m_bAttack = false;
 	}
 	//}

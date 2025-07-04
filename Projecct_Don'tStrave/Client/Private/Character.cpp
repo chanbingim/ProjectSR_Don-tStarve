@@ -6,6 +6,7 @@
 #include "GameInstance.h"
 #include "Camera.h"
 
+
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAlphaObject{ pGraphic_Device }
 {
@@ -46,6 +47,8 @@ HRESULT CCharacter::Initialize(void* pArg)
     m_fAngle = 90;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
+        return E_FAIL;
+    if (FAILED(Ready_Components()))
         return E_FAIL;
 
 
@@ -92,12 +95,12 @@ HRESULT CCharacter::Render()
 void CCharacter::Get_Damage(_uint iAtk)
 {
     if (0 <= m_iHp) {
-        m_iHp -= max(0, iAtk - m_iDef);
+        m_iHp -= max(0, iAtk);
         if (0 >= m_iHp) {
             Death();
         }
         else {
-            m_iHit -= max(0, iAtk - m_iDef);
+            m_iHit -= max(0, iAtk);
             if (0 >= m_iHit) {
                 Damage();
                 m_iHit = m_iMaxHit;
@@ -365,6 +368,28 @@ void CCharacter::RenderAnimation(const wstring& animName)
 }
 
 
+HRESULT CCharacter::Ready_Components()
+{
+    /* Com_Transform */
+    CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
+        TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+        return E_FAIL;
+
+    /* Com_VIBuffer */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    /* Com_Collision */
+    CSphere_Collision_Component::Collision_Desc Col_Desc = {};
+    Col_Desc.pOwner = this;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
+        TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
+        return E_FAIL;
+}
+
 void CCharacter::Free()
 {
     __super::Free();
@@ -383,4 +408,5 @@ void CCharacter::Free()
 
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pCollision_Com);
 }
