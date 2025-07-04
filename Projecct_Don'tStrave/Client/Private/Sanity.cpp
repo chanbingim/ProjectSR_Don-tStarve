@@ -14,6 +14,9 @@ CSanity::CSanity(const CSanity& Prototype)
 
 HRESULT CSanity::Initialize_Prototype()
 {
+    if (FAILED(__super::ADD_Components()))
+        return E_FAIL;
+
     return S_OK;
 }
 
