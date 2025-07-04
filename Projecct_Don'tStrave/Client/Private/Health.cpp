@@ -40,7 +40,7 @@ HRESULT CHealth::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
-    m_iMaxHealth = m_pPlayer->Get_Player().iMaxHp;
+    m_iMaxHealth = m_pPlayer->Get_Player()->iMaxHp;
 
     return S_OK;
 }
@@ -54,7 +54,7 @@ void CHealth::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player().iHp) / static_cast<_float>(m_iMaxHealth)));
+    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player()->iHp) / static_cast<_float>(m_iMaxHealth)));
 
     if (50 <= m_iTextureIndex)
         m_iTextureIndex = 50;

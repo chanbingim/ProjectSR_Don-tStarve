@@ -38,7 +38,7 @@ HRESULT CHunger::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
-    m_iMaxHunger = m_pPlayer->Get_Player().iMaxHunger;
+    m_iMaxHunger = m_pPlayer->Get_Player()->iMaxHunger;
 
     __super::UpdatePosition();
     
@@ -53,7 +53,7 @@ void CHunger::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player().iHunger) / static_cast<_float>(m_iMaxHunger)));
+    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player()->iHunger) / static_cast<_float>(m_iMaxHunger)));
 
     if (50 <= m_iTextureIndex)
         m_iTextureIndex = 50;

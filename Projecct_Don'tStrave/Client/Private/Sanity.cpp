@@ -37,8 +37,8 @@ HRESULT CSanity::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
-    m_iMaxSanity = m_pPlayer->Get_Player().iMaxMental;
-    m_iSanity = m_pPlayer->Get_Player().iMental;
+    m_iMaxSanity = m_pPlayer->Get_Player()->iMaxMental;
+    m_iSanity = m_pPlayer->Get_Player()->iMental;
 
     return S_OK;
 }
@@ -52,7 +52,7 @@ void CSanity::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_iSanity = m_pPlayer->Get_Player().iMental;
+    m_iSanity = m_pPlayer->Get_Player()->iMental;
 
     m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_iSanity) / static_cast<_float>(m_iMaxSanity)));
 
