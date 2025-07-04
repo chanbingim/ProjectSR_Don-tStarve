@@ -20,8 +20,7 @@ public:
 	virtual HRESULT	 Render()override;
 
 private:
-	_uint	m_iTextureIndex = {};
-	_float	m_fTimeAcc = {};
+	_uint m_iMaxHealth = {};
 
 private:
 	HRESULT ADD_Components();

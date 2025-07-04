@@ -23,8 +23,8 @@ HRESULT CHeadUpDisplay::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-   /* if (FAILED(ADD_Components()))
-        return E_FAIL;*/
+   if (FAILED(ADD_Components()))
+        return E_FAIL;
 
     m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0));
 

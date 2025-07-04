@@ -291,6 +291,11 @@ void CPlayer::Update(_float fTimeDelta)
 		SetAnimation(m_iSwapObject, m_tDir, m_tMotion);
 		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
 	}
+	if (GetKeyState('L') & 0x8000)
+	{
+		SetAnimation(m_iSwapObject, m_tDir, PICKUP);
+		//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
+	}
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -358,7 +363,7 @@ PLAYER_DESC CPlayer::Get_Player()
 	player.iHunger = m_iHunger;
 	player.iMental = m_iMental;
 	player.iTemp = m_iTemp;
-	return PLAYER_DESC();
+	return player;
 }
 
 void CPlayer::SetItem(SWAPOBJECT tItem)

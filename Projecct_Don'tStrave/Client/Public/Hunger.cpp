@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+#include "Player.h"
+
 CHunger::CHunger(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CHeadUpDisplay{ pGraphic_Device }
 {
@@ -20,7 +22,8 @@ HRESULT CHunger::Initialize_Prototype()
 HRESULT CHunger::Initialize(void* pArg)
 {
     m_iTextureIndex = 0;
-    m_fTimeAcc = 0.f;
+
+    
 
     CUserInterface::UIOBJECT_DESC Desc = {};
 
@@ -35,6 +38,8 @@ HRESULT CHunger::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
+    m_iMaxHunger = m_pPlayer->Get_Player().iMaxHunger;
+
     __super::UpdatePosition();
     
     return S_OK;
@@ -48,17 +53,10 @@ void CHunger::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_fTimeAcc += fTimeDelta;
+    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player().iHunger) / static_cast<_float>(m_iMaxHunger)));
 
-    if (1.f <= m_fTimeAcc)
-    {
-        m_fTimeAcc = 0.f;
-        ++m_iTextureIndex;
-    }
-
-    if (m_iTextureIndex > 50)
-        m_iTextureIndex = 0;
-
+    if (50 <= m_iTextureIndex)
+        m_iTextureIndex = 50;
 }
 
 void CHunger::Late_Update(_float fTimeDelta)

@@ -21,12 +21,12 @@ public:
 
 protected:
 	_uint				m_iTextureIndex = {};
-	_float				m_fTimeAcc = {};
+
 	class CPlayer*		m_pPlayer = {};
 	CTexture*			m_pArrowTexture_Com = { nullptr };
 
 protected:
-	 virtual HRESULT ADD_Components();
+	 HRESULT ADD_Components();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
