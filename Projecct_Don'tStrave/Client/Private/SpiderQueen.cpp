@@ -1,4 +1,6 @@
 #include "SpiderQueen.h"
+#include "Spider.h"
+#include "SpiderHouse.h"
 #include "GameInstance.h"
 #include "Camera.h"
 
@@ -51,7 +53,7 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	for (auto target : m_pCharacterInstance->Get_NearObject(this, 7.f)) {
-		if (!dynamic_cast<CMonster*>(target)) {
+		if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}

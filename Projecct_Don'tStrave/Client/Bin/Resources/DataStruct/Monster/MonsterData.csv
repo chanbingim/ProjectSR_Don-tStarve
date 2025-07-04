@@ -1,3 +1,4 @@
+id,Prototype,name,maxhp,atk,speed,atkdistance,atkspeed,hitmax,wilsondial,wigfriddial
 0,Prototype_GameObject_Spider,거미,100,20,5,3,3,20,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
 1,Prototype_GameObject_SpiderWarrior,병정 거미,200,20,5,6,4,50,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
 2,Prototype_GameObject_SpiderQueen,여왕 거미,1250,80,1.75,5,3,200,으아아아아! 저 거미는 너무 크잖아!,드디어 내 진정한 능력을 발휘할 때로다.

@@ -1,4 +1,6 @@
 #include "SpiderWarrior.h"
+#include "SpiderHouse.h"
+#include "SpiderQueen.h"
 #include "GameInstance.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -57,8 +59,8 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 	if (m_bOutHouse) {
 		__super::Priority_Update(fTimeDelta);
 		m_pTarget = nullptr;
-		for (auto target : m_pCharacterInstance->Get_NearObject(this, 5.f)) {
-			if (!dynamic_cast<CMonster*>(target)) {
+		for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f)) {
+			if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
 				m_pTarget = dynamic_cast<CCharacter*>(target);
 			}
 		}
