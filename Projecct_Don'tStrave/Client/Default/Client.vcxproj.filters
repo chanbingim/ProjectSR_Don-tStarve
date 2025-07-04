@@ -227,6 +227,9 @@
     <Filter Include="05. Item\Fire">
       <UniqueIdentifier>{078119ab-a0e0-4328-b85b-ff07b8b8f3d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Character\Monster\Spider\Normal">
+      <UniqueIdentifier>{ffb87d21-df8b-49eb-9fa8-5b597b272073}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -445,6 +448,15 @@
     <ClInclude Include="..\Public\Fire.h">
       <Filter>05. Item\Fire</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MonsterData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderNormal.h">
+      <Filter>03. Character\Monster\Spider\Normal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -660,6 +672,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>05. Item\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MonsterData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\PlayerData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderNormal.cpp">
+      <Filter>03. Character\Monster\Spider\Normal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -142,7 +142,7 @@ HRESULT CMainApp::Ready_Prototypes()
 
 	/* For.Prototype_Component_Snow_Textrue */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Snow_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Paritcle_Sys */

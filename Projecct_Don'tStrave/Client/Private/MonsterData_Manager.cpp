@@ -25,7 +25,7 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
 
     _uint iDataSize = ReadData.size();
 
-    for (_uint i = 11; i < iDataSize; )
+    for (_uint i = 0; i < iDataSize; )
     {
         MONSTER_DATA Data;
         ++m_iMonsterDataSize;

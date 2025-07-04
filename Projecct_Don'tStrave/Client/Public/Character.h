@@ -127,6 +127,7 @@ public:
 	HRESULT LoadImageFile();
 	HRESULT LoadScml(const char* filename);
 	void RenderAnimation(const wstring& animName);
+
 protected:
 	_uint			m_iMaxHp = {};
 	_uint			m_iTemp = {};
@@ -146,20 +147,13 @@ protected:
 	_float			m_fAniTime = {};
 	wstring			m_sAnim;
 
-<<<<<<< HEAD
 	Entity						m_tAnimation = {};
 	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
 	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
 	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
 	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
+	CCollision_Component*		m_pCollision_Com = { nullptr };
 
-=======
-	Entity m_tAnimation = {};
-	vector<IMAGE_FOLDER_DESC> m_tImageVec = {};
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CCollision_Component* m_pCollision_Com = { nullptr };
-	CCharacter_Manager* m_pCharacterInstance = { nullptr };
->>>>>>> origin/0703__kjh
 public:
 	HRESULT Ready_Components();
 	virtual void Free() override;

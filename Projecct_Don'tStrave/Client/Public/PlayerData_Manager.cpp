@@ -25,7 +25,7 @@ void CPlayerData_Manager::LoadPlayerData(const char* MapFilePath)
 
     _uint iDataSize = ReadData.size();
 
-    for (_uint i = 7; i < iDataSize; )
+    for (_uint i = 0; i < iDataSize; )
     {
         PLAYER_DATA Data;
         ++m_iPlayerDataSize;
