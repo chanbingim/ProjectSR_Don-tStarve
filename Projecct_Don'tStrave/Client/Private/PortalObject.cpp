@@ -57,7 +57,7 @@ void CPortalObject::Late_Update(_float fTimeDelta)
 
 HRESULT CPortalObject::Render()
 {
-    m_Idle_pTexture_Com->Set_Texture(0);
+    //m_Idle_pTexture_Com->Set_Texture(0);
     __super::Render();
 
     return S_OK;
@@ -73,7 +73,7 @@ HRESULT CPortalObject::ADD_Components()
 
     /* Com_VIBuffer */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
     /* Com_Collision */

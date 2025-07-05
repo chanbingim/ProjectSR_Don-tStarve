@@ -37,13 +37,6 @@ enum MOVE_DIR {
 
 class CCharacter : public CAinimationObject
 {
-	typedef struct Character_desc {
-		_uint			m_iMaxHp = {};
-		_uint			m_iTemp = {};
-		_uint			m_iAtk = {};
-		_uint			m_iDef = {};
-		_uint			m_iMaxHit = {};
-	}CHARACTER_DESC;
 
 protected:
 	CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -65,22 +58,14 @@ public:
 	void				RenderAnimation(const wstring& animName);
 
 protected:
-	_uint			m_iMaxHp = {};
-	_uint			m_iTemp = {};
-	_uint			m_iAtk = {};
-	_float			m_fSpeed = {};
-	_uint			m_iMaxHit = {};
-	_float3			m_fMoving = {};
-	_float			m_fAngle = {};
-	_float			m_fCamDistance = {};
-	MOVE_DIR		m_tMoveDIr = {};
-	DIR				m_tDir = {};
-	_uint			m_iDir = {};
-	_int			m_iHp = {};
-	_int			m_iHit = {};
-	_bool			m_bAttack;
-	wstring			m_sAnim;
+	MOVE_DIR			m_tMoveDIr = {};
 
+	_bool				m_bAttack;
+	wstring				m_sAnim;
+	DIR					m_tDir = {};
+	_float3				m_fMoving = {};
+	_float				m_fAngle = {};
+	CHARACTER_DATA*		m_pChar = {};
 
 	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
 	CCollision_Component*		m_pCollision_Com = { nullptr };

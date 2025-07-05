@@ -172,6 +172,7 @@
     <ClInclude Include="..\Public\Material_Item.h" />
     <ClInclude Include="..\Public\MonsterData_Manager.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
+    <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\public\RockObject.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="..\Private\Material_Item.cpp" />
     <ClCompile Include="..\Private\MonsterData_Manager.cpp" />
     <ClCompile Include="..\private\ParticleShader.cpp" />
+    <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
     <ClCompile Include="..\private\SkyBox.cpp" />

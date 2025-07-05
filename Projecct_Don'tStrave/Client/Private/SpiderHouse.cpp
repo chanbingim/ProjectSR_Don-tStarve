@@ -217,7 +217,7 @@ HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 	return S_OK;
 }
 
-void CSpiderHouse::Damage()
+void CSpiderHouse::Damage(void* pArg)
 {
 	switch (m_tMotion) {
 	case SMALL:

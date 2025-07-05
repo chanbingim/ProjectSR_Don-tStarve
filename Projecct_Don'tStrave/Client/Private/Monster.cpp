@@ -80,8 +80,5 @@ void CMonster::Free()
 {
 	__super::Free();
 
-<<<<<<< HEAD
-=======
 	Safe_Delete(m_pMonsterData);
->>>>>>> origin/0705_kjh
 }

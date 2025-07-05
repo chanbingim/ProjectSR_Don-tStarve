@@ -484,6 +484,9 @@
     <ClInclude Include="..\Public\Enviornment_Object.h">
       <Filter>02. Objects\Environment</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -720,6 +723,9 @@
     </ClCompile>
     <ClCompile Include="..\private\AinimationObject.cpp">
       <Filter>02. Objects\AnimationObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

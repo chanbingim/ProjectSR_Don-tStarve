@@ -1,12 +1,9 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Monster.h"
-<<<<<<< HEAD
-#include "XML_Manager.h"
 
-=======
+#include "XML_Manager.h"
 #include "Item.h"
->>>>>>> origin/0705_kjh
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -21,7 +18,6 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
-<<<<<<< HEAD
 	auto XML_Instance = CXML_Manager::GetInstance();
 	//XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
 	//XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
@@ -32,17 +28,6 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml", &m_tAnimation);
-=======
-	AddTexture("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", L"../Bin/Resources/Textures/Player/Wilson/");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_atk.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml");
-	LoadScml("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml");
-	//AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/");
-	//LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml");
->>>>>>> origin/0705_kjh
 	return S_OK;
 }
 
@@ -366,7 +351,7 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
-void CPlayer::Damage()
+void CPlayer::Damage(void* pArg)
 {
 	m_bControll = false;
 	SetAnimation(m_tDir, MOTION::DAMAGE);
@@ -608,10 +593,7 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
 	__super::Free();
-<<<<<<< HEAD
-=======
 
 	Safe_Release(m_pCollision_Com);
 	Safe_Delete(m_pPlayer);
->>>>>>> origin/0705_kjh
 }

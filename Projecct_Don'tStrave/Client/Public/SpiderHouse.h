@@ -37,10 +37,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(MOTION motion);
-	virtual void Damage() override;
-	virtual void Attack() override;
-	virtual void Death() override;
-	virtual void EnterSpider(CSpider* pMonster);
+	virtual void	Damage(void* pArg) override;
+	virtual void	Attack() override;
+	virtual void	Death() override;
+	virtual void	EnterSpider(CSpider* pMonster);
 	void Emergency();
 private:
 	MOTION					m_tMotion = {};

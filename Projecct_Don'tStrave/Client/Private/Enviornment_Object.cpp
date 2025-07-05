@@ -84,7 +84,7 @@ HRESULT CEnviornment_Object::Render()
     Excute_Billboard(Camera->GetInvViewMat(), pTex);
 
     __super::Render();
-    m_pVIBuffer_Com->Render();
+    m_pVIBufferCom->Render();
     End_Billboard();
 
     return S_OK;

@@ -97,7 +97,7 @@ void CCharacter::Get_Damage(_uint iAtk)
         else {
             m_pChar->iHit -= max(0, iAtk);
             if (0 >= m_pChar->iHit) {
-                Damage();
+                Damage(nullptr);
                 m_pChar->iHit = m_pChar->iMaxHit;
             }
         }
@@ -153,11 +153,6 @@ void CCharacter::RenderAnimation(const wstring& animName)
     m_iLength = pAnim->iLength;                                                             // 애니메이션 끝나는 시간 가져오기
     m_fAniTime = fmod(m_fAniTime, (_float)m_iLength);                                       // 현재 애니메이션 시간이 애니메이션 끝나는 시간보다 크면 % 계산한 느낌으로 값을 남겨줌
 
-<<<<<<< HEAD
-    const KEY_DESC* pPrevKey = nullptr;
-    const KEY_DESC* pNextKey = nullptr;
-=======
->>>>>>> origin/0705_kjh
     vector<OBJECT_REF_DESC> timeVec = {};
 
     for (auto& ref : pAnim->tMainlinesVec.tKeysVec[0].tRefVec) {

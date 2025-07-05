@@ -213,7 +213,7 @@ HRESULT CSpiderQueen::Render()
 	return S_OK;
 }
 
-void CSpiderQueen::Damage()
+void CSpiderQueen::Damage(void* pArg)
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
