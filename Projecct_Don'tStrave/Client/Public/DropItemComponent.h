@@ -23,9 +23,12 @@ public :
 	HRESULT							ADD_ItemData(_uint iItemID, _uint  iMaxCnt);
 	HRESULT							DropItem(_uint iLevelID, const _wstring&	PrototypeTag, _uint iLayerID, const _wstring& LayerTag, const _float3& Point);
 
+	void							SetCreateEffect(_uint EffectType);
+
 private :
 	CItem_Manager*					m_pItem_Manager = { nullptr };
 	_uint							m_iDropCnt = { };
+	_uint							m_iCreateEffect = {};
 	vector<pair<_uint, _uint>>		m_vecItemID = {};
 
 public :

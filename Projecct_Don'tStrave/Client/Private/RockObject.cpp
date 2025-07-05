@@ -1,7 +1,8 @@
 #include "RockObject.h"
 #include "GameInstance.h"
 
-#include"XML_Manager.h"
+#include "XML_Manager.h"
+#include "DropItemComponent.h"
 
 CRockObject::CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CDropItemEnviornment(pGraphic_Device)
@@ -16,9 +17,9 @@ CRockObject::CRockObject(const CRockObject& rhs) :
 
 HRESULT CRockObject::Initialize_Prototype()
 {
-	//auto XML_Instance = CXML_Manager::GetInstance();
-	//XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
-	//XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+	auto XML_Instance = CXML_Manager::GetInstance();
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Rock/rock.scml", L"../Bin/Resources/Textures/Objects/Rock/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Rock/rock.scml", &m_tAnimation);
 
 	return S_OK;
 }
@@ -32,6 +33,13 @@ HRESULT CRockObject::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
+
+	m_EnviormentInfo.iMaxHit = 3;
+	m_FrontName = TEXT("full");
+	m_TailName = TEXT("");
+
+	m_pDropItem_Com->ADD_ItemData(41, 1);
+	Enviornment_STATE::IDLE;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -56,11 +64,41 @@ void CRockObject::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 }
 
+void CRockObject::Reset_State()
+{
+	
+}
+
 HRESULT CRockObject::Render()
 {
 	__super::Render();
 
 	return S_OK;
+}
+
+void CRockObject::Damage(void* pArg)
+{
+	m_EnviormentInfo.iHit++;
+	switch (m_EnviormentInfo.iMaxHit - m_EnviormentInfo.iHit)
+	{
+	case 0:
+	{
+		_float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
+		Pos.y += m_pTransformCom->GetScale().y * 1.f;
+		CreateDropItem(Pos);
+		m_isDead = true;
+	}
+		break;
+	case 1:
+		m_FrontName = TEXT("low");
+		Enviornment_STATE::DAMAGED;
+		break;
+	case 2 :
+		m_FrontName = TEXT("med");
+		Enviornment_STATE::DAMAGED;
+		break;
+	}
 }
 
 HRESULT CRockObject::ADD_Components()

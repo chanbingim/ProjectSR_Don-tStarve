@@ -41,10 +41,7 @@ HRESULT CGrassObject::Initialize(void* pArg)
     m_TailName = TEXT("");
 
     m_MaxRecoverTime = 4.0f;
-
     m_pDropItem_Com->ADD_ItemData(37, 1);
-
-
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -117,9 +114,9 @@ void CGrassObject::Damage(void* pArg)
             m_EnviromentState = Enviornment_STATE::BROKEN;
 
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -2.f;
-
-            CreateDropItem(37, Pos);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
+            Pos.y += m_pTransformCom->GetScale().y * 1.f;
+            CreateDropItem(Pos);
         }
         break;
     }

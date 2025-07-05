@@ -38,6 +38,7 @@ namespace Client
 		unsigned int	iNumItem{};
 		float			fDurability{};
 		D3DXVECTOR3		vPosition{};
+		unsigned int	iItemEffect{}; // 0 ~ 진호형이 원하는 거까지 이펙트 연동
 	}ITEM_DESC;
 
 	typedef struct Item_Data

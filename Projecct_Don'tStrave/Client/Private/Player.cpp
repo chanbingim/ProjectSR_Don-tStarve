@@ -259,7 +259,6 @@ void CPlayer::Update(_float fTimeDelta)
 				CGameObject* object = NearObjects.front();
 				if (object) {
 					m_pPlayer->pWorkObject = object;
-					//환경오브젝트로 바꾸면이거받아서 작업하면 될거같으니까 이거 받아서 해줘 올려줌
 				}
 			}
 		}

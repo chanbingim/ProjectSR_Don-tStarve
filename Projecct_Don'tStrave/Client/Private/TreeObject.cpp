@@ -38,9 +38,12 @@ HRESULT CTreeObject::Initialize(void* pArg)
 
     LoadImageFile();
     m_FrontName = TEXT("idle_");
-    m_TailName = rand() % 2 == 0 ? TEXT("normal") : TEXT("short");
+    m_TailName = rand() % 2 == 1 ? TEXT("normal") : TEXT("short");
 
     m_EnviromentState = Enviornment_STATE::IDLE;
+    m_pDropItem_Com->ADD_ItemData(38, 1);
+
+    m_pDropItem_Com->SetCreateEffect(1);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -89,10 +92,15 @@ void CTreeObject::Reset_State()
             m_FrontName = TEXT("idle_");
             m_EnviromentState = Enviornment_STATE::IDLE;
         }
-        if (Enviornment_STATE::BROKEN <= m_EnviromentState)
+        if (Enviornment_STATE::BROKEN == m_EnviromentState)
         {
             m_FrontName = TEXT("stump_");
             m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
+
+            _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
+            Pos.y += m_pTransformCom->GetScale().y * 1.f;
+            CreateDropItem(Pos);
         }
     }
 }
@@ -119,7 +127,12 @@ void CTreeObject::Damage(void* pArg)
     case Enviornment_STATE::DAMAGED:
         if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
         {
-            m_FrontName = TEXT("fallleft_");
+            DAMAGE_DATA_BASE DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+            if(0 > DamageBase.Direaction.x)
+                m_FrontName = TEXT("fallleft_");
+            else
+                m_FrontName = TEXT("fallright_");
+
             m_EnviormentInfo.iHit = 0;
             m_EnviromentState = Enviornment_STATE::BROKEN;
         }

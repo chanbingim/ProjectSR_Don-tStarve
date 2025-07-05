@@ -19,7 +19,7 @@ public:
 	virtual void		Late_Update(_float fTimeDelta) override;
 
 	virtual HRESULT		Render() override;
-	HRESULT				CreateDropItem(_uint Index, const _float3& Pos);
+	HRESULT				CreateDropItem( const _float3& Pos);
 
 protected :
 	CDropItemComponent* m_pDropItem_Com = { nullptr };

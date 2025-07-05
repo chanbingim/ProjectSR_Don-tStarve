@@ -33,6 +33,7 @@ public:
 
 protected:
 	ITEM_DESC	m_Item_Desc = {};
+	_bool		m_bIsplayAnim = { false };
 	CTransform* m_pPlayerTransform_Com = { nullptr };
 	
 	CTexture*	m_pTexture_Com = { nullptr };
@@ -42,8 +43,11 @@ protected:
 
 protected:
 	HRESULT ADD_Components();
-	void Update_Item(_float fTimeDelta);
-	_bool isInRange();
+	void	Update_Item(_float fTimeDelta);
+	_bool	isInRange();
+
+	void	DropItemEffect(_float FallSpeed);
+	void	EnterInvenTory();
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

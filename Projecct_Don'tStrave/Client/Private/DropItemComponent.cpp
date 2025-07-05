@@ -59,11 +59,16 @@ HRESULT CDropItemComponent::DropItem(_uint iLevelID, const _wstring& PrototypeTa
 		ItemDesc.iNumItem = rand() % iter.second + 1;
 		ItemDesc.eItemType = Data.eItemType;
 		ItemDesc.vPosition = Point;
-
+		ItemDesc.iItemEffect = m_iCreateEffect;
 		m_pGameInstance->Add_GameObject_ToLayer(iLevelID, PrototypeTag, iLayerID, LayerTag, &ItemDesc);
 	}
 
 	return S_OK;
+}
+
+void CDropItemComponent::SetCreateEffect(_uint EffectType)
+{
+	m_iCreateEffect = EffectType;
 }
 
 CDropItemComponent* CDropItemComponent::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
