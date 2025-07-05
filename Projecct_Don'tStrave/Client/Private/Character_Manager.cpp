@@ -12,7 +12,7 @@ CCharacter_Manager::CCharacter_Manager()
 
 HRESULT CCharacter_Manager::Initialize()
 {
-	m_ObjectList[EnumToInt(FIELDOBJECT::MONSTER)].clear();
+	m_ObjectList[EnumToInt(FIELDOBJECT::CREATURE)].clear();
 	m_ObjectList[EnumToInt(FIELDOBJECT::OBJECT)].clear();
 	return S_OK;
 }

@@ -28,7 +28,7 @@ namespace Client
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 	enum class FOOD { MEAT, FRUIT, END };
 	enum class SWAPOBJECT { NONE, AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, TORCH, END };
-	enum class FIELDOBJECT { OBJECT, MONSTER, END };
+	enum class FIELDOBJECT { OBJECT, CREATURE, END };
 
 	typedef struct Item_Desc
 	{

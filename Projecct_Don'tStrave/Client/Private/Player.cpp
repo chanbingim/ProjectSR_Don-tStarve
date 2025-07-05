@@ -218,17 +218,20 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-			CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).front();
-			if (object) {
-				m_pPlayer->pWorkObject = object;
+			if (!m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).empty()) {
+				CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).front();
+				if (object) {
+					m_pPlayer->pWorkObject = object;
+				}
 			}
 		}
 		if (m_pGameInstance->KeyDown(VK_CONTROL))
 		{
-
-			CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::MONSTER).front();
-			if (object) {
-				m_pPlayer->pWorkObject = object;
+			if (!m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::CREATURE).empty()) {
+				CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::CREATURE).front();
+				if (object) {
+					m_pPlayer->pWorkObject = object;
+				}
 			}
 		}
 		if (m_pGameInstance->KeyDown('F'))

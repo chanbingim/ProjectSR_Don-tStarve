@@ -43,7 +43,7 @@ HRESULT CCharacter::Initialize(void* pArg)
     
 
     m_pCharacterInstance->AddRef();
-    m_pCharacterInstance->Add_Object(this);
+    m_pCharacterInstance->Add_Object(this, FIELDOBJECT::CREATURE);
     m_fAngle = 90;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
@@ -397,7 +397,7 @@ void CCharacter::Free()
     __super::Free();
     if (m_pCharacterInstance)
     {
-        m_pCharacterInstance->Remove_Object(this);
+        m_pCharacterInstance->Remove_Object(this, FIELDOBJECT::CREATURE);
         Safe_Release(m_pCharacterInstance);
     }
     for (auto& folder : m_tImageVec) {
