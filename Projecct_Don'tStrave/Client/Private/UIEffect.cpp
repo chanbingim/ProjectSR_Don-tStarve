@@ -36,18 +36,16 @@ HRESULT CUIEffect::Initialize(void* pArg)
     
     _float3 vCursorPos = m_pGameInstance->GetMousePosition(0);
 
-    _float3 vCursorWorldPos = m_pGameInstance->GetMousePosition(2);
-
     CUserInterface::UIOBJECT_DESC Desc = {};
     Desc.fSizeX = 60.f;
     Desc.fSizeY = 60.f;
-    Desc.fX = vCursorPos.x;
-    Desc.fY = vCursorPos.y;
+    Desc.fX = pDesc->vCursorPos.x;
+    Desc.fY = pDesc->vCursorPos.y;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
-    m_TargetDir = _float3((vTargetPos.x + g_iWinSizeX * 0.5f) - vCursorPos.x, -(vTargetPos.y + g_iWinSizeY * 0.5f) - vCursorPos.y, 0.f);
+    m_TargetDir = _float3((vTargetPos.x + g_iWinSizeX * 0.5f) - pDesc->vCursorPos.x, -(vTargetPos.y + g_iWinSizeY * 0.5f) - pDesc->vCursorPos.y, 0.f);
 
     __super::UpdatePosition();
     

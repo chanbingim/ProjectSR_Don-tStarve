@@ -27,7 +27,7 @@ HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
 	_uint Index = ENUM_CLASS(LightType);
 
 	auto iter = find(m_Lightlist[Index].begin(), m_Lightlist[Index].end(), pLight);
-	if (iter == m_Lightlist[Index].end())
+	if (iter != m_Lightlist[Index].end())
 		return E_FAIL;
 
 	m_Lightlist[Index].push_back(pLight);
