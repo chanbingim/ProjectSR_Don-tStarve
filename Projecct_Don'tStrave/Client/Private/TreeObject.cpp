@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "Env_Animation.h"
+#include "KeyManager.h"
 #include "XML_Manager.h"
 
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
@@ -33,7 +34,6 @@ HRESULT CTreeObject::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-
     LoadImageFile();
     m_FrontName = TEXT("idle_");
     m_TailName = rand() % 2 == 0 ? TEXT("normal") : TEXT("short");
@@ -44,6 +44,8 @@ HRESULT CTreeObject::Initialize(void* pArg)
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
+    m_EnviormentInfo.iMaxHit = 2;
+    m_MaxRecoverTime = 3.0f;
     return S_OK;
 }
 
@@ -55,12 +57,26 @@ void CTreeObject::Priority_Update(_float fTimeDelta)
 void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
-
-    if (m_pVIBufferCom->Picking(m_pTransformCom))
+ 
+    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
     {
-        m_FrontName = TEXT("chop_");
-        m_EnviromentState = Enviornment_STATE::DAMAGED;
+        m_CurRecoverTime += 0.01f;
+        if (m_MaxRecoverTime <= m_CurRecoverTime)
+        {
+            m_FrontName = TEXT("grow_seed_to_");
+            m_EnviromentState = Enviornment_STATE::RECOVERY;
+            m_fAniTime = 0;
+            m_CurRecoverTime = 0;
+        }
     }
+
+    //데미지 받는걸 picking으로 흉내내봄
+    //나중에 데미지받는 로직으로 대체
+    if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
+        Damage(nullptr);
+    }
+    Reset_State();
 }
 
 void CTreeObject::Late_Update(_float fTimeDelta)
@@ -71,11 +87,23 @@ void CTreeObject::Late_Update(_float fTimeDelta)
 
 void CTreeObject::Reset_State()
 {
+    if (m_fAniTime >= m_iLength)
+    {
+        if (Enviornment_STATE::DAMAGED >= m_EnviromentState)
+        {
+            m_FrontName = TEXT("idle_");
+            m_EnviromentState = Enviornment_STATE::IDLE;
+        }
+        if (Enviornment_STATE::BROKEN <= m_EnviromentState)
+        {
+            m_FrontName = TEXT("stump_");
+            m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
+        }
+    }
 }
 
 HRESULT CTreeObject::Render()
 {
-
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
     m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -90,6 +118,25 @@ HRESULT CTreeObject::Render()
 
 void CTreeObject::Damage(void* pArg)
 {
+    switch (m_EnviromentState)
+    {
+    case Enviornment_STATE::IDLE:
+    case Enviornment_STATE::DAMAGED:
+        if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
+        {
+            m_FrontName = TEXT("fallleft_");
+            m_EnviormentInfo.iHit = 0;
+            m_EnviromentState = Enviornment_STATE::BROKEN;
+        }
+        else
+        {
+            m_FrontName = TEXT("chop_");
+            m_EnviormentInfo.iHit++;
+            m_fAniTime = 0;
+            m_EnviromentState = Enviornment_STATE::DAMAGED;
+        }
+        break;
+    }
 }
 
 void CTreeObject::Death()

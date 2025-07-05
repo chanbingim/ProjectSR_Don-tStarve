@@ -13,7 +13,7 @@ NS_BEGIN(Client)
 class CEnviornment_Object : public CAinimationObject
 {
 public:
-	enum class Enviornment_STATE { IDLE, DAMAGED, BROKEN, END };
+	enum class Enviornment_STATE { IDLE, RECOVERY, DAMAGED, BROKEN, BROKEN_IDLE, END };
 
 protected :
 	CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -34,10 +34,19 @@ public :
 
 	_wstring				GetEnviornmnetName();
 	_uint					GetEnviormentID();
-	 
+
+	BASE_DESC				GetCurrentInfo() { return m_EnviormentInfo; }
 	Enviornment_STATE		GetState() { return m_EnviromentState; }
 
 protected :
+	_wstring				m_FrontName = {};
+	const WCHAR*			m_TailName = {};
+
+	BASE_DESC				m_EnviormentInfo = {};
+	_float					m_MaxRecoverTime = {};
+	_float					m_CurRecoverTime = {};
+
+
 	_uint					m_EnviornmentID = {};
 
 	Enviornment_STATE		m_EnviromentState = { };

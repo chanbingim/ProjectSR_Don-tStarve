@@ -27,7 +27,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData = new MONSTER_DATA;
 	m_pMonsterData->iId = data.iId;
 	m_pMonsterData->iMaxHp = data.iMaxHp;
-	m_pMonsterData->iHp = data.iMaxHp;
+	m_pMonsterData-> iHp = data.iMaxHp;
 	m_pMonsterData->iMaxHit = data.iMaxHit;
 	m_pMonsterData->iHit = data.iMaxHit;
 	m_pMonsterData->iAtk = data.iAtk;

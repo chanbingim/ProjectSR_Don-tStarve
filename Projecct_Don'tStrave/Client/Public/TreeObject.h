@@ -36,8 +36,9 @@ private:
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 private :
-	_wstring				m_FrontName = {};
-	const WCHAR*			m_TailName = {};
+	_float3					Pos = {};
+
+	
 
 
 public:

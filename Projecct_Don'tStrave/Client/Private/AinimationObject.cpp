@@ -28,7 +28,8 @@ HRESULT CAinimationObject::Initialize_Prototype()
 
 HRESULT CAinimationObject::Initialize(void* pArg)
 {
-    
+     if(FAILED(__super::Initialize(pArg)))
+        return E_FAIL;
 
 	return S_OK;
 }

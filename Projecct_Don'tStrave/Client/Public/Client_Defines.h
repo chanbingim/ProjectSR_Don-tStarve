@@ -43,7 +43,7 @@ namespace Client
 	typedef struct Item_Data
 	{
 		unsigned int	iItemID{};
-		wstring		strName{};
+		wstring			strName{};
 		wstring			strKorName{};
 		ITEM_TYPE		eItemType{};
 		SLOT			eSlot{};
@@ -63,6 +63,7 @@ namespace Client
 		FOOD			eFoodtype{};
 	}ITEM_DATA;
 
+#pragma region FILE_LOAD_DATA
 	typedef struct Player_Desc {
 		_uint			iId = {};
 		wstring			strName = {};
@@ -88,15 +89,22 @@ namespace Client
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
 	}MONSTER_DESC;
+#pragma endregion
 
-	typedef struct Character_Data {
+#pragma region INGAME_DATA
+	typedef struct Object_Base_Desc
+	{
+		_int			iHp = {};
 		_uint			iMaxHp = {};
+
+		_int			iHit = {};
+		_uint			iMaxHit = {};
+	}BASE_DESC;
+
+	typedef struct Character_Data : BASE_DESC {
 		_uint			iTemp = {};
 		_uint			iAtk = {};
-		_uint			iMaxHit = {};
 		_float			fSpeed = {};
-		_int				iHp = {};
-		_int				iHit = {};
 		_float3			fPos = {};
 	}CHARACTER_DATA;
 
@@ -109,7 +117,7 @@ namespace Client
 		_uint					iHunger = {};
 		_uint					iMental = {};
 		SWAPOBJECT				tItem = {};
-		CGameObject*				pWorkObject = {};
+		CGameObject* pWorkObject = {};
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
@@ -117,7 +125,7 @@ namespace Client
 		_float		iAtkDistance = {};
 		_uint		iAtkSpeed = {};
 	}MONSTER_DATA;
-
+#pragma endregion
 }
 
 using namespace Client;
