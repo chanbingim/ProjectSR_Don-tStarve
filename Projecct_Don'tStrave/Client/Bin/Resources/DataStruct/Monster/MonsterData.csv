@@ -1,6 +1,7 @@
-0,Prototype_GameObject_Spider,거미,100,20,5,3,3,20,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
-1,Prototype_GameObject_SpiderWarrior,병정 거미,200,20,5,6,4,50,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
-2,Prototype_GameObject_SpiderQueen,여왕 거미,1250,80,1.75,5,3,200,으아아아아! 저 거미는 너무 크잖아!,드디어 내 진정한 능력을 발휘할 때로다.
-3,Prototype_GameObject_SpiderHouse,거미집,200,0,0,0,0,0,끈끈해!,저들의 근원을 짓밟아라!
-4,Prototype_GameObject_SpiderHouse,거미집,400,0,0,0,0,0,누군지 몰라도 손재주가 좋아진 모양인데.,거미아이가 예술까지 섭렵하려 한단 것인가?
-5,Prototype_GameObject_SpiderHouse,거미집,600,0,0,0,0,0,알이 부화하지 않았으면 좋겠네. 한동안은 말야.,이를 짓밟음은 미래의 전투를 없애는 일이 될 것이다.
+0,Prototype_GameObject_Spider,거미,100,20,5,3,3,20,1,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
+1,Prototype_GameObject_SpiderWarrior,병정 거미,200,20,5,6,4,40,1,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
+2,Prototype_GameObject_SpiderQueen,여왕 거미,1250,80,1.75,5,3,200,1,으아아아아! 저 거미는 너무 크잖아!,드디어 내 진정한 능력을 발휘할 때로다.
+3,Prototype_GameObject_SpiderHouse,거미집,200,0,0,0,0,0,1,끈끈해!,저들의 근원을 짓밟아라!
+4,Prototype_GameObject_SpiderHouse,거미집,400,0,0,0,0,0,1,누군지 몰라도 손재주가 좋아진 모양인데.,거미아이가 예술까지 섭렵하려 한단 것인가?
+5,Prototype_GameObject_SpiderHouse,거미집,600,0,0,0,0,0,1,알이 부화하지 않았으면 좋겠네. 한동안은 말야.,이를 짓밟음은 미래의 전투를 없애는 일이 될 것이다.
+6,Prototype_GameObject_Pig,돼지,250,33,3,3,5,40,0,저 녀석들은 뭔가 섬뜩한 게 있다니까.,전투에 굶주리지 않았는가 돼지여?

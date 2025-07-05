@@ -1,5 +1,28 @@
-﻿  RockObject.cpp
-  TreeObject.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\TreeObject.cpp(128,38): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+﻿  BookMark_Button.cpp
+  Clock.cpp
+  CraftingUI.cpp
+  MaterialSlot.cpp
+  Material_Item.cpp
+  PlayerAnim.cpp
+  Slot.cpp
+  Player.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(198,17): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(341,53): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(351,53): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(362,54): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(372,54): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(381,54): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(390,54): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(404,51): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(405,53): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(430,52): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(440,52): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(441,54): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(491,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(658,22): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(687,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(874,67): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.cpp
   코드를 생성하고 있습니다...
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Slot.cpp(32,1): warning C4172: 지역 변수 또는 임시 : vPos의 주소를 반환하는 중
   Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

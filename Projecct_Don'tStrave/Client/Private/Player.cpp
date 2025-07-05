@@ -253,7 +253,7 @@ void CPlayer::Update(_float fTimeDelta)
 				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 				break;
 			}
-			_float3		vMove = {0.f ,0.f ,0.f};
+			_float3		vMove = { 0.f ,0.f ,0.f };
 			if (GetKeyState('W') & 0x8000) {
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 
@@ -406,183 +406,182 @@ void CPlayer::Update(_float fTimeDelta)
 						return distance > distance2;
 					});
 
-<<<<<<< HEAD
-			if (!NearObjects.empty()) {
-				CGameObject* object = NearObjects.front();
-				if (object) {
-					m_pPlayer->pWorkObject = object;
-=======
 				if (!NearObjects.empty()) {
 					CGameObject* object = NearObjects.front();
 					if (object) {
 						m_pPlayer->pWorkObject = object;
-						//환경오브젝트로 바꾸면이거받아서 작업하면 될거같으니까 이거 받아서 해줘 올려줌
-					}
->>>>>>> origin/0705_kjh
-				}
-			}
-		}
-		if (m_pGameInstance->KeyDown(VK_CONTROL))
-		{
-			list<CGameObject*> NearObjects;
-
-			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-			if (!GroundObejcts->empty()) {
-				for (auto& object : (*GroundObejcts)) {
-					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					if (5.f > distance) {
-						NearObjects.push_back(object);
+						if (!NearObjects.empty()) {
+							CGameObject* object = NearObjects.front();
+							if (object) {
+								m_pPlayer->pWorkObject = object;
+								//환경오브젝트로 바꾸면이거받아서 작업하면 될거같으니까 이거 받아서 해줘 올려줌
+							}
+						}
 					}
 				}
-			}
-			NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+				if (m_pGameInstance->KeyDown(VK_CONTROL))
 				{
-					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
-					return distance > distance2;
-				});
+					list<CGameObject*> NearObjects;
 
-			if (!NearObjects.empty()) {
-				CGameObject* object = NearObjects.front();
-				if (object) {
-					m_pPlayer->pWorkObject = object;
+					auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+					if (!GroundObejcts->empty()) {
+						for (auto& object : (*GroundObejcts)) {
+							_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+							_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+							if (5.f > distance) {
+								NearObjects.push_back(object);
+							}
+						}
+					}
+					NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+						{
+							_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+							_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+							_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+							_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+							return distance > distance2;
+						});
+
+					if (!NearObjects.empty()) {
+						CGameObject* object = NearObjects.front();
+						if (object) {
+							m_pPlayer->pWorkObject = object;
+						}
+					}
+				}
+				if (m_pGameInstance->KeyDown('F'))
+				{
+					Get_Damage(50);
 				}
 			}
-		}
-		if (m_pGameInstance->KeyDown('F'))
-		{
-			Get_Damage(50);
-		}
-	}
-	else {
-		switch (m_tMotion)
-		{
-		case MOTION::IDLE:
-			m_bControll = true;
-			break;
-		case MOTION::BUCKED:
-			if (m_iLength <= m_fAniTime)
-			{
-				SetAnimation(DIR::DIR_END, MOTION::BUCK_PST);
-			}
-			break;
-		case MOTION::IDLE_TO_AXE:
-			if (m_iLength <= m_fAniTime)
-			{
-				SetAnimation(m_tDir, MOTION::AXE);
-			}
-			break;
-		case MOTION::IDLE_TO_BUILD:
-			if (m_iLength <= m_fAniTime)
-			{
-				SetAnimation(m_tDir, MOTION::BUILD);
-			}
-			break;
-		case MOTION::BUILD:
-			if (m_iLength <= m_fAniTime)
-			{
-				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
-			}
-			break;
+			else {
+				switch (m_tMotion)
+				{
+				case MOTION::IDLE:
+					m_bControll = true;
+					break;
+				case MOTION::BUCKED:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(DIR::DIR_END, MOTION::BUCK_PST);
+					}
+					break;
+				case MOTION::IDLE_TO_AXE:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::AXE);
+					}
+					break;
+				case MOTION::IDLE_TO_BUILD:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::BUILD);
+					}
+					break;
+				case MOTION::BUILD:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
+					}
+					break;
 
-		case MOTION::EAT:
-		case MOTION::FASTEAT:
-			if (m_iLength <= m_fAniTime) {
-				m_pPlayer->iHp = min(m_pPlayer->iHp + m_iHealthChange, m_pPlayer->iMaxHp);
-				m_pPlayer->iMental = min(m_pPlayer->iMental + m_iSanityChange, m_pPlayer->iMaxMental);
-				m_pPlayer->iHunger = min(m_pPlayer->iHunger + m_iHungerChange, m_pPlayer->iMaxHunger);
-				m_iHealthChange = 0;
-				m_iSanityChange = 0;
-				m_iHungerChange = 0;
-				if (0 >= m_pPlayer->iHp) {
-					Dead();
-					return;
+				case MOTION::EAT:
+				case MOTION::FASTEAT:
+					if (m_iLength <= m_fAniTime) {
+						m_pPlayer->iHp = min(m_pPlayer->iHp + m_iHealthChange, m_pPlayer->iMaxHp);
+						m_pPlayer->iMental = min(m_pPlayer->iMental + m_iSanityChange, m_pPlayer->iMaxMental);
+						m_pPlayer->iHunger = min(m_pPlayer->iHunger + m_iHungerChange, m_pPlayer->iMaxHunger);
+						m_iHealthChange = 0;
+						m_iSanityChange = 0;
+						m_iHungerChange = 0;
+						if (0 >= m_pPlayer->iHp) {
+							Dead();
+							return;
+						}
+					}
+				case MOTION::BUCK_PST:
+				case MOTION::DIAL:
+				case MOTION::RUN_TO_IDLE:
+				case MOTION::BUILD_TO_IDLE:
+				case MOTION::PICKAXE_TO_IDLE:
+				case MOTION::SHOVEL_TO_IDLE:
+				case MOTION::ATTACK:
+				case MOTION::PICKUP:
+				case MOTION::GIVE:
+				case MOTION::DAMAGE:
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::IDLE);
+						m_bControll = true;
+					}
+					break;
+				case MOTION::DEATH1:
+				case MOTION::DEATH2:
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(DIR::DIR_END, MOTION::GHOST_APPEAR);
+					}
+					break;
+				case MOTION::GHOST_APPEAR:
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(DIR::DIR_END, MOTION::GHOST_IDLE);
+						m_bControll = true;
+					}
+					break;
 				}
 			}
-		case MOTION::BUCK_PST:
-		case MOTION::DIAL:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::BUILD_TO_IDLE:
-		case MOTION::PICKAXE_TO_IDLE:
-		case MOTION::SHOVEL_TO_IDLE:
-		case MOTION::ATTACK:
-		case MOTION::PICKUP:
-		case MOTION::GIVE:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::IDLE);
-				m_bControll = true;
+
+			if (GetKeyState('R') & 0x8000)
+			{
+				SetAnimation(DIR::DIR_END, MOTION::DIAL);
+				m_bControll = false;
 			}
-			break;
-		case MOTION::DEATH1:
-		case MOTION::DEATH2:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(DIR::DIR_END, MOTION::GHOST_APPEAR);
+			if (GetKeyState('P') & 0x8000)
+			{
+				m_isDead = true;
 			}
-			break;
-		case MOTION::GHOST_APPEAR:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(DIR::DIR_END, MOTION::GHOST_IDLE);
-				m_bControll = true;
+			SetAnimation(m_tDir, m_tMotion);
+
+			if (m_pGameInstance->KeyPressed('E'))
+			{
+				m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
 			}
-			break;
+			if (m_pGameInstance->KeyPressed('Q'))
+			{
+				m_pTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
+			}
+			if (m_pGameInstance->KeyPressed('Y'))
+			{
+				m_pPlayer->tItem = SWAPOBJECT::NONE;
+				SetAnimation(m_tDir, m_tMotion);
+			}
+			if (GetKeyState('X') & 0x8000)
+			{
+				m_pPlayer->tItem = SWAPOBJECT::GOLDAXE;
+				SetAnimation(m_tDir, m_tMotion);
+			}
+			if (GetKeyState('Z') & 0x8000)
+			{
+				m_pPlayer->tItem = SWAPOBJECT::GOLDPICKAXE;
+				SetAnimation(m_tDir, m_tMotion);
+			}
+			if (m_pGameInstance->KeyPressed('C')) {
+				SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
+				m_bControll = false;
+			}
+			if (m_pGameInstance->KeyPressed('V')) {
+				SetAnimation(m_tDir, MOTION::EAT);
+				m_iHealthChange = 10;
+				m_iSanityChange = 10;
+				m_iHungerChange = 10;
+				m_bControll = false;
+			}
+			if (m_pGameInstance->KeyPressed('B')) {
+				SetAnimation(m_tDir, MOTION::FASTEAT);
+				m_iHealthChange = -10;
+				m_iSanityChange = -10;
+				m_iHungerChange = 30;
+				m_bControll = false;
+			}
 		}
-	}
-
-	if (GetKeyState('R') & 0x8000)
-	{
-		SetAnimation(DIR::DIR_END, MOTION::DIAL);
-		m_bControll = false;
-	}
-	if (GetKeyState('P') & 0x8000)
-	{
-		m_isDead = true;
-	}
-	SetAnimation(m_tDir, m_tMotion);
-
-	if (m_pGameInstance->KeyPressed('E'))
-	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
-	}
-	if (m_pGameInstance->KeyPressed('Q'))
-	{
-		m_pTransformCom->TurnRate(_float3(0.f, -1.f, 0.f), fTimeDelta);
-	}
-	if (m_pGameInstance->KeyPressed('Y'))
-	{
-		m_pPlayer->tItem = SWAPOBJECT::NONE;
-		SetAnimation(m_tDir, m_tMotion);
-	}
-	if (GetKeyState('X') & 0x8000)
-	{
-		m_pPlayer->tItem = SWAPOBJECT::GOLDAXE;
-		SetAnimation(m_tDir, m_tMotion);
-	}
-	if (GetKeyState('Z') & 0x8000)
-	{
-		m_pPlayer->tItem = SWAPOBJECT::GOLDPICKAXE;
-		SetAnimation(m_tDir, m_tMotion);
-	}
-	if (m_pGameInstance->KeyPressed('C')) {
-		SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
-		m_bControll = false;
-	}
-	if (m_pGameInstance->KeyPressed('V')) {
-		SetAnimation(m_tDir, MOTION::EAT);
-		m_iHealthChange = 10;
-		m_iSanityChange = 10;
-		m_iHungerChange = 10;
-		m_bControll = false;
-	}
-	if (m_pGameInstance->KeyPressed('B')) {
-		SetAnimation(m_tDir, MOTION::FASTEAT);
-		m_iHealthChange = -10;
-		m_iSanityChange = -10;
-		m_iHungerChange = 30;
-		m_bControll = false;
 	}
 }
 
@@ -601,8 +600,6 @@ HRESULT CPlayer::Render()
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
-
-
 
 	if (MOTION::BUILD == m_tMotion && DIR::UP == m_tDir) {
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
