@@ -147,7 +147,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
 	for (size_t i = 0; i < 2; i++)
 	{
-		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
+		data.fPos = _float3(rand() % 10, 0.f, rand() % 10);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
@@ -168,7 +168,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 	LoadMapData(File, &vecBaseData);
 
 	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
-	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 
 	for (size_t i = 0; i < vecBaseData.size(); ++i)
 	{

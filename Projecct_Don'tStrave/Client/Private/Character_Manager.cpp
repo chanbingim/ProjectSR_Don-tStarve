@@ -37,6 +37,7 @@ void CCharacter_Manager::Remove_Object(CGameObject* pGameObject, FIELDOBJECT tTy
 list<CGameObject*> CCharacter_Manager::Get_NearObject(CGameObject* pGameObject, _float fDistance, FIELDOBJECT tType)
 {
 	list<CGameObject*> NearObjects;
+
 	for (auto object : m_ObjectList[EnumToInt(tType)]) {
 		if (pGameObject != object) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pGameObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);

@@ -1,8 +1,10 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Monster.h"
+#include "Enviornment_Object.h"
 
 #include "XML_Manager.h"
+
 #include "Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -28,6 +30,7 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml", &m_tAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_axe.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -51,7 +54,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iHunger = data.iMaxHunger;
 	m_pPlayer->iMental = data.iMaxMental;
 	m_pPlayer->tItem = SWAPOBJECT::NONE;
-	m_pPlayer->fSpeed = 4.f;
+	m_pPlayer->fSpeed = 40.f;
 
 	m_pPlayer->iTemp = 0;
 	m_pPlayer->fAtkRatio = data.fAtk;
@@ -84,6 +87,16 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	if (0 >= m_pPlayer->iHunger) {
 		Death();
+	}
+	switch (m_tMotion)
+	{
+	case MOTION::ATTACK:
+	case MOTION::IDLE_TO_AXE:
+	case MOTION::AXE:
+		break;
+	default:
+		m_bAttack = false;
+		break;
 	}
 }
 
@@ -171,7 +184,7 @@ void CPlayer::Update(_float fTimeDelta)
 				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
 			m_pPlayer->pWorkObject = nullptr;
-			m_pPlayer->fPos += *D3DXVec3Normalize(&vMove, &vMove) * 2.f * fTimeDelta;
+			m_pPlayer->fPos += *D3DXVec3Normalize(&vMove, &vMove) * m_pPlayer->fSpeed * fTimeDelta;
 			m_pTransformCom->SetPosition(m_pPlayer->fPos);
 		}
 		else {
@@ -219,10 +232,31 @@ void CPlayer::Update(_float fTimeDelta)
 				}
 			}
 		}
-		if (GetKeyState(VK_SPACE) & 0x8000)
+		if (m_pGameInstance->KeyDown(VK_SPACE))
 		{
-			if (!m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).empty()) {
-				CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).front();
+			list<CGameObject*> NearObjects;
+
+			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+			if (!GroundObejcts->empty()) {
+				for (auto& object : (*GroundObejcts)) {
+					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+					if (10.f > distance) {
+						NearObjects.push_back(object);
+					}
+				}
+			}
+			NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+				{
+					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+					_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+					return distance > distance2;
+				});
+
+			if (!NearObjects.empty()) {
+				CGameObject* object = NearObjects.front();
 				if (object) {
 					m_pPlayer->pWorkObject = object;
 				}
@@ -230,8 +264,31 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (m_pGameInstance->KeyDown(VK_CONTROL))
 		{
-			if (!m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::CREATURE).empty()) {
-				CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::CREATURE).front();
+
+
+			list<CGameObject*> NearObjects;
+
+			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+			if (!GroundObejcts->empty()) {
+				for (auto& object : (*GroundObejcts)) {
+					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+					if (5.f > distance) {
+						NearObjects.push_back(object);
+					}
+				}
+			}
+			NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+				{
+					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+					_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+					return distance > distance2;
+				});
+
+			if (!NearObjects.empty()) {
+				CGameObject* object = NearObjects.front();
 				if (object) {
 					m_pPlayer->pWorkObject = object;
 				}
@@ -252,6 +309,12 @@ void CPlayer::Update(_float fTimeDelta)
 			if (m_iLength < m_fAniTime)
 			{
 				SetAnimation(DIR::DIR_END, MOTION::BUCK_PST);
+			}
+			break;
+		case MOTION::IDLE_TO_AXE:
+			if (m_iLength < m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::AXE);
 			}
 			break;
 		case MOTION::BUCK_PST:
@@ -552,6 +615,23 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					m_pPlayer->pWorkObject = nullptr;
 				}
 			}
+		}
+		if (dynamic_cast<CEnviornment_Object*>(HitActor)) {
+			if (MOTION::AXE != m_tMotion) {
+				SetAnimation(m_tDir, MOTION::IDLE_TO_AXE);
+				m_bControll = false;
+				m_bAttack = true;
+			}
+			else {
+				if (m_iLength <= m_fAniTime) {
+					m_bControll = true;
+				}
+				if (m_bAttack && 160 <= (int)m_fAniTime) {
+					m_bAttack = false;
+					HitActor->Damage(nullptr);
+				}
+			}
+			//m_pPlayer->pWorkObject = nullptr;
 		}
 		if (dynamic_cast<CItem*>(HitActor)) {
 			SetAnimation(m_tDir, MOTION::PICKUP);
