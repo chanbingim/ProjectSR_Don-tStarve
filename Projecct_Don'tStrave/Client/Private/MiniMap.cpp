@@ -356,4 +356,7 @@ void CMiniMap::Free()
 	Safe_Release(m_pPanel_Transform_Com);
 	Safe_Release(m_pPanel_VIBuffer_Com);
 
+	Safe_Release(m_Terrain_Texture_Com);
+	Safe_Release(m_pTerrain_Transform_Com);
+
 }
