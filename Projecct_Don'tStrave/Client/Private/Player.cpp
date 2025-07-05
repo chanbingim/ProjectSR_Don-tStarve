@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Monster.h"
+#include "Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -21,6 +22,9 @@ HRESULT CPlayer::Initialize_Prototype()
 	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_item.scml");
 	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_run.scml");
 	LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_action.scml");
+	LoadScml("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml");
+	//AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/");
+	//LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml");
 	return S_OK;
 }
 
@@ -49,7 +53,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iTemp = 0;
 	m_pPlayer->fAtkRatio = data.fAtk;
 	m_pPlayer->fDefRatio = data.fDef;
-	m_pPlayer->iAtk = 10;
+	m_pPlayer->iAtk = 50;
 	m_pPlayer->iDef = 0;
 	m_pPlayer->iMaxHit = 10;
 	m_pPlayer->iHit = 10;
@@ -123,7 +127,7 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 			SetAnimation(m_tDir, m_tMotion);
 		}
-		if (GetKeyState('W') & 0x8000 || GetKeyState('S') & 0x8000 || GetKeyState('D') & 0x8000 || GetKeyState('A') & 0x8000)
+		if (m_pGameInstance->KeyPressed('W') || m_pGameInstance->KeyPressed('S') || m_pGameInstance->KeyPressed('D') || m_pGameInstance->KeyPressed('A'))
 		{
 			switch (m_tMotion)
 			{
@@ -163,52 +167,69 @@ void CPlayer::Update(_float fTimeDelta)
 
 				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
-
+			m_pPlayer->pWorkObject = nullptr;
 			m_pPlayer->fPos += *D3DXVec3Normalize(&vMove, &vMove) * 2.f * fTimeDelta;
 			m_pTransformCom->SetPosition(m_pPlayer->fPos);
 		}
 		else {
 			if (nullptr != m_pPlayer->pWorkObject) {
 				_float3 move = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pPlayer->fPos;
-
 				m_pPlayer->fPos += *D3DXVec3Normalize(&move, &move) * 2.f * fTimeDelta;
 				m_pTransformCom->SetPosition(m_pPlayer->fPos);
+				switch (m_tMotion)
+				{
+				case MOTION::GHOST_IDLE:
+					break;
+				case MOTION::IDLE_TO_RUN:
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::RUN);
+					}
+				case MOTION::RUN:
+					break;
+				default:
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					break;
+				}
 			}
-			switch (m_tMotion)
-			{
-			case  MOTION::IDLE_TO_RUN:
-			case  MOTION::RUN:
-				if (m_iLength <= m_fAniTime)
+			else {
+				switch (m_tMotion)
 				{
-					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-					//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
+				case  MOTION::IDLE_TO_RUN:
+				case  MOTION::RUN:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+						//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
+					}
+					break;
+				case MOTION::RUN_TO_IDLE:
+				case MOTION::ATTACK:
+					if (m_iLength <= m_fAniTime)
+					{
+						SetAnimation(m_tDir, MOTION::IDLE);
+						//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
+						m_bControll = false;
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			case MOTION::RUN_TO_IDLE:
-			case MOTION::ATTACK:
-				if (m_iLength <= m_fAniTime)
-				{
-					SetAnimation(m_tDir, MOTION::IDLE);
-					//m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
-					m_bControll = false;
-				}
-				break;
-			default:
-				break;
 			}
 		}
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-			//list<CGameObject*> objects = m_pCharacterInstance->Get_NearObject(this, 3.f);
-			//if (0 < objects.size()) {
-			//	m_pWorkObject = objects.front();
-			//}
-			Attack();
-			//m_tMotion = MOTION::ATTACK;
-			//m_pSwapObjectAnimController->ChangeState(m_pSwapObjectPlayerAnim[m_tItem][m_tDir][m_tMotion]);
-			//SetAnimation(m_tDir, m_tMotion);
-			////m_pAnimController->ChangeState(m_pPlayerAnim[m_iSwapObject][m_tDir][m_tMotion]);
-			//m_bControll = false;
+			CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::OBJECT).front();
+			if (object) {
+				m_pPlayer->pWorkObject = object;
+			}
+		}
+		if (m_pGameInstance->KeyDown(VK_CONTROL))
+		{
+
+			CGameObject* object = m_pCharacterInstance->Get_NearObject(this, 5.f, FIELDOBJECT::MONSTER).front();
+			if (object) {
+				m_pPlayer->pWorkObject = object;
+			}
 		}
 		if (m_pGameInstance->KeyDown('F'))
 		{
@@ -527,12 +548,24 @@ void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	//if (HitActor == m_pWorkObject) {
-	if (dynamic_cast<CMonster*>(HitActor) && m_bAttack && m_tMotion == MOTION::ATTACK && 330 <= (int)m_fAniTime) {
-		dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
-		m_bAttack = false;
+	if (HitActor == m_pPlayer->pWorkObject) {
+		if (dynamic_cast<CMonster*>(HitActor)) {
+			if (!m_bAttack && m_tMotion != MOTION::ATTACK) {
+				Attack();
+			}
+			if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_pPlayer->tItem ? 330 : 200) <= (int)m_fAniTime) {
+				dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
+				m_bAttack = false;
+				if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
+					m_pPlayer->pWorkObject = nullptr;
+				}
+			}
+		}
+		if (dynamic_cast<CItem*>(HitActor)) {
+			SetAnimation(m_tDir, MOTION::PICKUP);
+			m_pPlayer->pWorkObject = nullptr;
+		}
 	}
-	//}
 }
 
 void CPlayer::EndHitActor(CGameObject* HitActor, _float3& _Dir)

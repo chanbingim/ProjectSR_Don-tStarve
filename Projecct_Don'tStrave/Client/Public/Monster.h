@@ -29,7 +29,7 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	MONSTER_DATA Get_Monster();
+	MONSTER_DATA* Get_Monster();
 protected:
 	CCharacter* m_pTarget = {};
 	MONSTER_DATA* m_pMonsterData = {};

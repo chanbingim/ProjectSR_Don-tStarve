@@ -24,6 +24,7 @@ HRESULT CSpider::Initialize(void* pArg)
 
 	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pTransformCom->SetPosition(data.fPos);
+	m_bOutHouse = true;
 
 	for (auto target : m_pCharacterInstance->Get_NearObject(this, 0.1f)) {
 		if (m_pHouse = dynamic_cast<CSpiderHouse*>(target)) {
@@ -68,8 +69,9 @@ HRESULT CSpider::Render()
 void CSpider::Damage()
 {
 	for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f)) {
-		if (m_pHouse = dynamic_cast<CSpiderHouse*>(target)) {
-			m_pHouse->Emergency();
+		CSpiderHouse* pHouse = {};
+		if (pHouse = dynamic_cast<CSpiderHouse*>(target)) {
+			pHouse->Emergency();
 		}
 	}
 }

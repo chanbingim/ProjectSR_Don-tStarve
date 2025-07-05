@@ -277,7 +277,7 @@ void CSpiderNormal::Attack()
 
 void CSpiderNormal::Death()
 {
-	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	SetAnimation(m_tDir, MOTION::DEATH);
 }
 
 void CSpiderNormal::OutHouse()
@@ -287,7 +287,7 @@ void CSpiderNormal::OutHouse()
 
 HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion) && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
@@ -348,7 +348,7 @@ HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"death";
 		break;
 	}
-	switch (dir)
+	switch (m_tDir)
 	{
 	case DIR::DOWN:
 		m_sAnim += L"_down";

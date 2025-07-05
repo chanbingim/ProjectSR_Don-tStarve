@@ -70,9 +70,9 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-MONSTER_DATA CMonster::Get_Monster()
+MONSTER_DATA* CMonster::Get_Monster()
 {
-	return MONSTER_DATA();
+	return m_pMonsterData;
 }
 
 void CMonster::Free()
