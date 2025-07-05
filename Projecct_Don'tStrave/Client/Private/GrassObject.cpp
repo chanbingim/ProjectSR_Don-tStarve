@@ -18,9 +18,9 @@ CGrassObject::CGrassObject(const CGrassObject& rhs) :
 
 HRESULT CGrassObject::Initialize_Prototype()
 {
-    //auto XML_Instance = CXML_Manager::GetInstance();
-    //XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
-    //XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+    auto XML_Instance = CXML_Manager::GetInstance();
+    XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Grass/grass1.scml", L"../Bin/Resources/Textures/Objects/Grass/", &m_tImageVec);
+    XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Grass/grass1.scml", &m_tAnimation);
 
     return S_OK;
 }
@@ -34,6 +34,10 @@ HRESULT CGrassObject::Initialize(void* pArg)
         return E_FAIL;
 
     LoadImageFile();
+    m_FrontName = TEXT("idle");
+    m_TailName = TEXT("");
+
+    m_MaxRecoverTime = 4.0f;
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -51,6 +55,18 @@ void CGrassObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
+    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
+    {
+        m_CurRecoverTime += 0.01f;
+        if (m_MaxRecoverTime <= m_CurRecoverTime)
+        {
+            m_FrontName = TEXT("grow");
+            m_EnviromentState = Enviornment_STATE::RECOVERY;
+            m_fAniTime = 0;
+            m_CurRecoverTime = 0;
+        }
+    }
+    Reset_State();
 }
 
 void CGrassObject::Late_Update(_float fTimeDelta)
@@ -59,11 +75,46 @@ void CGrassObject::Late_Update(_float fTimeDelta)
     
 }
 
+void CGrassObject::Reset_State()
+{
+    if (m_fAniTime >= m_iLength)
+    {
+        if (Enviornment_STATE::DAMAGED >= m_EnviromentState)
+        {
+            m_FrontName = TEXT("idle");
+            m_EnviromentState = Enviornment_STATE::IDLE;
+        }
+        if (Enviornment_STATE::BROKEN <= m_EnviromentState)
+        {
+            m_FrontName = TEXT("picked");
+            m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
+        }
+    }
+}
+
 HRESULT CGrassObject::Render()
 {
     __super::Render();
 
     return S_OK;
+}
+
+void CGrassObject::Damage(void* pArg)
+{
+    switch (m_EnviromentState)
+    {
+    case Enviornment_STATE::IDLE:
+        {
+            m_FrontName = TEXT("picking");
+            m_EnviormentInfo.iHit = 0;
+            m_EnviromentState = Enviornment_STATE::BROKEN;
+        }
+        break;
+    }
+}
+
+void CGrassObject::Death()
+{
 }
 
 HRESULT CGrassObject::ADD_Components()

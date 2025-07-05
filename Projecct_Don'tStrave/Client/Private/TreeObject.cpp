@@ -69,13 +69,6 @@ void CTreeObject::Update(_float fTimeDelta)
             m_CurRecoverTime = 0;
         }
     }
-
-    //데미지 받는걸 picking으로 흉내내봄
-    //나중에 데미지받는 로직으로 대체
-    if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
-    {
-        Damage(nullptr);
-    }
     Reset_State();
 }
 

@@ -21,7 +21,11 @@ public:
 	virtual void		Priority_Update(_float fTimeDelta) override;
 	virtual void		Update(_float fTimeDelta) override;
 	virtual void		Late_Update(_float fTimeDelta) override;
+	virtual	void		Reset_State() override;
 	virtual HRESULT		Render() override;
+
+	virtual void		Damage(void* pArg) override;
+	virtual void		Death()override;
 
 private:
 	HRESULT				ADD_Components();

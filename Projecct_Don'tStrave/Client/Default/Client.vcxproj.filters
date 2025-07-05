@@ -236,10 +236,10 @@
     <Filter Include="02. Objects\AnimationObject">
       <UniqueIdentifier>{58c82889-b1fa-41e3-9440-3fcc6460c681}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShaderManager\Shader\XML Manager">
+    <Filter Include="XML Manager">
       <UniqueIdentifier>{05678005-b20f-42a7-af20-e44113d77cd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShaderManager\Shader\XML Manager\Struct">
+    <Filter Include="XML Manager\Struct">
       <UniqueIdentifier>{ec70bae3-d226-4bfa-be22-aca118cfee1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -473,10 +473,10 @@
       <Filter>04. GmaeUI\ChestUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\XML_Manager.h">
-      <Filter>ShaderManager\Shader\XML Manager</Filter>
+      <Filter>XML Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\XMLDataStruct.h">
-      <Filter>ShaderManager\Shader\XML Manager\Struct</Filter>
+      <Filter>XML Manager\Struct</Filter>
     </ClInclude>
     <ClInclude Include="..\public\AinimationObject.h">
       <Filter>02. Objects\AnimationObject</Filter>
@@ -719,7 +719,7 @@
       <Filter>04. GmaeUI\ChestUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\XML_Manager.cpp">
-      <Filter>ShaderManager\Shader\XML Manager</Filter>
+      <Filter>XML Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AinimationObject.cpp">
       <Filter>02. Objects\AnimationObject</Filter>

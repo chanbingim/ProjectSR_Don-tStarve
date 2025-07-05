@@ -49,7 +49,11 @@ void CEnviornment_Object::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
-    
+    _float3 Pos;
+    if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
+        Damage(nullptr);
+    }
 }
 
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
@@ -71,21 +75,14 @@ void CEnviornment_Object::Reset_State()
 
 HRESULT CEnviornment_Object::Render()
 {
-    class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
-    auto Camera = dynamic_cast<CCamera*>(Obj);
-    if (nullptr == Camera)
-        return E_FAIL;
-    /*if (FAILED(Begin_RenderState()))
-        return E_FAIL;*/
-
-    LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
-
-    m_pGraphic_Device->GetTexture(0, &pTex);
-    Excute_Billboard(Camera->GetInvViewMat(), pTex);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
     __super::Render();
-    m_pVIBufferCom->Render();
-    End_Billboard();
+    XMLRenderAnimation(m_FrontName + m_TailName);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     return S_OK;
 }
