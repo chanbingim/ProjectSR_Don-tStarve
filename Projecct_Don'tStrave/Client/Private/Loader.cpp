@@ -42,6 +42,8 @@
 #include "Chest.h"
 #include "UIEffect.h"
 #include "ChestUI.h"
+#include "MiniMap.h"
+#include "MiniMap_Icon.h"
 
 
 #include "GameInstance.h"
@@ -307,6 +309,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/MinMap_Button.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_MiniMap_Background */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Background"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap/MiniMap_bg.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_MiniMap_Icon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Icon"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap_Icon/MiniMap_Icon-%d.png"), 14))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_QuickSlot_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuickSlot_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/QuickSlot_Button.png"), 1))))
@@ -551,6 +563,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
 		CUIEffect::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_MiniMap */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap"),
+		CMiniMap::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_MiniMap_Icon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"),
+		CMiniMap_Icon::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region SNOW_PARITCLE
