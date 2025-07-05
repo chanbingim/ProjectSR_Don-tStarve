@@ -66,8 +66,9 @@ HRESULT CSpider::Render()
 	return S_OK;
 }
 
-void CSpider::Damage()
+void CSpider::Damage(void* pArg)
 {
+	__super::Damage(pArg);
 	for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f, FIELDOBJECT::CREATURE)) {
 		CSpiderHouse* pHouse = {};
 		if (pHouse = dynamic_cast<CSpiderHouse*>(target)) {

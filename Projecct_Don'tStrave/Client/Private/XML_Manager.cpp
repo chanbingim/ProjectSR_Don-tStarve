@@ -115,7 +115,10 @@ HRESULT CXML_Manager::AddTexture(const _char* pScmlFilePath, const _tchar* pText
             file.szName += conv_Wstring;
             file.pTexture = nullptr;
 
-            m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+            CTexture* texture = {};
+            if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName), texture = CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str())))) {
+                Safe_Release(texture);
+            }
 
             file.fSize.x = fileElem->FloatAttribute("width");
             file.fSize.y = fileElem->FloatAttribute("height");

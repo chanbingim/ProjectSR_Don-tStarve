@@ -55,9 +55,6 @@ HRESULT CCharacter::Initialize(void* pArg)
 void CCharacter::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-  
-
-    m_fAniTime += fTimeDelta * 500;
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 }
 
@@ -140,11 +137,11 @@ void CCharacter::SetDir()
     }
 }
 
-void CCharacter::RenderAnimation(const wstring& animName)
+void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
-    for (auto& anim : m_tAnimation.tAnimationsVec) {
-        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), anim.szName.size())) {      // 이름 같은 애니메이션 찾기
+    for (auto& anim : tEntity.tAnimationsVec) {
+        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), animName.size() > anim.szName.size() ? animName.size() : anim.szName.size())) {      // 이름 같은 애니메이션 찾기
             pAnim = &anim;
             break;
         }
@@ -219,8 +216,8 @@ void CCharacter::RenderAnimation(const wstring& animName)
         // 구해둔 t로 첫 시간과 다음 시간 사이 현재 시간일때 나올 값들을 구해줌
         // Angle은 가끔 360도 확 돌아서 여러가지 시도해보다가 저리 됨
 
-        if (object.iFolder >= m_tImageVec.size() || object.iFile >= m_tImageVec[object.iFolder].tFilesVec.size()) continue;
-        IMAGE_FILE_DESC image = m_tImageVec[object.iFolder].tFilesVec[object.iFile];
+            if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
+            IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
 
         D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matBillboard, matPos, matWorld;
 

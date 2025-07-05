@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Render() override;
 	virtual void		OutHouse() = 0;
 
-	virtual void Damage();
+	virtual void Damage(void* pArg) override;
 protected:
 	_bool					m_bOutHouse = {};
 	CSpiderHouse*			m_pHouse = {};

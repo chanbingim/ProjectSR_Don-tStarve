@@ -55,7 +55,7 @@ public:
 	virtual void		Get_Damage(_uint iAtk);
 	void				SetDir();
 
-	void				RenderAnimation(const wstring& animName);
+	void				RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
 
 protected:
 	MOVE_DIR			m_tMoveDIr = {};

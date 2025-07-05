@@ -165,7 +165,7 @@ HRESULT CSpiderHouse::Render()
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	RenderAnimation(m_sAnim);
+	XMLRenderAnimation(m_sAnim);
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;

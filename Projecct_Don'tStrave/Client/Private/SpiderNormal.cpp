@@ -145,7 +145,6 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				}
 			}
 			else {
-
 				m_fMoveTIme += fTimeDelta;
 				if (m_fMoveTIme > 10) {
 					if (m_fMoveTIme > 40) {
@@ -258,8 +257,7 @@ HRESULT CSpiderNormal::Render()
 
 		if (FAILED(Begin_RenderState()))
 			return E_FAIL;
-
-		RenderAnimation(m_sAnim);
+		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
 		if (FAILED(End_RenderState()))
 			return E_FAIL;
@@ -267,9 +265,9 @@ HRESULT CSpiderNormal::Render()
 	return S_OK;
 }
 
-void CSpiderNormal::Damage()
+void CSpiderNormal::Damage(void* pArg)
 {
-	__super::Damage();
+	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
