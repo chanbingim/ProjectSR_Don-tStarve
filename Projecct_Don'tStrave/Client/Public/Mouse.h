@@ -20,10 +20,11 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	void  ClickedEevent();
+	void ClickedEevent();
 	void Update_HoverItem(_uint itemID);
 	void Update_HoverSlot(_uint itemID);
 	void Update_Hover(_uint itemID);
+	void Update_Hover(const wstring strMessage,const _uint iMouseState);
 
 private:
 	_uint			m_iMouseState = {};

@@ -2,11 +2,15 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+#include "PlayerData_Manager.h"
+#include "MonsterData_Manager.h"
 
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
 #include "Character_Manager.h"
+#include "Terrian_Manager.h"
+#include "XML_Manager.h"
 #include "Camera_Button.h"
 
 
@@ -48,6 +52,8 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(ReadShader()))
 		return E_FAIL;
 
+	CTerrian_Manager::GetInstance()->Initialize({64, 64});
+	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
 
 	return S_OK;
 }
@@ -65,8 +71,7 @@ HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-	
-
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
@@ -78,7 +83,15 @@ HRESULT Client::CMainApp::Render()
 
 HRESULT CMainApp::Ready_Default_Setting()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	// 재질 설정
+	D3DMATERIAL9		MaterialDesc{};
+	MaterialDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MaterialDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+
+
+	m_pGraphic_Device->SetMaterial(&MaterialDesc);
 
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -132,12 +145,17 @@ HRESULT CMainApp::Ready_Prototypes()
 
 	/* For.Prototype_Component_Snow_Textrue */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Snow_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Paritcle_Sys */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
 		CParticleSystemComponent::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Paritcle_Sys */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
+		CLightComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	// Test Code
@@ -202,16 +220,15 @@ CMainApp* Client::CMainApp::Create()
 void Client::CMainApp::Free()
 {
 	__super::Free();
-
 	Safe_Release(m_pGraphic_Device);
 
+	CPlayerData_Manager::DestroyInstance();
+	CMonsterData_Manager::DestroyInstance();
 	CItem_Manager::DestroyInstance();
-
+	CTerrian_Manager::DestroyInstance();
+	CXML_Manager::DestroyInstance();
+	CCharacter_Manager::DestroyInstance();
 	m_pGameInstance->Release_Engine();
-
-
-
-	
 
 	Safe_Release(m_pGameInstance);	
 }

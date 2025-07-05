@@ -58,9 +58,6 @@
     <Filter Include="System\GameObject\Manager">
       <UniqueIdentifier>{baad7120-0d08-4d29-bcbe-59a843f1c0c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Components\Transform_Component">
-      <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Components\Texture_Component">
       <UniqueIdentifier>{04bd9fd9-cc56-44e6-8f38-14f26f956505}</UniqueIdentifier>
     </Filter>
@@ -118,12 +115,6 @@
     <Filter Include="System\GameObject\ALPHA">
       <UniqueIdentifier>{fa021581-7ebd-4f33-bfc8-885e6a614e45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define">
-      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Define\HeaderSet">
-      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Shader">
       <UniqueIdentifier>{feba6f8c-a61f-4133-983f-068574f120c7}</UniqueIdentifier>
     </Filter>
@@ -136,6 +127,24 @@
     <Filter Include="System\Components\Light_Component">
       <UniqueIdentifier>{9cd36981-50fd-4ebf-a067-f34d13db4585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\GameObject\FrustomCamera">
+      <UniqueIdentifier>{f47e8ef9-0b01-48c7-aed6-0e2833799d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Light_Component\Manager">
+      <UniqueIdentifier>{162957f8-5314-4649-8e55-4be23c2ba9b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define">
+      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define\HeaderSet">
+      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\VIBuffer\Cube">
+      <UniqueIdentifier>{4f8c5de3-f9b0-44cf-90ea-92b5194bbb45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Components\Transform_Component">
+      <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -145,22 +154,22 @@
       <Filter>Utility\Base\GraphicDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Defines.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Enum.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Function.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Macro.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Struct.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Typedef.h">
-      <Filter>System\Define</Filter>
+      <Filter>Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\File.h">
       <Filter>Utility\File</Filter>
@@ -178,10 +187,10 @@
       <Filter>Utility\Timer\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BufferComponents.h">
-      <Filter>System\Define\HeaderSet</Filter>
+      <Filter>Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FunctionHeaders.h">
-      <Filter>System\Define\HeaderSet</Filter>
+      <Filter>Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GameInstance.h">
       <Filter>System\GameInstance</Filter>
@@ -218,9 +227,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Texture.h">
       <Filter>System\Components\Texture_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer_Rect.h">
-      <Filter>System\Components\VIBuffer\Rect_Buffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Terrain.h">
       <Filter>System\Components\VIBuffer\Terrian</Filter>
@@ -282,6 +288,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\LightComponent.h">
       <Filter>System\Components\Light_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FrustomCamera.h">
+      <Filter>System\GameObject\FrustomCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Light_Manager.h">
+      <Filter>System\Components\Light_Component\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Cube.h">
+      <Filter>System\Components\VIBuffer\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect.h">
+      <Filter>System\Components\VIBuffer\Rect_Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +423,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\LightComponent.cpp">
       <Filter>System\Components\Light_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FrustomCamera.cpp">
+      <Filter>System\GameObject\FrustomCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Light_Manager.cpp">
+      <Filter>System\Components\Light_Component\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp">
+      <Filter>System\Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

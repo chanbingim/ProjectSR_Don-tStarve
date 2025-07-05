@@ -32,15 +32,14 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 	_float fMinSize = max(size.x, size.y);
 
 	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
-
 	m_pTransformCom->SetScale(vSize);
-
 
 	return S_OK;
 }
 
 void CMaterial_Item::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CMaterial_Item::Update(_float fTimeDelta)
@@ -49,6 +48,7 @@ void CMaterial_Item::Update(_float fTimeDelta)
 
 	HoverEvent();
 
+	if(!m_bIsplayAnim)
 	SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);

@@ -37,6 +37,8 @@ private:
 
 	CAnimController*	m_pAnimController = { nullptr };
 
+	class CChestUI*		m_pChestUI = { nullptr };
+
 private:
 	HRESULT ADD_Components();
 	void Change_State();

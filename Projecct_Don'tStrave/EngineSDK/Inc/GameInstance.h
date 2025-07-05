@@ -43,10 +43,11 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
-	class CGameObject* Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex = 0);
-	HRESULT Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
-	HRESULT Initialize_Late(_uint iPrototypeLevelIndex);
+	CComponent*					Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
+	class CGameObject*			Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex = 0);
+	list<class CGameObject*>*	GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
+	HRESULT						Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	HRESULT						Initialize_Late(_uint iPrototypeLevelIndex);
 #pragma endregion
 
 
@@ -82,6 +83,7 @@ public:
 	_bool			KeyUp(_uint KeyNum);
 #pragma endregion
 
+
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
 	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
@@ -94,6 +96,7 @@ private:
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
 	class CKeyManager*				m_pKey_Manager = { nullptr };
 	class CCollision_Manager*		m_pCollision_Manager = { nullptr };
+	class CLight_Manager*			m_pLight_Manager = { nullptr };
 
 public:
 	void Release_Engine();

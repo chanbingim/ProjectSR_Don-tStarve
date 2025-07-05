@@ -4,7 +4,11 @@
 #include "Camera.h"
 #include "UserInterface.h"
 #include "SnowParticle.h"
+#include "Terrian_Manager.h"
+#include "Terrain.h"
 #include "CUtility.h"
+#include "PlayerData_Manager.h"
+#include "MonsterData_Manager.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -14,6 +18,8 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 10.0f);
+
 	if (FAILED(LoadFileData("TutorialMapData")))
 		return E_FAIL;
 
@@ -28,7 +34,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
-
+	
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
@@ -37,6 +43,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -77,6 +84,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
 
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
+	if (nullptr == GroundObejcts)
+		return E_FAIL;
+
+	for (auto iter : *GroundObejcts)
+	{
+		auto Terrian = dynamic_cast<CTerrain *>(iter);
+		if(Terrian)
+		CTerrian_Manager::GetInstance()->ADD_Terrian(Terrian);
+	}
+
 	return S_OK;
 
 }
@@ -101,8 +119,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
+	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(0);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
 
 	return S_OK;
@@ -110,15 +129,32 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
-	for (size_t i = 0; i < 10; i++)
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
+	//		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+	//		return E_FAIL;
+	//}
+	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
+	//for (size_t i = 0; i < 10; i++)
+	//{
+	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderWarrior"),
+	//		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+	//		return E_FAIL;
+	//}
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+	for (size_t i = 0; i < 2; i++)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderHouse"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderQueen"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderQueen"),
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+	//	return E_FAIL;
 	return S_OK;
 }
 
@@ -210,6 +246,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_MiniMap_Button"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_MiniMap"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -236,6 +276,8 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
 		return TEXT("");
+	case 6:
+		return TEXT("Prototype_GameObject_Resurrection_Stone");
 	}
 
 	return TEXT("");

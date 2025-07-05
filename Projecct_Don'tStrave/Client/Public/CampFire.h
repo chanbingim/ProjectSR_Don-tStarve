@@ -30,14 +30,10 @@ private:
 	_uint m_iFireLevel = {};
 	_float m_fFireOffset = {};
 
+	class CFire* m_pFire = { nullptr };
+
 	CCampFire::STATE	m_ePreState = {};
 	CCampFire::STATE	m_eCurState = {};
-
-	CTexture*			m_pFireTexture_Com = { nullptr };
-	CTransform*			m_pFireTransform_Com = { nullptr };
-	CState*				m_pFireState_Com[3] = {nullptr};
-
-	CAnimController*	m_pAnimController = { nullptr };
 
 private:
 	HRESULT ADD_Components();

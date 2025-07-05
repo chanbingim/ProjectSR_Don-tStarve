@@ -28,6 +28,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	CVIBuffer_Terrain* GetCurVIBuffer() { return m_pVIBufferCom; }
+
 private:
 	CTexture*				m_pTextureCom = { nullptr };
 	CVIBuffer_Terrain*		m_pVIBufferCom = { nullptr };

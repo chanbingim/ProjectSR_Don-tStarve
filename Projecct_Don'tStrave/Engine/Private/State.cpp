@@ -36,13 +36,18 @@ void CState::Tick(_float fTimeDelta)
     if (m_AccTime >= m_fFrameTime)
     {
         if (m_Frame.iStartFrame < m_Frame.iEndFrame)
+        {
             m_Frame.iStartFrame++;
+            m_bIsFinish = false;
+        }
         else
         {
             if (m_Frame.bIsLoop)
             {
                 m_Frame.iStartFrame = 0;
             }
+
+            m_bIsFinish = true;
         }
         m_AccTime = 0;
     }
@@ -65,6 +70,11 @@ void CState::SetTexture(CTexture* pTextureCom)
 void CState::SetFrameRate(_float _ftimeRate)
 {
     m_Frame.fTimeRate = _ftimeRate;
+}
+
+_bool CState::IsFinised()
+{
+    return m_bIsFinish;
 }
 
 void CState::Free()

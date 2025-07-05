@@ -146,20 +146,8 @@
     <Filter Include="02. Objects\Environment">
       <UniqueIdentifier>{f3b1aac8-bb2a-4850-8ee4-bf1e297b9096}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Objects\Environment\Tree">
-      <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Objects\Environment\Rock">
-      <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Objects\Environment\Portal">
       <UniqueIdentifier>{d3cbe031-fec7-484d-87a7-7f9724e5c696}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Objects\Environment\Grass">
-      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\Tutorial">
-      <UniqueIdentifier>{afa615c8-0cf7-42b3-a0de-45c432b250aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. ClientComponent">
       <UniqueIdentifier>{d8994de0-89ed-4227-868c-491c6675bec6}</UniqueIdentifier>
@@ -214,6 +202,57 @@
     </Filter>
     <Filter Include="05. Item\Material">
       <UniqueIdentifier>{40920331-0b9a-4902-befe-f31fb8d6ef1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Particle">
+      <UniqueIdentifier>{aa9389bd-c0e9-40cb-8080-5712c3cf1866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Terrain\Manager">
+      <UniqueIdentifier>{7509a4f3-a7b4-4478-b125-8e2cbe75238b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Particle\SpriteEffect">
+      <UniqueIdentifier>{360931ae-be66-4ff2-b3cf-55f2d259a30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\SkyBox">
+      <UniqueIdentifier>{5127a3f8-368a-49c8-8492-b035a6ed4d2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Fire">
+      <UniqueIdentifier>{078119ab-a0e0-4328-b85b-ff07b8b8f3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\ChestUI">
+      <UniqueIdentifier>{39c34cf7-08ce-4070-8763-45f92cf4f119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Spider\Normal">
+      <UniqueIdentifier>{ffb87d21-df8b-49eb-9fa8-5b597b272073}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\AnimationObject">
+      <UniqueIdentifier>{58c82889-b1fa-41e3-9440-3fcc6460c681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML Manager">
+      <UniqueIdentifier>{05678005-b20f-42a7-af20-e44113d77cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML Manager\Struct">
+      <UniqueIdentifier>{ec70bae3-d226-4bfa-be22-aca118cfee1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Resurrection">
+      <UniqueIdentifier>{c70a3870-5bcb-4e6a-954b-ae2196d75921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment">
+      <UniqueIdentifier>{c92bf2fc-236e-4119-bf64-b1387fb015c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Grass">
+      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Rock">
+      <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Tree">
+      <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\MiniMap">
+      <UniqueIdentifier>{28627195-a771-4188-87ad-dabb8b227469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\MiniMap\Icon">
+      <UniqueIdentifier>{7e41c906-89e3-4664-a4fb-0a96e193860b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -356,22 +395,16 @@
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GrassObject.h">
-      <Filter>02. Objects\Environment\Grass</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
-      <Filter>02. Objects\Environment\Rock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Enviornment_Object.h">
-      <Filter>02. Objects\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TutorialLevel.h">
-      <Filter>01. Levels\Tutorial</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DropItemComponent.h">
       <Filter>06. ClientComponent</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TreeObject.h">
-      <Filter>02. Objects\Environment\Tree</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Button.h">
       <Filter>04. GmaeUI\Button\Item_Button</Filter>
@@ -397,9 +430,6 @@
     <ClInclude Include="..\public\ParticleShader.h">
       <Filter>ShaderManager\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\SnowParticle.h">
-      <Filter>김찬빈</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\tinyxml2.h">
       <Filter>Defines\XML</Filter>
     </ClInclude>
@@ -423,6 +453,63 @@
     </ClInclude>
     <ClInclude Include="..\Public\Material_Item.h">
       <Filter>05. Item\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SnowParticle.h">
+      <Filter>07. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Terrian_Manager.h">
+      <Filter>02. Objects\Terrain\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SkyBox.h">
+      <Filter>02. Objects\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpriteEffect.h">
+      <Filter>07. Particle\SpriteEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fire.h">
+      <Filter>05. Item\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MonsterData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerData_Manager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpiderNormal.h">
+      <Filter>03. Character\Monster\Spider\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UIEffect.h">
+      <Filter>04. GmaeUI\UIEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChestUI.h">
+      <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\XML_Manager.h">
+      <Filter>XML Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\XMLDataStruct.h">
+      <Filter>XML Manager\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AinimationObject.h">
+      <Filter>02. Objects\AnimationObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Enviornment_Object.h">
+      <Filter>02. Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ResurrectionStone.h">
+      <Filter>02. Objects\Environment\Resurrection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DropItemEnviornment.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MiniMap.h">
+      <Filter>04. GmaeUI\MiniMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MiniMap_Icon.h">
+      <Filter>04. GmaeUI\MiniMap\Icon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,19 +650,16 @@
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GrassObject.cpp">
-      <Filter>02. Objects\Environment\Grass</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
-      <Filter>02. Objects\Environment\Rock</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TreeObject.cpp">
-      <Filter>02. Objects\Environment\Tree</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Enviornment_Object.cpp">
       <Filter>02. Objects\Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TutorialLevel.cpp">
-      <Filter>01. Levels\Tutorial</Filter>
     </ClCompile>
     <ClCompile Include="..\private\DropItemComponent.cpp">
       <Filter>06. ClientComponent</Filter>
@@ -604,9 +688,6 @@
     <ClCompile Include="..\private\ParticleShader.cpp">
       <Filter>ShaderManager\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\SnowParticle.cpp">
-      <Filter>김찬빈</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\tinyxml2.cpp">
       <Filter>Defines\XML</Filter>
     </ClCompile>
@@ -631,6 +712,57 @@
     <ClCompile Include="..\Private\Material_Item.cpp">
       <Filter>05. Item\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\SnowParticle.cpp">
+      <Filter>07. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Terrian_Manager.cpp">
+      <Filter>02. Objects\Terrain\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SkyBox.cpp">
+      <Filter>02. Objects\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpriteEffect.cpp">
+      <Filter>07. Particle\SpriteEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fire.cpp">
+      <Filter>05. Item\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MonsterData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\PlayerData_Manager.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SpiderNormal.cpp">
+      <Filter>03. Character\Monster\Spider\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIEffect.cpp">
+      <Filter>04. GmaeUI\UIEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChestUI.cpp">
+      <Filter>04. GmaeUI\ChestUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\XML_Manager.cpp">
+      <Filter>XML Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AinimationObject.cpp">
+      <Filter>02. Objects\AnimationObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ResurrectionStone.cpp">
+      <Filter>02. Objects\Environment\Resurrection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DropItemEnviornment.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiniMap.cpp">
+      <Filter>04. GmaeUI\MiniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiniMap_Icon.cpp">
+      <Filter>04. GmaeUI\MiniMap\Icon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
@@ -639,8 +771,5 @@
     <FxCompile Include="Particle.fx">
       <Filter>김찬빈</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

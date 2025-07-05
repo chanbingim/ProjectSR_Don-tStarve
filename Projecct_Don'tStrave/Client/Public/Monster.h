@@ -2,10 +2,9 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
+
 #include "UserInterface.h"
-#include "PlayerAnim.h"
 #include "Character.h"
-#include "Player.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -31,8 +30,13 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+	MONSTER_DATA*	Get_Monster();
+
 protected:
-	CCharacter* m_pTarget = {};
+	CCharacter*			m_pTarget = {};
+	MONSTER_DATA*		m_pMonsterData = {};
+
 public:
 	virtual void Free() override;
 };

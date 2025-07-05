@@ -163,6 +163,7 @@ void CSnowParticle::Free()
     __super::Free();
 
     Safe_Release(m_pTransformCom);
+    Safe_Release(m_Texture_Com);
     Safe_Release(m_ParticleSys_Com);
     Safe_Release(m_Snow_Shader);
 }

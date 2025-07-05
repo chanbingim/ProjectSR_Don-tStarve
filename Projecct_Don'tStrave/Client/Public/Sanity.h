@@ -20,6 +20,10 @@ public:
 	virtual HRESULT	 Render()override;
 
 private:
+	_uint m_iMaxSanity = {};
+	_uint m_iSanity = {};
+
+private:
 	HRESULT ADD_Components();
 
 public:

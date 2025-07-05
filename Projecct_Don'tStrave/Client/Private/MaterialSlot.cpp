@@ -286,6 +286,6 @@ void CMaterialSlot::Free()
 
 	Safe_Release(m_pTexture_Com);
 	Safe_Release(m_pItemTexture_Com);
-	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTransform_Com);
 	Safe_Release(m_pVIBuffer_Com);
 }

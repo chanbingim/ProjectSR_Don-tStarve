@@ -20,6 +20,9 @@ public:
 	virtual HRESULT	 Render()override;
 
 private:
+	_uint m_iMaxHunger = {};
+
+private:
 	HRESULT ADD_Components();
 
 public:

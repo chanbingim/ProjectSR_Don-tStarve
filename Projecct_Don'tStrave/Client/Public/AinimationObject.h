@@ -1,0 +1,49 @@
+#pragma once
+
+#include "Client_Defines.h"
+
+#include "LandObject.h"
+#include "XMLDataStruct.h"
+
+NS_BEGIN(Engine)
+class CVIBuffer_Rect;
+NS_END
+
+NS_BEGIN(Client)
+class CTerrian_Manager;
+
+class CAinimationObject : public CLandObject
+{
+protected:
+	CAinimationObject(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CAinimationObject(const CAinimationObject& rhs);
+	virtual ~CAinimationObject() = default;
+
+public:
+	virtual HRESULT			Initialize_Prototype() override;
+	virtual HRESULT			Initialize(void* pArg) override;
+	virtual void			Priority_Update(_float fTimeDelta) override;
+	virtual void			Update(_float fTimeDelta) override;
+	virtual void			Late_Update(_float fTimeDelta) override;
+	virtual HRESULT			Render() override;
+
+	HRESULT					LoadImageFile();
+
+	void					XMLRenderAnimation(const wstring& animName);
+
+protected:
+	_uint						m_fAniTime = {};
+	_uint						m_iLength = {};
+
+	Entity						m_tAnimation = {};
+	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
+
+	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
+	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
+
+public:
+	virtual		CGameObject*		Clone(void* pArg) override;
+	virtual		void				Free();
+
+};
+NS_END

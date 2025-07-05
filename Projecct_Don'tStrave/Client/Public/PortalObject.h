@@ -19,7 +19,6 @@ public :
 
 private:
 	HRESULT				ADD_Components();
-	void				ADD_AnimationState();
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

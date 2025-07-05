@@ -1,5 +1,8 @@
 #include "SpiderQueen.h"
+#include "Spider.h"
+#include "SpiderHouse.h"
 #include "GameInstance.h"
+#include "XML_Manager.h"
 #include "Camera.h"
 
 CSpiderQueen::CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -15,9 +18,13 @@ CSpiderQueen::CSpiderQueen(const CSpiderQueen& Prototype)
 
 HRESULT CSpiderQueen::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml", L"../Bin/Resources/Textures/Monster/SpiderQueen/");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen_2.scml");
+	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml", L"../Bin/Resources/Textures/Monster/SpiderQueen/", &m_tImageVec);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml", &m_tAnimation);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen_2.scml", &m_tAnimation);
+
+	//AddTexture("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml", L"../Bin/Resources/Textures/Monster/SpiderQueen/");
+	//LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen.scml");
+	//LoadScml("../Bin/Resources/Textures/Monster/SpiderQueen/spider_queen_2.scml");
 	return S_OK;
 }
 
@@ -26,25 +33,13 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 	LoadImageFile();
 
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
-
-
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_iMaxHp = 100;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_iAtk = 30;
-	m_iDef = 0;
-	m_iMaxHit = 10;
-	m_iHit = m_iMaxHit;
 	m_bMove = false;
 
 
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 1.f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -58,8 +53,8 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
-	for (auto target : m_pCharacterInstance->Get_NearObject(this)) {
-		if (!dynamic_cast<CSpiderQueen*>(target)) {
+	for (auto target : m_pCharacterInstance->Get_NearObject(this, 7.f, FIELDOBJECT::CREATURE)) {
+		if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
 			m_pTarget = dynamic_cast<CCharacter*>(target);
 		}
 	}
@@ -71,19 +66,6 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	switch (m_tMotion)
 	{
 	case IDLE:
-		switch (m_tMoveDIr)
-		{
-		case MOVE_DIR::MOVE_DOWN:
-			m_tDir = DIR::DOWN;
-			break;
-		case MOVE_DIR::MOVE_UP:
-			m_tDir = DIR::UP;
-			break;
-		default:
-			break;
-		}
-		SetAnimation(m_tDir, m_tMotion);
-		break;
 	case MOTION::IDLE_TO_RUN:
 	case MOTION::RUN:
 	case MOTION::RUN_TO_IDLE:
@@ -112,12 +94,11 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		}
 	}
 	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		if ((abs(move.x) + abs(move.z)) / 2.f < 5) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
-				case MOTION::TAUNT:
 				case MOTION::DAMAGE:
 				case MOTION::ATTACK:
 					if (m_iLength <= m_fAniTime) {
@@ -125,9 +106,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 					}
 					break;
 				default:
-					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 					break;
 				}
 			}
@@ -137,9 +116,35 @@ void CSpiderQueen::Update(_float fTimeDelta)
 					SetAnimation(m_tDir, MOTION::RUN);
 				}
 				D3DXVec3Normalize(&move, &move);
-				_float3		vPosition = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				vPosition += move * fTimeDelta;
-				m_pTransformCom->SetPosition(vPosition);
+				
+				m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+			}
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					D3DXVec3Normalize(&move, &move);
+					
+					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -183,7 +188,7 @@ HRESULT CSpiderQueen::Render()
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	RenderAnimation(m_sAnim);
+	RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
@@ -208,8 +213,9 @@ HRESULT CSpiderQueen::Render()
 	return S_OK;
 }
 
-void CSpiderQueen::Damage()
+void CSpiderQueen::Damage(void* pArg)
 {
+	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
@@ -284,46 +290,9 @@ HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpiderQueen::Ready_Components()
-{
-	/* Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
-
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
-	return S_OK;
-}
 
 HRESULT CSpiderQueen::Begin_RenderState()
 {
-	/* 렌더링할 때 알파값을 기준으로 섞어준다.*/
-
-	/*
-	float4		vSourColor, vDestColor;
-	vSourColor.rgb * vSourColor.a + vDestColor.rgb * (1.f - vSourColor.a);
-	*/
-
-	//
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//
-
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
@@ -335,8 +304,6 @@ HRESULT CSpiderQueen::Begin_RenderState()
 
 HRESULT CSpiderQueen::End_RenderState()
 {
-	// m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -355,7 +322,7 @@ void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				Attack();
 			}
 			else if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
-				m_pTarget->Get_Damage(m_iAtk);
+				m_pTarget->Get_Damage(m_pMonsterData->iAtk);
 				m_bAttack = false;
 			}
 		}
@@ -394,5 +361,4 @@ CGameObject* CSpiderQueen::Clone(void* pArg)
 void CSpiderQueen::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }

@@ -1,22 +1,30 @@
 #include "TreeObject.h"
+
 #include "GameInstance.h"
+#include "DropItemComponent.h"
+
 #include "Env_Animation.h"
+#include "KeyManager.h"
+#include "XML_Manager.h"
 
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CEnviornment_Object(pGraphic_Device)
+    CDropItemEnviornment(pGraphic_Device)
 {
+    m_EnviornmentID = 4;
 }
 
 CTreeObject::CTreeObject(const CTreeObject& rhs) : 
-    CEnviornment_Object(rhs)
+    CDropItemEnviornment(rhs)
 {
 
 }
 
 HRESULT CTreeObject::Initialize_Prototype()
 {
+    auto XML_Instance = CXML_Manager::GetInstance();
+    XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
+    XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
 
-   
     return S_OK;
 }
 
@@ -28,13 +36,21 @@ HRESULT CTreeObject::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    ADD_AnimationState();
+    LoadImageFile();
+    m_FrontName = TEXT("idle_");
+    m_TailName = rand() % 2 == 1 ? TEXT("normal") : TEXT("short");
+
+    m_EnviromentState = Enviornment_STATE::IDLE;
+    m_pDropItem_Com->ADD_ItemData(38, 1);
+
+    m_pDropItem_Com->SetCreateEffect(1);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
-    m_Animation_Com->ChangeState(m_AnimationState[0]);
+    m_EnviormentInfo.iMaxHit = 2;
+    m_MaxRecoverTime = 3.0f;
     return S_OK;
 }
 
@@ -46,8 +62,19 @@ void CTreeObject::Priority_Update(_float fTimeDelta)
 void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
-    m_Animation_Com->Tick(fTimeDelta);
-
+ 
+    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
+    {
+        m_CurRecoverTime += 0.01f;
+        if (m_MaxRecoverTime <= m_CurRecoverTime)
+        {
+            m_FrontName = TEXT("grow_seed_to_");
+            m_EnviromentState = Enviornment_STATE::RECOVERY;
+            m_fAniTime = 0;
+            m_CurRecoverTime = 0;
+        }
+    }
+    Reset_State();
 }
 
 void CTreeObject::Late_Update(_float fTimeDelta)
@@ -56,12 +83,75 @@ void CTreeObject::Late_Update(_float fTimeDelta)
  
 }
 
+void CTreeObject::Reset_State()
+{
+    if (m_fAniTime >= m_iLength)
+    {
+        if (Enviornment_STATE::DAMAGED >= m_EnviromentState)
+        {
+            m_FrontName = TEXT("idle_");
+            m_EnviromentState = Enviornment_STATE::IDLE;
+        }
+        if (Enviornment_STATE::BROKEN == m_EnviromentState)
+        {
+            m_FrontName = TEXT("stump_");
+            m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
+
+            _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
+            Pos.y += m_pTransformCom->GetScale().y * 1.f;
+            CreateDropItem(Pos);
+        }
+    }
+}
+
 HRESULT CTreeObject::Render()
 {
-    m_Animation_Com->Render();
-    __super::Render();
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+    CAinimationObject::Render();
+     XMLRenderAnimation(m_FrontName + m_TailName);
+
+     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     return S_OK;
+}
+
+void CTreeObject::Damage(void* pArg)
+{
+    switch (m_EnviromentState)
+    {
+    case Enviornment_STATE::IDLE:
+    case Enviornment_STATE::DAMAGED:
+        if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
+        {
+            DAMAGE_DATA_BASE DamageBase = {};
+            if(nullptr != pArg)
+                DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+            
+            if(0 > DamageBase.Direaction.x)
+                m_FrontName = TEXT("fallleft_");
+            else
+                m_FrontName = TEXT("fallright_");
+
+            m_EnviormentInfo.iHit = 0;
+            m_EnviromentState = Enviornment_STATE::BROKEN;
+        }
+        else
+        {
+            m_FrontName = TEXT("chop_");
+            m_EnviormentInfo.iHit++;
+            m_fAniTime = 0;
+            m_EnviromentState = Enviornment_STATE::DAMAGED;
+        }
+        break;
+    }
+}
+
+void CTreeObject::Death()
+{
 }
 
 HRESULT CTreeObject::ADD_Components()
@@ -74,39 +164,13 @@ HRESULT CTreeObject::ADD_Components()
 
     /* Com_VIBuffer */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
-    /* Com_Idle_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Idle"),
-        TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_Idle_pTexture_Com))))
+    /* Com_DropItem */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+        TEXT("Com_DropItem"), reinterpret_cast<CComponent**>(&m_pDropItem_Com))))
         return E_FAIL;
-
-    /* Com_Fall_Left_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Left"),
-        TEXT("Com_Left_Fall_Texture"), reinterpret_cast<CComponent**>(&m_Fall_Left_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_Fall_Right_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Right"),
-        TEXT("Com_Right_Fall_Texture"), reinterpret_cast<CComponent**>(&m_Fall_Right_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_Damaged_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Chop"),
-        TEXT("Com_Damaged_Texture"), reinterpret_cast<CComponent**>(&m_Damaged_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_Broken_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Stump"),
-        TEXT("Com_Broken_Texture"), reinterpret_cast<CComponent**>(&m_Broken_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_AnimController */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
-        TEXT("Com_AnimationController"), reinterpret_cast<CComponent**>(&m_Animation_Com))))
-        return E_FAIL;
-
 
     /* Com_Collision */
     CBox_Collision_Component::Collision_Desc Col_Desc = {};
@@ -117,47 +181,6 @@ HRESULT CTreeObject::ADD_Components()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CTreeObject::ADD_AnimationState()
-{
-#pragma region Animation State
-    CEnv_Animation::FRAME_DESC Frame = {};
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 79;
-    Frame.fTimeRate = 2.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[0] = CEnv_Animation::Create(&Frame); 
-    m_AnimationState[0]->SetTexture(m_Idle_pTexture_Com);
-    
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 37;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[1] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[1]->SetTexture(m_Fall_Left_pTexture_Com);
-   
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 37;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[2] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[2]->SetTexture(m_Fall_Right_pTexture_Com);
-    
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 14;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[3] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[3]->SetTexture(m_Damaged_pTexture_Com);
-    
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 1;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[4] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[4]->SetTexture(m_Broken_pTexture_Com);
-#pragma endregion
 }
 
 void CTreeObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
@@ -199,12 +222,5 @@ CGameObject* CTreeObject::Clone(void* pArg)
 void CTreeObject::Free()
 {
     __super::Free();
-    Safe_Release(m_Damaged_pTexture_Com);
-    Safe_Release(m_Broken_pTexture_Com);
-    Safe_Release(m_Fall_Right_pTexture_Com);
-    Safe_Release(m_Fall_Left_pTexture_Com);
-    Safe_Release(m_Animation_Com);
 
-    for (int i = 0; i < 5; ++i)
-        Safe_Release(m_AnimationState[i]);
 }

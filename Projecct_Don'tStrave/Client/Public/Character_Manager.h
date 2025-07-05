@@ -15,9 +15,9 @@ private:
 
 public:
     HRESULT Initialize();
-    void Add_Object(CGameObject* pGameObject);
-    void Remove_Object(CGameObject* pGameObject);
-    list<CGameObject*> Get_NearObject(CGameObject* pGameObject);
+    void Add_Object(CGameObject* pGameObject, FIELDOBJECT tType);
+    void Remove_Object(CGameObject* pGameObject, FIELDOBJECT tType);
+    list<CGameObject*> Get_NearObject(CGameObject* pGameObject, _float fDistance, FIELDOBJECT tType);
     static CCharacter_Manager* GetInstance() {
         if (nullptr == m_pInstance) {
 
@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    list<CGameObject*> m_ObjectList = { };
+    list<CGameObject*> m_ObjectList[EnumToInt(FIELDOBJECT::END)] = {};
     static CCharacter_Manager* m_pInstance;
     virtual void Free() override;
 };

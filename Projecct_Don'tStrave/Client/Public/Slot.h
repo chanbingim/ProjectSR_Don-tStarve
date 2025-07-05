@@ -15,6 +15,7 @@ public:
 	void Set_Info(ITEM_DESC& Item_Desc);
 	ITEM_DESC& Get_Info();
 	_uint	Get_ItemID() { return m_Item_Desc.iItemID; }
+	_float3& Get_Position();
 
 	void	Merge_Item(CSlot* pSlot);
 	void	Merge_Item(ITEM_DESC& Item_Desc);
@@ -43,7 +44,6 @@ private:
 	CTexture*	m_pTexture_Com_ItemState = { nullptr };
 	CTexture*	m_pTexture_Com_NumItem = { nullptr };
 
-	_float3		   m_Positions[7] = {};
 	vector <_uint> m_TextureIndexes = {};
 
 private:

@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Light_Manager.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -35,6 +36,7 @@ void CRenderer::Render()
 {
 	Render_Priority();
 
+	//CLight_Manager::GetInstance()->Enable_Light();
 #pragma region NONE_BLEND
 	Render_NonBlend();
 	Render_AlphaTest();
@@ -98,9 +100,7 @@ void CRenderer::Render_AlphaTest()
 
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
@@ -119,9 +119,7 @@ void CRenderer::Render_Blend()
 {
 	m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
@@ -139,9 +137,7 @@ void CRenderer::Render_Particle()
 {
 	m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
-			_float Sur_z = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			_float Dst_z = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION).z;
-			return Sur_z > Dst_z;
+			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
 		});
 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
@@ -163,6 +159,7 @@ void CRenderer::Render_Particle()
 
 void CRenderer::Render_UI()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

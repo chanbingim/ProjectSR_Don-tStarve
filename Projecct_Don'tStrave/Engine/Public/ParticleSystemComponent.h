@@ -47,7 +47,7 @@ private :
 	vector<PaticleAtrribute>		m_particles;
 
 	// 파티클 버텍스 버퍼
-	LPDIRECT3DVERTEXBUFFER9			m_pVertexBuffer;
+	LPDIRECT3DVERTEXBUFFER9			m_pVertexBuffer = {nullptr};
 	// 복사를 시작할 다음 파티클의 인덱스
 	DWORD							m_vertexBufferOffset;
 

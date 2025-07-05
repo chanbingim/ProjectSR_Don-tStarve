@@ -20,8 +20,6 @@ public:
 	static CVIBuffer_Rect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
-
-	void SetUV(_uint x, _uint maxX, _uint maxY, _uint frame, _uint maxFrame, _bool mirror);
 };
 
 NS_END

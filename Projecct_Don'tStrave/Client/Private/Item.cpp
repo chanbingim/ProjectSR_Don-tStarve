@@ -5,6 +5,8 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include "UIEffect.h"
+#include "Player.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -39,7 +41,7 @@ HRESULT CItem::Initialize(void* pArg)
 	m_Item_Desc.iNumItem = Item_Desc->iNumItem;
 	m_Item_Desc.fDurability = Item_Desc->fDurability;
 	m_Item_Desc.eSlot = Item_Desc->eSlot;
-
+	m_Item_Desc.iItemEffect = Item_Desc->iItemEffect;
 
 	m_pTransformCom->SetPosition(Item_Desc->vPosition);
 
@@ -50,19 +52,37 @@ HRESULT CItem::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_bEnableBillboard = true;
+	m_bIsplayAnim = true;
 	Setting_Shader(L"BillBoard.fx");
 
 	Safe_AddRef(m_pPlayerTransform_Com);
+
+	m_pMouse = dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")));
+
+	Safe_AddRef(m_pMouse);
 
 	return S_OK;
 }
 
 void CItem::Priority_Update(_float fTimeDelta)
 {
+	if (m_bIsplayAnim)
+	{
+		switch (m_Item_Desc.iItemEffect)
+		{
+		case 0:
+			DropItemEffect(2.f * fTimeDelta);
+			break;
+		case 1:
+			EnterInvenTory();
+			break;
+		}
+	}
 }
 
 void CItem::Update(_float fTimeDelta)
 {
+
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	HoverEvent();
@@ -75,6 +95,29 @@ void CItem::Update(_float fTimeDelta)
 void CItem::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	if (true == m_isDead)
+	{
+		CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+		CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
+
+		if (nullptr == pSlot && nullptr != m_pGameInstance->Chagne_Slot())
+		{
+			dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot())->Set_Info(m_Item_Desc);
+		}
+		else
+		{
+			CUIEffect::UIEFFECT_DESC Desc = {};
+
+			Desc.iItemID = m_Item_Desc.iItemID;
+			Desc.pSlot = pSlot;
+			Desc.vCursorPos = m_pGameInstance->GetMousePosition(0);
+			memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
+
+			m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+				EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
+		}
+	}
 }
 
 HRESULT CItem::Render()
@@ -116,30 +159,7 @@ void CItem::ClickedEvent()
 {
 	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
-		_float3 vPickingPos = {};
-
-		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
-		{
-			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
-			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
-
-			if (nullptr == pSlot)
-				int a{}; // 인벤토리가 꽉참
-			else
-			{
-				_uint iItemID = pSlot->Get_ItemID();
-				if(0 == iItemID)
-				{
-					pSlot->Set_Info(m_Item_Desc);
-					m_isDead = true;
-				}
-				else if (m_Item_Desc.iItemID == iItemID)
-				{
-					pSlot->Merge_Item(m_Item_Desc);
-					m_isDead = true;
-				}
-			}
-		}
+		EnterInvenTory();
 	}
 }
 
@@ -194,6 +214,45 @@ _bool CItem::isInRange()
 	return false;
 }
 
+void CItem::DropItemEffect(_float FallSpeed)
+{
+	auto Item_Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	if (Item_Pos.y > 0.0f)
+	{
+		Item_Pos.y -= FallSpeed;
+		m_pTransformCom->SetPosition(Item_Pos);
+	}
+	else
+		m_bIsplayAnim = false;
+}
+
+void CItem::EnterInvenTory()
+{
+	_float3 vPickingPos = {};
+
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos) || m_bIsplayAnim)
+	{
+		CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+		CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
+
+		if (nullptr == pSlot)
+			int a{}; // 인벤토리가 꽉참
+		else
+		{
+			CUIEffect::UIEFFECT_DESC Desc = {};
+
+			Desc.iItemID = m_Item_Desc.iItemID;
+			Desc.pSlot = pSlot;
+			memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
+
+			m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+				EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
+
+			m_isDead = true;
+		}
+	}
+}
+
 CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CItem* pInstance = new CItem(pGraphic_Device);
@@ -226,6 +285,7 @@ void CItem::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pMouse);
 	Safe_Release(m_pTexture_Com);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBuffer_Com);

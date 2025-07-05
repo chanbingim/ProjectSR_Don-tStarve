@@ -2,6 +2,10 @@
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
+
+#include "Terrian_Manager.h"
+#include "Terrain.h"
+
 #include "Slot.h"
 #include "Item.h"
 
@@ -122,8 +126,8 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('5') & 0x8000)
     {
-        Desc.iItemID = 44;
-        Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.iItemID = 14;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -132,7 +136,7 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('6') & 0x8000)
     {
-        Desc.iItemID = 14;
+        Desc.iItemID = 5;
         Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
@@ -194,9 +198,9 @@ void CMouse::ClickedEevent()
         {
             if(0 != iItemID)
             {
-                if (true == dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(
-                    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")
-                ))->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
+                auto Player_Pos = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+                if (true == CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos)->GetCurVIBuffer()
+                    ->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
                     TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
                 {
 
@@ -315,7 +319,14 @@ void CMouse::Update_HoverSlot(_uint itemID)
 }
 void CMouse::Update_Hover(_uint itemID)
 {
+    ITEM_DATA Data = CItem_Manager::GetInstance()->Get_ItemData(itemID);
+    m_strInfoMessage = Data.strName;
+}
 
+void CMouse::Update_Hover(const wstring strMessage, const _uint iMouseState)
+{
+    m_iMouseState = iMouseState;
+    m_strInteraction = strMessage;
 }
 
 HRESULT CMouse::ADD_Components()

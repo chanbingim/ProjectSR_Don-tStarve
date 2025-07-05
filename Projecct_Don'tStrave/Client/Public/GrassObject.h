@@ -1,5 +1,5 @@
 #pragma once
-#include "Enviornment_Object.h"
+#include "DropItemEnviornment.h"
 
 NS_BEGIN(Engine)
 class CAnimController;
@@ -8,7 +8,7 @@ NS_END
 NS_BEGIN(Client)
 class CEnv_Animation;
 	
-class CGrassObject : public CEnviornment_Object
+class CGrassObject : public CDropItemEnviornment
 {
 private:
 	CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -21,18 +21,15 @@ public:
 	virtual void		Priority_Update(_float fTimeDelta) override;
 	virtual void		Update(_float fTimeDelta) override;
 	virtual void		Late_Update(_float fTimeDelta) override;
+	virtual	void		Reset_State() override;
 	virtual HRESULT		Render() override;
 
-private:
-	CTexture*			m_Broken_pTexture_Com = { nullptr };
-	CTexture*			m_Damaged_pTexture_Com = { nullptr };
-
-	CAnimController*	m_Animation_Com = { nullptr };
-	CEnv_Animation*		m_AnimationState[3] = {};
+	virtual void		Damage(void* pArg) override;
+	virtual void		Death()override;
 
 private:
 	HRESULT				ADD_Components();
-	void				ADD_AnimationState();
+
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

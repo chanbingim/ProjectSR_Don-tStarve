@@ -7,6 +7,7 @@ class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
+class CSpider;
 class CSpiderHouse : public CMonster
 {
 	enum MOTION {
@@ -36,15 +37,16 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(MOTION motion);
-	virtual void Damage() override;
-	virtual void Attack() override;
-	virtual void Death() override;
+	virtual void	Damage(void* pArg) override;
+	virtual void	Attack() override;
+	virtual void	Death() override;
+	virtual void	EnterSpider(CSpider* pMonster);
+	void Emergency();
 private:
-	CCollision_Component* m_pCollision_Com = { nullptr };
 	MOTION					m_tMotion = {};
 	_float					m_fTimeAcc = {};
+	vector<CSpider*>		m_pMonsterVec = {};
 private:
-	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

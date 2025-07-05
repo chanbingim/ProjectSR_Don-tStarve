@@ -68,4 +68,5 @@ void CShader::Free()
         m_pEffect->OnResetDevice();
 
     Safe_Release(m_pEffect);
+    Safe_Release(m_pGraphic_Device);
 }

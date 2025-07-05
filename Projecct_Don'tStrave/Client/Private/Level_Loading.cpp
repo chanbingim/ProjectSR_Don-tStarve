@@ -5,7 +5,6 @@
 
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
-#include "TutorialLevel.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -47,10 +46,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		case LEVEL::GAMEPLAY:
 			pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
 			break;
-
-		case LEVEL::TUTORIAL:
-			pNewLevel = CTutorialLevel::Create(m_pGraphic_Device, m_eNextLevelID);
-			break;
 		}
 
 		if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
@@ -77,8 +72,8 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround()
 
 HRESULT CLevel_Loading::TEST_SoundMgr()
 {
-	m_pGameInstance->Manager_PlaySound(L"MashUp_Dance1.wav", Engine::CHANNELID::SOUND_BGM, 0.1f);
-
+	//m_pGameInstance->Manager_PlaySound(L"MashUp_Dance1.wav", Engine::CHANNELID::SOUND_BGM, 0.1f);
+	m_pGameInstance->Manager_StopAll();
 	return S_OK;
 }
 
@@ -99,7 +94,6 @@ CLevel_Loading* CLevel_Loading::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL 
 
 void CLevel_Loading::Free()
 {
-	m_pGameInstance->Manager_StopAll();
 
 	__super::Free();
 	Safe_Release(m_pLoader);

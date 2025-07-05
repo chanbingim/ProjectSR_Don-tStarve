@@ -1,6 +1,7 @@
 #include "Sanity.h"
 
 #include "GameInstance.h"
+#include "Player.h"
 
 CSanity::CSanity(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CHeadUpDisplay{ pGraphic_Device }
@@ -20,7 +21,6 @@ HRESULT CSanity::Initialize_Prototype()
 HRESULT CSanity::Initialize(void* pArg)
 {
     m_iTextureIndex = 0;
-    m_fTimeAcc = 0.f;
 
     CUserInterface::UIOBJECT_DESC Desc = {};
 
@@ -37,6 +37,9 @@ HRESULT CSanity::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    m_iMaxSanity = m_pPlayer->Get_Player()->iMaxMental;
+    m_iSanity = m_pPlayer->Get_Player()->iMental;
+
     return S_OK;
 }
 
@@ -49,16 +52,12 @@ void CSanity::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_fTimeAcc += fTimeDelta;
+    m_iSanity = m_pPlayer->Get_Player()->iMental;
 
-    if (1.f <= m_fTimeAcc)
-    {
-        m_fTimeAcc = 0.f;
-        ++m_iTextureIndex;
-    }
+    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_iSanity) / static_cast<_float>(m_iMaxSanity)));
 
-    if (m_iTextureIndex > 50)
-        m_iTextureIndex = 0;
+    if (50 <= m_iTextureIndex)
+        m_iTextureIndex = 50;
 
 }
 

@@ -249,7 +249,7 @@ void CCraftingUI::Update(_float fTimeDelta)
         m_pMaterialSlot->Update(fTimeDelta);
 
         // 카테고리 버튼 업데이트
-        _uint iNumCategory = m_pCategorys.size();
+        _uint iNumCategory = static_cast<_uint>(m_pCategorys.size());
 
         for (_uint i = 0; i < iNumCategory; ++i)
         {
@@ -264,7 +264,7 @@ void CCraftingUI::Update(_float fTimeDelta)
         }
 
         // 아이템 버튼 업데이트
-        _uint iNumItemBtn = m_pItem_Buttons[m_iCategoryIndex].size();
+        _uint iNumItemBtn = static_cast<_uint>(m_pItem_Buttons[m_iCategoryIndex].size());
 
         for (_uint i = 0; i < iNumItemBtn; ++i)
         {

@@ -47,6 +47,14 @@ void CAnimController::ChangeState(CState* pNewState)
 	}
 }
 
+_bool CAnimController::AnimationFinished()
+{
+	if (nullptr == m_CurState)
+		return false;
+
+	return m_CurState->IsFinised();
+}
+
 CAnimController* CAnimController::Create()
 {
 	CAnimController* pInstance = new CAnimController();

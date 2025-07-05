@@ -1,24 +1,29 @@
 #include "GrassObject.h"
+
 #include "GameInstance.h"
-#include "Env_Animation.h"
+#include "DropItemComponent.h"
+
+#include "XML_Manager.h"
 
 CGrassObject::CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CEnviornment_Object(pGraphic_Device)
+    CDropItemEnviornment(pGraphic_Device)
 {
+    m_EnviornmentID = 2;
 }
 
 CGrassObject::CGrassObject(const CGrassObject& rhs) :
-    CEnviornment_Object(rhs)
+    CDropItemEnviornment(rhs)
 {
-    for (int i = 0; i < 3; ++i)
-    {
-        m_AnimationState[i] = rhs.m_AnimationState[i];
-        Safe_AddRef(m_AnimationState[i]);
-    }
+
+
 }
 
 HRESULT CGrassObject::Initialize_Prototype()
 {
+    auto XML_Instance = CXML_Manager::GetInstance();
+    XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Grass/grass1.scml", L"../Bin/Resources/Textures/Objects/Grass/", &m_tImageVec);
+    XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Grass/grass1.scml", &m_tAnimation);
+
     return S_OK;
 }
 
@@ -30,13 +35,18 @@ HRESULT CGrassObject::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    ADD_AnimationState();
+    LoadImageFile();
+
+    m_FrontName = TEXT("idle");
+    m_TailName = TEXT("");
+
+    m_MaxRecoverTime = 4.0f;
+    m_pDropItem_Com->ADD_ItemData(37, 1);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
-    m_Animation_Com->ChangeState(m_AnimationState[0]);
     return S_OK;
 }
 
@@ -49,7 +59,18 @@ void CGrassObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
-    m_Animation_Com->Tick(fTimeDelta);
+    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
+    {
+        m_CurRecoverTime += 0.01f;
+        if (m_MaxRecoverTime <= m_CurRecoverTime)
+        {
+            m_FrontName = TEXT("grow");
+            m_EnviromentState = Enviornment_STATE::RECOVERY;
+            m_fAniTime = 0;
+            m_CurRecoverTime = 0;
+        }
+    }
+    Reset_State();
 }
 
 void CGrassObject::Late_Update(_float fTimeDelta)
@@ -58,12 +79,51 @@ void CGrassObject::Late_Update(_float fTimeDelta)
     
 }
 
+void CGrassObject::Reset_State()
+{
+    if (m_fAniTime >= m_iLength)
+    {
+        if (Enviornment_STATE::DAMAGED >= m_EnviromentState)
+        {
+            m_FrontName = TEXT("idle");
+            m_EnviromentState = Enviornment_STATE::IDLE;
+        }
+        if (Enviornment_STATE::BROKEN <= m_EnviromentState)
+        {
+            m_FrontName = TEXT("picked");
+            m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
+        }
+    }
+}
+
 HRESULT CGrassObject::Render()
 {
-    m_Animation_Com->Render();
     __super::Render();
 
     return S_OK;
+}
+
+void CGrassObject::Damage(void* pArg)
+{
+    switch (m_EnviromentState)
+    {
+    case Enviornment_STATE::IDLE:
+        {
+            m_FrontName = TEXT("picking");
+            m_EnviormentInfo.iHit = 0;
+            m_EnviromentState = Enviornment_STATE::BROKEN;
+
+            _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
+            Pos.y += m_pTransformCom->GetScale().y * 1.f;
+            CreateDropItem(Pos);
+        }
+        break;
+    }
+}
+
+void CGrassObject::Death()
+{
 }
 
 HRESULT CGrassObject::ADD_Components()
@@ -76,27 +136,12 @@ HRESULT CGrassObject::ADD_Components()
 
     /* Com_VIBuffer */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
-    /* Com_Idle_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Idle"),
-        TEXT("Com_Idle_Texture"), reinterpret_cast<CComponent**>(&m_Idle_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_Idle_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Pick"),
-        TEXT("Com_Pick_Texture"), reinterpret_cast<CComponent**>(&m_Damaged_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_Idle_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Picked"),
-        TEXT("Com_Picked_Texture"), reinterpret_cast<CComponent**>(&m_Broken_pTexture_Com))))
-        return E_FAIL;
-
-    /* Com_AnimController */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_AnimController"),
-        TEXT("Com_AnimationController"), reinterpret_cast<CComponent**>(&m_Animation_Com))))
+    /* Com_DropItem */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+        TEXT("Com_DropItem"), reinterpret_cast<CComponent**>(&m_pDropItem_Com))))
         return E_FAIL;
 
     /* Com_Collision */
@@ -108,34 +153,6 @@ HRESULT CGrassObject::ADD_Components()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CGrassObject::ADD_AnimationState()
-{
-#pragma region Animation State
-    CEnv_Animation::FRAME_DESC Frame = {};
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 14;
-    Frame.fTimeRate = 2.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[0] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[0]->SetTexture(m_Idle_pTexture_Com);
-
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 14;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = false;
-    m_AnimationState[1] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[1]->SetTexture(m_Damaged_pTexture_Com);
-
-
-    Frame.iStartFrame = 0;
-    Frame.iEndFrame = 0;
-    Frame.fTimeRate = 1.0f;
-    Frame.bIsLoop = true;
-    m_AnimationState[2] = CEnv_Animation::Create(&Frame);
-    m_AnimationState[2]->SetTexture(m_Broken_pTexture_Com);
-#pragma endregion
 }
 
 void CGrassObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
@@ -176,10 +193,5 @@ void CGrassObject::Free()
 {
     __super::Free();
 
-    Safe_Release(m_Damaged_pTexture_Com);
-    Safe_Release(m_Broken_pTexture_Com);
-    Safe_Release(m_Animation_Com);
 
-    for (int i = 0; i < 3; ++i)
-        Safe_Release(m_AnimationState[i]);
 }

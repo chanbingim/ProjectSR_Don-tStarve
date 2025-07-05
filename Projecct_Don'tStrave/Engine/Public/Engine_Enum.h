@@ -15,6 +15,7 @@ namespace Engine
 	enum class TEXTURE { PLANE, CUBE, END };
 	enum class RAY { VIEW, WORLD, END };
 	enum class COLLISION_TYPE { BOX, SPHERE, END };
+	enum class LIGHT_TYPE{ POINT = 1, SPOT, DIRECATION, END};
 	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SOUND_END };
 }
 #endif // Engine_Enum_h__

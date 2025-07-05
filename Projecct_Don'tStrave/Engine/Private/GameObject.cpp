@@ -57,7 +57,7 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-void CGameObject::Damage()
+void CGameObject::Damage(void* pArg)
 {
 }
 
@@ -65,6 +65,20 @@ void CGameObject::Death()
 {
 }
 
+
+_float CGameObject::Get_CameraDistance()
+{
+	_float3			vCamPos = {};
+	_float4x4		ViewMatrix = {};
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
+	
+	memcpy(&vCamPos, &ViewMatrix.m[3], sizeof(_float3));
+
+	_float3			vDir = vCamPos - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	return D3DXVec3Length(&vDir);
+}
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
@@ -117,19 +131,22 @@ HRESULT CGameObject::Setting_Shader(const WCHAR* ShaderName)
 
 void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex)
 {
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_ViewMat);
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
 	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
-	m_pEffect->SetTechnique(m_hTechnique);
 	
 	_matrix testMat = _InvWorldMat;
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	_float4 Size = {};
+	_float3 scale = m_pTransformCom->GetScale();
 
-	memcpy(Size, m_pTransformCom->GetScale(), sizeof(_float3));
+	*(_float3*)&testMat.m[0] *= scale.x;
+	*(_float3*)&testMat.m[1] *= scale.y;
+	*(_float3*)&testMat.m[2] *= scale.z;
+
 	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 
-	m_pEffect->SetVector("vScale", &Size);
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &testMat);
+
+	/*m_pEffect->SetVector("vScale", &Size);
 	m_pEffect->SetMatrix("WorldMat", &testMat);
 	m_pEffect->SetMatrix("ViewMat", &m_ViewMat);
 	m_pEffect->SetMatrix("ProjdMat", &m_ProMat);
@@ -138,14 +155,14 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 
 	m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
 	m_pEffect->Begin(NULL, 0);
-	m_pEffect->BeginPass(0);
+	m_pEffect->BeginPass(0);*/
 }
 
 void CGameObject::End_Billboard()
 {
-	m_pEffect->EndPass();
-	m_pEffect->End();
-	m_pEffect->OnResetDevice();
+	//m_pEffect->EndPass();
+	//m_pEffect->End();
+	//m_pEffect->OnResetDevice();
 }
 
 void CGameObject::Free()

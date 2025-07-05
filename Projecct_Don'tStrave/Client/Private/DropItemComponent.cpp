@@ -1,14 +1,21 @@
 #include "DropItemComponent.h"
+
+#include "GameInstance.h"
+#include "Item_Manager.h"
 #include "CMath.h"
 
 CDropItemComponent::CDropItemComponent(LPDIRECT3DDEVICE9 pGraphic_Device) : 
-	CComponent(pGraphic_Device)
+	CComponent(pGraphic_Device),
+	m_pItem_Manager(CItem_Manager::GetInstance())
 {
+	Safe_AddRef(m_pItem_Manager);
 }
 
 CDropItemComponent::CDropItemComponent(const CDropItemComponent& rhs) :
-	CComponent(rhs)
+	CComponent(rhs),
+	m_pItem_Manager(CItem_Manager::GetInstance())
 {
+	Safe_AddRef(m_pItem_Manager);
 }
 
 HRESULT CDropItemComponent::Initialize_Prototype()
@@ -19,12 +26,11 @@ HRESULT CDropItemComponent::Initialize_Prototype()
 HRESULT CDropItemComponent::Initialize(void* pArg)
 {
 	m_vecItemID.reserve(5);
-	m_DropItemVec.reserve(5);
 
 	return S_OK;
 }
 
-HRESULT CDropItemComponent::ADD_ItemData(_uint iItemID, _float fProbability)
+HRESULT CDropItemComponent::ADD_ItemData(_uint iItemID, _uint  iMaxCnt)
 {
 	auto iter = find_if(m_vecItemID.begin(), m_vecItemID.end(), [&](auto& pair)
 				{
@@ -34,29 +40,35 @@ HRESULT CDropItemComponent::ADD_ItemData(_uint iItemID, _float fProbability)
 	if (iter != m_vecItemID.end())
 		return E_FAIL;
 
-	m_vecItemID.emplace_back(iItemID, fProbability);
+	m_vecItemID.emplace_back(iItemID, iMaxCnt);
 	return S_OK;
 }
 
-HRESULT CDropItemComponent::DropItem()
+HRESULT CDropItemComponent::DropItem(_uint iLevelID, const _wstring& PrototypeTag, _uint iLayerID, const _wstring& LayerTag, const _float3& Point)
 {
-	ComputeDropItem();
+	if (nullptr == m_pItem_Manager)
+		return E_FAIL;
 
-	for (auto iter : m_DropItemVec)
+	for (auto iter : m_vecItemID)
 	{
-		//아이템 데이터를 통한 생성
+		auto Data = CItem_Manager::GetInstance()->Get_ItemData(iter.first);
+		ITEM_DESC ItemDesc = {};
+		ItemDesc.fDurability = 100.f;
+		ItemDesc.eSlot = Data.eSlot;
+		ItemDesc.iItemID = Data.iItemID;
+		ItemDesc.iNumItem = rand() % iter.second + 1;
+		ItemDesc.eItemType = Data.eItemType;
+		ItemDesc.vPosition = Point;
+		ItemDesc.iItemEffect = m_iCreateEffect;
+		m_pGameInstance->Add_GameObject_ToLayer(iLevelID, PrototypeTag, iLayerID, LayerTag, &ItemDesc);
 	}
 
 	return S_OK;
 }
 
-HRESULT CDropItemComponent::ComputeDropItem()
+void CDropItemComponent::SetCreateEffect(_uint EffectType)
 {
-	//Math 쪽의 랜덤을 통해서 몇개 뿌릴지 선택하고
-	//그다음 확률에 의해 선택
-	//배지어 곡선을 통한 뿌리기 구현
-
-	return S_OK;
+	m_iCreateEffect = EffectType;
 }
 
 CDropItemComponent* CDropItemComponent::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -84,4 +96,6 @@ CComponent* CDropItemComponent::Clone(void* pArg)
 void CDropItemComponent::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pItem_Manager);
 }

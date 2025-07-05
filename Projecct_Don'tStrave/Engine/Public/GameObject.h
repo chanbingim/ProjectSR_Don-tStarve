@@ -24,20 +24,24 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual HRESULT Initialize_Late();
-	virtual void Priority_Update(_float fTimeDelta);
-	virtual void Update(_float fTimeDelta);
-	virtual void Late_Update(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual void		Damage();
-	virtual void		Death();
+	virtual HRESULT			Initialize_Prototype();
+	virtual HRESULT			Initialize(void* pArg);
+	virtual HRESULT			Initialize_Late();
+	virtual void			Priority_Update(_float fTimeDelta);
+	virtual void			Update(_float fTimeDelta);
+	virtual void			Late_Update(_float fTimeDelta);
+	virtual HRESULT			Render();
+
+	virtual void			Damage(void* pArg);
+	virtual void			Death();
 
 public:
 	_bool isDead() const {
 		return m_isDead;
 	}
+
+	_float				Get_CameraDistance();
+
 
 	class CComponent*	Find_Component(const _wstring& strComponentTag);
 	CTransform*			GetTransfrom() { return m_pTransformCom; }
@@ -63,6 +67,7 @@ protected:
 							const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
 	HRESULT	Setting_Shader(const WCHAR* ShaderName);
+
 	void				Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex);
 	void				End_Billboard();
 

@@ -18,17 +18,6 @@ NS_END
 
 NS_BEGIN(Client)
 
-enum SWAPOBJECT {
-	SWAPOBJECT_NONE,
-	SWAPOBJECT_AXE,
-	SWAPOBJECT_GOLDAXE,
-	SWAPOBJECT_PICKAXE,
-	SWAPOBJECT_GOLDPICKAXE,
-	SWAPOBJECT_SHOVEL,
-	SWAPOBJECT_GOLDSHOVEL,
-	SWAPOBJECT_TORCH,
-	SWAPOBJECT_END
-};
 class CPlayer final : public CCharacter
 {
 	enum MOTION {
@@ -42,6 +31,9 @@ class CPlayer final : public CCharacter
 		IDLE_TO_BUILD,
 		BUILD,
 		BUILD_TO_IDLE,
+		HUNGRY,
+		EAT,
+		FASTEAT,
 		IDLE_TO_AXE,
 		AXE,
 		IDLE_TO_PICKAXE,
@@ -61,6 +53,7 @@ class CPlayer final : public CCharacter
 		GHOST_DISSIPATE,
 		MOTION_END
 	};
+
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -73,29 +66,35 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	HRESULT			SetAnimation(_uint i, DIR dir, MOTION motion);
-	virtual void Damage() override;
+	
+	virtual void Damage(void* pArg) override;
 	virtual void Attack() override;
 	virtual void Death() override;
-	_uint		Get_Hp();
-	_uint		Get_Hunger();
-	void			SetItem(SWAPOBJECT tItem);
-	_bool		IsGhost() { return m_bIsGhost; }
+	void Dead();
+	HRESULT			SetAnimation(DIR dir, MOTION motion);
+	virtual void		Get_Damage(_uint iAtk) override;
+	PLAYER_DATA*		Get_Player();
+	void				SetItem(SWAPOBJECT tItem);
+	void				Eat(void* pArg);
+	_bool				IsGhost() { return m_bIsGhost; }
 private:
-	CGameObject* m_pWorkObject = { nullptr };
-	CCollision_Component* m_pCollision_Com = { nullptr };
-
 	MOTION					m_tMotion = {};
-	DIR						m_tDir = {};
-	SWAPOBJECT				m_tItem = {};
-	_uint					m_iDirection = {};
-	_uint					m_iSwapObject = {};
-	_uint					m_iHunger = {};
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
+	_bool					m_bCol = {};
+	_float					m_fHungTime = {};
+	_int						m_iHealthChange = {};
+	_int						m_iSanityChange = {};
+	_int						m_iHungerChange = {};
+
+	vector<IMAGE_FOLDER_DESC>	m_tGhostImageVec = {};
+	vector<IMAGE_FOLDER_DESC>	m_tItemImageVec[ENUM_CLASS(SWAPOBJECT::NONE)] = {};
+	vector<IMAGE_FOLDER_DESC>	m_tMakeImageVec = {};
+	Entity						m_tItemAnimation = {};
+	Entity						m_tMakeAnimation = {};
+	PLAYER_DATA*				m_pPlayer = {};
 private:
-	HRESULT Ready_Components();
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

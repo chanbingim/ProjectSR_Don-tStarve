@@ -20,9 +20,13 @@ public:
 	virtual HRESULT	 Render()override;
 
 protected:
-	_uint	m_iTextureIndex = {};
-	_float	m_fTimeAcc = {};
-	class CPlayer* m_pPlayer = {}; // Player_Info·Î ¼öÁ¤
+	_uint				m_iTextureIndex = {};
+
+	class CPlayer*		m_pPlayer = {};
+	CTexture*			m_pArrowTexture_Com = { nullptr };
+
+protected:
+	 HRESULT ADD_Components();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

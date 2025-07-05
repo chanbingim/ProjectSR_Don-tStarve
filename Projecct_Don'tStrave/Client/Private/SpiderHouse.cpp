@@ -1,6 +1,10 @@
 #include "SpiderHouse.h"
 #include "GameInstance.h"
 
+#include "XML_Manager.h"
+#include "MonsterData_Manager.h"
+#include "Spider.h"
+
 CSpiderHouse::CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
 {
@@ -13,8 +17,8 @@ CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
 
 HRESULT CSpiderHouse::Initialize_Prototype()
 {
-	AddTexture("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", L"../Bin/Resources/Textures/Monster/SpiderHouse/");
-	LoadScml("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml");
+	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", L"../Bin/Resources/Textures/Monster/SpiderHouse/", &m_tImageVec);
+	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/SpiderHouse/spiderhouse.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -22,22 +26,20 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
 	LoadImageFile();
-
-	m_pTransformCom->SetPosition(_float3(rand() % 20, 0.f, rand() % 20));
-
+	m_pMonsterVec.clear();
 
 	SetAnimation(MOTION::SMALL);
-	m_iMaxHp = 100;
-	m_iHp = m_iMaxHp;
-	m_iTemp = 0;
-	m_iDef = 0;
-	m_iMaxHit = 0;
-	m_fTimeAcc = 0.f;
-	m_iHit = m_iMaxHit;
+
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+	size_t max = (rand() % 4) + 3;
+	data.fPos = m_pMonsterData->fPos;;
+	for (size_t i = 0; i < max; i++)
+	{
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+	}
+	
+	//m_pMonsterVec.push_back();
 
 	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
 
@@ -53,7 +55,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 15.f) {
+	if (m_fTimeAcc >= 5.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -74,6 +76,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	MONSTER_DESC data;
 	switch (m_tMotion)
 	{
 	case MOTION::SMALL_DAMAGE:
@@ -82,12 +85,47 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		}
 		break;
 	case MOTION::SMALL_TO_MEDIUM:
+		if (m_iLength <= m_fAniTime) {
+
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(4);
+			m_pMonsterData->iId = data.iId;
+			m_pMonsterData->iMaxHp = data.iMaxHp;
+			m_pMonsterData->iHp = data.iMaxHp;
+
+			size_t max = (rand() % 4);
+			for (size_t i = 0; i < max; i++)
+			{
+				if (2 < rand() % 10) {
+					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+					data.fPos = m_pMonsterData->fPos;;
+				}
+				else {
+					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
+					data.fPos = m_pMonsterData->fPos;;
+				}
+				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+			}
+		}
 	case MOTION::MEDIUM_DAMAGE:
 		if (m_iLength <= m_fAniTime) {
 			SetAnimation(MOTION::MEDIUM);
 		}
 		break;
 	case MOTION::MEDIUM_TO_LARGE:
+		if (m_iLength <= m_fAniTime) {
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(5);
+			m_pMonsterData->iId = data.iId;
+			m_pMonsterData->iMaxHp = data.iMaxHp;
+			m_pMonsterData->iHp = data.iMaxHp;
+
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
+			data.fPos = m_pMonsterData->fPos;;
+			size_t max = (rand() % 4);
+			for (size_t i = 0; i < max; i++)
+			{
+				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+			}
+		}
 	case MOTION::LARGE_DAMAGE:
 		if (m_iLength <= m_fAniTime) {
 			SetAnimation(MOTION::LARGE);
@@ -95,7 +133,10 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	case MOTION::LARGE_TO_QUEEN:
 		if (m_iLength <= m_fAniTime) {
-			SetAnimation(MOTION::LARGE_TO_SMALL);
+			m_isDead = true;
+			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(2);
+			data.fPos= m_pMonsterData->fPos;;
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		break;
 	case MOTION::LARGE_TO_SMALL:
@@ -124,7 +165,7 @@ HRESULT CSpiderHouse::Render()
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	RenderAnimation(m_sAnim);
+	XMLRenderAnimation(m_sAnim);
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
@@ -176,7 +217,7 @@ HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 	return S_OK;
 }
 
-void CSpiderHouse::Damage()
+void CSpiderHouse::Damage(void* pArg)
 {
 	switch (m_tMotion) {
 	case SMALL:
@@ -189,6 +230,7 @@ void CSpiderHouse::Damage()
 		m_tMotion = MOTION::LARGE_DAMAGE;
 		break;
 	}
+	Emergency();
 	SetAnimation(m_tMotion);
 }
 
@@ -203,28 +245,18 @@ void CSpiderHouse::Death()
 	SetAnimation(m_tMotion);
 }
 
-HRESULT CSpiderHouse::Ready_Components()
+void CSpiderHouse::EnterSpider(CSpider* pMonster)
 {
-	/* Com_Transform */
-	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
+	m_pMonsterVec.push_back(pMonster);
+}
 
-	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* Com_Collision */
-	CBox_Collision_Component::Collision_Desc Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Prototype_Component_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
-		return E_FAIL;
-
-	return S_OK;
+void CSpiderHouse::Emergency()
+{
+	for (auto iter = m_pMonsterVec.begin(); iter != m_pMonsterVec.end();)
+	{
+		(*iter)->OutHouse();
+		iter = m_pMonsterVec.erase(iter);
+	}
 }
 
 HRESULT CSpiderHouse::Begin_RenderState()
@@ -238,7 +270,6 @@ HRESULT CSpiderHouse::Begin_RenderState()
 
 HRESULT CSpiderHouse::End_RenderState()
 {
-	m_pVIBufferCom->SetUV(1, 1, 1, 0, 1, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return S_OK;
@@ -283,5 +314,4 @@ CGameObject* CSpiderHouse::Clone(void* pArg)
 void CSpiderHouse::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollision_Com);
 }

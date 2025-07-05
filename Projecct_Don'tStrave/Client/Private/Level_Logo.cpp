@@ -17,8 +17,8 @@ HRESULT CLevel_Logo::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -34,7 +34,6 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
 HRESULT CLevel_Logo::Render()
 {
-	//SetWindowText(g_hWnd, TEXT("로고레벨이빈다"));
 
 	return S_OK;
 }

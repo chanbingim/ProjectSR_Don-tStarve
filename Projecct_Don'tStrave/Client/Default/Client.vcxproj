@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\AinimationObject.h" />
     <ClInclude Include="..\public\AnimationUI.h" />
     <ClInclude Include="..\Public\BookMark_Button.h" />
     <ClInclude Include="..\public\Button.h" />
@@ -153,31 +154,43 @@
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Character_Manager.h" />
     <ClInclude Include="..\Public\Chest.h" />
+    <ClInclude Include="..\Public\ChestUI.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
     <ClInclude Include="..\Public\Create_Button.h" />
     <ClInclude Include="..\public\DropItemComponent.h" />
+    <ClInclude Include="..\public\DropItemEnviornment.h" />
     <ClInclude Include="..\Public\Enviornment_Object.h" />
     <ClInclude Include="..\public\Env_Animation.h" />
+    <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\public\GrassObject.h" />
     <ClInclude Include="..\Public\ItemState.h" />
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
     <ClInclude Include="..\Public\Material_Item.h" />
+    <ClInclude Include="..\Public\MiniMap.h" />
+    <ClInclude Include="..\Public\MiniMap_Icon.h" />
+    <ClInclude Include="..\Public\MonsterData_Manager.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
+    <ClInclude Include="..\Public\Pig.h" />
+    <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
+    <ClInclude Include="..\public\ResurrectionStone.h" />
     <ClInclude Include="..\public\RockObject.h" />
+    <ClInclude Include="..\public\SkyBox.h" />
     <ClInclude Include="..\public\SnowParticle.h" />
     <ClInclude Include="..\Public\Spider.h" />
     <ClInclude Include="..\Public\SpiderHouse.h" />
+    <ClInclude Include="..\Public\SpiderNormal.h" />
     <ClInclude Include="..\Public\SpiderQueen.h" />
     <ClInclude Include="..\Public\SpiderWarrior.h" />
+    <ClInclude Include="..\public\SpriteEffect.h" />
+    <ClInclude Include="..\public\Terrian_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
     <ClInclude Include="..\public\TreeObject.h" />
-    <ClInclude Include="..\public\TutorialLevel.h" />
     <ClInclude Include="..\public\Health.h" />
     <ClInclude Include="..\public\HeadUpDisplay.h" />
     <ClInclude Include="..\public\Hunger.h" />
@@ -207,13 +220,17 @@
     <ClInclude Include="..\public\Slot.h" />
     <ClInclude Include="..\public\SlotFrame.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\UIEffect.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
+    <ClInclude Include="..\Public\XMLDataStruct.h" />
+    <ClInclude Include="..\public\XML_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\AinimationObject.cpp" />
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\Private\BookMark_Button.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
@@ -224,30 +241,41 @@
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Character_Manager.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
+    <ClCompile Include="..\Private\ChestUI.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
+    <ClCompile Include="..\private\DropItemEnviornment.cpp" />
+    <ClCompile Include="..\Private\MiniMap.cpp" />
+    <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
+    <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />
     <ClCompile Include="..\private\Enviornment_Object.cpp" />
     <ClCompile Include="..\private\Env_Animation.cpp" />
+    <ClCompile Include="..\Private\Fire.cpp" />
     <ClCompile Include="..\private\GrassObject.cpp" />
     <ClCompile Include="..\Private\ItemState.cpp" />
     <ClCompile Include="..\Private\Item_Button.cpp" />
     <ClCompile Include="..\Private\Item_Manager.cpp" />
     <ClCompile Include="..\Private\MaterialSlot.cpp" />
     <ClCompile Include="..\Private\Material_Item.cpp" />
+    <ClCompile Include="..\Private\MonsterData_Manager.cpp" />
     <ClCompile Include="..\private\ParticleShader.cpp" />
+    <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
+    <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SnowParticle.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />
     <ClCompile Include="..\Private\SpiderHouse.cpp" />
+    <ClCompile Include="..\Private\SpiderNormal.cpp" />
     <ClCompile Include="..\Private\SpiderQueen.cpp" />
     <ClCompile Include="..\Private\SpiderWarrior.cpp" />
+    <ClCompile Include="..\private\SpriteEffect.cpp" />
+    <ClCompile Include="..\Private\Terrian_Manager.cpp" />
     <ClCompile Include="..\Private\tinyxml2.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
-    <ClCompile Include="..\private\TutorialLevel.cpp" />
     <ClCompile Include="..\private\Health.cpp" />
     <ClCompile Include="..\private\HeadUpDisplay.cpp" />
     <ClCompile Include="..\private\Inventory.cpp" />
@@ -260,6 +288,7 @@
     <ClCompile Include="..\private\Sanity.cpp" />
     <ClCompile Include="..\private\Slot.cpp" />
     <ClCompile Include="..\private\SlotFrame.cpp" />
+    <ClCompile Include="..\Private\UIEffect.cpp" />
     <ClCompile Include="..\private\UI_MoveAnim.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui.cpp" />
     <ClCompile Include="..\Private\IMGUI\imgui_demo.cpp" />
@@ -276,7 +305,9 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\private\XML_Manager.cpp" />
     <ClCompile Include="..\public\Hunger.cpp" />
+    <ClCompile Include="..\Public\PlayerData_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +327,6 @@
     <FxCompile Include="Particle.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

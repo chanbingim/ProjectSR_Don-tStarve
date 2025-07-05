@@ -154,8 +154,10 @@
     <ClInclude Include="..\Public\CSVReader.h" />
     <ClInclude Include="..\Public\CUtility.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
+    <ClInclude Include="..\public\FrustomCamera.h" />
     <ClInclude Include="..\public\KeyManager.h" />
     <ClInclude Include="..\Public\LightComponent.h" />
+    <ClInclude Include="..\public\Light_Manager.h" />
     <ClInclude Include="..\public\ParticleSystemComponent.h" />
     <ClInclude Include="..\public\Shader.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="..\Public\Transform.h" />
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\Public\VIBuffer.h" />
+    <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
   </ItemGroup>
@@ -204,8 +207,10 @@
     <ClCompile Include="..\Private\CSVReader.cpp" />
     <ClCompile Include="..\Private\CUtility.cpp" />
     <ClCompile Include="..\Private\Font_Manager.cpp" />
+    <ClCompile Include="..\private\FrustomCamera.cpp" />
     <ClCompile Include="..\private\KeyManager.cpp" />
     <ClCompile Include="..\Private\LightComponent.cpp" />
+    <ClCompile Include="..\private\Light_Manager.cpp" />
     <ClCompile Include="..\private\ParticleSystemComponent.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
@@ -232,6 +237,7 @@
     <ClCompile Include="..\Private\Transform.cpp" />
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\Private\VIBuffer.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
   </ItemGroup>
