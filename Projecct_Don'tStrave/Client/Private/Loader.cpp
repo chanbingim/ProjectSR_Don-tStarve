@@ -30,6 +30,9 @@
 #include "DropItemComponent.h"
 #pragma endregion
 
+#include "MiniMap.h"
+#include "MiniMap_Icon.h"
+
 #include "CraftingUI.h"
 #include "Hunger.h"
 #include "Health.h"
@@ -56,26 +59,6 @@
 #include "TreeObject.h"
 #pragma endregion
 
-<<<<<<< HEAD
-=======
-#include "Category_Button.h"
-#include "Clock.h"
-#include "Item_Info.h"
-#include "MaterialSlot.h"
-#include "Item_Button.h"
-#include "BookMark_Button.h"
-#include "Create_Button.h"
-#include "Material_Item.h"
-#include "CampFire.h"
-#include "Fire.h"
-#include "Chest.h"
-#include "UIEffect.h"
-#include "ChestUI.h"
-#include "MiniMap.h"
-#include "MiniMap_Icon.h"
-
-
->>>>>>> origin/07_04_bjh_2
 #include "GameInstance.h"
 #include "Item_Manager.h"
 #include "PlayerData_Manager.h"

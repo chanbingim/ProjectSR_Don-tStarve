@@ -66,7 +66,6 @@ HRESULT CItem::Initialize(void* pArg)
 
 void CItem::Priority_Update(_float fTimeDelta)
 {
-<<<<<<< HEAD
 	if (m_bIsplayAnim)
 	{
 		switch (m_Item_Desc.iItemEffect)
@@ -79,9 +78,6 @@ void CItem::Priority_Update(_float fTimeDelta)
 			break;
 		}
 	}
-=======
->>>>>>> origin/07_04_bjh_2
-	
 }
 
 void CItem::Update(_float fTimeDelta)
@@ -163,30 +159,7 @@ void CItem::ClickedEvent()
 {
 	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
-<<<<<<< HEAD
 		EnterInvenTory();
-=======
-		_float3 vPickingPos = {};
-
-		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
-		{
-			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
-			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
-
-			if (nullptr == pSlot)
-			{
-				
-			}
-			else
-			{
-				
-				(dynamic_cast<CPlayer*>(
-					m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player()->pWorkObject) = this;
-				CUIEffect::UIEFFECT_DESC Desc = {};
-
-			}
-		}
->>>>>>> origin/07_04_bjh_2
 	}
 }
 

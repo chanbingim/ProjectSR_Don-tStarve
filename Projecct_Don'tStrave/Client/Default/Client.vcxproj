@@ -171,6 +171,8 @@
     <ClInclude Include="..\Public\Item_Manager.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
     <ClInclude Include="..\Public\Material_Item.h" />
+    <ClInclude Include="..\Public\MiniMap.h" />
+    <ClInclude Include="..\Public\MiniMap_Icon.h" />
     <ClInclude Include="..\Public\MonsterData_Manager.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\Public\Pig.h" />
@@ -245,6 +247,8 @@
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
+    <ClCompile Include="..\Private\MiniMap.cpp" />
+    <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />
     <ClCompile Include="..\private\Enviornment_Object.cpp" />

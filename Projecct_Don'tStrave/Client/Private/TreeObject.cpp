@@ -127,7 +127,10 @@ void CTreeObject::Damage(void* pArg)
     case Enviornment_STATE::DAMAGED:
         if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
         {
-            DAMAGE_DATA_BASE DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+            DAMAGE_DATA_BASE DamageBase = {};
+            if(nullptr != pArg)
+                DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+            
             if(0 > DamageBase.Direaction.x)
                 m_FrontName = TEXT("fallleft_");
             else

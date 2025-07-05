@@ -248,6 +248,12 @@
     <Filter Include="02. Objects\Environment\DropItemEnviroment\Tree">
       <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\MiniMap">
+      <UniqueIdentifier>{28627195-a771-4188-87ad-dabb8b227469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\MiniMap\Icon">
+      <UniqueIdentifier>{7e41c906-89e3-4664-a4fb-0a96e193860b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -499,6 +505,12 @@
     <ClInclude Include="..\public\DropItemEnviornment.h">
       <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MiniMap.h">
+      <Filter>04. GmaeUI\MiniMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MiniMap_Icon.h">
+      <Filter>04. GmaeUI\MiniMap\Icon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -744,6 +756,12 @@
     </ClCompile>
     <ClCompile Include="..\private\DropItemEnviornment.cpp">
       <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiniMap.cpp">
+      <Filter>04. GmaeUI\MiniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MiniMap_Icon.cpp">
+      <Filter>04. GmaeUI\MiniMap\Icon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
