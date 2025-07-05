@@ -1,22 +1,105 @@
-﻿  Pig.cpp
-TreeObject.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Item.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Monster.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Player.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-SpiderNormal.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-SpiderQueen.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-SpiderWarrior.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-SpriteEffect.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-PortalObject.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-RockObject.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Spider.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-SpiderHouse.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Enviornment_Object.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Fire.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-GrassObject.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Material_Item.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-AinimationObject.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-CampFire.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Character.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-Chest.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __cdecl Engine::CLandObject::Picking(class Engine::CTransform *,struct D3DXVECTOR3 *)" (?Picking@CLandObject@Engine@@UEAA_NPEAVCTransform@2@PEAUD3DXVECTOR3@@@Z)
-..\Bin\Debug\Client.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.
+﻿  AinimationObject.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(39,30): warning C4244: '+=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(100,22): warning C4244: '=': 'double'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  AnimationUI.cpp
+  BookMark_Button.cpp
+  Button.cpp
+  Camera.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Camera_Button.cpp
+  CampFire.cpp
+  Category_Button.cpp
+  Character.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character.cpp(60,30): warning C4244: '+=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character.cpp(154,22): warning C4244: '=': 'double'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Character_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character_Manager.cpp(43,48): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character_Manager.cpp(54,48): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character_Manager.cpp(55,50): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Chest.cpp
+  ChestUI.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\ChestUI.cpp(55,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\ChestUI.cpp(174,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Clock.cpp
+  CraftingUI.cpp
+  Crafting_Button.cpp
+  Create_Button.cpp
+  DropItemComponent.cpp
+  Enviornment_Object.cpp
+  Env_Animation.cpp
+  Fire.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  GrassObject.cpp
+  ItemState.cpp
+  Item_Button.cpp
+  Item_Manager.cpp
+  MaterialSlot.cpp
+  Material_Item.cpp
+  MonsterData_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\MonsterData_Manager.cpp(26,21): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ParticleShader.cpp
+  PortalObject.cpp
+  RockObject.cpp
+  SkyBox.cpp
+  SnowParticle.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SnowParticle.cpp(117,35): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Spider.cpp
+  SpiderHouse.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(179,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderNormal.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderNormal.cpp(298,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderQueen.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderQueen.cpp(238,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderWarrior.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderWarrior.cpp(267,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Terrian_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(17,32): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(23,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(24,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(32,41): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(45,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(46,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(51,34): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Health.cpp
+  HeadUpDisplay.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Inventory.cpp
+  Item.cpp
+  Item_Info.cpp
+  MiniMap_Button.cpp
+  Mouse.cpp
+  PlayerAnim.cpp
+  QuickSlot_Button.cpp
+  Sanity.cpp
+  Slot.cpp
+  SlotFrame.cpp
+  UIEffect.cpp
+  Level_GamePlay.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Level_GamePlay.cpp(150,48): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Level_GamePlay.cpp(150,30): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Level_Loading.cpp
+  Level_Logo.cpp
+  Loader.cpp
+  MainApp.cpp
+  Monster.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Monster.cpp(35,37): warning C4244: '=': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(94,17): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(381,22): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(396,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(549,67): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Terrain.cpp
+  PlayerData_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\PlayerData_Manager.cpp(26,21): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Slot.cpp(32,1): warning C4172: 지역 변수 또는 임시 : vPos의 주소를 반환하는 중
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Inventory.cpp(258,1): warning C4715: 'Client::CInventory::Get_SwapObject': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  Client.cpp
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
