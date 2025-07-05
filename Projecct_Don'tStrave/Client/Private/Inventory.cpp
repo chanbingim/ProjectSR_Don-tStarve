@@ -218,6 +218,45 @@ void CInventory::Use_Item(_uint iItem, _uint iCount)
     }
 }
 
+_uint CInventory::Get_SwapObject()
+{
+    _uint iItemID = m_SlotFrames[10]->Get_Slot()->Get_ItemID();
+
+    switch (iItemID)
+    {
+    case 1:// µµ³¢
+        return 1;
+        break;
+
+    case 2:// °î±ªÀÌ
+        return 3;
+        break;
+
+    case 3:// »ð
+        return 5;
+        break;
+
+    case 4:// È¶ºÒ
+        return 7;
+        break;
+
+    case 8:// Ã¢
+        break;
+
+    case 9:// ÇÜ
+        break;
+
+    case 10:// °©¿Ê
+        break;
+
+    case 11:// Çï¸ä
+        break;
+
+    default:
+        break;
+    }
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component

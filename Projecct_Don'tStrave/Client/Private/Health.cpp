@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+#include "Player.h"
+
 CHealth::CHealth(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CHeadUpDisplay{ pGraphic_Device }
 {
@@ -20,7 +22,8 @@ HRESULT CHealth::Initialize_Prototype()
 HRESULT CHealth::Initialize(void* pArg)
 {
     m_iTextureIndex = 0;
-    m_fTimeAcc = 0.f;
+
+    
 
     CUserInterface::UIOBJECT_DESC Desc = {};
 
@@ -37,6 +40,8 @@ HRESULT CHealth::Initialize(void* pArg)
 
     __super::UpdatePosition();
 
+    m_iMaxHealth = m_pPlayer->Get_Player()->iMaxHp;
+
     return S_OK;
 }
 
@@ -49,17 +54,10 @@ void CHealth::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_fTimeAcc += fTimeDelta;
+    m_iTextureIndex = static_cast<_uint>(50.f - 50.f * (static_cast<_float>(m_pPlayer->Get_Player()->iHp) / static_cast<_float>(m_iMaxHealth)));
 
-    if (1.f <= m_fTimeAcc)
-    {
-        m_fTimeAcc = 0.f;
-        ++m_iTextureIndex;
-    }
-
-    if (m_iTextureIndex > 50)
-        m_iTextureIndex = 0;
-
+    if (50 <= m_iTextureIndex)
+        m_iTextureIndex = 50;
 }
 
 void CHealth::Late_Update(_float fTimeDelta)

@@ -119,7 +119,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	PLAYER_DATA data = CPlayerData_Manager::GetInstance()->Get_PlayerData(0);
+	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(0);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
@@ -129,7 +129,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
-	MONSTER_DATA data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
+
 	//for (size_t i = 0; i < 10; i++)
 	//{
 	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
@@ -143,10 +144,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 	//		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 	//		return E_FAIL;
 	//}
-	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(3);
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
 	for (size_t i = 0; i < 2; i++)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderHouse"),
+		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}

@@ -23,17 +23,23 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	MONSTER_DATA data = *static_cast<MONSTER_DATA*>(pArg);
-	m_iId = data.iId;
-	m_iMaxHp = data.iMaxHp;
-	m_iAtk = data.iAtk;
-	m_fSpeed = data.fSpeed / 4.f;
-	m_iAtkDistance = data.iAtkDistance;
-	m_iAtkSpeed = data.iAtkSpeed;
-	m_iMaxHit = data.iHitMax;
+	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
+	m_pMonsterData = new MONSTER_DATA;
+	m_pMonsterData->iId = data.iId;
+	m_pMonsterData->iMaxHp = data.iMaxHp;
+	m_pMonsterData->iHp = data.iMaxHp;
+	m_pMonsterData->iMaxHit = data.iMaxHit;
+	m_pMonsterData->iHit = data.iMaxHit;
+	m_pMonsterData->iAtk = data.iAtk;
+	m_pMonsterData->fSpeed = data.fSpeed / 4.f;
+	m_pMonsterData->iAtkDistance = data.iAtkDistance;
+	m_pMonsterData->iAtkSpeed = data.iAtkSpeed;
+	m_pMonsterData->fPos = data.fPos;
 
-	m_iHp = m_iMaxHp;
-	m_iHit = m_iMaxHit;
+	m_pChar = m_pMonsterData;
+
+
+	m_pTransformCom->SetPosition(data.fPos);
 
 	return S_OK;
 }
@@ -65,13 +71,17 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-MONSTER_DATA CMonster::Get_Monster()
+MONSTER_DATA* CMonster::Get_Monster()
 {
-	return MONSTER_DATA();
+	return m_pMonsterData;
 }
 
 void CMonster::Free()
 {
 	__super::Free();
 
+<<<<<<< HEAD
+=======
+	Safe_Delete(m_pMonsterData);
+>>>>>>> origin/0705_kjh
 }
