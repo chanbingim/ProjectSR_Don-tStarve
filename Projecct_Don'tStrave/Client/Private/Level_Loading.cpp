@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Level_Logo.h"
+#include "LodingInterface.h"
 #include "Level_GamePlay.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
@@ -33,24 +34,35 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-	if (true == m_pLoader->isFinished() &&
-		GetKeyState(VK_RETURN) & 0x8000)
+	auto bFinished = m_pLoader->isFinished();
+	if (bFinished)
 	{
-		CLevel* pNewLevel = { nullptr };
-		m_pGameInstance->Reset_CurLevel();
-		switch (m_eNextLevelID)
+		auto GameLoadingUI = dynamic_cast<CLodingInterface*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer"));
+
+		if (GameLoadingUI)
 		{
-		case LEVEL::LOGO:
-			pNewLevel = CLevel_Logo::Create(m_pGraphic_Device, m_eNextLevelID);
-			break;
-		case LEVEL::GAMEPLAY:
-			pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
-			break;
+			GameLoadingUI->Finished_Loading(m_pLoader->isFinished());
 		}
 
-		if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
-			return;		
-	}	
+		if (GetKeyState(VK_RETURN) & 0x8000)
+		{
+			CLevel* pNewLevel = { nullptr };
+			m_pGameInstance->Reset_CurLevel();
+			switch (m_eNextLevelID)
+			{
+			case LEVEL::LOGO:
+				pNewLevel = CLevel_Logo::Create(m_pGraphic_Device, m_eNextLevelID);
+				break;
+			case LEVEL::GAMEPLAY:
+				pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
+				break;
+			}
+
+			if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
+				return;
+		}
+	}
+
 }
 
 HRESULT CLevel_Loading::Render()

@@ -26,6 +26,8 @@ public:
 	_float3	Get_Size();
 	_float3 Get_Size(_uint iTextureIndex);
 	_uint	Get_Frame();
+
+	size_t	StoredTextureCount() { return m_Textures.size(); }
 private:
 	_uint									m_iNumTextures = {};
 	_uint									m_iWidth = {};

@@ -21,8 +21,11 @@ public :
 	virtual void		Late_Update(_float fTimeDelta);
 	virtual HRESULT		Render();
 
+	void				Finished_Loading(_bool	IsFinish);
 
 private :
+	_bool				m_bFinishedLoad = { false };
+	_uint				m_iTextureIndex = {};
 	CLodingSpinner*		m_pSinner = { nullptr };
 
 private :

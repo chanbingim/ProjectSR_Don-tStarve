@@ -23,6 +23,8 @@ HRESULT CLodingInterface::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    m_iTextureIndex = rand() % m_pTexture_Com->StoredTextureCount();
+
     m_fSizeX = 1280.f;
     m_fSizeY = 720.f;
 
@@ -53,11 +55,21 @@ void CLodingInterface::Late_Update(_float fTimeDelta)
 HRESULT CLodingInterface::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-    m_pTexture_Com->Set_Texture(0);
+    m_pTexture_Com->Set_Texture(m_iTextureIndex);
     m_pVIBuffer_Com->Render();
 
-    m_pSinner->Render();
+    if(!m_bFinishedLoad)
+        m_pSinner->Render();
+    else
+    {
+        //폰트 출력 또는 데이터 출력
+    }
     return S_OK;
+}
+
+void CLodingInterface::Finished_Loading(_bool IsFinish)
+{
+    m_bFinishedLoad = IsFinish;
 }
 
 HRESULT CLodingInterface::ADD_Components()
