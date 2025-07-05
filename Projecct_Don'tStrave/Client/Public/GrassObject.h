@@ -1,5 +1,5 @@
 #pragma once
-#include "Enviornment_Object.h"
+#include "DropItemEnviornment.h"
 
 NS_BEGIN(Engine)
 class CAnimController;
@@ -8,7 +8,7 @@ NS_END
 NS_BEGIN(Client)
 class CEnv_Animation;
 	
-class CGrassObject : public CEnviornment_Object
+class CGrassObject : public CDropItemEnviornment
 {
 private:
 	CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -29,6 +29,7 @@ public:
 
 private:
 	HRESULT				ADD_Components();
+
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

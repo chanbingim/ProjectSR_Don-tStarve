@@ -1,16 +1,18 @@
 #include "GrassObject.h"
+
 #include "GameInstance.h"
+#include "DropItemComponent.h"
 
 #include "XML_Manager.h"
 
 CGrassObject::CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CEnviornment_Object(pGraphic_Device)
+    CDropItemEnviornment(pGraphic_Device)
 {
     m_EnviornmentID = 2;
 }
 
 CGrassObject::CGrassObject(const CGrassObject& rhs) :
-    CEnviornment_Object(rhs)
+    CDropItemEnviornment(rhs)
 {
 
 
@@ -34,10 +36,15 @@ HRESULT CGrassObject::Initialize(void* pArg)
         return E_FAIL;
 
     LoadImageFile();
+
     m_FrontName = TEXT("idle");
     m_TailName = TEXT("");
 
     m_MaxRecoverTime = 4.0f;
+
+    m_pDropItem_Com->ADD_ItemData(37, 1);
+
+
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -108,6 +115,11 @@ void CGrassObject::Damage(void* pArg)
             m_FrontName = TEXT("picking");
             m_EnviormentInfo.iHit = 0;
             m_EnviromentState = Enviornment_STATE::BROKEN;
+
+            _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -2.f;
+
+            CreateDropItem(37, Pos);
         }
         break;
     }
@@ -128,6 +140,11 @@ HRESULT CGrassObject::ADD_Components()
     /* Com_VIBuffer */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    /* Com_DropItem */
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+        TEXT("Com_DropItem"), reinterpret_cast<CComponent**>(&m_pDropItem_Com))))
         return E_FAIL;
 
     /* Com_Collision */

@@ -52,7 +52,10 @@ void CEnviornment_Object::Update(_float fTimeDelta)
     _float3 Pos;
     if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
     {
-        Damage(nullptr);
+        DamageBaseDesc  damage;
+        damage.Attacker = this;
+
+        Damage(&damage);
     }
 }
 
@@ -109,6 +112,8 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
         return TEXT("Tree");
     case 5:
         return TEXT("Gold Vein");
+    case 6:
+        return TEXT("Resurrection Stone");
     }
 
     return TEXT("");;

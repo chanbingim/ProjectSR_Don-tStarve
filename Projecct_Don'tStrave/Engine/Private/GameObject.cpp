@@ -138,9 +138,9 @@ void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETE
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 	_float3 scale = m_pTransformCom->GetScale();
 
-	(_float3)testMat.m[0] *= scale.x;
-	(_float3)testMat.m[1] *= scale.y;
-	(_float3)testMat.m[2] *= scale.z;
+	*(_float3*)&testMat.m[0] *= scale.x;
+	*(_float3*)&testMat.m[1] *= scale.y;
+	*(_float3*)&testMat.m[2] *= scale.z;
 
 	memcpy((_float3*)&testMat.m[3], pos, sizeof(_float3));
 

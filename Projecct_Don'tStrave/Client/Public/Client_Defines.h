@@ -125,6 +125,12 @@ namespace Client
 		_float		iAtkDistance = {};
 		_uint		iAtkSpeed = {};
 	}MONSTER_DATA;
+
+	typedef struct DamageBaseDesc{
+		void*		Attacker = { nullptr };
+		_int		Damage = {};
+		_float3		Direaction = {};
+	}DAMAGE_DATA_BASE;
 #pragma endregion
 }
 

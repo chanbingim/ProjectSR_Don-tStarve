@@ -1,5 +1,5 @@
 #pragma once
-#include "Enviornment_Object.h"
+#include "DropItemEnviornment.h"
 
 NS_BEGIN(Engine)
 class CAnimController;
@@ -8,7 +8,7 @@ NS_END
 NS_BEGIN(Client)
 class CEnv_Animation;
 
-class CRockObject : public CEnviornment_Object
+class CRockObject : public CDropItemEnviornment
 {
 private:
 	CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device);

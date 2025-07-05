@@ -7,42 +7,54 @@
 #include "SpiderHouse.h"
 #include "SpiderQueen.h"
 
+#pragma region UI
 #include "Slot.h"
 #include "SlotFrame.h"
 #include "Inventory.h"
 #include "Mouse.h"
-#include "CraftingUI.h"
-#include "Hunger.h"
-#include "Health.h"
-#include "Sanity.h"
-#include "Item.h"
+
+#pragma region BUTTON_UI
 #include "Crafting_Button.h"
 #include "Camera_Button.h"
 #include "MiniMap_Button.h"
 #include "QuickSlot_Button.h"
+#include "Category_Button.h"
+#include "BookMark_Button.h"
+#include "Create_Button.h"
+#include "Item_Button.h"
+#pragma endregion
+
+#pragma region ITEM
+#include "Item.h"
+#include "CampFire.h"
+#include "DropItemComponent.h"
+#pragma endregion
+
+#include "CraftingUI.h"
+#include "Hunger.h"
+#include "Health.h"
+#include "Sanity.h"
+
+#include "Clock.h"
+#include "Item_Info.h"
+#include "MaterialSlot.h"
+
+#include "Material_Item.h"
+#include "Fire.h"
+#include "Chest.h"
+#include "UIEffect.h"
+#include "ChestUI.h"
+#pragma endregion
+
 #include "SnowParticle.h"
 
 #pragma region ENVIORN_MENT
 #include "GrassObject.h"
 #include "RockObject.h"
 #include "PortalObject.h"
+#include "ResurrectionStone.h"
 #include "TreeObject.h"
 #pragma endregion
-
-#include "Category_Button.h"
-#include "Clock.h"
-#include "Item_Info.h"
-#include "MaterialSlot.h"
-#include "Item_Button.h"
-#include "BookMark_Button.h"
-#include "Create_Button.h"
-#include "Material_Item.h"
-#include "CampFire.h"
-#include "Fire.h"
-#include "Chest.h"
-#include "UIEffect.h"
-#include "ChestUI.h"
-
 
 #include "GameInstance.h"
 #include "Item_Manager.h"
@@ -99,9 +111,6 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_GamePlay();
 		break;
 
-	case LEVEL::TUTORIAL :
-		hr = Loading_For_Tutorial();
-		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -153,9 +162,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region Character
-
-#pragma region Player
+#pragma region COMPONENT
+	/* For.Prototype_Component_Texture_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+		CDropItemComponent::Create(m_pGraphic_Device))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma endregion
@@ -352,6 +363,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
+#pragma endregion
 
 #pragma region ENVIORN_MENT
 	/* For.Prototype_GameObject_Grass */
@@ -372,6 +384,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Tree */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Tree"),
 		CTreeObject::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_CResurrectionStone */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Resurrection_Stone"),
+		CResurrectionStone::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 
@@ -509,6 +526,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
 		CChest::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	
 #pragma endregion
 
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
@@ -535,359 +554,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
 #pragma endregion
-
-	m_strMessage = TEXT("로딩이 완료되었습니다..");
-
-	m_isFinished = true;
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Tutorial()
-{
-	m_strMessage = TEXT("아이템 정보를 가져오는 중... ");
-	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
-
-	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
-#pragma region TEXTURE
-	/* For.Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 2))))
-		return E_FAIL;
-
-#pragma region Rock
-	/* For.Prototype_Component_Texture_Rock_Healthy */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Idle"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Healthy/Healthy_000.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Rock_Damaged */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Damaged"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Damaged/Damaged_000.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Rock_Broken */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Rock_Broken"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Boulder/Broken/Broken_000.png"), 1))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region GoldLock
-	/* For.Prototype_Component_Texture_GlodLock */
-	/*if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pGraphic_Device))))
-		return E_FAIL;*/
-#pragma endregion
-
-#pragma region Spawner
-	/* For.Prototype_Component_Texture_Spawner_Idle */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Spawner"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Spawner/Spawner_%d.png"), 2))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Tree_Motion
-	/* For.Prototype_Component_Texture_Tree_Idle */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Idle"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Idle/Idle_0%d.png"), 80))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Fall_L */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Left"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Left/Fall_Left_0%d.png"), 38))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Fall_R */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Fall_Right"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Fall_Right/Fall_Right_0%d.png"), 38))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Chop */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Chop"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Chop/Chop_0%d.png"), 15))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Tree_Stump */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Tree_Stump"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Evergreen/Tall/Stump/Stump_000.png"), 1))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Grass
-	/* For.Prototype_Component_Texture_Grass_Idle */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Idle"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Idle/Idle_0%d.png"), 15))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Grass_Pick */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Pick"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Pick/Pick_0%d.png"), 15))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Grass_Picked */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Grass_Picked"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Objects/Grass/Picked/Picked_000.png"), 1))))
-		return E_FAIL;
-#pragma endregion
-	
-#pragma endregion
-
-#pragma region Character
-
-#pragma region Player
-#pragma endregion
-
-#pragma endregion
-
-#pragma region UI
-	/* For.Prototype_Component_Texture_Hunger */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Hunger"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/hunger/Hunger_0%d.png"), 51))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Health */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Health"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Health/Health_0%d.png"), 51))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Sanity */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sanity"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Sanity/Sanity_0%d.png"), 51))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Inventory */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Inventory"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/MainInventory.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_SideBar */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SideBar"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/SideBar/Frame.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Slot */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Slot"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/SlotFrame%d.png"), 5))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Itemicon/Item%d.png"), 52))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_ItemState */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemState"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Slot_State/state-%d.png"), 50))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Number */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Number"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/FontTexture/num-%d.png"), 12))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_CraftBar_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CraftBar_Button"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/CraftBar_Button%d.png"), 2))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_MiniMap_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Button"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/MinMap_Button.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_QuickSlot_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuickSlot_Button"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/QuickSlot_Button.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Create_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Create_Button"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/CreateButton%d.png"), 2))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Clock_Frame */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Frame"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Clock/Clock_Frame.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Clock_Point */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Clock_Point"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Clock/Clock_Point.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Clock_Point */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Category"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Category/Category_%d.png"), 6))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_ItemFrame */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemFrame"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/ItemFrame_%d.png"), 2))))
-		return E_FAIL;
-
-	
-#pragma endregion
-	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
-
-	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
-
-	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
-
-#pragma region GAMEPLAY
-	/* For.Prototype_GameObject_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
-		CSpiderNormal::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 130, 130))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-#pragma region ENVIORN_MENT
-	/* For.Prototype_GameObject_Grass */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Grass"),
-		CGrassObject::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Portal */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Protal"),
-		CPortalObject::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Rock */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Rock"),
-		CRockObject::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Tree */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Tree"),
-		CTreeObject::Create(m_pGraphic_Device))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region UI_OBJECT
-	/* For.Prototype_GameObject_Hunger */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hunger"),
-		CHunger::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Health */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Health"),
-		CHealth::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Sanity */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Sanity"),
-		CSanity::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Slot */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Slot"),
-		CSlot::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_SlotFrame */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlotFrame"),
-		CSlotFrame::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Inventory */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Inventory"),
-		CInventory::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_CraftingUI */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CraftingUI"),
-		CCraftingUI::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
-		CItem::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Material_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
-		CMaterial_Item::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Crafting_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
-		CCrafting_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Crafting_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Button"),
-		CMiniMap_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_QuickSlot_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuickSlot_Button"),
-		CQuickSlot_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Category_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Category_Button"),
-		CCategory_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Item_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"),
-		CItem_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_CCreate_Button */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Create_Button"),
-		CCreate_Button::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Clock */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Clock"),
-		CClock::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Item_Info */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info"),
-		CItem_Info::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Mouse */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Mouse"),
-		CMouse::Create(m_pGraphic_Device))))
-		return E_FAIL;
-#pragma endregion
-#pragma endregion
-
-	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_32"), 32, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
-		return E_FAIL;
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

@@ -272,6 +272,8 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
 		return TEXT("");
+	case 6:
+		return TEXT("Prototype_GameObject_Resurrection_Stone");
 	}
 
 	return TEXT("");

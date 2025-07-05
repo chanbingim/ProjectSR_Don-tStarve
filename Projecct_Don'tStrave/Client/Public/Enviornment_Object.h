@@ -3,10 +3,7 @@
 #include "AinimationObject.h"
 
 NS_BEGIN(Engine)
-class CTexture;
-class CVIBuffer_Rect;
 class CCollision_Component;
-class CAnimController;
 NS_END
 
 NS_BEGIN(Client)
@@ -45,7 +42,6 @@ protected :
 	BASE_DESC				m_EnviormentInfo = {};
 	_float					m_MaxRecoverTime = {};
 	_float					m_CurRecoverTime = {};
-
 
 	_uint					m_EnviornmentID = {};
 

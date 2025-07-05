@@ -161,6 +161,7 @@
     <ClInclude Include="..\Public\Crafting_Button.h" />
     <ClInclude Include="..\Public\Create_Button.h" />
     <ClInclude Include="..\public\DropItemComponent.h" />
+    <ClInclude Include="..\public\DropItemEnviornment.h" />
     <ClInclude Include="..\Public\Enviornment_Object.h" />
     <ClInclude Include="..\public\Env_Animation.h" />
     <ClInclude Include="..\Public\Fire.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
+    <ClInclude Include="..\public\ResurrectionStone.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SkyBox.h" />
     <ClInclude Include="..\public\SnowParticle.h" />
@@ -242,6 +244,8 @@
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
+    <ClCompile Include="..\private\DropItemEnviornment.cpp" />
+    <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />
     <ClCompile Include="..\private\Enviornment_Object.cpp" />
     <ClCompile Include="..\private\Env_Animation.cpp" />

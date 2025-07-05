@@ -1,5 +1,5 @@
 #pragma once
-#include "Enviornment_Object.h"
+#include "DropItemEnviornment.h"
 
 NS_BEGIN(Engine)
 class CAnimController;
@@ -9,7 +9,7 @@ NS_BEGIN(Client)
 
 class CEnv_Animation;
 
-class CTreeObject : public CEnviornment_Object
+class CTreeObject : public CDropItemEnviornment
 {
 private:
 	CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -37,9 +37,6 @@ private:
 
 private :
 	_float3					Pos = {};
-
-	
-
 
 public:
 	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

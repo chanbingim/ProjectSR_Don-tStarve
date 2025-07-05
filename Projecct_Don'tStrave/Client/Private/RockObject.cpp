@@ -4,13 +4,13 @@
 #include"XML_Manager.h"
 
 CRockObject::CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
-	CEnviornment_Object(pGraphic_Device)
+	CDropItemEnviornment(pGraphic_Device)
 {
 	m_EnviornmentID = 3;
 }
 
 CRockObject::CRockObject(const CRockObject& rhs) :
-	CEnviornment_Object(rhs)
+	CDropItemEnviornment(rhs)
 {
 }
 
@@ -76,6 +76,10 @@ HRESULT CRockObject::ADD_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* Com_DropItem */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+		TEXT("Com_DropItem"), reinterpret_cast<CComponent**>(&m_pDropItem_Com))))
+		return E_FAIL;
 	
 	/* Com_Collision */
 	CBox_Collision_Component::Collision_Desc Col_Desc = {};

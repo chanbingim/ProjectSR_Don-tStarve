@@ -146,17 +146,8 @@
     <Filter Include="02. Objects\Environment">
       <UniqueIdentifier>{f3b1aac8-bb2a-4850-8ee4-bf1e297b9096}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Objects\Environment\Tree">
-      <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Objects\Environment\Rock">
-      <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Objects\Environment\Portal">
       <UniqueIdentifier>{d3cbe031-fec7-484d-87a7-7f9724e5c696}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Objects\Environment\Grass">
-      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. ClientComponent">
       <UniqueIdentifier>{d8994de0-89ed-4227-868c-491c6675bec6}</UniqueIdentifier>
@@ -241,6 +232,21 @@
     </Filter>
     <Filter Include="XML Manager\Struct">
       <UniqueIdentifier>{ec70bae3-d226-4bfa-be22-aca118cfee1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\Resurrection">
+      <UniqueIdentifier>{c70a3870-5bcb-4e6a-954b-ae2196d75921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment">
+      <UniqueIdentifier>{c92bf2fc-236e-4119-bf64-b1387fb015c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Grass">
+      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Rock">
+      <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Tree">
+      <UniqueIdentifier>{bdde88f4-a0e8-4819-910f-77e3bcd81c8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -383,16 +389,16 @@
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GrassObject.h">
-      <Filter>02. Objects\Environment\Grass</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
-      <Filter>02. Objects\Environment\Rock</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DropItemComponent.h">
       <Filter>06. ClientComponent</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TreeObject.h">
-      <Filter>02. Objects\Environment\Tree</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Item_Button.h">
       <Filter>04. GmaeUI\Button\Item_Button</Filter>
@@ -486,6 +492,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
       <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ResurrectionStone.h">
+      <Filter>02. Objects\Environment\Resurrection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DropItemEnviornment.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -626,13 +638,13 @@
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GrassObject.cpp">
-      <Filter>02. Objects\Environment\Grass</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
-      <Filter>02. Objects\Environment\Rock</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TreeObject.cpp">
-      <Filter>02. Objects\Environment\Tree</Filter>
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Enviornment_Object.cpp">
       <Filter>02. Objects\Environment</Filter>
@@ -726,6 +738,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
       <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ResurrectionStone.cpp">
+      <Filter>02. Objects\Environment\Resurrection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DropItemEnviornment.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
