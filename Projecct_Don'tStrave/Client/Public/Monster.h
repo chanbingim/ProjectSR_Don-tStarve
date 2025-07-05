@@ -2,6 +2,10 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
+<<<<<<< HEAD
+=======
+#include "UserInterface.h"
+>>>>>>> origin/0705_kjh
 #include "Character.h"
 
 NS_BEGIN(Engine)
@@ -28,6 +32,7 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+<<<<<<< HEAD
 	MONSTER_DATA Get_Monster();
 
 protected:
@@ -36,6 +41,12 @@ protected:
 	_float		m_iAtkDistance = {};
 	_uint		m_iAtkSpeed = {};
 
+=======
+	MONSTER_DATA* Get_Monster();
+protected:
+	CCharacter* m_pTarget = {};
+	MONSTER_DATA* m_pMonsterData = {};
+>>>>>>> origin/0705_kjh
 public:
 	virtual void Free() override;
 };

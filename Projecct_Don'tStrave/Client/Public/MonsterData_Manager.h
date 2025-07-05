@@ -13,11 +13,11 @@ private:
 	virtual ~CMonsterData_Manager() = default;
 
 public:
-	const MONSTER_DATA& Get_MonsterData(_uint iItemID) const;
+	const MONSTER_DESC& Get_MonsterData(_uint iItemID) const;
 	void	LoadMonsterData(const char* MapFilePath);
 private:
 	_uint					m_iMonsterDataSize = {};
-	vector<MONSTER_DATA>		m_tMonsterDataVec = {};
+	vector<MONSTER_DESC>		m_tMonsterDataVec = {};
 
 public:
 	virtual void Free() override;

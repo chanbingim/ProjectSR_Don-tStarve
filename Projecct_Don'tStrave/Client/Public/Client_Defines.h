@@ -6,6 +6,10 @@
 
 #define D3DFVF_PARTICLEVERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_PSIZE) // 변경 했음
 
+NS_BEGIN(Engine)
+class CGameObject;
+NS_END
+
 namespace Client
 {
 	typedef struct GamePlayStr
@@ -23,6 +27,8 @@ namespace Client
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 	enum class FOOD { MEAT, FRUIT, END };
+	enum class SWAPOBJECT { NONE, AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, TORCH, END };
+	enum class FIELDOBJECT { OBJECT, CREATURE, END };
 
 	typedef struct Item_Desc
 	{
@@ -58,16 +64,6 @@ namespace Client
 	}ITEM_DATA;
 
 	typedef struct Player_Desc {
-		_uint			iMaxHp = {};
-		_uint			iMaxHunger = {};
-		_uint			iMaxMental = {};
-		_uint			iHp = {};
-		_uint			iTemp = {};
-		_uint			iHunger = {};
-		_uint			iMental = {};
-	}PLAYER_DESC;
-
-	typedef struct Player_Data {
 		_uint			iId = {};
 		wstring			strName = {};
 		_uint			iMaxHp = {};
@@ -75,9 +71,10 @@ namespace Client
 		_uint			iMaxMental = {};
 		_float			fAtk = {};
 		_float			fDef = {};
-	}PLAYER_DATA;
+		_float3			fPos = { 0.f,0.f,0.f };
+	}PLAYER_DESC;
 
-	typedef struct Monster_Data {
+	typedef struct Monster_Desc {
 		_uint			iId = {};
 		wstring			strPath = {};
 		wstring			strName = {};
@@ -86,10 +83,39 @@ namespace Client
 		_float			fSpeed = {};
 		_uint			iAtkDistance = {};
 		_uint			iAtkSpeed = {};
-		_uint			iHitMax = {};
+		_uint			iMaxHit = {};
 		wstring			strWilsonDial = {};
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
+	}MONSTER_DESC;
+
+	typedef struct Character_Data {
+		_uint			iMaxHp = {};
+		_uint			iTemp = {};
+		_uint			iAtk = {};
+		_uint			iMaxHit = {};
+		_float			fSpeed = {};
+		_int				iHp = {};
+		_int				iHit = {};
+		_float3			fPos = {};
+	}CHARACTER_DATA;
+
+	typedef struct Player_Data : Character_Data {
+		_float					fAtkRatio = {};
+		_float					fDefRatio = {};
+		_uint					iMaxHunger = {};
+		_uint					iMaxMental = {};
+		_uint					iDef = {};
+		_uint					iHunger = {};
+		_uint					iMental = {};
+		SWAPOBJECT				tItem = {};
+		CGameObject*				pWorkObject = {};
+	}PLAYER_DATA;
+
+	typedef struct Monster_Data : Character_Data {
+		_uint		iId = {};
+		_float		iAtkDistance = {};
+		_uint		iAtkSpeed = {};
 	}MONSTER_DATA;
 
 }
