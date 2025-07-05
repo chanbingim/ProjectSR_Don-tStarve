@@ -26,6 +26,7 @@ public :
 	virtual void			Priority_Update(_float fTimeDelta) override;
 	virtual void			Update(_float fTimeDelta) override;
 	virtual void			Late_Update(_float fTimeDelta) override;
+	virtual	void			Reset_State();
 	virtual HRESULT			Render() override;
 	
 	virtual void			Damage(void* pArg) override;
@@ -34,13 +35,14 @@ public :
 	_wstring				GetEnviornmnetName();
 	_uint					GetEnviormentID();
 	 
+	Enviornment_STATE		GetState() { return m_EnviromentState; }
 
 protected :
 	_uint					m_EnviornmentID = {};
 
+	Enviornment_STATE		m_EnviromentState = { };
+
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
-	CTexture*				m_Idle_pTexture_Com = { nullptr };
-	CVIBuffer_Rect*			m_pVIBuffer_Com = { nullptr };
 	CCollision_Component*	m_pCollision_Com = { nullptr };
 
 public :

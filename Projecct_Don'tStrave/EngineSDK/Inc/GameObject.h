@@ -54,7 +54,7 @@ protected:
 	class CGameInstance*		m_pGameInstance = { nullptr };
 	_bool						m_isDead = { false };
 
-	CTransform*					m_pTransformCom = {nullptr};
+	CTransform*									m_pTransformCom = {nullptr};
 	map<const _wstring, class CComponent*>		m_Components;
 
 	LPD3DXEFFECT					m_pEffect = { nullptr };

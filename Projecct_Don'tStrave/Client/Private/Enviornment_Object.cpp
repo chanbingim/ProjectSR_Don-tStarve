@@ -65,6 +65,10 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
+void CEnviornment_Object::Reset_State()
+{
+}
+
 HRESULT CEnviornment_Object::Render()
 {
     class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));

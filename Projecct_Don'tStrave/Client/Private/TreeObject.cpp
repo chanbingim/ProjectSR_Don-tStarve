@@ -38,6 +38,8 @@ HRESULT CTreeObject::Initialize(void* pArg)
     m_FrontName = TEXT("idle_");
     m_TailName = rand() % 2 == 0 ? TEXT("normal") : TEXT("short");
 
+    m_EnviromentState = Enviornment_STATE::IDLE;
+
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
@@ -54,14 +56,21 @@ void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
-
-
+    if (m_pVIBufferCom->Picking(m_pTransformCom))
+    {
+        m_FrontName = TEXT("chop_");
+        m_EnviromentState = Enviornment_STATE::DAMAGED;
+    }
 }
 
 void CTreeObject::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
  
+}
+
+void CTreeObject::Reset_State()
+{
 }
 
 HRESULT CTreeObject::Render()
