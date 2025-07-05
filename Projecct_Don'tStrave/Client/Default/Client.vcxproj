@@ -169,6 +169,8 @@
     <ClInclude Include="..\Public\ItemState.h" />
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
+    <ClInclude Include="..\public\LodingInterface.h" />
+    <ClInclude Include="..\public\LodingSpinner.h" />
     <ClInclude Include="..\Public\MaterialSlot.h" />
     <ClInclude Include="..\Public\Material_Item.h" />
     <ClInclude Include="..\Public\MiniMap.h" />
@@ -247,6 +249,8 @@
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
+    <ClCompile Include="..\private\LodingInterface.cpp" />
+    <ClCompile Include="..\private\LodingSpinner.cpp" />
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />

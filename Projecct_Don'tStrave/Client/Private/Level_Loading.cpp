@@ -62,7 +62,7 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Anim_UI"),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObejct_Loading_Interface"),
 			ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer")))
 		return E_FAIL;
 
@@ -72,8 +72,6 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround()
 
 HRESULT CLevel_Loading::TEST_SoundMgr()
 {
-	//m_pGameInstance->Manager_PlaySound(L"MashUp_Dance1.wav", Engine::CHANNELID::SOUND_BGM, 0.1f);
-	m_pGameInstance->Manager_StopAll();
 	return S_OK;
 }
 

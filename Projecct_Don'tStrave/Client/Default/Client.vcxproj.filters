@@ -254,6 +254,12 @@
     <Filter Include="04. GmaeUI\MiniMap\Icon">
       <UniqueIdentifier>{7e41c906-89e3-4664-a4fb-0a96e193860b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\LodingInterface">
+      <UniqueIdentifier>{87fcb8c4-803e-4b00-ae09-30fc6254628c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\LodingInterface\Lodingspinner">
+      <UniqueIdentifier>{c9ac9917-b32e-4e07-93df-5489961c7afc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -511,6 +517,12 @@
     <ClInclude Include="..\Public\MiniMap_Icon.h">
       <Filter>04. GmaeUI\MiniMap\Icon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\LodingInterface.h">
+      <Filter>04. GmaeUI\LodingInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LodingSpinner.h">
+      <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -762,6 +774,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\MiniMap_Icon.cpp">
       <Filter>04. GmaeUI\MiniMap\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LodingInterface.cpp">
+      <Filter>04. GmaeUI\LodingInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LodingSpinner.cpp">
+      <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
