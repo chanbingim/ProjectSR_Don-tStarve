@@ -32,6 +32,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->iHit = data.iMaxHit;
 	m_pMonsterData->iAtk = data.iAtk;
 	m_pMonsterData->fSpeed = data.fSpeed / 4.f;
+	m_pMonsterData->bHostile = data.bHostile;
 	m_pMonsterData->iAtkDistance = data.iAtkDistance;
 	m_pMonsterData->iAtkSpeed = data.iAtkSpeed;
 	m_pMonsterData->fPos = data.fPos;

@@ -27,7 +27,7 @@ namespace Client
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 	enum class FOOD { MEAT, FRUIT, END };
-	enum class SWAPOBJECT { NONE, AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, TORCH, END };
+	enum class SWAPOBJECT { AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, GOLDSHOVEL, SPEAR, TORCH, NONE, END };
 	enum class FIELDOBJECT { OBJECT, CREATURE, END };
 
 	typedef struct Item_Desc
@@ -86,6 +86,7 @@ namespace Client
 		_uint			iAtkDistance = {};
 		_uint			iAtkSpeed = {};
 		_uint			iMaxHit = {};
+		_bool			bHostile = {};
 		wstring			strWilsonDial = {};
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
@@ -125,6 +126,7 @@ namespace Client
 		_uint		iId = {};
 		_float		iAtkDistance = {};
 		_uint		iAtkSpeed = {};
+		_bool		bHostile = {};
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{

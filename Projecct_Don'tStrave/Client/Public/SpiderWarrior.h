@@ -44,7 +44,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
-	virtual void Damage() override;
+	virtual void Damage(void* pArg) override;
 	virtual void Attack() override;
 	virtual void Death() override;
 	virtual void OutHouse() override;

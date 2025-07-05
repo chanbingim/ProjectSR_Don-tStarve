@@ -37,7 +37,7 @@ HRESULT CAinimationObject::Initialize(void* pArg)
 void CAinimationObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-    m_fAniTime += fTimeDelta * 500;
+    m_fAniTime += fTimeDelta * 800;
 }
 
 void CAinimationObject::Update(_float fTimeDelta)

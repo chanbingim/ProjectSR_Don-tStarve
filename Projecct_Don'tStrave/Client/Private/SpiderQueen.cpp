@@ -188,7 +188,7 @@ HRESULT CSpiderQueen::Render()
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	RenderAnimation(m_sAnim);
+	RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
@@ -215,6 +215,7 @@ HRESULT CSpiderQueen::Render()
 
 void CSpiderQueen::Damage(void* pArg)
 {
+	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 

@@ -228,7 +228,7 @@ HRESULT CSpiderWarrior::Render()
 		if (FAILED(Begin_RenderState()))
 			return E_FAIL;
 
-		RenderAnimation(m_sAnim);
+		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
 		if (FAILED(End_RenderState()))
 			return E_FAIL;
@@ -237,8 +237,9 @@ HRESULT CSpiderWarrior::Render()
 	return S_OK;
 }
 
-void CSpiderWarrior::Damage()
+void CSpiderWarrior::Damage(void* pArg)
 {
+	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
