@@ -1,4 +1,142 @@
 ﻿  AinimationObject.cpp
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(39,30): warning C4244: '+=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(100,22): warning C4244: '=': 'double'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Client.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(39,30): warning C4244: '+=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\AinimationObject.cpp(100,22): warning C4244: '=': 'double'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  AnimationUI.cpp
+  BookMark_Button.cpp
+  Button.cpp
+  Camera.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(48,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,42): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Camera.cpp(99,31): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Camera_Button.cpp
+  CampFire.cpp
+  Category_Button.cpp
+  Character.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character.cpp(60,30): warning C4244: '+=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character.cpp(154,22): warning C4244: '=': 'double'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Character_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Character_Manager.cpp(42,48): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Chest.cpp
+  ChestUI.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\ChestUI.cpp(55,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\ChestUI.cpp(174,24): warning C4244: '+=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Clock.cpp
+  CraftingUI.cpp
+  Crafting_Button.cpp
+  Create_Button.cpp
+  DropItemComponent.cpp
+  Enviornment_Object.cpp
+  Env_Animation.cpp
+  Fire.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  GrassObject.cpp
+  ItemState.cpp
+  Item_Button.cpp
+  Item_Manager.cpp
+  MaterialSlot.cpp
+  Material_Item.cpp
+  MonsterData_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\MonsterData_Manager.cpp(26,21): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ParticleShader.cpp
+  PortalObject.cpp
+  RockObject.cpp
+  SkyBox.cpp
+  SnowParticle.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\SnowParticle.cpp(117,35): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Spider.cpp
+  SpiderHouse.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(31,64): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(31,46): warning C4244: '인수': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(95,25): warning C4244: '=': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(129,25): warning C4244: '=': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderHouse.cpp(194,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderNormal.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderNormal.cpp(299,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderQueen.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderQueen.cpp(242,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpiderWarrior.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\SpiderWarrior.cpp(280,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpriteEffect.cpp
+  Terrian_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(17,32): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(23,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(24,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(32,41): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(45,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(46,18): warning C4244: '초기화 중': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Terrian_Manager.cpp(51,34): warning C4244: '인수': 'FLOAT'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  tinyxml2.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  TreeObject.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,2): error C3646: '_wstring': 알 수 없는 재정의 지정자입니다.
+  (소스 파일 '../private/TreeObject.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,14): error C3646: 'm_FrontName': 알 수 없는 재정의 지정자입니다.
+  (소스 파일 '../private/TreeObject.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,26): error C2059: 구문 오류: '='
+  (소스 파일 '../private/TreeObject.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,28): error C2334: '{' 앞에 예기치 않은 토큰이 있습니다. 명백한 함수 본문을 건너뜁니다.
+  (소스 파일 '../private/TreeObject.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\TreeObject.cpp(38,5): error C2065: 'm_FrontName': 선언되지 않은 식별자입니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\TreeObject.cpp(73,25): error C2065: 'm_FrontName': 선언되지 않은 식별자입니다.
+  Health.cpp
+  HeadUpDisplay.cpp
+  Inventory.cpp
+  Item.cpp
+  Item_Info.cpp
+  MiniMap_Button.cpp
+  Mouse.cpp
+  PlayerAnim.cpp
+  QuickSlot_Button.cpp
+  Sanity.cpp
+  Slot.cpp
+  SlotFrame.cpp
+  UIEffect.cpp
+  UI_MoveAnim.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx9.cpp
+  imgui_impl_win32.cpp
+  코드를 생성하고 있습니다...
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\private\Slot.cpp(32,1): warning C4172: 지역 변수 또는 임시 : vPos의 주소를 반환하는 중
+  컴파일하고 있습니다...
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  Level_GamePlay.cpp
+  Level_Loading.cpp
+  Level_Logo.cpp
+  Loader.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,2): error C3646: '_wstring': 알 수 없는 재정의 지정자입니다.
+  (소스 파일 '../Private/Loader.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,14): error C3646: 'm_FrontName': 알 수 없는 재정의 지정자입니다.
+  (소스 파일 '../Private/Loader.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,26): error C2059: 구문 오류: '='
+  (소스 파일 '../Private/Loader.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\TreeObject.h(36,28): error C2334: '{' 앞에 예기치 않은 토큰이 있습니다. 명백한 함수 본문을 건너뜁니다.
+  (소스 파일 '../Private/Loader.cpp'을(를) 컴파일하는 중)
+  
+  MainApp.cpp
+  Monster.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Monster.cpp(31,23): warning C4244: '=': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(87,17): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(356,22): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(379,16): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(528,56): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Terrain.cpp
+  XML_Manager.cpp
+  Hunger.cpp
+  PlayerData_Manager.cpp
+C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Public\PlayerData_Manager.cpp(26,21): warning C4267: '초기화 중': 'size_t'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.cpp
+  코드를 생성하고 있습니다...

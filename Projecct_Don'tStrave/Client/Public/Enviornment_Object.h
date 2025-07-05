@@ -27,9 +27,13 @@ public :
 	virtual void			Update(_float fTimeDelta) override;
 	virtual void			Late_Update(_float fTimeDelta) override;
 	virtual HRESULT			Render() override;
+	
+	virtual void			Damage(void* pArg) override;
+	virtual void			Death() override;
 
 	_wstring				GetEnviornmnetName();
 	_uint					GetEnviormentID();
+	 
 
 protected :
 	_uint					m_EnviornmentID = {};

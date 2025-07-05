@@ -24,6 +24,9 @@ public:
 	virtual void		Late_Update(_float fTimeDelta) override;
 	virtual HRESULT		Render() override;
 
+	virtual void		Damage(void* pArg) override;
+	virtual void		Death()override;
+
 private:
 	HRESULT				ADD_Components();
 

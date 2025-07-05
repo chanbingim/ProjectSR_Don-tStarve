@@ -86,6 +86,14 @@ HRESULT CEnviornment_Object::Render()
     return S_OK;
 }
 
+void CEnviornment_Object::Damage(void* pArg)
+{
+}
+
+void CEnviornment_Object::Death()
+{
+}
+
 _wstring CEnviornment_Object::GetEnviornmnetName()
 {
     switch (m_EnviornmentID)

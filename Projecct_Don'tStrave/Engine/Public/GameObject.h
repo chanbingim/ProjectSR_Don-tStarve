@@ -24,15 +24,16 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	virtual HRESULT Initialize_Late();
-	virtual void Priority_Update(_float fTimeDelta);
-	virtual void Update(_float fTimeDelta);
-	virtual void Late_Update(_float fTimeDelta);
-	virtual HRESULT Render();
-	virtual void		Damage();
-	virtual void		Death();
+	virtual HRESULT			Initialize_Prototype();
+	virtual HRESULT			Initialize(void* pArg);
+	virtual HRESULT			Initialize_Late();
+	virtual void			Priority_Update(_float fTimeDelta);
+	virtual void			Update(_float fTimeDelta);
+	virtual void			Late_Update(_float fTimeDelta);
+	virtual HRESULT			Render();
+
+	virtual void			Damage(void* pArg);
+	virtual void			Death();
 
 public:
 	_bool isDead() const {

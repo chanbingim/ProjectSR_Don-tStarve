@@ -57,7 +57,7 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-void CGameObject::Damage()
+void CGameObject::Damage(void* pArg)
 {
 }
 

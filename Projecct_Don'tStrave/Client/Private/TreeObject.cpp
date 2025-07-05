@@ -54,6 +54,8 @@ void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
+
+
 }
 
 void CTreeObject::Late_Update(_float fTimeDelta)
@@ -75,6 +77,14 @@ HRESULT CTreeObject::Render()
      m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     return S_OK;
+}
+
+void CTreeObject::Damage(void* pArg)
+{
+}
+
+void CTreeObject::Death()
+{
 }
 
 HRESULT CTreeObject::ADD_Components()

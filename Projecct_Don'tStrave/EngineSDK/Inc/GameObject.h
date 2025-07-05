@@ -31,7 +31,8 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
-	virtual void		Damage();
+
+	virtual void		Damage(void* pArg);
 	virtual void		Death();
 
 public:
