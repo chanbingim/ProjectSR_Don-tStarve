@@ -12,6 +12,7 @@ public:
 		_uint			iItemID = {};
 		ITEM_DESC       Item_Desc = {};
 		class CSlot*	pSlot = {nullptr};
+		_float3			vCursorPos = {};
 	}UIEFFECT_DESC;
 
 private:

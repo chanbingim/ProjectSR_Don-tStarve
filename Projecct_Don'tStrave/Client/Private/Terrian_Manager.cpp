@@ -32,6 +32,11 @@ CTerrain* CTerrian_Manager::GetOnTerrian(_float3& Pos)
     return m_pTerrian[IndexY * m_Size.x + IndexX];
 }
 
+vector<CTerrain*>* CTerrian_Manager::GetTerrains()
+{
+    return &m_pTerrian;
+}
+
 void CTerrian_Manager::ADD_Terrian(CTerrain* pTerrian)
 {
     if (nullptr == pTerrian)

@@ -16,7 +16,7 @@ private :
 public :
 	HRESULT				Initialize(const _float2& TileSize);
 	CTerrain*			GetOnTerrian(_float3& Pos);
-
+	vector<CTerrain*>*	GetTerrains();
 	void				ADD_Terrian(CTerrain* pTerrian);
 	void				Clear();
 	

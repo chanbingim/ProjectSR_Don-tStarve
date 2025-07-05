@@ -63,8 +63,7 @@ void CCampFire::Update(_float fTimeDelta)
 		if (0.f < m_Item_Desc.fDurability)
 		{
 			m_Item_Desc.fDurability -= 0.02f;
-			//Update_Fire(-0.0001f);
-			m_pFire->Update_Fire(-0.0001f);
+			m_pFire->Update_Fire(m_Item_Desc.fDurability * 0.01f);
 			m_pFire->Update(fTimeDelta);
 		}
 		else

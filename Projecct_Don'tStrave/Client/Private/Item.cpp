@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "Camera.h"
 #include "UIEffect.h"
+#include "Player.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -65,6 +66,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 void CItem::Priority_Update(_float fTimeDelta)
 {
+<<<<<<< HEAD
 	if (m_bIsplayAnim)
 	{
 		switch (m_Item_Desc.iItemEffect)
@@ -77,11 +79,14 @@ void CItem::Priority_Update(_float fTimeDelta)
 			break;
 		}
 	}
+=======
+>>>>>>> origin/07_04_bjh_2
 	
 }
 
 void CItem::Update(_float fTimeDelta)
 {
+
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	HoverEvent();
@@ -94,6 +99,29 @@ void CItem::Update(_float fTimeDelta)
 void CItem::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	if (true == m_isDead)
+	{
+		CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+		CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
+
+		if (nullptr == pSlot && nullptr != m_pGameInstance->Chagne_Slot())
+		{
+			dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot())->Set_Info(m_Item_Desc);
+		}
+		else
+		{
+			CUIEffect::UIEFFECT_DESC Desc = {};
+
+			Desc.iItemID = m_Item_Desc.iItemID;
+			Desc.pSlot = pSlot;
+			Desc.vCursorPos = m_pGameInstance->GetMousePosition(0);
+			memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
+
+			m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+				EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
+		}
+	}
 }
 
 HRESULT CItem::Render()
@@ -135,7 +163,30 @@ void CItem::ClickedEvent()
 {
 	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
+<<<<<<< HEAD
 		EnterInvenTory();
+=======
+		_float3 vPickingPos = {};
+
+		if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+		{
+			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+			CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
+
+			if (nullptr == pSlot)
+			{
+				
+			}
+			else
+			{
+				
+				(dynamic_cast<CPlayer*>(
+					m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player()->pWorkObject) = this;
+				CUIEffect::UIEFFECT_DESC Desc = {};
+
+			}
+		}
+>>>>>>> origin/07_04_bjh_2
 	}
 }
 

@@ -46,6 +46,11 @@ void CMiniMap_Button::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
     HoverEevent();
+
+    if(m_pGameInstance->KeyDown('M'))
+        m_isClicked = true;
+    else
+        m_isClicked = false;
 }
 
 void CMiniMap_Button::Late_Update(_float fTimeDelta)

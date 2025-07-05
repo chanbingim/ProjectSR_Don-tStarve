@@ -5,6 +5,7 @@
 NS_BEGIN(Engine);
 class CState;
 class CAnimController;
+class CLightComponent;
 NS_END
 
 NS_BEGIN(Client);
@@ -31,9 +32,12 @@ private:
 	_uint m_iFireLevel = {};
 
 	CState* m_pFireState_Com[3] = { nullptr };
+	_float3 m_vScale = {};
 
-	CAnimController* m_pAnimController = { nullptr };
-	D3DLIGHT9		LightDesc{};
+	CAnimController*	m_pAnimController = { nullptr };
+	D3DLIGHT9			m_Light{};
+	CLightComponent*	m_pLight_Com = { nullptr };
+	D3DXCOLOR			m_Color = {};
 
 private:
 	HRESULT ADD_Components();
