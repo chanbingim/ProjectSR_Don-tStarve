@@ -236,7 +236,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			list<CGameObject*> NearObjects;
 
-			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
 			if (!GroundObejcts->empty()) {
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
