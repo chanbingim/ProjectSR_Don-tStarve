@@ -24,20 +24,30 @@ HRESULT CEnviornment_Object::Initialize_Prototype()
 
 HRESULT CEnviornment_Object::Initialize(void* pArg)
 {
+ 
     if (nullptr == pArg)
     {
 
     }
     else
     {
+        CLandObject::LANDOBJECT_DESC Arg = {};
         GAMEOBJECT_DESC* TeerrainDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
 
         m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
         m_pTransformCom->SetScale(TeerrainDesc->vScale);
         m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+
+        auto Terrian = m_pTerrian_Manager->GetOnTerrian(TeerrainDesc->vPosition);
+        Arg.pLandVIBuffer = Terrian->GetCurVIBuffer();
+        Arg.pLandTransform = Terrian->GetTransfrom();
+
+        __super::Initialize(&Arg);
+        SetUp_OnTerrain(m_pTransformCom);
     }
 
     m_bEnableBillboard = true;
+
     Setting_Shader(L"BillBoard.fx");
 
     return S_OK;
@@ -54,14 +64,8 @@ void CEnviornment_Object::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
-    _float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-
-    auto Terrian = CTerrian_Manager::GetInstance()->GetOnTerrian(vPos);
-    m_pLandVIBuffer = Terrian->GetCurVIBuffer();
-    m_pLandTransform = Terrian->GetTransfrom();
-
     _float3 Pos;
-    if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
+    if ( m_pGameInstance->KeyDown(VK_LBUTTON) && m_pVIBufferCom->Picking(m_pTransformCom, &Pos))
     {
         DamageBaseDesc  damage;
         damage.Attacker = this;
@@ -73,14 +77,9 @@ void CEnviornment_Object::Update(_float fTimeDelta)
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-    class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
-    auto Camera = dynamic_cast<CCamera*>(Obj);
-    if (nullptr == Camera)
-        return;
-
-    SetUp_OnTerrain(m_pTransformCom);
-    //if(Camera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
-    m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+    
+    if(m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+        m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 void CEnviornment_Object::Reset_State()
@@ -89,14 +88,10 @@ void CEnviornment_Object::Reset_State()
 
 HRESULT CEnviornment_Object::Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    //m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
     __super::Render();
     XMLRenderAnimation(m_FrontName + m_TailName);
-
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     return S_OK;
 }

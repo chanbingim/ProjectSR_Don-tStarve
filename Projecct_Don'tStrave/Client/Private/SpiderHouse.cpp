@@ -4,6 +4,7 @@
 #include "XML_Manager.h"
 #include "MonsterData_Manager.h"
 #include "Spider.h"
+#include "Camera.h"
 
 CSpiderHouse::CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -155,7 +156,8 @@ void CSpiderHouse::Update(_float fTimeDelta)
 void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }
 
 HRESULT CSpiderHouse::Render()

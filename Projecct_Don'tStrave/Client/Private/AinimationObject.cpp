@@ -31,6 +31,11 @@ HRESULT CAinimationObject::Initialize(void* pArg)
      if(FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+     class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+     m_pCamera = dynamic_cast<CCamera*>(Obj);
+     if (nullptr == m_pCamera)
+         return E_FAIL;
+
 	return S_OK;
 }
 

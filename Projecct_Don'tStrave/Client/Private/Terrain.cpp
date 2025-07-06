@@ -1,6 +1,7 @@
 #include "Terrain.h"
 
 #include "GameInstance.h"
+#include "Camera.h"
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -47,29 +48,20 @@ void CTerrain::Priority_Update(_float fTimeDelta)
 
 void CTerrain::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_LBUTTON) & 0x8000)
-	{
-		_float3		vPickPos{};
-		if (m_pVIBufferCom->Picking(m_pTransformCom, &vPickPos))
-			int a = 10;
-	}
+
 	
 }
 
 
 void CTerrain::Late_Update(_float fTimeDelta)
 {
-
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CTerrain::Render()
 {
-	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
-
 	m_pTextureCom->Set_Texture(0);
-
 	m_pVIBufferCom->Render();
 
 	return S_OK;

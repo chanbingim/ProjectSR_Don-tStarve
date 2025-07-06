@@ -173,10 +173,14 @@ void CSpiderQueen::Update(_float fTimeDelta)
 
 void CSpiderQueen::Late_Update(_float fTimeDelta)
 {
-
-	SetDir();
 	__super::Late_Update(fTimeDelta);
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
+	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10.f))
+	{
+		SetDir();
+		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	}
+		
 
 }
 

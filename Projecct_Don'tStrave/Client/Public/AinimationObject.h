@@ -11,6 +11,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CTerrian_Manager;
+class CCamera;
 
 class CAinimationObject : public CLandObject
 {
@@ -38,6 +39,7 @@ protected:
 	Entity						m_tAnimation = {};
 	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
 
+	CCamera*					m_pCamera = { nullptr };
 	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
 	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
 

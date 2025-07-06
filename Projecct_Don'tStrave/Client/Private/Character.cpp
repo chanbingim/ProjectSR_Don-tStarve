@@ -66,8 +66,7 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-    _float3 Character_Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    auto Terrian = m_pTerrian_Manager->GetOnTerrian(Character_Pos);
+    auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_fMoving);
     if (Terrian)
     {
         m_pLandVIBuffer = Terrian->GetCurVIBuffer();

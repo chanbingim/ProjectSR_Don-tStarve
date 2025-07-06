@@ -243,9 +243,14 @@ void CSpiderNormal::Update(_float fTimeDelta)
 void CSpiderNormal::Late_Update(_float fTimeDelta)
 {
 	if (m_bOutHouse) {
-		SetDir();
 		__super::Late_Update(fTimeDelta);
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
+		if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
+		{
+			SetDir();
+			m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		}
+			
 	}
 
 }
