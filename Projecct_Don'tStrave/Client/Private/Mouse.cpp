@@ -43,10 +43,12 @@ HRESULT CMouse::Initialize(void* pArg)
 
     if (FAILED(Add_Slot()))
         return E_FAIL;
-    m_fSizeX = 65.f;
-    m_fSizeY = 65.f;
+    m_fSizeX = 80.f;
+    m_fSizeY = 80.f;
 
     __super::UpdatePosition();
+
+    m_pBlend_Texture_Com->Set_Texture(0, 1);
 
     m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
@@ -156,12 +158,30 @@ void CMouse::Late_Update(_float fTimeDelta)
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
+    m_eType = m_pSlot->Get_Info().eItemType;
 }
 
 HRESULT CMouse::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-    m_pSlot->Render(m_pTransform_Com);
+
+    if (ITEM_TYPE::STRUCTURE == m_eType)
+    {
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 °á°ú
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+
+        m_pSlot->Render(m_pTransform_Com);
+
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    }
+    else
+    {
+        m_pSlot->Render(m_pTransform_Com);
+    }
+
+   
 
     if (0 != m_iMouseState)
     {
@@ -286,6 +306,11 @@ void CMouse::Update_HoverItem(_uint itemID)
         m_strInteraction = L":Pick";
         break;
 
+    case ITEM_TYPE::STRUCTURE:
+        m_iMouseState = 2;
+        m_strInteraction = L":Pick";
+        break;
+
     default:
         break;
     }
@@ -352,6 +377,10 @@ HRESULT CMouse::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Scale"),
+        TEXT("Com_BlendTexture"),
+        reinterpret_cast<CComponent**>(&m_pBlend_Texture_Com))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -410,6 +439,7 @@ void CMouse::Free()
     Safe_Release(m_pSlot);
     Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
+    Safe_Release(m_pBlend_Texture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
 

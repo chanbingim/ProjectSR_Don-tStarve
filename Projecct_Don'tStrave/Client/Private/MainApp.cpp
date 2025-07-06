@@ -100,6 +100,9 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
 
+	m_pGraphic_Device->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+	m_pGraphic_Device->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
 	return S_OK;
 }
 

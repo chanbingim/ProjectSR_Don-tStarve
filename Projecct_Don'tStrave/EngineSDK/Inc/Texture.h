@@ -23,6 +23,7 @@ public:
 
 public:
 	HRESULT Set_Texture(_uint iTextureIndex);
+	HRESULT Set_Texture(_uint iTextureIndex, _uint iStage);
 	_float3	Get_Size();
 	_float3 Get_Size(_uint iTextureIndex);
 	_uint	Get_Frame();

@@ -33,7 +33,10 @@ public:
 
 protected:
 	ITEM_DESC	m_Item_Desc = {};
+
 	_bool		m_bIsplayAnim = { false };
+	_bool		m_bHovered = {};
+
 	CTransform* m_pPlayerTransform_Com = { nullptr };
 	
 	CTexture*	m_pTexture_Com = { nullptr };

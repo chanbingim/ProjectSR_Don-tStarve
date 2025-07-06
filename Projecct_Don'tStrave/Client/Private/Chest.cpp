@@ -135,7 +135,7 @@ void CChest::HoverEvent()
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		if(STATE::OPEN != m_eCurState)
-			m_pMouse->Update_Hover(L":Open", 2);
+			m_pMouse->Update_Hover(L":Open", 1);
 		ClickedEvent();
 	}
 }

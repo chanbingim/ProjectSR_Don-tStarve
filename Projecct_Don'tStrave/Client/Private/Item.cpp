@@ -26,6 +26,7 @@ HRESULT CItem::Initialize_Prototype()
 HRESULT CItem::Initialize(void* pArg)
 {
 	m_bEnableBillboard = true;
+	m_bHovered = false;
 
 	CLandObject::LANDOBJECT_DESC			Desc{};
 	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
@@ -137,7 +138,21 @@ HRESULT CItem::Render()
 	Excute_Billboard(Camera->GetInvViewMat(), pTex);
 
 	__super::Render();
-	m_pVIBuffer_Com->Render();
+
+	if(true == m_bHovered)
+	{
+		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
+		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 °á°ú
+		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+
+		m_pVIBuffer_Com->Render();
+
+		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	}
+	else
+		m_pVIBuffer_Com->Render();
+
 	End_Billboard();
 	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
