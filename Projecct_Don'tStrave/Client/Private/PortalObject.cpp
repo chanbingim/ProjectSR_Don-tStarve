@@ -32,6 +32,8 @@ HRESULT CPortalObject::Initialize(void* pArg)
         return E_FAIL;
 
     LoadImageFile();
+    m_FrontName = TEXT("");
+    m_TailName = TEXT("");
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });

@@ -10,10 +10,10 @@ private:
 	virtual ~CFont_Manager() = default;
 
 public:
-	HRESULT Initialize();
-	void Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat);
+	HRESULT				Initialize();
+	void				Render_Font(const _wstring strFontTag, const _tchar* pText, RECT* pRect, const D3DXCOLOR& Color, DWORD Fomat);
 
-	HRESULT Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
+	HRESULT				Add_Font(const _wstring strFontTag, _uint iSize, const _tchar* pFontName);
 
 private:
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };

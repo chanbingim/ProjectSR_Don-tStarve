@@ -337,8 +337,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
-
-
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 #pragma region GAMEPLAY
@@ -557,26 +555,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
 
 #pragma region FONT
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
-		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_30"), 30, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
-		return E_FAIL;
 #pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

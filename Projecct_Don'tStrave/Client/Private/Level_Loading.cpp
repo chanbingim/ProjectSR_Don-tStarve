@@ -75,7 +75,7 @@ HRESULT CLevel_Loading::Render()
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObejct_Loading_Interface"),
-			ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer")))
+				ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer")))
 		return E_FAIL;
 
 
@@ -104,7 +104,6 @@ CLevel_Loading* CLevel_Loading::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL 
 
 void CLevel_Loading::Free()
 {
-
 	__super::Free();
 	Safe_Release(m_pLoader);
 }

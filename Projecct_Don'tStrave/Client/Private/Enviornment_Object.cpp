@@ -1,4 +1,7 @@
 #include "Enviornment_Object.h"
+
+#include "Terrian_Manager.h"
+#include "Terrain.h"
 #include "GameInstance.h"
 
 #include "Camera.h"
@@ -43,11 +46,19 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
 void CEnviornment_Object::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
+
+    
 }
 
 void CEnviornment_Object::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+
+    _float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+    auto Terrian = CTerrian_Manager::GetInstance()->GetOnTerrian(vPos);
+    m_pLandVIBuffer = Terrian->GetCurVIBuffer();
+    m_pLandTransform = Terrian->GetTransfrom();
 
     _float3 Pos;
     if (m_pVIBufferCom->Picking(m_pTransformCom, &Pos) && m_pGameInstance->KeyDown(VK_LBUTTON))
@@ -67,7 +78,7 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
     if (nullptr == Camera)
         return;
 
-  
+    SetUp_OnTerrain(m_pTransformCom);
     //if(Camera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
     m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
 }

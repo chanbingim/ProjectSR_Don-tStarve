@@ -27,9 +27,19 @@ private :
 	_bool				m_bFinishedLoad = { false };
 	_uint				m_iTextureIndex = {};
 	CLodingSpinner*		m_pSinner = { nullptr };
+	vector<const WCHAR*>		m_vecTips = {};
+
+
+	_float2				m_FontCenter = {};
+	RECT				m_FontRect = {};
+	_wstring			m_printTEXT = {};
 
 private :
 	HRESULT				ADD_Components();
+	HRESULT				ADD_Tips();
+
+	void				Update_Tips();
+
 
 public :
 	static	CLodingInterface*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);
