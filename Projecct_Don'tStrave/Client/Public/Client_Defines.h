@@ -139,4 +139,5 @@ namespace Client
 
 using namespace Client;
 extern HWND g_hWnd;
+extern short g_Wheel;
 extern	GAME_SETTING_DESC		g_GameSetting;

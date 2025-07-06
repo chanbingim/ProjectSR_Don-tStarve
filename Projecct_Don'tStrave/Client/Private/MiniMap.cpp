@@ -47,97 +47,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
 
 	m_pMiniMap_Btn = dynamic_cast<CMiniMap_Button*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 6));
 
-	CMiniMap_Icon::ICON_DESC Icon_Desc = {};
-
-	Icon_Desc.fX = 0.f;
-	Icon_Desc.fY = 0.f;
-	Icon_Desc.fSizeX = 30.f;
-	Icon_Desc.fSizeY = 30.f;
-	Icon_Desc.fParentCX = m_Panel_Desc.fSizeX;
-	Icon_Desc.fParentCY = m_Panel_Desc.fSizeY;
-
-
-
-	// Player
-	list<CGameObject*>* pList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
-	
-	for (auto pObject : *pList)
-	{
-		CGameObject* pPlayer = dynamic_cast<CPlayer*>(pObject);
-
-		if (nullptr == pPlayer)
-			return E_FAIL;
-		_float3 vPos = pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-		
-		Icon_Desc.iTextureNum = 0;
-		Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
-		Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
-
-		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
-	}
-
-	// EnveiObject
-	list<CGameObject*>* pEnviornmenList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
-
-	for (auto pObject : *pEnviornmenList)
-	{
-		CEnviornment_Object* pGrass = dynamic_cast<CEnviornment_Object*>(pObject);
-
-		if (nullptr == pGrass)
-			continue;
-		_float3 vPos = pGrass->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-
-		switch (pGrass->GetEnviormentID())
-		{
-		case 1:
-			Icon_Desc.iTextureNum = 4;
-			break;
-
-		case 2:
-			Icon_Desc.iTextureNum = 2;
-			break;
-
-		case 3:
-			Icon_Desc.iTextureNum = 1;
-			break;
-
-		case 4:
-			Icon_Desc.iTextureNum = 3;
-			break;
-
-		case 5:
-			Icon_Desc.iTextureNum = 7;
-			break;
-
-		case 6:
-			Icon_Desc.iTextureNum = 13;
-			break;
-
-		default:
-			break;
-		}
-
-		Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
-		Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
-		
-		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
-	}
-
-	
-
-	
-
-	m_pPanel_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX * m_fZoom, m_Panel_Desc.fSizeY * m_fZoom, 1.f));
-	m_pPanel_Transform_Com->SetPosition(_float3(m_fX - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
-	
-	m_pTerrain_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX / 192.f * 2.f, 1.f, m_Panel_Desc.fSizeY / 192.f *2.f));
-	m_pTerrain_Transform_Com->SetRotAxis(_float3(1.f, 0.f, 0.f), D3DXToRadian(270.f));
-
-	for (auto pIcon : m_Icons)
-	{
-		pIcon->Update_Position(m_pPanel_Transform_Com);
-		pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
-	}
+	Update_Objects();
 
 	m_pTerrains = CTerrian_Manager::GetInstance()->GetTerrains();
 
@@ -146,18 +56,19 @@ HRESULT CMiniMap::Initialize(void* pArg)
 
 void CMiniMap::Priority_Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->KeyDown(VK_ESCAPE))
+	if (m_pGameInstance->KeyDown(VK_ESCAPE) && true == m_IsVisible)
 	{
 		m_IsVisible = false;
 		m_fZoom = 1.f;
-		m_pPanel_Transform_Com->SetScale(_float3(1280.f, 720.f, 1.f));
-		m_pPanel_Transform_Com->SetPosition(_float3(640.f - m_fWinSizeX * 0.5f, -360.f + m_fWinSizeY * 0.5f, 0.f));
+		
 
 		for (auto pIcon : m_Icons)
 		{
-			pIcon->Update_Position(m_pPanel_Transform_Com);
-			pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
+			/*pIcon->Update_Position(m_pPanel_Transform_Com);
+			pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);*/
+			Safe_Release(pIcon);
 		}
+		m_Icons.clear();
 		
 	}
 	
@@ -165,27 +76,32 @@ void CMiniMap::Priority_Update(_float fTimeDelta)
 
 void CMiniMap::Update(_float fTimeDelta)
 {
-	if (true == m_pMiniMap_Btn->OnClick())
+	if (true == m_pMiniMap_Btn->OnClick() && !m_IsVisible)
+	{
 		m_IsVisible = true;
+		Update_Objects();
+	}
 
 	
 	if(true == m_IsVisible)
 	{
-		if (m_pGameInstance->KeyDown(VK_OEM_PLUS) && 2.2f >= m_fZoom)
+		if (g_Wheel > 0 && 2.2f >= m_fZoom)
 		{
 			m_fZoom += 0.1f;
-
+			g_Wheel = 0;
 			m_pPanel_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX * m_fZoom, m_Panel_Desc.fSizeY * m_fZoom, 1.f));
+			m_pTerrain_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX / 192.f * 2.f * m_fZoom, 1.f, m_Panel_Desc.fSizeY / 192.f * 2.f * m_fZoom));
 			for (auto pIcon : m_Icons)
 			{
 				pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
 			}
 		}
-		if (m_pGameInstance->KeyDown(VK_OEM_MINUS) && 0.5f <= m_fZoom)
+		if (g_Wheel < 0 && 0.5f <= m_fZoom)
 		{
 			m_fZoom -= 0.1f;
-
+			g_Wheel = 0;
 			m_pPanel_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX * m_fZoom, m_Panel_Desc.fSizeY * m_fZoom, 1.f));
+			m_pTerrain_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX / 192.f * 2.f * m_fZoom, 1.f, m_Panel_Desc.fSizeY / 192.f * 2.f * m_fZoom));
 			for (auto pIcon : m_Icons)
 			{
 				pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
@@ -225,13 +141,15 @@ void CMiniMap::Update(_float fTimeDelta)
 
 void CMiniMap::Late_Update(_float fTimeDelta)
 {
-	_float3 vPos = m_pPanel_Transform_Com->GetWorldState(WORLDSTATE::POSITION);
-	_float3 vScale = m_pPanel_Transform_Com->GetScale();
+	if (true == m_IsVisible)
+	{
+		_float3 vPos = m_pPanel_Transform_Com->GetWorldState(WORLDSTATE::POSITION);
+		_float3 vScale = m_pPanel_Transform_Com->GetScale();
 
-	m_pTerrain_Transform_Com->SetPosition(_float3(vPos.x- vScale.x *0.5f, vPos.y - vScale.y * 0.5f, vPos.z));
+		m_pTerrain_Transform_Com->SetPosition(_float3(vPos.x - vScale.x * 0.5f, vPos.y - vScale.y * 0.5f, vPos.z));
 
-	if(true == m_IsVisible)
 		m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+	}
 }
 
 HRESULT CMiniMap::Render()
@@ -243,7 +161,14 @@ HRESULT CMiniMap::Render()
 	m_pVIBuffer_Com->Render();
 
 	m_Terrain_Texture_Com->Set_Texture(0);
-	
+	/*m_pTexture_Com->Set_Texture(1,1);
+
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);*/
+
+
+
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTerrain_Transform_Com->Get_World());
 
 	for (auto pTerrain : *m_pTerrains)
@@ -251,10 +176,10 @@ HRESULT CMiniMap::Render()
 		if(nullptr != pTerrain)
 			pTerrain->GetCurVIBuffer()->Render();
 	}
-
-	//m_pPanel_VIBuffer_Com->Render();
+	m_pPanel_VIBuffer_Com->Render();
+	
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pPanel_Transform_Com->Get_World());
-
+	
 	for (auto pIcon : m_Icons)
 	{
 		pIcon->Render();
@@ -312,6 +237,104 @@ HRESULT CMiniMap::ADD_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CMiniMap::Update_Objects()
+{
+	m_Panel_Desc.fX = g_iWinSizeX * 0.5f;
+	m_Panel_Desc.fY = g_iWinSizeY * 0.5f;
+	m_Panel_Desc.fSizeX = 1024.f;
+	m_Panel_Desc.fSizeY = 576.f;
+
+	CMiniMap_Icon::ICON_DESC Icon_Desc = {};
+
+	Icon_Desc.fX = 0.f;
+	Icon_Desc.fY = 0.f;
+	Icon_Desc.fSizeX = 30.f;
+	Icon_Desc.fSizeY = 30.f;
+	Icon_Desc.fParentCX = m_Panel_Desc.fSizeX;
+	Icon_Desc.fParentCY = m_Panel_Desc.fSizeY;
+
+	// Player
+	list<CGameObject*>* pList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
+
+	for (auto pObject : *pList)
+	{
+		CGameObject* pPlayer = dynamic_cast<CPlayer*>(pObject);
+
+		if (nullptr == pPlayer)
+			return E_FAIL;
+		_float3 vPos = pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+
+		Icon_Desc.iTextureNum = 0;
+		Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
+		Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
+
+		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
+	}
+
+	// EnveiObject
+	list<CGameObject*>* pEnviornmenList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
+
+	for (auto pObject : *pEnviornmenList)
+	{
+		CEnviornment_Object* pGrass = dynamic_cast<CEnviornment_Object*>(pObject);
+
+		if (nullptr == pGrass)
+			continue;
+		_float3 vPos = pGrass->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+
+		switch (pGrass->GetEnviormentID())
+		{
+		case 1:
+			Icon_Desc.iTextureNum = 4;
+			break;
+
+		case 2:
+			Icon_Desc.iTextureNum = 2;
+			break;
+
+		case 3:
+			Icon_Desc.iTextureNum = 1;
+			break;
+
+		case 4:
+			Icon_Desc.iTextureNum = 3;
+			break;
+
+		case 5:
+			Icon_Desc.iTextureNum = 7;
+			break;
+
+		case 6:
+			Icon_Desc.iTextureNum = 13;
+			break;
+
+		default:
+			break;
+		}
+
+		Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
+		Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
+
+		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
+	}
+
+
+
+
+
+	m_pPanel_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX * m_fZoom, m_Panel_Desc.fSizeY * m_fZoom, 1.f));
+	m_pPanel_Transform_Com->SetPosition(_float3(0.f, 0.f, 0.f));
+
+	m_pTerrain_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX / 192.f * 2.f, 1.f, m_Panel_Desc.fSizeY / 192.f * 2.f));
+	m_pTerrain_Transform_Com->SetRotAxis(_float3(1.f, 0.f, 0.f), D3DXToRadian(270.f));
+
+	for (auto pIcon : m_Icons)
+	{
+		pIcon->Update_Position(m_pPanel_Transform_Com);
+		pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
+	}
 }
 
 
