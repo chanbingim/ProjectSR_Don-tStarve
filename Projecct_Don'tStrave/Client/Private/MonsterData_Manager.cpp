@@ -8,9 +8,9 @@ CMonsterData_Manager::CMonsterData_Manager()
 
 const MONSTER_DESC& CMonsterData_Manager::Get_MonsterData(_uint iMonsterID) const
 {
-    if (m_iMonsterDataSize < iMonsterID)
+    if (m_iMonsterDataSize < iMonsterID - 100)
         return m_tMonsterDataVec[0];
-    return m_tMonsterDataVec[iMonsterID];
+    return m_tMonsterDataVec[iMonsterID - 100];
 }
 
 void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)

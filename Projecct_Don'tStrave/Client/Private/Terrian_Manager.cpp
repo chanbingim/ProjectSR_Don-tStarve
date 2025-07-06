@@ -20,8 +20,8 @@ HRESULT CTerrian_Manager::Initialize(const _float2& TileSize)
 
 CTerrain* CTerrian_Manager::GetOnTerrian(_float3& Pos)
 {
-    _uint IndexX = Pos.x / m_Size.x;
-    _uint IndexY = Pos.z / m_Size.y;
+    _float IndexX = Pos.x / m_Size.x;
+    _float IndexY = Pos.z / m_Size.y;
 
     if (IndexX >= m_Size.x || 0 > IndexX || IndexY >= m_Size.y || 0 > IndexY)
         return nullptr;
@@ -29,7 +29,7 @@ CTerrain* CTerrian_Manager::GetOnTerrian(_float3& Pos)
     if (IndexY == 1)
         int a = 10;
 
-    return m_pTerrian[IndexY * m_Size.x + IndexX];
+    return m_pTerrian[(_uint)IndexY * m_Size.x + (_uint)IndexX];
 }
 
 vector<CTerrain*>* CTerrian_Manager::GetTerrains()

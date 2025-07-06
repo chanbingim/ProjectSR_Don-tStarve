@@ -155,7 +155,7 @@ void CResurrectionStone::Damageed(_uint itype, _uint iDamage)
 		}
 		else if (m_EnviromentState == Enviornment_STATE::IDLE)
 		{
-			//부활 로직 실행 또는 플레이어에서 부활
+			Death();
 		}
 		break;
 	case 1:

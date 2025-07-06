@@ -56,6 +56,8 @@ void CCharacter::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+    m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1 : 1;
+    m_tDamage.Direaction.z = 180 >= m_fAngle ? -1 : 1;
 }
 
 void CCharacter::Update(_float fTimeDelta)
@@ -75,6 +77,7 @@ void CCharacter::Late_Update(_float fTimeDelta)
 
         SetUp_OnTerrain(m_pTransformCom, 0.f);
     }
+    m_bCol = false;
 }
 
 HRESULT CCharacter::Render()
@@ -84,17 +87,21 @@ HRESULT CCharacter::Render()
     return S_OK;
 }
 
-void CCharacter::Get_Damage(_uint iAtk)
+void CCharacter::Damage(void* pArg)
 {
+    __super::Damage(pArg);
     if (0 <= m_pChar->iHp) {
-        m_pChar->iHp -= max(0, iAtk);
+        DAMAGE_DATA_BASE DamageBase = {};
+        if (nullptr != pArg)
+            DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+        m_pChar->iHp -= max(0, DamageBase.Damage);
         if (0 >= m_pChar->iHp) {
             Death();
         }
         else {
-            m_pChar->iHit -= max(0, iAtk);
+            m_pChar->iHit -= max(0, DamageBase.Damage);
             if (0 >= m_pChar->iHit) {
-                Damage(nullptr);
+                Hit();
                 m_pChar->iHit = m_pChar->iMaxHit;
             }
         }
