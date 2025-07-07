@@ -226,13 +226,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_fHungTime += fTimeDelta * 2;
 	if (1 <= m_fHungTime) {
-<<<<<<< HEAD
-		//m_pPlayer->iHunger--;
-		if (m_pPlayer->iHunger == 30) {
-=======
 		m_pPlayer->iHunger--;
 		if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
->>>>>>> origin/0706_kjh
 			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
 		}
 		m_fHungTime = 0;
@@ -522,10 +517,10 @@ void CPlayer::Update(_float fTimeDelta)
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					if(dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->bHostile)
-					if (5.f > distance) {
-						NearObjects.push_back(object);
-					}
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->bHostile)
+						if (5.f > distance) {
+							NearObjects.push_back(object);
+						}
 				}
 			}
 			NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
