@@ -26,8 +26,11 @@ public:
 	virtual void ClickedEevent() override;
 
 private:
+	_bool m_bActive = {};
+
 	_uint m_iPreID = {};
 	CTexture* m_pItemTexture_Com = { nullptr };
+	CTexture* m_pBlend_Texture_Com = { nullptr };
 
 	_uint				m_iNumNeeded = {};
 	_uint				m_iMaterials[3] = {};

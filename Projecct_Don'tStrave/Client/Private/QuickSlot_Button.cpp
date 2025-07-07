@@ -38,6 +38,8 @@ HRESULT CQuickSlot_Button::Initialize(void* pArg)
 
     Safe_AddRef(m_pInventory);
 
+    
+
     return S_OK;
 }
 
@@ -74,14 +76,37 @@ void CQuickSlot_Button::Late_Update(_float fTimeDelta)
 HRESULT CQuickSlot_Button::Render()
 {
     m_pTexture_Com->Set_Texture(0);
-
+   
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
     m_pVIBuffer_Com->Render();
-    
+
     m_pItemTexture_Com->Set_Texture(m_iTextureIndex);
 
-    m_pVIBuffer_Com->Render();
+    if (false == m_bActive)
+    {
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 결과
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_CURRENT); 
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
+        
+
+        m_pVIBuffer_Com->Render();
+
+        m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    }
+    else
+        m_pVIBuffer_Com->Render();
 
     return S_OK;
 }
@@ -128,6 +153,11 @@ HRESULT CQuickSlot_Button::ADD_Components()
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
         TEXT("Com_ItemTexture"),
         reinterpret_cast<CComponent**>(&m_pItemTexture_Com))))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Scale"),
+        TEXT("Com_BlendTexture"),
+        reinterpret_cast<CComponent**>(&m_pBlend_Texture_Com))))
         return E_FAIL;
 
     return S_OK;
@@ -186,12 +216,11 @@ void CQuickSlot_Button::Check(ITEM_DATA& Data)
 
             pSlot->Set_Info(Desc);
         }
+        m_bActive = true;
     }
     else
     {
-        
-        // 이미지 비 활성화
-        m_pTransform_Com->SetScale(_float3(m_fSizeX * 0.5f, m_fSizeY * 0.5f, 0.f));
+        m_bActive = false;
     }
     
 }
@@ -227,6 +256,7 @@ void CQuickSlot_Button::Free()
     __super::Free();
 
     Safe_Release(m_pItemTexture_Com);
+    Safe_Release(m_pBlend_Texture_Com);
     Safe_Release(m_pInventory);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);

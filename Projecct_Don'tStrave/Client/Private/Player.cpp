@@ -16,6 +16,9 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 CPlayer::CPlayer(const CPlayer& Prototype)
 	: CCharacter{ Prototype },
 	m_tGhostImageVec{ Prototype.m_tGhostImageVec },
+	m_tWigfridAnimation{ Prototype.m_tWigfridAnimation },
+	m_tWigfridImageVec{ Prototype.m_tWigfridImageVec },
+	m_tWigfridGhostImageVec{ Prototype.m_tWigfridGhostImageVec },
 	m_tItemAnimation{ Prototype.m_tItemAnimation },
 	m_tMakeImageVec{ Prototype.m_tMakeImageVec },
 	m_tMakeAnimation{ Prototype.m_tMakeAnimation }
@@ -29,8 +32,6 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 HRESULT CPlayer::Initialize_Prototype()
 {
 	auto XML_Instance = CXML_Manager::GetInstance();
-	//XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
-	//XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
 
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", L"../Bin/Resources/Textures/Player/Wilson/", &m_tImageVec);
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml", L"../Bin/Resources/Textures/Player/Wilson/", &m_tGhostImageVec);
@@ -75,6 +76,25 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_pickaxe.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_eat.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml", &m_tAnimation);
+
+
+
+
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_idle.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridImageVec);
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/ghost_wathgrithr.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridGhostImageVec);
+
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_idle.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_atk.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_item.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_run.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_action.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_axe.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_pickaxe.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_eat.scml", &m_tWigfridAnimation);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/ghost_wathgrithr.scml", &m_tWigfridAnimation);
+
+
+
 	return S_OK;
 }
 
@@ -83,20 +103,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	LoadImageFile();
-
-	for (auto& folder : m_tGhostImageVec) {
-		for (auto& file : folder.tFilesVec) {
-			if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-				TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
-			{
-				m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-					CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
-				__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-					TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
-			}
-		}
-	}
 	for (auto& ItemImageVec : m_tItemImageVec) {
 		for (auto& folder : ItemImageVec) {
 			for (auto& file : folder.tFilesVec) {
@@ -128,6 +134,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	PLAYER_DESC data = *static_cast<PLAYER_DESC*>(pArg);
 	m_pPlayer = new PLAYER_DATA;
 
+	m_pPlayer->iId = data.iId;
 	m_pPlayer->iMaxHp = data.iMaxHp;
 	m_pPlayer->iMaxHunger = data.iMaxHunger;
 	m_pPlayer->iMaxMental = data.iMaxMental;
@@ -149,6 +156,54 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->tItem = SWAPOBJECT::SPEAR;
 	SetAnimation(DIR::DIR_END, MOTION::BUCKED);
 
+	switch (m_pPlayer->iId)
+	{
+	case 200:
+		LoadImageFile();
+
+		for (auto& folder : m_tGhostImageVec) {
+			for (auto& file : folder.tFilesVec) {
+				if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+					TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
+				{
+					m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+					__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+				}
+			}
+		}
+		break;
+	case 201:
+		for (auto& folder : m_tWigfridImageVec) {
+			for (auto& file : folder.tFilesVec) {
+				if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+					TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
+				{
+					m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+					__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+				}
+			}
+		}
+
+		for (auto& folder : m_tWigfridGhostImageVec) {
+			for (auto& file : folder.tFilesVec) {
+				if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+					TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
+				{
+					m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+					__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+						TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+				}
+			}
+		}
+		break;
+	}
+
+
 	m_pChar = m_pPlayer;
 
 	m_pTransformCom->SetPosition({ 0.f, 0.f, 0.f });
@@ -158,6 +213,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bControll = true;
 	m_bIsGhost = false;
 	m_bCol = false;
+	m_tDamage.Attacker = this;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -168,14 +224,16 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
-	m_fHungTime += fTimeDelta * 10;
+	m_fHungTime += fTimeDelta * 2;
 	if (1 <= m_fHungTime) {
 		m_pPlayer->iHunger--;
-		if (m_pPlayer->iHunger == 30) {
+		if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
 			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
 		}
 		m_fHungTime = 0;
 	}
+	m_tDamage.Attacker = this;
+	m_tDamage.Damage = m_pPlayer->iAtk * m_pPlayer->fAtkRatio;
 	if (0 >= m_pPlayer->iHunger) {
 		Dead();
 	}
@@ -184,6 +242,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	case MOTION::ATTACK:
 	case MOTION::IDLE_TO_AXE:
 	case MOTION::AXE:
+	case MOTION::IDLE_TO_PICKAXE:
+	case MOTION::PICKAXE:
+	case MOTION::IDLE_TO_BUILD:
+	case MOTION::BUILD:
+	case MOTION::GHOST_DISSIPATE:
 		break;
 	default:
 		m_bAttack = false;
@@ -241,7 +304,9 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			switch (m_tMotion)
 			{
+			case MOTION::GHOST_APPEAR:
 			case MOTION::GHOST_IDLE:
+			case MOTION::GHOST_DISSIPATE:
 				break;
 			case MOTION::IDLE_TO_RUN:
 				if (m_iLength <= m_fAniTime) {
@@ -256,7 +321,6 @@ void CPlayer::Update(_float fTimeDelta)
 			_float3		vMove = { 0.f ,0.f ,0.f };
 			if (GetKeyState('W') & 0x8000) {
 				_float3		vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
-
 				vMove += *D3DXVec3Normalize(&vLook, &vLook);
 			}
 			if (GetKeyState('S') & 0x8000)
@@ -283,11 +347,27 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		else {
 			if (nullptr != m_pPlayer->pWorkObject && !m_bCol) {
+
+
+				_float3 transform = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+				if (0.1f > distance) {
+					if (dynamic_cast<CItem*>(m_pPlayer->pWorkObject)) {
+						SetAnimation(m_tDir, MOTION::PICKUP);
+						m_pPlayer->pWorkObject->SetDead();
+						m_pPlayer->pWorkObject = nullptr;
+						return;
+					}
+				}
 				_float3 move = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pPlayer->fPos;
 				m_pPlayer->fPos += *D3DXVec3Normalize(&move, &move) * m_pPlayer->fSpeed * fTimeDelta;
 				m_pTransformCom->SetPosition(m_pPlayer->fPos);
 				switch (m_tMotion)
 				{
+				case MOTION::GHOST_APPEAR:
+				case MOTION::GHOST_IDLE:
+				case MOTION::GHOST_DISSIPATE:
+					break;
 				case MOTION::IDLE_TO_RUN:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::RUN);
@@ -312,7 +392,9 @@ void CPlayer::Update(_float fTimeDelta)
 				case MOTION::RUN_TO_IDLE:
 				case MOTION::HUNGRY:
 				case MOTION::AXE:
+				case MOTION::PICKAXE_TO_IDLE:
 				case MOTION::ATTACK:
+				case MOTION::PICKUP:
 					if (m_iLength <= m_fAniTime)
 					{
 						SetAnimation(m_tDir, MOTION::IDLE);
@@ -331,12 +413,12 @@ void CPlayer::Update(_float fTimeDelta)
 			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
 
 
-			if (!GroundObejcts->empty()) {
+			if (GroundObejcts && !GroundObejcts->empty()) {
 				for (auto& object : (*GroundObejcts)) {
 					if (dynamic_cast<CEnviornment_Object*>(object)) {
 						CEnviornment_Object* enviornment = dynamic_cast<CEnviornment_Object*>(object);
 						if (MOTION::GHOST_APPEAR <= m_tMotion) {
-							if (6 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
+							if (6 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::IDLE == enviornment->GetState()) {
 								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 								_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
 								if (3.f > distance) {
@@ -367,7 +449,7 @@ void CPlayer::Update(_float fTimeDelta)
 								break;
 							case SWAPOBJECT::PICKAXE:
 							case SWAPOBJECT::GOLDPICKAXE:
-								if (3 == enviornment->GetEnviormentID() || 5 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
+								if ((3 == enviornment->GetEnviormentID() || 5 == enviornment->GetEnviormentID()) && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 									_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
 									if (3.f > distance) {
@@ -397,13 +479,24 @@ void CPlayer::Update(_float fTimeDelta)
 						}
 					}
 				}
-				NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+				GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Item"));
+				if (GroundObejcts && !GroundObejcts->empty()) {
+					for (auto& object : (*GroundObejcts)) {
+						_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+						_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+
+						if (3.f > distance) {
+							NearObjects.push_back(object);
+						}
+					}
+				}
+				NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
 					{
-						_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-						_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+						_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+						_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 						_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
 						_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
-						return distance > distance2;
+						return distance < distance2;
 					});
 
 				if (!NearObjects.empty()) {
@@ -420,22 +513,23 @@ void CPlayer::Update(_float fTimeDelta)
 			list<CGameObject*> NearObjects;
 
 			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-			if (!GroundObejcts->empty()) {
+			if (GroundObejcts && !GroundObejcts->empty()) {
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					if (5.f > distance) {
-						NearObjects.push_back(object);
-					}
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->bHostile)
+						if (5.f > distance) {
+							NearObjects.push_back(object);
+						}
 				}
 			}
-			NearObjects.sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+			NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
 				{
-					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
 					_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
-					return distance > distance2;
+					return distance < distance2;
 				});
 
 			if (!NearObjects.empty()) {
@@ -447,7 +541,8 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (m_pGameInstance->KeyDown('F'))
 		{
-			Get_Damage(50);
+			m_tDamage.Damage = 50;
+			Damage(&m_tDamage);
 		}
 	}
 	else {
@@ -475,12 +570,17 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 			break;
 		case MOTION::BUILD:
-			if (m_iLength <= m_fAniTime)
+			if (m_iLength <= m_fAniTime && !m_bAttack)
 			{
 				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
 			}
 			break;
-
+		case MOTION::PICKAXE:
+			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
+				m_bControll = true;
+				SetAnimation(m_tDir, MOTION::PICKAXE_TO_IDLE);
+			}
+			break;
 		case MOTION::EAT:
 		case MOTION::FASTEAT:
 			if (m_iLength <= m_fAniTime) {
@@ -494,6 +594,17 @@ void CPlayer::Update(_float fTimeDelta)
 					Dead();
 					return;
 				}
+			}
+		case MOTION::WAKEUP:
+			if (m_iLength <= m_fAniTime) {
+				m_bAttack = false;
+				m_pPlayer->pWorkObject = nullptr;
+				m_pPlayer->iHp = m_pPlayer->iMaxHp;
+				m_pPlayer->iHunger = m_pPlayer->iMaxHunger;
+				m_pPlayer->iMental = m_pPlayer->iMaxMental;
+				m_pPlayer->bIsDead = false;
+				SetAnimation(m_tDir, MOTION::IDLE);
+				m_bControll = true;
 			}
 		case MOTION::BUCK_PST:
 		case MOTION::DIAL:
@@ -513,6 +624,8 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::DEATH1:
 		case MOTION::DEATH2:
 			if (m_iLength <= m_fAniTime) {
+				m_pPlayer->bIsDead = true;
+				m_pPlayer->tItem = SWAPOBJECT::NONE;
 				SetAnimation(DIR::DIR_END, MOTION::GHOST_APPEAR);
 			}
 			break;
@@ -587,7 +700,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
 	}
-	m_bCol = false;
 }
 
 HRESULT CPlayer::Render()
@@ -601,7 +713,12 @@ HRESULT CPlayer::Render()
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
 	}
 	if (DIR::DOWN == m_tDir) {
-		RenderAnimation(m_sAnim, m_tAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tGhostImageVec : m_tImageVec);
+		if (m_pPlayer->iId == 200) {
+			RenderAnimation(m_sAnim, m_tAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tGhostImageVec : m_tImageVec);
+		}
+		else {
+			RenderAnimation(m_sAnim, m_tWigfridAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tWigfridGhostImageVec : m_tWigfridImageVec);
+		}
 		if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
 			RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
 		}
@@ -610,7 +727,12 @@ HRESULT CPlayer::Render()
 		if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
 			RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
 		}
-		RenderAnimation(m_sAnim, m_tAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tGhostImageVec : m_tImageVec);
+		if (m_pPlayer->iId == 200) {
+			RenderAnimation(m_sAnim, m_tAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tGhostImageVec : m_tImageVec);
+		}
+		else {
+			RenderAnimation(m_sAnim, m_tWigfridAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tWigfridGhostImageVec : m_tWigfridImageVec);
+		}
 	}
 	if (MOTION::BUILD == m_tMotion && DIR::UP != m_tDir) {
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
@@ -620,7 +742,7 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
-void CPlayer::Damage(void* pArg)
+void CPlayer::Hit()
 {
 	m_bControll = false;
 	SetAnimation(m_tDir, MOTION::DAMAGE);
@@ -635,6 +757,10 @@ void CPlayer::Attack()
 
 void CPlayer::Death()
 {
+	m_pPlayer->iHp = 0;
+	m_pPlayer->iMental = 0;
+	m_pPlayer->iHunger = 0;
+	m_pPlayer->iHp = 0;
 	m_bControll = false;
 	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
@@ -643,15 +769,13 @@ void CPlayer::Death()
 
 void CPlayer::Dead()
 {
+	m_pPlayer->iHp = 0;
+	m_pPlayer->iMental = 0;
+	m_pPlayer->iHunger = 0;
 	m_bControll = false;
 	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
 	SetAnimation(DIR::DIR_END, MOTION::DEATH1);
-}
-
-void CPlayer::Get_Damage(_uint iAtk)
-{
-	__super::Get_Damage(max(0, iAtk - (m_pPlayer->iDef * m_pPlayer->fDefRatio)));
 }
 
 PLAYER_DATA* CPlayer::Get_Player()
@@ -765,6 +889,9 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::DEATH2:
 		m_sAnim = L"death2";
 		break;
+	case MOTION::WAKEUP:
+		m_sAnim = L"wakeup";
+		break;
 	case MOTION::GHOST_APPEAR:
 		m_sAnim = L"ghost_appear";
 		break;
@@ -786,9 +913,11 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::FASTEAT:
 	case MOTION::DEATH1:
 	case MOTION::DEATH2:
+	case MOTION::WAKEUP:
 	case MOTION::GHOST_APPEAR:
 	case MOTION::GHOST_IDLE:
 	case MOTION::GHOST_DISSIPATE:
+		m_fAngle = 90;
 		m_tDir = DIR::DOWN;
 		break;
 	default:
@@ -867,7 +996,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				Attack();
 			}
 			if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_pPlayer->tItem ? 330 : 200) <= (int)m_fAniTime) {
-				dynamic_cast<CMonster*>(HitActor)->Get_Damage(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
+				dynamic_cast<CMonster*>(HitActor)->Damage(&m_tDamage);
 				m_bAttack = false;
 				if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
 					m_pPlayer->pWorkObject = nullptr;
@@ -880,6 +1009,19 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			switch (enviornment->GetEnviormentID())
 			{
 			case 2:
+				if (MOTION::BUILD != m_tMotion) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
+					m_bControll = false;
+					m_bAttack = true;
+				}
+				else {
+					if (m_bAttack && m_iLength <= m_fAniTime) {
+						m_bAttack = false;
+						HitActor->Damage(nullptr);
+						SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
+						m_pPlayer->pWorkObject = nullptr;
+					}
+				}
 				break;
 			case 3:
 			case 5:
@@ -890,15 +1032,15 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				}
 				else {
 					if (m_iLength <= m_fAniTime) {
-						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState()) {
-							m_pPlayer->pWorkObject = nullptr;
-						}
 						m_bControll = true;
 						SetAnimation(m_tDir, MOTION::PICKAXE_TO_IDLE);
 					}
-					if (m_bAttack && 160 <= (int)m_fAniTime) {
+					if (m_bAttack && 270 <= (int)m_fAniTime) {
 						m_bAttack = false;
 						HitActor->Damage(nullptr);
+						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState() || HitActor->isDead()) {
+							m_pPlayer->pWorkObject = nullptr;
+						}
 					}
 				}
 				break;
@@ -910,7 +1052,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				}
 				else {
 					if (m_iLength <= m_fAniTime) {
-						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState()) {
+						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState() || HitActor->isDead()) {
 							m_pPlayer->pWorkObject = nullptr;
 						}
 						m_bControll = true;
@@ -918,35 +1060,26 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					}
 					if (m_bAttack && 160 <= (int)m_fAniTime) {
 						m_bAttack = false;
-						HitActor->Damage(nullptr);
+						m_tDamage.Attacker = this;
+						m_tDamage.Direaction.x = (MOVE_DIR::MOVE_DOWN == m_tMoveDIr || MOVE_DIR::MOVE_LEFT == m_tMoveDIr) ? -1 : 1;
+						HitActor->Damage(&m_tDamage);
 					}
 				}
 				break;
-				//case 6:
-				//	if (MOTION::GHOST_IDLE == m_tMotion) {
-				//		SetAnimation(m_tDir, MOTION::GHOST_DISSIPATE);
-				//		m_bControll = false;
-				//		HitActor->Damage(&m_pPlayer);
-				//	}
-				//	else {
-				//		if (m_iLength <= m_fAniTime) {
-				//			if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState()) {
-				//				m_pPlayer->pWorkObject = nullptr;
-				//			}
-				//			m_bControll = true;
-				//			SetAnimation(m_tDir, MOTION::IDLE);
-				//		}
-				//		if (m_bAttack && 160 <= (int)m_fAniTime) {
-				//			m_bAttack = false;
-				//			HitActor->Damage(nullptr);
-				//		}
-				//	}
-				//	break;
+			case 6:
+				if (MOTION::GHOST_IDLE == m_tMotion) {
+					SetAnimation(m_tDir, MOTION::GHOST_DISSIPATE);
+					HitActor->Damage(&m_tDamage);
+					m_bControll = false;
+					m_bAttack = true;
+				}
+				else {
+					if (m_bAttack && m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::WAKEUP);
+					}
+				}
+				break;
 			}
-		}
-		if (dynamic_cast<CItem*>(HitActor)) {
-			SetAnimation(m_tDir, MOTION::PICKUP);
-			m_pPlayer->pWorkObject = nullptr;
 		}
 	}
 }
@@ -989,6 +1122,16 @@ void CPlayer::Free()
 	Safe_Delete(m_pPlayer);
 
 
+	for (auto& Folderiter : m_tWigfridImageVec)
+	{
+		for (auto& Fileiter : Folderiter.tFilesVec)
+			Safe_Release(Fileiter.pTexture);
+	}
+	for (auto& Folderiter : m_tWigfridGhostImageVec)
+	{
+		for (auto& Fileiter : Folderiter.tFilesVec)
+			Safe_Release(Fileiter.pTexture);
+	}
 	for (auto& Folderiter : m_tGhostImageVec)
 	{
 		for (auto& Fileiter : Folderiter.tFilesVec)

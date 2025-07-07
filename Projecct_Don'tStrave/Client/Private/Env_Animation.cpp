@@ -2,6 +2,9 @@
 
 #include "Texture.h"
 
+#include "GameInstance.h"
+#include "Camera.h"
+
 HRESULT CEnv_Animation::Initialize_Prototype()
 {
     return S_OK;
@@ -11,6 +14,7 @@ HRESULT CEnv_Animation::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
+
 
     return S_OK;
 }

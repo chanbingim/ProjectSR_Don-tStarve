@@ -32,8 +32,9 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
-	_float3 pos = m_pMonsterData->fPos;
-	m_pTransformCom->SetPosition(pos + _float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f)));
+	m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
+	
+	m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 
 
 	SetAnimation(m_tDir, MOTION::IDLE);
@@ -55,11 +56,42 @@ void CSpiderNormal::Priority_Update(_float fTimeDelta)
 	if (m_bOutHouse) {
 		__super::Priority_Update(fTimeDelta);
 		m_pTarget = nullptr;
-		for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f, FIELDOBJECT::CREATURE)) {
-			if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
-				m_pTarget = dynamic_cast<CCharacter*>(target);
+
+		list<CGameObject*> NearObjects;
+
+		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
+		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
+			NearObjects.push_back(GroundObejcts->front());
+		}
+
+		GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+		if (GroundObejcts && !GroundObejcts->empty()) {
+			for (auto& object : (*GroundObejcts)) {
+				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+				if (dynamic_cast<CCharacter*>(object) && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderHouse*>(object) && !dynamic_cast<CSpiderQueen*>(object)) {
+					if (3.f > distance) {
+						NearObjects.push_back(object);
+					}
+				}
 			}
 		}
+		NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+			{
+				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+				_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+				return distance < distance2;
+			});
+
+		if (!NearObjects.empty()) {
+			CGameObject* object = NearObjects.front();
+			if (object) {
+				m_pTarget = object;
+			}
+		}
+
 	}
 }
 
@@ -72,13 +104,11 @@ void CSpiderNormal::Update(_float fTimeDelta)
 		case IDLE:
 			switch (m_tMoveDIr)
 			{
-			case MOVE_DIR::MOVE_DOWN:
-				m_tDir = DIR::DOWN;
-				break;
 			case MOVE_DIR::MOVE_UP:
 				m_tDir = DIR::UP;
 				break;
 			default:
+				m_tDir = DIR::DOWN;
 				break;
 			}
 			SetAnimation(m_tDir, m_tMotion);
@@ -122,16 +152,33 @@ void CSpiderNormal::Update(_float fTimeDelta)
 						}
 						break;
 					case MOTION::DAMAGE:
-					case MOTION::ATTACK:
 						if (m_iLength <= m_fAniTime) {
 							SetAnimation(m_tDir, MOTION::IDLE);
 						}
 						break;
+					case MOTION::ATTACK:
+						if (m_iLength <= m_fAniTime) {
+							m_fAttackTime = 0;
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
+						break;
 					default:
-						SetAnimation(m_tDir, MOTION::TAUNT);
-						m_sAnim;
+						if (m_bCol) {
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
+						else {
+							if (m_bTarget) {
+								SetAnimation(m_tDir, MOTION::IDLE);
+							}
+							else {
+								SetAnimation(m_tDir, MOTION::TAUNT);
+							}
+						}
 						break;
 					}
+				}
+				else if (m_bCol) {
+					SetAnimation(m_tDir, MOTION::IDLE);
 				}
 				else {
 					if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
@@ -145,26 +192,26 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				}
 			}
 			else {
-				m_fMoveTIme += fTimeDelta;
-				if (m_fMoveTIme > 10) {
-					if (m_fMoveTIme > 40) {
-						m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-						if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::RUN);
-						}
-						if (m_fMoveTIme > 70) {
-							m_fMoveTIme = 0;
-						}
-					}
-					else {
-						m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-						D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-						m_fMoveTIme += 30 + (rand() % 20);
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
-				}
-				else {
+				//m_fMoveTIme += fTimeDelta;
+				//if (m_fMoveTIme > 10) {
+				//	if (m_fMoveTIme > 20) {
+				//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+				//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+				//			SetAnimation(m_tDir, MOTION::RUN);
+				//		}
+				//		if (m_fMoveTIme > 25) {
+				//			m_fMoveTIme = 0;
+				//		}
+				//	}
+				//	else {
+				//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+				//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+				//		m_fMoveTIme = 20 + (rand() % 5);
+				//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				//	}
+				//}
+				//else {
 					switch (m_tMotion)
 					{
 					case MOTION::RUN:
@@ -190,33 +237,29 @@ void CSpiderNormal::Update(_float fTimeDelta)
 						break;
 					}
 				}
-			}
+			//}
 		}
 		else {
-			m_fMoveTIme += fTimeDelta;
-			if (m_fMoveTIme > 10) {
-				if (m_fMoveTIme > 40) {
-
-					m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-					if (m_pMonsterData->fPos.x < 0 || m_pMonsterData->fPos.z < 0) {
-						m_fMoveTIme = 0;
-					}
-					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-					if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::RUN);
-					}
-					if (m_fMoveTIme > 70) {
-						m_fMoveTIme = 0;
-					}
-				}
-				else {
-					m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-					D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-					m_fMoveTIme += 30 + (rand() % 20);
-					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-				}
-			}
-			else {
+			//m_fMoveTIme += fTimeDelta;
+			//if (m_fMoveTIme > 10) {
+			//	if (m_fMoveTIme > 20) {
+			//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+			//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+			//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+			//			SetAnimation(m_tDir, MOTION::RUN);
+			//		}
+			//		if (m_fMoveTIme > 25) {
+			//			m_fMoveTIme = 0;
+			//		}
+			//	}
+			//	else {
+			//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+			//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+			//		m_fMoveTIme = 20 + (rand() % 5);
+			//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+			//	}
+			//}
+			//else {
 				switch (m_tMotion)
 				{
 				case MOTION::RUN:
@@ -235,7 +278,7 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				default:
 					break;
 				}
-			}
+			//}
 		}
 	}
 }
@@ -243,9 +286,14 @@ void CSpiderNormal::Update(_float fTimeDelta)
 void CSpiderNormal::Late_Update(_float fTimeDelta)
 {
 	if (m_bOutHouse) {
-		SetDir();
 		__super::Late_Update(fTimeDelta);
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
+		if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
+		{
+			SetDir();
+			m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		}
+			
 	}
 
 }
@@ -265,9 +313,8 @@ HRESULT CSpiderNormal::Render()
 	return S_OK;
 }
 
-void CSpiderNormal::Damage(void* pArg)
+void CSpiderNormal::Hit()
 {
-	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
@@ -391,12 +438,13 @@ void CSpiderNormal::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (HitActor == m_pTarget) {
-		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		m_bCol = true;
+		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 			if (m_tMotion != ATTACK) {
 				Attack();
 			}
 			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-				m_pTarget->Get_Damage(m_pMonsterData->iAtk);
+				m_pTarget->Damage(&m_tDamage);
 				m_bAttack = false;
 			}
 		}

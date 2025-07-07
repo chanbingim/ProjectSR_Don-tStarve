@@ -97,7 +97,7 @@ void CRenderer::Render_AlphaTest()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
 			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
@@ -113,6 +113,7 @@ void CRenderer::Render_AlphaTest()
 
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].clear();
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CRenderer::Render_Blend()

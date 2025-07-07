@@ -10,8 +10,10 @@
 #include "AnimationUI.h"
 #include "Character_Manager.h"
 #include "Terrian_Manager.h"
+#include "LodingInterface.h"
 #include "XML_Manager.h"
 #include "Camera_Button.h"
+#include "Logo.h"
 
 
 Client::CMainApp::CMainApp()	
@@ -100,6 +102,9 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
 
+	m_pGraphic_Device->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+	m_pGraphic_Device->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
 	return S_OK;
 }
 
@@ -148,6 +153,11 @@ HRESULT CMainApp::Ready_Prototypes()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Logo"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Paritcle_Sys */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
 		CParticleSystemComponent::Create(m_pGraphic_Device))))
@@ -158,7 +168,22 @@ HRESULT CMainApp::Ready_Prototypes()
 		CLightComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	// Test Code
+#pragma region LOADING_INTERFACE
+	/* For.Prototype_Compoent_LODING_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Texture"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/BackGround/LoadingBackGround%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Compoent_LODING_Circle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Circle_Texture"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/Circle/LoadingCircle.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_LODING_INTERFACE */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObejct_Loading_Interface"),
+		CLodingInterface::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Camera_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/Camera_Button%d.png"), 2))))
@@ -177,6 +202,33 @@ HRESULT CMainApp::Ready_Prototypes()
 		CAnimationUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+#pragma region STATIC_FONT
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_14"), 14, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_18"), 18, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_25"), 25, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_30"), 30, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
+		return E_FAIL;
+#pragma endregion
+
+	/* For.Prototype_GameObject_AnimUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Logo"),
+		CLogo::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	return S_OK;
 }
 

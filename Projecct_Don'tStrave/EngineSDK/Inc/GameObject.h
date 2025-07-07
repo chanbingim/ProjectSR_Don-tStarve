@@ -39,6 +39,9 @@ public:
 	_bool isDead() const {
 		return m_isDead;
 	}
+	void  SetDead()  {
+		m_isDead = true;
+	}
 
 	_float				Get_CameraDistance();
 

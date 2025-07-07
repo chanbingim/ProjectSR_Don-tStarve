@@ -60,7 +60,10 @@ HRESULT CLevel_Logo::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-	
+	// Add Logo
+ 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::STATIC),
+		TEXT("Prototype_GameObject_Logo"), EnumToInt(LEVEL::LOGO), strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }

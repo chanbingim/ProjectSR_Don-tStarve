@@ -119,7 +119,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(0);
+	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(200);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
@@ -129,32 +129,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
-	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
-
-	//for (size_t i = 0; i < 10; i++)
-	//{
-	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Spider"),
-	//		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//		return E_FAIL;
-	//}
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(1);
-	//for (size_t i = 0; i < 10; i++)
-	//{
-	//	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderWarrior"),
-	//		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//		return E_FAIL;
-	//}
-	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(0);
-	for (size_t i = 0; i < 2; i++)
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
+	for (size_t i = 0; i < 5; i++)
 	{
 		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_SpiderQueen"),
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
-	//	return E_FAIL;
+
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
+	for (size_t i = 0; i < 1; i++)
+	{
+		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -275,12 +266,12 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 4:
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
-		return TEXT("");
+		return TEXT("Prototype_GameObject_Env_Tree");
 	case 6:
 		return TEXT("Prototype_GameObject_Resurrection_Stone");
 	}
 
-	return TEXT("");
+	return TEXT("Prototype_GameObject_Env_Tree");
 }
 
 

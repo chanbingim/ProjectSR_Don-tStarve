@@ -53,9 +53,39 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
-	for (auto target : m_pCharacterInstance->Get_NearObject(this, 7.f, FIELDOBJECT::CREATURE)) {
-		if (!dynamic_cast<CSpider*>(target) && !dynamic_cast<CSpiderHouse*>(target) && !dynamic_cast<CSpiderQueen*>(target)) {
-			m_pTarget = dynamic_cast<CCharacter*>(target);
+
+	list<CGameObject*> NearObjects;
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
+	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
+		NearObjects.push_back(GroundObejcts->front());
+	}
+
+	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+			if (dynamic_cast<CCharacter*>(object) && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderHouse*>(object) && !dynamic_cast<CSpiderQueen*>(object)) {
+				if (3.f > distance) {
+					NearObjects.push_back(object);
+				}
+			}
+		}
+	}
+	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+			_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+			return distance < distance2;
+		});
+
+	if (!NearObjects.empty()) {
+		CGameObject* object = NearObjects.front();
+		if (object) {
+			m_pTarget = object;
 		}
 	}
 }
@@ -100,15 +130,28 @@ void CSpiderQueen::Update(_float fTimeDelta)
 				switch (m_tMotion)
 				{
 				case MOTION::DAMAGE:
-				case MOTION::ATTACK:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::IDLE);
 					}
 					break;
+				case MOTION::ATTACK:
+					if (m_iLength <= m_fAniTime) {
+						m_fAttackTime = 0;
+						SetAnimation(m_tDir, MOTION::IDLE);
+					}
+					break;
 				default:
-					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					if (m_bCol) {
+						SetAnimation(m_tDir, MOTION::IDLE);
+					}
+					else {
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					}
 					break;
 				}
+			}
+			else if (m_bCol) {
+				SetAnimation(m_tDir, MOTION::IDLE);
 			}
 			else {
 				if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
@@ -173,10 +216,14 @@ void CSpiderQueen::Update(_float fTimeDelta)
 
 void CSpiderQueen::Late_Update(_float fTimeDelta)
 {
-
-	SetDir();
 	__super::Late_Update(fTimeDelta);
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
+	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10.f))
+	{
+		SetDir();
+		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	}
+		
 
 }
 
@@ -213,9 +260,8 @@ HRESULT CSpiderQueen::Render()
 	return S_OK;
 }
 
-void CSpiderQueen::Damage(void* pArg)
+void CSpiderQueen::Hit()
 {
-	__super::Damage(pArg);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
@@ -290,6 +336,17 @@ HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
+void CSpiderQueen::Damage(void* pArg)
+{
+	__super::Damage(pArg);
+	for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f, FIELDOBJECT::CREATURE)) {
+		CSpiderHouse* pHouse = {};
+		if (pHouse = dynamic_cast<CSpiderHouse*>(target)) {
+			pHouse->Emergency();
+		}
+	}
+}
+
 
 HRESULT CSpiderQueen::Begin_RenderState()
 {
@@ -317,12 +374,13 @@ void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (HitActor == m_pTarget) {
-		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		m_bCol = true;
+		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 			if (m_tMotion != ATTACK) {
 				Attack();
 			}
 			else if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
-				m_pTarget->Get_Damage(m_pMonsterData->iAtk);
+				m_pTarget->Damage(&m_tDamage);
 				m_bAttack = false;
 			}
 		}

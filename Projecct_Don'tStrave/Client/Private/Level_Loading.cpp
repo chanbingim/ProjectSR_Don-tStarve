@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Level_Logo.h"
+#include "LodingInterface.h"
 #include "Level_GamePlay.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
@@ -33,24 +34,35 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-	if (true == m_pLoader->isFinished() &&
-		GetKeyState(VK_RETURN) & 0x8000)
+	auto bFinished = m_pLoader->isFinished();
+	if (bFinished)
 	{
-		CLevel* pNewLevel = { nullptr };
-		m_pGameInstance->Reset_CurLevel();
-		switch (m_eNextLevelID)
+		auto GameLoadingUI = dynamic_cast<CLodingInterface*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer"));
+
+		if (GameLoadingUI)
 		{
-		case LEVEL::LOGO:
-			pNewLevel = CLevel_Logo::Create(m_pGraphic_Device, m_eNextLevelID);
-			break;
-		case LEVEL::GAMEPLAY:
-			pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
-			break;
+			GameLoadingUI->Finished_Loading(m_pLoader->isFinished());
 		}
 
-		if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
-			return;		
-	}	
+		if (GetKeyState(VK_RETURN) & 0x8000)
+		{
+			CLevel* pNewLevel = { nullptr };
+			m_pGameInstance->Reset_CurLevel();
+			switch (m_eNextLevelID)
+			{
+			case LEVEL::LOGO:
+				pNewLevel = CLevel_Logo::Create(m_pGraphic_Device, m_eNextLevelID);
+				break;
+			case LEVEL::GAMEPLAY:
+				pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
+				break;
+			}
+
+			if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
+				return;
+		}
+	}
+
 }
 
 HRESULT CLevel_Loading::Render()
@@ -62,8 +74,8 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround()
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Anim_UI"),
-			ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer")))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObejct_Loading_Interface"),
+				ENUM_CLASS(LEVEL::LOADING), L"BackGroundLayer")))
 		return E_FAIL;
 
 
@@ -72,8 +84,6 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround()
 
 HRESULT CLevel_Loading::TEST_SoundMgr()
 {
-	//m_pGameInstance->Manager_PlaySound(L"MashUp_Dance1.wav", Engine::CHANNELID::SOUND_BGM, 0.1f);
-	m_pGameInstance->Manager_StopAll();
 	return S_OK;
 }
 
@@ -94,7 +104,6 @@ CLevel_Loading* CLevel_Loading::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL 
 
 void CLevel_Loading::Free()
 {
-
 	__super::Free();
 	Safe_Release(m_pLoader);
 }
