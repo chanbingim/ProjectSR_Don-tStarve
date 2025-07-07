@@ -37,16 +37,16 @@ void CDamageEffectUI::Update(_float fTimeDelta)
     {
         if (m_bInverse)
         {
-            m_Alpha -= 0.1f;
-            if (0 >= m_Alpha)
+            m_Alpha -= 0.04f;
+            if (0.2f >= m_Alpha)
                 ResetData();
         }
         else
         {
-            m_Alpha += 0.1f;
-            if (1.0f <= m_Alpha)
+            m_Alpha += 0.04f;
+            if (0.7f <= m_Alpha)
             {
-                m_Alpha = 1.0f;
+                m_Alpha = 0.7f;
                 m_bInverse = true;
             }
         }
@@ -64,12 +64,18 @@ HRESULT CDamageEffectUI::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
     IDirect3DSurface9* pSurface = nullptr;
+    //백버퍼에서 현재까지 그려진 정보를 가져옴
     m_pGraphic_Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
+
+    //쉐이더 FVF 생성
     m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 
+    //CreateTexture 함수로 텍스처를 생성한다.
     m_pGraphic_Device->CreateTexture(g_iWinSizeX, g_iWinSizeY, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_A16B16G16R16, D3DPOOL_DEFAULT, &BakcBufferTexture, nullptr);
 
+    // Suface를 통해서 현재 레벨의 표면을 가져오고 그걸 복사한다.
+    // bit blt 생각하면 된다. 그러면 텍스쳐를 얻어 RenderTarget의 형태가 가능하다.
     LPDIRECT3DSURFACE9  pTextureSurface = nullptr;
     BakcBufferTexture->GetSurfaceLevel(0, &pTextureSurface);
     m_pGraphic_Device->StretchRect(pSurface, nullptr, pTextureSurface, nullptr, D3DTEXF_LINEAR);
@@ -102,7 +108,7 @@ HRESULT CDamageEffectUI::Render()
 void CDamageEffectUI::ActiveEffect()
 {
     m_bActive = true;
-    m_Alpha = 0.0f;
+    m_Alpha = 0.3f;
     m_bInverse = false;
 
 
