@@ -10,7 +10,7 @@ NS_BEGIN(Client);
 
 class CCampFire : public CItem
 {
-	enum class STATE {IDLE, DEAD, PREVIEW};
+	enum class STATE {IDLE, DEAD, PREVIEW, PLACE};
 private:
 	CCampFire(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCampFire(const CCampFire& Prototype);
@@ -27,9 +27,6 @@ public:
 	void HoverEvent();
 
 private:
-	_uint m_iFireLevel = {};
-	_float m_fFireOffset = {};
-
 	class CFire* m_pFire = { nullptr };
 
 	CCampFire::STATE	m_ePreState = {};
@@ -37,6 +34,7 @@ private:
 
 private:
 	HRESULT ADD_Components();
+	void Change_State();
 	void Update_Item(_float fTimeDelta);
 	void Update_Fire(_float fValue);
 

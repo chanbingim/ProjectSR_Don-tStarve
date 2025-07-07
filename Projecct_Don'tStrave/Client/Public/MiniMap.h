@@ -35,6 +35,7 @@ private:
 
 private:
 	HRESULT ADD_Components();
+	HRESULT Update_Objects();
 
 public:
 	static CMiniMap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

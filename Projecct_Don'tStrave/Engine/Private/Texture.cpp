@@ -123,6 +123,15 @@ HRESULT CTexture::Set_Texture(_uint iTextureIndex)
 	return S_OK;
 }
 
+HRESULT CTexture::Set_Texture(_uint iTextureIndex, _uint iStage)
+{
+	if (iTextureIndex >= m_iNumTextures)
+		return E_FAIL;
+	m_pGraphic_Device->SetTexture(iStage, m_Textures[iTextureIndex]);
+
+	return S_OK;
+}
+
 _float3 CTexture::Get_Size()
 {
 	return _float3((_float)m_iWidth, (_float)m_iHeight, (_float)m_iX);

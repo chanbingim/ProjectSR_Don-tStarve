@@ -2,20 +2,14 @@
 #include "Client_Defines.h"
 #include "Item.h"
 
-NS_BEGIN(Engine);
-class CState;
-class CAnimController;
-NS_END
-
 NS_BEGIN(Client);
 
-class CChest : public CItem
+class CFood : public CItem
 {
-	enum class STATE { IDLE, PLACE, OPEN, CLOSE, OPENED,END};
 private:
-	CChest(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CChest(const CChest& Prototype);
-	virtual ~CChest() = default;
+	CFood(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFood(const CFood& Prototype);
+	virtual ~CFood() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -26,20 +20,13 @@ public:
 	virtual HRESULT	 Render();
 
 	void HoverEvent();
-	void ClickedEvent();
-
-private:
-	CChest::STATE		m_eCurState = {};
-	CChest::STATE		m_ePreState = {};
-
-	class CChestUI*		m_pChestUI = { nullptr };
 
 private:
 	HRESULT ADD_Components();
-	void Change_State();
+	void Update_Item(_float fTimeDelta);
 
 public:
-	static CChest* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFood* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

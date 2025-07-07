@@ -153,7 +153,7 @@ void CSlot::Update_Item(_float fTimeDelta)
         m_Item_Desc.fDurability -= 3.f * fTimeDelta;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
-        m_Item_Desc.fDurability -= 1.f * fTimeDelta;
+        
         break;
     default:
         break;
@@ -245,86 +245,84 @@ void CSlot::Render_Item(CTransform* pTransform)
     pTransform->SetScale(_float3(20.f, 20.f, 0.f));
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
 
+    if(ITEM_TYPE::STRUCTURE != m_Item_Desc.eItemType)
 
-    if (SLOT::NORMAL == m_Item_Desc.eSlot)
     {
-        if (1 == m_iDigit)
+        if (SLOT::NORMAL == m_Item_Desc.eSlot)
         {
+            if (1 == m_iDigit)
+            {
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+                m_pVIBuffer_Com->Render();
+            }
+            else
+            {
+                pTransform->SetPosition(_float3(vPos.x - 8.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+                m_pVIBuffer_Com->Render();
 
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
-            m_pVIBuffer_Com->Render();
-
+                pTransform->SetPosition(_float3(vPos.x + 8.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+                m_pVIBuffer_Com->Render();
+            }
         }
         else
         {
-            pTransform->SetPosition(_float3(vPos.x - 8.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
-            m_pVIBuffer_Com->Render();
+            if (2 == m_iDigit)
+            {
+                pTransform->SetPosition(_float3(vPos.x - 7.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+                m_pVIBuffer_Com->Render();
 
-            pTransform->SetPosition(_float3(vPos.x + 8.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
-            m_pVIBuffer_Com->Render();
-        }
+                pTransform->SetPosition(_float3(vPos.x + 7.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+                m_pVIBuffer_Com->Render();
 
-    }
-    else
-    {
-        if (2 == m_iDigit)
-        {
-            pTransform->SetPosition(_float3(vPos.x - 7.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
-            m_pVIBuffer_Com->Render();
+            }
+            else if (3 == m_iDigit)
+            {
+                pTransform->SetPosition(_float3(vPos.x - 14.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+                m_pVIBuffer_Com->Render();
 
-            pTransform->SetPosition(_float3(vPos.x + 7.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
-            m_pVIBuffer_Com->Render();
+                pTransform->SetPosition(_float3(vPos.x, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
+                m_pVIBuffer_Com->Render();
 
-        }
-        else if (3 == m_iDigit)
-        {
-            pTransform->SetPosition(_float3(vPos.x - 14.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
-            m_pVIBuffer_Com->Render();
+                pTransform->SetPosition(_float3(vPos.x + 14.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+                m_pVIBuffer_Com->Render();
+            }
+            else if (4 == m_iDigit)
+            {
+                pTransform->SetScale(_float3(18.f, 18.f, 0.f));
+                pTransform->SetPosition(_float3(vPos.x - 18.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
+                m_pVIBuffer_Com->Render();
 
-            pTransform->SetPosition(_float3(vPos.x, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
-            m_pVIBuffer_Com->Render();
+                pTransform->SetPosition(_float3(vPos.x - 6.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
+                m_pVIBuffer_Com->Render();
 
-            pTransform->SetPosition(_float3(vPos.x + 14.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
-            m_pVIBuffer_Com->Render();
+                pTransform->SetPosition(_float3(vPos.x + 6.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[3]);
+                m_pVIBuffer_Com->Render();
 
-
-        }
-        else if (4 == m_iDigit)
-        {
-            pTransform->SetScale(_float3(18.f, 18.f, 0.f));
-            pTransform->SetPosition(_float3(vPos.x - 18.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[1]);
-            m_pVIBuffer_Com->Render();
-
-            pTransform->SetPosition(_float3(vPos.x - 6.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[2]);
-            m_pVIBuffer_Com->Render();
-
-            pTransform->SetPosition(_float3(vPos.x + 6.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[3]);
-            m_pVIBuffer_Com->Render();
-
-            pTransform->SetPosition(_float3(vPos.x + 18.f, vPos.y + 9.f, 0.f));
-            m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
-            m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
-            m_pVIBuffer_Com->Render();
+                pTransform->SetPosition(_float3(vPos.x + 18.f, vPos.y + 9.f, 0.f));
+                m_pGraphic_Device->SetTransform(D3DTS_WORLD, &pTransform->Get_World());
+                m_pTexture_Com_NumItem->Set_Texture(m_TextureIndexes[0]);
+                m_pVIBuffer_Com->Render();
+            }
         }
     }
 

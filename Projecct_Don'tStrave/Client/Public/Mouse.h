@@ -30,10 +30,13 @@ private:
 	_uint			m_iMouseState = {};
 	_bool			m_bPutDown = {};
 	_float			m_fTimeAcc = {};
+	ITEM_TYPE		m_eType = {};
 	class CSlot*	m_pSlot = { nullptr };
 	wstring			m_strInfoMessage = {};
 	wstring			m_strInteraction = {};
 	CTransform*		m_pPlayerTransform_Com = {};
+
+	CTexture*		m_pBlend_Texture_Com = { nullptr };
 
 private:
 	HRESULT ADD_Components();

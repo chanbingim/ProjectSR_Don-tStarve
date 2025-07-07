@@ -43,10 +43,12 @@ HRESULT CMouse::Initialize(void* pArg)
 
     if (FAILED(Add_Slot()))
         return E_FAIL;
-    m_fSizeX = 65.f;
-    m_fSizeY = 65.f;
+    m_fSizeX = 80.f;
+    m_fSizeY = 80.f;
 
     __super::UpdatePosition();
+
+    m_pBlend_Texture_Com->Set_Texture(0, 1);
 
     m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
@@ -136,8 +138,18 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('6') & 0x8000)
     {
-        Desc.iItemID = 5;
+        Desc.iItemID = 7;
         Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('7') & 0x8000)
+    {
+        Desc.iItemID = 46;
+        Desc.eItemType = ITEM_TYPE::FOOD;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -156,12 +168,30 @@ void CMouse::Late_Update(_float fTimeDelta)
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
+    m_eType = m_pSlot->Get_Info().eItemType;
 }
 
 HRESULT CMouse::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-    m_pSlot->Render(m_pTransform_Com);
+
+    if (ITEM_TYPE::STRUCTURE == m_eType)
+    {
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 °á°ú
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+
+        m_pSlot->Render(m_pTransform_Com);
+
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+        m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    }
+    else
+    {
+        m_pSlot->Render(m_pTransform_Com);
+    }
+
+   
 
     if (0 != m_iMouseState)
     {
@@ -217,7 +247,10 @@ void CMouse::ClickedEevent()
                     vPickingPos.y = 0.f;
                     Desc.vPosition = vPickingPos;
 
-                    if (ITEM_TYPE::MERTARIAL == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).eItemType)
+                    ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
+                    ITEM_TYPE eType = Item_Data.eItemType;
+
+                    if (ITEM_TYPE::MERTARIAL == eType)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -225,7 +258,23 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else if (5 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    else if (ITEM_TYPE::EQUIPMENT == eType)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Equipment"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (ITEM_TYPE::FOOD == eType)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Food"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (5 == iItemID)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -233,7 +282,7 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else if (14 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    else if (14 == iItemID)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -241,13 +290,17 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else
+                    else if (7 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
                         {
                             MSG_BOX("Failed to Add Item");
                         }
+                    }
+                    else
+                    { 
+                         MSG_BOX("Failed to Add Item");
                     }
                     
 
@@ -284,6 +337,10 @@ void CMouse::Update_HoverItem(_uint itemID)
     case ITEM_TYPE::EQUIPMENT:
         m_iMouseState = 2;
         m_strInteraction = L":Pick";
+        break;
+
+    case ITEM_TYPE::STRUCTURE:
+        
         break;
 
     default:
@@ -352,6 +409,10 @@ HRESULT CMouse::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Scale"),
+        TEXT("Com_BlendTexture"),
+        reinterpret_cast<CComponent**>(&m_pBlend_Texture_Com))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -410,6 +471,7 @@ void CMouse::Free()
     Safe_Release(m_pSlot);
     Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
+    Safe_Release(m_pBlend_Texture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
 

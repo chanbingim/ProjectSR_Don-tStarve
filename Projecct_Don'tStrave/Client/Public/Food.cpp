@@ -1,26 +1,26 @@
-#include "Material_Item.h"
+#include "Food.h"
 
 #include "GameInstance.h"
 #include "Slot.h"
 #include "Inventory.h"
 #include "Mouse.h"
 
-CMaterial_Item::CMaterial_Item(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFood::CFood(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
 {
 }
 
-CMaterial_Item::CMaterial_Item(const CMaterial_Item& Prototype)
+CFood::CFood(const CFood& Prototype)
 	: CItem{ Prototype }
 {
 }
 
-HRESULT CMaterial_Item::Initialize_Prototype()
+HRESULT CFood::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CMaterial_Item::Initialize(void* pArg)
+HRESULT CFood::Initialize(void* pArg)
 {
 	if (FAILED(__super::ADD_Components()))
 		return E_FAIL;
@@ -37,36 +37,36 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMaterial_Item::Priority_Update(_float fTimeDelta)
+void CFood::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CMaterial_Item::Update(_float fTimeDelta)
+void CFood::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	HoverEvent();
 
-	if(!m_bIsplayAnim)
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	if (!m_bIsplayAnim)
+		SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);
 }
 
-void CMaterial_Item::Late_Update(_float fTimeDelta)
+void CFood::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CMaterial_Item::Render()
+HRESULT CFood::Render()
 {
 	__super::Render();
 
 	return S_OK;
 }
 
-void CMaterial_Item::HoverEvent()
+void CFood::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
@@ -81,60 +81,53 @@ void CMaterial_Item::HoverEvent()
 }
 
 
-HRESULT CMaterial_Item::ADD_Components()
+HRESULT CFood::ADD_Components()
 {
-	
+
 	return S_OK;
 }
 
-void CMaterial_Item::Update_Item(_float fTimeDelta)
+void CFood::Update_Item(_float fTimeDelta)
 {
-	switch (m_Item_Desc.eItemType)
+	if (0.f >= m_Item_Desc.fDurability)
 	{
-	case Client::ITEM_TYPE::MERTARIAL:
-		break;
-
-	case Client::ITEM_TYPE::FOOD:
-		m_Item_Desc.fDurability -= 3.f * fTimeDelta;
-		break;
-
-	case Client::ITEM_TYPE::EQUIPMENT:
-		break;
-
-	default:
-		break;
+		m_Item_Desc.iItemID = 51;
+		m_Item_Desc.fDurability = 100.f;
 	}
+
+	if(51 != m_Item_Desc.iItemID)
+		m_Item_Desc.fDurability -= 3.f * fTimeDelta;
 }
 
-CMaterial_Item* CMaterial_Item::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFood* CFood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CMaterial_Item* pInstance = new CMaterial_Item(pGraphic_Device);
+	CFood* pInstance = new CFood(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Clone CItem");
+		MSG_BOX("Failed to Clone CFood");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMaterial_Item::Clone(void* pArg)
+CGameObject* CFood::Clone(void* pArg)
 {
-	CGameObject* pInstance = new CMaterial_Item(*this);
+	CGameObject* pInstance = new CFood(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Create CItem");
+		MSG_BOX("Failed to Create CFood");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CMaterial_Item::Free()
+void CFood::Free()
 {
 	__super::Free();
 }

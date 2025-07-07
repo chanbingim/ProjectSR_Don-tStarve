@@ -2,20 +2,15 @@
 #include "Client_Defines.h"
 #include "Item.h"
 
-NS_BEGIN(Engine);
-class CState;
-class CAnimController;
-NS_END
-
 NS_BEGIN(Client);
 
-class CChest : public CItem
+class CResearchLap : public CItem
 {
-	enum class STATE { IDLE, PLACE, OPEN, CLOSE, OPENED,END};
+	enum class STATE {IDLE, USE, PLACE, LOOP, END};
 private:
-	CChest(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CChest(const CChest& Prototype);
-	virtual ~CChest() = default;
+	CResearchLap(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CResearchLap(const CResearchLap& Prototype);
+	virtual ~CResearchLap() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -26,20 +21,18 @@ public:
 	virtual HRESULT	 Render();
 
 	void HoverEvent();
-	void ClickedEvent();
 
 private:
-	CChest::STATE		m_eCurState = {};
-	CChest::STATE		m_ePreState = {};
-
-	class CChestUI*		m_pChestUI = { nullptr };
+	STATE m_ePreState = {};
+	STATE m_eCurState = {};
 
 private:
-	HRESULT ADD_Components();
+	HRESULT				ADD_Components();
+
 	void Change_State();
 
 public:
-	static CChest* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CResearchLap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

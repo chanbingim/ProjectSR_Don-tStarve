@@ -170,7 +170,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_fHungTime += fTimeDelta * 10;
 	if (1 <= m_fHungTime) {
-		m_pPlayer->iHunger--;
+		//m_pPlayer->iHunger--;
 		if (m_pPlayer->iHunger == 30) {
 			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
 		}

@@ -189,10 +189,7 @@ HRESULT CFire::ADD_Components()
 
 void CFire::Update_Fire(_float fValue)
 {
-	m_pTransformCom->SetScale(m_vScale * fValue);
-
-	m_pLight_Com->SetAmbientColor(m_Color*fValue);
-	m_pLight_Com->Render_Light();
+	
 }
 
 CFire* CFire::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
