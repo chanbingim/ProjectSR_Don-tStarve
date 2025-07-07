@@ -10,7 +10,7 @@ namespace Engine
 	enum class RENDER { PRIORITY,
 						NONBLEND, ALPHATEST,
 						BLEND, PARTICLE,
-						PROJECTION_UI, ORTTHO_UI, END};
+						PROJECTION_UI, ORTTHO_UI, BLENDUI, END};
 
 	enum class TEXTURE { PLANE, CUBE, END };
 	enum class RAY { VIEW, WORLD, END };

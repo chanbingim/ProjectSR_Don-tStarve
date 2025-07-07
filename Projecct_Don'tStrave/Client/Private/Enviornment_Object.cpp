@@ -39,6 +39,9 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
         m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
 
         auto Terrian = m_pTerrian_Manager->GetOnTerrian(TeerrainDesc->vPosition);
+        if (nullptr == Terrian)
+            int a = 10;
+
         Arg.pLandVIBuffer = Terrian->GetCurVIBuffer();
         Arg.pLandTransform = Terrian->GetTransfrom();
 
@@ -48,7 +51,6 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
 
     m_bEnableBillboard = true;
     m_pCollision_Com->Enable(false);
-    //Setting_Shader(L"BillBoard.fx");
 
     return S_OK;
 }

@@ -167,6 +167,11 @@ void CRenderer::Render_UI()
 	Render_Ortho_UI();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	Render_Alpha_UI();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	
 }
 
 void CRenderer::Render_Projection_UI()
@@ -194,6 +199,18 @@ void CRenderer::Render_Ortho_UI()
 		Safe_Release(pRenderObject);
 	}
 	m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)].clear();
+}
+
+void CRenderer::Render_Alpha_UI()
+{
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLENDUI)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+	m_RenderObjects[ENUM_CLASS(RENDER::BLENDUI)].clear();
 }
 
 CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

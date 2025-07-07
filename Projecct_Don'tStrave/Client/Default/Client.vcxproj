@@ -160,6 +160,7 @@
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
     <ClInclude Include="..\Public\Create_Button.h" />
+    <ClInclude Include="..\public\DamageEffectUI.h" />
     <ClInclude Include="..\public\DropItemComponent.h" />
     <ClInclude Include="..\public\DropItemEnviornment.h" />
     <ClInclude Include="..\Public\Enviornment_Object.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
+    <ClCompile Include="..\private\DamageEffectUI.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
     <ClCompile Include="..\Private\Equipment.cpp" />
     <ClCompile Include="..\private\LodingInterface.cpp" />

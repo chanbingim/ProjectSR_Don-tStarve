@@ -45,6 +45,7 @@ private:
 	void Render_UI();
 	void Render_Projection_UI();
 	void Render_Ortho_UI();
+	void Render_Alpha_UI();
 #pragma endregion
 
 public:

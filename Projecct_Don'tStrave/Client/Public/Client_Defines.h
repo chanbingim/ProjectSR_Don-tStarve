@@ -21,6 +21,9 @@ namespace Client
 
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
+	const unsigned int			g_iTileCnt = 32;
+
+
 
 	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT, STRUCTURE};
@@ -121,20 +124,20 @@ namespace Client
 		_uint					iHunger = {};
 		_uint					iMental = {};
 		SWAPOBJECT				tItem = {};
-		CGameObject* pWorkObject = {};
+		CGameObject*			pWorkObject = {};
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
-		_uint		iId = {};
-		_float		iAtkDistance = {};
-		_uint		iAtkSpeed = {};
-		_bool		bHostile = {};
+		_uint					iId = {};
+		_float					iAtkDistance = {};
+		_uint					iAtkSpeed = {};
+		_bool					bHostile = {};
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{
-		void*		Attacker = { nullptr };
-		_int		Damage = {};
-		_float3		Direaction = {};
+		void*					Attacker = { nullptr };
+		_int					Damage = {};
+		_float3					Direaction = {};
 	}DAMAGE_DATA_BASE;
 #pragma endregion
 }

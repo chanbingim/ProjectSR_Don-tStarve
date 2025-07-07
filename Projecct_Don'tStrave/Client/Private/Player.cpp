@@ -4,6 +4,7 @@
 #include "Enviornment_Object.h"
 
 #include "XML_Manager.h"
+#include "DamageEffectUI.h"
 
 #include "Item.h"
 
@@ -745,6 +746,9 @@ HRESULT CPlayer::Render()
 void CPlayer::Hit()
 {
 	m_bControll = false;
+	auto ScreenEffect = static_cast<CDamageEffectUI *>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+	ScreenEffect->ActiveEffect();
+
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 

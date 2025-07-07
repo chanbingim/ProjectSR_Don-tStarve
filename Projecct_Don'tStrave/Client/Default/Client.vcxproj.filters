@@ -260,6 +260,9 @@
     <Filter Include="04. GmaeUI\LodingInterface\Lodingspinner">
       <UniqueIdentifier>{c9ac9917-b32e-4e07-93df-5489961c7afc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\DamageEffectUI">
+      <UniqueIdentifier>{9bc08f2c-2c98-4f74-91cf-9db740cdd14f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -535,6 +538,9 @@
     <ClInclude Include="..\Public\Mouse.h">
       <Filter>04. GmaeUI\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DamageEffectUI.h">
+      <Filter>04. GmaeUI\DamageEffectUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -804,6 +810,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mouse.cpp">
       <Filter>04. GmaeUI\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DamageEffectUI.cpp">
+      <Filter>04. GmaeUI\DamageEffectUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
