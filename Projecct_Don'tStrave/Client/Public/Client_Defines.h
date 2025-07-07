@@ -108,9 +108,11 @@ namespace Client
 		_uint			iAtk = {};
 		_float			fSpeed = {};
 		_float3			fPos = {};
+		_bool			bIsDead = {};
 	}CHARACTER_DATA;
 
 	typedef struct Player_Data : Character_Data {
+		_uint					iId = {};
 		_float					fAtkRatio = {};
 		_float					fDefRatio = {};
 		_uint					iMaxHunger = {};

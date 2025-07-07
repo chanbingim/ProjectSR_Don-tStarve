@@ -8,9 +8,9 @@ CPlayerData_Manager::CPlayerData_Manager()
 
 const PLAYER_DESC& CPlayerData_Manager::Get_PlayerData(_uint iPlayerID) const
 {
-    if (m_iPlayerDataSize < iPlayerID)
+    if (m_iPlayerDataSize < iPlayerID - 200)
         return m_tPlayerDataVec[0];
-    return m_tPlayerDataVec[iPlayerID];
+    return m_tPlayerDataVec[iPlayerID - 200];
 }
 
 void CPlayerData_Manager::LoadPlayerData(const char* MapFilePath)

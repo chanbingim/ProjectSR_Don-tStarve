@@ -52,13 +52,15 @@ public:
 	virtual HRESULT		Render() override;
 
 	virtual void		Attack() = 0;
-	virtual void		Get_Damage(_uint iAtk);
-	void				SetDir();
+	virtual	void		Damage(void* pArg) override;
+	virtual	void		Hit() = 0;
+	virtual void		SetDir();
 
 	void				RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
-
+	CHARACTER_DATA* Get_Char() { return m_pChar; }
 protected:
 	MOVE_DIR			m_tMoveDIr = {};
+	DamageBaseDesc			m_tDamage = {};
 
 	_bool				m_bAttack;
 	wstring				m_sAnim;
@@ -66,6 +68,7 @@ protected:
 	_float3				m_fMoving = {};
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};
+	_bool				m_bCol = {};
 
 	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
 	CCollision_Component*		m_pCollision_Com = { nullptr };

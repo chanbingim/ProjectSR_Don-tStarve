@@ -48,6 +48,7 @@ class CPlayer final : public CCharacter
 		DAMAGE,
 		DEATH1,
 		DEATH2,
+		WAKEUP,
 		GHOST_APPEAR,
 		GHOST_IDLE,
 		GHOST_DISSIPATE,
@@ -66,13 +67,12 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	
-	virtual void Damage(void* pArg) override;
+
+	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
 	void Dead();
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
-	virtual void		Get_Damage(_uint iAtk) override;
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
 	void				Eat(void* pArg);
@@ -82,15 +82,16 @@ private:
 	_bool					m_bControll = {};
 	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
-	_bool					m_bCol = {};
 	_float					m_fHungTime = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
 	_int						m_iHungerChange = {};
-
 	vector<IMAGE_FOLDER_DESC>	m_tGhostImageVec = {};
+	vector<IMAGE_FOLDER_DESC>	m_tWigfridImageVec = {};
+	vector<IMAGE_FOLDER_DESC>	m_tWigfridGhostImageVec = {};
 	vector<IMAGE_FOLDER_DESC>	m_tItemImageVec[ENUM_CLASS(SWAPOBJECT::NONE)] = {};
 	vector<IMAGE_FOLDER_DESC>	m_tMakeImageVec = {};
+	Entity						m_tWigfridAnimation = {};
 	Entity						m_tItemAnimation = {};
 	Entity						m_tMakeAnimation = {};
 	PLAYER_DATA*				m_pPlayer = {};
