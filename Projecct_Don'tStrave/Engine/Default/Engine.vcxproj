@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\LightComponent.h" />
     <ClInclude Include="..\public\Light_Manager.h" />
     <ClInclude Include="..\public\ParticleSystemComponent.h" />
+    <ClInclude Include="..\public\QuadTree.h" />
     <ClInclude Include="..\public\Shader.h" />
     <ClInclude Include="..\Public\SoundManager.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\Private\LightComponent.cpp" />
     <ClCompile Include="..\private\Light_Manager.cpp" />
     <ClCompile Include="..\private\ParticleSystemComponent.cpp" />
+    <ClCompile Include="..\private\QuadTree.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
     <ClCompile Include="..\Private\SoundManager.cpp" />
     <ClCompile Include="..\Private\File.cpp" />

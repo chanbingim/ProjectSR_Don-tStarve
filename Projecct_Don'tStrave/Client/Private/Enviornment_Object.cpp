@@ -47,8 +47,8 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
     }
 
     m_bEnableBillboard = true;
-
-    Setting_Shader(L"BillBoard.fx");
+    m_pCollision_Com->Enable(false);
+    //Setting_Shader(L"BillBoard.fx");
 
     return S_OK;
 }

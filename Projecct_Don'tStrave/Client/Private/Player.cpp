@@ -354,7 +354,7 @@ void CPlayer::Update(_float fTimeDelta)
 				if (0.1f > distance) {
 					if (dynamic_cast<CItem*>(m_pPlayer->pWorkObject)) {
 						SetAnimation(m_tDir, MOTION::PICKUP);
-						m_pPlayer->pWorkObject->SetDead();
+						dynamic_cast<CItem*>(m_pPlayer->pWorkObject)->EnterInvenTory();
 						m_pPlayer->pWorkObject = nullptr;
 						return;
 					}
@@ -696,7 +696,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 	SetDir();
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
 	}
@@ -704,8 +704,8 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-	if (FAILED(Begin_RenderState()))
-		return E_FAIL;
+	/*if (FAILED(Begin_RenderState()))
+		return E_FAIL;*/
 
 
 
@@ -737,8 +737,8 @@ HRESULT CPlayer::Render()
 	if (MOTION::BUILD == m_tMotion && DIR::UP != m_tDir) {
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
 	}
-	if (FAILED(End_RenderState()))
-		return E_FAIL;
+	/*if (FAILED(End_RenderState()))
+		return E_FAIL;*/
 	return S_OK;
 }
 
@@ -960,15 +960,15 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 		break;
 	}
 	return S_OK;
-}
+} 
 
 HRESULT CPlayer::Begin_RenderState()
 {
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 
 

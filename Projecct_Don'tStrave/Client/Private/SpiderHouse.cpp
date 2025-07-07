@@ -164,13 +164,13 @@ HRESULT CSpiderHouse::Render()
 {
 	__super::Render();
 
-	if (FAILED(Begin_RenderState()))
-		return E_FAIL;
+	/*if (FAILED(Begin_RenderState()))
+		return E_FAIL;*/
 
 	XMLRenderAnimation(m_sAnim);
 
-	if (FAILED(End_RenderState()))
-		return E_FAIL;
+	/*if (FAILED(End_RenderState()))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -268,17 +268,12 @@ void CSpiderHouse::Emergency()
 
 HRESULT CSpiderHouse::Begin_RenderState()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	return S_OK;
 }
 
 HRESULT CSpiderHouse::End_RenderState()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return S_OK;
 }
 

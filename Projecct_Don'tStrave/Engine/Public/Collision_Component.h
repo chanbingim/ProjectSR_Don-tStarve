@@ -33,6 +33,8 @@ public:
 
 	COLLISION_TYPE					GetColType();
 	CGameObject*					GetOwner() { return m_pOwner; }
+	void							Enable(_bool flag) { m_IsUpdate = flag; }
+	_bool							GetEnable() { return m_IsUpdate; }
 
 	void							BindEnterFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
 	void							BindOverlapFunction(function<void(CGameObject* HitActor, _float3& _Dir)> Func);
@@ -44,6 +46,7 @@ protected:
 	CTransform*						m_pTransform = { nullptr };
 
 	_float3*						m_pMeshVtx = { nullptr };
+	_bool							m_IsUpdate = { true };
 
 	_matrix							m_WorldMat = {};
 	COLLISION_TYPE					m_eColType = {};

@@ -42,13 +42,14 @@ HRESULT CSphere_Collision_Component::Initialize(void* pArg)
 
 void CSphere_Collision_Component::Update()
 {
-    __super::Update();
+    if (m_IsUpdate)
+        __super::Update();
 }
 
 void CSphere_Collision_Component::Render()
 {
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
-    m_pSphereMesh->DrawSubset(0);
+    /*m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
+    m_pSphereMesh->DrawSubset(0);*/
 }
 
 HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Radius)

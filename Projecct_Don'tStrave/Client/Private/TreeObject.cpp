@@ -107,14 +107,8 @@ void CTreeObject::Reset_State()
 
 HRESULT CTreeObject::Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
     CAinimationObject::Render();
      XMLRenderAnimation(m_FrontName + m_TailName);
-
-     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     return S_OK;
 }
