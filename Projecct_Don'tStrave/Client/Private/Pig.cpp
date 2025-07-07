@@ -159,26 +159,26 @@ void CPig::Update(_float fTimeDelta)
 			}
 		}
 		else {
-			m_fMoveTIme += fTimeDelta;
-			if (m_fMoveTIme > 10) {
-				if (m_fMoveTIme > 40) {
-					m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-					if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::RUN);
-					}
-					if (m_fMoveTIme > 70) {
-						m_fMoveTIme = 0;
-					}
-				}
-				else {
-					m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-					D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-					m_fMoveTIme += 30 + (rand() % 20);
-					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-				}
-			}
-			else {
+			//m_fMoveTIme += fTimeDelta;
+			//if (m_fMoveTIme > 10) {
+			//	if (m_fMoveTIme > 40) {
+			//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+			//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+			//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+			//			SetAnimation(m_tDir, MOTION::RUN);
+			//		}
+			//		if (m_fMoveTIme > 70) {
+			//			m_fMoveTIme = 0;
+			//		}
+			//	}
+			//	else {
+			//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+			//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+			//		m_fMoveTIme += 30 + (rand() % 20);
+			//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+			//	}
+			//}
+			//else {
 				switch (m_tMotion)
 				{
 				case MOTION::RUN:
@@ -202,55 +202,53 @@ void CPig::Update(_float fTimeDelta)
 				default:
 					break;
 				}
-			}
+			//}
 		}
 	}
 	else {
-		m_fMoveTIme += fTimeDelta;
-		if (m_fMoveTIme > 10) {
-			if (m_fMoveTIme > 40) {
-
-				m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-				if (m_pMonsterData->fPos.x < 0 || m_pMonsterData->fPos.z < 0) {
-					m_fMoveTIme = 0;
-				}
-				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-				if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::RUN);
-				}
-				if (m_fMoveTIme > 70) {
-					m_fMoveTIme = 0;
-				}
+		//m_fMoveTIme += fTimeDelta;
+		//if (m_fMoveTIme > 10) {
+		//	if (m_fMoveTIme > 40) {
+		//
+		//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+		//		if (m_pMonsterData->fPos.x < 0 || m_pMonsterData->fPos.z < 0) {
+		//			m_fMoveTIme = 0;
+		//		}
+		//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+		//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+		//			SetAnimation(m_tDir, MOTION::RUN);
+		//		}
+		//		if (m_fMoveTIme > 70) {
+		//			m_fMoveTIme = 0;
+		//		}
+		//	}
+		//	else {
+		//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+		//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+		//		m_fMoveTIme += 30 + (rand() % 20);
+		//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+		//	}
+		//}
+		//else {
+		switch (m_tMotion)
+		{
+		case MOTION::RUN:
+			if (m_iLength <= m_fAniTime) {
+				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
 			}
-			else {
-				m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-				D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-				m_fMoveTIme += 30 + (rand() % 20);
-				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+			break;
+		case MOTION::ATTACK:
+		case MOTION::RUN_TO_IDLE:
+		case MOTION::DAMAGE:
+			if (m_iLength <= m_fAniTime) {
+				SetAnimation(m_tDir, MOTION::IDLE);
 			}
+			break;
+		default:
+			break;
 		}
-		else {
-			switch (m_tMotion)
-			{
-			case MOTION::RUN:
-				if (m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-				}
-				break;
-			case MOTION::ATTACK:
-			case MOTION::RUN_TO_IDLE:
-			case MOTION::DAMAGE:
-				if (m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::IDLE);
-				}
-				break;
-			default:
-				break;
-			}
-		}
+		//}
 	}
-
-
 }
 
 void CPig::Late_Update(_float fTimeDelta)

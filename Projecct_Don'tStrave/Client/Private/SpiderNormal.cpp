@@ -192,26 +192,26 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				}
 			}
 			else {
-				m_fMoveTIme += fTimeDelta;
-				if (m_fMoveTIme > 10) {
-					if (m_fMoveTIme > 20) {
-						m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-						if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::RUN);
-						}
-						if (m_fMoveTIme > 25) {
-							m_fMoveTIme = 0;
-						}
-					}
-					else {
-						m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-						D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-						m_fMoveTIme = 20 + (rand() % 5);
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
-				}
-				else {
+				//m_fMoveTIme += fTimeDelta;
+				//if (m_fMoveTIme > 10) {
+				//	if (m_fMoveTIme > 20) {
+				//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+				//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+				//			SetAnimation(m_tDir, MOTION::RUN);
+				//		}
+				//		if (m_fMoveTIme > 25) {
+				//			m_fMoveTIme = 0;
+				//		}
+				//	}
+				//	else {
+				//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+				//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+				//		m_fMoveTIme = 20 + (rand() % 5);
+				//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				//	}
+				//}
+				//else {
 					switch (m_tMotion)
 					{
 					case MOTION::RUN:
@@ -237,29 +237,29 @@ void CSpiderNormal::Update(_float fTimeDelta)
 						break;
 					}
 				}
-			}
+			//}
 		}
 		else {
-			m_fMoveTIme += fTimeDelta;
-			if (m_fMoveTIme > 10) {
-				if (m_fMoveTIme > 20) {
-					m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-					if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::RUN);
-					}
-					if (m_fMoveTIme > 25) {
-						m_fMoveTIme = 0;
-					}
-				}
-				else {
-					m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-					D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-					m_fMoveTIme = 20 + (rand() % 5);
-					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-				}
-			}
-			else {
+			//m_fMoveTIme += fTimeDelta;
+			//if (m_fMoveTIme > 10) {
+			//	if (m_fMoveTIme > 20) {
+			//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
+			//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+			//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
+			//			SetAnimation(m_tDir, MOTION::RUN);
+			//		}
+			//		if (m_fMoveTIme > 25) {
+			//			m_fMoveTIme = 0;
+			//		}
+			//	}
+			//	else {
+			//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
+			//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
+			//		m_fMoveTIme = 20 + (rand() % 5);
+			//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+			//	}
+			//}
+			//else {
 				switch (m_tMotion)
 				{
 				case MOTION::RUN:
@@ -278,7 +278,7 @@ void CSpiderNormal::Update(_float fTimeDelta)
 				default:
 					break;
 				}
-			}
+			//}
 		}
 	}
 }
