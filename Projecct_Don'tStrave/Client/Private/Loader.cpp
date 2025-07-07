@@ -25,7 +25,9 @@
 #pragma endregion
 
 #pragma region ITEM
-#include "Item.h"
+#include "Food.h"
+#include "ResearchLap.h"
+#include "Equipment.h"
 #include "CampFire.h"
 #include "DropItemComponent.h"
 #pragma endregion
@@ -531,16 +533,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region ITEM
-	/* For.Prototype_GameObject_Item */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
-		CItem::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Material_Item */
+	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 		CMaterial_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	
+	/* For.Prototype_GameObject_Food */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Food"),
+		CFood::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* For.Prototype_GameObject_Equipment */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Equipment"),
+		CEquipment::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
 	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
 		CCampFire::Create(m_pGraphic_Device))))
@@ -554,6 +561,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
 		CChest::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	/* For.Prototype_GameObject_ResearchLap */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
+		CResearchLap::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	

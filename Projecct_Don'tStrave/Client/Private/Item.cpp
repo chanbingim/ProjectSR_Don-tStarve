@@ -9,12 +9,12 @@
 #include "Player.h"
 
 CItem::CItem(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CAinimationObject{ pGraphic_Device }
 {
 }
 
 CItem::CItem(const CItem& Prototype)
-	: CLandObject{ Prototype }
+	: CAinimationObject{ Prototype }
 {
 }
 
@@ -219,11 +219,11 @@ void CItem::Update_Item(_float fTimeDelta)
 	}
 }
 
-_bool CItem::isInRange()
+_bool CItem::isInRange(_float fRange)
 {
 	_float3 vRange = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 
-	if (0.8f >= D3DXVec3Length(&vRange))
+	if (fRange >= D3DXVec3Length(&vRange))
 		return true;
 
 	return false;
@@ -268,33 +268,8 @@ void CItem::EnterInvenTory()
 	}
 }
 
-CItem* CItem::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CItem* pInstance = new CItem(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		Safe_Release(pInstance);
-		MSG_BOX("Failed to Clone CItem");
-		return nullptr;
-	}
 
-	return pInstance;
-}
-
-CGameObject* CItem::Clone(void* pArg)
-{
-	CItem* pInstance = new CItem(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		Safe_Release(pInstance);
-		MSG_BOX("Failed to Create CItem");
-		return nullptr;
-	}
-
-	return pInstance;
-}
 
 void CItem::Free()
 {
@@ -302,6 +277,7 @@ void CItem::Free()
 
 	Safe_Release(m_pMouse);
 	Safe_Release(m_pTexture_Com);
+	Safe_Release(m_pCollision_Com);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBuffer_Com);
 	Safe_Release(m_pPlayerTransform_Com);

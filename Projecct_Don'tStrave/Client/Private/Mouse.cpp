@@ -138,8 +138,18 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('6') & 0x8000)
     {
-        Desc.iItemID = 5;
+        Desc.iItemID = 7;
         Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('7') & 0x8000)
+    {
+        Desc.iItemID = 46;
+        Desc.eItemType = ITEM_TYPE::FOOD;
         Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
@@ -237,7 +247,10 @@ void CMouse::ClickedEevent()
                     vPickingPos.y = 0.f;
                     Desc.vPosition = vPickingPos;
 
-                    if (ITEM_TYPE::MERTARIAL == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).eItemType)
+                    ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
+                    ITEM_TYPE eType = Item_Data.eItemType;
+
+                    if (ITEM_TYPE::MERTARIAL == eType)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -245,7 +258,23 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else if (5 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    else if (ITEM_TYPE::EQUIPMENT == eType)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Equipment"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (ITEM_TYPE::FOOD == eType)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Food"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (5 == iItemID)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -253,7 +282,7 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else if (14 == CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID).iItemID)
+                    else if (14 == iItemID)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
@@ -261,13 +290,17 @@ void CMouse::ClickedEevent()
                             MSG_BOX("Failed to Add Item");
                         }
                     }
-                    else
+                    else if (7 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item"),
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
                         {
                             MSG_BOX("Failed to Add Item");
                         }
+                    }
+                    else
+                    { 
+                         MSG_BOX("Failed to Add Item");
                     }
                     
 
@@ -307,8 +340,7 @@ void CMouse::Update_HoverItem(_uint itemID)
         break;
 
     case ITEM_TYPE::STRUCTURE:
-        m_iMouseState = 2;
-        m_strInteraction = L":Pick";
+        
         break;
 
     default:

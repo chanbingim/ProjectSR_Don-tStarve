@@ -1,16 +1,17 @@
 #pragma once
 #include "Client_Defines.h"
-#include "LandObject.h"
+#include "AinimationObject.h"
 
 NS_BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer;
+class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
 
-class CItem : public CLandObject
+class CItem abstract : public CAinimationObject
 {
 protected:
 	CItem(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -34,6 +35,9 @@ public:
 protected:
 	ITEM_DESC	m_Item_Desc = {};
 
+	_wstring				m_FrontName = {};
+	const WCHAR*		m_TailName = {};
+
 	_bool		m_bIsplayAnim = { false };
 	_bool		m_bHovered = {};
 
@@ -42,19 +46,20 @@ protected:
 	CTexture*	m_pTexture_Com = { nullptr };
 	CVIBuffer*	m_pVIBuffer_Com = { nullptr };
 
+	CCollision_Component* m_pCollision_Com = { nullptr };
+
 	class CMouse* m_pMouse = { nullptr };
 
 protected:
 	HRESULT ADD_Components();
 	void	Update_Item(_float fTimeDelta);
-	_bool	isInRange();
+	_bool	isInRange(_float fRange = 0.8f);
 
 	void	DropItemEffect(_float FallSpeed);
 	void	EnterInvenTory();
 
 public:
-	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg);
+	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
 };
 
