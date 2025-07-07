@@ -102,7 +102,7 @@ HRESULT CItem::Render()
 {
 	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100);
-	
+
 	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
 	auto Camera = dynamic_cast<CCamera*>(Obj);
 	if (nullptr == Camera)
@@ -116,7 +116,7 @@ HRESULT CItem::Render()
 
 	__super::Render();
 
-	if(true == m_bHovered)
+	if (true == m_bHovered)
 	{
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 °á°ú
@@ -131,7 +131,7 @@ HRESULT CItem::Render()
 		m_pVIBuffer_Com->Render();
 
 	End_Billboard();
-	
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	return S_OK;
 }
@@ -155,9 +155,9 @@ void CItem::ClickedEvent()
 			EnterInvenTory();
 		else
 			dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
-		
+
 	}
-	
+
 }
 
 HRESULT CItem::ADD_Components()
@@ -238,13 +238,13 @@ void CItem::EnterInvenTory()
 		Desc.pSlot = pSlot;
 		Desc.vCursorPos = m_pGameInstance->GetMousePosition(0);
 		memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
-		
+
 		m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
 			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
 
 		m_isDead = true;
 	}
-	
+
 }
 
 

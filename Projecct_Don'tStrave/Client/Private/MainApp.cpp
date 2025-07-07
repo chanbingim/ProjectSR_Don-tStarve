@@ -73,7 +73,6 @@ HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	Render_FPS();
 	m_pGameInstance->Draw();
 	

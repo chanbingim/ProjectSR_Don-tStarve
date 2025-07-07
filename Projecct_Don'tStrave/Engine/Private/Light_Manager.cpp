@@ -14,6 +14,8 @@ HRESULT CLight_Manager::Initialize(LPDIRECT3DDEVICE9 pGraphic_Device)
 	m_pGraphic_Device = pGraphic_Device;
 	Safe_AddRef(m_pGraphic_Device);
 
+	m_pGraphic_Device->LightEnable(0, true);
+
 	return S_OK;
 }
 
@@ -51,8 +53,7 @@ HRESULT CLight_Manager::REMOVE_Light(LIGHT_TYPE LightType, CLightComponent* pLig
 
 void CLight_Manager::Enable_Light()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
-	
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	if(0 < m_Lightlist[ENUM_CLASS(LIGHT_TYPE::DIRECATION)].size())
 	(*m_Lightlist[ENUM_CLASS(LIGHT_TYPE::DIRECATION)].begin())->Render_Light();
 
@@ -76,7 +77,6 @@ void CLight_Manager::Enable_Light()
 
 void CLight_Manager::UnEnable_Light()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void CLight_Manager::Sorting_Light(_uint type)

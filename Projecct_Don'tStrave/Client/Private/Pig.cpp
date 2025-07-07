@@ -255,19 +255,19 @@ void CPig::Late_Update(_float fTimeDelta)
 {
 		SetDir();
 		__super::Late_Update(fTimeDelta);
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CPig::Render()
 {
 		__super::Render();
 
-		if (FAILED(Begin_RenderState()))
-			return E_FAIL;
+		/*if (FAILED(Begin_RenderState()))
+			return E_FAIL;*/
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
-		if (FAILED(End_RenderState()))
-			return E_FAIL;
+		/*if (FAILED(End_RenderState()))
+			return E_FAIL;*/
 	return S_OK;
 }
 
@@ -361,10 +361,10 @@ HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 HRESULT CPig::Begin_RenderState()
 {
 	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	return S_OK;
 }

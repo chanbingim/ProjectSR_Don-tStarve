@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\MiniMap.h" />
     <ClInclude Include="..\Public\MiniMap_Icon.h" />
     <ClInclude Include="..\Public\MonsterData_Manager.h" />
+    <ClInclude Include="..\Public\Mouse.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\Public\Pig.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
@@ -218,7 +219,6 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\public\MiniMap_Button.h" />
     <ClInclude Include="..\Public\Monster.h" />
-    <ClInclude Include="..\public\Mouse.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\PlayerAnim.h" />
     <ClInclude Include="..\Public\QuickSlot_Button.h" />
@@ -259,6 +259,7 @@
     <ClCompile Include="..\Private\Logo.cpp" />
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
+    <ClCompile Include="..\Private\Mouse.cpp" />
     <ClCompile Include="..\Private\ResearchLap.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />
@@ -293,7 +294,6 @@
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Info.cpp" />
     <ClCompile Include="..\private\MiniMap_Button.cpp" />
-    <ClCompile Include="..\private\Mouse.cpp" />
     <ClCompile Include="..\Private\PlayerAnim.cpp" />
     <ClCompile Include="..\Private\QuickSlot_Button.cpp" />
     <ClCompile Include="..\private\Sanity.cpp" />

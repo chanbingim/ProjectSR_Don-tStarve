@@ -343,9 +343,6 @@
     <ClInclude Include="..\public\HeadUpDisplay.h">
       <Filter>04. GmaeUI\HeadDisplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Mouse.h">
-      <Filter>04. GmaeUI\Mouse</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Hunger.h">
       <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
     </ClInclude>
@@ -535,6 +532,9 @@
     <ClInclude Include="..\Public\ResearchLap.h">
       <Filter>대진호</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Mouse.h">
+      <Filter>04. GmaeUI\Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -615,9 +615,6 @@
     </ClCompile>
     <ClCompile Include="..\private\HeadUpDisplay.cpp">
       <Filter>04. GmaeUI\HeadDisplay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Mouse.cpp">
-      <Filter>04. GmaeUI\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="..\public\Hunger.cpp">
       <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
@@ -804,6 +801,9 @@
     </ClCompile>
     <ClCompile Include="..\Public\Food.cpp">
       <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mouse.cpp">
+      <Filter>04. GmaeUI\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

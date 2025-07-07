@@ -14,12 +14,13 @@
   LightComponent.cpp
   Light_Manager.cpp
   ParticleSystemComponent.cpp
+  QuadTree.cpp
   Shader.cpp
   SoundManager.cpp
   File.cpp
-  FileReader.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  FileReader.cpp
   GameInstance.cpp
   GameObject.cpp
   Graphic_Device.cpp
@@ -39,9 +40,9 @@
   Timer.cpp
   Timer_Manager.cpp
   Transform.cpp
-  UserInterface.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  UserInterface.cpp
   VIBuffer.cpp
   VIBuffer_Cube.cpp
   VIBuffer_Rect.cpp

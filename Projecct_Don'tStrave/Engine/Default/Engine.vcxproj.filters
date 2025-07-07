@@ -133,17 +133,20 @@
     <Filter Include="System\Components\Light_Component\Manager">
       <UniqueIdentifier>{162957f8-5314-4649-8e55-4be23c2ba9b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Define">
-      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Define\HeaderSet">
-      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Components\VIBuffer\Cube">
       <UniqueIdentifier>{4f8c5de3-f9b0-44cf-90ea-92b5194bbb45}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\Components\Transform_Component">
       <UniqueIdentifier>{592a25d6-b3c3-4317-a4cf-c7c41d1a19fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Define">
+      <UniqueIdentifier>{f64a537a-4447-49b5-bc54-7bcd1cb3a124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Define\HeaderSet">
+      <UniqueIdentifier>{b699dea5-d6b6-4623-ade8-d0745de357b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Quad">
+      <UniqueIdentifier>{c8fe5652-5905-4a59-9437-21e962666c5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -154,22 +157,22 @@
       <Filter>Utility\Base\GraphicDevice</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Defines.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Enum.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Function.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Macro.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Struct.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Typedef.h">
-      <Filter>Define</Filter>
+      <Filter>System\Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\File.h">
       <Filter>Utility\File</Filter>
@@ -187,10 +190,10 @@
       <Filter>Utility\Timer\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\BufferComponents.h">
-      <Filter>Define\HeaderSet</Filter>
+      <Filter>System\Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\FunctionHeaders.h">
-      <Filter>Define\HeaderSet</Filter>
+      <Filter>System\Define\HeaderSet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GameInstance.h">
       <Filter>System\GameInstance</Filter>
@@ -300,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Rect.h">
       <Filter>System\Components\VIBuffer\Rect_Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuadTree.h">
+      <Filter>System\Quad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +438,9 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Cube.cpp">
       <Filter>System\Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuadTree.cpp">
+      <Filter>System\Quad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -221,7 +221,7 @@ void CSpiderQueen::Late_Update(_float fTimeDelta)
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10.f))
 	{
 		SetDir();
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	}
 		
 
@@ -232,13 +232,13 @@ HRESULT CSpiderQueen::Render()
 	__super::Render();
 
 
-	if (FAILED(Begin_RenderState()))
-		return E_FAIL;
+	/*if (FAILED(Begin_RenderState()))
+		return E_FAIL;*/
 
 	RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 
-	if (FAILED(End_RenderState()))
-		return E_FAIL;
+	//if (FAILED(End_RenderState()))
+	//	return E_FAIL;
 	//class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
 	//auto Camera = dynamic_cast<CCamera*>(Obj);
 	//if (nullptr == Camera)
