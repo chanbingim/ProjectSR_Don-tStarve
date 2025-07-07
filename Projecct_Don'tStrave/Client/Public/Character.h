@@ -1,11 +1,6 @@
 #pragma once
 
-#include "Client_Defines.h"
 #include "AinimationObject.h"
-#include "UserInterface.h"
-#include "PlayerAnim.h"
-
-#include "Character_Manager.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -69,8 +64,6 @@ protected:
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};
 	_bool				m_bCol = {};
-
-	CCharacter_Manager*			m_pCharacterInstance = { nullptr };
 	CCollision_Component*		m_pCollision_Com = { nullptr };
 
 public:

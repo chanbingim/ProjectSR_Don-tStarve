@@ -26,11 +26,20 @@ HRESULT CSpider::Initialize(void* pArg)
 	m_pTransformCom->SetPosition(data.fPos);
 	m_bOutHouse = true;
 
-	for (auto target : m_pCharacterInstance->Get_NearObject(this, 0.1f, FIELDOBJECT::CREATURE)) {
-		if (m_pHouse = dynamic_cast<CSpiderHouse*>(target)) {
-			m_pHouse->EnterSpider(this);
-			m_bOutHouse = false;
-			break;
+	list<CGameObject*> NearObjects;
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (0.1f > distance) {
+				if (m_pHouse = dynamic_cast<CSpiderHouse*>(object)) {
+					m_pHouse->EnterSpider(this);
+					m_bOutHouse = false;
+					break;
+				}
+			}
 		}
 	}
 	return S_OK;
@@ -69,10 +78,21 @@ HRESULT CSpider::Render()
 void CSpider::Damage(void* pArg)
 {
 	__super::Damage(pArg);
-	for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f, FIELDOBJECT::CREATURE)) {
-		CSpiderHouse* pHouse = {};
-		if (pHouse = dynamic_cast<CSpiderHouse*>(target)) {
-			pHouse->Emergency();
+
+
+	list<CGameObject*> NearObjects;
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (3.f > distance) {
+				CSpiderHouse* pHouse = {};
+				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
+					pHouse->Emergency();
+				}
+			}
 		}
 	}
 }

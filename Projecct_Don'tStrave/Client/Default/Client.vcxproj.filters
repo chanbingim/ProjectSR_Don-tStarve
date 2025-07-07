@@ -418,9 +418,6 @@
     <ClInclude Include="..\public\Env_Animation.h">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Character_Manager.h">
-      <Filter>03. Character\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Create_Button.h">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClInclude>
@@ -534,6 +531,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Mouse.h">
       <Filter>04. GmaeUI\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Deerclops.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shadowcrawling.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shadowterrorbeak.h">
+      <Filter>김정환</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -694,9 +700,6 @@
     <ClCompile Include="..\private\Env_Animation.cpp">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Character_Manager.cpp">
-      <Filter>03. Character\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Create_Button.cpp">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClCompile>
@@ -804,6 +807,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mouse.cpp">
       <Filter>04. GmaeUI\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Deerclops.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shadowcrawling.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shadowterrorbeak.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

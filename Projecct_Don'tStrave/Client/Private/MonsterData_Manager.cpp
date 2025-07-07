@@ -23,9 +23,9 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
-    _uint iDataSize = ReadData.size();
+    size_t iDataSize = ReadData.size();
 
-    for (_uint i = 0; i < iDataSize; )
+    for (size_t i = 0; i < iDataSize; )
     {
         MONSTER_DESC Data;
         ++m_iMonsterDataSize;
@@ -42,7 +42,7 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
         Data.iAtk = static_cast<_uint>(std::stoi(ReadData[i++]));
         Data.fSpeed = static_cast<_float>(std::stof(ReadData[i++]));
         Data.iAtkDistance = static_cast<_uint>(std::stoi(ReadData[i++]));
-        Data.iAtkSpeed = static_cast<_uint>(std::stoi(ReadData[i++]));
+        Data.iAtkSpeed = static_cast<_float>(std::stoi(ReadData[i++]));
 
         Data.iMaxHit = static_cast<_uint>(std::stoi(ReadData[i++]));
         Data.bHostile = static_cast<_bool>(std::stoi(ReadData[i++]));

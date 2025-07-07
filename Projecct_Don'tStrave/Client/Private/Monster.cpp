@@ -1,6 +1,4 @@
 #include "Monster.h"
-
-#include "UserInterface.h"
 #include "GameInstance.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -33,15 +31,14 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->iAtk = data.iAtk;
 	m_pMonsterData->fSpeed = data.fSpeed / 4.f;
 	m_pMonsterData->bHostile = data.bHostile;
-	m_pMonsterData->iAtkDistance = data.iAtkDistance;
+	m_pMonsterData->iAtkDistance = data.iAtkDistance / 5.f;
 	m_pMonsterData->iAtkSpeed = data.iAtkSpeed;
 	m_pMonsterData->fPos = data.fPos;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
 
 	m_pChar = m_pMonsterData;
-	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance / 10.f, 0.f ,0.f });
-
+	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance, 0.f ,0.f });
 
 	m_pTransformCom->SetPosition(data.fPos);
 

@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "XML_Manager.h"
 #include "Camera.h"
+#include "Food.h"
+#include "Item_Manager.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -48,20 +50,26 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
 	if (m_bOutHouse) {
 		__super::Priority_Update(fTimeDelta);
+
 		m_pTarget = nullptr;
 
 		list<CGameObject*> NearObjects;
 
 		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-			NearObjects.push_back(GroundObejcts->front());
+			CGameObject* object = GroundObejcts->front();
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (3.f > distance) {
+				NearObjects.push_back(object);
+			}
 		}
 
 		GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 		if (GroundObejcts && !GroundObejcts->empty()) {
 			for (auto& object : (*GroundObejcts)) {
 				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 				if (dynamic_cast<CCharacter*>(object) && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderHouse*>(object) && !dynamic_cast<CSpiderQueen*>(object)) {
 					if (3.f > distance) {
 						NearObjects.push_back(object);
@@ -73,8 +81,8 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 			{
 				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-				_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+				_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 				return distance < distance2;
 			});
 
@@ -84,6 +92,39 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 				m_pTarget = object;
 			}
 		}
+		else {
+			m_bTarget = false;
+			GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Item"));
+			if (GroundObejcts && !GroundObejcts->empty()) {
+				for (auto& object : (*GroundObejcts)) {
+					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+					if (3.f > distance) {
+						if (dynamic_cast<CFood*>(object)) {
+							if (FOOD::MEAT == CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(object)->Get_Info().iItemID).eFoodtype) {
+								NearObjects.push_back(object);
+							}
+						}
+					}
+				}
+			}
+			NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+				{
+					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+					_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
+					return distance < distance2;
+				});
+
+			if (!NearObjects.empty()) {
+				CGameObject* object = NearObjects.front();
+				if (object) {
+					m_pTarget = object;
+				}
+			}
+		}
+
 	}
 }
 
@@ -132,6 +173,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 		if (m_tMotion == MOTION::DEATH) {
 			if (m_iLength <= m_fAniTime) {
 				m_isDead = true;
+				return;
 			}
 		}
 		else if (m_tMotion == MOTION::DASH_ATTACK) {
@@ -147,6 +189,17 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
 			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
 				m_fAtkCool -= fTimeDelta;
+				if (dynamic_cast<CFood*>(m_pTarget) && MOTION::EAT != m_tMotion) {
+					m_bTarget = true;
+					_float3 transform = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+					if (0.1f > distance) {
+						SetAnimation(DIR::DIR_END, MOTION::IDLE_TO_EAT);
+					}
+					else {
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					}
+				}
 				if (0.f >= m_fAtkCool) {
 					if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::DASH_ATTACK);
@@ -166,6 +219,20 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 							SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 						}
 						break;
+					case MOTION::IDLE_TO_EAT:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(DIR::DIR_END, MOTION::EAT);
+							m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pTarget)->Get_Info().iItemID).iHungerChange);
+							m_pTarget->SetDead();
+							m_pTarget = nullptr;
+						}
+						break;
+					case MOTION::EAT:
+						if (m_iLength <= m_fAniTime) {
+							SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+						}
+						break;
+					case MOTION::EAT_TO_IDLE:
 					case MOTION::DAMAGE:
 						if (m_iLength <= m_fAniTime) {
 							SetAnimation(m_tDir, MOTION::IDLE);
@@ -182,7 +249,13 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 							SetAnimation(m_tDir, MOTION::IDLE);
 						}
 						else {
-							SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+							if (m_bTarget) {
+								SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+							}
+							else {
+								SetAnimation(m_tDir, MOTION::TAUNT);
+								m_bTarget = true;
+							}
 						}
 						break;
 					}
@@ -215,6 +288,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 					}
 					break;
 				case MOTION::ATTACK:
+				case MOTION::EAT_TO_IDLE:
 				case MOTION::RUN_TO_IDLE:
 				case MOTION::TAUNT:
 				case MOTION::DAMAGE:
@@ -236,6 +310,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				}
 				break;
 			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
 			case MOTION::RUN_TO_IDLE:
 			case MOTION::TAUNT:
 			case MOTION::DAMAGE:
@@ -266,17 +341,10 @@ void CSpiderWarrior::Late_Update(_float fTimeDelta)
 
 HRESULT CSpiderWarrior::Render()
 {
-	if (m_bOutHouse) {
+	if (m_bOutHouse && !m_isDead) {
 		__super::Render();
-	/*	if (FAILED(Begin_RenderState()))
-			return E_FAIL;*/
-
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
-
-	/*	if (FAILED(End_RenderState()))
-			return E_FAIL;*/
 	}
-
 	return S_OK;
 }
 
@@ -307,7 +375,7 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -382,25 +450,6 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpiderWarrior::Begin_RenderState()
-{
-	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	return S_OK;
-}
-
-HRESULT CSpiderWarrior::End_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	return S_OK;
-}
-
 void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (dynamic_cast<CCharacter*>(HitActor)) {
@@ -412,16 +461,18 @@ void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget) {
-		m_bCol = true;
-		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DASH_ATTACK && m_tMotion != DAMAGE && m_tMotion != DEATH) {
-			if (m_tMotion != ATTACK) {
+	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
+			m_bCol = true;
+			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
 				Attack();
 			}
-			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-				m_pTarget->Damage(&m_tDamage);
-				m_bAttack = false;
-			}
+		}
+		if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
+			m_bAttack = false;
+			HitActor->Damage(&m_tDamage);
 		}
 	}
 }

@@ -1,14 +1,5 @@
 #pragma once
-
-#include "Client_Defines.h"
 #include "Monster.h"
-
-NS_BEGIN(Engine)
-class CTexture;
-class CTransform;
-class CVIBuffer_Rect;
-class CCollision_Component;
-NS_END
 
 NS_BEGIN(Client)
 class CSpiderHouse;

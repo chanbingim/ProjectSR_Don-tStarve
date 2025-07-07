@@ -152,7 +152,6 @@
     <ClInclude Include="..\Public\CampFire.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
     <ClInclude Include="..\Public\Character.h" />
-    <ClInclude Include="..\Public\Character_Manager.h" />
     <ClInclude Include="..\Public\Chest.h" />
     <ClInclude Include="..\Public\ChestUI.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -160,6 +159,7 @@
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
     <ClInclude Include="..\Public\Create_Button.h" />
+    <ClInclude Include="..\public\Deerclops.h" />
     <ClInclude Include="..\public\DropItemComponent.h" />
     <ClInclude Include="..\public\DropItemEnviornment.h" />
     <ClInclude Include="..\Public\Enviornment_Object.h" />
@@ -187,6 +187,8 @@
     <ClInclude Include="..\Public\ResearchLap.h" />
     <ClInclude Include="..\public\ResurrectionStone.h" />
     <ClInclude Include="..\public\RockObject.h" />
+    <ClInclude Include="..\public\Shadowcrawling.h" />
+    <ClInclude Include="..\public\Shadowterrorbeak.h" />
     <ClInclude Include="..\public\SkyBox.h" />
     <ClInclude Include="..\public\SnowParticle.h" />
     <ClInclude Include="..\Public\Spider.h" />
@@ -245,13 +247,13 @@
     <ClCompile Include="..\Private\CampFire.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
-    <ClCompile Include="..\Private\Character_Manager.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
     <ClCompile Include="..\Private\ChestUI.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
+    <ClCompile Include="..\private\Deerclops.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
     <ClCompile Include="..\Private\Equipment.cpp" />
     <ClCompile Include="..\private\LodingInterface.cpp" />
@@ -277,6 +279,8 @@
     <ClCompile Include="..\Private\Pig.cpp" />
     <ClCompile Include="..\private\PortalObject.cpp" />
     <ClCompile Include="..\private\RockObject.cpp" />
+    <ClCompile Include="..\private\Shadowcrawling.cpp" />
+    <ClCompile Include="..\private\Shadowterrorbeak.cpp" />
     <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SnowParticle.cpp" />
     <ClCompile Include="..\Private\Spider.cpp" />

@@ -1,14 +1,8 @@
 #include "Character.h"
-
 #include "Terrain.h"
 #include "Terrian_Manager.h"
-
 #include "XML_Manager.h"
-#include "Character_Manager.h"
 #include "GameInstance.h"
-
-#include "Camera.h"
-
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -37,10 +31,6 @@ HRESULT CCharacter::Initialize(void* pArg)
         Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
     }
 
-    m_pCharacterInstance = CCharacter_Manager::GetInstance();
-
-    m_pCharacterInstance->AddRef();
-    m_pCharacterInstance->Add_Object(this, FIELDOBJECT::CREATURE);
     m_fAngle = 90;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
@@ -56,8 +46,8 @@ void CCharacter::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1 : 1;
-    m_tDamage.Direaction.z = 180 >= m_fAngle ? -1 : 1;
+    m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1.f : 1.f;
+    m_tDamage.Direaction.z = 180 >= m_fAngle ? -1.f : 1.f;
 }
 
 void CCharacter::Update(_float fTimeDelta)
@@ -154,7 +144,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
     }
     if (!pAnim) return;                                                                     // 이름 같은거 없으면 사라지기
     m_iLength = pAnim->iLength;                                                             // 애니메이션 끝나는 시간 가져오기
-    m_fAniTime = fmod(m_fAniTime, (_float)m_iLength);                                       // 현재 애니메이션 시간이 애니메이션 끝나는 시간보다 크면 % 계산한 느낌으로 값을 남겨줌
+    m_fAniTime =m_fAniTime % m_iLength;                                       // 현재 애니메이션 시간이 애니메이션 끝나는 시간보다 크면 % 계산한 느낌으로 값을 남겨줌
 
     vector<OBJECT_REF_DESC> timeVec = {};
 
@@ -277,11 +267,6 @@ HRESULT CCharacter::Ready_Components()
 void CCharacter::Free()
 {
     __super::Free();
-    if (m_pCharacterInstance)
-    {
-        m_pCharacterInstance->Remove_Object(this, FIELDOBJECT::CREATURE);
-        Safe_Release(m_pCharacterInstance);
-    }
 
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pCollision_Com);

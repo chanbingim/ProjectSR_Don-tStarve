@@ -1,11 +1,6 @@
 #pragma once
 #include "Monster.h"
 
-NS_BEGIN(Engine)
-class CTexture;
-class CCollision_Component;
-NS_END
-
 NS_BEGIN(Client)
 
 class CPig : public CMonster
@@ -46,13 +41,7 @@ public:
 	virtual void Death() override;
 private:
 	MOTION					m_tMotion = {};
-	_float					m_fMoveTIme = {};
-	_float3					m_fRandomMove = {};
-	_bool					m_bMove = {};
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
-
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);

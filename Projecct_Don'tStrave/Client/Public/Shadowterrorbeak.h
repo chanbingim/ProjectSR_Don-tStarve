@@ -1,34 +1,26 @@
 #pragma once
-#include "Spider.h"
+#include "Monster.h"
 
 NS_BEGIN(Client)
 
-class CSpiderNormal : public CSpider
+class CShadowterrorbeak : public CMonster
 {
 	enum MOTION {
+		APPEAR,
 		IDLE,
 		IDLE_TO_RUN,
 		RUN,
 		RUN_TO_IDLE,
+		IDLE_TO_ATTACK,
 		ATTACK,
-		IDLE_TO_SLEEP,
-		SLEEP,
-		SLEEP_TO_IDLE,
-		IDLE_TO_EAT,
-		EAT,
-		EAT_TO_IDLE,
-		DAMAGE,
-		IDLE_TO_COWER,
-		COWER,
-		COWER_TO_IDLE,
 		TAUNT,
 		DEATH,
 		MOTION_END
 	};
 private:
-	CSpiderNormal(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSpiderNormal(const CSpiderNormal& Prototype);
-	virtual ~CSpiderNormal() = default;
+	CShadowterrorbeak(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CShadowterrorbeak(const CShadowterrorbeak& Prototype);
+	virtual ~CShadowterrorbeak() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -41,7 +33,6 @@ public:
 	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
-	virtual void OutHouse() override;
 private:
 	MOTION					m_tMotion = {};
 private:
@@ -50,7 +41,7 @@ private:
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
-	static CSpiderNormal* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CShadowterrorbeak* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };
