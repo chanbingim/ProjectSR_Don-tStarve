@@ -62,7 +62,7 @@ void CResearchLap::Update(_float fTimeDelta)
 	if (nullptr == Camera)
 		return;
 
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 
 	switch (m_eCurState)

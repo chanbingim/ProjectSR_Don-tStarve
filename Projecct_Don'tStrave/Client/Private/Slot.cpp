@@ -150,7 +150,14 @@ void CSlot::Update_Item(_float fTimeDelta)
         break;
 
     case Client::ITEM_TYPE::FOOD:
-        m_Item_Desc.fDurability -= 3.f * fTimeDelta;
+        if (0.f >= m_Item_Desc.fDurability)
+        {
+            m_Item_Desc.iItemID = 51;
+            m_Item_Desc.fDurability = 100.f;
+        }
+
+        if (51 != m_Item_Desc.iItemID)
+            m_Item_Desc.fDurability -= 3.f * fTimeDelta;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
         
