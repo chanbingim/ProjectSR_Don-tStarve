@@ -1,6 +1,7 @@
 #include "CampFire.h"
 
 #include "GameInstance.h"
+#include "XML_Manager.h"
 
 #include "Slot.h"
 #include "Inventory.h"
@@ -21,38 +22,51 @@ CCampFire::CCampFire(const CCampFire& Prototype)
 
 HRESULT CCampFire::Initialize_Prototype()
 {
+	auto XML_Instance = CXML_Manager::GetInstance();
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/CampFire/campfire.scml", L"../Bin/Resources/Textures/Objects/CampFire/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/CampFire/campfire.scml", &m_tAnimation);
 	return S_OK;
 }
 
 HRESULT CCampFire::Initialize(void* pArg)
 {
-	m_iFireLevel = 0;
-	m_fFireOffset = 0.58f;
-	m_eCurState = CCampFire::STATE::IDLE;
-
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
-	
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->SetScale(_float3(0.7f, 0.7f, 1.f));
-	_float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	LoadImageFile();
+
+	m_FrontName = TEXT("place");
+	m_TailName = TEXT("");
+
+	m_fAniTime = 0.f;
+	m_iLength = 100.f;
+	m_ePreState = STATE::PLACE;
+	m_eCurState = STATE::PLACE;
 
 	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"), pArg));
 
-	m_bEnableBillboard = true;
-	Setting_Shader(L"BillBoard.fx");
+	
 
 	return S_OK;
 }
 
 void CCampFire::Priority_Update(_float fTimeDelta)
 {
+	m_fAniTime += fTimeDelta * 700.f;
 }
 
 void CCampFire::Update(_float fTimeDelta)
 {
+	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
+	auto Camera = dynamic_cast<CCamera*>(Obj);
+	if (nullptr == Camera)
+		return;
+
+	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+
 	switch (m_eCurState)
 	{
 	case Client::CCampFire::STATE::PREVIEW:
@@ -73,16 +87,19 @@ void CCampFire::Update(_float fTimeDelta)
 	case Client::CCampFire::STATE::DEAD:
 		
 		break;
+	case Client::CCampFire::STATE::PLACE:
+		if (700.f <= m_fAniTime)
+			m_eCurState = STATE::IDLE;
+		break;
+
 	default:
 		break;
 	}
-
-	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	Change_State();
 
 	HoverEvent();
 
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
-	
+	CAinimationObject::Update(fTimeDelta);	
 }
 
 void CCampFire::Late_Update(_float fTimeDelta)
@@ -92,25 +109,16 @@ void CCampFire::Late_Update(_float fTimeDelta)
 
 HRESULT CCampFire::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 50);
+	CAinimationObject::Render();
 
-	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
-	auto Camera = dynamic_cast<CCamera*>(Obj);
-	if (nullptr == Camera)
-		return E_FAIL;
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	XMLRenderAnimation(m_FrontName + m_TailName);
 
-	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-	m_pGraphic_Device->GetTexture(0, &pTex);
-	Excute_Billboard(Camera->GetInvViewMat(), pTex);
-
-	m_pTexture_Com->Set_Texture(EnumToInt(m_eCurState));
-
-	CLandObject::Render();
-
-	m_pVIBuffer_Com->Render();
-	End_Billboard();
 
 	switch (m_eCurState)
 	{
@@ -121,10 +129,15 @@ HRESULT CCampFire::Render()
 		break;
 	case Client::CCampFire::STATE::PREVIEW:
 		break;
+
+	case Client::CCampFire::STATE::PLACE:
+		
+		break;
 	default:
 		break;
 	}
 	
+
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
@@ -135,7 +148,7 @@ void CCampFire::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
 		__super::ClickedEvent();
@@ -145,43 +158,57 @@ void CCampFire::HoverEvent()
 
 HRESULT CCampFire::ADD_Components()
 {
-
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"),
-		reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+	/* Com_Transform */
+	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	Engine::CTransform::TRANSFORM_DESC Transform_Desc = { 5.f, D3DXToRadian(90.f) };
-
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"),
-		reinterpret_cast<CComponent**>(&m_pTransformCom), &Transform_Desc)))
+	/* Com_VIBuffer */
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTexture_Com))))
+	/* Com_Collision */
+	CBox_Collision_Component::Collision_Desc Col_Desc = {};
+	Col_Desc.pOwner = this;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
+		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
 
 
 	return S_OK;
 }
 
-void CCampFire::Update_Item(_float fTimeDelta)
+void CCampFire::Change_State()
 {
-	/*switch ()
+	if (m_eCurState != m_ePreState)
 	{
-	default:
-		break;
-	}*/
+		switch (m_eCurState)
+		{
+		case Client::CCampFire::STATE::IDLE:
+			m_fAniTime = 0.f;
+			m_FrontName = TEXT("idle");
+			break;
+		case Client::CCampFire::STATE::DEAD:
+			m_fAniTime = 0.f;
+			m_FrontName = TEXT("dead");
+			break;
+		case Client::CCampFire::STATE::PREVIEW:
+			m_fAniTime = 0.f;
+			m_FrontName = TEXT("preview");
+			break;
+		case Client::CCampFire::STATE::PLACE:
+			m_fAniTime = 0.f;
+			m_FrontName = TEXT("place");
+			break;
+		default:
+			break;
+		}
+		m_ePreState = m_eCurState;
+	}
 }
-
-//void CCampFire::Update_Fire(_float fValue)
-//{
-//	m_fFireOffset += fValue * 0.5f;
-//	_float3 vScale = m_pFireTransform_Com->GetScale();
-//	m_pFireTransform_Com->SetScale(_float3(vScale.x + fValue, vScale.y + fValue, 1.f));
-//}
 
 CCampFire* CCampFire::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

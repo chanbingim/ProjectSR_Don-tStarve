@@ -153,7 +153,7 @@ void CSlot::Update_Item(_float fTimeDelta)
         m_Item_Desc.fDurability -= 3.f * fTimeDelta;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
-        m_Item_Desc.fDurability -= 1.f * fTimeDelta;
+        
         break;
     default:
         break;

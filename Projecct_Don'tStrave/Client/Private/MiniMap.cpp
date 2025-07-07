@@ -47,7 +47,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
 
 	m_pMiniMap_Btn = dynamic_cast<CMiniMap_Button*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 6));
 
-	Update_Objects();
+	//Update_Objects();
 
 	m_pTerrains = CTerrian_Manager::GetInstance()->GetTerrains();
 
@@ -256,22 +256,19 @@ HRESULT CMiniMap::Update_Objects()
 	Icon_Desc.fParentCY = m_Panel_Desc.fSizeY;
 
 	// Player
-	list<CGameObject*>* pList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
+	CGameObject* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 
-	for (auto pObject : *pList)
-	{
-		CGameObject* pPlayer = dynamic_cast<CPlayer*>(pObject);
+	if (nullptr == pPlayer)
+		return E_FAIL;
 
-		if (nullptr == pPlayer)
-			return E_FAIL;
-		_float3 vPos = pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+	_float3 vPos = pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
 
-		Icon_Desc.iTextureNum = 0;
-		Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
-		Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
+	Icon_Desc.iTextureNum = 0;
+	Icon_Desc.fRX = vPos.x / 192.f - 0.5f;
+	Icon_Desc.fRY = -(1.f - (vPos.z / 192.f)) + 0.5f;
 
-		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
-	}
+	m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
+
 
 	// EnveiObject
 	list<CGameObject*>* pEnviornmenList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));

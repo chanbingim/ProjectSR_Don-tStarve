@@ -12,6 +12,7 @@
 #include "Terrian_Manager.h"
 #include "XML_Manager.h"
 #include "Camera_Button.h"
+#include "Logo.h"
 
 
 Client::CMainApp::CMainApp()	
@@ -151,6 +152,11 @@ HRESULT CMainApp::Ready_Prototypes()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Logo"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Paritcle_Sys */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
 		CParticleSystemComponent::Create(m_pGraphic_Device))))
@@ -178,6 +184,11 @@ HRESULT CMainApp::Ready_Prototypes()
 	/* For.Prototype_GameObject_AnimUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Anim_UI"),
 		CAnimationUI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_AnimUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Logo"),
+		CLogo::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
