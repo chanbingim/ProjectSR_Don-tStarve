@@ -202,7 +202,6 @@ HRESULT CMainApp::Ready_Prototypes()
 		CAnimationUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-<<<<<<< HEAD
 #pragma region STATIC_FONT
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Item_Count_14"), 14, TEXT("BigDonstarve"))))
 		return E_FAIL;
@@ -226,13 +225,10 @@ HRESULT CMainApp::Ready_Prototypes()
 		return E_FAIL;
 #pragma endregion
 
-=======
 	/* For.Prototype_GameObject_AnimUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Logo"),
 		CLogo::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
->>>>>>> origin/07_06_bjh
 	return S_OK;
 }
 

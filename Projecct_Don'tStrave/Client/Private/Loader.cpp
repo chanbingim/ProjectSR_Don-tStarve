@@ -297,11 +297,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/ItemFrame_%d.png"), 2))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_CampFire */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire/CampFire__00%d.png"), 3))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_Texture_CampFire_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CampFire_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/CampFire_Fire/fire__00%d.png"), 10))))
@@ -309,25 +304,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 #pragma region Chest
-	/* For.Prototype_Component_Texture_Chest_IDLE */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_IDLE"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/IDLE/chest__000.png"), 1))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Chest_PLACE */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_PLACE"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Place/chest__00%d.png"), 10))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Chest_OPEN */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_OPEN"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Open/chest__00%d.png"), 5))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Chest_CLOSE */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Chest_CLOSE"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Item/Chest/Close/chest__00%d.png"), 8))))
-		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_ChestUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ChestUI"),

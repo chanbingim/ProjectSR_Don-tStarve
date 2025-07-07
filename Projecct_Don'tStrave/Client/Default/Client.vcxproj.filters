@@ -523,6 +523,18 @@
     <ClInclude Include="..\public\LodingSpinner.h">
       <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Equipment.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Food.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Logo.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResearchLap.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -780,6 +792,18 @@
     </ClCompile>
     <ClCompile Include="..\private\LodingSpinner.cpp">
       <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Equipment.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Logo.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResearchLap.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Food.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
