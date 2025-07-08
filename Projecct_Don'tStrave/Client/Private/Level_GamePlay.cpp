@@ -63,8 +63,8 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 	if (FAILED(Ready_Layer_Camera(FilePath, TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;

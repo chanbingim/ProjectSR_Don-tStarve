@@ -60,11 +60,12 @@ public:
 	CHARACTER_DATA* Get_Char() { return m_pChar; }
 protected:
 	MOVE_DIR			m_tMoveDIr = {};
-	DamageBaseDesc			m_tDamage = {};
+	DamageBaseDesc		m_tDamage = {};
 
 	_bool				m_bAttack;
 	wstring				m_sAnim;
 	DIR					m_tDir = {};
+	_float3				m_fPreMove = {};
 	_float3				m_fMoving = {};
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};

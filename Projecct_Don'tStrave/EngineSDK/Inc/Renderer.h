@@ -48,6 +48,7 @@ private:
 	void Render_Alpha_UI();
 #pragma endregion
 
+	void SaveRenderTarget();
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free();

@@ -55,7 +55,9 @@ HRESULT CCharacter::Initialize(void* pArg)
 void CCharacter::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
+   
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
     m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1 : 1;
     m_tDamage.Direaction.z = 180 >= m_fAngle ? -1 : 1;
 }
@@ -253,7 +255,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
 HRESULT CCharacter::Ready_Components()
 {
     /* Com_Transform */
-    CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
+    CTransform::TRANSFORM_DESC		TransformDesc{ 10.f, D3DXToRadian(90.0f) };
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;

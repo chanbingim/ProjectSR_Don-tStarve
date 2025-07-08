@@ -28,6 +28,8 @@ private:
 	_float4x4							m_IndentiyViewMat;
 	_float4x4							m_OrtTHOMat;
 
+	LPDIRECT3DTEXTURE9					BakcBufferTexture = { nullptr };
+
 private:
 	void Render_Priority();
 
@@ -48,6 +50,7 @@ private:
 	void Render_Alpha_UI();
 #pragma endregion
 
+	void SaveRenderTarget();
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free();

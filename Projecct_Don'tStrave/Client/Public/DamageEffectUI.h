@@ -24,7 +24,7 @@ private :
 	_float				m_Alpha = { 0.0f };
 	_bool				m_bInverse = { false };
 
-	LPDIRECT3DTEXTURE9	BakcBufferTexture = { nullptr };
+	
 
 
 

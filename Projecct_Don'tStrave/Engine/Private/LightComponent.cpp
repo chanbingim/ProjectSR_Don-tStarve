@@ -67,8 +67,8 @@ CGameObject* CLightComponent::GetOwner()
 void CLightComponent::Free()
 {
 	__super::Free();
-	CLight_Manager::GetInstance()->REMOVE_Light((LIGHT_TYPE)m_LightData.Type, this);
 
+	CLight_Manager::GetInstance()->REMOVE_Light((LIGHT_TYPE)m_LightData.Type, this);
 	Safe_Release(m_pOwner);
 }
 

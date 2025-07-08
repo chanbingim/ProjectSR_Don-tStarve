@@ -16,6 +16,8 @@ public:
 	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, class CMouseSlotUI* pMouse = nullptr);
 	void Update_Engine(_float fTimeDelta);
 	HRESULT Draw();
+	void	SaveRenderTarget();
+
 	void Clear_Resources(_uint iLevelIndex);
 
 	_float Random_Normal();

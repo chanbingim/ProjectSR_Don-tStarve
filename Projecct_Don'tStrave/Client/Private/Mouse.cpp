@@ -191,8 +191,6 @@ HRESULT CMouse::Render()
         m_pSlot->Render(m_pTransform_Com);
     }
 
-   
-
     if (0 != m_iMouseState)
     {
         m_fX -= 30.f;

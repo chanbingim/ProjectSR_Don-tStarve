@@ -25,8 +25,6 @@ HRESULT CFire::Initialize_Prototype()
 
 HRESULT CFire::Initialize(void* pArg)
 {
-
-
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
@@ -228,4 +226,6 @@ void CFire::Free()
 
 	for (auto pState : m_pFireState_Com)
 		Safe_Release(pState);
+
+	Safe_Release(m_pLight_Com);
 }

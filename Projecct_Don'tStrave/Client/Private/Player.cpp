@@ -691,12 +691,14 @@ void CPlayer::Update(_float fTimeDelta)
 		m_iHungerChange = 30;
 		m_bControll = false;
 	}
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 	SetDir();
+
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
