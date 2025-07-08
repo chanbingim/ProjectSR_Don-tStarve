@@ -4,7 +4,7 @@
 #include "XML_Manager.h"
 
 #include "Slot.h"
-#include "Inventory.h"
+
 #include "Mouse.h"
 #include "Camera.h"
 
@@ -21,8 +21,8 @@ CCookpot::CCookpot(const CCookpot& Prototype)
 HRESULT CCookpot::Initialize_Prototype()
 {
 	auto XML_Instance = CXML_Manager::GetInstance();
-	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/ResearchLab/researchlab.scml", L"../Bin/Resources/Textures/Objects/ResearchLab/", &m_tImageVec);
-	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/ResearchLab/researchlab.scml", &m_tAnimation);
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Cook_Pot/cook_pot.scml", L"../Bin/Resources/Textures/Objects/Cook_Pot/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Cook_Pot/cook_pot.scml", &m_tAnimation);
 	return S_OK;
 }
 
@@ -64,27 +64,23 @@ void CCookpot::Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
-
 	switch (m_eCurState)
 	{
-	case Client::CCookpot::STATE::IDLE:
-		if (true == __super::isInRange(1.5f))
-			m_eCurState = STATE::USE;
+	case CCookpot::STATE::IDLE_EMPTY:
+		
 		break;
 
-	case Client::CCookpot::STATE::USE:
-		if (2200.f < m_fAniTime)
-			m_eCurState = STATE::LOOP;
+	case Client::CCookpot::STATE::IDLE_FULL:
+		
 		break;
 
 	case Client::CCookpot::STATE::PLACE:
-		if (700.f < m_fAniTime)
-			m_eCurState = STATE::IDLE;
+		if (735.f < m_fAniTime)
+			m_eCurState = STATE::IDLE_EMPTY;
 		break;
 
-	case Client::CCookpot::STATE::LOOP:
-		if (false == __super::isInRange(1.5f))
-			m_eCurState = STATE::IDLE;
+	case Client::CCookpot::STATE::COOKING_LOOP:
+		
 		break;
 
 	default:
@@ -105,13 +101,7 @@ HRESULT CCookpot::Render()
 {
 	CAinimationObject::Render();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	XMLRenderAnimation(m_FrontName + m_TailName);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
 }
@@ -152,14 +142,14 @@ void CCookpot::Change_State()
 	{
 		switch (m_eCurState)
 		{
-		case Client::CCookpot::STATE::IDLE:
+		case Client::CCookpot::STATE::IDLE_EMPTY:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("idle");
+			m_FrontName = TEXT("idle_empty");
 			break;
 
-		case Client::CCookpot::STATE::USE:
+		case Client::CCookpot::STATE::IDLE_FULL:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("use");
+			m_FrontName = TEXT("idle_full");
 			break;
 
 		case Client::CCookpot::STATE::PLACE:
@@ -167,9 +157,9 @@ void CCookpot::Change_State()
 			m_FrontName = TEXT("place");
 			break;
 
-		case Client::CCookpot::STATE::LOOP:
+		case Client::CCookpot::STATE::COOKING_LOOP:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("proximity_loop");
+			m_FrontName = TEXT("cooking_loop");
 			break;
 
 		default:

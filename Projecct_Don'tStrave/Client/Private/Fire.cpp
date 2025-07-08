@@ -39,35 +39,22 @@ HRESULT CFire::Initialize(void* pArg)
 
 	LoadImageFile();
 
-	/*LightDesc.Type = D3DLIGHT_POINT;
-
-	LightDesc.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
-	LightDesc.Ambient = D3DXCOLOR(0.8f, 0.8f, 1.f, 1.f);
-	LightDesc.Position = _float3(vPos.x, vPos.y + 0.5f, vPos.z);
-	LightDesc.Range = 5.f;
-	LightDesc.Attenuation0 = 0.f;
-	LightDesc.Attenuation2 = 0.3f;
-	LightDesc.Attenuation2 = 0.8f;*/
-
 	m_pLight_Com->SetLightType(D3DLIGHT_POINT);
 
 	m_Color = D3DXCOLOR(1.0f, 0.8f, 0.8f, 1.f);
 	_float3	vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 	m_pLight_Com->SetDiffuseColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
-	m_pLight_Com->SetAmbientColor(m_Color);
+	m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.f, 0.f, 0.f, 0.f));
 	m_pLight_Com->SetPosition(vPos);
-	m_pLight_Com->SetMaxRange(3.f);
+	m_pLight_Com->SetMaxRange(3.3f);
 	m_pLight_Com->SetAttenuation(0.f, 0.3f, 0.8f);
 
-	//m_pGraphic_Device->SetLight(1, &m_Light);
 	m_pGraphic_Device->LightEnable(0, true);
 	m_pGraphic_Device->LightEnable(1, true);
 	m_pGraphic_Device->LightEnable(2, true);
 	m_pGraphic_Device->LightEnable(3, true);
 	m_pGraphic_Device->LightEnable(5, true);
 	m_pGraphic_Device->LightEnable(4, true);
-
-	m_pLight_Com->Render_Light();
 
 	m_FrontName = TEXT("level3");
 	m_TailName = TEXT("");
@@ -91,9 +78,8 @@ void CFire::Update(_float fTimeDelta)
 	m_pLight_Com->SetPosition(vPos);
 	_float fValue = m_fDurability * 0.01f;
 	m_pLight_Com->Render_Light();
-	//m_pLight_Com->SetAmbientColor(D3DXCOLOR(m_Color.r * fValue, m_Color.g * fValue, m_Color.b * fValue, m_Color.b));
-	//m_pLight_Com->SetMaxRange(3.f);
-	//m_pLight_Com->Render_Light();
+	m_pLight_Com->SetAmbientColor(D3DXCOLOR(m_Color.r * fValue, m_Color.g * fValue, m_Color.b * fValue, m_Color.b));
+	m_pLight_Com->Render_Light();
 
 	switch (m_eCurState)
 	{

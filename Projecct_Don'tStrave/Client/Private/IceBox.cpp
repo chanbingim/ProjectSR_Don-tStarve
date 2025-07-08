@@ -1,4 +1,4 @@
-#include "Chest.h"
+#include "IceBox.h"
 
 #include "GameInstance.h"
 #include "XML_Manager.h"
@@ -11,26 +11,26 @@
 #include "ChestUI.h"
 
 
-CChest::CChest(LPDIRECT3DDEVICE9 pGraphic_Device)
+CIceBox::CIceBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
 {
 }
 
-CChest::CChest(const CChest& Prototype)
+CIceBox::CIceBox(const CIceBox& Prototype)
 	: CItem{ Prototype }
 {
 }
 
-HRESULT CChest::Initialize_Prototype()
+HRESULT CIceBox::Initialize_Prototype()
 {
 	auto XML_Instance = CXML_Manager::GetInstance();
-	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Chest/treasure_chest.scml", L"../Bin/Resources/Textures/Objects/Chest/", &m_tImageVec);
-	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Chest/treasure_chest.scml", &m_tAnimation);
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/IceBox/ice_box.scml", L"../Bin/Resources/Textures/Objects/IceBox/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/IceBox/ice_box.scml", &m_tAnimation);
 
 	return S_OK;
 }
 
-HRESULT CChest::Initialize(void* pArg)
+HRESULT CIceBox::Initialize(void* pArg)
 {
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
@@ -48,20 +48,19 @@ HRESULT CChest::Initialize(void* pArg)
 	m_ePreState = STATE::END;
 	m_eCurState = STATE::PLACE;
 
-	
 
 	m_pChestUI = dynamic_cast<CChestUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ChestUI")));
 
 	return S_OK;
 }
 
-void CChest::Priority_Update(_float fTimeDelta)
+void CIceBox::Priority_Update(_float fTimeDelta)
 {
 	if (m_eCurState != STATE::OPENED)
 		m_fAniTime += fTimeDelta * 700.f;
 }
 
-void CChest::Update(_float fTimeDelta)
+void CIceBox::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
@@ -70,35 +69,33 @@ void CChest::Update(_float fTimeDelta)
 
 	switch (m_eCurState)
 	{
-	case Client::CChest::STATE::IDLE:
-		
+	case Client::CIceBox::STATE::IDLE:
+
 		break;
 
-	case Client::CChest::STATE::PLACE:
-		if (834.f <= m_fAniTime)
+	case Client::CIceBox::STATE::PLACE:
+		if (467.f <= m_fAniTime)
 			m_eCurState = STATE::IDLE;
 		break;
 
-	case Client::CChest::STATE::OPEN:
-		if (200.f <= m_fAniTime)
+	case Client::CIceBox::STATE::OPEN:
+		if (234.f <= m_fAniTime)
 			m_eCurState = STATE::OPENED;
+
 		if (false == __super::isInRange())
 			m_eCurState = STATE::CLOSE;
 		break;
-	
-	case Client::CChest::STATE::OPENED:
+
+	case Client::CIceBox::STATE::OPENED:
 		m_pChestUI->Add_Render();
 		m_fAniTime = 199.f;
 		if (false == __super::isInRange())
 			m_eCurState = STATE::CLOSE;
 		break;
 
-	case Client::CChest::STATE::CLOSE:
-		if (370.f <= m_fAniTime)
+	case Client::CIceBox::STATE::CLOSE:
+		if (360.f <= m_fAniTime)
 			m_eCurState = STATE::IDLE;
-		break;
-
-	case Client::CChest::STATE::END:
 		break;
 
 	default:
@@ -106,7 +103,7 @@ void CChest::Update(_float fTimeDelta)
 	}
 
 	m_pChestUI->Update(fTimeDelta);
-	
+
 	Change_State();
 
 	SetUp_OnTerrain(m_pTransformCom, 0.f);
@@ -115,42 +112,44 @@ void CChest::Update(_float fTimeDelta)
 
 }
 
-void CChest::Late_Update(_float fTimeDelta)
+void CIceBox::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CChest::Render()
+HRESULT CIceBox::Render()
 {
+	
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
 	return S_OK;
 }
 
-void CChest::HoverEvent()
+void CIceBox::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
-		if(STATE::OPENED != m_eCurState)
+		if (STATE::OPENED != m_eCurState)
 			m_pMouse->Update_Hover(L":Open", 1);
 		ClickedEvent();
 	}
 }
 
-void CChest::ClickedEvent()
+void CIceBox::ClickedEvent()
 {
-	if (CChest::STATE::OPEN == m_eCurState)
+	if (CIceBox::STATE::OPEN == m_eCurState)
 		return;
-	
+
 	if (m_pGameInstance->KeyDown(VK_LBUTTON) && true == __super::isInRange())
 	{
-		m_eCurState = CChest::STATE::OPEN;
+		m_eCurState = CIceBox::STATE::OPEN;
 	}
 }
 
-HRESULT CChest::ADD_Components()
+
+HRESULT CIceBox::ADD_Components()
 {
 
 	/* Com_Transform */
@@ -171,43 +170,40 @@ HRESULT CChest::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
 		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
 		return E_FAIL;
-	
+
 
 	return S_OK;
 }
 
-void CChest::Change_State()
+void CIceBox::Change_State()
 {
 	if (m_ePreState != m_eCurState)
 	{
 		switch (m_eCurState)
 		{
-		case Client::CChest::STATE::IDLE:
+		case Client::CIceBox::STATE::IDLE:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("chest");
+			m_FrontName = TEXT("idle");
 			break;
 
-		case Client::CChest::STATE::PLACE:
+		case Client::CIceBox::STATE::PLACE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("place");
 			break;
 
-		case Client::CChest::STATE::OPEN:
+		case Client::CIceBox::STATE::OPEN:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("open");
 			break;
 
-		case Client::CChest::STATE::OPENED:
+		case Client::CIceBox::STATE::OPENED:
 			m_fAniTime = 180.f;
 			m_FrontName = TEXT("open");
 			break;
 
-		case Client::CChest::STATE::CLOSE:
+		case Client::CIceBox::STATE::CLOSE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("close");
-			break;
-
-		case Client::CChest::STATE::END:
 			break;
 
 		default:
@@ -219,9 +215,9 @@ void CChest::Change_State()
 }
 
 
-CChest* CChest::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CIceBox* CIceBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CChest* pInstance = new CChest(pGraphic_Device);
+	CIceBox* pInstance = new CIceBox(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -233,9 +229,9 @@ CChest* CChest::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CGameObject* CChest::Clone(void* pArg)
+CGameObject* CIceBox::Clone(void* pArg)
 {
-	CGameObject* pInstance = new CChest(*this);
+	CGameObject* pInstance = new CIceBox(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -247,11 +243,10 @@ CGameObject* CChest::Clone(void* pArg)
 	return pInstance;
 }
 
-void CChest::Free()
+void CIceBox::Free()
 {
 	__super::Free();
 
-	
 	Safe_Release(m_pChestUI);
 
 }

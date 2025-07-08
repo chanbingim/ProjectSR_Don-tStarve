@@ -84,8 +84,6 @@ void CChestUI::Priority_Update(_float fTimeDelta)
 
 void CChestUI::Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
-
     m_pAnimController->Tick(fTimeDelta);
 
     Update_State();
@@ -178,6 +176,11 @@ void CChestUI::RePosition_SlotFrame()
 
         m_SlotFrames[i]->Update_SlotPosition(fX, fY);
     }
+}
+
+void CChestUI::Add_Render()
+{
+    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
 

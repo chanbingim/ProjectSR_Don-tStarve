@@ -4,13 +4,13 @@
 
 NS_BEGIN(Client);
 
-class CCookpot final : public CItem
+class CIceBox : public CItem
 {
-	enum class STATE { IDLE_EMPTY, IDLE_FULL, PLACE, COOKING_LOOP, END };
+	enum class STATE { IDLE, PLACE, OPEN, CLOSE, OPENED, END };
 private:
-	CCookpot(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCookpot(const CCookpot& Prototype);
-	virtual ~CCookpot() = default;
+	CIceBox(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CIceBox(const CIceBox& Prototype);
+	virtual ~CIceBox() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -21,21 +21,22 @@ public:
 	virtual HRESULT	 Render();
 
 	void HoverEvent();
+	void ClickedEvent();
 
 private:
-	STATE m_ePreState = {};
-	STATE m_eCurState = {};
+	CIceBox::STATE		m_eCurState = {};
+	CIceBox::STATE		m_ePreState = {};
+
+	class CChestUI* m_pChestUI = { nullptr };
 
 private:
-	HRESULT				ADD_Components();
-
+	HRESULT ADD_Components();
 	void Change_State();
 
 public:
-	static CCookpot* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CIceBox* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };
 
 NS_END
-

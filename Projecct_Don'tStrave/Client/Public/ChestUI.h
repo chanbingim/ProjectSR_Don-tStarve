@@ -28,6 +28,7 @@ public:
 	void Change_State(CChestUI::STATE eState);
 	void Update_State();
 	void RePosition_SlotFrame();
+	void Add_Render();
 
 private:
 	_bool			 m_bRended = {};

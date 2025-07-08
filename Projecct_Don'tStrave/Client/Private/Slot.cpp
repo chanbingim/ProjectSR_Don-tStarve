@@ -223,6 +223,26 @@ void CSlot::Update_Count()
     }
 }
 
+void CSlot::Update_IceBox(_float fTimeDelta)
+{
+    switch (m_Item_Desc.eItemType)
+    {
+    case Client::ITEM_TYPE::FOOD:
+        if (0.f >= m_Item_Desc.fDurability)
+        {
+            m_Item_Desc.iItemID = 51;
+            m_Item_Desc.fDurability = 100.f;
+        }
+
+        if (51 != m_Item_Desc.iItemID)
+            m_Item_Desc.fDurability -= 1.f * fTimeDelta;
+        break;
+
+    default:
+        break;
+    }
+}
+
 void CSlot::Render_ItemState()
 {
     if (m_Item_Desc.eItemType == ITEM_TYPE::FOOD)
