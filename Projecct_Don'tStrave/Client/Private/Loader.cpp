@@ -13,6 +13,7 @@
 #include "SlotFrame.h"
 #include "Inventory.h"
 #include "Mouse.h"
+#include "Logo.h"
 
 #pragma region BUTTON_UI
 #include "Crafting_Button.h"
@@ -30,6 +31,9 @@
 #include "ResearchLap.h"
 #include "Equipment.h"
 #include "CampFire.h"
+#include "Cookpot.h"
+#include "Chest.h"
+#include "IceBox.h"
 #include "DropItemComponent.h"
 #pragma endregion
 
@@ -47,7 +51,6 @@
 
 #include "Material_Item.h"
 #include "Fire.h"
-#include "Chest.h"
 #include "UIEffect.h"
 #include "ChestUI.h"
 #pragma endregion
@@ -136,12 +139,27 @@ void CLoader::Output()
 HRESULT CLoader::Loading_For_Logo()
 {
 	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
-	
+	/* For.Prototype_Component_Texture_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo_button.png"), 1))))
+		return E_FAIL;
+
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 	
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+	/* For.Prototype_GameObject_Logo */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_Logo"),
+		CLogo::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
@@ -558,6 +576,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_ResearchLap */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
 		CResearchLap::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	/* For.Prototype_GameObject_Cookpot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
+		CCookpot::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	/* For.Prototype_GameObject_IceBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
+		CIceBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	

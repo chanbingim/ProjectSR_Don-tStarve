@@ -30,6 +30,7 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 	
+	void	Update_IceBox(_float fTimeDelta);
 private:
 	_bool	m_bClick = {};
 	SLOT	m_eSlotType = {};

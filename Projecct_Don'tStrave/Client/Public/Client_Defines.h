@@ -60,9 +60,9 @@ namespace Client
 		unsigned int	iNumMaterial_3{};
 		wstring			strExplanation = {};
 		wstring			strLines = {};
-		unsigned int	iHealthChange{};
-		unsigned int	iHungerChange{};
-		unsigned int	iSanityChange{};
+		int	iHealthChange{};
+		int	iHungerChange{};
+		int	iSanityChange{};
 		unsigned int	iRotTime{};
 		FOOD			eFoodtype{};
 	}ITEM_DATA;

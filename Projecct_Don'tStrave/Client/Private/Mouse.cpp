@@ -156,6 +156,36 @@ void CMouse::Update(_float fTimeDelta)
 
         m_pSlot->Set_Info(Desc);
     }
+    if (GetKeyState('8') & 0x8000)
+    {
+        Desc.iItemID = 5;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('9') & 0x8000)
+    {
+        Desc.iItemID = 12;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('0') & 0x8000)
+    {
+        Desc.iItemID = 13;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
 #pragma endregion
     
 }
@@ -291,6 +321,22 @@ void CMouse::ClickedEevent()
                     else if (7 == iItemID)
                     {
                         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (12 == iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
+                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        {
+                            MSG_BOX("Failed to Add Item");
+                        }
+                    }
+                    else if (13 == iItemID)
+                    {
+                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
                             EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
                         {
                             MSG_BOX("Failed to Add Item");

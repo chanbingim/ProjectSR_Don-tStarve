@@ -65,7 +65,7 @@ void CCampFire::Update(_float fTimeDelta)
 	if (nullptr == Camera)
 		return;
 
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	switch (m_eCurState)
 	{
@@ -76,8 +76,8 @@ void CCampFire::Update(_float fTimeDelta)
 
 		if (0.f < m_Item_Desc.fDurability)
 		{
-			m_Item_Desc.fDurability -= 0.02f;
-			m_pFire->Update_Fire(m_Item_Desc.fDurability * 0.01f);
+			m_Item_Desc.fDurability -= 1.f * fTimeDelta;
+			m_pFire->Update_Fire(m_Item_Desc.fDurability);
 			m_pFire->Update(fTimeDelta);
 		}
 		else
@@ -111,35 +111,7 @@ HRESULT CCampFire::Render()
 {
 	CAinimationObject::Render();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	XMLRenderAnimation(m_FrontName + m_TailName);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-
-	switch (m_eCurState)
-	{
-	case Client::CCampFire::STATE::IDLE:
-		m_pFire->Render();
-		break;
-	case Client::CCampFire::STATE::DEAD:
-		break;
-	case Client::CCampFire::STATE::PREVIEW:
-		break;
-
-	case Client::CCampFire::STATE::PLACE:
-		
-		break;
-	default:
-		break;
-	}
-	
-
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
 	return S_OK;
 }

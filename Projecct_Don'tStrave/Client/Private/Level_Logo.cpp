@@ -4,6 +4,7 @@
 
 #include "Level_Loading.h"
 #include "Camera.h"
+#include "Logo.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -30,6 +31,18 @@ void CLevel_Logo::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::GAMEPLAY))))
 			return;
 	}
+
+	if(m_pGameInstance->KeyUp(VK_LBUTTON))
+	{
+		if(0== dynamic_cast<CLogo*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::LOGO), TEXT("Layer_BackGround")))->Get_ID())
+		{
+			if (FAILED(m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::GAMEPLAY))))
+				return;
+		}
+		
+	}
+	
+	
 }
 
 HRESULT CLevel_Logo::Render()
@@ -61,7 +74,7 @@ HRESULT CLevel_Logo::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 	// Add Logo
- 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::STATIC),
+ 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::LOGO),
 		TEXT("Prototype_GameObject_Logo"), EnumToInt(LEVEL::LOGO), strLayerTag)))
 		return E_FAIL;
 

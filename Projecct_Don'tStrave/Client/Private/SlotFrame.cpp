@@ -116,6 +116,17 @@ HRESULT CSlotFrame::Render()
     return S_OK;
 }
 
+void CSlotFrame::Update_IceBox(_float fTimeDelta)
+{
+    HoverEevent();
+
+    if (m_eSlotType == m_pSlot->Get_Info().eSlot)
+    {
+        m_pSlot->Update_IceBox(fTimeDelta);
+    }
+    m_pSlot->Update_Count();
+}
+
 void CSlotFrame::HoverEevent()
 {
     RECT rc = { (LONG)(m_fX - m_fSizeX * 0.5f), (LONG)(m_fY - m_fSizeY * 0.5f), (LONG)(m_fX + m_fSizeX * 0.5f), (LONG)(m_fY + m_fSizeY * 0.5f) };

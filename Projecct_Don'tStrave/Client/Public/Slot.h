@@ -33,6 +33,7 @@ public:
 	HRESULT			 Render(CTransform* pTransform);
 
 	void			 Update_Count();
+	void			 Update_IceBox(_float fTimeDelta);
 	void			 Render_ItemState();
 
 private:

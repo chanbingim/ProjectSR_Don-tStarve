@@ -1,32 +1,32 @@
-#include "ResearchLap.h"
+#include "Cookpot.h"
 
 #include "GameInstance.h"
 #include "XML_Manager.h"
 
 #include "Slot.h"
-#include "Inventory.h"
+
 #include "Mouse.h"
 #include "Camera.h"
 
-CResearchLap::CResearchLap(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCookpot::CCookpot(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
 {
 }
 
-CResearchLap::CResearchLap(const CResearchLap& Prototype)
+CCookpot::CCookpot(const CCookpot& Prototype)
 	: CItem{ Prototype }
 {
 }
 
-HRESULT CResearchLap::Initialize_Prototype()
+HRESULT CCookpot::Initialize_Prototype()
 {
 	auto XML_Instance = CXML_Manager::GetInstance();
-	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/ResearchLab/researchlab.scml", L"../Bin/Resources/Textures/Objects/ResearchLab/", &m_tImageVec);
-	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/ResearchLab/researchlab.scml", &m_tAnimation);
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Cook_Pot/cook_pot.scml", L"../Bin/Resources/Textures/Objects/Cook_Pot/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Cook_Pot/cook_pot.scml", &m_tAnimation);
 	return S_OK;
 }
 
-HRESULT CResearchLap::Initialize(void* pArg)
+HRESULT CCookpot::Initialize(void* pArg)
 {
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
@@ -38,24 +38,24 @@ HRESULT CResearchLap::Initialize(void* pArg)
 
 	m_FrontName = TEXT("place");
 	m_TailName = TEXT("");
-	
+
 	m_fAniTime = 0.f;
 	m_iLength = 100.f;
 	m_ePreState = STATE::END;
 	m_eCurState = STATE::PLACE;
-	
+
 
 	return S_OK;
 }
 
-void CResearchLap::Priority_Update(_float fTimeDelta)
+void CCookpot::Priority_Update(_float fTimeDelta)
 {
 	//__super::Priority_Update(fTimeDelta);
 	m_fAniTime += fTimeDelta * 700.f;
 
 }
 
-void CResearchLap::Update(_float fTimeDelta)
+void CCookpot::Update(_float fTimeDelta)
 {
 	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
 	auto Camera = dynamic_cast<CCamera*>(Obj);
@@ -64,27 +64,23 @@ void CResearchLap::Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
-
 	switch (m_eCurState)
 	{
-	case Client::CResearchLap::STATE::IDLE:
-		if (true == __super::isInRange(1.5f))
-			m_eCurState = STATE::USE;
+	case CCookpot::STATE::IDLE_EMPTY:
+		
 		break;
 
-	case Client::CResearchLap::STATE::USE:
-		if (2200.f < m_fAniTime)
-			m_eCurState = STATE::LOOP;
+	case Client::CCookpot::STATE::IDLE_FULL:
+		
 		break;
 
-	case Client::CResearchLap::STATE::PLACE:
-		if (700.f < m_fAniTime)
-			m_eCurState = STATE::IDLE;
+	case Client::CCookpot::STATE::PLACE:
+		if (735.f < m_fAniTime)
+			m_eCurState = STATE::IDLE_EMPTY;
 		break;
 
-	case Client::CResearchLap::STATE::LOOP:
-		if (false == __super::isInRange(1.5f))
-			m_eCurState = STATE::IDLE;
+	case Client::CCookpot::STATE::COOKING_LOOP:
+		
 		break;
 
 	default:
@@ -96,12 +92,12 @@ void CResearchLap::Update(_float fTimeDelta)
 	CAinimationObject::Update(fTimeDelta);
 }
 
-void CResearchLap::Late_Update(_float fTimeDelta)
+void CCookpot::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CResearchLap::Render()
+HRESULT CCookpot::Render()
 {
 	CAinimationObject::Render();
 
@@ -110,13 +106,13 @@ HRESULT CResearchLap::Render()
 	return S_OK;
 }
 
-void CResearchLap::HoverEvent()
+void CCookpot::HoverEvent()
 {
-	
+
 }
 
 
-HRESULT CResearchLap::ADD_Components()
+HRESULT CCookpot::ADD_Components()
 {
 	/* Com_Transform */
 	CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
@@ -140,30 +136,30 @@ HRESULT CResearchLap::ADD_Components()
 	return S_OK;
 }
 
-void CResearchLap::Change_State()
+void CCookpot::Change_State()
 {
 	if (m_eCurState != m_ePreState)
 	{
 		switch (m_eCurState)
 		{
-		case Client::CResearchLap::STATE::IDLE:
+		case Client::CCookpot::STATE::IDLE_EMPTY:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("idle");
+			m_FrontName = TEXT("idle_empty");
 			break;
 
-		case Client::CResearchLap::STATE::USE:
+		case Client::CCookpot::STATE::IDLE_FULL:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("use");
+			m_FrontName = TEXT("idle_full");
 			break;
 
-		case Client::CResearchLap::STATE::PLACE:
+		case Client::CCookpot::STATE::PLACE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("place");
 			break;
 
-		case Client::CResearchLap::STATE::LOOP:
+		case Client::CCookpot::STATE::COOKING_LOOP:
 			m_fAniTime = 0.f;
-			m_FrontName = TEXT("proximity_loop");
+			m_FrontName = TEXT("cooking_loop");
 			break;
 
 		default:
@@ -173,37 +169,37 @@ void CResearchLap::Change_State()
 	}
 }
 
-CResearchLap* CResearchLap::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCookpot* CCookpot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CResearchLap* pInstance = new CResearchLap(pGraphic_Device);
+	CCookpot* pInstance = new CCookpot(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Clone CResearchLap");
+		MSG_BOX("Failed to Clone CCookpot");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-CGameObject* CResearchLap::Clone(void* pArg)
+CGameObject* CCookpot::Clone(void* pArg)
 {
-	CGameObject* pInstance = new CResearchLap(*this);
+	CGameObject* pInstance = new CCookpot(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Create CResearchLap");
+		MSG_BOX("Failed to Create CCookpot");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CResearchLap::Free()
+void CCookpot::Free()
 {
 	__super::Free();
 
-	
+
 }
