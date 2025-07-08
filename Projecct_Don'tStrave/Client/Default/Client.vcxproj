@@ -157,6 +157,7 @@
     <ClInclude Include="..\Public\ChestUI.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\public\Clock.h" />
+    <ClInclude Include="..\Public\Cookpot.h" />
     <ClInclude Include="..\public\CraftingUI.h" />
     <ClInclude Include="..\Public\Crafting_Button.h" />
     <ClInclude Include="..\Public\Create_Button.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\Public\Food.h" />
     <ClInclude Include="..\public\GrassObject.h" />
+    <ClInclude Include="..\Public\IceBox.h" />
     <ClInclude Include="..\Public\ItemState.h" />
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
@@ -250,12 +252,14 @@
     <ClCompile Include="..\Private\Chest.cpp" />
     <ClCompile Include="..\Private\ChestUI.cpp" />
     <ClCompile Include="..\private\Clock.cpp" />
+    <ClCompile Include="..\Private\Cookpot.cpp" />
     <ClCompile Include="..\private\CraftingUI.cpp" />
     <ClCompile Include="..\Private\Crafting_Button.cpp" />
     <ClCompile Include="..\Private\Create_Button.cpp" />
     <ClCompile Include="..\private\DamageEffectUI.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
     <ClCompile Include="..\Private\Equipment.cpp" />
+    <ClCompile Include="..\Private\IceBox.cpp" />
     <ClCompile Include="..\private\LodingInterface.cpp" />
     <ClCompile Include="..\private\LodingSpinner.cpp" />
     <ClCompile Include="..\Private\Logo.cpp" />

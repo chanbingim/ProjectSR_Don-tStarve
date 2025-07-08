@@ -29,11 +29,7 @@ HRESULT CFire::Initialize_Prototype()
 
 HRESULT CFire::Initialize(void* pArg)
 {
-<<<<<<< HEAD
-=======
 	m_fDurability = 100.f;
-
->>>>>>> origin/07_07_bjh
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
@@ -248,12 +244,4 @@ void CFire::Free()
 	__super::Free();
 
 	Safe_Release(m_pLight_Com);
-
-<<<<<<< HEAD
-	for (auto pState : m_pFireState_Com)
-		Safe_Release(pState);
-
-	Safe_Release(m_pLight_Com);
-=======
->>>>>>> origin/07_07_bjh
 }

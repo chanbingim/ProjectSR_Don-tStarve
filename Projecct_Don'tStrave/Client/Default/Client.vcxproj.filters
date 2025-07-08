@@ -541,6 +541,12 @@
     <ClInclude Include="..\public\DamageEffectUI.h">
       <Filter>04. GmaeUI\DamageEffectUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Cookpot.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceBox.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -813,6 +819,12 @@
     </ClCompile>
     <ClCompile Include="..\private\DamageEffectUI.cpp">
       <Filter>04. GmaeUI\DamageEffectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cookpot.cpp">
+      <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceBox.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
