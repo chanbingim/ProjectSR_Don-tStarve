@@ -45,7 +45,7 @@ void CMonsterData_Manager::LoadMonsterData(const char* MapFilePath)
         Data.iAtkSpeed = static_cast<_float>(std::stoi(ReadData[i++]));
 
         Data.iMaxHit = static_cast<_uint>(std::stoi(ReadData[i++]));
-        Data.bHostile = static_cast<_bool>(std::stoi(ReadData[i++]));
+        Data.iHostile = static_cast<_uint>(std::stoi(ReadData[i++]));
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);
         Data.strWilsonDial = szData;
         CUtility::ConvertUTFToWide(ReadData[i++].c_str(), szData);

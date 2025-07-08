@@ -58,13 +58,17 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-    auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_fMoving);
+    auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_pChar->fPos);
     if (Terrian)
     {
         m_pLandVIBuffer = Terrian->GetCurVIBuffer();
         m_pLandTransform = Terrian->GetTransfrom();
 
         SetUp_OnTerrain(m_pTransformCom, 0.f);
+    }
+    else {
+        m_pChar->fPos = m_fMoving;
+        m_pTransformCom->SetPosition(m_pChar->fPos);
     }
     m_bCol = false;
 }
@@ -99,10 +103,11 @@ void CCharacter::Damage(void* pArg)
 
 void CCharacter::SetDir()
 {
-    m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION) - m_fMoving;
-    if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
-        m_fAngle = D3DXToDegree(acosf(m_fMoving.x / sqrtf(powf(m_fMoving.x, 2) + powf(m_fMoving.z, 2))));
-        if (0 < m_fMoving.z) {
+    
+    _float3 fDir = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION) - m_fMoving;
+    if (0.01f < abs(fDir.x) + abs(fDir.z)) {
+        m_fAngle = D3DXToDegree(acosf(fDir.x / sqrtf(powf(fDir.x, 2) + powf(fDir.z, 2))));
+        if (0 < fDir.z) {
             m_fAngle = 360.f - m_fAngle;
         }
     }
@@ -235,6 +240,8 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
         matWorld = matPivot * matScale * matRotZ * matTrans * matRotY * matBillboard * matPos;              // 이제 전부 적용
         image.pTexture->Set_Texture(0);                                                                     // 이 오브젝트에서 쓰는 텍스쳐를 Set_Texture
         m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);                                            // 적용
+        
+        
         m_pVIBufferCom->Render();                                                                           // 랜더
     }
 }

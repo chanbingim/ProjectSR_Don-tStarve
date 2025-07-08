@@ -86,7 +86,7 @@ namespace Client
 		_uint			iAtkDistance = {};
 		_float			iAtkSpeed = {};
 		_uint			iMaxHit = {};
-		_bool			bHostile = {};
+		_uint			iHostile = {};
 		wstring			strWilsonDial = {};
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
@@ -128,7 +128,7 @@ namespace Client
 		_uint		iId = {};
 		_float		iAtkDistance = {};
 		_float		iAtkSpeed = {};
-		_bool		bHostile = {};
+		_uint		iHostile = {};
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{

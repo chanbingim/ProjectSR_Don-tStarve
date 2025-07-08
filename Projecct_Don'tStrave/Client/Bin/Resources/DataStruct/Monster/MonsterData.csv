@@ -6,5 +6,5 @@
 105,Prototype_GameObject_SpiderHouse,거미집,600,0,0,0,0,0,1,알이 부화하지 않았으면 좋겠네. 한동안은 말야.,이를 짓밟음은 미래의 전투를 없애는 일이 될 것이다.
 106,Prototype_GameObject_Pig,돼지,250,33,3,3,5,80,0,저 녀석들은 뭔가 섬뜩한 게 있다니까.,전투에 굶주리지 않았는가 돼지여?
 107,Prototype_GameObject_Deerclops,외눈 사슴,2000,75,3,8,3,200,1,엄청 크잖아!!,내 창을 따라 흐르는 빛줄기로 네놈의 눈을 멀게 해 주마!
-108,Prototype_GameObject_Crawling,기어다니는 공포,300,20,3,3,2.5,0,1, , 
-109,Prototype_GameObject_Terrorbeak,공포 부리,400,50,7,3,1.5,0,1, , 
+108,Prototype_GameObject_Crawling,기어다니는 공포,300,20,3,3,2.5,0,2, , 
+109,Prototype_GameObject_Terrorbeak,공포 부리,400,50,7,3,1.5,0,2, , 

@@ -515,7 +515,7 @@ void CPlayer::Update(_float fTimeDelta)
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->bHostile)
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 						if (5.f > distance) {
 							NearObjects.push_back(object);
 						}

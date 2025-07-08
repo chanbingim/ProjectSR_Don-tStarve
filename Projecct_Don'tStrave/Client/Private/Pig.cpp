@@ -47,7 +47,7 @@ void CPig::Priority_Update(_float fTimeDelta)
 		m_pTarget = nullptr;
 
 		list<CGameObject*> NearObjects;
-		if (m_pMonsterData->bHostile) {
+		if (m_pMonsterData->iHostile) {
 			NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
 		}
 		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
@@ -55,7 +55,7 @@ void CPig::Priority_Update(_float fTimeDelta)
 			for (auto& object : (*GroundObejcts)) {
 				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-				if (!dynamic_cast<CPig*>(object))
+				if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 					if (5.f > distance) {
 						NearObjects.push_back(object);
 					}
@@ -204,8 +204,8 @@ void CPig::Update(_float fTimeDelta)
 
 void CPig::Late_Update(_float fTimeDelta)
 {
-		SetDir();
 		__super::Late_Update(fTimeDelta);
+		SetDir();
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 

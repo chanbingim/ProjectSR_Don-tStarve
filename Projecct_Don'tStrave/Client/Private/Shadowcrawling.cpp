@@ -198,8 +198,24 @@ HRESULT CShadowcrawling::Render()
 {
 	__super::Render();
 	if (!m_isDead) {
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
+
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+		m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(100, 255, 255, 255));
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
+
+		m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	}
 	return S_OK;
 }
