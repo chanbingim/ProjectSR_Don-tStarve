@@ -48,7 +48,6 @@ HRESULT CCampFire::Initialize(void* pArg)
 
 	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"), pArg));
 
-	
 
 	return S_OK;
 }
@@ -112,6 +111,8 @@ HRESULT CCampFire::Render()
 	CAinimationObject::Render();
 
 	XMLRenderAnimation(m_FrontName + m_TailName);
+
+	m_pFire->Render();
 
 	return S_OK;
 }

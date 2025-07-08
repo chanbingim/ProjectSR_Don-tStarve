@@ -1,10 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Item.h"
-
 NS_BEGIN(Engine);
-class CState;
-class CAnimController;
 class CLightComponent;
 NS_END
 

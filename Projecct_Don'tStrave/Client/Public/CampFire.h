@@ -35,9 +35,6 @@ private:
 private:
 	HRESULT ADD_Components();
 	void Change_State();
-	void Update_Item(_float fTimeDelta);
-	void Update_Fire(_float fValue);
-
 
 public:
 	static CCampFire* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
