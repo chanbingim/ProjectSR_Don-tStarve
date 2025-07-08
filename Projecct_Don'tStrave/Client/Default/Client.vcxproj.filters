@@ -544,7 +544,14 @@
     <ClInclude Include="..\public\PigHouse.h">
       <Filter>김정환</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\House.h" />
+    <ClInclude Include="..\public\House.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Treeguard.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TreeguardObject.h" />
+    <ClInclude Include="..\public\Goat.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -824,7 +831,14 @@
     <ClCompile Include="..\private\PigHouse.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\House.cpp" />
+    <ClCompile Include="..\private\House.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Treeguard.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TreeguardObject.cpp" />
+    <ClCompile Include="..\private\Goat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">

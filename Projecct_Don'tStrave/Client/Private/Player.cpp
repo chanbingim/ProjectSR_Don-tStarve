@@ -128,7 +128,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 			}
 		}
 	}
-
+	m_fAngle = 90;
 	PLAYER_DESC data = *static_cast<PLAYER_DESC*>(pArg);
 	m_pPlayer = new PLAYER_DATA;
 
@@ -138,7 +138,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iMaxMental = data.iMaxMental;
 	m_pPlayer->iHp = data.iMaxHp;
 	m_pPlayer->iHunger = data.iMaxHunger;
-	m_pPlayer->iMental = 10;//data.iMaxMental;
+	m_pPlayer->iMental = data.iMaxMental;
 	m_pPlayer->tItem = SWAPOBJECT::NONE;
 	m_pPlayer->fSpeed = 2.f;
 
@@ -571,6 +571,12 @@ void CPlayer::Update(_float fTimeDelta)
 			if (m_iLength <= m_fAniTime && !m_bAttack)
 			{
 				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
+			}
+			break;
+		case MOTION::AXE:
+			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
+				m_bControll = true;
+				SetAnimation(m_tDir, MOTION::IDLE);
 			}
 			break;
 		case MOTION::PICKAXE:

@@ -31,7 +31,7 @@ HRESULT CCharacter::Initialize(void* pArg)
         Desc.pLandVIBuffer = static_cast<CVIBuffer*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_VIBuffer")));
     }
 
-    m_fAngle = 90;
+    m_fAngle = rand() % 360;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;

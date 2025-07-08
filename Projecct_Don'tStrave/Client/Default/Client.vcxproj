@@ -167,6 +167,7 @@
     <ClInclude Include="..\Public\Equipment.h" />
     <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\Public\Food.h" />
+    <ClInclude Include="..\public\Goat.h" />
     <ClInclude Include="..\public\GrassObject.h" />
     <ClInclude Include="..\public\House.h" />
     <ClInclude Include="..\Public\ItemState.h" />
@@ -201,6 +202,8 @@
     <ClInclude Include="..\public\SpriteEffect.h" />
     <ClInclude Include="..\public\Terrian_Manager.h" />
     <ClInclude Include="..\Public\tinyxml2.h" />
+    <ClInclude Include="..\public\Treeguard.h" />
+    <ClInclude Include="..\public\TreeguardObject.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\Health.h" />
     <ClInclude Include="..\public\HeadUpDisplay.h" />
@@ -258,6 +261,7 @@
     <ClCompile Include="..\private\Deerclops.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
     <ClCompile Include="..\Private\Equipment.cpp" />
+    <ClCompile Include="..\private\Goat.cpp" />
     <ClCompile Include="..\private\House.cpp" />
     <ClCompile Include="..\private\LodingInterface.cpp" />
     <ClCompile Include="..\private\LodingSpinner.cpp" />
@@ -295,6 +299,8 @@
     <ClCompile Include="..\private\SpriteEffect.cpp" />
     <ClCompile Include="..\Private\Terrian_Manager.cpp" />
     <ClCompile Include="..\Private\tinyxml2.cpp" />
+    <ClCompile Include="..\private\Treeguard.cpp" />
+    <ClCompile Include="..\private\TreeguardObject.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\Health.cpp" />
     <ClCompile Include="..\private\HeadUpDisplay.cpp" />

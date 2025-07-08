@@ -75,7 +75,6 @@ HRESULT CAinimationObject::LoadImageFile()
             }
         }
     }
-
     m_fAniTime = 0;
     m_iLength = 1000;
     return S_OK;
