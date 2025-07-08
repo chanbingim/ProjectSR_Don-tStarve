@@ -26,6 +26,8 @@ private:
 	STATE m_ePreState = {};
 	STATE m_eCurState = {};
 
+	vector<class CItem_Button*>* m_pItem_Buttons = { nullptr };
+
 private:
 	HRESULT				ADD_Components();
 

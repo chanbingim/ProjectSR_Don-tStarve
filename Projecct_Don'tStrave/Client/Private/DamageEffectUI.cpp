@@ -62,31 +62,31 @@ void CDamageEffectUI::Late_Update(_float fTimeDelta)
 
 HRESULT CDamageEffectUI::Render()
 {
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-    //溅捞歹 FVF 积己
-    m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
+    //m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+   // //溅捞歹 FVF 积己
+   // m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 
-    LPDIRECT3DBASETEXTURE9 BackTex = {};
-    m_pGraphic_Device->GetTexture(7, &BackTex);
+   // LPDIRECT3DBASETEXTURE9 BackTex = {};
+   // m_pGraphic_Device->GetTexture(7, &BackTex);
 
-    LPDIRECT3DBASETEXTURE9 Tex = {};
-    m_pTexture_Com->Set_Texture(0, 0);
-    m_pGraphic_Device->GetTexture(0, &Tex);
-    m_pEffect->SetFloat("Alpha", m_Alpha);
-    m_pEffect->SetTexture("TexSrc", BackTex);
-    m_pEffect->SetTexture("TexDst", Tex);
-     
-   m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
-   m_pEffect->Begin(NULL, 0);
-   m_pEffect->BeginPass(0);
+   // LPDIRECT3DBASETEXTURE9 Tex = {};
+   // m_pTexture_Com->Set_Texture(0, 0);
+   // m_pGraphic_Device->GetTexture(0, &Tex);
+   // m_pEffect->SetFloat("Alpha", m_Alpha);
+   // m_pEffect->SetTexture("TexSrc", BackTex);
+   // m_pEffect->SetTexture("TexDst", Tex);
+   //  
+   //m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
+   //m_pEffect->Begin(NULL, 0);
+   //m_pEffect->BeginPass(0);
 
-    m_pVIBuffer_Com->Render();
+   // m_pVIBuffer_Com->Render();
 
-    m_pEffect->EndPass();
-    m_pEffect->End();
+   // m_pEffect->EndPass();
+   // m_pEffect->End();
 
-    Safe_Release(Tex);
-    Safe_Release(BackTex);
+   // Safe_Release(Tex);
+   // Safe_Release(BackTex);
     return S_OK;
 }
 

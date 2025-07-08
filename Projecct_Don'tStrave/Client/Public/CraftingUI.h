@@ -12,6 +12,9 @@ private:
 	virtual ~CCraftingUI() = default;
 
 public:
+	vector<class CItem_Button*>* Get_ItemBtn() { return m_pItem_Buttons; }
+
+public:
 	virtual HRESULT  Initialize_Prototype()	override;
 	virtual HRESULT  Initialize(void* pArg) override;
 	virtual void	 Priority_Update(_float fTimeDelta) override;

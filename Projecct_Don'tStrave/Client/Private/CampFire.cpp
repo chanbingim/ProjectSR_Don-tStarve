@@ -112,8 +112,6 @@ HRESULT CCampFire::Render()
 
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
-	m_pFire->Render();
-
 	return S_OK;
 }
 
