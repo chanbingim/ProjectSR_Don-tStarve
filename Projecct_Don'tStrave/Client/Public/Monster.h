@@ -35,6 +35,7 @@ protected:
 	MONSTER_DATA*		m_pMonsterData = {};
 	_float				m_fAttackTime = {};
 	_bool				m_bTarget = {};
+	_bool				m_bActive = {};
 public:
 	virtual void Free() override;
 };

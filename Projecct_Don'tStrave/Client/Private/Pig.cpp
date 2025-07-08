@@ -43,48 +43,48 @@ HRESULT CPig::Initialize(void* pArg)
 
 void CPig::Priority_Update(_float fTimeDelta)
 {
-		__super::Priority_Update(fTimeDelta);
-		m_pTarget = nullptr;
+	if (!m_bActive) {
+		return;
+	}
+	__super::Priority_Update(fTimeDelta);
+	m_pTarget = nullptr;
+	list<CGameObject*> NearObjects;
+	if (m_pMonsterData->iHostile) {
+		NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
+	}
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (!GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+				if (5.f > distance) {
+					NearObjects.push_back(object);
+				}
+		}
+	}
+	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
+			return distance < distance2;
+		});
 
-		list<CGameObject*> NearObjects;
-		if (m_pMonsterData->iHostile) {
-			NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
+	if (!NearObjects.empty()) {
+		CGameObject* object = NearObjects.front();
+		if (object) {
+			m_pTarget = object;
 		}
-		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-		if (!GroundObejcts->empty()) {
-			for (auto& object : (*GroundObejcts)) {
-				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-				if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
-					if (5.f > distance) {
-						NearObjects.push_back(object);
-					}
-			}
-		}
-		NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-			{
-				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-				_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
-				return distance < distance2;
-			});
-
-		if (!NearObjects.empty()) {
-			CGameObject* object = NearObjects.front();
-			if (object) {
-				m_pTarget = object;
-			}
-		}
+	}
 }
 
 void CPig::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
-
-
-
-
+	if (!m_bActive) {
+		return;
+	}
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
 	{
@@ -204,15 +204,18 @@ void CPig::Update(_float fTimeDelta)
 
 void CPig::Late_Update(_float fTimeDelta)
 {
-		__super::Late_Update(fTimeDelta);
-		SetDir();
-		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	if (!m_bActive) {
+		return;
+	}
+	__super::Late_Update(fTimeDelta);
+	SetDir();
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CPig::Render()
 {
 	__super::Render();
-	if (!m_isDead) {
+	if (m_bActive && !m_isDead) {
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 	}
 	return S_OK;
@@ -232,6 +235,10 @@ void CPig::Attack()
 void CPig::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+}
+void CPig::OutHouse()
+{
+	m_bActive = true;
 }
 HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 {

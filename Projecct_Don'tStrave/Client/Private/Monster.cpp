@@ -42,6 +42,8 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	m_pTransformCom->SetPosition(data.fPos);
 
+	m_bActive = true;
+
 	return S_OK;
 }
 

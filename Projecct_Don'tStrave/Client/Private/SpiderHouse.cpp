@@ -6,12 +6,12 @@
 #include "Camera.h"
 
 CSpiderHouse::CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMonster{ pGraphic_Device }
+	: CHouse{ pGraphic_Device }
 {
 }
 
 CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
-	: CMonster{ Prototype }
+	: CHouse{ Prototype }
 {
 }
 
@@ -156,7 +156,7 @@ void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CSpiderHouse::Render()

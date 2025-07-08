@@ -168,6 +168,7 @@
     <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\Public\Food.h" />
     <ClInclude Include="..\public\GrassObject.h" />
+    <ClInclude Include="..\public\House.h" />
     <ClInclude Include="..\Public\ItemState.h" />
     <ClInclude Include="..\Public\Item_Button.h" />
     <ClInclude Include="..\Public\Item_Manager.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\Public\Mouse.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\Public\Pig.h" />
+    <ClInclude Include="..\public\PigHouse.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\Public\ResearchLap.h" />
@@ -256,12 +258,14 @@
     <ClCompile Include="..\private\Deerclops.cpp" />
     <ClCompile Include="..\private\DropItemEnviornment.cpp" />
     <ClCompile Include="..\Private\Equipment.cpp" />
+    <ClCompile Include="..\private\House.cpp" />
     <ClCompile Include="..\private\LodingInterface.cpp" />
     <ClCompile Include="..\private\LodingSpinner.cpp" />
     <ClCompile Include="..\Private\Logo.cpp" />
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
     <ClCompile Include="..\Private\Mouse.cpp" />
+    <ClCompile Include="..\private\PigHouse.cpp" />
     <ClCompile Include="..\Private\ResearchLap.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />

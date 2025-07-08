@@ -1,9 +1,9 @@
 #pragma once
-#include "Monster.h"
+#include "House.h"
 
 NS_BEGIN(Client)
 class CSpider;
-class CSpiderHouse : public CMonster
+class CSpiderHouse : public CHouse
 {
 	enum MOTION {
 		SMALL,

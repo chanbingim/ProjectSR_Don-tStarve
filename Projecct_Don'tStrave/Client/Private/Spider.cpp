@@ -24,7 +24,6 @@ HRESULT CSpider::Initialize(void* pArg)
 
 	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pTransformCom->SetPosition(data.fPos);
-	m_bOutHouse = true;
 
 	list<CGameObject*> NearObjects;
 
@@ -36,7 +35,7 @@ HRESULT CSpider::Initialize(void* pArg)
 			if (0.1f > distance) {
 				if (m_pHouse = dynamic_cast<CSpiderHouse*>(object)) {
 					m_pHouse->EnterSpider(this);
-					m_bOutHouse = false;
+					m_bActive = false;
 					break;
 				}
 			}
@@ -73,6 +72,11 @@ HRESULT CSpider::Render()
 	__super::Render();
 
 	return S_OK;
+}
+
+void CSpider::OutHouse()
+{
+	m_bActive = true;
 }
 
 void CSpider::Damage(void* pArg)

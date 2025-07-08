@@ -246,7 +246,12 @@ HRESULT CDeerclops::Render()
 {
 	__super::Render();
 	if (!m_isDead) {
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	}
 	return S_OK;
 }

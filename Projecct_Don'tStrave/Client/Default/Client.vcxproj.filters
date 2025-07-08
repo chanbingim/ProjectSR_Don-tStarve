@@ -541,6 +541,10 @@
     <ClInclude Include="..\public\Shadowterrorbeak.h">
       <Filter>김정환</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PigHouse.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\House.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -817,6 +821,10 @@
     <ClCompile Include="..\private\Shadowterrorbeak.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\PigHouse.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\House.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
