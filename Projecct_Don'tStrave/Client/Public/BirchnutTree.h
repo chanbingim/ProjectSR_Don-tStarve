@@ -1,20 +1,13 @@
 #pragma once
-#include "DropItemEnviornment.h"
-
-NS_BEGIN(Engine)
-class CAnimController;
-NS_END
+#include "TreeObject.h"
 
 NS_BEGIN(Client)
-
-class CEnv_Animation;
-
-class CTreeObject : public CDropItemEnviornment
+class CBirchnutTree : public CTreeObject
 {
-protected:
-	CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTreeObject(const CTreeObject& rhs);
-	virtual ~CTreeObject() = default;
+private:
+	CBirchnutTree(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBirchnutTree(const CBirchnutTree& rhs);
+	virtual ~CBirchnutTree() = default;
 
 public:
 	virtual HRESULT		Initialize_Prototype() override;
@@ -36,8 +29,9 @@ private:
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 public:
-	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath);
-	CGameObject*				Clone(void* pArg) override;
-	void						Free() override;
+	static		CBirchnutTree*		Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath);
+	CGameObject*					Clone(void* pArg) override;
+	void							Free() override;
+
 };
 NS_END

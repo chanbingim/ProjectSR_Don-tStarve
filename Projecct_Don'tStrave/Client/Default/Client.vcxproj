@@ -145,12 +145,14 @@
   <ItemGroup>
     <ClInclude Include="..\public\AinimationObject.h" />
     <ClInclude Include="..\public\AnimationUI.h" />
+    <ClInclude Include="..\public\BirchnutTree.h" />
     <ClInclude Include="..\Public\BookMark_Button.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\public\Camera_Button.h" />
     <ClInclude Include="..\Public\CampFire.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
+    <ClInclude Include="..\public\BirchnutLeaf.h" />
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Character_Manager.h" />
     <ClInclude Include="..\Public\Chest.h" />
@@ -185,6 +187,7 @@
     <ClInclude Include="..\Public\Mouse.h" />
     <ClInclude Include="..\public\ParticleShader.h" />
     <ClInclude Include="..\Public\Pig.h" />
+    <ClInclude Include="..\public\PigKing.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
     <ClInclude Include="..\Public\ResearchLap.h" />
@@ -241,12 +244,14 @@
   <ItemGroup>
     <ClCompile Include="..\private\AinimationObject.cpp" />
     <ClCompile Include="..\private\AnimationUI.cpp" />
+    <ClCompile Include="..\private\BirchnutTree.cpp" />
     <ClCompile Include="..\Private\BookMark_Button.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\private\Camera_Button.cpp" />
     <ClCompile Include="..\Private\CampFire.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
+    <ClCompile Include="..\private\BirchnutLeaf.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Character_Manager.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
@@ -266,6 +271,7 @@
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
     <ClCompile Include="..\Private\Mouse.cpp" />
+    <ClCompile Include="..\private\PigKing.cpp" />
     <ClCompile Include="..\Private\ResearchLap.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />

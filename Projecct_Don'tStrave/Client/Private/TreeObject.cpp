@@ -4,6 +4,7 @@
 #include "DropItemComponent.h"
 
 #include "Env_Animation.h"
+#include "CUtility.h"
 #include "KeyManager.h"
 #include "XML_Manager.h"
 
@@ -189,10 +190,10 @@ void CTreeObject::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CTreeObject* CTreeObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTreeObject* CTreeObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath)
 {
     CTreeObject* pInstance = new CTreeObject(pGraphic_Device);
-    if (FAILED(pInstance->Initialize_Prototype()))
+    if (FAILED(pInstance->Initialize_Prototype(FolderName, FilePath)))
     {
         Safe_Release(pInstance);
         MSG_BOX("CREATE FAIL : TREE OBJECT");
