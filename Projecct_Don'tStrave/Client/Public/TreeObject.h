@@ -36,7 +36,7 @@ private:
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 public:
-	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath);
+	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject*				Clone(void* pArg) override;
 	void						Free() override;
 };

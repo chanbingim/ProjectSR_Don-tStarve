@@ -190,6 +190,8 @@
     <ClInclude Include="..\public\PigKing.h" />
     <ClInclude Include="..\Public\PlayerData_Manager.h" />
     <ClInclude Include="..\public\PortalObject.h" />
+    <ClInclude Include="..\public\QuestManager.h" />
+    <ClInclude Include="..\public\QuestTree.h" />
     <ClInclude Include="..\Public\ResearchLap.h" />
     <ClInclude Include="..\public\ResurrectionStone.h" />
     <ClInclude Include="..\public\RockObject.h" />
@@ -272,6 +274,8 @@
     <ClCompile Include="..\Private\MiniMap_Icon.cpp" />
     <ClCompile Include="..\Private\Mouse.cpp" />
     <ClCompile Include="..\private\PigKing.cpp" />
+    <ClCompile Include="..\private\QuestManager.cpp" />
+    <ClCompile Include="..\private\QuestTree.cpp" />
     <ClCompile Include="..\Private\ResearchLap.cpp" />
     <ClCompile Include="..\private\ResurrectionStone.cpp" />
     <ClCompile Include="..\private\DropItemComponent.cpp" />

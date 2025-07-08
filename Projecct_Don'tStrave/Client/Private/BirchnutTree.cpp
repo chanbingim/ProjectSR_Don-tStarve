@@ -1,4 +1,8 @@
 #include "BirchnutTree.h"
+#include "GameInstance.h"
+
+#include "XML_Manager.h"
+#include "DropItemComponent.h"
 
 CBirchnutTree::CBirchnutTree(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CTreeObject(pGraphic_Device)
@@ -12,6 +16,10 @@ CBirchnutTree::CBirchnutTree(const CBirchnutTree& rhs) :
 
 HRESULT CBirchnutTree::Initialize_Prototype()
 {
+	auto XML_Instance = CXML_Manager::GetInstance();
+	XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
+	XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+
 	return S_OK;
 }
 
@@ -20,6 +28,23 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 	if(FAILED(ADD_Components()))
 		return E_FAIL;
 
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
+	m_FrontName = TEXT("idle_");
+	m_TailName = rand() % 2 == 1 ? TEXT("normal") : TEXT("short");
+
+	m_EnviromentState = Enviornment_STATE::IDLE;
+	m_pDropItem_Com->ADD_ItemData(38, 1);
+
+	m_pDropItem_Com->SetCreateEffect(1);
+
+	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
+	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
+	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
+
+	m_EnviormentInfo.iMaxHit = 2;
+	m_MaxRecoverTime = 3.0f;
 
 	return S_OK;
 }
@@ -41,7 +66,7 @@ void CBirchnutTree::Late_Update(_float fTimeDelta)
 
 void CBirchnutTree::Reset_State()
 {
-
+	__super::Reset_State();
 }
 
 HRESULT CBirchnutTree::Render()
@@ -51,7 +76,7 @@ HRESULT CBirchnutTree::Render()
 
 void CBirchnutTree::Damage(void* pArg)
 {
-
+	__super::Damage(pArg);
 }
 
 void CBirchnutTree::Death()
@@ -75,6 +100,12 @@ HRESULT CBirchnutTree::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_SphereCollision"),
 		TEXT("Com_CollisionCom"), (CComponent**)&m_pCollision_Com)))
 		return E_FAIL;
+
+	/*Collision_Com*/
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+		TEXT("Com_CollisionCom"), (CComponent**)&m_pDropItem_Com)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

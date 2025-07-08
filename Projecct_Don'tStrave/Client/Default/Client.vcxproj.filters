@@ -305,6 +305,9 @@
     <Filter Include="ShaderManager\fx">
       <UniqueIdentifier>{17c7a0d5-28cb-4cca-85ad-754543f6a1eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08. Quest\Manager">
+      <UniqueIdentifier>{1c95fb97-cfc9-47d5-acee-00362055ce57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -598,6 +601,12 @@
     <ClInclude Include="..\public\PigKing.h">
       <Filter>02. Objects\NPC\PigKing</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\QuestManager.h">
+      <Filter>08. Quest\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestTree.h">
+      <Filter>08. Quest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -885,6 +894,12 @@
     </ClCompile>
     <ClCompile Include="..\private\PigKing.cpp">
       <Filter>02. Objects\NPC\PigKing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestManager.cpp">
+      <Filter>08. Quest\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestTree.cpp">
+      <Filter>08. Quest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

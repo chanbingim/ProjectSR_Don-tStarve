@@ -35,6 +35,8 @@ public :
 	BASE_DESC				GetCurrentInfo() { return m_EnviormentInfo; }
 	Enviornment_STATE		GetState() { return m_EnviromentState; }
 
+	const _wstring&			GetMotionName() { return m_FrontName + m_TailName; }
+
 protected :
 	_wstring				m_FrontName = {};
 	const WCHAR*			m_TailName = {};

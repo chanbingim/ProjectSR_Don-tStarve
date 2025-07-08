@@ -190,10 +190,10 @@ void CTreeObject::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CTreeObject* CTreeObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath)
+CTreeObject* CTreeObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CTreeObject* pInstance = new CTreeObject(pGraphic_Device);
-    if (FAILED(pInstance->Initialize_Prototype(FolderName, FilePath)))
+    if (FAILED(pInstance->Initialize_Prototype()))
     {
         Safe_Release(pInstance);
         MSG_BOX("CREATE FAIL : TREE OBJECT");

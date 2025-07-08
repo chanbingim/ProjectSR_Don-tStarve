@@ -1,8 +1,8 @@
 #pragma once
-#include "Enviornment_Object.h"
+#include "DropItemEnviornment.h"
 
 NS_BEGIN(Client)
-class CPigKing final : public CEnviornment_Object
+class CPigKing final : public CDropItemEnviornment
 {
 protected:
 	CPigKing(LPDIRECT3DDEVICE9 pGraphic_Device);

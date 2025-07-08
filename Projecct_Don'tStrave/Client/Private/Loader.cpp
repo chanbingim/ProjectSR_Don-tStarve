@@ -188,7 +188,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region COMPONENT
-	/* For.Prototype_Component_Texture_Terrain */
+	/* For.Prototype_Component_DropItem_com */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
 		CDropItemComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
