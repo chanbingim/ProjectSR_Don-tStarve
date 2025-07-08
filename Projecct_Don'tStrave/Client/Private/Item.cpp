@@ -122,13 +122,13 @@ HRESULT CItem::Render()
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 °á°ú
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
 
-		m_pVIBuffer_Com->Render();
+		m_pVIBufferCom->Render();
 
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 	}
 	else
-		m_pVIBuffer_Com->Render();
+		m_pVIBufferCom->Render();
 
 	End_Billboard();
 
@@ -140,7 +140,7 @@ void CItem::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
 		ClickedEvent();
@@ -164,7 +164,7 @@ HRESULT CItem::ADD_Components()
 {
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"),
-		reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+		reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	Engine::CTransform::TRANSFORM_DESC Transform_Desc = { 5.f, D3DXToRadian(90.f) };
@@ -247,17 +247,16 @@ void CItem::EnterInvenTory()
 
 }
 
-
-
-
 void CItem::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pMouse);
+
 	Safe_Release(m_pTexture_Com);
-	Safe_Release(m_pCollision_Com);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBuffer_Com);
+
+	Safe_Release(m_pCollision_Com);
+
 	Safe_Release(m_pPlayerTransform_Com);
 }

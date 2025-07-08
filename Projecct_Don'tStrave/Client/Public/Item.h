@@ -44,9 +44,8 @@ protected:
 
     CTransform* m_pPlayerTransform_Com = { nullptr };
 
-    CTexture* m_pTexture_Com = { nullptr };
-    CVIBuffer* m_pVIBuffer_Com = { nullptr };
 
+    CTexture* m_pTexture_Com = { nullptr };
     CCollision_Component* m_pCollision_Com = { nullptr };
 
     class CMouse* m_pMouse = { nullptr };

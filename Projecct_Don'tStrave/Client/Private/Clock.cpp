@@ -63,21 +63,24 @@ void CClock::Update(_float fTimeDelta)
     {
         m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
-        //m_pLight_Com->SetAmbientColor(D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f));
+       /* m_pLight_Com->SetAmbientColor(D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f));
+        m_pLight_Com->Render_Light();*/
     }
     else if (20.f <= m_fGameTime && 40.f >= m_fGameTime)
     {
         m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
 
-       // m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
+        //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
+        //m_pLight_Com->Render_Light();
     }
     else
     {
         m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
        m_pGraphic_Device->SetLight(0, &m_Light);
 
-       // m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
+        //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
+        //m_pLight_Com->Render_Light();
     }
 
    if (60.f <= m_fGameTime)
@@ -106,7 +109,6 @@ HRESULT CClock::Render()
 
     m_pVIBuffer_Com->Render();
 
-    // Test Code
     RECT rect = { LONG(m_fX - m_fSizeX * 0.5f), LONG(m_fY - m_fSizeY * 0.5f), LONG(m_fX + m_fSizeX * 0.5f), LONG(m_fY + m_fSizeY * 0.5f) };
     wstring s = L"Day" + to_wstring(m_iDate);
 
@@ -161,11 +163,10 @@ HRESULT CClock::ADD_Components()
     Light_Desc.LightData = m_Light;
     Light_Desc.pOwner = this;
 
-    //// Transform Component
-    //if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
-    //    TEXT("Com_light"),
-    //    reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))
-    //    return E_FAIL;
+  /*  if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
+        TEXT("Com_light"),
+        reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))
+        return E_FAIL;*/
 
     return S_OK;
 }
@@ -200,11 +201,13 @@ void CClock::Free()
 {
     __super::Free();
 
+    //Safe_Release(m_pLight_Com);
+
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
 
     Safe_Release(m_pTexture_Com_Clock);
     Safe_Release(m_pTransform_Com_Clock);
-    Safe_Release(m_pLight_Com);
+   
 }

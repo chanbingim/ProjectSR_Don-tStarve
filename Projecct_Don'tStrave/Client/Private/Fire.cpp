@@ -110,7 +110,7 @@ void CFire::Update(_float fTimeDelta)
 		break;
 	}
 
-	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	//m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	SetUp_OnTerrain(m_pTransformCom, 0.1f);
 
@@ -126,6 +126,7 @@ void CFire::Late_Update(_float fTimeDelta)
 
 HRESULT CFire::Render()
 {
+	
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
 	return S_OK;
@@ -161,7 +162,7 @@ HRESULT CFire::ADD_Components()
 	m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
 
 	Light_Desc.LightData = m_Light;
-	Light_Desc.pOwner = this;
+	Light_Desc.pOwner = nullptr;
 
 	// Transform Component
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
@@ -242,6 +243,6 @@ CGameObject* CFire::Clone(void* pArg)
 void CFire::Free()
 {
 	__super::Free();
-
+	
 	Safe_Release(m_pLight_Com);
 }
