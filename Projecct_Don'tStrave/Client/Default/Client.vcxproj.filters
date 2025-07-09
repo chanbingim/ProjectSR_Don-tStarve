@@ -595,9 +595,6 @@
     <ClInclude Include="..\public\BirchnutTree.h">
       <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BirchnutLeaf.h">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Pig.h">
       <Filter>02. Objects\Protected Object\Pig</Filter>
     </ClInclude>
@@ -654,6 +651,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Shadowterrorbeak.h">
       <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TreeLeaf.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -913,9 +913,6 @@
     <ClCompile Include="..\private\BirchnutTree.cpp">
       <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BirchnutLeaf.cpp">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Pig.cpp">
       <Filter>02. Objects\Protected Object\Pig</Filter>
     </ClCompile>
@@ -972,6 +969,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Shadowterrorbeak.cpp">
       <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TreeLeaf.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

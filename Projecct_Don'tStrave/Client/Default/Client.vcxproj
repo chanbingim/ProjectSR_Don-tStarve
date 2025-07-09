@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -152,7 +152,7 @@
     <ClInclude Include="..\public\Camera_Button.h" />
     <ClInclude Include="..\Public\CampFire.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
-    <ClInclude Include="..\public\BirchnutLeaf.h" />
+    <ClInclude Include="..\public\TreeLeaf.h" />
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Chest.h" />
     <ClInclude Include="..\Public\ChestUI.h" />
@@ -261,7 +261,7 @@
     <ClCompile Include="..\private\Camera_Button.cpp" />
     <ClCompile Include="..\Private\CampFire.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
-    <ClCompile Include="..\private\BirchnutLeaf.cpp" />
+    <ClCompile Include="..\private\TreeLeaf.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
     <ClCompile Include="..\Private\ChestUI.cpp" />

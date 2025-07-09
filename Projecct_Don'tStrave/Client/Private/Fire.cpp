@@ -46,6 +46,7 @@ HRESULT CFire::Initialize(void* pArg)
 	m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.f, 0.f, 0.f, 0.f));
 	m_pLight_Com->SetPosition(vPos);
 	m_pLight_Com->SetMaxRange(3.3f);
+
 	m_pLight_Com->SetAttenuation(0.f, 0.3f, 0.8f);
 
 	m_pGraphic_Device->LightEnable(0, true);

@@ -12,6 +12,7 @@ CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
     m_EnviornmentID = 4;
+    m_EnviornmentType = Enviornment_TYPE::TREE;
 }
 
 CTreeObject::CTreeObject(const CTreeObject& rhs) : 

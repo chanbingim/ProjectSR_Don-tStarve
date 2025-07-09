@@ -194,8 +194,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 			return E_FAIL;
 	}
 
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
-	//	return E_FAIL;
 	return S_OK;
 }
 
@@ -290,15 +288,19 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 4:
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
-		return TEXT("Prototype_GameObject_Env_Tree");
+		return TEXT("Prototype_GameObject_Gloden_Rock");
 	case 6:
 		return TEXT("Prototype_GameObject_Resurrection_Stone");
+	case 7:
+		return TEXT("Prototype_GameObject_Verry");
+	case 8:
+		return TEXT("Prototype_GameObject_Little_Tree");
+	case 9:
+		return TEXT("Prototype_GameObject_Birchnut_Tree");
 	}
 
 	return TEXT("Prototype_GameObject_Env_Tree");
 }
-
-
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 {
@@ -312,10 +314,6 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVE
 
 	return pInstance;
 }
-
-
-
-
 
 void CLevel_GamePlay::Free()
 {

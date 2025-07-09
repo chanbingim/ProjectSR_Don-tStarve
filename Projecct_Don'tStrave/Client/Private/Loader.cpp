@@ -70,6 +70,8 @@
 #include "PortalObject.h"
 #include "ResurrectionStone.h"
 #include "TreeObject.h"
+#include "TreeLeaf.h"
+#include "BirchnutTree.h"
 #pragma endregion
 
 #include "GameInstance.h"
@@ -355,6 +357,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 #pragma region GAMEPLAY
+#pragma region CHARACTER
+
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
@@ -417,6 +421,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTreeguardObject::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	
+#pragma endregion
+
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pGraphic_Device, g_iTileCnt, g_iTileCnt))))
@@ -453,6 +460,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Resurrection_Stone"),
 		CResurrectionStone::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_CResurrectionStone */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Leaf"),
+		CTreeLeaf::Create(m_pGraphic_Device,"tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_CResurrectionStone */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Tree"),
+		CBirchnutTree::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region UI_OBJECT

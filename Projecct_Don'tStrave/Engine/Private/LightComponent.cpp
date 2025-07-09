@@ -65,6 +65,7 @@ CGameObject* CLightComponent::GetOwner()
 void CLightComponent::Free()
 {
 	__super::Free();
+	CLight_Manager::GetInstance()->DeadLight((LIGHT_TYPE)m_LightData.Type, this);
 }
 
 CLightComponent* CLightComponent::Create(LPDIRECT3DDEVICE9 pGraphicDev)

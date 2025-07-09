@@ -9,6 +9,7 @@ CGrassObject::CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
     m_EnviornmentID = 2;
+    m_EnviornmentType = Enviornment_TYPE::GRASS;
 }
 
 CGrassObject::CGrassObject(const CGrassObject& rhs) :

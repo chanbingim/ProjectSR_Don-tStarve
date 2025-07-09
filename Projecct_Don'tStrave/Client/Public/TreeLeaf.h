@@ -4,10 +4,10 @@
 NS_BEGIN(Client)
 class CEnviornment_Object;
 
-class CBirchnutLeaf : public CEnviornment_Object
+class CTreeLeaf : public CEnviornment_Object
 {
 public :
-	typedef struct Leaf_Desc
+	typedef struct Leaf_Desc : CLandObject::LANDOBJECT_DESC
 	{
 		CEnviornment_Object*		pOwner;
 		const WCHAR*				szFrontName;
@@ -15,12 +15,12 @@ public :
 	}LEAF_DESC;
 
 protected:
-	CBirchnutLeaf(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBirchnutLeaf(const CEnviornment_Object& rhs);
-	virtual ~CBirchnutLeaf() = default;
+	CTreeLeaf(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CTreeLeaf(const CEnviornment_Object& rhs);
+	virtual ~CTreeLeaf() = default;
 
 public:
-	virtual HRESULT					Initialize_Prototype() override;
+	virtual HRESULT					Initialize_Prototype(const char* XMLFilePath, const _wstring FolderName);
 	virtual HRESULT					Initialize(void* pArg) override;
 	virtual void					Priority_Update(_float fTimeDelta) override;
 	virtual void					Update(_float fTimeDelta) override;
@@ -35,7 +35,7 @@ private :
 	CEnviornment_Object*			m_pOwner = { nullptr };
 
 public:
-	static		CBirchnutLeaf*		Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath);
+	static		CTreeLeaf*			Create(LPDIRECT3DDEVICE9 pGraphic_Device, const char* XMLFilePath, const _wstring FolderName);
 	CGameObject*					Clone(void* pArg) override;
 	void							Free() override;
 };

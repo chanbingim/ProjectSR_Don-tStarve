@@ -2,6 +2,8 @@
 #include "TreeObject.h"
 
 NS_BEGIN(Client)
+class CTreeLeaf;
+
 class CBirchnutTree : public CTreeObject
 {
 private:
@@ -21,6 +23,9 @@ public:
 	virtual void		Damage(void* pArg) override;
 	virtual void		Death()override;
 
+private :
+	CTreeLeaf*			m_pTreeLeaf = { nullptr };
+
 private:
 	HRESULT				ADD_Components();
 
@@ -29,7 +34,7 @@ private:
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 public:
-	static		CBirchnutTree*		Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _wstring FolderName, const _wstring FilePath);
+	static		CBirchnutTree*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGameObject*					Clone(void* pArg) override;
 	void							Free() override;
 

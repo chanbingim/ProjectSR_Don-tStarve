@@ -13,7 +13,8 @@ CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
 
 CEnviornment_Object::CEnviornment_Object(const CEnviornment_Object& rhs) :
     CAinimationObject(rhs),
-    m_EnviornmentID(rhs.m_EnviornmentID)
+    m_EnviornmentID(rhs.m_EnviornmentID),
+    m_EnviornmentType(rhs.m_EnviornmentType)
 {
 }
 
@@ -50,7 +51,8 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
     }
 
     m_bEnableBillboard = true;
-    m_pCollision_Com->Enable(false);
+    if(m_pCollision_Com)
+        m_pCollision_Com->Enable(false);
 
     return S_OK;
 }
@@ -130,6 +132,26 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
 _uint CEnviornment_Object::GetEnviormentID()
 {
     return m_EnviornmentID;
+}
+
+BASE_DESC CEnviornment_Object::GetCurrentInfo()
+{
+    return m_EnviormentInfo;
+}
+
+CEnviornment_Object::Enviornment_STATE CEnviornment_Object::GetState()
+{
+    return m_EnviromentState;
+}
+
+CEnviornment_Object::Enviornment_TYPE CEnviornment_Object::GetEnviornMentType()
+{
+    return m_EnviornmentType;
+}
+
+const _wstring CEnviornment_Object::GetMotionName()
+{
+    return m_FrontName + m_TailName;
 }
 
 CEnviornment_Object* CEnviornment_Object::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
