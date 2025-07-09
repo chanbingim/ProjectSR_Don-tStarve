@@ -1,22 +1,24 @@
 #pragma once
 #include "DropItemEnviornment.h"
 
-NS_BEGIN(Engine)
-class CAnimController;
-NS_END
-
 NS_BEGIN(Client)
-class CEnv_Animation;
-	
-class CGrassObject : public CDropItemEnviornment
+class CGatheringObject : public CDropItemEnviornment
 {
+public :
+	typedef struct Gathering_Desc : public GAMEOBJECT_DESC
+	{
+		_float						MaxRecoverTime;
+		vector<pair<_uint, _uint>>	DropList;
+
+	}GATHERING_DESC;
+
 private:
-	CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CGrassObject(const CGrassObject& rhs);
-	virtual ~CGrassObject() = default;
+	CGatheringObject(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CGatheringObject(const CGatheringObject& rhs);
+	virtual ~CGatheringObject() = default;
 
 public:
-	virtual HRESULT		Initialize_Prototype() override;
+	virtual HRESULT		Initialize_Prototype(const char* FilePath, const _wstring FolderName);
 	virtual HRESULT		Initialize(void* pArg) override;
 	virtual void		Priority_Update(_float fTimeDelta) override;
 	virtual void		Update(_float fTimeDelta) override;
@@ -29,6 +31,7 @@ public:
 
 private:
 	HRESULT				ADD_Components();
+	void				Setting_Data();
 
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
@@ -36,9 +39,9 @@ private:
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 public:
-	static		CGrassObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CGameObject*				Clone(void* pArg) override;
-	void						Free() override;
+	static		CGatheringObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device, const char* FilePath, const _wstring FolderName);
+	CGameObject*					Clone(void* pArg) override;
+	void							Free() override;
 
 };
 NS_END

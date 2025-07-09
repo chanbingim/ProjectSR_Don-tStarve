@@ -1,34 +1,42 @@
-#include "GrassObject.h"
+#include "GatheringObject.h"
 
 #include "GameInstance.h"
 #include "DropItemComponent.h"
 
 #include "XML_Manager.h"
+#include "CUtility.h"
 
-CGrassObject::CGrassObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
+CGatheringObject::CGatheringObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
-    m_EnviornmentID = 2;
     m_EnviornmentType = Enviornment_TYPE::GRASS;
 }
 
-CGrassObject::CGrassObject(const CGrassObject& rhs) :
+CGatheringObject::CGatheringObject(const CGatheringObject& rhs) :
     CDropItemEnviornment(rhs)
 {
 
 
 }
 
-HRESULT CGrassObject::Initialize_Prototype()
+HRESULT CGatheringObject::Initialize_Prototype(const char* FilePath, const _wstring FolderName)
 {
     auto XML_Instance = CXML_Manager::GetInstance();
-    XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Grass/grass1.scml", L"../Bin/Resources/Textures/Objects/Grass/", &m_tImageVec);
-    XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Grass/grass1.scml", &m_tAnimation);
+
+    WCHAR FullFilePath[MAX_PATH] = {};
+    wsprintf(FullFilePath, TEXT("../Bin/Resources/Textures/Objects/%s/"), FolderName.c_str());
+
+    char XMLFullFilePath[MAX_PATH] = {};
+    CUtility::ConvertWideToUTF(FullFilePath, XMLFullFilePath);
+    sprintf_s(XMLFullFilePath, "%s%s", XMLFullFilePath, FilePath);
+
+    XML_Instance->AddTexture(XMLFullFilePath, FullFilePath, &m_tImageVec);
+    XML_Instance->LoadScml(XMLFullFilePath, &m_tAnimation);
 
     return S_OK;
 }
 
-HRESULT CGrassObject::Initialize(void* pArg)
+HRESULT CGatheringObject::Initialize(void* pArg)
 {
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -41,22 +49,22 @@ HRESULT CGrassObject::Initialize(void* pArg)
     m_FrontName = TEXT("idle");
     m_TailName = TEXT("");
 
-    m_MaxRecoverTime = 4.0f;
-    m_pDropItem_Com->ADD_ItemData(37, 1);
+    Setting_Data();
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
     m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
+    m_EnviromentState = Enviornment_STATE::IDLE;
 
     return S_OK;
 }
 
-void CGrassObject::Priority_Update(_float fTimeDelta)
+void CGatheringObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 }
 
-void CGrassObject::Update(_float fTimeDelta)
+void CGatheringObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
@@ -67,6 +75,7 @@ void CGrassObject::Update(_float fTimeDelta)
         {
             m_FrontName = TEXT("grow");
             m_EnviromentState = Enviornment_STATE::RECOVERY;
+            m_bAnimPause = false;
             m_fAniTime = 0;
             m_CurRecoverTime = 0;
         }
@@ -74,13 +83,13 @@ void CGrassObject::Update(_float fTimeDelta)
     Reset_State();
 }
 
-void CGrassObject::Late_Update(_float fTimeDelta)
+void CGatheringObject::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
     
 }
 
-void CGrassObject::Reset_State()
+void CGatheringObject::Reset_State()
 {
     if (m_fAniTime >= m_iLength)
     {
@@ -91,20 +100,23 @@ void CGrassObject::Reset_State()
         }
         if (Enviornment_STATE::BROKEN <= m_EnviromentState)
         {
+            if (m_FrontName == TEXT("picked"))
+                m_bAnimPause = true;
+
             m_FrontName = TEXT("picked");
             m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
         }
     }
 }
 
-HRESULT CGrassObject::Render()
+HRESULT CGatheringObject::Render()
 {
     __super::Render();
 
     return S_OK;
 }
 
-void CGrassObject::Damage(void* pArg)
+void CGatheringObject::Damage(void* pArg)
 {
     switch (m_EnviromentState)
     {
@@ -112,8 +124,8 @@ void CGrassObject::Damage(void* pArg)
         {
             m_FrontName = TEXT("picking");
             m_EnviormentInfo.iHit = 0;
+            
             m_EnviromentState = Enviornment_STATE::BROKEN;
-
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
             Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
             Pos.y += m_pTransformCom->GetScale().y * 1.f;
@@ -123,11 +135,11 @@ void CGrassObject::Damage(void* pArg)
     }
 }
 
-void CGrassObject::Death()
+void CGatheringObject::Death()
 {
 }
 
-HRESULT CGrassObject::ADD_Components()
+HRESULT CGatheringObject::ADD_Components()
 {
     /* Com_Transform */
     CTransform::TRANSFORM_DESC		TransformDesc{ 5.f, D3DXToRadian(90.0f) };
@@ -156,41 +168,60 @@ HRESULT CGrassObject::ADD_Components()
     return S_OK;
 }
 
-void CGrassObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+void CGatheringObject::Setting_Data()
+{
+    switch (m_iObjectID)
+    {
+    case 2 :
+    {
+        m_MaxRecoverTime = 5.0f;
+        m_pDropItem_Com->ADD_ItemData(37, 1);
+    }
+        break;
+    case 7:
+    {
+        m_MaxRecoverTime = 15.0f;
+        m_pDropItem_Com->ADD_ItemData(48, 1);
+    }
+    break;
+    }
+}
+
+void CGatheringObject::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-void CGrassObject::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
+void CGatheringObject::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-void CGrassObject::EndHitActor(CGameObject* HitActor, _float3& _Dir)
+void CGatheringObject::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
-CGrassObject* CGrassObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CGatheringObject* CGatheringObject::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const char* FilePath, const _wstring FolderName)
 {
-    CGrassObject* pInstance = new CGrassObject(pGraphic_Device);
-    if (FAILED(pInstance->Initialize_Prototype()))
+    CGatheringObject* pInstance = new CGatheringObject(pGraphic_Device);
+    if (FAILED(pInstance->Initialize_Prototype(FilePath, FolderName)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("CREATE FAIL : GRASS OBJECT");
+        MSG_BOX("CREATE FAIL : GATHERRING OBJECT");
     }
     return pInstance;
 }
 
-CGameObject* CGrassObject::Clone(void* pArg)
+CGameObject* CGatheringObject::Clone(void* pArg)
 {
-    CGrassObject* pInstance = new CGrassObject(*this);
+    CGatheringObject* pInstance = new CGatheringObject(*this);
     if (FAILED(pInstance->Initialize(pArg)))
     {
         Safe_Release(pInstance);
-        MSG_BOX("CLONE FAIL : GRASS OBJECT");
+        MSG_BOX("CLONE FAIL : GATHERRING OBJECT");
     }
     return pInstance;
 }
 
-void CGrassObject::Free()
+void CGatheringObject::Free()
 {
     __super::Free();
 

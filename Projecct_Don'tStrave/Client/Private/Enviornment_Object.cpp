@@ -13,7 +13,6 @@ CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
 
 CEnviornment_Object::CEnviornment_Object(const CEnviornment_Object& rhs) :
     CAinimationObject(rhs),
-    m_EnviornmentID(rhs.m_EnviornmentID),
     m_EnviornmentType(rhs.m_EnviornmentType)
 {
 }
@@ -39,9 +38,8 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
         m_pTransformCom->SetScale(TeerrainDesc->vScale);
         m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
 
+        m_iObjectID = TeerrainDesc->iObjectID;
         auto Terrian = m_pTerrian_Manager->GetOnTerrian(TeerrainDesc->vPosition);
-        if (nullptr == Terrian)
-            int a = 10;
 
         Arg.pLandVIBuffer = Terrian->GetCurVIBuffer();
         Arg.pLandTransform = Terrian->GetTransfrom();
@@ -110,7 +108,7 @@ void CEnviornment_Object::Death()
 
 _wstring CEnviornment_Object::GetEnviornmnetName()
 {
-    switch (m_EnviornmentID)
+    switch (m_iObjectID)
     {
     case 1 :
         return TEXT("Portal");
@@ -131,7 +129,7 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
 
 _uint CEnviornment_Object::GetEnviormentID()
 {
-    return m_EnviornmentID;
+    return m_iObjectID;
 }
 
 BASE_DESC CEnviornment_Object::GetCurrentInfo()
@@ -147,6 +145,11 @@ CEnviornment_Object::Enviornment_STATE CEnviornment_Object::GetState()
 CEnviornment_Object::Enviornment_TYPE CEnviornment_Object::GetEnviornMentType()
 {
     return m_EnviornmentType;
+}
+
+_float CEnviornment_Object::GetAnimationFrame()
+{
+    return m_fAniTime;
 }
 
 const _wstring CEnviornment_Object::GetMotionName()

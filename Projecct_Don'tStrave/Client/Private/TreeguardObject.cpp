@@ -6,7 +6,7 @@
 CTreeguardObject::CTreeguardObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
-    m_EnviornmentID = 4;
+   
 }
 
 CTreeguardObject::CTreeguardObject(const CTreeguardObject& rhs) :

@@ -236,9 +236,6 @@
     <Filter Include="02. Objects\Environment\DropItemEnviroment">
       <UniqueIdentifier>{c92bf2fc-236e-4119-bf64-b1387fb015c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Objects\Environment\DropItemEnviroment\Grass">
-      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Objects\Environment\DropItemEnviroment\Rock">
       <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
     </Filter>
@@ -331,6 +328,9 @@
     </Filter>
     <Filter Include="03. Character\Monster\ShadowMonster\Terrorbeak">
       <UniqueIdentifier>{54e56272-e9d1-49d7-82ff-91a93d3bbfc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\GatheringObject">
+      <UniqueIdentifier>{889ebfaa-6c05-47a8-86b8-cd690b51029e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -468,9 +468,6 @@
     </ClInclude>
     <ClInclude Include="..\public\PortalObject.h">
       <Filter>02. Objects\Environment\Portal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GrassObject.h">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
       <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
@@ -655,6 +652,9 @@
     <ClInclude Include="..\public\TreeLeaf.h">
       <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GatheringObject.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment\GatheringObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -736,9 +736,6 @@
     <ClCompile Include="..\private\HeadUpDisplay.cpp">
       <Filter>04. GmaeUI\HeadDisplay</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\Hunger.cpp">
-      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Health.cpp">
       <Filter>04. GmaeUI\HeadDisplay\Health</Filter>
     </ClCompile>
@@ -789,9 +786,6 @@
     </ClCompile>
     <ClCompile Include="..\private\PortalObject.cpp">
       <Filter>02. Objects\Environment\Portal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GrassObject.cpp">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
       <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
@@ -868,9 +862,6 @@
     <ClCompile Include="..\Private\MonsterData_Manager.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\PlayerData_Manager.cpp">
-      <Filter>김정환</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\SpiderNormal.cpp">
       <Filter>03. Character\Monster\Spider\Normal</Filter>
     </ClCompile>
@@ -918,9 +909,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Logo.cpp">
       <Filter>04. GmaeUI\Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\Food.cpp">
-      <Filter>04. GmaeUI\Food</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Cookpot.cpp">
       <Filter>04. GmaeUI\Food\CookPot</Filter>
@@ -972,6 +960,18 @@
     </ClCompile>
     <ClCompile Include="..\private\TreeLeaf.cpp">
       <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GatheringObject.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment\GatheringObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hunger.cpp">
+      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Food.cpp">
+      <Filter>04. GmaeUI\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerData_Manager.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

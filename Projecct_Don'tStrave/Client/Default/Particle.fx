@@ -30,13 +30,9 @@ float4 PS(VS_OUTPUT In) : COLOR
     float4 src = tex2D(Sampler0, In.Tex);
     float4 dst = tex2D(Sampler1, In.Tex);
     
-      // 전경의 알파도 반영하고 싶다면
-    float a = dst.a * Alpha;
-
-    // 자연스러운 알파 블렌딩
-    float3 rgb = lerp(src.rgb, dst.rgb, a);
-    return src;//    +float4(rgb, 1.0 - Alpha); // 알파는 보통 무시 (렌더타겟용이면)
-
+    return src;
+    float4(src.rgb * 1 - (dst.a * Alpha), src.a);
+    //+dst.rgb * Alpha, 1.f);
 }
 
 technique main

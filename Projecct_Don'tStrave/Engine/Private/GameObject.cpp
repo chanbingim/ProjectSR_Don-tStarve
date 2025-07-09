@@ -27,7 +27,6 @@ HRESULT CGameObject::Initialize_Prototype()
 
 HRESULT CGameObject::Initialize(void* pArg)
 {
-	
 
 	return S_OK;
 }

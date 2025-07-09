@@ -21,6 +21,7 @@ HRESULT CDamageEffectUI::Initialize(void* pArg)
     m_fX = 0;
     m_fY = 0;
 
+    m_Alpha = 0;
     Setting_Shader(L"Particle.fx");
 
     return S_OK;
@@ -37,13 +38,13 @@ void CDamageEffectUI::Update(_float fTimeDelta)
     {
         if (m_bInverse)
         {
-            m_Alpha -= 0.08f;
-            if (0.2f >= m_Alpha)
+            m_Alpha -= 0.01f;
+            if (0.0f >= m_Alpha)
                 ResetData();
         }
         else
         {
-            m_Alpha += 0.08f;
+            m_Alpha += 0.01f;
             if (1.f <= m_Alpha)
             {
                 m_Alpha = 1.f;
@@ -73,6 +74,7 @@ HRESULT CDamageEffectUI::Render()
     m_pTexture_Com->Set_Texture(0, 0);
     m_pGraphic_Device->GetTexture(0, &Tex);
     m_pEffect->SetFloat("Alpha", m_Alpha);
+
     m_pEffect->SetTexture("TexSrc", BackTex);
     m_pEffect->SetTexture("TexDst", Tex);
      
@@ -94,7 +96,7 @@ HRESULT CDamageEffectUI::Render()
 void CDamageEffectUI::ActiveEffect()
 {
     m_bActive = true;
-    m_Alpha = 0.3f;
+    m_Alpha = 0.f;
     m_bInverse = false;
 
 

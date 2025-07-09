@@ -11,7 +11,6 @@
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
-    m_EnviornmentID = 4;
     m_EnviornmentType = Enviornment_TYPE::TREE;
 }
 
@@ -44,7 +43,6 @@ HRESULT CTreeObject::Initialize(void* pArg)
 
     m_EnviromentState = Enviornment_STATE::IDLE;
     m_pDropItem_Com->ADD_ItemData(38, 1);
-
     m_pDropItem_Com->SetCreateEffect(1);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
@@ -64,18 +62,6 @@ void CTreeObject::Priority_Update(_float fTimeDelta)
 void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
- 
-    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
-    {
-        m_CurRecoverTime += 0.01f;
-        if (m_MaxRecoverTime <= m_CurRecoverTime)
-        {
-            m_FrontName = TEXT("grow_seed_to_");
-            m_EnviromentState = Enviornment_STATE::RECOVERY;
-            m_fAniTime = 0;
-            m_CurRecoverTime = 0;
-        }
-    }
     Reset_State();
 }
 
@@ -133,6 +119,7 @@ void CTreeObject::Damage(void* pArg)
                 m_FrontName = TEXT("fallright_");
 
             m_EnviormentInfo.iHit = 0;
+            m_fAniTime = 0;
             m_EnviromentState = Enviornment_STATE::BROKEN;
         }
         else

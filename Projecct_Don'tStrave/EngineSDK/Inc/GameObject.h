@@ -10,6 +10,7 @@ class ENGINE_DLL CGameObject abstract : public CBase
 public:
 	typedef struct GameObject_Desc
 	{
+		_uint			iObjectID = {};
 		_float3			vScale = {};
 		_float3			vRotation = {};
 		_float3			vPosition = {};
@@ -56,6 +57,7 @@ protected:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	class CGameInstance*		m_pGameInstance = { nullptr };
 	_bool						m_isDead = { false };
+	_uint						m_iObjectID = {};
 
 	CTransform*					m_pTransformCom = {nullptr};
 	map<const _wstring, class CComponent*>		m_Components;

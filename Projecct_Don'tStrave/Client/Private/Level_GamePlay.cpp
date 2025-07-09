@@ -187,7 +187,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 
 		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
 		ObjectDesc.TextruePath = TexPath;
-
+		ObjectDesc.iObjectID = vecBaseData[i].iID;
 		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 		//	return E_FAIL;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
@@ -292,7 +292,7 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 6:
 		return TEXT("Prototype_GameObject_Resurrection_Stone");
 	case 7:
-		return TEXT("Prototype_GameObject_Verry");
+		return TEXT("Prototype_GameObject_Berry_Bush");
 	case 8:
 		return TEXT("Prototype_GameObject_Little_Tree");
 	case 9:

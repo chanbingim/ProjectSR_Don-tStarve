@@ -42,7 +42,8 @@ HRESULT CAinimationObject::Initialize(void* pArg)
 void CAinimationObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-    m_fAniTime += (_uint)(fTimeDelta * 800);
+
+        m_fAniTime += (_uint)(fTimeDelta * 800);
 }
 
 void CAinimationObject::Update(_float fTimeDelta)
@@ -61,17 +62,35 @@ HRESULT CAinimationObject::Render()
 	return S_OK;
 }
 
-HRESULT CAinimationObject::LoadImageFile()
+HRESULT CAinimationObject::LoadImageFile(vector<IMAGE_FOLDER_DESC>* tImageVec)
 {
-    for (auto& folder : m_tImageVec) {
-        for (auto& file : folder.tFilesVec) {
-            if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
-            {
-                m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                    CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
-                __super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
-                    TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+    if (nullptr == tImageVec)
+    {
+        for (auto& folder : m_tImageVec) {
+            for (auto& file : folder.tFilesVec) {
+                if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                    TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
+                {
+                    m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                        CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+                    __super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                        TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto& folder : *tImageVec) {
+            for (auto& file : folder.tFilesVec) {
+                if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                    TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture))))
+                {
+                    m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                        CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, file.szName.c_str()));
+                    __super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_" + file.szName),
+                        TEXT("Com_" + file.szName), reinterpret_cast<CComponent**>(&file.pTexture));
+                }
             }
         }
     }
@@ -80,14 +99,20 @@ HRESULT CAinimationObject::LoadImageFile()
     return S_OK;
 }
 
-void CAinimationObject::XMLRenderAnimation(const wstring& animName)
+void CAinimationObject::XMLRenderAnimation(const wstring& animName, Entity* tEntity, vector<IMAGE_FOLDER_DESC>* AnimVec)
 {
     //애니메이션을 받아온다.
     const SCML_ANIMATION_DESC* pAnim = nullptr;
 
+    if (nullptr == tEntity)
+        tEntity = &m_tAnimation;
+     
+    if (nullptr == AnimVec)
+        AnimVec = &m_tImageVec;
+
     //애니메이션 저장되어있는 엔티티에서
     //모든 애니메이션 정보를 탐색하면서 animName과 같은걸 찾는다.
-    for (auto& anim : m_tAnimation.tAnimationsVec) {
+    for (auto& anim : (*tEntity).tAnimationsVec) {
         if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), anim.szName.size())) {
             pAnim = &anim;
             break;
@@ -102,7 +127,8 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName)
 
     // 부동소수점 연산으로 뭘하려했는지 알아내ㅔ야함
     // 이거 프레임 계산같음
-    m_fAniTime = m_fAniTime % m_iLength;
+    if (!m_bAnimPause)
+        m_fAniTime = m_fAniTime % m_iLength;
 
     //시간에 따른 오브젝트의 순서 밑 재생프레임을 받아오려함
     vector<OBJECT_REF_DESC> timeVec = {};
@@ -204,8 +230,8 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName)
         D3DXVec2Lerp(&object.fPos, &a.fPos, &b.fPos, t);
         D3DXVec2Lerp(&object.fScale, &a.fScale, &b.fScale, t);
         object.fAngle = a.fAngle + (fmodf(b.fAngle - a.fAngle + 540.f, 360.f) - 180.f) * t;
-        if (object.iFolder >= m_tImageVec.size() || object.iFile >= m_tImageVec[object.iFolder].tFilesVec.size()) continue;
-        IMAGE_FILE_DESC image = m_tImageVec[object.iFolder].tFilesVec[object.iFile];
+        if (object.iFolder >= (*AnimVec).size() || object.iFile >= (*AnimVec)[object.iFolder].tFilesVec.size()) continue;
+        IMAGE_FILE_DESC image = (*AnimVec)[object.iFolder].tFilesVec[object.iFile];
 
         _float x = image.fSize.x / (image.fSize.x + image.fSize.y);
         _float y = image.fSize.y / (image.fSize.x + image.fSize.y);

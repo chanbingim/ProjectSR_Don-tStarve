@@ -12,21 +12,30 @@ private:
 	virtual ~CBirchnutTree() = default;
 
 public:
-	virtual HRESULT		Initialize_Prototype() override;
-	virtual HRESULT		Initialize(void* pArg) override;
-	virtual void		Priority_Update(_float fTimeDelta) override;
-	virtual void		Update(_float fTimeDelta) override;
-	virtual void		Late_Update(_float fTimeDelta) override;
-	virtual	void		Reset_State() override;
-	virtual HRESULT		Render() override;
+	virtual HRESULT				Initialize_Prototype() override;
+	virtual HRESULT				Initialize(void* pArg) override;
+	virtual void				Priority_Update(_float fTimeDelta) override;
+	virtual void				Update(_float fTimeDelta) override;
+	virtual void				Late_Update(_float fTimeDelta) override;
+	virtual	void				Reset_State() override;
+	virtual HRESULT				Render() override;
 
-	virtual void		Damage(void* pArg) override;
-	virtual void		Death()override;
+	virtual void				Damage(void* pArg) override;
+	virtual void				Death()override;
 
 private :
-	CTreeLeaf*			m_pTreeLeaf = { nullptr };
+	_int						m_iTreeType = {}; // 0 : Small 1 : Tall
+	_float						m_fAliveTime = {};
+	_float						m_fMaxAliveTime = {};
+	_bool						m_bIsNoraml = { false };
+
+	CTreeLeaf*					m_pTreeLeaf[2] = {nullptr, nullptr};
+
+	Entity						m_tNormal_Animation = {};
+	vector<IMAGE_FOLDER_DESC>	m_tNormal_ImageVec = {};
 
 private:
+	void				Update_GrowEnvent(_float fTimeDeleta);
 	HRESULT				ADD_Components();
 
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);

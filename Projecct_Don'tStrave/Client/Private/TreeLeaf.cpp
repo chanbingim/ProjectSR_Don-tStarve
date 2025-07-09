@@ -64,26 +64,27 @@ HRESULT CTreeLeaf::Initialize(void* pArg)
 
 void CTreeLeaf::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CTreeLeaf::Update(_float fTimeDelta)
 {
-    //부모의 모션을 따라감
 }
 
 void CTreeLeaf::Late_Update(_float fTimeDelta)
 {
-    m_EnviromentState = m_pOwner->GetState();
-    m_FrontName = m_pOwner->GetMotionName();
 }
 
 void CTreeLeaf::Reset_State()
 {
+   
+
 }
 
 HRESULT CTreeLeaf::Render()
 {
-    __super::Render();
+    m_fAniTime = m_pOwner->GetAnimationFrame();
+    XMLRenderAnimation(m_pOwner->GetMotionName());
     return S_OK;
 }
 
@@ -127,4 +128,5 @@ CGameObject* CTreeLeaf::Clone(void* pArg)
 void CTreeLeaf::Free()
 {
     __super::Free();
+
 }

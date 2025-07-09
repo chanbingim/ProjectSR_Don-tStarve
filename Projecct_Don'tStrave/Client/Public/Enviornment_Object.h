@@ -36,17 +36,17 @@ public :
 	BASE_DESC				GetCurrentInfo();		
 	Enviornment_STATE		GetState();				
 	Enviornment_TYPE		GetEnviornMentType();	
+	_float					GetAnimationFrame();
 	const _wstring			GetMotionName();		
 
 protected :
 	_wstring				m_FrontName = {};
-	const WCHAR*			m_TailName = {};
+	_wstring				m_TailName = {};
 
 	BASE_DESC				m_EnviormentInfo = {};
 	_float					m_MaxRecoverTime = {};
 	_float					m_CurRecoverTime = {};
 
-	_uint					m_EnviornmentID = {};
 	Enviornment_STATE		m_EnviromentState = { };
 	Enviornment_TYPE		m_EnviornmentType = {};
 

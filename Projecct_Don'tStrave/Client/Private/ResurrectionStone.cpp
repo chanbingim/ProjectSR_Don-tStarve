@@ -9,13 +9,11 @@
 CResurrectionStone::CResurrectionStone(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CEnviornment_Object(pGraphic_Device)
 {
-	m_EnviornmentID = 6;
 }
 
 CResurrectionStone::CResurrectionStone(const CResurrectionStone& rhs) :
 	CEnviornment_Object(rhs)
 {
-	m_EnviornmentID = 6;
 }
 
 HRESULT CResurrectionStone::Initialize_Prototype()

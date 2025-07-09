@@ -33,7 +33,6 @@ HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
 		return E_FAIL;
 
 	m_Lightlist[Index].push_back(pLight);
-	Safe_AddRef(pLight);
 
 	return S_OK;
 }
@@ -46,7 +45,6 @@ void CLight_Manager::DeadLight(LIGHT_TYPE LightType, CLightComponent* pLight)
 		return;
 
 	m_Lightlist[Index].erase(iter);
-	Safe_Release(pLight);
 }
 
 void CLight_Manager::Enable_Light()

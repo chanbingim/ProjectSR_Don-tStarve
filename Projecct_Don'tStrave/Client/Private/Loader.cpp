@@ -65,7 +65,7 @@
 #include "DamageEffectUI.h"
 
 #pragma region ENVIORN_MENT
-#include "GrassObject.h"
+#include "GatheringObject.h"
 #include "RockObject.h"
 #include "PortalObject.h"
 #include "ResurrectionStone.h"
@@ -438,7 +438,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ENVIORN_MENT
 	/* For.Prototype_GameObject_Grass */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Grass"),
-		CGrassObject::Create(m_pGraphic_Device))))
+		CGatheringObject::Create(m_pGraphic_Device, "grass1.scml", TEXT("Grass")))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Berry_Bush */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Berry_Bush"),
+		CGatheringObject::Create(m_pGraphic_Device, "berrybush.scml", TEXT("Berry_Bush")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Portal */
@@ -448,7 +453,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Rock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Env_Rock"),
-		CRockObject::Create(m_pGraphic_Device))))
+		CRockObject::Create(m_pGraphic_Device, "rock.scml", TEXT("Rock")))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Glod_Rock */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Gloden_Rock"),
+		CRockObject::Create(m_pGraphic_Device,"rock2.scml", TEXT("Gold_Rock")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Tree */
@@ -461,10 +471,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CResurrectionStone::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_CResurrectionStone */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Leaf"),
+	/* For.Prototype_GameObject_Birch_Tall_Leaf */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_tall_Leaf"),
 		CTreeLeaf::Create(m_pGraphic_Device,"tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_Birch_Short_Leaf */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Normal_Leaf"),
+		CTreeLeaf::Create(m_pGraphic_Device, "tree_leaf_green_build.scml", TEXT("Birchnut/normal_leaf")))))
+		return E_FAIL;
+
 
 	/* For.Prototype_GameObject_CResurrectionStone */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Tree"),
