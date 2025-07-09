@@ -8,14 +8,14 @@ class CState;
 NS_END
 
 NS_BEGIN(Client)
-class CChestUI final : public CUserInterface
+class CCookUI final : public CUserInterface
 {
 public:
-	enum class STATE {OPEN, CLOSE};
+	enum class STATE { OPEN, CLOSE };
 private:
-	CChestUI(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CChestUI(const CChestUI& Prototype);
-	virtual ~CChestUI() = default;
+	CCookUI(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CCookUI(const CCookUI& Prototype);
+	virtual ~CCookUI() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;
@@ -25,31 +25,34 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-	void Change_State(CChestUI::STATE eState);
+	void Change_State(CCookUI::STATE eState);
 	void Update_State();
 	void RePosition_SlotFrame();
 	void Add_Render();
 
 private:
-	_bool			 m_bRended = {};
+	_bool						m_bRended = {};
 
-	CChestUI::STATE  m_eCurState = {};
-	CChestUI::STATE  m_ePreState = {};
+	CCookUI::STATE				m_eCurState = {};
+	CCookUI::STATE				m_ePreState = {};
 
 	vector<class CSlotFrame*>	m_SlotFrames = {};
 	CAnimController*			m_pAnimController = { nullptr };
 	CState*						m_pState_Open = nullptr;
 	CState*						m_pState_Close = nullptr;
 
-
-
+	CTexture*					m_pOpenTexture_Com = { nullptr };
+	class CCookpot*				m_pCookpot = { nullptr };
+	class CCook_Button*			m_CookBtn = { nullptr };
 private:
 	HRESULT ADD_Components();
+	_uint Check_Recipe(_uint Items[]);
 
 public:
-	static CChestUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CCookUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free() override;
 };
 
 NS_END
+

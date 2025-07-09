@@ -21,7 +21,7 @@ protected:
 	virtual ~CButton() = default;
 
 public:
-	_uint Get_ItemID() { return m_iTextureIndex; }
+	_uint	Get_ItemID() { return m_iTextureIndex; }
 	_bool	OnClick() { return m_isClicked; };
 
 public:

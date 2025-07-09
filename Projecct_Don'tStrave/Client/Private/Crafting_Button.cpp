@@ -78,7 +78,7 @@ void CCrafting_Button::HoverEevent()
 
 void CCrafting_Button::ClickedEevent()
 {
-    if (m_pGameInstance->KeyDown(VK_LBUTTON))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON) || m_pGameInstance->KeyDown(VK_TAB))
         m_isClicked = true;
     else
         m_isClicked = false;

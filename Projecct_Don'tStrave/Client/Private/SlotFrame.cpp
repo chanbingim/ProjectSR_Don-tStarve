@@ -162,6 +162,41 @@ void CSlotFrame::ClickedEevent()
             else
                 m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
         }
+        else if (m_eSlotType == SLOT::POT)
+        {
+            ITEM_DESC Desc = pSlot->Get_Info();
+
+            // 슬롯이 비었고 손에 음식이나 재료
+            if ((Desc.eItemType == ITEM_TYPE::FOOD || Desc.eItemType == ITEM_TYPE::MERTARIAL) && 0 == m_pSlot->Get_ItemID())
+            {
+                if (1 == Desc.iNumItem) // 손에 있는게 1개
+                {
+                    m_pSlot->Set_Info(Desc);
+                    pSlot->Clear();
+                }
+                else // 여러개
+                {
+                    Desc.iNumItem -= 1;
+                    pSlot->Set_Info(Desc);
+
+                    Desc.iNumItem = 1;
+                    m_pSlot->Set_Info(Desc);
+                }
+               
+            }
+            else if (0 == Desc.iItemID && 0 != m_pSlot->Get_ItemID()) // 마우스에만 없을 때
+            {
+                pSlot->Set_Info(m_pSlot->Get_Info());
+
+                m_pSlot->Clear();
+                return;
+            }
+            else
+            {
+                return;
+            }
+                
+        }
         else
         {
             if (m_eSlotType == pSlot->Get_Info().eSlot)
