@@ -32,6 +32,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize_Late() override;
 	virtual void		Priority_Update(_float fTimeDelta) override;
 	virtual void		Update(_float fTimeDelta) override;
 	virtual void		Late_Update(_float fTimeDelta) override;
@@ -45,6 +46,7 @@ public:
 private:
 	MOTION					m_tMotion = {};
 	CPigHouse*				m_pHouse = {};
+	_bool					m_bHouse = {};
 private:
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

@@ -33,9 +33,6 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 
 	LoadImageFile();
 
-	m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
-	m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });

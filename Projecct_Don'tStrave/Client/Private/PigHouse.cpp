@@ -62,6 +62,11 @@ void CPigHouse::Update(_float fTimeDelta)
 		}
 		break;
 	}
+	D3DLIGHT9			m_Light{};
+	m_pGraphic_Device->GetLight(0, &m_Light);
+	if (m_pPig && 30 > *m_pTime) {
+		Emergency();
+	}
 }
 
 void CPigHouse::Late_Update(_float fTimeDelta)
@@ -112,23 +117,31 @@ HRESULT CPigHouse::SetAnimation(MOTION motion)
 
 void CPigHouse::Damage(void* pArg)
 {
-	__super::Damage(pArg);
-	DAMAGE_DATA_BASE DamageBase = {};
-	if (nullptr != pArg) {
-		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
-		if (DamageBase.Attacker) {
-			CCharacter* character = static_cast<CCharacter*>(pArg);
-			if (dynamic_cast<CPlayer*>(character)) {
-				m_pPig->Get_Monster()->iHostile = 1;
+	//__super::Damage(pArg);
+	if (0 >= --m_pMonsterData->iHp) {
+		Death();
+	}
+	else {
+		Hit();
+	}
+	if (m_pPig) {
+		DAMAGE_DATA_BASE DamageBase = {};
+		if (nullptr != pArg) {
+			DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+			if (DamageBase.Attacker) {
+				CCharacter* character = static_cast<CCharacter*>(DamageBase.Attacker);
+				if (dynamic_cast<CPlayer*>(character)) {
+					m_pPig->Get_Monster()->iHostile = 1;
+				}
 			}
 		}
+		Emergency();
 	}
-	Emergency();
 }
 
 void CPigHouse::Hit()
 {
-	SetAnimation(m_tMotion);
+	SetAnimation(MOTION::DAMAGE);
 }
 
 void CPigHouse::Attack()
@@ -137,11 +150,12 @@ void CPigHouse::Attack()
 
 void CPigHouse::Death()
 {
-	SetAnimation(m_tMotion);
+	SetAnimation(MOTION::DEATH);
 }
 
 void CPigHouse::EnterPig(CPig* pMonster)
 {
+	m_pPig = pMonster;
 }
 
 void CPigHouse::Emergency()

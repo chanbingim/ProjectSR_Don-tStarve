@@ -211,3 +211,13 @@ void CClock::Free()
     Safe_Release(m_pTransform_Com_Clock);
    
 }
+
+_uint* CClock::Get_Date()
+{
+    return &m_iDate;
+}
+
+_float* CClock::Get_Time()
+{
+    return &m_fGameTime;
+}

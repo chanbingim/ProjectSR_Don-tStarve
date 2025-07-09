@@ -33,9 +33,16 @@ HRESULT CPig::Initialize(void* pArg)
 	LoadImageFile();
 	SetAnimation(m_tDir, MOTION::IDLE);
 
+	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
 
-	list<CGameObject*> NearObjects;
+	return S_OK;
+}
 
+HRESULT CPig::Initialize_Late()
+{
+	__super::Initialize_Late();
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
@@ -45,16 +52,12 @@ HRESULT CPig::Initialize(void* pArg)
 				if (m_pHouse = dynamic_cast<CPigHouse*>(object)) {
 					m_pHouse->EnterPig(this);
 					m_bActive = false;
+					m_bHouse = true;
 					break;
 				}
 			}
 		}
 	}
-
-	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
-	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
-	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
-
 	return S_OK;
 }
 
@@ -70,10 +73,18 @@ void CPig::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	list<CGameObject*> NearObjects;
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 	if (m_pMonsterData->iHostile) {
-		NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
+		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
+			CGameObject* object = GroundObejcts->front();
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (5.f > distance) {
+				NearObjects.push_back(object);
+			}
+		}
 	}
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 	if (!GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
@@ -177,48 +188,90 @@ void CPig::Update(_float fTimeDelta)
 			}
 		}
 		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					D3DXVec3Normalize(&move, &move);
+
+					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	else {
+		if (30 <= *m_pTime) {
+			m_bHouse = true;
+			_float3 move = m_pHouse->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+
+			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
-				case MOTION::RUN:
-					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-					}
-					else {
-						D3DXVec3Normalize(&move, &move);
-
-						m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
-						m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-					}
-					break;
-				case MOTION::ATTACK:
-				case MOTION::RUN_TO_IDLE:
 				case MOTION::DAMAGE:
+				case MOTION::ATTACK:
 					if (m_iLength <= m_fAniTime) {
+						m_fAttackTime = 0;
 						SetAnimation(m_tDir, MOTION::IDLE);
 					}
 					break;
 				default:
+					if (m_bCol) {
+						SetAnimation(m_tDir, MOTION::IDLE);
+					}
+					else {
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+					}
 					break;
 				}
-		}
-	}
-	else {
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
 			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
+			else if (m_bCol) {
 				SetAnimation(m_tDir, MOTION::IDLE);
 			}
-			break;
-		default:
-			break;
+			else {
+				if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				D3DXVec3Normalize(&move, &move);
+
+				m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+
+			}
+		}
+		else {
+			m_bHouse = false;
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -365,6 +418,10 @@ void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 		if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
 			HitActor->Damage(&m_tDamage);
 		}
+	}
+	if (m_bHouse && HitActor == m_pHouse && !m_pTarget) {
+		m_pHouse->EnterPig(this);
+		m_bActive = false;
 	}
 }
 

@@ -138,8 +138,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 	//		return E_FAIL;
 	//}
 	//
-	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
-	for (size_t i = 0; i < 1; i++)
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(107);
+	for (size_t i = 0; i < 5; i++)
 	{
 		data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 10));
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
@@ -259,9 +259,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_MiniMap"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+	//	TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }

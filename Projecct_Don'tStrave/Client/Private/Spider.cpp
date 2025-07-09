@@ -24,9 +24,12 @@ HRESULT CSpider::Initialize(void* pArg)
 
 	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pTransformCom->SetPosition(data.fPos);
+	return S_OK;
+}
 
-	list<CGameObject*> NearObjects;
-
+HRESULT CSpider::Initialize_Late()
+{
+	__super::Initialize_Late();
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
@@ -34,6 +37,8 @@ HRESULT CSpider::Initialize(void* pArg)
 			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 			if (0.1f > distance) {
 				if (m_pHouse = dynamic_cast<CSpiderHouse*>(object)) {
+					m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 					m_pHouse->EnterSpider(this);
 					m_bActive = false;
 					break;
@@ -41,11 +46,6 @@ HRESULT CSpider::Initialize(void* pArg)
 			}
 		}
 	}
-	return S_OK;
-}
-
-HRESULT CSpider::Initialize_Late()
-{
 	return S_OK;
 }
 
