@@ -1,4 +1,3 @@
-﻿  Player.cpp
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(585,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Private\Player.cpp(586,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
+﻿  SpiderWarrior.cpp
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\SpiderWarrior.cpp(235,30): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Client.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

@@ -89,7 +89,7 @@ void CPig::Priority_Update(_float fTimeDelta)
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+			if (!dynamic_cast<CPig*>(object) && !dynamic_cast<CHouse*>(object) && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 				if (5.f > distance) {
 					NearObjects.push_back(object);
 				}
@@ -109,6 +109,11 @@ void CPig::Priority_Update(_float fTimeDelta)
 		if (object) {
 			m_pTarget = object;
 		}
+	}
+	m_bHouse = false;
+	if (!m_pTarget && m_pHouse && 30 <= *m_pTime) {
+		m_pTarget = m_pHouse;
+		m_bHouse = true;
 	}
 }
 
@@ -151,7 +156,7 @@ void CPig::Update(_float fTimeDelta)
 	}
 	else if (m_pTarget) {
 		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+		if ((abs(move.x) + abs(move.z)) / 2.f < 4 || m_bHouse) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
@@ -195,9 +200,7 @@ void CPig::Update(_float fTimeDelta)
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
 				}
 				else {
-					D3DXVec3Normalize(&move, &move);
-
-					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
 					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 				}
 				break;
@@ -214,52 +217,36 @@ void CPig::Update(_float fTimeDelta)
 		}
 	}
 	else {
-		if (30 <= *m_pTime) {
-			m_bHouse = true;
-			_float3 move = m_pHouse->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-
-			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
-				switch (m_tMotion)
-				{
-				case MOTION::DAMAGE:
-				case MOTION::ATTACK:
-					if (m_iLength <= m_fAniTime) {
-						m_fAttackTime = 0;
-						SetAnimation(m_tDir, MOTION::IDLE);
-					}
-					break;
-				default:
-					if (m_bCol) {
-						SetAnimation(m_tDir, MOTION::IDLE);
-					}
-					else {
-						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-					}
-					break;
-				}
-			}
-			else if (m_bCol) {
-				SetAnimation(m_tDir, MOTION::IDLE);
-			}
-			else {
-				if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+		if (m_fMoveStart > m_fMoveTime) {
+			switch (m_tMotion)
+			{
+			case CPig::IDLE:
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				break;
+			case MOTION::IDLE_TO_RUN:
+				if (m_iLength <= m_fAniTime)
 				{
 					SetAnimation(m_tDir, MOTION::RUN);
 				}
-				D3DXVec3Normalize(&move, &move);
-
-				m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
-				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-
+				break;
 			}
+			if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::RUN);
+			}
+			m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 		}
 		else {
-			m_bHouse = false;
 			switch (m_tMotion)
 			{
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 				}
 				break;
 			case MOTION::ATTACK:
@@ -312,7 +299,11 @@ void CPig::Death()
 }
 void CPig::OutHouse()
 {
+	m_pMonsterData->fPos = m_pHouse->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+	m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 	m_bActive = true;
+	m_bHouse = false;
+	SetRandomMove();
 }
 HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 {
@@ -406,6 +397,12 @@ void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
+		m_pHouse->EnterPig(this);
+		m_bActive = false;
+		m_pTarget = nullptr;
+		return;
+	}
 	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
@@ -418,10 +415,6 @@ void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 		if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
 			HitActor->Damage(&m_tDamage);
 		}
-	}
-	if (m_bHouse && HitActor == m_pHouse && !m_pTarget) {
-		m_pHouse->EnterPig(this);
-		m_bActive = false;
 	}
 }
 

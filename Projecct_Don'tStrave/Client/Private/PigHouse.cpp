@@ -62,8 +62,6 @@ void CPigHouse::Update(_float fTimeDelta)
 		}
 		break;
 	}
-	D3DLIGHT9			m_Light{};
-	m_pGraphic_Device->GetLight(0, &m_Light);
 	if (m_pPig && 30 > *m_pTime) {
 		Emergency();
 	}

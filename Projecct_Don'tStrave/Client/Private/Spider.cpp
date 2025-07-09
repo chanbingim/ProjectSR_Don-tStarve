@@ -41,6 +41,7 @@ HRESULT CSpider::Initialize_Late()
 					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 					m_pHouse->EnterSpider(this);
 					m_bActive = false;
+					m_bHouse = true;
 					break;
 				}
 			}

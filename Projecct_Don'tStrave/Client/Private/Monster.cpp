@@ -68,7 +68,10 @@ void CMonster::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_fAttackTime += fTimeDelta * 2;
-
+	m_fMoveTime += fTimeDelta;
+	if (m_fMoveDelay <= m_fMoveTime) {
+		SetRandomMove();
+	}
 }
 
 void CMonster::Update(_float fTimeDelta)
@@ -87,6 +90,9 @@ void CMonster::Update(_float fTimeDelta)
 void CMonster::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_pTarget && m_pTarget->isDead()) {
+		m_pTarget = nullptr;
+	}
 }
 
 HRESULT CMonster::Render()
@@ -135,6 +141,15 @@ void CMonster::SetDir()
 	else {
 		__super::SetDir();
 	}
+}
+
+void CMonster::SetRandomMove()
+{
+	m_fMoveTime = 0.f;
+	m_fMoveStart = (_float)(rand() % 2) + 1;
+	m_fMoveDelay = (_float)(rand() % 4) + 8;
+	m_fMove = { (_float)(rand() % 10 - rand() % 10), 0.f, (_float)(rand() % 10 - rand() % 10) };
+	D3DXVec3Normalize(&m_fMove, &m_fMove);
 }
 
 MONSTER_DATA* CMonster::Get_Monster()

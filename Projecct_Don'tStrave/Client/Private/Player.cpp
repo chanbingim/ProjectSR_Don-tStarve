@@ -410,7 +410,7 @@ void CPlayer::Update(_float fTimeDelta)
 					if (dynamic_cast<CEnviornment_Object*>(object)) {
 						CEnviornment_Object* enviornment = dynamic_cast<CEnviornment_Object*>(object);
 						if (MOTION::GHOST_APPEAR <= m_tMotion) {
-							if (6 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::IDLE == enviornment->GetState()) {
+							if (CEnviornment_Object::Enviornment_TYPE::RESERREECTION == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::IDLE == enviornment->GetState()) {
 								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 								_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 								if (3.f > distance) {
@@ -420,7 +420,7 @@ void CPlayer::Update(_float fTimeDelta)
 							}
 						}
 						else {
-							if (2 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
+							if (CEnviornment_Object::Enviornment_TYPE::GRASS == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 								_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 								if (3.f > distance) {
@@ -431,7 +431,7 @@ void CPlayer::Update(_float fTimeDelta)
 							switch (m_pPlayer->tItem) {
 							case SWAPOBJECT::AXE:
 							case SWAPOBJECT::GOLDAXE:
-								if (4 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
+								if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
@@ -441,7 +441,7 @@ void CPlayer::Update(_float fTimeDelta)
 								break;
 							case SWAPOBJECT::PICKAXE:
 							case SWAPOBJECT::GOLDPICKAXE:
-								if ((3 == enviornment->GetEnviormentID() || 5 == enviornment->GetEnviormentID()) && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
+								if (CEnviornment_Object::Enviornment_TYPE::STONE == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
@@ -450,7 +450,7 @@ void CPlayer::Update(_float fTimeDelta)
 								}
 								break;
 							case SWAPOBJECT::TORCH:
-								if (4 == enviornment->GetEnviormentID() || 2 == enviornment->GetEnviormentID()) {
+								if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
@@ -459,7 +459,7 @@ void CPlayer::Update(_float fTimeDelta)
 								}
 								break;
 							case SWAPOBJECT::SHOVEL:
-								if ((4 == enviornment->GetEnviormentID() || 2 == enviornment->GetEnviormentID()) && CEnviornment_Object::Enviornment_STATE::BROKEN <= enviornment->GetState()) {
+								if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::BROKEN <= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
@@ -800,6 +800,7 @@ void CPlayer::Death()
 	m_bControll = false;
 	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
+	m_pPlayer->pWorkObject = nullptr;
 	SetAnimation(DIR::DIR_END, MOTION::DEATH2);
 }
 
@@ -811,6 +812,7 @@ void CPlayer::Dead()
 	m_bControll = false;
 	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
+	m_pPlayer->pWorkObject = nullptr;
 	SetAnimation(DIR::DIR_END, MOTION::DEATH1);
 }
 
@@ -1020,11 +1022,10 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			}
 		}
 		if (dynamic_cast<CEnviornment_Object*>(HitActor)) {
-
 			CEnviornment_Object* enviornment = dynamic_cast<CEnviornment_Object*>(HitActor);
-			switch (enviornment->GetEnviormentID())
+			switch (enviornment->GetEnviornMentType())
 			{
-			case 2:
+			case CEnviornment_Object::Enviornment_TYPE::GRASS:
 				if (MOTION::BUILD != m_tMotion) {
 					SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
 					m_bControll = false;
@@ -1039,8 +1040,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					}
 				}
 				break;
-			case 3:
-			case 5:
+			case CEnviornment_Object::Enviornment_TYPE::STONE:
 				if (MOTION::PICKAXE != m_tMotion) {
 					SetAnimation(m_tDir, MOTION::PICKAXE);
 					m_bControll = false;
@@ -1060,7 +1060,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					}
 				}
 				break;
-			case 4:
+			case CEnviornment_Object::Enviornment_TYPE::TREE:
 				if (MOTION::AXE != m_tMotion) {
 					SetAnimation(m_tDir, MOTION::IDLE_TO_AXE);
 					m_bControll = false;
@@ -1082,7 +1082,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					}
 				}
 				break;
-			case 6:
+			case CEnviornment_Object::Enviornment_TYPE::RESERREECTION:
 				if (MOTION::GHOST_IDLE == m_tMotion) {
 					SetAnimation(m_tDir, MOTION::GHOST_DISSIPATE);
 					HitActor->Damage(&m_tDamage);

@@ -27,6 +27,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual	void		SetDir() override;
+	void				SetRandomMove();
 
 	MONSTER_DATA*	Get_Monster();
 	_bool Get_Active() { return m_bActive; }
@@ -36,6 +37,10 @@ protected:
 	MONSTER_DATA*		m_pMonsterData = {};
 	_uint*				m_pDate = {};
 	_float*				m_pTime = {};
+	_float3				m_fMove = {};
+	_float				m_fMoveTime = {};
+	_float				m_fMoveStart = {};
+	_float				m_fMoveDelay = {};
 	_float				m_fAttackTime = {};
 	_bool				m_bTarget = {};
 	_bool				m_bActive = {};

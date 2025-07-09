@@ -144,7 +144,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
     for (auto& anim : tEntity.tAnimationsVec) {
-        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), animName.size() > anim.szName.size() ? animName.size() : anim.szName.size())) {      // 이름 같은 애니메이션 찾기
+        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), max(animName.size(), anim.szName.size()))) {      // 이름 같은 애니메이션 찾기
             pAnim = &anim;
             break;
         }

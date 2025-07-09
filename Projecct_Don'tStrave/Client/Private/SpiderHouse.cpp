@@ -41,12 +41,12 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 	
 	//m_pMonsterVec.push_back();
 
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 0.1f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
-
+	m_bRecon = false;
 	return S_OK;
 }
 
@@ -55,7 +55,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 5.f) {
+	if (m_fTimeAcc >= 10.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -150,6 +150,14 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		}
 		break;
 	}
+	if (0 != m_pMonsterVec.size() && m_bRecon && 30 < *m_pTime) {
+		(*m_pMonsterVec.begin())->OutHouse();
+		m_pMonsterVec.erase(m_pMonsterVec.begin());
+		m_bRecon = false;
+	}
+	else if(30 >= *m_pTime){
+		m_bRecon = true;
+	}
 }
 
 void CSpiderHouse::Late_Update(_float fTimeDelta)
@@ -222,16 +230,15 @@ void CSpiderHouse::Hit()
 {
 	switch (m_tMotion) {
 	case SMALL:
-		m_tMotion = MOTION::SMALL_DAMAGE;
+		SetAnimation(MOTION::SMALL_DAMAGE);
 		break;
 	case MEDIUM:
-		m_tMotion = MOTION::MEDIUM_DAMAGE;
+		SetAnimation(MOTION::MEDIUM_DAMAGE);
 		break;
 	case LARGE:
-		m_tMotion = MOTION::LARGE_DAMAGE;
+		SetAnimation(MOTION::LARGE_DAMAGE);
 		break;
 	}
-	SetAnimation(m_tMotion);
 }
 
 void CSpiderHouse::Attack()
@@ -241,8 +248,7 @@ void CSpiderHouse::Attack()
 void CSpiderHouse::Death()
 {
 	m_fTimeAcc = 0.f;
-	m_tMotion = MOTION::DEATH;
-	SetAnimation(m_tMotion);
+	SetAnimation(MOTION::DEATH);
 }
 
 void CSpiderHouse::EnterSpider(CSpider* pMonster)

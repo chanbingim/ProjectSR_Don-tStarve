@@ -23,6 +23,7 @@ public:
 	virtual void Damage(void* pArg) override;
 protected:
 	CSpiderHouse*			m_pHouse = {};
+	_bool					m_bHouse = {};
 public:
 	virtual void Free() override;
 };
