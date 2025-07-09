@@ -46,7 +46,7 @@ HRESULT CLogo::Initialize(void* pArg)
 
 	__super::UpdatePosition();
 
-	m_pButton_Transform_Com->SetScale(_float3(220.f, 80.f, 1.f));
+	m_pButton_Transform_Com->SetScale(_float3(220.f, 60.f, 1.f));
 	m_pButton_Transform_Com->SetPosition(_float3(-420.f, -65.f, 1.f));
 
 	return S_OK;

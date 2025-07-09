@@ -28,8 +28,6 @@ HRESULT CUIEffect::Initialize(void* pArg)
     m_iTextureIndex = pDesc->iItemID;
     m_pSlot = pDesc->pSlot;
 
-    //Safe_AddRef(m_pSlot);
-
     memcpy(&m_Item_Desc, &pDesc->Item_Desc, sizeof(ITEM_DESC));
 
     _float3 vTargetPos = m_pSlot->Get_Position();
@@ -154,7 +152,6 @@ void CUIEffect::Free()
 {
     __super::Free();
 
-    //Safe_Release(m_pSlot);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);

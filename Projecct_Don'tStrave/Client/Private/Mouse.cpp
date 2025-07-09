@@ -88,9 +88,9 @@ void CMouse::Update(_float fTimeDelta)
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        Desc.iItemID = 35;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 8;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -98,9 +98,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('2') & 0x8000)
     {
-        Desc.iItemID = 36;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 9;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -108,9 +108,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('3') & 0x8000)
     {
-        Desc.iItemID = 37;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 19;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -118,9 +118,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('4') & 0x8000)
     {
-        Desc.iItemID = 38;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 19;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 

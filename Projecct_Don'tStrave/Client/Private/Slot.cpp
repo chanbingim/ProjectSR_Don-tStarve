@@ -391,5 +391,4 @@ void CSlot::Free()
     Safe_Release(m_pTexture_Com_NumItem);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);
-    Safe_Release(m_pTransform_Com);
 }
