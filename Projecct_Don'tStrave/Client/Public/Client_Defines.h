@@ -128,17 +128,10 @@ namespace Client
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
-<<<<<<< HEAD
-		_uint					iId = {};
-		_float					iAtkDistance = {};
-		_uint					iAtkSpeed = {};
-		_bool					bHostile = {};
-=======
 		_uint		iId = {};
 		_float		iAtkDistance = {};
 		_float		iAtkSpeed = {};
 		_uint		iHostile = {};
->>>>>>> origin/0707_kjh
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{

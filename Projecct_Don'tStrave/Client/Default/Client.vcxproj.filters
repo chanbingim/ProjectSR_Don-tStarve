@@ -161,9 +161,6 @@
     <Filter Include="02. Objects\Environment\EnvAnimation">
       <UniqueIdentifier>{992723a9-e316-4bda-8b6f-c109379e725d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Character\Manager">
-      <UniqueIdentifier>{0d7c4ce4-6a5e-4c93-bd0d-e52f05044e94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GmaeUI\Button\Create_Button">
       <UniqueIdentifier>{f36b13ae-a298-400b-8f76-5743d0dc7182}</UniqueIdentifier>
     </Filter>
@@ -307,6 +304,33 @@
     </Filter>
     <Filter Include="08. Quest\Manager">
       <UniqueIdentifier>{1c95fb97-cfc9-47d5-acee-00362055ce57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Goat">
+      <UniqueIdentifier>{7702ae45-d2d9-4a36-8f9e-2d9462bbe9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Goat\Deerclops">
+      <UniqueIdentifier>{3de4fc9b-e734-4ead-a34e-1aa24fd45cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\House">
+      <UniqueIdentifier>{28fe745a-0786-4adf-b620-fe39ae41adf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\House\PigHouse">
+      <UniqueIdentifier>{126b04c9-1964-4212-aa56-7a47986cbca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard">
+      <UniqueIdentifier>{4ad2c853-8266-42c8-9735-870ae70f6319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard\Object">
+      <UniqueIdentifier>{272a097c-f6a2-431f-8efb-2ab19bf4092c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster">
+      <UniqueIdentifier>{5c1072bf-b9e5-4d4a-bcd6-5fe5c9b70e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster\Crawling">
+      <UniqueIdentifier>{7822de32-619b-43c0-acd8-ad36474ade0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster\Terrorbeak">
+      <UniqueIdentifier>{54e56272-e9d1-49d7-82ff-91a93d3bbfc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -466,9 +490,6 @@
     <ClInclude Include="..\public\Env_Animation.h">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Character_Manager.h">
-      <Filter>03. Character\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Create_Button.h">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClInclude>
@@ -606,6 +627,33 @@
     </ClInclude>
     <ClInclude Include="..\public\QuestTree.h">
       <Filter>08. Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SwapObject.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Goat.h">
+      <Filter>03. Character\Monster\Goat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Deerclops.h">
+      <Filter>03. Character\Monster\Goat\Deerclops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\House.h">
+      <Filter>02. Objects\House</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PigHouse.h">
+      <Filter>02. Objects\House\PigHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Treeguard.h">
+      <Filter>03. Character\Monster\TreeGuard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TreeguardObject.h">
+      <Filter>03. Character\Monster\TreeGuard\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shadowcrawling.h">
+      <Filter>03. Character\Monster\ShadowMonster\Crawling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shadowterrorbeak.h">
+      <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -766,9 +814,6 @@
     <ClCompile Include="..\private\Env_Animation.cpp">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Character_Manager.cpp">
-      <Filter>03. Character\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Create_Button.cpp">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
     </ClCompile>
@@ -900,6 +945,33 @@
     </ClCompile>
     <ClCompile Include="..\private\QuestTree.cpp">
       <Filter>08. Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SwapObject.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Goat.cpp">
+      <Filter>03. Character\Monster\Goat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Deerclops.cpp">
+      <Filter>03. Character\Monster\Goat\Deerclops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\House.cpp">
+      <Filter>02. Objects\House</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PigHouse.cpp">
+      <Filter>02. Objects\House\PigHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Treeguard.cpp">
+      <Filter>03. Character\Monster\TreeGuard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TreeguardObject.cpp">
+      <Filter>03. Character\Monster\TreeGuard\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shadowcrawling.cpp">
+      <Filter>03. Character\Monster\ShadowMonster\Crawling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shadowterrorbeak.cpp">
+      <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

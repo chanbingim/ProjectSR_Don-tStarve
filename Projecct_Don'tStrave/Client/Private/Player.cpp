@@ -3,11 +3,8 @@
 #include "Monster.h"
 #include "Enviornment_Object.h"
 #include "XML_Manager.h"
-<<<<<<< HEAD
 #include "DamageEffectUI.h"
 
-=======
->>>>>>> origin/0707_kjh
 #include "Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -55,7 +52,6 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Item/spear.scml",
 		L"../Bin/Resources/Textures/Player/Item/", &m_tItemImageVec[ENUM_CLASS(SWAPOBJECT::SPEAR)]);
 
-
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Item/axe.scml", &m_tItemAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Item/pickaxe.scml", &m_tItemAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Item/shovel.scml", &m_tItemAnimation);
@@ -66,9 +62,7 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Item/itemactions.scml", &m_tItemAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Item/eat.scml", &m_tItemAnimation);
 
-
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Particles/Make/make_effect.scml", &m_tMakeAnimation);
-
 
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_idle.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_atk.scml", &m_tAnimation);
@@ -79,9 +73,6 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_pickaxe.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_eat.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml", &m_tAnimation);
-
-
-
 
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_idle.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridImageVec);
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/ghost_wathgrithr.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridGhostImageVec);
@@ -95,8 +86,6 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_pickaxe.scml", &m_tWigfridAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_eat.scml", &m_tWigfridAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wigfrid/ghost_wathgrithr.scml", &m_tWigfridAnimation);
-
-
 
 	return S_OK;
 }

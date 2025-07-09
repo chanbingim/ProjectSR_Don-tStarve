@@ -47,14 +47,9 @@ void CCharacter::Priority_Update(_float fTimeDelta)
     __super::Priority_Update(fTimeDelta);
    
     m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-<<<<<<< HEAD
 
-    m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1 : 1;
-    m_tDamage.Direaction.z = 180 >= m_fAngle ? -1 : 1;
-=======
     m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1.f : 1.f;
     m_tDamage.Direaction.z = 180 >= m_fAngle ? -1.f : 1.f;
->>>>>>> origin/0707_kjh
 }
 
 void CCharacter::Update(_float fTimeDelta)
