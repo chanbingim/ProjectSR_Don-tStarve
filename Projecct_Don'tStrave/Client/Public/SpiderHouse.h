@@ -1,14 +1,9 @@
 #pragma once
-#include "Monster.h"
-
-NS_BEGIN(Engine)
-class CTexture;
-class CCollision_Component;
-NS_END
+#include "House.h"
 
 NS_BEGIN(Client)
 class CSpider;
-class CSpiderHouse : public CMonster
+class CSpiderHouse : public CHouse
 {
 	enum MOTION {
 		SMALL,
@@ -48,9 +43,6 @@ private:
 	_float					m_fTimeAcc = {};
 	vector<CSpider*>		m_pMonsterVec = {};
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
-
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);

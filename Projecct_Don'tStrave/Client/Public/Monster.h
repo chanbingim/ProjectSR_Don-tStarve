@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "LandObject.h"
-
-#include "UserInterface.h"
 #include "Character.h"
 
 NS_BEGIN(Engine)
@@ -33,12 +29,14 @@ public:
 	virtual	void		SetDir() override;
 
 	MONSTER_DATA*	Get_Monster();
+	_bool Get_Active() { return m_bActive; }
 
 protected:
 	CGameObject*			m_pTarget = {};
 	MONSTER_DATA*		m_pMonsterData = {};
 	_float				m_fAttackTime = {};
 	_bool				m_bTarget = {};
+	_bool				m_bActive = {};
 public:
 	virtual void Free() override;
 };

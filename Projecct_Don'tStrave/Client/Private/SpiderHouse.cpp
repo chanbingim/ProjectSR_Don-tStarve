@@ -1,18 +1,17 @@
 #include "SpiderHouse.h"
 #include "GameInstance.h"
-
 #include "XML_Manager.h"
 #include "MonsterData_Manager.h"
 #include "Spider.h"
 #include "Camera.h"
 
 CSpiderHouse::CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMonster{ pGraphic_Device }
+	: CHouse{ pGraphic_Device }
 {
 }
 
 CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
-	: CMonster{ Prototype }
+	: CHouse{ Prototype }
 {
 }
 
@@ -33,7 +32,7 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 	SetAnimation(MOTION::SMALL);
 
 	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
-	size_t max = (rand() % 4) + 3;
+	size_t max = (rand() % 3) + 1;
 	data.fPos = m_pMonsterData->fPos;;
 	for (size_t i = 0; i < max; i++)
 	{
@@ -93,7 +92,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			m_pMonsterData->iMaxHp = data.iMaxHp;
 			m_pMonsterData->iHp = data.iMaxHp;
 
-			size_t max = (rand() % 4);
+			size_t max = (rand() % 2);
 			for (size_t i = 0; i < max; i++)
 			{
 				if (2 < rand() % 10) {
@@ -121,7 +120,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(101);
 			data.fPos = m_pMonsterData->fPos;;
-			size_t max = (rand() % 4);
+			size_t max = (rand() % 3);
 			for (size_t i = 0; i < max; i++)
 			{
 				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
@@ -157,28 +156,22 @@ void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CSpiderHouse::Render()
 {
 	__super::Render();
-
-	/*if (FAILED(Begin_RenderState()))
-		return E_FAIL;*/
-
-	XMLRenderAnimation(m_sAnim);
-
-	/*if (FAILED(End_RenderState()))
-		return E_FAIL;*/
-
+	if (!m_isDead) {
+		XMLRenderAnimation(m_sAnim);
+	}
 	return S_OK;
 }
 
 HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 {
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	switch (motion) {
 	case SMALL:
@@ -264,17 +257,6 @@ void CSpiderHouse::Emergency()
 		(*iter)->OutHouse();
 		iter = m_pMonsterVec.erase(iter);
 	}
-}
-
-HRESULT CSpiderHouse::Begin_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	return S_OK;
-}
-
-HRESULT CSpiderHouse::End_RenderState()
-{
-	return S_OK;
 }
 
 void CSpiderHouse::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

@@ -17,9 +17,9 @@ public :
 
 protected :
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
-	LPD3DXEFFECT					m_pEffect = { nullptr };
+	LPD3DXEFFECT						m_pEffect = { nullptr };
 	D3DXHANDLE						m_hTechnique = { nullptr };
-	LPDIRECT3DVERTEXDECLARATION9	m_pDecl = { nullptr };
+	LPDIRECT3DVERTEXDECLARATION9		m_pDecl = { nullptr };
 	D3DVERTEXELEMENT9				m_ShaderFVF[MAX_FVF_DECL_SIZE];
 
 public :

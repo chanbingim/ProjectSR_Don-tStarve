@@ -1,20 +1,6 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "LandObject.h"
-#include "UserInterface.h"
-#include "PlayerAnim.h"
 #include "Character.h"
-#include "Health.h"
-#include "Hunger.h"
-
-NS_BEGIN(Engine)
-class CTexture;
-class CTransform;
-class CVIBuffer_Rect;
-class CAnimController;
-class CCollision_Component;
-NS_END
 
 NS_BEGIN(Client)
 
@@ -66,6 +52,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+	virtual void SetDir() override;
 	virtual HRESULT Render() override;
 
 	virtual void Hit() override;
@@ -76,7 +63,7 @@ public:
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
 	void				Eat(void* pArg);
-	_bool				IsGhost() { return m_bIsGhost; }
+	_bool			IsGhost() { return m_bIsGhost; }
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
@@ -96,8 +83,6 @@ private:
 	Entity						m_tMakeAnimation = {};
 	PLAYER_DATA*				m_pPlayer = {};
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

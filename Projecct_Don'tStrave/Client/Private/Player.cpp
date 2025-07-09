@@ -2,10 +2,12 @@
 #include "GameInstance.h"
 #include "Monster.h"
 #include "Enviornment_Object.h"
-
 #include "XML_Manager.h"
+<<<<<<< HEAD
 #include "DamageEffectUI.h"
 
+=======
+>>>>>>> origin/0707_kjh
 #include "Item.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -131,7 +133,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 			}
 		}
 	}
-
+	m_fAngle = 90;
 	PLAYER_DESC data = *static_cast<PLAYER_DESC*>(pArg);
 	m_pPlayer = new PLAYER_DATA;
 
@@ -148,7 +150,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iTemp = 0;
 	m_pPlayer->fAtkRatio = data.fAtk;
 	m_pPlayer->fDefRatio = data.fDef;
-	m_pPlayer->iAtk = 50;
+	m_pPlayer->iAtk = 5;
 	m_pPlayer->iDef = 0;
 	m_pPlayer->iMaxHit = 10;
 	m_pPlayer->iHit = 10;
@@ -234,8 +236,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_fHungTime = 0;
 	}
 	m_tDamage.Attacker = this;
-	m_tDamage.Damage = m_pPlayer->iAtk * m_pPlayer->fAtkRatio;
-	if (0 >= m_pPlayer->iHunger) {
+	m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
+	if (!m_pPlayer->bIsDead && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion && (0 >= m_pPlayer->iHp || 0 >= m_pPlayer->iHunger)) {
 		Dead();
 	}
 	switch (m_tMotion)
@@ -257,49 +259,49 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	switch (m_tMotion)
+	{
+	case CPlayer::IDLE:
+	case CPlayer::IDLE_TO_RUN:
+	case CPlayer::RUN:
+	case CPlayer::RUN_TO_IDLE:
+	case CPlayer::IDLE_TO_BUILD:
+	case CPlayer::BUILD:
+	case CPlayer::BUILD_TO_IDLE:
+	case CPlayer::HUNGRY:
+	case CPlayer::EAT:
+	case CPlayer::FASTEAT:
+	case CPlayer::IDLE_TO_AXE:
+	case CPlayer::AXE:
+	case CPlayer::IDLE_TO_PICKAXE:
+	case CPlayer::PICKAXE:
+	case CPlayer::PICKAXE_TO_IDLE:
+	case CPlayer::IDLE_TO_SHOVEL:
+	case CPlayer::SHOVEL:
+	case CPlayer::SHOVEL_TO_IDLE:
+	case CPlayer::ATTACK:
+	case CPlayer::PICKUP:
+	case CPlayer::GIVE:
+	case CPlayer::DAMAGE:
+		switch (m_tMoveDIr)
+		{
+		case MOVE_DIR::MOVE_DOWN:
+			m_tDir = DIR::DOWN;
+			break;
+		case MOVE_DIR::MOVE_LEFT:
+		case MOVE_DIR::MOVE_RIGHT:
+			m_tDir = DIR::SIDE;
+			break;
+		case MOVE_DIR::MOVE_UP:
+			m_tDir = DIR::UP;
+			break;
+		}
+		SetAnimation(m_tDir, m_tMotion);
+	}
 	if (m_bControll) {
 		if (MOTION::BUCKED == m_tMotion) {
-			m_fAniTime = 0.f;
+			m_fAniTime = 0;
 			m_bControll = false;
-		}
-		switch (m_tMotion)
-		{
-		case CPlayer::IDLE:
-		case CPlayer::IDLE_TO_RUN:
-		case CPlayer::RUN:
-		case CPlayer::RUN_TO_IDLE:
-		case CPlayer::IDLE_TO_BUILD:
-		case CPlayer::BUILD:
-		case CPlayer::BUILD_TO_IDLE:
-		case CPlayer::HUNGRY:
-		case CPlayer::EAT:
-		case CPlayer::FASTEAT:
-		case CPlayer::IDLE_TO_AXE:
-		case CPlayer::AXE:
-		case CPlayer::IDLE_TO_PICKAXE:
-		case CPlayer::PICKAXE:
-		case CPlayer::PICKAXE_TO_IDLE:
-		case CPlayer::IDLE_TO_SHOVEL:
-		case CPlayer::SHOVEL:
-		case CPlayer::SHOVEL_TO_IDLE:
-		case CPlayer::ATTACK:
-		case CPlayer::PICKUP:
-		case CPlayer::GIVE:
-		case CPlayer::DAMAGE:
-			switch (m_tMoveDIr)
-			{
-			case MOVE_DIR::MOVE_DOWN:
-				m_tDir = DIR::DOWN;
-				break;
-			case MOVE_DIR::MOVE_LEFT:
-			case MOVE_DIR::MOVE_RIGHT:
-				m_tDir = DIR::SIDE;
-				break;
-			case MOVE_DIR::MOVE_UP:
-				m_tDir = DIR::UP;
-				break;
-			}
-			SetAnimation(m_tDir, m_tMotion);
 		}
 		if (m_pGameInstance->KeyPressed('W') || m_pGameInstance->KeyPressed('S') || m_pGameInstance->KeyPressed('D') || m_pGameInstance->KeyPressed('A'))
 		{
@@ -351,7 +353,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 
 				_float3 transform = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 				if (0.1f > distance) {
 					if (dynamic_cast<CItem*>(m_pPlayer->pWorkObject)) {
 						SetAnimation(m_tDir, MOTION::PICKUP);
@@ -399,7 +401,7 @@ void CPlayer::Update(_float fTimeDelta)
 					if (m_iLength <= m_fAniTime)
 					{
 						SetAnimation(m_tDir, MOTION::IDLE);
-						m_bControll = false;
+						m_bControll = true;
 					}
 					break;
 				default:
@@ -421,7 +423,7 @@ void CPlayer::Update(_float fTimeDelta)
 						if (MOTION::GHOST_APPEAR <= m_tMotion) {
 							if (6 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::IDLE == enviornment->GetState()) {
 								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-								_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+								_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 								if (3.f > distance) {
 									NearObjects.push_back(object);
 								}
@@ -431,7 +433,7 @@ void CPlayer::Update(_float fTimeDelta)
 						else {
 							if (2 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-								_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+								_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 								if (3.f > distance) {
 									NearObjects.push_back(object);
 								}
@@ -442,7 +444,7 @@ void CPlayer::Update(_float fTimeDelta)
 							case SWAPOBJECT::GOLDAXE:
 								if (4 == enviornment->GetEnviormentID() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-									_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
 										NearObjects.push_back(object);
 									}
@@ -452,7 +454,7 @@ void CPlayer::Update(_float fTimeDelta)
 							case SWAPOBJECT::GOLDPICKAXE:
 								if ((3 == enviornment->GetEnviormentID() || 5 == enviornment->GetEnviormentID()) && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-									_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
 										NearObjects.push_back(object);
 									}
@@ -461,7 +463,7 @@ void CPlayer::Update(_float fTimeDelta)
 							case SWAPOBJECT::TORCH:
 								if (4 == enviornment->GetEnviormentID() || 2 == enviornment->GetEnviormentID()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-									_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
 										NearObjects.push_back(object);
 									}
@@ -470,7 +472,7 @@ void CPlayer::Update(_float fTimeDelta)
 							case SWAPOBJECT::SHOVEL:
 								if ((4 == enviornment->GetEnviormentID() || 2 == enviornment->GetEnviormentID()) && CEnviornment_Object::Enviornment_STATE::BROKEN <= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-									_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+									_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 									if (3.f > distance) {
 										NearObjects.push_back(object);
 									}
@@ -484,7 +486,7 @@ void CPlayer::Update(_float fTimeDelta)
 				if (GroundObejcts && !GroundObejcts->empty()) {
 					for (auto& object : (*GroundObejcts)) {
 						_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-						_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
+						_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 
 						if (3.f > distance) {
 							NearObjects.push_back(object);
@@ -495,8 +497,8 @@ void CPlayer::Update(_float fTimeDelta)
 					{
 						_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 						_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-						_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-						_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+						_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+						_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 						return distance < distance2;
 					});
 
@@ -517,8 +519,8 @@ void CPlayer::Update(_float fTimeDelta)
 			if (GroundObejcts && !GroundObejcts->empty()) {
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->bHostile)
+					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active()  && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 						if (5.f > distance) {
 							NearObjects.push_back(object);
 						}
@@ -528,11 +530,10 @@ void CPlayer::Update(_float fTimeDelta)
 				{
 					_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-					_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-					_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+					_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 					return distance < distance2;
 				});
-
 			if (!NearObjects.empty()) {
 				CGameObject* object = NearObjects.front();
 				if (object) {
@@ -576,6 +577,12 @@ void CPlayer::Update(_float fTimeDelta)
 				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
 			}
 			break;
+		case MOTION::AXE:
+			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
+				m_bControll = true;
+				SetAnimation(m_tDir, MOTION::IDLE);
+			}
+			break;
 		case MOTION::PICKAXE:
 			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
 				m_bControll = true;
@@ -585,7 +592,7 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::EAT:
 		case MOTION::FASTEAT:
 			if (m_iLength <= m_fAniTime) {
-				m_pPlayer->iHp = min(m_pPlayer->iHp + m_iHealthChange, m_pPlayer->iMaxHp);
+				m_pPlayer->iHp = min(m_pPlayer->iHp + m_iHealthChange, (_int)m_pPlayer->iMaxHp);
 				m_pPlayer->iMental = min(m_pPlayer->iMental + m_iSanityChange, m_pPlayer->iMaxMental);
 				m_pPlayer->iHunger = min(m_pPlayer->iHunger + m_iHungerChange, m_pPlayer->iMaxHunger);
 				m_iHealthChange = 0;
@@ -603,7 +610,6 @@ void CPlayer::Update(_float fTimeDelta)
 				m_pPlayer->iHp = m_pPlayer->iMaxHp;
 				m_pPlayer->iHunger = m_pPlayer->iMaxHunger;
 				m_pPlayer->iMental = m_pPlayer->iMaxMental;
-				m_pPlayer->bIsDead = false;
 				SetAnimation(m_tDir, MOTION::IDLE);
 				m_bControll = true;
 			}
@@ -705,12 +711,49 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	}
 }
 
+void CPlayer::SetDir()
+{
+	if (m_pPlayer->pWorkObject) {
+		m_fMoving = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / sqrtf(powf(m_fMoving.x, 2) + powf(m_fMoving.z, 2))));
+			if (0 < m_fMoving.z) {
+				m_fAngle = 360.f - m_fAngle;
+			}
+		}
+		D3DMATRIX view;
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
+		_float3 look = view.m[2];
+		look.z *= -1;
+		_float lookAngle = D3DXToDegree(acosf(look.x / sqrtf(powf(look.x, 2) + powf(look.z, 2))));
+		lookAngle += 180;
+		if (0 < look.z) {
+			lookAngle = 360.f - lookAngle;
+		}
+		_float fAngle = lookAngle - m_fAngle;
+		if (0 > fAngle) {
+			fAngle += 360;
+		}
+		if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
+			m_tMoveDIr = MOVE_DIR::MOVE_UP;
+		}
+		else if ((fAngle < 130.f && fAngle >= 40.f)) {
+			m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
+		}
+		else if (fAngle < 220.f && fAngle >= 130.f) {
+			m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
+		}
+		else if (fAngle < 310.f && fAngle >= 220.f) {
+			m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
+		}
+	}
+	else {
+		__super::SetDir();
+	}
+}
+
 HRESULT CPlayer::Render()
 {
-	/*if (FAILED(Begin_RenderState()))
-		return E_FAIL;*/
-
-
 
 	if (MOTION::BUILD == m_tMotion && DIR::UP == m_tDir) {
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
@@ -740,8 +783,6 @@ HRESULT CPlayer::Render()
 	if (MOTION::BUILD == m_tMotion && DIR::UP != m_tDir) {
 		RenderAnimation(m_sAnim, m_tMakeAnimation, m_tMakeImageVec);
 	}
-	/*if (FAILED(End_RenderState()))
-		return E_FAIL;*/
 	return S_OK;
 }
 
@@ -810,7 +851,7 @@ void CPlayer::Eat(void* pArg)
 HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 {
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	switch (motion)
 	{
@@ -968,34 +1009,13 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 } 
 
-HRESULT CPlayer::Begin_RenderState()
-{
-	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-
-
-	return S_OK;
-}
-
-HRESULT CPlayer::End_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	return S_OK;
-}
-
 void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
 void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pPlayer->pWorkObject) {
+	if (HitActor == m_pPlayer->pWorkObject && MOTION::DAMAGE != m_tMotion && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion) {
 		m_bCol = true;
 		if (dynamic_cast<CMonster*>(HitActor)) {
 			if (!m_bAttack && m_tMotion != MOTION::ATTACK) {
@@ -1004,6 +1024,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_pPlayer->tItem ? 330 : 200) <= (int)m_fAniTime) {
 				dynamic_cast<CMonster*>(HitActor)->Damage(&m_tDamage);
 				m_bAttack = false;
+				m_bControll = true;
 				if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
 					m_pPlayer->pWorkObject = nullptr;
 				}
@@ -1067,7 +1088,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					if (m_bAttack && 160 <= (int)m_fAniTime) {
 						m_bAttack = false;
 						m_tDamage.Attacker = this;
-						m_tDamage.Direaction.x = (MOVE_DIR::MOVE_DOWN == m_tMoveDIr || MOVE_DIR::MOVE_LEFT == m_tMoveDIr) ? -1 : 1;
+						m_tDamage.Direaction.x = (MOVE_DIR::MOVE_DOWN == m_tMoveDIr || MOVE_DIR::MOVE_LEFT == m_tMoveDIr) ? -1.f : 1.f;
 						HitActor->Damage(&m_tDamage);
 					}
 				}
@@ -1081,6 +1102,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				}
 				else {
 					if (m_bAttack && m_iLength <= m_fAniTime) {
+						m_pPlayer->bIsDead = false;
 						SetAnimation(m_tDir, MOTION::WAKEUP);
 					}
 				}

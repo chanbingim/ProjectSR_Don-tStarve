@@ -23,9 +23,9 @@ void CPlayerData_Manager::LoadPlayerData(const char* MapFilePath)
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
 
-    _uint iDataSize = ReadData.size();
+    size_t iDataSize = ReadData.size();
 
-    for (_uint i = 0; i < iDataSize; )
+    for (size_t i = 0; i < iDataSize; )
     {
         PLAYER_DESC Data;
         ++m_iPlayerDataSize;

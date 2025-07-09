@@ -1,9 +1,9 @@
 #include "Pig.h"
 #include "GameInstance.h"
-#include "SpiderHouse.h"
 #include "XML_Manager.h"
-#include "SpiderQueen.h"
 #include "Camera.h"
+#include "Player.h"
+#include "PigHouse.h"
 
 CPig::CPig(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -31,11 +31,25 @@ HRESULT CPig::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
-
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_bMove = false;
-	m_fMoveTIme = 0.f;
 
+
+	list<CGameObject*> NearObjects;
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (0.1f > distance) {
+				if (m_pHouse = dynamic_cast<CPigHouse*>(object)) {
+					m_pHouse->EnterPig(this);
+					m_bActive = false;
+					break;
+				}
+			}
+		}
+	}
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -47,48 +61,51 @@ HRESULT CPig::Initialize(void* pArg)
 
 void CPig::Priority_Update(_float fTimeDelta)
 {
-		__super::Priority_Update(fTimeDelta);
-		m_pTarget = nullptr;
+	if (!m_bActive) {
+		return;
+	}
+	if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
+	__super::Priority_Update(fTimeDelta);
+	m_pTarget = nullptr;
+	list<CGameObject*> NearObjects;
+	if (m_pMonsterData->iHostile) {
+		NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
+	}
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (!GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+				if (5.f > distance) {
+					NearObjects.push_back(object);
+				}
+		}
+	}
+	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
+			return distance < distance2;
+		});
 
-		list<CGameObject*> NearObjects;
-		if (m_pMonsterData->bHostile) {
-			NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
+	if (!NearObjects.empty()) {
+		CGameObject* object = NearObjects.front();
+		if (object) {
+			m_pTarget = object;
 		}
-		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-		if (!GroundObejcts->empty()) {
-			for (auto& object : (*GroundObejcts)) {
-				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-				if (!dynamic_cast<CPig*>(object))
-					if (5.f > distance) {
-						NearObjects.push_back(object);
-					}
-			}
-		}
-		NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-			{
-				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-				_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
-				return distance < distance2;
-			});
-
-		if (!NearObjects.empty()) {
-			CGameObject* object = NearObjects.front();
-			if (object) {
-				m_pTarget = object;
-			}
-		}
+	}
 }
 
 void CPig::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
-
-
-
-
+	if (!m_bActive) {
+		return;
+	}
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
 	{
@@ -118,6 +135,7 @@ void CPig::Update(_float fTimeDelta)
 	if (m_tMotion == MOTION::DEATH) {
 		if (m_iLength <= m_fAniTime) {
 			m_isDead = true;
+			return;
 		}
 	}
 	else if (m_pTarget) {
@@ -159,26 +177,6 @@ void CPig::Update(_float fTimeDelta)
 			}
 		}
 		else {
-			//m_fMoveTIme += fTimeDelta;
-			//if (m_fMoveTIme > 10) {
-			//	if (m_fMoveTIme > 40) {
-			//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-			//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-			//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-			//			SetAnimation(m_tDir, MOTION::RUN);
-			//		}
-			//		if (m_fMoveTIme > 70) {
-			//			m_fMoveTIme = 0;
-			//		}
-			//	}
-			//	else {
-			//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-			//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-			//		m_fMoveTIme += 30 + (rand() % 20);
-			//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-			//	}
-			//}
-			//else {
 				switch (m_tMotion)
 				{
 				case MOTION::RUN:
@@ -202,34 +200,9 @@ void CPig::Update(_float fTimeDelta)
 				default:
 					break;
 				}
-			//}
 		}
 	}
 	else {
-		//m_fMoveTIme += fTimeDelta;
-		//if (m_fMoveTIme > 10) {
-		//	if (m_fMoveTIme > 40) {
-		//
-		//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-		//		if (m_pMonsterData->fPos.x < 0 || m_pMonsterData->fPos.z < 0) {
-		//			m_fMoveTIme = 0;
-		//		}
-		//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-		//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-		//			SetAnimation(m_tDir, MOTION::RUN);
-		//		}
-		//		if (m_fMoveTIme > 70) {
-		//			m_fMoveTIme = 0;
-		//		}
-		//	}
-		//	else {
-		//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-		//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-		//		m_fMoveTIme += 30 + (rand() % 20);
-		//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-		//	}
-		//}
-		//else {
 		switch (m_tMotion)
 		{
 		case MOTION::RUN:
@@ -247,27 +220,25 @@ void CPig::Update(_float fTimeDelta)
 		default:
 			break;
 		}
-		//}
 	}
 }
 
 void CPig::Late_Update(_float fTimeDelta)
 {
-		SetDir();
-		__super::Late_Update(fTimeDelta);
-		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	if (!m_bActive) {
+		return;
+	}
+	__super::Late_Update(fTimeDelta);
+	SetDir();
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CPig::Render()
 {
-		__super::Render();
-
-		/*if (FAILED(Begin_RenderState()))
-			return E_FAIL;*/
+	__super::Render();
+	if (m_bActive && !m_isDead) {
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
-
-		/*if (FAILED(End_RenderState()))
-			return E_FAIL;*/
+	}
 	return S_OK;
 }
 
@@ -286,13 +257,17 @@ void CPig::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
+void CPig::OutHouse()
+{
+	m_bActive = true;
+}
 HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -358,23 +333,18 @@ HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CPig::Begin_RenderState()
+void CPig::Damage(void* pArg)
 {
-	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	return S_OK;
-}
-
-HRESULT CPig::End_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	return S_OK;
+	DAMAGE_DATA_BASE DamageBase = {};
+	if (pArg) {
+		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+		if (DamageBase.Attacker) {
+			CCharacter* player = static_cast<CCharacter*>(DamageBase.Attacker);
+			if (dynamic_cast<CPlayer*>(player)) {
+				m_pMonsterData->iHostile = 1;
+			}
+		}
+	}
 }
 
 void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
@@ -383,16 +353,17 @@ void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget) {
-		m_bCol = true;
-		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DAMAGE && m_tMotion != DEATH) {
-			if (m_tMotion != ATTACK) {
+	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
+			m_bCol = true;
+			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
 				Attack();
 			}
-			else if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
-				m_pTarget->Damage(&m_tDamage);
-				m_bAttack = false;
-			}
+		}
+		if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
+			HitActor->Damage(&m_tDamage);
 		}
 	}
 }
