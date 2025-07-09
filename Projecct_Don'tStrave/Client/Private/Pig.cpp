@@ -1,9 +1,9 @@
 #include "Pig.h"
 #include "GameInstance.h"
-#include "SpiderHouse.h"
 #include "XML_Manager.h"
-#include "SpiderQueen.h"
 #include "Camera.h"
+#include "Player.h"
+#include "PigHouse.h"
 
 CPig::CPig(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -33,6 +33,24 @@ HRESULT CPig::Initialize(void* pArg)
 	LoadImageFile();
 	SetAnimation(m_tDir, MOTION::IDLE);
 
+
+	list<CGameObject*> NearObjects;
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (0.1f > distance) {
+				if (m_pHouse = dynamic_cast<CPigHouse*>(object)) {
+					m_pHouse->EnterPig(this);
+					m_bActive = false;
+					break;
+				}
+			}
+		}
+	}
+
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -46,6 +64,9 @@ void CPig::Priority_Update(_float fTimeDelta)
 	if (!m_bActive) {
 		return;
 	}
+	if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	list<CGameObject*> NearObjects;
@@ -57,7 +78,7 @@ void CPig::Priority_Update(_float fTimeDelta)
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			if (!dynamic_cast<CPig*>(object) && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+			if (!dynamic_cast<CPig*>(object) && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 				if (5.f > distance) {
 					NearObjects.push_back(object);
 				}
@@ -312,6 +333,20 @@ HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
+void CPig::Damage(void* pArg)
+{
+	DAMAGE_DATA_BASE DamageBase = {};
+	if (pArg) {
+		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+		if (DamageBase.Attacker) {
+			CCharacter* player = static_cast<CCharacter*>(DamageBase.Attacker);
+			if (dynamic_cast<CPlayer*>(player)) {
+				m_pMonsterData->iHostile = 1;
+			}
+		}
+	}
+}
+
 void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
@@ -328,7 +363,6 @@ void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			}
 		}
 		if (m_tMotion == ATTACK && m_bAttack && 470 <= (int)m_fAniTime) {
-			m_bAttack = false;
 			HitActor->Damage(&m_tDamage);
 		}
 	}

@@ -38,6 +38,9 @@ HRESULT CShadowterrorbeak::Initialize(void* pArg)
 
 void CShadowterrorbeak::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == ATTACK && m_bAttack && 240 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
@@ -310,7 +313,6 @@ void CShadowterrorbeak::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			}
 		}
 		if (m_tMotion == ATTACK && m_bAttack && 240 <= (int)m_fAniTime) {
-			m_bAttack = false;
 			HitActor->Damage(&m_tDamage);
 		}
 	}

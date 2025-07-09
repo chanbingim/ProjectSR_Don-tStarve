@@ -29,6 +29,7 @@ public:
 	virtual	void		SetDir() override;
 
 	MONSTER_DATA*	Get_Monster();
+	_bool Get_Active() { return m_bActive; }
 
 protected:
 	CGameObject*			m_pTarget = {};

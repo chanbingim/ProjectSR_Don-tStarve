@@ -1,5 +1,7 @@
 #include "Monster.h"
 #include "GameInstance.h"
+#include "Mouse.h"
+#include "Player.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -62,6 +64,14 @@ void CMonster::Priority_Update(_float fTimeDelta)
 void CMonster::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	_float3 vPickingPos = {};
+	m_pTransformCom->SetScale({ m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2 });
+	if (m_bActive && m_pGameInstance->KeyDown(VK_LBUTTON) && dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
+	{
+		dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+	}
+	m_pTransformCom->SetScale({ 1.f,1.f,1.f });
 }
 
 void CMonster::Late_Update(_float fTimeDelta)

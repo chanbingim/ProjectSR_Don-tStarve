@@ -145,7 +145,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iTemp = 0;
 	m_pPlayer->fAtkRatio = data.fAtk;
 	m_pPlayer->fDefRatio = data.fDef;
-	m_pPlayer->iAtk = 5000;
+	m_pPlayer->iAtk = 5;
 	m_pPlayer->iDef = 0;
 	m_pPlayer->iMaxHit = 10;
 	m_pPlayer->iHit = 10;
@@ -254,49 +254,49 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	switch (m_tMotion)
+	{
+	case CPlayer::IDLE:
+	case CPlayer::IDLE_TO_RUN:
+	case CPlayer::RUN:
+	case CPlayer::RUN_TO_IDLE:
+	case CPlayer::IDLE_TO_BUILD:
+	case CPlayer::BUILD:
+	case CPlayer::BUILD_TO_IDLE:
+	case CPlayer::HUNGRY:
+	case CPlayer::EAT:
+	case CPlayer::FASTEAT:
+	case CPlayer::IDLE_TO_AXE:
+	case CPlayer::AXE:
+	case CPlayer::IDLE_TO_PICKAXE:
+	case CPlayer::PICKAXE:
+	case CPlayer::PICKAXE_TO_IDLE:
+	case CPlayer::IDLE_TO_SHOVEL:
+	case CPlayer::SHOVEL:
+	case CPlayer::SHOVEL_TO_IDLE:
+	case CPlayer::ATTACK:
+	case CPlayer::PICKUP:
+	case CPlayer::GIVE:
+	case CPlayer::DAMAGE:
+		switch (m_tMoveDIr)
+		{
+		case MOVE_DIR::MOVE_DOWN:
+			m_tDir = DIR::DOWN;
+			break;
+		case MOVE_DIR::MOVE_LEFT:
+		case MOVE_DIR::MOVE_RIGHT:
+			m_tDir = DIR::SIDE;
+			break;
+		case MOVE_DIR::MOVE_UP:
+			m_tDir = DIR::UP;
+			break;
+		}
+		SetAnimation(m_tDir, m_tMotion);
+	}
 	if (m_bControll) {
 		if (MOTION::BUCKED == m_tMotion) {
 			m_fAniTime = 0;
 			m_bControll = false;
-		}
-		switch (m_tMotion)
-		{
-		case CPlayer::IDLE:
-		case CPlayer::IDLE_TO_RUN:
-		case CPlayer::RUN:
-		case CPlayer::RUN_TO_IDLE:
-		case CPlayer::IDLE_TO_BUILD:
-		case CPlayer::BUILD:
-		case CPlayer::BUILD_TO_IDLE:
-		case CPlayer::HUNGRY:
-		case CPlayer::EAT:
-		case CPlayer::FASTEAT:
-		case CPlayer::IDLE_TO_AXE:
-		case CPlayer::AXE:
-		case CPlayer::IDLE_TO_PICKAXE:
-		case CPlayer::PICKAXE:
-		case CPlayer::PICKAXE_TO_IDLE:
-		case CPlayer::IDLE_TO_SHOVEL:
-		case CPlayer::SHOVEL:
-		case CPlayer::SHOVEL_TO_IDLE:
-		case CPlayer::ATTACK:
-		case CPlayer::PICKUP:
-		case CPlayer::GIVE:
-		case CPlayer::DAMAGE:
-			switch (m_tMoveDIr)
-			{
-			case MOVE_DIR::MOVE_DOWN:
-				m_tDir = DIR::DOWN;
-				break;
-			case MOVE_DIR::MOVE_LEFT:
-			case MOVE_DIR::MOVE_RIGHT:
-				m_tDir = DIR::SIDE;
-				break;
-			case MOVE_DIR::MOVE_UP:
-				m_tDir = DIR::UP;
-				break;
-			}
-			SetAnimation(m_tDir, m_tMotion);
 		}
 		if (m_pGameInstance->KeyPressed('W') || m_pGameInstance->KeyPressed('S') || m_pGameInstance->KeyPressed('D') || m_pGameInstance->KeyPressed('A'))
 		{
@@ -396,7 +396,7 @@ void CPlayer::Update(_float fTimeDelta)
 					if (m_iLength <= m_fAniTime)
 					{
 						SetAnimation(m_tDir, MOTION::IDLE);
-						m_bControll = false;
+						m_bControll = true;
 					}
 					break;
 				default:
@@ -515,7 +515,7 @@ void CPlayer::Update(_float fTimeDelta)
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active()  && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 						if (5.f > distance) {
 							NearObjects.push_back(object);
 						}
@@ -529,7 +529,6 @@ void CPlayer::Update(_float fTimeDelta)
 					_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 					return distance < distance2;
 				});
-
 			if (!NearObjects.empty()) {
 				CGameObject* object = NearObjects.front();
 				if (object) {
@@ -702,6 +701,47 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
+	}
+}
+
+void CPlayer::SetDir()
+{
+	if (m_pPlayer->pWorkObject) {
+		m_fMoving = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / sqrtf(powf(m_fMoving.x, 2) + powf(m_fMoving.z, 2))));
+			if (0 < m_fMoving.z) {
+				m_fAngle = 360.f - m_fAngle;
+			}
+		}
+		D3DMATRIX view;
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
+		_float3 look = view.m[2];
+		look.z *= -1;
+		_float lookAngle = D3DXToDegree(acosf(look.x / sqrtf(powf(look.x, 2) + powf(look.z, 2))));
+		lookAngle += 180;
+		if (0 < look.z) {
+			lookAngle = 360.f - lookAngle;
+		}
+		_float fAngle = lookAngle - m_fAngle;
+		if (0 > fAngle) {
+			fAngle += 360;
+		}
+		if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
+			m_tMoveDIr = MOVE_DIR::MOVE_UP;
+		}
+		else if ((fAngle < 130.f && fAngle >= 40.f)) {
+			m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
+		}
+		else if (fAngle < 220.f && fAngle >= 130.f) {
+			m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
+		}
+		else if (fAngle < 310.f && fAngle >= 220.f) {
+			m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
+		}
+	}
+	else {
+		__super::SetDir();
 	}
 }
 
@@ -965,7 +1005,7 @@ void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pPlayer->pWorkObject) {
+	if (HitActor == m_pPlayer->pWorkObject && MOTION::DAMAGE != m_tMotion && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion) {
 		m_bCol = true;
 		if (dynamic_cast<CMonster*>(HitActor)) {
 			if (!m_bAttack && m_tMotion != MOTION::ATTACK) {
@@ -974,6 +1014,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_pPlayer->tItem ? 330 : 200) <= (int)m_fAniTime) {
 				dynamic_cast<CMonster*>(HitActor)->Damage(&m_tDamage);
 				m_bAttack = false;
+				m_bControll = true;
 				if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
 					m_pPlayer->pWorkObject = nullptr;
 				}

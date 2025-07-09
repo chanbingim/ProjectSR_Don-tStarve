@@ -29,15 +29,12 @@ HRESULT CPigHouse::Initialize(void* pArg)
 		return E_FAIL;
 	LoadImageFile();
 
-	SetAnimation(MOTION::MOTION_END);
+	SetAnimation(MOTION::ADD);
 
 	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
-	size_t max = (rand() % 3) + 1;
+
 	data.fPos = m_pMonsterData->fPos;;
-	for (size_t i = 0; i < max; i++)
-	{
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
-	}
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 
 	m_pCollision_Com->SetCollisionSize({ 0.3f, 0.f ,0.f });
 
@@ -56,6 +53,15 @@ void CPigHouse::Priority_Update(_float fTimeDelta)
 void CPigHouse::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+	switch (m_tMotion)
+	{
+	case CPigHouse::DAMAGE:
+	case CPigHouse::ADD:
+		if (m_iLength <= m_fAniTime) {
+			SetAnimation(MOTION::IDLE);
+		}
+		break;
+	}
 }
 
 void CPigHouse::Late_Update(_float fTimeDelta)

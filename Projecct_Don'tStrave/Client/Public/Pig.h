@@ -3,6 +3,7 @@
 
 NS_BEGIN(Client)
 
+class CPigHouse;
 class CPig : public CMonster
 {
 	enum MOTION {
@@ -36,12 +37,14 @@ public:
 	virtual void		Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
+	virtual void		Damage(void* pArg);
 	virtual	void		Hit();
 	virtual void		Attack() override;
 	virtual void		Death() override;
 	void				OutHouse();
 private:
 	MOTION					m_tMotion = {};
+	CPigHouse*				m_pHouse = {};
 private:
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

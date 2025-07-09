@@ -63,7 +63,7 @@ void CTreeguard::Priority_Update(_float fTimeDelta)
 	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
-			if (!dynamic_cast<CTreeguard*>(object) && !dynamic_cast<CHouse*>(object) && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile) {
+			if (!dynamic_cast<CTreeguard*>(object) && !dynamic_cast<CHouse*>(object) && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile) {
 				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 				if (object != this) {

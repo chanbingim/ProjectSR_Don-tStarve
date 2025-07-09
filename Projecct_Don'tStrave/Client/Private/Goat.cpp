@@ -275,7 +275,22 @@ HRESULT CGoat::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"sleep_pst";
 		break;
 	case MOTION::DAMAGE:
-		m_sAnim = L"hit";
+		m_sAnim = L"shock_pst";
+		break;
+	case MOTION::SHOCK:
+		m_sAnim = L"shock";
+		break;
+	case MOTION::SHOCK_TO_IDLE:
+		m_sAnim = L"shock_loop_pst";
+		break;
+	case MOTION::IDLE_TO_TAUNT:
+		m_sAnim = L"taunt_pre";
+		break;
+	case MOTION::TAUNT:
+		m_sAnim = L"taunt";
+		break;
+	case MOTION::TAUNT_TO_IDLE:
+		m_sAnim = L"taunt_pst";
 		break;
 	case MOTION::DEATH:
 		m_sAnim = L"death";

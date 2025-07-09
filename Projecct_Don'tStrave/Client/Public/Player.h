@@ -52,6 +52,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+	virtual void SetDir() override;
 	virtual HRESULT Render() override;
 
 	virtual void Hit() override;

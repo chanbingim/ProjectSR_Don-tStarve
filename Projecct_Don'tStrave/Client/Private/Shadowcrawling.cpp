@@ -38,6 +38,9 @@ HRESULT CShadowcrawling::Initialize(void* pArg)
 
 void CShadowcrawling::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == ATTACK && m_bAttack && 300 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
@@ -309,7 +312,6 @@ void CShadowcrawling::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			}
 		}
 		if (m_tMotion == ATTACK && m_bAttack && 300 <= (int)m_fAniTime) {
-			m_bAttack = false;
 			HitActor->Damage(&m_tDamage);
 		}
 	}
