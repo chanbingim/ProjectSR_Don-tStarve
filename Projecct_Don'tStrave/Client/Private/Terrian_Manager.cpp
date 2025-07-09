@@ -14,7 +14,10 @@ HRESULT CTerrian_Manager::Initialize(const _float2& TileSize)
 {
     m_Size = TileSize;
 
-    m_pTerrian.resize(m_Size.y * m_Size.x, nullptr);
+    m_pTerrian.resize((_uint)m_Size.y * (_uint)m_Size.x, nullptr);
+    m_IgnoreID.reserve(50);
+
+    m_IgnoreID.push_back(1003);
     return S_OK;
 }
 
@@ -26,10 +29,16 @@ CTerrain* CTerrian_Manager::GetOnTerrian(_float3& Pos)
     if (IndexX >= m_Size.x || 0 > IndexX || IndexY >= m_Size.y || 0 > IndexY)
         return nullptr;
 
-    if (IndexY == 1)
-        int a = 10;
+    CTerrain* FindTile = m_pTerrian[(_uint)IndexY * (_uint)m_Size.x + (_uint)IndexX];
+    if (nullptr == FindTile)
+        return nullptr;
 
-    return m_pTerrian[(_uint)IndexY * m_Size.x + (_uint)IndexX];
+    auto iter = find(m_IgnoreID.begin(), m_IgnoreID.end(), FindTile->Get_ObjectID());
+
+    if (iter == m_IgnoreID.end())
+        return FindTile;
+
+    return nullptr;
 }
 
 vector<CTerrain*>* CTerrian_Manager::GetTerrains()

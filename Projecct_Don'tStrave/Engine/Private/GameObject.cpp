@@ -79,6 +79,11 @@ _float CGameObject::Get_CameraDistance()
 	return D3DXVec3Length(&vDir);
 }
 
+_uint CGameObject::Get_ObjectID()
+{
+	return m_iObjectID;
+}
+
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto	iter = m_Components.find(strComponentTag);

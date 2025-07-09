@@ -45,7 +45,7 @@ public:
 	}
 
 	_float				Get_CameraDistance();
-
+	_uint				Get_ObjectID();
 
 	class CComponent*	Find_Component(const _wstring& strComponentTag);
 	CTransform*			GetTransfrom() { return m_pTransformCom; }

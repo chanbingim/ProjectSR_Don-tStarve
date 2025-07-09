@@ -36,6 +36,7 @@ HRESULT CTerrain::Initialize(void* pArg)
 		m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
 		m_pTransformCom->SetScale(TeerrainDesc->vScale);
 		m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+		m_iObjectID = TeerrainDesc->iObjectID;
 	}
 
 	return S_OK;
@@ -61,7 +62,7 @@ void CTerrain::Late_Update(_float fTimeDelta)
 HRESULT CTerrain::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_iObjectID - 1000);
 	m_pVIBufferCom->Render();
 
 	return S_OK;

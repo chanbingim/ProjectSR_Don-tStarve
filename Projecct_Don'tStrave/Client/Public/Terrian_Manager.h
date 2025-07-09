@@ -22,8 +22,9 @@ public :
 	
 private :
 	_float2						m_Size = {};
-	vector<CTerrain*>			m_pTerrian = { nullptr };
-	
+	vector<CTerrain*>			m_pTerrian = {};
+	vector<_int>				m_IgnoreID = {};
+
 public :
 	virtual			void		Free() override;
 
