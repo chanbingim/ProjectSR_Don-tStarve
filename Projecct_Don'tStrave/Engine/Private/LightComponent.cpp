@@ -39,8 +39,6 @@ HRESULT CLightComponent::Initialize(void* pArg)
 		LIGHT_DESC* pLightDesc = static_cast<LIGHT_DESC*>(pArg);
 		m_pOwner = pLightDesc->pOwner;
 		m_LightData = pLightDesc->LightData;
-
-		Safe_AddRef(m_pOwner);
 	}
 	CLight_Manager::GetInstance()->ADD_Light((LIGHT_TYPE)m_LightData.Type, this);
 
@@ -67,9 +65,6 @@ CGameObject* CLightComponent::GetOwner()
 void CLightComponent::Free()
 {
 	__super::Free();
-
-	CLight_Manager::GetInstance()->REMOVE_Light((LIGHT_TYPE)m_LightData.Type, this);
-	Safe_Release(m_pOwner);
 }
 
 CLightComponent* CLightComponent::Create(LPDIRECT3DDEVICE9 pGraphicDev)

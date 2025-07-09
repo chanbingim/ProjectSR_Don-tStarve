@@ -162,7 +162,7 @@ HRESULT CFire::ADD_Components()
 	m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
 
 	Light_Desc.LightData = m_Light;
-	Light_Desc.pOwner = nullptr;
+	Light_Desc.pOwner = this;
 
 	// Transform Component
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
