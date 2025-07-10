@@ -75,15 +75,25 @@ void CLight_Manager::UnEnable_Light()
 {
 }
 
-void CLight_Manager::Sorting_Light(_uint type)
+void CLight_Manager::Sorting_Light(_uint Sortingtype)
 {
 	m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].sort([&](CLightComponent* pSrc, CLightComponent* pDst)
 		{
-			if (1 == type)
-				return pSrc->GetOwner()->Get_CameraDistance() < pDst->GetOwner()->Get_CameraDistance();
+			if (1 == Sortingtype)
+				return pSrc->Compute_LightDistance() < pDst->Compute_LightDistance();
 			else
-				return pSrc->GetOwner()->Get_CameraDistance() > pDst->GetOwner()->Get_CameraDistance();
+				return pSrc->Compute_LightDistance() > pDst->Compute_LightDistance();
 		});
+}
+
+void CLight_Manager::Bind_SortFunc(function<_bool(CLightComponent*, CLightComponent*)> _Func)
+{
+	m_Func = _Func;
+}
+
+list<CLightComponent*>* CLight_Manager::GetAllLightList(LIGHT_TYPE type)
+{
+	return &m_Lightlist[ENUM_CLASS(type)];
 }
 
 void CLight_Manager::Free()

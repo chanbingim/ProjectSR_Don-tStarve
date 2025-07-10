@@ -368,6 +368,9 @@
     <Filter Include="03. Character\Monster\Manager">
       <UniqueIdentifier>{faaef341-4ebe-4d08-a1d2-f887b19a3cf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Particle\SpriteEffect\EffectPool">
+      <UniqueIdentifier>{97262783-c70c-46bc-9dd8-f28921ef52f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -718,6 +721,9 @@
     <ClInclude Include="..\Public\MonsterData_Manager.h">
       <Filter>03. Character\Monster\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\EffectPoolManager.h">
+      <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1062,6 +1068,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MonsterData_Manager.cpp">
       <Filter>03. Character\Monster\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EffectPoolManager.cpp">
+      <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

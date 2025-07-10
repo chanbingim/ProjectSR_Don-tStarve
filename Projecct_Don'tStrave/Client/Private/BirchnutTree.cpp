@@ -65,9 +65,6 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 
 	m_pCollision_Com->SetCollisionSize({ 0.5f, 0.5f, 0.5f });
 	m_pDropItem_Com->SetCreateEffect(1);
-	//m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
-	//m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
-	//m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
 
 	m_EnviormentInfo.iMaxHit = 2;
 	m_MaxRecoverTime = 3.0f;

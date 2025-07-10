@@ -157,6 +157,7 @@
     <ClInclude Include="..\Public\CookedFood.h" />
     <ClInclude Include="..\Public\CookUI.h" />
     <ClInclude Include="..\Public\Cook_Button.h" />
+    <ClInclude Include="..\public\EffectPoolManager.h" />
     <ClInclude Include="..\Public\FoodEffect.h" />
     <ClInclude Include="..\Public\GamePlay_Button.h" />
     <ClInclude Include="..\public\GatheringObject.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="..\Private\CookedFood.cpp" />
     <ClCompile Include="..\Private\CookUI.cpp" />
     <ClCompile Include="..\Private\Cook_Button.cpp" />
+    <ClCompile Include="..\private\EffectPoolManager.cpp" />
     <ClCompile Include="..\Private\Food.cpp" />
     <ClCompile Include="..\Private\FoodEffect.cpp" />
     <ClCompile Include="..\Private\GamePlay_Button.cpp" />

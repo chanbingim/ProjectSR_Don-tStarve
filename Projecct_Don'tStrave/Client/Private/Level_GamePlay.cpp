@@ -7,6 +7,7 @@
 #include "Terrian_Manager.h"
 #include "Terrain.h"
 #include "CUtility.h"
+#include "Player.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
 
@@ -37,6 +38,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -119,7 +121,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
+	auto EnvAll = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+	CGameObject* potal = nullptr;
+	for (auto iter : *EnvAll)
+	{
+		if (1 == iter->Get_ObjectID())
+		{
+			potal = iter;
+			break;
+		}
+	}
+
 	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(200);
+	data.fPos = potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
@@ -171,7 +186,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 	LoadMapData(File, &vecBaseData);
 
 	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
-	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 
 	for (size_t i = 0; i < vecBaseData.size(); ++i)
 	{
@@ -291,7 +306,7 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 7:
 		return TEXT("Prototype_GameObject_Berry_Bush");
 	case 8:
-		return TEXT("Prototype_GameObject_Little_Tree");
+		return TEXT("Prototype_GameObject_Env_Tree");
 	case 9:
 		return TEXT("Prototype_GameObject_Birchnut_Tree");
 	}

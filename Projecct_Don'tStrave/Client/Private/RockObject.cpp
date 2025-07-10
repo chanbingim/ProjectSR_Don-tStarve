@@ -47,6 +47,7 @@ HRESULT CRockObject::Initialize(void* pArg)
 	m_TailName = TEXT("");
 
 	Setting_Data();
+	m_pDropItem_Com->SetCreateEffect(0);
 	m_EnviormentInfo.iMaxHit = 3;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
@@ -93,7 +94,7 @@ void CRockObject::Damage(void* pArg)
 		_float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
 		Pos.y += m_pTransformCom->GetScale().y * 1.f;
-		CreateDropItem(Pos);
+		//CreateDropItem(Pos);
 		m_isDead = true;
 	}
 		break;

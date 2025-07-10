@@ -271,7 +271,7 @@ HRESULT CMiniMap::Update_Objects()
 
 
 	// EnveiObject
-	list<CGameObject*>* pEnviornmenList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
+	list<CGameObject*>* pEnviornmenList = m_pGameInstance->GetAllObejctsToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
 
 	for (auto pObject : *pEnviornmenList)
 	{

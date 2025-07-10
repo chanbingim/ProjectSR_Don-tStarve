@@ -18,7 +18,7 @@ HRESULT CTerrian_Manager::Initialize(const _float2& TileSize, const _float2& vec
     m_pTerrian.resize((_uint)m_vecSize.y * (_uint)m_vecSize.x, nullptr);
     m_IgnoreID.reserve(50);
 
-   // m_IgnoreID.push_back(1003);
+    m_IgnoreID.push_back(1003);
     return S_OK;
 }
 

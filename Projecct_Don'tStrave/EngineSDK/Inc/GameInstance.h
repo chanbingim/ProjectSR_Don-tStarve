@@ -85,6 +85,10 @@ public:
 	_bool			KeyUp(_uint KeyNum);
 #pragma endregion
 
+#pragma region LightManager
+	void		Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func);
+#pragma endregion
+
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };

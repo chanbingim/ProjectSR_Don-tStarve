@@ -155,8 +155,9 @@ HRESULT CFire::ADD_Components()
 
 	Light_Desc.LightData = m_Light;
 	Light_Desc.pOwner = this;
+	Light_Desc.PlayerPoint = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->GetTransfrom();
 
-	// Transform Component
+	// Light Component
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
 		TEXT("Com_Light"),
 		reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))

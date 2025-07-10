@@ -50,6 +50,7 @@ HRESULT CGatheringObject::Initialize(void* pArg)
     m_TailName = TEXT("");
 
     Setting_Data();
+    m_pDropItem_Com->SetCreateEffect(0);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -127,9 +128,8 @@ void CGatheringObject::Damage(void* pArg)
             
             m_EnviromentState = Enviornment_STATE::BROKEN;
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
-            Pos.y += m_pTransformCom->GetScale().y * 1.f;
-            CreateDropItem(Pos);
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * 0.2f;
+            //CreateDropItem(Pos);
         }
         break;
     }

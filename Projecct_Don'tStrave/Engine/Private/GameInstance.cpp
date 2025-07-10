@@ -313,6 +313,10 @@ _bool CGameInstance::KeyUp(_uint KeyNum)
 {
 	return m_pKey_Manager->GetKeyUp(KeyNum);
 }
+void CGameInstance::Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func)
+{
+	return m_pLight_Manager->Bind_SortFunc(_Func);
+}
 #pragma endregion
 
 void CGameInstance::Release_Engine()

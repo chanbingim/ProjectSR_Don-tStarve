@@ -198,7 +198,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pChar = m_pPlayer;
 
-	m_pTransformCom->SetPosition({ 0.f, 0.f, 0.f });
+	m_pTransformCom->SetPosition( m_pPlayer->fPos );
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
@@ -401,7 +401,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			list<CGameObject*> NearObjects;
 
-			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("EnviornmenLayer"));
+			auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
 
 
 			if (GroundObejcts && !GroundObejcts->empty()) {
