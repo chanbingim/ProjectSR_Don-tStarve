@@ -1,6 +1,8 @@
 #include "SlotFrame.h"
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
+
 #include "Slot.h"
 #include "Inventory.h"
 #include "Mouse.h"
@@ -268,21 +270,38 @@ void CSlotFrame::ClickedEevent()
 
     if (m_pGameInstance->KeyDown(VK_RBUTTON))
     {
-        if(m_eSlotType)
-        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
-        
-        CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
-        
-        if (nullptr == pSlot)
-            return;
+        if(SLOT::HAND == m_eSlotType)
+        {
+            CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
 
-        Swap_HandObject(m_pSlot->Get_ItemID());
+            CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
 
-        ITEM_DESC Desc = pSlot->Get_Info();
+            if (nullptr == pSlot)
+                return;
 
-        pSlot->Set_Info(m_pSlot->Get_Info());
+            Swap_HandObject(m_pSlot->Get_ItemID());
 
-        m_pSlot->Set_Info(Desc);
+            ITEM_DESC Desc = pSlot->Get_Info();
+
+            pSlot->Set_Info(m_pSlot->Get_Info());
+
+            m_pSlot->Set_Info(Desc);
+        }
+        else if (SLOT::NORMAL == m_eSlotType)
+        {
+            ITEM_DESC Desc = m_pSlot->Get_Info();
+            
+            if (ITEM_TYPE::FOOD != Desc.eItemType)
+                return;
+
+            ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
+
+            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+
+            pPlayer->Eat(&Item_Data);
+
+            m_pSlot->Use_One();
+        }
     }
 }
 

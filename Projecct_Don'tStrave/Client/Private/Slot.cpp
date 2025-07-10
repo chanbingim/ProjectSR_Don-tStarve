@@ -32,6 +32,22 @@ _float3& CSlot::Get_Position()
     return vPos;
 }
 
+void CSlot::Use_One()
+{
+    if (0 == m_Item_Desc.iNumItem)
+    {
+        return;
+    }
+    else if (1 == m_Item_Desc.iNumItem)
+    {
+        Clear();
+    }
+    else
+    {
+        m_Item_Desc.iNumItem -= 1;
+    }
+}
+
 void CSlot::Merge_Item(CSlot* pSlot)
 {
     ITEM_DESC Desc = pSlot->Get_Info();

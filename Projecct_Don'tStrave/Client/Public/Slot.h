@@ -17,6 +17,7 @@ public:
 	_uint	Get_ItemID() { return m_Item_Desc.iItemID; }
 	_float3& Get_Position();
 
+	void	Use_One();
 	void	Merge_Item(CSlot* pSlot);
 	void	Merge_Item(ITEM_DESC& Item_Desc);
 	void	Clear();
