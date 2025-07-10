@@ -14,9 +14,9 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& Prototype)
 
 HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ)
 {
-	m_iNumVertices = iNumVerticesX * iNumVerticesZ;
 	m_iNumVerticesX = iNumVerticesX;
 	m_iNumVerticesZ = iNumVerticesZ;
+	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
 
 	m_pVertexPositions = new _float3[m_iNumVertices];
 
@@ -50,7 +50,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			_uint	iIndex = i * m_iNumVerticesX + j;
 
 			pVertices[iIndex].vPosition = m_pVertexPositions[iIndex] = _float3((_float)j, 0.f, (_float)i);
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 50.f, i / (m_iNumVerticesZ - 1.f) * 50.f);
+			pVertices[iIndex].vTexcoord = _float2(j , i);
 		}
 	}
 
@@ -225,13 +225,13 @@ _bool CVIBuffer_Terrain::Picking(CTransform* pTransform, _float3* pOut)
 
 			if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[iIndices[0]], m_pVertexPositions[iIndices[1]], m_pVertexPositions[iIndices[2]], pOut))
 			{
-				D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+				D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_World());
 				return true;
 			}
 
 			if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[iIndices[0]], m_pVertexPositions[iIndices[2]], m_pVertexPositions[iIndices[3]], pOut))
 			{
-				D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+				D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_World());
 				return true;
 			}
 		}

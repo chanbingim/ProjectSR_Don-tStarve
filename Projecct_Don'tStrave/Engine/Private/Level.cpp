@@ -48,6 +48,7 @@ HRESULT CLevel::Parse_ObejectData(const char* LoatFilePath, _uint iPrototypeLeve
         ObjectDesc.vScale = vecBaseData[i].Scale;
         ObjectDesc.vRotation = vecBaseData[i].Rotation;
         ObjectDesc.vPosition = vecBaseData[i].Position;
+        ObjectDesc.iObjectID = vecBaseData[i].iID;
 
         CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
         ObjectDesc.TextruePath = TexPath;

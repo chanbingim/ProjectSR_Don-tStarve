@@ -257,11 +257,11 @@ void CMouse::ClickedEevent()
             if(0 != iItemID)
             {
                 auto Player_Pos = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
-                if (true == CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos)->GetCurVIBuffer()
-                    ->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
-                    TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
+                auto Terrian = CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos);
+                auto VIbuffer = Terrian->GetCurVIBuffer();
+                auto Transform = Terrian->GetTransfrom();
+                if (VIbuffer->Picking(Transform, &vPickingPos))
                 {
-
                     _float3 vDistance = vPickingPos - m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
 
                     if (1.f <= D3DXVec3Length(&vDistance))

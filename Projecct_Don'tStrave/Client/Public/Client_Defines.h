@@ -21,7 +21,7 @@ namespace Client
 
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
-	const unsigned int			g_iTileCnt = 32;
+	const unsigned int			g_iTileCnt = 4;
 
 
 

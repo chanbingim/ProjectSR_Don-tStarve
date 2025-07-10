@@ -21,7 +21,7 @@ HRESULT CLight_Manager::Initialize(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLight_Manager::UpdateLight()
 {
-	Sorting_Light(0);
+	Sorting_Light(1);
 }
 
 HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)

@@ -53,7 +53,7 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(ReadShader()))
 		return E_FAIL;
 
-	CTerrian_Manager::GetInstance()->Initialize({ g_iTileCnt, g_iTileCnt });
+	CTerrian_Manager::GetInstance()->Initialize({ g_iTileCnt, g_iTileCnt }, { 256, 256 });
 	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
 
 	return S_OK;

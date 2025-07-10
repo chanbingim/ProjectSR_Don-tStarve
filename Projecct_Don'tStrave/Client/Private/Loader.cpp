@@ -191,7 +191,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 9))))
 		return E_FAIL;
 #pragma endregion
 
@@ -426,7 +426,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, g_iTileCnt, g_iTileCnt))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, g_iTileCnt + 1, g_iTileCnt + 1))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Terrain */

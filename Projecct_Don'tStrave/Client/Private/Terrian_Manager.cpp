@@ -10,26 +10,27 @@ CTerrian_Manager::CTerrian_Manager()
 
 }
 
-HRESULT CTerrian_Manager::Initialize(const _float2& TileSize)
+HRESULT CTerrian_Manager::Initialize(const _float2& TileSize, const _float2& vecSize)
 {
-    m_Size = TileSize;
+    m_TileSize = TileSize;
+    m_vecSize = vecSize;
 
-    m_pTerrian.resize((_uint)m_Size.y * (_uint)m_Size.x, nullptr);
+    m_pTerrian.resize((_uint)m_vecSize.y * (_uint)m_vecSize.x, nullptr);
     m_IgnoreID.reserve(50);
 
-    m_IgnoreID.push_back(1003);
+   // m_IgnoreID.push_back(1003);
     return S_OK;
 }
 
 CTerrain* CTerrian_Manager::GetOnTerrian(_float3& Pos)
 {
-    _float IndexX = Pos.x / m_Size.x;
-    _float IndexY = Pos.z / m_Size.y;
+    _float IndexX = Pos.x / m_TileSize.x;
+    _float IndexY = Pos.z / m_TileSize.y;
 
-    if (IndexX >= m_Size.x || 0 > IndexX || IndexY >= m_Size.y || 0 > IndexY)
+    if (IndexX >= m_vecSize.x || 0 > IndexX || IndexY >= m_vecSize.y || 0 > IndexY)
         return nullptr;
 
-    CTerrain* FindTile = m_pTerrian[(_uint)IndexY * (_uint)m_Size.x + (_uint)IndexX];
+    CTerrain* FindTile = m_pTerrian[(_uint)IndexY * (_uint)m_vecSize.x + (_uint)IndexX];
     if (nullptr == FindTile)
         return nullptr;
 
@@ -56,13 +57,13 @@ void CTerrian_Manager::ADD_Terrian(CTerrain* pTerrian)
         return;
 
     _float3 Pos = TerrianPos->GetWorldState(WORLDSTATE::POSITION);
-    _uint IndexX = Pos.x / m_Size.x;
-    _uint IndexY = Pos.z / m_Size.y;
+    _uint IndexX = Pos.x / m_TileSize.x;
+    _uint IndexY = Pos.z / m_TileSize.y;
 
-    if (IndexX >= m_Size.x || 0 > IndexX || IndexY >= m_Size.y || 0 > IndexY)
+    if (IndexX >= m_vecSize.x || 0 > IndexX || IndexY >= m_vecSize.y || 0 > IndexY)
         return;
 
-    m_pTerrian[IndexY * m_Size.x + IndexX] = pTerrian;
+    m_pTerrian[IndexY * m_vecSize.x + IndexX] = pTerrian;
     Safe_AddRef(pTerrian);
 }
 

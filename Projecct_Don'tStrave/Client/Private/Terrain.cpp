@@ -62,7 +62,7 @@ void CTerrain::Late_Update(_float fTimeDelta)
 HRESULT CTerrain::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
-	m_pTextureCom->Set_Texture(m_iObjectID - 1000);
+	m_pTextureCom->Set_Texture(m_iObjectID - 1000, 0);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
