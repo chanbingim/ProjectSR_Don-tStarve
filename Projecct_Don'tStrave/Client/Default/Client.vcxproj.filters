@@ -332,114 +332,6 @@
     <Filter Include="01. Levels\GamePlay">
       <UniqueIdentifier>{ad8f183d-1685-4ee5-9e4b-dcba9b55bd5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client\System">
-      <UniqueIdentifier>{2350af33-ef04-44ff-a026-54bf976ad224}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Quad">
-      <UniqueIdentifier>{26d61fae-b0d1-4647-9816-bd4a9bdb1dbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Font">
-      <UniqueIdentifier>{aecec0ac-6a92-457f-8202-92ba80fdb0cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Shader">
-      <UniqueIdentifier>{9ce8e058-4039-4385-a3a1-f6f2244c192f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Define">
-      <UniqueIdentifier>{c645c0ba-44bf-4d4a-819f-eff8e14f80fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Define\HeaderSet">
-      <UniqueIdentifier>{aaba6eec-0839-4571-9f6b-2f61552d31b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Renderer">
-      <UniqueIdentifier>{8b4f4f4a-ddfe-40dd-8ed4-8809dcf1e329}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Prototype">
-      <UniqueIdentifier>{c3bff886-0870-4a9e-a0e3-f1ca17dfdc01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components">
-      <UniqueIdentifier>{3ebf2a12-f5fa-4969-bf9d-33cfdc2097e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\VIBuffer">
-      <UniqueIdentifier>{42a5a4ec-3ba2-4411-a8b7-3389d14b2f3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\VIBuffer\Rect_Buffer">
-      <UniqueIdentifier>{6861e1f0-617d-4e88-8e59-bc1a08e9a4a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\VIBuffer\Terrian">
-      <UniqueIdentifier>{9ba5741a-89a4-4e13-82ba-ab1d304f6ce4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\VIBuffer\Cube">
-      <UniqueIdentifier>{80555ef8-32c3-4120-9255-661f21c4c1e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\Texture_Component">
-      <UniqueIdentifier>{22952a75-f33a-4575-be62-d9ce59eae3c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\AnimationController">
-      <UniqueIdentifier>{82e42c1b-398e-4a42-9545-2c78853d2ca8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\AnimationController\State">
-      <UniqueIdentifier>{aae016da-c1ca-4e20-8202-999c19705e47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\CollisionComponent">
-      <UniqueIdentifier>{2b33b869-0230-4276-acde-235de82aedd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\CollisionComponent\BoxCollision">
-      <UniqueIdentifier>{91bf817c-233b-49f5-b475-17ea3f314ac8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\CollisionComponent\SphereCollision">
-      <UniqueIdentifier>{af099d13-f109-4f41-8644-600ab3bdef37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\CollisionComponent\Manager">
-      <UniqueIdentifier>{4aa225b8-27b6-4aa7-af14-f11c16c532c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\ParticleComponent">
-      <UniqueIdentifier>{4a42b0fb-4b46-4b97-84bd-ff728024ace3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\ParticleComponent\System">
-      <UniqueIdentifier>{6d963c2b-96e1-4398-bc3c-f11f22aee393}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\Light_Component">
-      <UniqueIdentifier>{8d392ad1-60c6-4106-8335-06c5f70ef01c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\Light_Component\Manager">
-      <UniqueIdentifier>{5569974f-2b28-4648-ad4f-bca6b1e8c6e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\Components\Transform_Component">
-      <UniqueIdentifier>{e961139a-0498-4c9f-8319-8439d2e0b3b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject">
-      <UniqueIdentifier>{5b4d2875-fa04-4056-9dab-0c9aa4d1fb55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\Layer">
-      <UniqueIdentifier>{37a09e61-775d-401a-9960-9c6a5a83ba30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\Manager">
-      <UniqueIdentifier>{27c61aed-4b50-4203-8582-70c0e33ca9f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\Land">
-      <UniqueIdentifier>{019298f2-59d7-4c8f-90c7-131b71d0e33e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\UserInterface">
-      <UniqueIdentifier>{d521fff3-e88d-4cf5-98bc-b3979bfe084f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\UserInterface\MouseSlotUI">
-      <UniqueIdentifier>{53eed17f-363b-4c52-abae-98b53ab351f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\ALPHA">
-      <UniqueIdentifier>{53460b98-fbd0-430e-94b5-849aaf812eb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameObject\FrustomCamera">
-      <UniqueIdentifier>{c38d15d1-322b-4743-a7b5-aed642662678}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameInstance">
-      <UniqueIdentifier>{6bbe5a08-2e13-4ed7-8d88-c6f75806701d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameInstance\Level">
-      <UniqueIdentifier>{e4e6174d-40cd-4bf0-9364-fb9697ee916f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Client\System\GameInstance\Level\Manager">
-      <UniqueIdentifier>{d0aa5693-bf05-479b-963d-3f31a1ae458f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -763,125 +655,32 @@
     <ClInclude Include="..\public\GatheringObject.h">
       <Filter>02. Objects\Environment\DropItemEnviroment\GatheringObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\public\QuadTree.h">
-      <Filter>Client\System\Quad</Filter>
+    <ClInclude Include="..\Public\Character_Button.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Font_Manager.h">
-      <Filter>Client\System\Font</Filter>
+    <ClInclude Include="..\Public\Character_Info.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\public\Shader.h">
-      <Filter>Client\System\Shader</Filter>
+    <ClInclude Include="..\Public\Cook_Button.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Defines.h">
-      <Filter>Client\System\Define</Filter>
+    <ClInclude Include="..\Public\CookedFood.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Enum.h">
-      <Filter>Client\System\Define</Filter>
+    <ClInclude Include="..\Public\CookUI.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Function.h">
-      <Filter>Client\System\Define</Filter>
+    <ClInclude Include="..\Public\FoodEffect.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Macro.h">
-      <Filter>Client\System\Define</Filter>
+    <ClInclude Include="..\Public\GamePlay_Button.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Struct.h">
-      <Filter>Client\System\Define</Filter>
+    <ClInclude Include="..\Public\Level_Select.h">
+      <Filter>대진호</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Engine_Typedef.h">
-      <Filter>Client\System\Define</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\BufferComponents.h">
-      <Filter>Client\System\Define\HeaderSet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\FunctionHeaders.h">
-      <Filter>Client\System\Define\HeaderSet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Renderer.h">
-      <Filter>Client\System\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Prototype_Manager.h">
-      <Filter>Client\System\Prototype</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Component.h">
-      <Filter>Client\System\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\VIBuffer.h">
-      <Filter>Client\System\Components\VIBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\VIBuffer_Rect.h">
-      <Filter>Client\System\Components\VIBuffer\Rect_Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\VIBuffer_Terrain.h">
-      <Filter>Client\System\Components\VIBuffer\Terrian</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\VIBuffer_Cube.h">
-      <Filter>Client\System\Components\VIBuffer\Cube</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Texture.h">
-      <Filter>Client\System\Components\Texture_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\AnimController.h">
-      <Filter>Client\System\Components\AnimationController</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\State.h">
-      <Filter>Client\System\Components\AnimationController\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Collision_Component.h">
-      <Filter>Client\System\Components\CollisionComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Box_Collision_Component.h">
-      <Filter>Client\System\Components\CollisionComponent\BoxCollision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Sphere_Collision_Component.h">
-      <Filter>Client\System\Components\CollisionComponent\SphereCollision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Collision_Manager.h">
-      <Filter>Client\System\Components\CollisionComponent\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\ParticleSystemComponent.h">
-      <Filter>Client\System\Components\ParticleComponent\System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\LightComponent.h">
-      <Filter>Client\System\Components\Light_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\Light_Manager.h">
-      <Filter>Client\System\Components\Light_Component\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Transform.h">
-      <Filter>Client\System\Components\Transform_Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\GameObject.h">
-      <Filter>Client\System\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Layer.h">
-      <Filter>Client\System\GameObject\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Object_Manager.h">
-      <Filter>Client\System\GameObject\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\LandObject.h">
-      <Filter>Client\System\GameObject\Land</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\UserInterface.h">
-      <Filter>Client\System\GameObject\UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\MouseSlotUI.h">
-      <Filter>Client\System\GameObject\UserInterface\MouseSlotUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\AlphaObject.h">
-      <Filter>Client\System\GameObject\ALPHA</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\public\FrustomCamera.h">
-      <Filter>Client\System\GameObject\FrustomCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\GameInstance.h">
-      <Filter>Client\System\GameInstance</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Level.h">
-      <Filter>Client\System\GameInstance\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Public\Level_Manager.h">
-      <Filter>Client\System\GameInstance\Level\Manager</Filter>
+    <ClInclude Include="..\Public\Select_Character.h">
+      <Filter>대진호</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1201,102 +1000,15 @@
     <ClCompile Include="..\Private\PlayerData_Manager.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\private\QuadTree.cpp">
-      <Filter>Client\System\Quad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Font_Manager.cpp">
-      <Filter>Client\System\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\Shader.cpp">
-      <Filter>Client\System\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Renderer.cpp">
-      <Filter>Client\System\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Prototype_Manager.cpp">
-      <Filter>Client\System\Prototype</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Component.cpp">
-      <Filter>Client\System\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\VIBuffer.cpp">
-      <Filter>Client\System\Components\VIBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\VIBuffer_Rect.cpp">
-      <Filter>Client\System\Components\VIBuffer\Rect_Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\VIBuffer_Terrain.cpp">
-      <Filter>Client\System\Components\VIBuffer\Terrian</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\VIBuffer_Cube.cpp">
-      <Filter>Client\System\Components\VIBuffer\Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Texture.cpp">
-      <Filter>Client\System\Components\Texture_Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\AnimController.cpp">
-      <Filter>Client\System\Components\AnimationController</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\State.cpp">
-      <Filter>Client\System\Components\AnimationController\State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Collision_Component.cpp">
-      <Filter>Client\System\Components\CollisionComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Box_Collision_Component.cpp">
-      <Filter>Client\System\Components\CollisionComponent\BoxCollision</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Sphere_Collision_Component.cpp">
-      <Filter>Client\System\Components\CollisionComponent\SphereCollision</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Collision_Manager.cpp">
-      <Filter>Client\System\Components\CollisionComponent\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\ParticleSystemComponent.cpp">
-      <Filter>Client\System\Components\ParticleComponent\System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\LightComponent.cpp">
-      <Filter>Client\System\Components\Light_Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\Light_Manager.cpp">
-      <Filter>Client\System\Components\Light_Component\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Transform.cpp">
-      <Filter>Client\System\Components\Transform_Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\GameObject.cpp">
-      <Filter>Client\System\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Layer.cpp">
-      <Filter>Client\System\GameObject\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Object_Manager.cpp">
-      <Filter>Client\System\GameObject\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\LandObject.cpp">
-      <Filter>Client\System\GameObject\Land</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\UserInterface.cpp">
-      <Filter>Client\System\GameObject\UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\MouseSlotUI.cpp">
-      <Filter>Client\System\GameObject\UserInterface\MouseSlotUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\AlphaObject.cpp">
-      <Filter>Client\System\GameObject\ALPHA</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\private\FrustomCamera.cpp">
-      <Filter>Client\System\GameObject\FrustomCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\GameInstance.cpp">
-      <Filter>Client\System\GameInstance</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Level.cpp">
-      <Filter>Client\System\GameInstance\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Private\Level_Manager.cpp">
-      <Filter>Client\System\GameInstance\Level\Manager</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Private\Character_Button.cpp" />
+    <ClCompile Include="..\Private\Character_Info.cpp" />
+    <ClCompile Include="..\Private\Cook_Button.cpp" />
+    <ClCompile Include="..\Private\CookedFood.cpp" />
+    <ClCompile Include="..\Private\CookUI.cpp" />
+    <ClCompile Include="..\Private\FoodEffect.cpp" />
+    <ClCompile Include="..\Private\GamePlay_Button.cpp" />
+    <ClCompile Include="..\Private\Level_Select.cpp" />
+    <ClCompile Include="..\Private\Select_Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">

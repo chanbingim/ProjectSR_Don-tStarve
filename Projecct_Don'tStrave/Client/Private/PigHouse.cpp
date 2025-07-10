@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 #include "XML_Manager.h"
 #include "MonsterData_Manager.h"
+#include "Terrian_Manager.h"
+#include "Terrain.h"
 #include "Pig.h"
 #include "Camera.h"
 #include "Player.h"
@@ -41,6 +43,11 @@ HRESULT CPigHouse::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+	auto Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	auto Terrian = m_pTerrian_Manager->GetOnTerrian(Pos);
+
+	m_pLandVIBuffer = Terrian->GetCurVIBuffer();
+	m_pLandTransform = Terrian->GetTransfrom();
 
 	return S_OK;
 }
@@ -69,7 +76,7 @@ void CPigHouse::Update(_float fTimeDelta)
 
 void CPigHouse::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	//__super::Late_Update(fTimeDelta);
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }

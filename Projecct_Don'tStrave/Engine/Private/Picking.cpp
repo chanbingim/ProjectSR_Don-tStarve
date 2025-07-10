@@ -60,6 +60,9 @@ void CPicking::Update()
 
 void CPicking::Transform_ToLocalSpace(const _float4x4* pWorldMatrixInverse)
 {
+    if (nullptr == pWorldMatrixInverse)
+        return;
+
     D3DXVec3TransformCoord(&m_vRayPos[ENUM_CLASS(RAY::VIEW)], &m_vRayPos[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
     D3DXVec3TransformNormal(&m_vRayDir[ENUM_CLASS(RAY::VIEW)], &m_vRayDir[ENUM_CLASS(RAY::WORLD)], pWorldMatrixInverse);
 

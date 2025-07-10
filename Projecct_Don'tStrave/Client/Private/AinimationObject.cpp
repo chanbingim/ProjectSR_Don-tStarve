@@ -112,13 +112,8 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName, Entity* tEnt
 
     //애니메이션 저장되어있는 엔티티에서
     //모든 애니메이션 정보를 탐색하면서 animName과 같은걸 찾는다.
-<<<<<<< HEAD
     for (auto& anim : (*tEntity).tAnimationsVec) {
         if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), anim.szName.size())) {
-=======
-    for (auto& anim : m_tAnimation.tAnimationsVec) {
-        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), max(animName.size(), anim.szName.size()))) {
->>>>>>> 07_10_bjh_kjh_Merge
             pAnim = &anim;
             break;
         }

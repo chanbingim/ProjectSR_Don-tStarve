@@ -44,8 +44,6 @@ void CMaterial_Item::Priority_Update(_float fTimeDelta)
 
 void CMaterial_Item::Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
-
 	HoverEvent();
 
 	if(!m_bIsplayAnim)
@@ -57,6 +55,8 @@ void CMaterial_Item::Update(_float fTimeDelta)
 void CMaterial_Item::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CMaterial_Item::Render()
@@ -69,8 +69,9 @@ HRESULT CMaterial_Item::Render()
 void CMaterial_Item::HoverEvent()
 {
 	_float3 vPickingPos = {};
+	auto Buffer = dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom);
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == Buffer->Picking(m_pTransformCom, &vPickingPos))
 	{
 		m_bHovered = true;
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);

@@ -86,8 +86,8 @@ void CTreeObject::Reset_State()
             m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
 
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
-            Pos.y += m_pTransformCom->GetScale().y * 1.f;
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -0.4f;
+            Pos.y += m_pTransformCom->GetScale().y * 0.4f;
             CreateDropItem(Pos);
         }
     }

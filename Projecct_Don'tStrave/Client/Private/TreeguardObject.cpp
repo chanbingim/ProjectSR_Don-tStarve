@@ -6,10 +6,6 @@
 CTreeguardObject::CTreeguardObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
-<<<<<<< HEAD
-   
-=======
->>>>>>> 07_10_bjh_kjh_Merge
 }
 
 CTreeguardObject::CTreeguardObject(const CTreeguardObject& rhs) :

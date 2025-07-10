@@ -127,7 +127,7 @@ void CFire::Late_Update(_float fTimeDelta)
 
 HRESULT CFire::Render()
 {
-	
+
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
 	return S_OK;
@@ -167,9 +167,9 @@ HRESULT CFire::ADD_Components()
 
 	// Transform Component
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
-	    TEXT("Com_Light"),
-	    reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))
-	    return E_FAIL;
+		TEXT("Com_Light"),
+		reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -200,7 +200,7 @@ void CFire::Change_State()
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("level4");
 			break;
-		
+
 		default:
 			break;
 		}
@@ -244,6 +244,6 @@ CGameObject* CFire::Clone(void* pArg)
 void CFire::Free()
 {
 	__super::Free();
-	
+
 	Safe_Release(m_pLight_Com);
 }

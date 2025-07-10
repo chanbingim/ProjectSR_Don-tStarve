@@ -67,6 +67,7 @@ void CCharacter::Late_Update(_float fTimeDelta)
         m_pLandTransform = Terrian->GetTransfrom();
 
         SetUp_OnTerrain(m_pTransformCom, 0.f);
+        m_pChar->fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
     }
     else {
         m_pChar->fPos = m_fMoving;
