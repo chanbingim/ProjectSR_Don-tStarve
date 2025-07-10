@@ -19,7 +19,7 @@ public:
 	HRESULT Initialize();
 	HRESULT Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
 	void	Render();
-	void	ResetRenderer();;
+	void	ResetRenderer();
 
 private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };

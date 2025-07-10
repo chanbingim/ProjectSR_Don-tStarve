@@ -188,7 +188,7 @@ HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strProto
 
 CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototype, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
-	return m_pPrototype_Manager->Clone_Prototype(ePrototype, iLevelIndex, strPrototypeTag, pArg);;
+	return m_pPrototype_Manager->Clone_Prototype(ePrototype, iLevelIndex, strPrototypeTag, pArg);
 }
 
 #pragma endregion

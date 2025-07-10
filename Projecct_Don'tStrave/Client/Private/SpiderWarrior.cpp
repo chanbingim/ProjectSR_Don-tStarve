@@ -193,7 +193,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 		}
 	}
 	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
 		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
 			m_fAtkCool -= fTimeDelta;
 			if (dynamic_cast<CFood*>(m_pTarget) && MOTION::EAT != m_tMotion) {

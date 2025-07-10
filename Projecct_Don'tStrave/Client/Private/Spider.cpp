@@ -24,6 +24,12 @@ HRESULT CSpider::Initialize(void* pArg)
 
 	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pTransformCom->SetPosition(data.fPos);
+	if (0 == data.iHostile) {
+		data.iHostile = 1;
+		m_pMonsterData->iHostile = data.iHostile;
+		if (FAILED(Initialize_Late()))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

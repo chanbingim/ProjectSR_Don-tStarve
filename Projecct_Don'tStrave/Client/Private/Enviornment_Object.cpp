@@ -126,7 +126,7 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
         return TEXT("Resurrection Stone");
     }
 
-    return TEXT("");;
+    return TEXT("");
 }
 
 _uint CEnviornment_Object::GetEnviormentID()

@@ -33,14 +33,12 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 
 	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
 	size_t max = (rand() % 3) + 1;
-	data.fPos = m_pMonsterData->fPos;;
+	data.fPos = m_pMonsterData->fPos;
 	for (size_t i = 0; i < max; i++)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 	}
 	
-	//m_pMonsterVec.push_back();
-
 	m_pCollision_Com->SetCollisionSize({ 0.1f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
@@ -97,11 +95,13 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			{
 				if (2 < rand() % 10) {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
-					data.fPos = m_pMonsterData->fPos;;
+					data.fPos = m_pMonsterData->fPos;
+					data.iHostile = 0;
 				}
 				else {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(101);
-					data.fPos = m_pMonsterData->fPos;;
+					data.fPos = m_pMonsterData->fPos;
+					data.iHostile = 0;
 				}
 				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 			}
@@ -119,7 +119,8 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			m_pMonsterData->iHp = data.iMaxHp;
 
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(101);
-			data.fPos = m_pMonsterData->fPos;;
+			data.fPos = m_pMonsterData->fPos;
+			data.iHostile = 0;
 			size_t max = (rand() % 3);
 			for (size_t i = 0; i < max; i++)
 			{
@@ -140,7 +141,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			}
 			m_isDead = true;
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
-			data.fPos= m_pMonsterData->fPos;;
+			data.fPos= m_pMonsterData->fPos;
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		break;
