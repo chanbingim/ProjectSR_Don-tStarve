@@ -133,6 +133,11 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	case MOTION::LARGE_TO_QUEEN:
 		if (m_iLength <= m_fAniTime) {
+			for (auto iter = m_pMonsterVec.begin(); iter != m_pMonsterVec.end();)
+			{
+				(*iter)->SetDead();
+				iter = m_pMonsterVec.erase(iter);
+			}
 			m_isDead = true;
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
 			data.fPos= m_pMonsterData->fPos;;

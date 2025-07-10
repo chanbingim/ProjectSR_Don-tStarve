@@ -203,7 +203,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_bControll = true;
-	m_bIsGhost = false;
 	m_bCol = false;
 	m_tDamage.Attacker = this;
 
@@ -775,6 +774,13 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
+void CPlayer::Damage(void* pArg)
+{
+	if (0 < m_pPlayer->iHp) {
+		__super::Damage(pArg);
+	}
+}
+
 void CPlayer::Hit()
 {
 	m_bControll = false;
@@ -798,7 +804,6 @@ void CPlayer::Death()
 	m_pPlayer->iHunger = 0;
 	m_pPlayer->iHp = 0;
 	m_bControll = false;
-	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
 	m_pPlayer->pWorkObject = nullptr;
 	SetAnimation(DIR::DIR_END, MOTION::DEATH2);
@@ -810,7 +815,6 @@ void CPlayer::Dead()
 	m_pPlayer->iMental = 0;
 	m_pPlayer->iHunger = 0;
 	m_bControll = false;
-	m_bIsGhost = true;
 	m_tDir = DIR::DOWN;
 	m_pPlayer->pWorkObject = nullptr;
 	SetAnimation(DIR::DIR_END, MOTION::DEATH1);

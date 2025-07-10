@@ -61,14 +61,14 @@ void CClock::Update(_float fTimeDelta)
 
     if (30.f < m_fGameTime && 50.f > m_fGameTime)
     {
-        m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+        m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
        /* m_pLight_Com->SetAmbientColor(D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f));
         m_pLight_Com->Render_Light();*/
     }
     else if (50.f <= m_fGameTime && 60.f >= m_fGameTime)
     {
-        m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+        m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
 
         //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
