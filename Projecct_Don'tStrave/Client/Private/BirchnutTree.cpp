@@ -63,6 +63,7 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 	m_pDropItem_Com->ADD_ItemData(38, 1);
 	m_EnviornmentType = Enviornment_TYPE::TREE;
 
+	m_pCollision_Com->SetCollisionSize({ 0.5f, 0.5f, 0.5f });
 	m_pDropItem_Com->SetCreateEffect(1);
 	//m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
 	//m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -70,7 +71,7 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 
 	m_EnviormentInfo.iMaxHit = 2;
 	m_MaxRecoverTime = 3.0f;
-	m_fMaxAliveTime = 3.0f;
+	m_fMaxAliveTime = 10.0f;
 	m_fAliveTime = 0;
 	return S_OK;
 }
@@ -131,6 +132,9 @@ HRESULT CBirchnutTree::Render()
 void CBirchnutTree::Damage(void* pArg)
 {
 	__super::Damage(pArg);
+
+	if (0 == m_iTreeType)
+		m_fAliveTime = 0;
 }
 
 void CBirchnutTree::Death()
@@ -144,7 +148,7 @@ void CBirchnutTree::Update_GrowEnvent(_float fTimeDeleta)
 	{
 	case Enviornment_STATE::IDLE :
 	{
-		if (m_iTreeType == 0)
+		if (0 == m_iTreeType)
 			m_fAliveTime += 0.01f;
 
 		if (m_fMaxAliveTime <= m_fAliveTime)

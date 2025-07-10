@@ -20,7 +20,7 @@ void CCollision_Manager::Update()
     {
         for (auto& Src : m_pCol_List[i])
         {
-            if (!Src->GetEnable())
+             if (!Src->GetEnable())
                 continue;
 
             for (auto& Dst : m_pCol_List[i])
@@ -49,7 +49,7 @@ void CCollision_Manager::Update()
                 if (ColFlag)
                 {
                     Src->ADDHitGroup(Dst->GetOwner());
-                    ADD_UpdateList(Dst);
+                    ADD_UpdateList(Src);
                 }
             }
         }
