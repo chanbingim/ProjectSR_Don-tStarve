@@ -55,6 +55,7 @@ public:
 	virtual void SetDir() override;
 	virtual HRESULT Render() override;
 
+	virtual void Damage(void* pArg);
 	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
@@ -63,11 +64,9 @@ public:
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
 	void				Eat(void* pArg);
-	_bool			IsGhost() { return m_bIsGhost; }
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
-	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
 	_float					m_fHungTime = {};
 	_int						m_iHealthChange = {};

@@ -103,5 +103,5 @@ void CMouseManager::Free()
 	__super::Free();
 
 	Safe_Release(m_MouseData);
-	Safe_Release(m_MouseSlot);
+	//Safe_Release(m_MouseSlot);
 }

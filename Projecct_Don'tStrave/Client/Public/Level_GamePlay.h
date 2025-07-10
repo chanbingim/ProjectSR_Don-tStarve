@@ -12,7 +12,7 @@ private:
 	virtual ~CLevel_GamePlay() = default;
 
 public:
-	virtual HRESULT Initialize() override;
+	virtual HRESULT Initialize();
 	virtual void Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 

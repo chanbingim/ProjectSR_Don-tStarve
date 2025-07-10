@@ -1,93 +1,67 @@
-#include "UIEffect.h"
+#include "FoodEffect.h"
 
 #include "Slot.h"
 #include "GameInstance.h"
 
-CUIEffect::CUIEffect(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CUserInterface{pGraphic_Device}
+CFoodEffect::CFoodEffect(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : CUserInterface{ pGraphic_Device }
 {
 }
 
-CUIEffect::CUIEffect(const CUIEffect& Prototype)
-    :CUserInterface{ Prototype }, m_fTimeAcc{0.f}
+CFoodEffect::CFoodEffect(const CFoodEffect& Prototype)
+    :CUserInterface{ Prototype }, m_fTimeAcc{ 0.f }
 {
 }
 
-HRESULT CUIEffect::Initialize_Prototype()
+HRESULT CFoodEffect::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUIEffect::Initialize(void* pArg)
+HRESULT CFoodEffect::Initialize(void* pArg)
 {
     if (FAILED(Add_Components()))
         return E_FAIL;
 
-    CUIEffect::UIEFFECT_DESC* pDesc = static_cast<UIEFFECT_DESC*>(pArg);
+    CFoodEffect::FOODEFFECT_DESC* pDesc = static_cast<FOODEFFECT_DESC*>(pArg);
 
     m_iTextureIndex = pDesc->iItemID;
-    m_pSlot = pDesc->pSlot;
-
-    memcpy(&m_Item_Desc, &pDesc->Item_Desc, sizeof(ITEM_DESC));
-
-    _float3 vTargetPos = m_pSlot->Get_Position();
-    
-    _float3 vCursorPos = m_pGameInstance->GetMousePosition(0);
+    m_pTargetTransform = pDesc->pTransform;
 
     CUserInterface::UIOBJECT_DESC Desc = {};
+
     Desc.fSizeX = 60.f;
     Desc.fSizeY = 60.f;
-    Desc.fX = pDesc->vCursorPos.x;
-    Desc.fY = pDesc->vCursorPos.y;
+    Desc.fX = 30.f;
+    Desc.fX = 30.f;
+    
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
-    m_TargetDir = _float3((vTargetPos.x + g_iWinSizeX * 0.5f) - pDesc->vCursorPos.x, -(vTargetPos.y + g_iWinSizeY * 0.5f) - pDesc->vCursorPos.y, 0.f);
-
     __super::UpdatePosition();
-    
+
+   
+
     return S_OK;
 }
 
-void CUIEffect::Priority_Update(_float fTimeDelta)
+void CFoodEffect::Priority_Update(_float fTimeDelta)
+{
+
+}
+
+void CFoodEffect::Update(_float fTimeDelta)
+{
+
+}
+
+void CFoodEffect::Late_Update(_float fTimeDelta)
 {
     
 }
 
-void CUIEffect::Update(_float fTimeDelta)
-{
-    m_fTimeAcc += fTimeDelta;
-    _float3 vPosition = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
-    vPosition += m_TargetDir * fTimeDelta * 4.f;
-    m_pTransform_Com->SetPosition(vPosition);
-
-    if (0.25f < m_fTimeAcc)
-    {
-        m_isDead = true;
-
-        _uint iItemID = m_pSlot->Get_ItemID();
-        if (0 == iItemID)
-        {
-            m_pSlot->Set_Info(m_Item_Desc);
-        }
-        else if (m_iTextureIndex == iItemID)
-        {
-            m_pSlot->Merge_Item(m_Item_Desc);
-            m_isDead = true;
-        }
-    }
-
-
-    
-}
-
-void CUIEffect::Late_Update(_float fTimeDelta)
-{
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
-}
-
-HRESULT CUIEffect::Render()
+HRESULT CFoodEffect::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
 
@@ -98,7 +72,7 @@ HRESULT CUIEffect::Render()
     return S_OK;
 }
 
-HRESULT CUIEffect::Add_Components()
+HRESULT CFoodEffect::Add_Components()
 {
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
@@ -120,9 +94,9 @@ HRESULT CUIEffect::Add_Components()
     return S_OK;
 }
 
-CUIEffect* CUIEffect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFoodEffect* CFoodEffect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CUIEffect* pInstance = new CUIEffect(pGraphic_Device);
+    CFoodEffect* pInstance = new CFoodEffect(pGraphic_Device);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
@@ -134,9 +108,9 @@ CUIEffect* CUIEffect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CGameObject* CUIEffect::Clone(void* pArg)
+CGameObject* CFoodEffect::Clone(void* pArg)
 {
-    CUIEffect* pInstance = new CUIEffect(*this);
+    CGameObject* pInstance = new CFoodEffect(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
@@ -148,10 +122,11 @@ CGameObject* CUIEffect::Clone(void* pArg)
     return pInstance;
 }
 
-void CUIEffect::Free()
+void CFoodEffect::Free()
 {
     __super::Free();
 
+    //Safe_Release(m_pSlot);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);

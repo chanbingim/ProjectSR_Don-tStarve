@@ -42,6 +42,7 @@ private:
 	MOTION					m_tMotion = {};
 	_float					m_fTimeAcc = {};
 	vector<CSpider*>		m_pMonsterVec = {};
+	_bool					m_bRecon = {};
 private:
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);

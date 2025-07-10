@@ -4,13 +4,12 @@
 
 NS_BEGIN(Client);
 
-class CResearchLap : public CItem
+class CCookedFood : public CItem
 {
-	enum class STATE {IDLE, USE, PLACE, LOOP, END};
 private:
-	CResearchLap(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CResearchLap(const CResearchLap& Prototype);
-	virtual ~CResearchLap() = default;
+	CCookedFood(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CCookedFood(const CCookedFood& Prototype);
+	virtual ~CCookedFood() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype();
@@ -23,18 +22,14 @@ public:
 	void HoverEvent();
 
 private:
-	STATE m_ePreState = {};
-	STATE m_eCurState = {};
-
-	vector<class CItem_Button*>* m_pItem_Buttons = { nullptr };
+	CTexture* m_pFood_TextureCom = { nullptr };
 
 private:
-	HRESULT				ADD_Components();
-
-	void Change_State();
+	HRESULT ADD_Components();
+	void Update_Item(_float fTimeDelta);
 
 public:
-	static CResearchLap* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CCookedFood* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg);
 	virtual void Free() override;
 };

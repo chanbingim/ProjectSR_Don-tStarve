@@ -41,6 +41,7 @@ public:
 	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
+	virtual void OutHouse() override;
 private:
 	MOTION					m_tMotion = {};
 private:

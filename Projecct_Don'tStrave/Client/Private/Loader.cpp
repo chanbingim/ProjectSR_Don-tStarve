@@ -30,6 +30,7 @@
 #include "BookMark_Button.h"
 #include "Create_Button.h"
 #include "Item_Button.h"
+#include "Cook_Button.h"
 #pragma endregion
 
 #pragma region ITEM
@@ -58,7 +59,9 @@
 #include "Material_Item.h"
 #include "Fire.h"
 #include "UIEffect.h"
+#include "FoodEffect.h"
 #include "ChestUI.h"
+#include "CookUI.h"
 #pragma endregion
 
 #include "SnowParticle.h"
@@ -78,6 +81,14 @@
 #include "Item_Manager.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
+
+#pragma region SELECT_CHARACTER
+#include "GamePlay_Button.h"
+#include "Select_Character.h"
+#include "Character_Button.h"
+#include "Character_Info.h"
+#pragma endregion
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -125,8 +136,13 @@ HRESULT CLoader::Loading()
 	case LEVEL::LOGO:
 		hr = Loading_For_Logo();
 		break;
+
 	case LEVEL::GAMEPLAY:
 		hr = Loading_For_GamePlay();
+		break;
+
+	case LEVEL::SELECT:
+		hr = Loading_For_Select();
 		break;
 
 	}
@@ -166,6 +182,63 @@ HRESULT CLoader::Loading_For_Logo()
 	/* For.Prototype_GameObject_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_Logo"),
 		CLogo::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	m_strMessage = TEXT("로딩이 완료되었습니다..");
+
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Select()
+{
+	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
+	/* For.Prototype_Component_Texture_Select */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Select"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/select_back.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Wilson_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Character_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/char_button%d.png"), 4))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Character_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Character_Info"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/char_info%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_GamePlay_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_GamePlay_Button"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/start.png"), 1))))
+		return E_FAIL;
+
+	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
+
+	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+	/* For.Prototype_GameObject_Select_Character */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Select_Character"),
+		CSelect_Character::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Character_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Character_Button"),
+		CCharacter_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Character_Info */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Character_Info"),
+		CCharacter_Info::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_GamePlay_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_GamePlay_Button"),
+		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -322,7 +395,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_Component_Texture_ItemFrame */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ItemFrame"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/ItemFrame_%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/ItemFrame_%d.png"), 3))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_CampFire_Fire */
@@ -347,6 +420,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region COOK_UI
+	/* For.Prototype_Component_Texture_ChestUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Close"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potclose/close_00%d.png"), 9))))
+		return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Open"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potopen/open_00%d.png"), 9))))
+		return E_FAIL;
+#pragma endregion
 
 
 #pragma endregion
@@ -530,6 +613,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CChestUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_CookUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookUI"),
+		CCookUI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Crafting_Button */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Crafting_Button"),
 		CCrafting_Button::Create(m_pGraphic_Device))))
@@ -565,6 +653,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CBookMark_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Cook_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cook_Button"),
+		CCook_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Clock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Clock"),
 		CClock::Create(m_pGraphic_Device))))
@@ -588,6 +681,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_UIEffect */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
 		CUIEffect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_FoodEffect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FoodEffect"),
+		CFoodEffect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_MiniMap */

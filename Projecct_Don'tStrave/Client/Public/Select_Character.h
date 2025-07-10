@@ -2,18 +2,13 @@
 #include "Client_Defines.h"
 #include "UserInterface.h"
 
-NS_BEGIN(Engine)
-class CLightComponent;
-NS_END
-
 NS_BEGIN(Client)
-
-class CClock final : public CUserInterface
+class CSelect_Character final : public CUserInterface
 {
 private:
-	CClock(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CClock(const CClock& Prototype);
-	virtual ~CClock() = default;
+	CSelect_Character(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSelect_Character(const CSelect_Character& Prototype);
+	virtual ~CSelect_Character() = default;
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;
@@ -23,22 +18,19 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+
 private:
-	_uint				m_iDate = {};
-	_float				m_fGameTime = {};
-	CTransform*			m_pTransform_Com_Clock = { nullptr };
-	CTexture*			m_pTexture_Com_Clock = { nullptr };
-	D3DLIGHT9			m_Light{};
+	class CCharacter_Button*	m_pButton_Wilson = { nullptr };
+	class CCharacter_Button*	m_pButton_Wigfrid = { nullptr };
+	class CCharacter_Info*		m_pCharater_Info = { nullptr };
 
 private:
 	HRESULT ADD_Components();
 
 public:
-	static CClock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSelect_Character* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg)override;
 	virtual void Free() override;
-	_uint* Get_Date();
-	_float* Get_Time();
 };
 
 NS_END

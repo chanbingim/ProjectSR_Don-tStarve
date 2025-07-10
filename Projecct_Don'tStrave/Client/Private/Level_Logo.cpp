@@ -26,18 +26,15 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-
 	if(m_pGameInstance->KeyUp(VK_LBUTTON))
 	{
 		if(0== dynamic_cast<CLogo*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::LOGO), TEXT("Layer_BackGround")))->Get_ID())
 		{
-			if (FAILED(m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::GAMEPLAY))))
+			if (FAILED(m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::SELECT))))
 				return;
 		}
 		
 	}
-	
-	
 }
 
 HRESULT CLevel_Logo::Render()

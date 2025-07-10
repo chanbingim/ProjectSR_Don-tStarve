@@ -135,7 +135,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		}
 	}
 	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
 		if ((abs(move.x) + abs(move.z)) / 2.f < 5) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
@@ -203,23 +203,57 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		}
 	}
 	else {
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+		if (m_fMoveStart > m_fMoveTime) {
+			switch (m_tMotion)
+			{
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				}
+				break;
+			case MOTION::IDLE:
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				break;
+			case MOTION::IDLE_TO_RUN:
+				if (m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				break;
 			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::TAUNT:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::IDLE);
+			if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::RUN);
 			}
-			break;
-		default:
-			break;
+			m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

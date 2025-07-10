@@ -111,7 +111,7 @@ void CFire::Update(_float fTimeDelta)
 		break;
 	}
 
-	//m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	SetUp_OnTerrain(m_pTransformCom, 0.1f);
 

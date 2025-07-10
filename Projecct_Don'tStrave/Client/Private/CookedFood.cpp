@@ -1,26 +1,26 @@
-#include "Equipment.h"
+#include "CookedFood.h"
 
 #include "GameInstance.h"
 #include "Slot.h"
 #include "Inventory.h"
 #include "Mouse.h"
 
-CEquipment::CEquipment(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCookedFood::CCookedFood(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
 {
 }
 
-CEquipment::CEquipment(const CEquipment& Prototype)
+CCookedFood::CCookedFood(const CCookedFood& Prototype)
 	: CItem{ Prototype }
 {
 }
 
-HRESULT CEquipment::Initialize_Prototype()
+HRESULT CCookedFood::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CEquipment::Initialize(void* pArg)
+HRESULT CCookedFood::Initialize(void* pArg)
 {
 	if (FAILED(__super::ADD_Components()))
 		return E_FAIL;
@@ -34,34 +34,15 @@ HRESULT CEquipment::Initialize(void* pArg)
 	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
 	m_pTransformCom->SetScale(vSize);
 
-
-	switch (m_Item_Desc.iItemID)
-	{
-	case 2:
-		m_pTransformCom->SetScale(_float3(0.8f, 0.8f, 1.f));
-		break;
-
-	case 8:
-		m_pTransformCom->SetScale(_float3(0.8f, 0.18f, 1.f));
-		break;
-
-	case 9:
-		m_pTransformCom->SetScale(_float3(0.3f, 0.6f, 1.f));
-		break;
-
-	default:
-		break;
-	}
-
 	return S_OK;
 }
 
-void CEquipment::Priority_Update(_float fTimeDelta)
+void CCookedFood::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CEquipment::Update(_float fTimeDelta)
+void CCookedFood::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
@@ -73,19 +54,19 @@ void CEquipment::Update(_float fTimeDelta)
 	Update_Item(fTimeDelta);
 }
 
-void CEquipment::Late_Update(_float fTimeDelta)
+void CCookedFood::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CEquipment::Render()
+HRESULT CCookedFood::Render()
 {
 	__super::Render();
 
 	return S_OK;
 }
 
-void CEquipment::HoverEvent()
+void CCookedFood::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
@@ -93,42 +74,64 @@ void CEquipment::HoverEvent()
 	{
 		m_bHovered = true;
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
-		__super::ClickedEvent();
 	}
 	else
 		m_bHovered = false;
 }
 
 
-CEquipment* CEquipment::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+HRESULT CCookedFood::ADD_Components()
 {
-	CEquipment* pInstance = new CEquipment(pGraphic_Device);
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Item"),
+		TEXT("Com_Food_Texture"),
+		reinterpret_cast<CComponent**>(&m_pFood_TextureCom))))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+void CCookedFood::Update_Item(_float fTimeDelta)
+{
+	if (0.f >= m_Item_Desc.fDurability)
+	{
+		m_Item_Desc.iItemID = 51;
+		m_Item_Desc.fDurability = 100.f;
+	}
+
+	if (51 != m_Item_Desc.iItemID)
+		m_Item_Desc.fDurability -= 3.f * fTimeDelta;
+}
+
+CCookedFood* CCookedFood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CCookedFood* pInstance = new CCookedFood(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Clone CFood");
+		MSG_BOX("Failed to Clone CCookedFood");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-CGameObject* CEquipment::Clone(void* pArg)
+CGameObject* CCookedFood::Clone(void* pArg)
 {
-	CGameObject* pInstance = new CEquipment(*this);
+	CGameObject* pInstance = new CCookedFood(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Create CFood");
+		MSG_BOX("Failed to Create CCookedFood");
 		return nullptr;
 	}
 
 	return pInstance;
 }
 
-void CEquipment::Free()
+void CCookedFood::Free()
 {
 	__super::Free();
 }

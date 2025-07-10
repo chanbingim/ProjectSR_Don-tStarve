@@ -30,8 +30,6 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	LoadImageFile();
-	m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
-	m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 	SetAnimation(m_tDir, MOTION::IDLE);
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -43,13 +41,16 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 
 void CSpiderNormal::Priority_Update(_float fTimeDelta)
 {
-	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-		m_bAttack = false;
-	}
 	if (!m_bActive) {
 		return;
 	}
+	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
+	if (MOTION::IDLE_TO_EAT == m_tMotion) {
+		return;
+	}
 	m_pTarget = nullptr;
 	list<CGameObject*> NearObjects;
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
@@ -119,6 +120,11 @@ void CSpiderNormal::Priority_Update(_float fTimeDelta)
 			}
 		}
 	}
+	m_bHouse = false;
+	if (!m_pTarget && m_pHouse && 30 >= *m_pTime) {
+		m_pTarget = m_pHouse;
+		m_bHouse = true;
+	}
 }
 
 void CSpiderNormal::Update(_float fTimeDelta)
@@ -170,14 +176,14 @@ void CSpiderNormal::Update(_float fTimeDelta)
 		}
 	}
 	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
+		if ((abs(move.x) + abs(move.z)) / 2.f < 2 || m_bHouse) {
 			if (dynamic_cast<CFood*>(m_pTarget) && MOTION::EAT != m_tMotion) {
 				m_bTarget = true;
 				_float3 transform = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 				if (0.1f > distance) {
-					SetAnimation(DIR::DIR_END, MOTION::IDLE_TO_EAT);
+					SetAnimation(m_tDir, MOTION::IDLE_TO_EAT);
 				}
 				else {
 					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
@@ -193,15 +199,20 @@ void CSpiderNormal::Update(_float fTimeDelta)
 					break;
 				case MOTION::IDLE_TO_EAT:
 					if (m_iLength <= m_fAniTime) {
-						SetAnimation(DIR::DIR_END, MOTION::EAT);
-						m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pTarget)->Get_Info().iItemID).iHungerChange);
-						m_pTarget->SetDead();
-						m_pTarget = nullptr;
+						if (!m_pTarget->isDead()) {
+							SetAnimation(m_tDir, MOTION::EAT);
+							m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pTarget)->Get_Info().iItemID).iHungerChange);
+							m_pTarget->SetDead();
+							m_pTarget = nullptr;
+						}
+						else {
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
 					}
 					break;
 				case MOTION::EAT:
 					if (m_iLength <= m_fAniTime) {
-						SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+						SetAnimation(m_tDir, MOTION::EAT_TO_IDLE);
 					}
 					break;
 				case MOTION::EAT_TO_IDLE:
@@ -279,39 +290,84 @@ void CSpiderNormal::Update(_float fTimeDelta)
 		}
 	}
 	else {
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+		if (m_fMoveStart > m_fMoveTime) {
+			switch (m_tMotion)
+			{
+			case MOTION::IDLE_TO_EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			case MOTION::EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::EAT_TO_IDLE);
+				}
+				return;
+			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				}
+			case MOTION::IDLE:
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				break;
+			case MOTION::IDLE_TO_RUN:
+				if (m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				break;
 			}
-			break;
-		case MOTION::EAT:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+			m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::IDLE_TO_EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			case MOTION::EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::EAT_TO_IDLE:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::TAUNT:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::IDLE);
-			}
-			break;
-		default:
-			break;
 		}
 	}
 }
 
 void CSpiderNormal::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
 	if (!m_bActive) {
 		return;
 	}
-	__super::Late_Update(fTimeDelta);
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
 	{
 		SetDir();
@@ -344,9 +400,15 @@ void CSpiderNormal::Death()
 	SetAnimation(m_tDir, MOTION::DEATH);
 }
 
+void CSpiderNormal::OutHouse()
+{
+	__super::OutHouse();
+	SetAnimation(m_tDir, MOTION::IDLE);
+}
+
 HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::IDLE_TO_EAT == motion || MOTION::EAT == motion || MOTION::EAT_TO_IDLE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
@@ -428,6 +490,12 @@ void CSpiderNormal::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
+		m_pHouse->EnterSpider(this);
+		m_bActive = false;
+		m_pTarget = nullptr;
+		return;
+	}
 	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
