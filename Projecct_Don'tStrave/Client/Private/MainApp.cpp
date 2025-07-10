@@ -165,12 +165,12 @@ HRESULT CMainApp::Ready_Prototypes()
 #pragma region LOADING_INTERFACE
 	/* For.Prototype_Compoent_LODING_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/BackGround/LoadingBackGround%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loading/BackGround/Loading%d.png"), 7))))
 		return E_FAIL;
 
 	/* For.Prototype_Compoent_LODING_Circle */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Circle_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/Circle/LoadingCircle.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loading/Circle/LoadingCircle.png"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_LODING_INTERFACE */

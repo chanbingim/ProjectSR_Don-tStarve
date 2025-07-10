@@ -56,6 +56,7 @@ HRESULT CTreeLeaf::Initialize(void* pArg)
     if (FAILED(__super::Initialize(&Arg)))
         return E_FAIL;
 
+    m_EnviornmentType = Enviornment_TYPE::NPC;
     m_TailName = TEXT("");
     m_EnviromentState =  m_pOwner->GetState();
 

@@ -4,6 +4,7 @@
 #include "XML_Manager.h"
 #include "DropItemComponent.h"
 #include "TreeLeaf.h"
+#include "Player.h"
 
 CBirchnutTree::CBirchnutTree(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CTreeObject(pGraphic_Device)
@@ -60,8 +61,13 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 		TEXT("Prototype_GameObject_Birchnut_Normal_Leaf"), &TreeDesc));
 	
 	m_pDropItem_Com->ADD_ItemData(38, 1);
+	m_EnviornmentType = Enviornment_TYPE::TREE;
 
 	m_pDropItem_Com->SetCreateEffect(1);
+	//m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
+	//m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
+	//m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& Dir) { EndHitActor(HitActor, Dir); });
+
 	m_EnviormentInfo.iMaxHit = 2;
 	m_MaxRecoverTime = 3.0f;
 	m_fMaxAliveTime = 3.0f;
@@ -188,6 +194,7 @@ void CBirchnutTree::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CBirchnutTree::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	
 }
 
 void CBirchnutTree::EndHitActor(CGameObject* HitActor, _float3& _Dir)
