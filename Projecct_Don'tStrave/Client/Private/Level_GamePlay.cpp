@@ -185,10 +185,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
 		ObjectDesc.TextruePath = TexPath;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
-			return E_FAIL;
-		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
+		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 		//	return E_FAIL;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
+			return E_FAIL;
 	}
 
 	return S_OK;
