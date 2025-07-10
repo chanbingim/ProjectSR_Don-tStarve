@@ -7,6 +7,12 @@
 #include "SpiderHouse.h"
 #include "SpiderQueen.h"
 #include "Pig.h"
+#include "PigHouse.h"
+#include "Deerclops.h"
+#include "Shadowcrawling.h"
+#include "Shadowterrorbeak.h"
+#include "Treeguard.h"
+#include "TreeguardObject.h"
 
 #pragma region UI
 #include "Slot.h"
@@ -67,6 +73,8 @@
 #include "PortalObject.h"
 #include "ResurrectionStone.h"
 #include "TreeObject.h"
+#include "TreeLeaf.h"
+#include "BirchnutTree.h"
 #pragma endregion
 
 #include "GameInstance.h"
@@ -261,7 +269,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region COMPONENT
-	/* For.Prototype_Component_Texture_Terrain */
+	/* For.Prototype_Component_DropItem_com */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
 		CDropItemComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -432,6 +440,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 #pragma region GAMEPLAY
+#pragma region CHARACTER
+
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
@@ -461,6 +471,41 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Pig"),
 		CPig::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_PigHouse"),
+		CPigHouse::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Deerclops"),
+		CDeerclops::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Crawling"),
+		CShadowcrawling::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrorbeak"),
+		CShadowterrorbeak::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Treeguard"),
+		CTreeguard::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+	/* For.Prototype_GameObject_Tree */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_TreeguardTree"),
+		CTreeguardObject::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	
+#pragma endregion
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
@@ -498,6 +543,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Resurrection_Stone"),
 		CResurrectionStone::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_CResurrectionStone */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Leaf"),
+		CTreeLeaf::Create(m_pGraphic_Device,"tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_CResurrectionStone */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Tree"),
+		CBirchnutTree::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region UI_OBJECT

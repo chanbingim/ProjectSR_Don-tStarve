@@ -18,18 +18,19 @@ public :
 	void		UpdateLight();
 
 	HRESULT		ADD_Light(LIGHT_TYPE LightType ,CLightComponent* pLight);
-	HRESULT		REMOVE_Light(LIGHT_TYPE LightType, CLightComponent* pLight);
+	void		DeadLight(LIGHT_TYPE LightType, CLightComponent* pLight);
 
 	//라이트 설정을 끄거나 킬수있게 한다.
 	void		Enable_Light();
 	void		UnEnable_Light();
-
+	
 private :
 	//카메라 기준 Light 처리
 	void		Sorting_Light(_uint type);
 
 private :
-	list<CLightComponent* >				m_Lightlist[ENUM_CLASS(LIGHT_TYPE::END)];
+	list<CLightComponent*>				m_Lightlist[ENUM_CLASS(LIGHT_TYPE::END)];
+	list<CLightComponent*>				m_DeadLight = {};
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
 
 public :

@@ -87,9 +87,9 @@ namespace Client
 		_uint			iAtk = {};
 		_float			fSpeed = {};
 		_uint			iAtkDistance = {};
-		_uint			iAtkSpeed = {};
+		_float			iAtkSpeed = {};
 		_uint			iMaxHit = {};
-		_bool			bHostile = {};
+		_uint			iHostile = {};
 		wstring			strWilsonDial = {};
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
@@ -121,17 +121,17 @@ namespace Client
 		_uint					iMaxHunger = {};
 		_uint					iMaxMental = {};
 		_uint					iDef = {};
-		_uint					iHunger = {};
-		_uint					iMental = {};
+		_int					iHunger = {};
+		_int					iMental = {};
 		SWAPOBJECT				tItem = {};
 		CGameObject*			pWorkObject = {};
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
-		_uint					iId = {};
-		_float					iAtkDistance = {};
-		_uint					iAtkSpeed = {};
-		_bool					bHostile = {};
+		_uint		iId = {};
+		_float		iAtkDistance = {};
+		_float		iAtkSpeed = {};
+		_uint		iHostile = {};
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{

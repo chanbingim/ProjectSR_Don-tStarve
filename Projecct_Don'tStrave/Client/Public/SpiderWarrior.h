@@ -1,11 +1,6 @@
 #pragma once
 #include "Spider.h"
 
-NS_BEGIN(Engine)
-class CTexture;
-class CCollision_Component;
-NS_END
-
 NS_BEGIN(Client)
 
 class CSpiderWarrior : public CSpider
@@ -47,16 +42,12 @@ public:
 	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
-	virtual void OutHouse() override;
+	virtual void		OutHouse() override;
 private:
 	MOTION					m_tMotion = {};
-	DIR						m_tDir = {};
 	_float					m_fAtkCool = {};
 	_float3					m_fDash = {};
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
-
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);

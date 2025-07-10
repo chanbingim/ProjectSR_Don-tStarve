@@ -42,7 +42,7 @@ HRESULT CAinimationObject::Initialize(void* pArg)
 void CAinimationObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-    m_fAniTime += fTimeDelta * 800;
+    m_fAniTime += (_uint)(fTimeDelta * 800);
 }
 
 void CAinimationObject::Update(_float fTimeDelta)
@@ -75,7 +75,6 @@ HRESULT CAinimationObject::LoadImageFile()
             }
         }
     }
-
     m_fAniTime = 0;
     m_iLength = 1000;
     return S_OK;
@@ -89,7 +88,7 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName)
     //애니메이션 저장되어있는 엔티티에서
     //모든 애니메이션 정보를 탐색하면서 animName과 같은걸 찾는다.
     for (auto& anim : m_tAnimation.tAnimationsVec) {
-        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), anim.szName.size())) {
+        if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), max(animName.size(), anim.szName.size()))) {
             pAnim = &anim;
             break;
         }
@@ -103,7 +102,7 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName)
 
     // 부동소수점 연산으로 뭘하려했는지 알아내ㅔ야함
     // 이거 프레임 계산같음
-    m_fAniTime = fmod(m_fAniTime, (_float)m_iLength);
+    m_fAniTime = m_fAniTime % m_iLength;
 
     //시간에 따른 오브젝트의 순서 밑 재생프레임을 받아오려함
     vector<OBJECT_REF_DESC> timeVec = {};

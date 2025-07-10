@@ -4,6 +4,8 @@
 #include "XML_Manager.h"
 #include "SpiderQueen.h"
 #include "Camera.h"
+#include "Food.h"
+#include "Item_Manager.h"
 
 CSpiderNormal::CSpiderNormal(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -20,9 +22,6 @@ HRESULT CSpiderNormal::Initialize_Prototype()
 {
 	CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/", &m_tImageVec);
 	CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml", &m_tAnimation);
-
-	//AddTexture("../Bin/Resources/Textures/Monster/Spider/spider.scml", L"../Bin/Resources/Textures/Monster/Spider/");
-	//LoadScml("../Bin/Resources/Textures/Monster/Spider/spider.scml");
 	return S_OK;
 }
 
@@ -30,19 +29,8 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
 	LoadImageFile();
-	m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
-	
-	m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-
-
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_bMove = false;
-	m_fMoveTIme = 0.f;
-
-	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
-
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -53,25 +41,66 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 
 void CSpiderNormal::Priority_Update(_float fTimeDelta)
 {
-	if (m_bOutHouse) {
-		__super::Priority_Update(fTimeDelta);
-		m_pTarget = nullptr;
-
-		list<CGameObject*> NearObjects;
-
-		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
-		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-			NearObjects.push_back(GroundObejcts->front());
+	if (!m_bActive) {
+		return;
+	}
+	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
+	__super::Priority_Update(fTimeDelta);
+	if (MOTION::IDLE_TO_EAT == m_tMotion) {
+		return;
+	}
+	m_pTarget = nullptr;
+	list<CGameObject*> NearObjects;
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
+	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
+		CGameObject* object = GroundObejcts->front();
+		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if (3.f > distance) {
+			NearObjects.push_back(object);
 		}
+	}
+	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderQueen*>(object) && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(object)) {
+				if (3.f > distance) {
+					NearObjects.push_back(object);
+				}
+			}
+		}
+	}
+	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
+			return distance < distance2;
+		});
 
-		GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (!NearObjects.empty()) {
+		CGameObject* object = NearObjects.front();
+		if (object) {
+			m_pTarget = object;
+		}
+	}
+	else {
+		m_bTarget = false;
+		GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Item"));
 		if (GroundObejcts && !GroundObejcts->empty()) {
 			for (auto& object : (*GroundObejcts)) {
 				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-				if (dynamic_cast<CCharacter*>(object) && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderHouse*>(object) && !dynamic_cast<CSpiderQueen*>(object)) {
-					if (3.f > distance) {
-						NearObjects.push_back(object);
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+				if (3.f > distance) {
+					if (dynamic_cast<CFood*>(object)) {
+						if (FOOD::MEAT == CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(object)->Get_Info().iItemID).eFoodtype) {
+							NearObjects.push_back(object);
+						}
 					}
 				}
 			}
@@ -80,235 +109,277 @@ void CSpiderNormal::Priority_Update(_float fTimeDelta)
 			{
 				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-				_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+				_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 				return distance < distance2;
 			});
-
 		if (!NearObjects.empty()) {
 			CGameObject* object = NearObjects.front();
 			if (object) {
 				m_pTarget = object;
 			}
 		}
-
+	}
+	m_bHouse = false;
+	if (!m_pTarget && m_pHouse && 30 >= *m_pTime) {
+		m_pTarget = m_pHouse;
+		m_bHouse = true;
 	}
 }
 
 void CSpiderNormal::Update(_float fTimeDelta)
 {
-	if (m_bOutHouse) {
-		__super::Update(fTimeDelta);
-		switch (m_tMotion)
+	if (!m_bActive) {
+		return;
+	}
+	__super::Update(fTimeDelta);
+	switch (m_tMotion)
+	{
+	case IDLE:
+		switch (m_tMoveDIr)
 		{
-		case IDLE:
-			switch (m_tMoveDIr)
-			{
-			case MOVE_DIR::MOVE_UP:
-				m_tDir = DIR::UP;
-				break;
-			default:
-				m_tDir = DIR::DOWN;
-				break;
-			}
-			SetAnimation(m_tDir, m_tMotion);
+		case MOVE_DIR::MOVE_UP:
+			m_tDir = DIR::UP;
 			break;
-		case MOTION::IDLE_TO_RUN:
-		case MOTION::RUN:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::ATTACK:
-			switch (m_tMoveDIr)
-			{
-			case MOVE_DIR::MOVE_DOWN:
-				m_tDir = DIR::DOWN;
-				break;
-			case MOVE_DIR::MOVE_LEFT:
-			case MOVE_DIR::MOVE_RIGHT:
-				m_tDir = DIR::SIDE;
-				break;
-			case MOVE_DIR::MOVE_UP:
-				m_tDir = DIR::UP;
-				break;
-			default:
-				break;
-			}
-			SetAnimation(m_tDir, m_tMotion);
+		default:
+			m_tDir = DIR::DOWN;
 			break;
 		}
-		if (m_tMotion == MOTION::DEATH) {
-			if (m_iLength <= m_fAniTime) {
-				m_isDead = true;
-			}
+		SetAnimation(m_tDir, m_tMotion);
+		break;
+	case MOTION::IDLE_TO_RUN:
+	case MOTION::RUN:
+	case MOTION::RUN_TO_IDLE:
+	case MOTION::ATTACK:
+		switch (m_tMoveDIr)
+		{
+		case MOVE_DIR::MOVE_DOWN:
+			m_tDir = DIR::DOWN;
+			break;
+		case MOVE_DIR::MOVE_LEFT:
+		case MOVE_DIR::MOVE_RIGHT:
+			m_tDir = DIR::SIDE;
+			break;
+		case MOVE_DIR::MOVE_UP:
+			m_tDir = DIR::UP;
+			break;
+		default:
+			break;
 		}
-		else if (m_pTarget) {
-			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-			if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
-				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
-					switch (m_tMotion)
-					{
-					case MOTION::TAUNT:
-						if (m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-						}
-						break;
-					case MOTION::DAMAGE:
-						if (m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::IDLE);
-						}
-						break;
-					case MOTION::ATTACK:
-						if (m_iLength <= m_fAniTime) {
-							m_fAttackTime = 0;
-							SetAnimation(m_tDir, MOTION::IDLE);
-						}
-						break;
-					default:
-						if (m_bCol) {
-							SetAnimation(m_tDir, MOTION::IDLE);
-						}
-						else {
-							if (m_bTarget) {
-								SetAnimation(m_tDir, MOTION::IDLE);
-							}
-							else {
-								SetAnimation(m_tDir, MOTION::TAUNT);
-							}
-						}
-						break;
-					}
-				}
-				else if (m_bCol) {
-					SetAnimation(m_tDir, MOTION::IDLE);
+		SetAnimation(m_tDir, m_tMotion);
+		break;
+	}
+	if (m_tMotion == MOTION::DEATH) {
+		if (m_iLength <= m_fAniTime) {
+			m_isDead = true;
+			return;
+		}
+	}
+	else if (m_pTarget) {
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
+		if ((abs(move.x) + abs(move.z)) / 2.f < 2 || m_bHouse) {
+			if (dynamic_cast<CFood*>(m_pTarget) && MOTION::EAT != m_tMotion) {
+				m_bTarget = true;
+				_float3 transform = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+				if (0.1f > distance) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_EAT);
 				}
 				else {
-					if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
-					{
-						SetAnimation(m_tDir, MOTION::RUN);
-					}
-					D3DXVec3Normalize(&move, &move);
-
-					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
-					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 				}
 			}
-			else {
-				//m_fMoveTIme += fTimeDelta;
-				//if (m_fMoveTIme > 10) {
-				//	if (m_fMoveTIme > 20) {
-				//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-				//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-				//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-				//			SetAnimation(m_tDir, MOTION::RUN);
-				//		}
-				//		if (m_fMoveTIme > 25) {
-				//			m_fMoveTIme = 0;
-				//		}
-				//	}
-				//	else {
-				//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-				//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-				//		m_fMoveTIme = 20 + (rand() % 5);
-				//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-				//	}
-				//}
-				//else {
-					switch (m_tMotion)
-					{
-					case MOTION::RUN:
-						if (m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-						}
-						else {
-							D3DXVec3Normalize(&move, &move);
-
-							m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
-							m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-						}
-						break;
-					case MOTION::ATTACK:
-					case MOTION::RUN_TO_IDLE:
-					case MOTION::TAUNT:
-					case MOTION::DAMAGE:
-						if (m_iLength <= m_fAniTime) {
-							SetAnimation(m_tDir, MOTION::IDLE);
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			//}
-		}
-		else {
-			//m_fMoveTIme += fTimeDelta;
-			//if (m_fMoveTIme > 10) {
-			//	if (m_fMoveTIme > 20) {
-			//		m_pMonsterData->fPos += m_fRandomMove * m_pMonsterData->fSpeed * fTimeDelta;
-			//		m_pTransformCom->SetPosition(m_pMonsterData->fPos);
-			//		if (MOTION::IDLE_TO_RUN == m_tMotion && m_iLength <= m_fAniTime) {
-			//			SetAnimation(m_tDir, MOTION::RUN);
-			//		}
-			//		if (m_fMoveTIme > 25) {
-			//			m_fMoveTIme = 0;
-			//		}
-			//	}
-			//	else {
-			//		m_fRandomMove = { (_float)rand() - rand() , 0.f, (_float)rand() - rand() };
-			//		D3DXVec3Normalize(&m_fRandomMove, &m_fRandomMove);
-			//		m_fMoveTIme = 20 + (rand() % 5);
-			//		SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
-			//	}
-			//}
-			//else {
+			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
-				case MOTION::RUN:
+				case MOTION::TAUNT:
 					if (m_iLength <= m_fAniTime) {
-						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+						SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 					}
 					break;
-				case MOTION::ATTACK:
-				case MOTION::RUN_TO_IDLE:
-				case MOTION::TAUNT:
+				case MOTION::IDLE_TO_EAT:
+					if (m_iLength <= m_fAniTime) {
+						if (!m_pTarget->isDead()) {
+							SetAnimation(m_tDir, MOTION::EAT);
+							m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pTarget)->Get_Info().iItemID).iHungerChange);
+							m_pTarget->SetDead();
+							m_pTarget = nullptr;
+						}
+						else {
+							SetAnimation(m_tDir, MOTION::IDLE);
+						}
+					}
+					break;
+				case MOTION::EAT:
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::EAT_TO_IDLE);
+					}
+					break;
+				case MOTION::EAT_TO_IDLE:
 				case MOTION::DAMAGE:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::IDLE);
 					}
 					break;
+				case MOTION::ATTACK:
+					if (m_iLength <= m_fAniTime) {
+						m_fAttackTime = 0;
+						SetAnimation(m_tDir, MOTION::IDLE);
+					}
+					break;
 				default:
+					if (m_bCol) {
+						SetAnimation(m_tDir, MOTION::IDLE);
+					}
+					else {
+						if (m_bTarget) {
+							SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+						}
+						else {
+							SetAnimation(m_tDir, MOTION::TAUNT);
+							m_bTarget = true;
+						}
+					}
 					break;
 				}
-			//}
+			}
+			else if (m_bCol) {
+				SetAnimation(m_tDir, MOTION::IDLE);
+			}
+			else {
+				if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				D3DXVec3Normalize(&move, &move);
+
+				m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+				m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+			}
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					D3DXVec3Normalize(&move, &move);
+					m_pMonsterData->fPos += move * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	else {
+		if (m_fMoveStart > m_fMoveTime) {
+			switch (m_tMotion)
+			{
+			case MOTION::IDLE_TO_EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			case MOTION::EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::EAT_TO_IDLE);
+				}
+				return;
+			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				}
+			case MOTION::IDLE:
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				break;
+			case MOTION::IDLE_TO_RUN:
+				if (m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				break;
+			}
+			m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::IDLE_TO_EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			case MOTION::EAT:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(DIR::DIR_END, MOTION::EAT_TO_IDLE);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::EAT_TO_IDLE:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
 
 void CSpiderNormal::Late_Update(_float fTimeDelta)
 {
-	if (m_bOutHouse) {
-		__super::Late_Update(fTimeDelta);
-
-		if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
-		{
-			SetDir();
-			m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
-		}
-			
+	__super::Late_Update(fTimeDelta);
+	if (!m_bActive) {
+		return;
 	}
-
+	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
+	{
+		SetDir();
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+	}
 }
 
 HRESULT CSpiderNormal::Render()
 {
-	if (m_bOutHouse) {
+	if (m_bActive && !m_isDead) {
 		__super::Render();
-
-	/*	if (FAILED(Begin_RenderState()))
-			return E_FAIL;*/
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
-
-		/*if (FAILED(End_RenderState()))
-			return E_FAIL;*/
 	}
 	return S_OK;
 }
@@ -331,16 +402,17 @@ void CSpiderNormal::Death()
 
 void CSpiderNormal::OutHouse()
 {
-	m_bOutHouse = true;
+	__super::OutHouse();
+	SetAnimation(m_tDir, MOTION::IDLE);
 }
 
 HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::IDLE_TO_EAT == motion || MOTION::EAT == motion || MOTION::EAT_TO_IDLE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -412,41 +484,29 @@ HRESULT CSpiderNormal::SetAnimation(DIR dir, MOTION motion)
 	return S_OK;
 }
 
-HRESULT CSpiderNormal::Begin_RenderState()
-{
-	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	return S_OK;
-}
-
-HRESULT CSpiderNormal::End_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	return S_OK;
-}
-
 void CSpiderNormal::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 }
 
 void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget) {
-		m_bCol = true;
-		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DAMAGE && m_tMotion != DEATH) {
-			if (m_tMotion != ATTACK) {
+	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
+		m_pHouse->EnterSpider(this);
+		m_bActive = false;
+		m_pTarget = nullptr;
+		return;
+	}
+	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
+			m_bCol = true;
+			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
 				Attack();
 			}
-			else if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
-				m_pTarget->Damage(&m_tDamage);
-				m_bAttack = false;
-			}
+		}
+		if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
+			HitActor->Damage(&m_tDamage);
 		}
 	}
 }

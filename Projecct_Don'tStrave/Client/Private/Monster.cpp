@@ -1,7 +1,8 @@
 #include "Monster.h"
-
-#include "UserInterface.h"
 #include "GameInstance.h"
+#include "Mouse.h"
+#include "Player.h"
+#include "Clock.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -32,24 +33,34 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->iHit = data.iMaxHit;
 	m_pMonsterData->iAtk = data.iAtk;
 	m_pMonsterData->fSpeed = data.fSpeed / 4.f;
-	m_pMonsterData->bHostile = data.bHostile;
-	m_pMonsterData->iAtkDistance = data.iAtkDistance;
+	m_pMonsterData->iHostile = data.iHostile;
+	m_pMonsterData->iAtkDistance = data.iAtkDistance / 5.f;
 	m_pMonsterData->iAtkSpeed = data.iAtkSpeed;
 	m_pMonsterData->fPos = data.fPos;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
 
 	m_pChar = m_pMonsterData;
-	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance / 10.f, 0.f ,0.f });
-
+	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance, 0.f ,0.f });
 
 	m_pTransformCom->SetPosition(data.fPos);
+
+	m_bActive = true;
 
 	return S_OK;
 }
 
 HRESULT CMonster::Initialize_Late()
 {
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"));
+	if (!GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			if (dynamic_cast<CClock*>(object)) {
+				m_pDate = dynamic_cast<CClock*>(object)->Get_Date();
+				m_pTime = dynamic_cast<CClock*>(object)->Get_Time();
+			}
+		}
+	}
 	return S_OK;
 }
 
@@ -57,17 +68,31 @@ void CMonster::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_fAttackTime += fTimeDelta * 2;
-
+	m_fMoveTime += fTimeDelta;
+	if (m_fMoveDelay <= m_fMoveTime) {
+		SetRandomMove();
+	}
 }
 
 void CMonster::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	_float3 vPickingPos = {};
+	//m_pTransformCom->SetScale({ m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2 });
+	if (m_bActive && m_pGameInstance->KeyDown(VK_LBUTTON) && dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
+	{
+		dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+	}
+	//m_pTransformCom->SetScale({ 1.f,1.f,1.f });
 }
 
 void CMonster::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_pTarget && m_pTarget->isDead()) {
+		m_pTarget = nullptr;
+	}
 }
 
 HRESULT CMonster::Render()
@@ -116,6 +141,15 @@ void CMonster::SetDir()
 	else {
 		__super::SetDir();
 	}
+}
+
+void CMonster::SetRandomMove()
+{
+	m_fMoveTime = 0.f;
+	m_fMoveStart = (_float)(rand() % 2) + 1;
+	m_fMoveDelay = (_float)(rand() % 4) + 8;
+	m_fMove = { (_float)(rand() % 10 - rand() % 10), 0.f, (_float)(rand() % 10 - rand() % 10) };
+	D3DXVec3Normalize(&m_fMove, &m_fMove);
 }
 
 MONSTER_DATA* CMonster::Get_Monster()

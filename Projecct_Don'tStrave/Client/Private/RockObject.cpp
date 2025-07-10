@@ -8,6 +8,7 @@ CRockObject::CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CDropItemEnviornment(pGraphic_Device)
 {
 	m_EnviornmentID = 3;
+	m_EnviornmentType = Enviornment_TYPE::STONE;
 }
 
 CRockObject::CRockObject(const CRockObject& rhs) :

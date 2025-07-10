@@ -46,6 +46,7 @@ HRESULT CFire::Initialize(void* pArg)
 	m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.f, 0.f, 0.f, 0.f));
 	m_pLight_Com->SetPosition(vPos);
 	m_pLight_Com->SetMaxRange(3.3f);
+
 	m_pLight_Com->SetAttenuation(0.f, 0.3f, 0.8f);
 
 	m_pGraphic_Device->LightEnable(0, true);
@@ -162,7 +163,7 @@ HRESULT CFire::ADD_Components()
 	m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
 
 	Light_Desc.LightData = m_Light;
-	Light_Desc.pOwner = nullptr;
+	Light_Desc.pOwner = this;
 
 	// Transform Component
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),

@@ -63,8 +63,8 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 	if (FAILED(Ready_Layer_Camera(FilePath, TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;
@@ -129,23 +129,35 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
-	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
+
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(107);
 	for (size_t i = 0; i < 5; i++)
 	{
-		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
+		data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}
-
-	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
-	for (size_t i = 0; i < 1; i++)
-	{
-		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-			return E_FAIL;
-	}
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(103);
+	data.fPos = _float3(10.f, 0.f, 5.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+		return E_FAIL;
+	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
+	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+	//	return E_FAIL;
+	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
+	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+	//	return E_FAIL;
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(108);
+	data.fPos = _float3(5.f, 0.f, 5.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -173,9 +185,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
 		ObjectDesc.TextruePath = TexPath;
 
+		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
+		//	return E_FAIL;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 			return E_FAIL;
 	}
+
 	return S_OK;
 }
 
@@ -241,9 +256,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_MiniMap"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+	//	TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -270,15 +285,19 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 4:
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
-		return TEXT("Prototype_GameObject_Env_Tree");
+		return TEXT("Prototype_GameObject_Gloden_Rock");
 	case 6:
 		return TEXT("Prototype_GameObject_Resurrection_Stone");
+	case 7:
+		return TEXT("Prototype_GameObject_Verry");
+	case 8:
+		return TEXT("Prototype_GameObject_Little_Tree");
+	case 9:
+		return TEXT("Prototype_GameObject_Birchnut_Tree");
 	}
 
 	return TEXT("Prototype_GameObject_Env_Tree");
 }
-
-
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 {
@@ -292,10 +311,6 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVE
 
 	return pInstance;
 }
-
-
-
-
 
 void CLevel_GamePlay::Free()
 {

@@ -8,7 +8,6 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
-#include "Character_Manager.h"
 #include "Terrian_Manager.h"
 #include "LodingInterface.h"
 #include "XML_Manager.h"
@@ -268,7 +267,6 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 	CTerrian_Manager::DestroyInstance();
 	CXML_Manager::DestroyInstance();
-	CCharacter_Manager::DestroyInstance();
 	m_pGameInstance->Release_Engine();
 
 	Safe_Release(m_pGameInstance);	

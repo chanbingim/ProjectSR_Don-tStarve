@@ -1,18 +1,17 @@
 #include "SpiderHouse.h"
 #include "GameInstance.h"
-
 #include "XML_Manager.h"
 #include "MonsterData_Manager.h"
 #include "Spider.h"
 #include "Camera.h"
 
 CSpiderHouse::CSpiderHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CMonster{ pGraphic_Device }
+	: CHouse{ pGraphic_Device }
 {
 }
 
 CSpiderHouse::CSpiderHouse(const CSpiderHouse& Prototype)
-	: CMonster{ Prototype }
+	: CHouse{ Prototype }
 {
 }
 
@@ -33,21 +32,19 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 	SetAnimation(MOTION::SMALL);
 
 	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
-	size_t max = (rand() % 4) + 3;
-	data.fPos = m_pMonsterData->fPos;;
+	size_t max = (rand() % 3) + 1;
+	data.fPos = m_pMonsterData->fPos;
 	for (size_t i = 0; i < max; i++)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 	}
 	
-	//m_pMonsterVec.push_back();
-
-	m_pCollision_Com->SetCollisionSize({ 1.f, 1.f ,1.f });
+	m_pCollision_Com->SetCollisionSize({ 0.1f, 0.f ,0.f });
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
-
+	m_bRecon = false;
 	return S_OK;
 }
 
@@ -56,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 5.f) {
+	if (m_fTimeAcc >= 10.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -93,16 +90,18 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			m_pMonsterData->iMaxHp = data.iMaxHp;
 			m_pMonsterData->iHp = data.iMaxHp;
 
-			size_t max = (rand() % 4);
+			size_t max = (rand() % 2);
 			for (size_t i = 0; i < max; i++)
 			{
 				if (2 < rand() % 10) {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
-					data.fPos = m_pMonsterData->fPos;;
+					data.fPos = m_pMonsterData->fPos;
+					data.iHostile = 0;
 				}
 				else {
 					data = CMonsterData_Manager::GetInstance()->Get_MonsterData(101);
-					data.fPos = m_pMonsterData->fPos;;
+					data.fPos = m_pMonsterData->fPos;
+					data.iHostile = 0;
 				}
 				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 			}
@@ -120,8 +119,9 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			m_pMonsterData->iHp = data.iMaxHp;
 
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(101);
-			data.fPos = m_pMonsterData->fPos;;
-			size_t max = (rand() % 4);
+			data.fPos = m_pMonsterData->fPos;
+			data.iHostile = 0;
+			size_t max = (rand() % 3);
 			for (size_t i = 0; i < max; i++)
 			{
 				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
@@ -134,9 +134,14 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	case MOTION::LARGE_TO_QUEEN:
 		if (m_iLength <= m_fAniTime) {
+			for (auto iter = m_pMonsterVec.begin(); iter != m_pMonsterVec.end();)
+			{
+				(*iter)->SetDead();
+				iter = m_pMonsterVec.erase(iter);
+			}
 			m_isDead = true;
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
-			data.fPos= m_pMonsterData->fPos;;
+			data.fPos= m_pMonsterData->fPos;
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		break;
@@ -151,34 +156,36 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		}
 		break;
 	}
+	if (0 != m_pMonsterVec.size() && m_bRecon && 30 < *m_pTime) {
+		(*m_pMonsterVec.begin())->OutHouse();
+		m_pMonsterVec.erase(m_pMonsterVec.begin());
+		m_bRecon = false;
+	}
+	else if(30 >= *m_pTime){
+		m_bRecon = true;
+	}
 }
 
 void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
-		m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CSpiderHouse::Render()
 {
 	__super::Render();
-
-	/*if (FAILED(Begin_RenderState()))
-		return E_FAIL;*/
-
-	XMLRenderAnimation(m_sAnim);
-
-	/*if (FAILED(End_RenderState()))
-		return E_FAIL;*/
-
+	if (!m_isDead) {
+		XMLRenderAnimation(m_sAnim);
+	}
 	return S_OK;
 }
 
 HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 {
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	switch (motion) {
 	case SMALL:
@@ -229,16 +236,15 @@ void CSpiderHouse::Hit()
 {
 	switch (m_tMotion) {
 	case SMALL:
-		m_tMotion = MOTION::SMALL_DAMAGE;
+		SetAnimation(MOTION::SMALL_DAMAGE);
 		break;
 	case MEDIUM:
-		m_tMotion = MOTION::MEDIUM_DAMAGE;
+		SetAnimation(MOTION::MEDIUM_DAMAGE);
 		break;
 	case LARGE:
-		m_tMotion = MOTION::LARGE_DAMAGE;
+		SetAnimation(MOTION::LARGE_DAMAGE);
 		break;
 	}
-	SetAnimation(m_tMotion);
 }
 
 void CSpiderHouse::Attack()
@@ -248,8 +254,7 @@ void CSpiderHouse::Attack()
 void CSpiderHouse::Death()
 {
 	m_fTimeAcc = 0.f;
-	m_tMotion = MOTION::DEATH;
-	SetAnimation(m_tMotion);
+	SetAnimation(MOTION::DEATH);
 }
 
 void CSpiderHouse::EnterSpider(CSpider* pMonster)
@@ -264,17 +269,6 @@ void CSpiderHouse::Emergency()
 		(*iter)->OutHouse();
 		iter = m_pMonsterVec.erase(iter);
 	}
-}
-
-HRESULT CSpiderHouse::Begin_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	return S_OK;
-}
-
-HRESULT CSpiderHouse::End_RenderState()
-{
-	return S_OK;
 }
 
 void CSpiderHouse::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

@@ -11,6 +11,7 @@ class CEnviornment_Object : public CAinimationObject
 {
 public:
 	enum class Enviornment_STATE { IDLE, RECOVERY, DAMAGED, BROKEN, BROKEN_IDLE, END };
+	enum class Enviornment_TYPE { GRASS, STONE, TREE, NPC, RESERREECTION, END };
 
 protected :
 	CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -32,8 +33,10 @@ public :
 	_wstring				GetEnviornmnetName();
 	_uint					GetEnviormentID();
 
-	BASE_DESC				GetCurrentInfo() { return m_EnviormentInfo; }
-	Enviornment_STATE		GetState() { return m_EnviromentState; }
+	BASE_DESC				GetCurrentInfo();		
+	Enviornment_STATE		GetState();				
+	Enviornment_TYPE		GetEnviornMentType();	
+	const _wstring			GetMotionName();		
 
 protected :
 	_wstring				m_FrontName = {};
@@ -44,8 +47,8 @@ protected :
 	_float					m_CurRecoverTime = {};
 
 	_uint					m_EnviornmentID = {};
-
 	Enviornment_STATE		m_EnviromentState = { };
+	Enviornment_TYPE		m_EnviornmentType = {};
 
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
 	CCollision_Component*	m_pCollision_Com = { nullptr };

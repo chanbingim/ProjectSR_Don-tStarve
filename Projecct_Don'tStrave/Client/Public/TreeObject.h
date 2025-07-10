@@ -11,7 +11,7 @@ class CEnv_Animation;
 
 class CTreeObject : public CDropItemEnviornment
 {
-private:
+protected:
 	CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CTreeObject(const CTreeObject& rhs);
 	virtual ~CTreeObject() = default;
@@ -34,9 +34,6 @@ private:
 	void				BeginHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 	void				EndHitActor(CGameObject* HitActor, _float3& _Dir);
-
-private :
-	_float3					Pos = {};
 
 public:
 	static		CTreeObject*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

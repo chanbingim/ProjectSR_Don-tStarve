@@ -36,8 +36,6 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 	LoadImageFile();
 
 	SetAnimation(m_tDir, MOTION::IDLE);
-	m_bMove = false;
-
 
 	m_pCollision_Com->SetCollisionSize({ 1.f, 0.f ,0.f });
 
@@ -51,6 +49,9 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 
 void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
 	m_pTarget = nullptr;
 
@@ -58,15 +59,20 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-		NearObjects.push_back(GroundObejcts->front());
+		CGameObject* object = GroundObejcts->front();
+		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if (3.f > distance) {
+			NearObjects.push_back(object);
+		}
 	}
 
 	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-			if (dynamic_cast<CCharacter*>(object) && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderHouse*>(object) && !dynamic_cast<CSpiderQueen*>(object)) {
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderQueen*>(object) && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(object)) {
 				if (3.f > distance) {
 					NearObjects.push_back(object);
 				}
@@ -77,8 +83,8 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 		{
 			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(pow(transform.x, 2) + pow(transform.z, 2));
-			_float distance2 = sqrtf(pow(transform2.x, 2) + pow(transform2.z, 2));
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
 			return distance < distance2;
 		});
 
@@ -88,6 +94,10 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 			m_pTarget = object;
 		}
 	}
+	else {
+		m_bTarget = false;
+	}
+
 }
 
 void CSpiderQueen::Update(_float fTimeDelta)
@@ -95,7 +105,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
 	{
-	case IDLE:
+	case MOTION::IDLE:
 	case MOTION::IDLE_TO_RUN:
 	case MOTION::RUN:
 	case MOTION::RUN_TO_IDLE:
@@ -121,10 +131,11 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	if (m_tMotion == MOTION::DEATH) {
 		if (m_iLength <= m_fAniTime) {
 			m_isDead = true;
+			return;
 		}
 	}
 	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
 		if ((abs(move.x) + abs(move.z)) / 2.f < 5) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
@@ -192,23 +203,57 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		}
 	}
 	else {
-		switch (m_tMotion)
-		{
-		case MOTION::RUN:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+		if (m_fMoveStart > m_fMoveTime) {
+			switch (m_tMotion)
+			{
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				}
+				break;
+			case MOTION::IDLE:
+				SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
+				break;
+			case MOTION::IDLE_TO_RUN:
+				if (m_iLength <= m_fAniTime)
+				{
+					SetAnimation(m_tDir, MOTION::RUN);
+				}
+				break;
 			}
-			break;
-		case MOTION::ATTACK:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::TAUNT:
-		case MOTION::DAMAGE:
-			if (m_iLength <= m_fAniTime) {
-				SetAnimation(m_tDir, MOTION::IDLE);
+			if (m_tMotion == MOTION::IDLE_TO_RUN && m_iLength <= m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::RUN);
 			}
-			break;
-		default:
-			break;
+			m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+		}
+		else {
+			switch (m_tMotion)
+			{
+			case MOTION::RUN:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
+				}
+				else {
+					m_pMonsterData->fPos += m_fMove * m_pMonsterData->fSpeed * fTimeDelta;
+					m_pTransformCom->SetPosition(m_pMonsterData->fPos);
+				}
+				break;
+			case MOTION::ATTACK:
+			case MOTION::RUN_TO_IDLE:
+			case MOTION::TAUNT:
+			case MOTION::DAMAGE:
+				if (m_iLength <= m_fAniTime) {
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -230,32 +275,9 @@ void CSpiderQueen::Late_Update(_float fTimeDelta)
 HRESULT CSpiderQueen::Render()
 {
 	__super::Render();
-
-
-	/*if (FAILED(Begin_RenderState()))
-		return E_FAIL;*/
-
-	RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
-
-	//if (FAILED(End_RenderState()))
-	//	return E_FAIL;
-	//class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
-	//auto Camera = dynamic_cast<CCamera*>(Obj);
-	//if (nullptr == Camera)
-	//	return E_FAIL;
-	///*if (FAILED(Begin_RenderState()))
-	//	return E_FAIL;*/
-	//LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
-	//m_pGraphic_Device->GetTexture(0, &pTex);
-	//
-	//Excute_Billboard(Camera->GetInvViewMat(), pTex);
-	//m_pVIBufferCom->Render();
-	//
-	//Safe_Release(pTex);
-	//End_Billboard();
-
-	/*if (FAILED(End_RenderState()))
-		return E_FAIL;*/
+	if (!m_isDead) {
+		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
+	}
 
 	return S_OK;
 }
@@ -278,11 +300,11 @@ void CSpiderQueen::Death()
 
 HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || (MOTION::IDLE == motion && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
-		m_fAniTime = 0.f;
+		m_fAniTime = 0;
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -339,32 +361,20 @@ HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
 void CSpiderQueen::Damage(void* pArg)
 {
 	__super::Damage(pArg);
-	for (auto target : m_pCharacterInstance->Get_NearObject(this, 3.f, FIELDOBJECT::CREATURE)) {
-		CSpiderHouse* pHouse = {};
-		if (pHouse = dynamic_cast<CSpiderHouse*>(target)) {
-			pHouse->Emergency();
+
+	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	if (GroundObejcts && !GroundObejcts->empty()) {
+		for (auto& object : (*GroundObejcts)) {
+			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			if (3.f > distance) {
+				CSpiderHouse* pHouse = {};
+				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
+					pHouse->Emergency();
+				}
+			}
 		}
 	}
-}
-
-
-HRESULT CSpiderQueen::Begin_RenderState()
-{
-	/* 알파 테스트 : 픽셀의 알파를 비교해서 그린다 안그린다를 설정. */
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	return S_OK;
-}
-
-HRESULT CSpiderQueen::End_RenderState()
-{
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	return S_OK;
 }
 
 void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
@@ -373,17 +383,18 @@ void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget) {
-		m_bCol = true;
-		if (dynamic_cast<CCharacter*>(HitActor) && m_pMonsterData->iAtkSpeed <= m_fAttackTime && m_tMotion != DAMAGE && m_tMotion != DEATH) {
-			if (m_tMotion != ATTACK) {
+	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
+			m_bCol = true;
+			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
 				Attack();
 			}
-			else if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
-				m_pTarget->Damage(&m_tDamage);
-				m_bAttack = false;
-			}
 		}
+	}
+	if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime && !dynamic_cast<CSpider*>(HitActor) && !dynamic_cast<CSpiderHouse*>(HitActor) && !dynamic_cast<CSpiderQueen*>(HitActor)) {
+		HitActor->Damage(&m_tDamage);
 	}
 }
 

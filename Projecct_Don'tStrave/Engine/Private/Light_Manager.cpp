@@ -38,17 +38,15 @@ HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
 	return S_OK;
 }
 
-HRESULT CLight_Manager::REMOVE_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
+void CLight_Manager::DeadLight(LIGHT_TYPE LightType, CLightComponent* pLight)
 {
 	_uint Index = ENUM_CLASS(LightType);
-
 	auto iter = find(m_Lightlist[Index].begin(), m_Lightlist[Index].end(), pLight);
 	if (iter == m_Lightlist[Index].end())
-		return E_FAIL;
+		return;
 
 	m_Lightlist[Index].erase(iter);
 	Safe_Release(pLight);
-	return S_OK;
 }
 
 void CLight_Manager::Enable_Light()
@@ -95,12 +93,7 @@ void CLight_Manager::Free()
 	__super::Free();
 
 	Safe_Release(m_pGraphic_Device);
+
 	for (_uint i = 0; i < ENUM_CLASS(LIGHT_TYPE::END); ++i)
-	{
-		for (auto iter : m_Lightlist[i])
-		{
-			Safe_Release(iter);
-		}
 		m_Lightlist[i].clear();
-	}
 }
