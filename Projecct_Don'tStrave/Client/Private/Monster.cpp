@@ -2,7 +2,6 @@
 #include "GameInstance.h"
 #include "Mouse.h"
 #include "Player.h"
-#include "Clock.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -52,15 +51,7 @@ HRESULT CMonster::Initialize(void* pArg)
 
 HRESULT CMonster::Initialize_Late()
 {
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"));
-	if (!GroundObejcts->empty()) {
-		for (auto& object : (*GroundObejcts)) {
-			if (dynamic_cast<CClock*>(object)) {
-				m_pDate = dynamic_cast<CClock*>(object)->Get_Date();
-				m_pTime = dynamic_cast<CClock*>(object)->Get_Time();
-			}
-		}
-	}
+	__super::Initialize_Late();
 	return S_OK;
 }
 
@@ -79,12 +70,10 @@ void CMonster::Update(_float fTimeDelta)
 	__super::Update(fTimeDelta);
 
 	_float3 vPickingPos = {};
-	//m_pTransformCom->SetScale({ m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2,m_pMonsterData->iAtkDistance * 2 });
 	if (m_bActive && m_pGameInstance->KeyDown(VK_LBUTTON) && dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
 	}
-	//m_pTransformCom->SetScale({ 1.f,1.f,1.f });
 }
 
 void CMonster::Late_Update(_float fTimeDelta)

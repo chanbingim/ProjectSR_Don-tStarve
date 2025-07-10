@@ -49,7 +49,13 @@ void CShadowterrorbeak::Priority_Update(_float fTimeDelta)
 		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
 		if (10.f > distance) {
-			m_pTarget = object;
+			CPlayer* player = dynamic_cast<CPlayer*>(object);
+			if (player && player->Get_Player()->iMaxMental / 3 < player->Get_Player()->iMental) {
+				Death();
+			}
+			else {
+				m_pTarget = object;
+			}
 		}
 		else {
 			m_bTarget = false;

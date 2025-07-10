@@ -35,8 +35,6 @@ public:
 protected:
 	CGameObject*			m_pTarget = {};
 	MONSTER_DATA*		m_pMonsterData = {};
-	_uint*				m_pDate = {};
-	_float*				m_pTime = {};
 	_float3				m_fMove = {};
 	_float				m_fMoveTime = {};
 	_float				m_fMoveStart = {};

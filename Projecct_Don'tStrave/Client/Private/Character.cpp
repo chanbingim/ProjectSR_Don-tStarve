@@ -3,6 +3,7 @@
 #include "Terrian_Manager.h"
 #include "XML_Manager.h"
 #include "GameInstance.h"
+#include "Clock.h"
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -39,6 +40,20 @@ HRESULT CCharacter::Initialize(void* pArg)
         return E_FAIL;
 
 
+    return S_OK;
+}
+
+HRESULT CCharacter::Initialize_Late()
+{
+    auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"));
+    if (!GroundObejcts->empty()) {
+        for (auto& object : (*GroundObejcts)) {
+            if (dynamic_cast<CClock*>(object)) {
+                m_pDate = dynamic_cast<CClock*>(object)->Get_Date();
+                m_pTime = dynamic_cast<CClock*>(object)->Get_Time();
+            }
+        }
+    }
     return S_OK;
 }
 

@@ -68,6 +68,8 @@ private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
 	_bool					m_bAttack = {};
+	_bool					m_bCrawling = {};
+	_bool					m_bTerrorbeak = {};
 	_float					m_fHungTime = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
