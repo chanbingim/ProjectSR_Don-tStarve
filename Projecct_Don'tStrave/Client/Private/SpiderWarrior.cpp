@@ -32,9 +32,7 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
-
-	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
-
+	SetAnimation(m_tDir, MOTION::IDLE);
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -209,7 +207,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 					SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 				}
 			}
-			if (0.f >= m_fAtkCool) {
+			if (MOTION::DAMAGE != m_tMotion && 0.f >= m_fAtkCool) {
 				if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::DASH_ATTACK);
 					m_fAtkCool = 5.f;

@@ -139,7 +139,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iTemp = 0;
 	m_pPlayer->fAtkRatio = data.fAtk;
 	m_pPlayer->fDefRatio = data.fDef;
-	m_pPlayer->iAtk = 5;
+	m_pPlayer->iAtk = 30;
 	m_pPlayer->iDef = 0;
 	m_pPlayer->iMaxHit = 10;
 	m_pPlayer->iHit = 10;
@@ -691,12 +691,11 @@ void CPlayer::Update(_float fTimeDelta)
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	SetDir();
-
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
 	}
+	SetDir();
 }
 
 void CPlayer::SetDir()

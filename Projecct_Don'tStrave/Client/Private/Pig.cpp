@@ -379,16 +379,19 @@ HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 
 void CPig::Damage(void* pArg)
 {
-	DAMAGE_DATA_BASE DamageBase = {};
-	if (pArg) {
-		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
-		if (DamageBase.Attacker) {
-			CCharacter* player = static_cast<CCharacter*>(DamageBase.Attacker);
-			if (dynamic_cast<CPlayer*>(player)) {
-				m_pMonsterData->iHostile = 1;
+	if (0 == m_pMonsterData->iHostile) {
+		DAMAGE_DATA_BASE DamageBase = {};
+		if (pArg) {
+			DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+			if (DamageBase.Attacker) {
+				CCharacter* player = static_cast<CCharacter*>(DamageBase.Attacker);
+				if (dynamic_cast<CPlayer*>(player)) {
+					m_pMonsterData->iHostile = 1;
+				}
 			}
 		}
 	}
+	__super::Damage(pArg);
 }
 
 void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)

@@ -6,7 +6,6 @@
 CTreeguardObject::CTreeguardObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
-    m_EnviornmentID = 4;
 }
 
 CTreeguardObject::CTreeguardObject(const CTreeguardObject& rhs) :
@@ -20,7 +19,7 @@ HRESULT CTreeguardObject::Initialize_Prototype()
     auto XML_Instance = CXML_Manager::GetInstance();
     CXML_Manager::GetInstance()->AddTexture("../Bin/Resources/Textures/Monster/Treeguard/treeguard_action.scml", L"../Bin/Resources/Textures/Monster/Treeguard/", &m_tImageVec);
     CXML_Manager::GetInstance()->LoadScml("../Bin/Resources/Textures/Monster/Treeguard/treeguard_action.scml", &m_tAnimation);
-
+    m_EnviornmentType = Enviornment_TYPE::TREE;
     return S_OK;
 }
 
