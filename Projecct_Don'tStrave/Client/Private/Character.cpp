@@ -60,20 +60,23 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
-    auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_pChar->fPos);
-    if (Terrian)
+    if (!m_isDead)
     {
-        m_pLandVIBuffer = Terrian->GetCurVIBuffer();
-        m_pLandTransform = Terrian->GetTransfrom();
+        auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_pChar->fPos);
+        if (Terrian)
+        {
+            m_pLandVIBuffer = Terrian->GetCurVIBuffer();
+            m_pLandTransform = Terrian->GetTransfrom();
 
-        SetUp_OnTerrain(m_pTransformCom, 0.f);
-        m_pChar->fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            SetUp_OnTerrain(m_pTransformCom, 0.f);
+            m_pChar->fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+        }
+        else {
+            m_pChar->fPos = m_fMoving;
+            m_pTransformCom->SetPosition(m_pChar->fPos);
+        }
+        m_bCol = false;
     }
-    else {
-        m_pChar->fPos = m_fMoving;
-        m_pTransformCom->SetPosition(m_pChar->fPos);
-    }
-    m_bCol = false;
 }
 
 HRESULT CCharacter::Render()

@@ -60,7 +60,7 @@ void CRenderer::Render()
 #pragma endregion
 
 	Render_UI();
-	SaveRenderTarget();
+	//SaveRenderTarget();
 }
 
 void CRenderer::ResetRenderer()

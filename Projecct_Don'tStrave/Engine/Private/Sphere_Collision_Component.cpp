@@ -105,6 +105,4 @@ void CSphere_Collision_Component::Free()
 
     Safe_Release(m_pSphereMesh);
 
-    if(!m_isCloned)
-        Safe_Delete_Array(m_pMeshVtx);
 }

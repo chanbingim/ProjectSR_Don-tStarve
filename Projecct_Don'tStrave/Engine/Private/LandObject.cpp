@@ -27,9 +27,6 @@ HRESULT CLandObject::Initialize(void* pArg)
 	m_pLandVIBuffer = pDesc->pLandVIBuffer;
 	m_pLandTransform = pDesc->pLandTransform;
 
-	Safe_AddRef(m_pLandVIBuffer);
-	Safe_AddRef(m_pLandTransform);
-
 	return S_OK;
 }
 
@@ -75,7 +72,4 @@ void CLandObject::SetUp_OnTerrain(CTransform* pTransform, _float fOffset)
 void CLandObject::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pLandTransform);
-	Safe_Release(m_pLandVIBuffer);
 }

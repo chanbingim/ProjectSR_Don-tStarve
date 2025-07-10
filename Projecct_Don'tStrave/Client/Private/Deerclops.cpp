@@ -130,6 +130,9 @@ void CDeerclops::Update(_float fTimeDelta)
 			}
 		}
 		else if (m_pTarget) {
+			if (m_pTarget->isDead())
+				return;
+
 			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
 			if ((abs(move.x) + abs(move.z)) / 2.f < 4) {
 				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {

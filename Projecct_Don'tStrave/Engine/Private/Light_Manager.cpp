@@ -61,7 +61,7 @@ void CLight_Manager::Enable_Light()
 		if (iter == ApplyLight_End)
 		{
 			for(int j = i; j <= 7; ++j)
-				m_pGraphic_Device->LightEnable(i, false);
+				m_pGraphic_Device->LightEnable(j, false);
 			break;
 		}
 

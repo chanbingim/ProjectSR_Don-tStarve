@@ -49,13 +49,6 @@ HRESULT CFire::Initialize(void* pArg)
 
 	m_pLight_Com->SetAttenuation(0.f, 0.3f, 0.8f);
 
-	m_pGraphic_Device->LightEnable(0, true);
-	m_pGraphic_Device->LightEnable(1, true);
-	m_pGraphic_Device->LightEnable(2, true);
-	m_pGraphic_Device->LightEnable(3, true);
-	m_pGraphic_Device->LightEnable(5, true);
-	m_pGraphic_Device->LightEnable(4, true);
-
 	m_FrontName = TEXT("level3");
 	m_TailName = TEXT("");
 
@@ -74,12 +67,12 @@ void CFire::Priority_Update(_float fTimeDelta)
 void CFire::Update(_float fTimeDelta)
 {
 	m_fAniTime += fTimeDelta * 700.f;
-	_float3	vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	m_pLight_Com->SetPosition(vPos);
+	//_float3	vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	//m_pLight_Com->SetPosition(vPos);
 	_float fValue = m_fDurability * 0.01f;
-	m_pLight_Com->Render_Light();
+	//m_pLight_Com->Render_Light();
 	m_pLight_Com->SetAmbientColor(D3DXCOLOR(m_Color.r * fValue, m_Color.g * fValue, m_Color.b * fValue, m_Color.b));
-	m_pLight_Com->Render_Light();
+	//m_pLight_Com->Render_Light();
 
 	switch (m_eCurState)
 	{
@@ -112,8 +105,6 @@ void CFire::Update(_float fTimeDelta)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
-
-	SetUp_OnTerrain(m_pTransformCom, 0.1f);
 
 	Change_State();
 
