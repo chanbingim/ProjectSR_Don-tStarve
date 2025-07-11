@@ -70,6 +70,8 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
 		return E_FAIL;
 
+	
+
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;
 
@@ -313,6 +315,11 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 9:
 		return TEXT("Prototype_GameObject_Birchnut_Tree");
+	case 12:
+		return TEXT("Prototype_GameObject_PigKing");
+	/*case 14:
+		return TEXT("Prototype_GameObject_PigHouse");*/
+
 	}
 
 	return TEXT("Prototype_GameObject_Env_Tree");

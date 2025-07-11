@@ -66,8 +66,14 @@
 #include "CookUI.h"
 #pragma endregion
 
+#pragma region EFFECT
 #include "SnowParticle.h"
 #include "DamageEffectUI.h"
+#pragma endregion
+
+#pragma region NPC
+#include "PigKing.h"
+#pragma endregion
 
 #pragma region ENVIORN_MENT
 #include "GatheringObject.h"
@@ -443,6 +449,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER
+
+#pragma region NPC
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_PigKing"),
+		CPigKing::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
 
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),

@@ -305,6 +305,7 @@ void CPig::OutHouse()
 	m_bHouse = false;
 	SetRandomMove();
 }
+
 HRESULT CPig::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir) {

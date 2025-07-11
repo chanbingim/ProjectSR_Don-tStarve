@@ -10,6 +10,9 @@ NS_BEGIN(Client)
 
 class CClock final : public CUserInterface
 {
+public : 
+	enum CLOCK_STATE { MORNING, LUNCH, NIGHT, END };
+
 private:
 	CClock(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CClock(const CClock& Prototype);
@@ -23,11 +26,15 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+	CLOCK_STATE			GetClockState() { return m_ClockState; }
+
 private:
 	_uint				m_iDate = {};
 	_float				m_fGameTime = {};
 	CTransform*			m_pTransform_Com_Clock = { nullptr };
 	CTexture*			m_pTexture_Com_Clock = { nullptr };
+	CLOCK_STATE			m_ClockState = { CLOCK_STATE::MORNING };
+
 	D3DLIGHT9			m_Light{};
 
 private:

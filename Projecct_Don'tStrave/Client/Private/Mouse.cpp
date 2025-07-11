@@ -178,10 +178,10 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('0') & 0x8000)
     {
-        Desc.iItemID = 13;
+        Desc.iItemID = 44;
         Desc.eItemType = ITEM_TYPE::STRUCTURE;
         Desc.eSlot = SLOT::NORMAL;
-        Desc.iNumItem = 1;
+        Desc.iNumItem = 9;
         Desc.fDurability = 100.f;
 
         m_pSlot->Set_Info(Desc);
