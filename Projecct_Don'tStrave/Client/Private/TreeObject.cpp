@@ -106,7 +106,7 @@ void CTreeObject::Damage(void* pArg)
     {
     case Enviornment_STATE::IDLE:
     case Enviornment_STATE::DAMAGED:
-        if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
+        if ((_int)m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
         {
             DAMAGE_DATA_BASE DamageBase = {};
             if(nullptr != pArg)

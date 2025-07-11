@@ -47,8 +47,8 @@ void CEffectPoolManager::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pGameInstance);
-    for (auto pair : m_EffectActiveMap)
+   /* Safe_Release(m_pGameInstance);
+    for (auto& pair : m_EffectActiveMap)
     {
         Safe_Release(pair.second);
     }
@@ -56,5 +56,5 @@ void CEffectPoolManager::Free()
     for (auto pair : m_EffectUnActiveMap)
     {
         Safe_Release(pair.second);
-    }
+    }*/
 }

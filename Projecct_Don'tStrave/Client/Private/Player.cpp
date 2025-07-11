@@ -199,12 +199,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pChar = m_pPlayer;
 
-<<<<<<< HEAD
 	m_pTransformCom->SetPosition( m_pPlayer->fPos );
-=======
-	m_pTransformCom->SetPosition(m_pPlayer->fPos);
->>>>>>> origin/0710_kjh
-
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_bControll = true;

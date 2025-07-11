@@ -124,28 +124,28 @@
     <Filter Include="System\GameInstance\Level\Manager">
       <UniqueIdentifier>{8ec10b9d-ace2-469b-a367-265e05331c22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject">
+    <Filter Include="System\GameObject">
       <UniqueIdentifier>{75793cf9-0a95-40a6-b1b4-39efb364307d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\Layer">
+    <Filter Include="System\GameObject\Layer">
       <UniqueIdentifier>{823d2501-7fc9-4a15-8e87-3c076a3a896f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\Manager">
+    <Filter Include="System\GameObject\Manager">
       <UniqueIdentifier>{f6735ec3-4dbf-4ad4-be54-30e87f0eabdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\Land">
+    <Filter Include="System\GameObject\Land">
       <UniqueIdentifier>{71431e9f-3922-41f5-8cda-3c973765651f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\UserInterface">
+    <Filter Include="System\GameObject\UserInterface">
       <UniqueIdentifier>{3c0b0167-bbad-484f-8cc1-85c7b9850376}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\UserInterface\MouseSlotUI">
+    <Filter Include="System\GameObject\UserInterface\MouseSlotUI">
       <UniqueIdentifier>{7d456a52-c66a-4ab0-8ac0-9b71f8278a06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\ALPHA">
+    <Filter Include="System\GameObject\ALPHA">
       <UniqueIdentifier>{f2010e70-6222-4fc4-bc94-8aca6cc4f9c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Define\GameObject\FrustomCamera">
+    <Filter Include="System\GameObject\FrustomCamera">
       <UniqueIdentifier>{e555ec40-20ad-4c58-a8f2-6bdedba79fd6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -275,28 +275,28 @@
       <Filter>System\Components\Transform_Component</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GameObject.h">
-      <Filter>System\Define\GameObject</Filter>
+      <Filter>System\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Layer.h">
-      <Filter>System\Define\GameObject\Layer</Filter>
+      <Filter>System\GameObject\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Object_Manager.h">
-      <Filter>System\Define\GameObject\Manager</Filter>
+      <Filter>System\GameObject\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LandObject.h">
-      <Filter>System\Define\GameObject\Land</Filter>
+      <Filter>System\GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UserInterface.h">
-      <Filter>System\Define\GameObject\UserInterface</Filter>
+      <Filter>System\GameObject\UserInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MouseSlotUI.h">
-      <Filter>System\Define\GameObject\UserInterface\MouseSlotUI</Filter>
+      <Filter>System\GameObject\UserInterface\MouseSlotUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AlphaObject.h">
-      <Filter>System\Define\GameObject\ALPHA</Filter>
+      <Filter>System\GameObject\ALPHA</Filter>
     </ClInclude>
     <ClInclude Include="..\public\FrustomCamera.h">
-      <Filter>System\Define\GameObject\FrustomCamera</Filter>
+      <Filter>System\GameObject\FrustomCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\GameInstance.h">
       <Filter>System\GameInstance</Filter>
@@ -410,28 +410,28 @@
       <Filter>System\Components\Transform_Component</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GameObject.cpp">
-      <Filter>System\Define\GameObject</Filter>
+      <Filter>System\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Layer.cpp">
-      <Filter>System\Define\GameObject\Layer</Filter>
+      <Filter>System\GameObject\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Object_Manager.cpp">
-      <Filter>System\Define\GameObject\Manager</Filter>
+      <Filter>System\GameObject\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LandObject.cpp">
-      <Filter>System\Define\GameObject\Land</Filter>
+      <Filter>System\GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UserInterface.cpp">
-      <Filter>System\Define\GameObject\UserInterface</Filter>
+      <Filter>System\GameObject\UserInterface</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MouseSlotUI.cpp">
-      <Filter>System\Define\GameObject\UserInterface\MouseSlotUI</Filter>
+      <Filter>System\GameObject\UserInterface\MouseSlotUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AlphaObject.cpp">
-      <Filter>System\Define\GameObject\ALPHA</Filter>
+      <Filter>System\GameObject\ALPHA</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FrustomCamera.cpp">
-      <Filter>System\Define\GameObject\FrustomCamera</Filter>
+      <Filter>System\GameObject\FrustomCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GameInstance.cpp">
       <Filter>System\GameInstance</Filter>

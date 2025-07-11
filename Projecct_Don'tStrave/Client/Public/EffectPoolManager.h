@@ -24,7 +24,7 @@ public :
 	HRESULT		Release_ActiveEffect(_uint ID, CAinimationObject* pAnimObject);
 
 private :
-	unordered_map<_uint ,list<CAinimationObject*>>	m_EffectActiveMap = {};
+	unordered_map<_uint, list<CAinimationObject*>>	m_EffectActiveMap = {};
 	unordered_map<_uint, list<CAinimationObject*>>	m_EffectUnActiveMap = {};
 	CGameInstance*									m_pGameInstance = { nullptr };
 
