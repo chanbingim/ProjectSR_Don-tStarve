@@ -40,6 +40,7 @@ private:
 
 private:
 	HRESULT			ADD_Components();
+
 	void			Change_State();
 
 public:
