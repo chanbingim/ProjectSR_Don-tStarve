@@ -652,7 +652,7 @@
     <ClInclude Include="..\public\QuestManager.h">
       <Filter>08. Quest\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\QuestTree.h">
+    <ClInclude Include="..\public\QuestData.h">
       <Filter>08. Quest</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Goat.h">
@@ -994,7 +994,7 @@
     <ClCompile Include="..\private\QuestManager.cpp">
       <Filter>08. Quest\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\QuestTree.cpp">
+    <ClCompile Include="..\private\QuestData.cpp">
       <Filter>08. Quest</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Goat.cpp">
