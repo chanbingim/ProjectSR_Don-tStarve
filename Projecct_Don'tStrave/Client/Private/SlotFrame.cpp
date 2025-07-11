@@ -270,37 +270,34 @@ void CSlotFrame::ClickedEevent()
 
     if (m_pGameInstance->KeyDown(VK_RBUTTON))
     {
-        if(SLOT::HAND == m_eSlotType)
-        {
-            CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
-
-            CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
-
-            if (nullptr == pSlot)
-                return;
-
-            Swap_HandObject(m_pSlot->Get_ItemID());
-
-            ITEM_DESC Desc = pSlot->Get_Info();
-
-            pSlot->Set_Info(m_pSlot->Get_Info());
-
-            m_pSlot->Set_Info(Desc);
-        }
-        else if (SLOT::NORMAL == m_eSlotType)
+        if (SLOT::NORMAL == m_eSlotType)
         {
             ITEM_DESC Desc = m_pSlot->Get_Info();
             
-            if (ITEM_TYPE::FOOD != Desc.eItemType)
-                return;
+            if (ITEM_TYPE::FOOD == Desc.eItemType)
+            {
+                ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
 
-            ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
+                CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 
-            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+                pPlayer->Eat(&Item_Data);
 
-            pPlayer->Eat(&Item_Data);
+                m_pSlot->Use_One();
+            }
+            else if (ITEM_TYPE::EQUIPMENT == Desc.eItemType)
+            {
+                CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
 
-            m_pSlot->Use_One();
+                CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
+
+                Swap_HandObject(m_pSlot->Get_ItemID());
+
+                ITEM_DESC Desc = pSlot->Get_Info();
+
+                pSlot->Set_Info(m_pSlot->Get_Info());
+
+                m_pSlot->Set_Info(Desc);
+            }
         }
     }
 }

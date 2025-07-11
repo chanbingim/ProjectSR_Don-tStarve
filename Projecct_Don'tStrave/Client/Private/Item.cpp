@@ -88,7 +88,7 @@ void CItem::Update(_float fTimeDelta)
 
 	HoverEvent();
 
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	//SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);
 }
@@ -100,7 +100,7 @@ void CItem::Late_Update(_float fTimeDelta)
 
 HRESULT CItem::Render()
 {
-	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100);
 
 	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
@@ -111,10 +111,8 @@ HRESULT CItem::Render()
 	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
 
 	m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
-	m_pGraphic_Device->GetTexture(0, &pTex);
-	Excute_Billboard(Camera->GetInvViewMat(), pTex);
 
-	__super::Render();
+	Excute_Billboard(Camera->GetInvViewMat(), pTex);
 
 	if (true == m_bHovered)
 	{
@@ -130,7 +128,6 @@ HRESULT CItem::Render()
 	else
 		m_pVIBufferCom->Render();
 
-	End_Billboard();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	return S_OK;

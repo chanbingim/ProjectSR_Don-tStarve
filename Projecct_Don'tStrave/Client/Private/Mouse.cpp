@@ -88,9 +88,9 @@ void CMouse::Update(_float fTimeDelta)
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        Desc.iItemID = 8;
-        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
-        Desc.eSlot = SLOT::HAND;
+        Desc.iItemID = 35;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
