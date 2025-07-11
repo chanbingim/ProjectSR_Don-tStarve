@@ -206,6 +206,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bControll = true;
 	m_bCol = false;
 	m_tDamage.Attacker = this;
+	m_fFightTime = 30.f;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -217,10 +218,22 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_fHungTime += fTimeDelta * 2;
+	m_fFightTime += fTimeDelta;
 	if (1 <= m_fHungTime) {
-		m_pPlayer->iHunger--;
+		m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
 		if (30 < *m_pTime) {
-			m_pPlayer->iMental -= 2;
+			m_pPlayer->iMental = max(m_pPlayer->iMental - 2, 0);
+		}
+		if (m_fFightTime < 15) {
+			switch (m_pPlayer->iId)
+			{
+			case 200:
+				m_pPlayer->iMental = max(m_pPlayer->iMental - 1, 0);
+				break;
+			case 201:
+				m_pPlayer->iMental = min(m_pPlayer->iMental + 1, m_pPlayer->iMaxMental);
+				break;
+			}
 		}
 		if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
 			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
@@ -896,7 +909,7 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"run_pst";
 		break;
 	case MOTION::DIAL:
-		m_sAnim = L"dial";
+		m_sAnim = L"dial_loop";
 		break;
 	case MOTION::IDLE_TO_BUILD:
 		m_sAnim = L"build_pre";

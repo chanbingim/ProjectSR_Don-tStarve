@@ -71,6 +71,7 @@ private:
 	_bool					m_bCrawling = {};
 	_bool					m_bTerrorbeak = {};
 	_float					m_fHungTime = {};
+	_float					m_fFightTime = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
 	_int						m_iHungerChange = {};
