@@ -103,7 +103,11 @@ void CCookpot::Update(_float fTimeDelta)
 		break;
 
 	case Client::CCookpot::STATE::IDLE_FULL:
-		
+		if (m_pGameInstance->KeyDown(VK_LBUTTON))
+		{
+			// 음식 넣어주는 거 추가
+			m_eCurState = STATE::IDLE_EMPTY;
+		}
 		break;
 
 	case Client::CCookpot::STATE::PLACE:

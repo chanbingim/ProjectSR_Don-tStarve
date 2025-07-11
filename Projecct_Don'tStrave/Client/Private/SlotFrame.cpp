@@ -123,6 +123,7 @@ void CSlotFrame::Swap_HandObject(_uint iItemID)
 {
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
     PLAYER_DATA* pData = pPlayer->Get_Player();
+
     switch (iItemID)
     {
     case 0:
