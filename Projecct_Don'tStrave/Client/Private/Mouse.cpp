@@ -8,6 +8,7 @@
 
 #include "Slot.h"
 #include "Item.h"
+#include "Player.h"
 
 CMouse::CMouse(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -51,6 +52,8 @@ HRESULT CMouse::Initialize(void* pArg)
     m_pBlend_Texture_Com->Set_Texture(0, 1);
 
     m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+
+    m_pPlayer_Data = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player();
 
     Safe_AddRef(m_pPlayerTransform_Com);
 
@@ -428,6 +431,63 @@ void CMouse::Update_Hover(const wstring strMessage, const _uint iMouseState)
 {
     m_iMouseState = iMouseState;
     m_strInteraction = strMessage;
+}
+
+void CMouse::Update_HoverEnv(_uint iObjectID)
+{
+    SWAPOBJECT SwapObject = m_pPlayer_Data->tItem;
+
+    if (2 == iObjectID || 7 == iObjectID || 8 == iObjectID)
+    {
+        m_strInteraction = L"PICK";
+        m_iMouseState = 1;
+        return;
+    }
+
+    switch (SwapObject)
+    {
+    case Client::SWAPOBJECT::AXE:
+    case Client::SWAPOBJECT::GOLDAXE:
+        if (4 == iObjectID || 9 == iObjectID)
+        {
+            m_strInteraction = L"CHOP";
+            m_iMouseState = 1;
+        }
+
+        break;
+    case Client::SWAPOBJECT::PICKAXE:
+    case Client::SWAPOBJECT::GOLDPICKAXE:
+        if (3 == iObjectID || 5 == iObjectID)
+        {
+            m_strInteraction = L"DIG";
+            m_iMouseState = 1;
+        }
+        break;
+    case Client::SWAPOBJECT::SHOVEL:
+    case Client::SWAPOBJECT::GOLDSHOVEL:
+
+        break;
+
+    case Client::SWAPOBJECT::SPEAR:
+        break;
+
+    case Client::SWAPOBJECT::TORCH:
+        if (4 == iObjectID)
+        {
+            m_strInteraction = L"LIGHT";
+            m_iMouseState = 1;
+        }
+        break;
+        break;
+
+    case Client::SWAPOBJECT::NONE:
+        break;
+
+    default:
+        break;
+    }
+   
+
 }
 
 HRESULT CMouse::ADD_Components()

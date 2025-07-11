@@ -25,6 +25,7 @@ public:
 	void Update_HoverSlot(_uint itemID);
 	void Update_Hover(_uint itemID);
 	void Update_Hover(const wstring strMessage,const _uint iMouseState);
+	void Update_HoverEnv(_uint iObjectID);
 
 private:
 	_uint			m_iMouseState = {};
@@ -35,8 +36,8 @@ private:
 	wstring			m_strInfoMessage = {};
 	wstring			m_strInteraction = {};
 	CTransform*		m_pPlayerTransform_Com = {};
-
 	CTexture*		m_pBlend_Texture_Com = { nullptr };
+	PLAYER_DATA*    m_pPlayer_Data = { nullptr };
 
 private:
 	HRESULT ADD_Components();

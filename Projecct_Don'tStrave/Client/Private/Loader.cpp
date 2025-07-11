@@ -39,6 +39,7 @@
 #include "Equipment.h"
 #include "CampFire.h"
 #include "Cookpot.h"
+#include "CookedFood.h"
 #include "Chest.h"
 #include "IceBox.h"
 #include "DropItemComponent.h"
@@ -353,14 +354,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Button/MinMap_Button.png"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_MiniMap_Background */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Background"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap/MiniMap_bg.png"), 1))))
+	/* For.Prototype_Component_Texture_MiniMap */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap/MiniMap_%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_MiniMap_Icon */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_MiniMap_Icon"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap_Icon/MiniMap_Icon-%d.png"), 14))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/MiniMap_Icon/Env%d.png"), 15))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_QuickSlot_Button */
@@ -751,6 +752,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Cookpot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
 		CCookpot::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	/* For.Prototype_GameObject_CookedFood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookedFood"),
+		CCookedFood::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 	/* For.Prototype_GameObject_IceBox */

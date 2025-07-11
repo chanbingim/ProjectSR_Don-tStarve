@@ -233,7 +233,7 @@ void CItem::EnterInvenTory()
 
 		Desc.iItemID = m_Item_Desc.iItemID;
 		Desc.pSlot = pSlot;
-		Desc.vCursorPos = m_pGameInstance->GetMousePosition(0);
+		Desc.vPositon = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
 
 		m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),

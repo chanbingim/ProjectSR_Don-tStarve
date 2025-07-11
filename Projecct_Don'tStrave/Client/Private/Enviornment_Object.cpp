@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 
 #include "Camera.h"
+#include "Mouse.h"
 
 CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CAinimationObject(pGraphic_Device)
@@ -74,6 +75,8 @@ void CEnviornment_Object::Update(_float fTimeDelta)
 
         Damage(&damage);
     }
+
+    HoverEevent();
 }
 
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
@@ -155,6 +158,16 @@ _float CEnviornment_Object::GetAnimationFrame()
 const _wstring CEnviornment_Object::GetMotionName()
 {
     return m_FrontName + m_TailName;
+}
+
+void CEnviornment_Object::HoverEevent()
+{
+    _float3 vPickingPos = {};
+
+    if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
+    {
+        dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverEnv(m_iObjectID);
+    }
 }
 
 CEnviornment_Object* CEnviornment_Object::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

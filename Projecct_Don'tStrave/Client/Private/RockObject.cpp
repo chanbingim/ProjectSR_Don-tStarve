@@ -64,7 +64,7 @@ void CRockObject::Priority_Update(_float fTimeDelta)
 
 void CRockObject::Update(_float fTimeDelta)
 {
-
+	__super::HoverEevent();
 }
 
 void CRockObject::Late_Update(_float fTimeDelta)
@@ -94,7 +94,7 @@ void CRockObject::Damage(void* pArg)
 		_float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
 		Pos.y += m_pTransformCom->GetScale().y * 1.f;
-		//CreateDropItem(Pos);
+		CreateDropItem(Pos);
 		m_isDead = true;
 	}
 		break;

@@ -87,7 +87,7 @@ void CTreeObject::Reset_State()
 
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
             Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * 0.2f;
-            //CreateDropItem(Pos);
+            CreateDropItem(Pos);
         }
     }
 }

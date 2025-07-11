@@ -39,6 +39,8 @@ public :
 	_float					GetAnimationFrame();
 	const _wstring			GetMotionName();		
 
+	void					HoverEevent();
+
 protected :
 	_wstring				m_FrontName = {};
 	_wstring				m_TailName = {};

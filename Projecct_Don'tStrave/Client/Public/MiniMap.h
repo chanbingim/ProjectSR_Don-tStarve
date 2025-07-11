@@ -20,15 +20,14 @@ public:
 
 private:
 	_bool					m_IsVisible = {};
+	_float					m_fNumTileX = {};
+	_float					m_fNumTileY = {};
 	_float					m_fZoom = {};
 	UIOBJECT_DESC			m_Panel_Desc = {};
 	_float3					m_vKeyDownPos = {};
-	CTexture*				m_Terrain_Texture_Com = { nullptr };
+
 	CTransform*				m_pPanel_Transform_Com = { nullptr };
 	CVIBuffer*				m_pPanel_VIBuffer_Com = { nullptr };
-
-	CTransform*				m_pTerrain_Transform_Com = { nullptr };
-	vector<class CTerrain*>* m_pTerrains = { nullptr };
 
 	class CMiniMap_Button*	m_pMiniMap_Btn = { nullptr };
 	vector<class CMiniMap_Icon*>	m_Icons = {};

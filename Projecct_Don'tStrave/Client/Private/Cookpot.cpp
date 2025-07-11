@@ -3,12 +3,15 @@
 #include "GameInstance.h"
 #include "XML_Manager.h"
 
+#include "Inventory.h"
 #include "Slot.h"
 
 #include "Mouse.h"
 #include "Camera.h"
 #include "CookUI.h"
-#include "FoodEffect.h"
+#include "CookedFood.h"
+#include "UIEffect.h"
+
 
 CCookpot::CCookpot(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
@@ -24,6 +27,8 @@ void CCookpot::Start_Cooking(_uint iItemID)
 {
 	m_eCurState = STATE::COOKING_LOOP;
 	m_iFoodID = iItemID;
+
+	m_pCookedFood->Set_Food(m_iFoodID);
 }
 
 HRESULT CCookpot::Initialize_Prototype()
@@ -57,28 +62,18 @@ HRESULT CCookpot::Initialize(void* pArg)
 	m_pCookUI = dynamic_cast<CCookUI*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookUI"), this));
 
+	m_pCookedFood = dynamic_cast<CCookedFood*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookedFood"), pArg));
+
 	if (nullptr == m_pCookUI)
 		return E_FAIL;
-
-
-	CFoodEffect::FOODEFFECT_DESC Effect_Desc = {};
-	Effect_Desc.iItemID = 50;
-	Effect_Desc.pTransform = m_pTransformCom;
-
-	/*m_CFoodEffect = dynamic_cast<CFoodEffect*>(m_pGameInstance->Clone_Prototype(
-		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FoodEffect"), &Effect_Desc));*/
-
-
-
 
 	return S_OK;
 }
 
 void CCookpot::Priority_Update(_float fTimeDelta)
 {
-	//__super::Priority_Update(fTimeDelta);
 	m_fAniTime += fTimeDelta * 700.f;
-
 }
 
 void CCookpot::Update(_float fTimeDelta)
@@ -103,7 +98,7 @@ void CCookpot::Update(_float fTimeDelta)
 		break;
 
 	case Client::CCookpot::STATE::IDLE_FULL:
-		
+		m_pCookedFood->Update(fTimeDelta);
 		break;
 
 	case Client::CCookpot::STATE::PLACE:
@@ -121,7 +116,7 @@ void CCookpot::Update(_float fTimeDelta)
 	default:
 		break;
 	}
-
+	
 
 	HoverEvent();
 
@@ -146,9 +141,8 @@ HRESULT CCookpot::Render()
 
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
-	//m_pFoodTexture->Set_Texture(50);
-
-	//m_pVIBufferCom->Render();
+	if(STATE::IDLE_FULL ==  m_eCurState)
+		m_pCookedFood->Render();
 
 	return S_OK;
 }
@@ -170,7 +164,38 @@ void CCookpot::ClickedEvent()
 		if (STATE::IDLE_EMPTY == m_eCurState)
 			m_eCurState = STATE::IDLE_OPEN;
 		else if (STATE::IDLE_FULL == m_eCurState)
+		{
+			CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+			CSlot* pSlot = pInventory->Find_Item(m_iFoodID);
+
+			if (nullptr == pSlot)
+				return;
+			else
+			{
+				CUIEffect::UIEFFECT_DESC Desc = {};
+				ITEM_DESC Item_Desc = {};
+				Item_Desc.eItemType = ITEM_TYPE::FOOD;
+				Item_Desc.eSlot = SLOT::NORMAL;
+				Item_Desc.fDurability = 100.f;
+				Item_Desc.iNumItem = 1;
+				Item_Desc.iItemID = m_iFoodID;
+
+				Desc.iItemID = m_iFoodID;
+				Desc.pSlot = pSlot;
+				Desc.vPositon = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				
+
+				memcpy(&Desc.Item_Desc, &Item_Desc, sizeof(ITEM_DESC));
+				
+
+				m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+					EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
+			}
+
 			m_eCurState = STATE::IDLE_EMPTY;
+			m_iFoodID = 0;
+			m_pCookedFood->Set_Food(m_iFoodID);
+		}
 	}
 }
 
@@ -283,6 +308,7 @@ void CCookpot::Free()
 	__super::Free();
 
 	Safe_Release(m_pCookUI);
+	Safe_Release(m_pCookedFood);
 	Safe_Release(m_pFoodTexture);
 	Safe_Release(m_pFoodTransformCom);
 }
