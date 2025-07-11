@@ -29,7 +29,7 @@ private:
 	_float4x4							m_OrtTHOMat;
 
 	LPDIRECT3DTEXTURE9					BakcBufferTexture = { nullptr };
-
+	LPDIRECT3DSURFACE9					pTextureSurface = nullptr;
 private:
 	void Render_Priority();
 

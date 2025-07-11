@@ -9,6 +9,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CEffectPoolManager;
+
 class CMainApp final : public CBase
 {	
 private:
@@ -35,7 +37,7 @@ private:
 	HRESULT Ready_Prototypes();
 	HRESULT	ReadShader();
 
-	
+	CEffectPoolManager*					m_pEffectPool = { nullptr };
 	
 
 

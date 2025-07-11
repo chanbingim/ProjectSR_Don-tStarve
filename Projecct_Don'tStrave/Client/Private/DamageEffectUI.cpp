@@ -44,10 +44,10 @@ void CDamageEffectUI::Update(_float fTimeDelta)
         }
         else
         {
-            m_Alpha += 0.01f;
-            if (1.f <= m_Alpha)
+            m_Alpha += 0.05f;
+            if (0.4f <= m_Alpha)
             {
-                m_Alpha = 1.f;
+                m_Alpha = 0.4f;
                 m_bInverse = true;
             }
         }
@@ -58,7 +58,7 @@ void CDamageEffectUI::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
     UpdatePosition();
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+    m_pGameInstance->Add_RenderGroup(RENDER::BLENDUI, this);
 }
 
 HRESULT CDamageEffectUI::Render()

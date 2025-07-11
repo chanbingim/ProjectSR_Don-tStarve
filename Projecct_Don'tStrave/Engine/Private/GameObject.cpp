@@ -136,7 +136,7 @@ HRESULT CGameObject::Setting_Shader(const WCHAR* ShaderName)
 void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex)
 {
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
-	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
+	//m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 	
 	_matrix testMat = _InvWorldMat;
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);

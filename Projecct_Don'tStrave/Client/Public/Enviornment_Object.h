@@ -7,6 +7,9 @@ class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
+
+class CSpriteEffect;
+
 class CEnviornment_Object : public CAinimationObject
 {
 public:
@@ -52,6 +55,7 @@ protected :
 
 	//클라이언트에서 정의되어있는 아이템 출력 버퍼
 	CCollision_Component*	m_pCollision_Com = { nullptr };
+	CSpriteEffect*			m_pSpirteEffect = { nullptr };
 
 public :
 	static		CEnviornment_Object*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

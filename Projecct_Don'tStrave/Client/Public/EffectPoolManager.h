@@ -20,17 +20,22 @@ private :
 public :
 	HRESULT		Initailize();
 
-	HRESULT		Add_ActiveEffect(_uint ID, CAinimationObject* pOutAnimObject);
-	HRESULT		Release_ActiveEffect(_uint ID, CAinimationObject* pAnimObject);
+	HRESULT		Add_ActiveEffect(_uint ID, CAinimationObject** pOutAnimObject, void* pArg = nullptr);
+
+
+	void		UpdateActvieEffect(_float fTimeDeleta);
 
 private :
-	unordered_map<_uint, list<CAinimationObject*>>	m_EffectActiveMap = {};
-	unordered_map<_uint, list<CAinimationObject*>>	m_EffectUnActiveMap = {};
+	unordered_map<_uint, list<CAinimationObject*>*>	m_EffectActiveMap = {};
+	unordered_map<_uint, list<CAinimationObject*>*>	m_EffectUnActiveMap = {};
+
 	CGameInstance*									m_pGameInstance = { nullptr };
 
 private :
+	HRESULT				Release_ActiveEffect(_uint ID, CAinimationObject* pAnimObject);
 	HRESULT				Emplace_EffectPool();
 
+	void				ADD_Effect(_uint ID, _wstring PrototypeTag);
 
 public :
 	virtual void		Free() override;

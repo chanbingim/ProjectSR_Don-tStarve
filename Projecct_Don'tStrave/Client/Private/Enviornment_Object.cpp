@@ -6,6 +6,9 @@
 
 #include "Camera.h"
 
+#include "EffectPoolManager.h"
+#include "SpriteEffect.h"
+
 CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CAinimationObject(pGraphic_Device)
 {
@@ -59,7 +62,6 @@ void CEnviornment_Object::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 
-    
 }
 
 void CEnviornment_Object::Update(_float fTimeDelta)

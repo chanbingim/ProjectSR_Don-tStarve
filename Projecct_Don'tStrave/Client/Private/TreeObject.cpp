@@ -8,6 +8,9 @@
 #include "KeyManager.h"
 #include "XML_Manager.h"
 
+#include "SpriteEffect.h"
+#include "EffectPoolManager.h"
+
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
@@ -87,7 +90,7 @@ void CTreeObject::Reset_State()
 
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
             Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * 0.2f;
-            //CreateDropItem(Pos);
+            CreateDropItem(Pos);
         }
     }
 }
@@ -95,7 +98,7 @@ void CTreeObject::Reset_State()
 HRESULT CTreeObject::Render()
 {
     CAinimationObject::Render();
-     XMLRenderAnimation(m_FrontName + m_TailName);
+    XMLRenderAnimation(m_FrontName + m_TailName);
 
     return S_OK;
 }
@@ -127,6 +130,10 @@ void CTreeObject::Damage(void* pArg)
             m_EnviormentInfo.iHit++;
             m_fAniTime = 0;
             m_EnviromentState = Enviornment_STATE::DAMAGED;
+
+            auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(2, (CAinimationObject**) & m_pSpirteEffect);
+            m_pSpirteEffect->ReadyEffect(m_FrontName.c_str());
+            m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
         }
         break;
     }

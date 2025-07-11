@@ -4,9 +4,6 @@
     <Filter Include="100. ETC">
       <UniqueIdentifier>{090f7798-85ab-4628-957b-ba04c2f15bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client">
-      <UniqueIdentifier>{5d9bffba-4767-43a2-9d2a-666ba4951494}</UniqueIdentifier>
-    </Filter>
     <Filter Include="100. ETC\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -370,6 +367,9 @@
     </Filter>
     <Filter Include="07. Particle\SpriteEffect\EffectPool">
       <UniqueIdentifier>{97262783-c70c-46bc-9dd8-f28921ef52f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{5d9bffba-4767-43a2-9d2a-666ba4951494}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

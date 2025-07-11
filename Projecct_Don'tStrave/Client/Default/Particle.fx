@@ -30,10 +30,7 @@ float4 PS(VS_OUTPUT In) : COLOR
     float4 src = tex2D(Sampler0, In.Tex);
     float4 dst = tex2D(Sampler1, In.Tex);
     
-    return src;
-    //return src * (1 - dst.a * Alpha) + dst * dst.a * Alpha;
-   // float4(src.rgb * 1 - (dst.a * Alpha), src.a);
-    //+dst.rgb * Alpha, 1.f);
+    return lerp(src, dst, Alpha);
 }
 
 technique main

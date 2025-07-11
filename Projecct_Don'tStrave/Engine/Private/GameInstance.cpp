@@ -105,7 +105,6 @@ HRESULT CGameInstance::Draw()
 
 	m_pLevel_Manager->Render();
 
-	SaveRenderTarget();
 	return S_OK;
 }
 

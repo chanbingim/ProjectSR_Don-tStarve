@@ -8,6 +8,7 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
+#include "EffectPoolManager.h"
 #include "Terrian_Manager.h"
 #include "LodingInterface.h"
 #include "XML_Manager.h"
@@ -55,14 +56,15 @@ HRESULT Client::CMainApp::Initialize()
 
 	CTerrian_Manager::GetInstance()->Initialize({ g_iTileCnt, g_iTileCnt }, { 256, 256 });
 	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
-
+	
+	m_pEffectPool = CEffectPoolManager::GetInstance();
 	return S_OK;
 }
 
 void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
-
+	m_pEffectPool->UpdateActvieEffect(fTimeDelta);
 	
 
 
@@ -218,6 +220,8 @@ HRESULT CMainApp::Ready_Prototypes()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
 #pragma endregion
+
+	
 }
 
 HRESULT CMainApp::ReadShader()
@@ -267,6 +271,8 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 	CTerrian_Manager::DestroyInstance();
 	CXML_Manager::DestroyInstance();
+
+	Safe_Release(m_pEffectPool);
 	m_pGameInstance->Release_Engine();
 
 	Safe_Release(m_pGameInstance);	

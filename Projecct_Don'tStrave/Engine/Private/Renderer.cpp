@@ -20,9 +20,16 @@ HRESULT CRenderer::Initialize()
 	_D3DVIEWPORT9 ScreenSize = {};
 	m_pGraphic_Device->GetViewport(&ScreenSize);
 
+	IDirect3DSurface9* pSurface = nullptr;
+	m_pGraphic_Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
+
+	D3DSURFACE_DESC desc;
+	pSurface->GetDesc(&desc);
+	D3DFORMAT format = desc.Format;
+
 	//CreateTexture 함수로 텍스처를 생성한다.
 	m_pGraphic_Device->CreateTexture(ScreenSize.Width, ScreenSize.Height, 1, D3DUSAGE_RENDERTARGET,
-		D3DFMT_A16B16G16R16, D3DPOOL_DEFAULT, &BakcBufferTexture, nullptr);
+		format, D3DPOOL_DEFAULT, &BakcBufferTexture, nullptr);
 
     return S_OK;
 }
@@ -60,7 +67,8 @@ void CRenderer::Render()
 #pragma endregion
 
 	Render_UI();
-	//SaveRenderTarget();
+
+	
 }
 
 void CRenderer::ResetRenderer()
@@ -171,8 +179,9 @@ void CRenderer::Render_UI()
 
 	Render_Projection_UI();
 	Render_Ortho_UI();
-
+	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	SaveRenderTarget();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	Render_Alpha_UI();
@@ -222,14 +231,17 @@ void CRenderer::Render_Alpha_UI()
 void CRenderer::SaveRenderTarget()
 {
 	IDirect3DSurface9* pSurface = nullptr;
+
 	//백버퍼에서 현재까지 그려진 정보를 가져옴
 	m_pGraphic_Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
 
 	// Suface를 통해서 현재 레벨의 표면을 가져오고 그걸 복사한다.
 	// bit blt 생각하면 된다. 그러면 텍스쳐를 얻어 RenderTarget의 형태가 가능하다.
-	LPDIRECT3DSURFACE9  pTextureSurface = nullptr;
 	BakcBufferTexture->GetSurfaceLevel(0, &pTextureSurface);
-	m_pGraphic_Device->StretchRect(pSurface, nullptr, pTextureSurface, nullptr, D3DTEXF_LINEAR);
+	HRESULT hr = m_pGraphic_Device->StretchRect(pSurface, nullptr, pTextureSurface, nullptr, D3DTEXF_LINEAR);
+
+	if (FAILED(hr))
+		MessageBoxA(0, "StretchRect Failed", "", 0);
 
 	m_pGraphic_Device->SetTexture(7, BakcBufferTexture);
 
@@ -263,4 +275,5 @@ void CRenderer::Free()
 
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(BakcBufferTexture);
+
 }

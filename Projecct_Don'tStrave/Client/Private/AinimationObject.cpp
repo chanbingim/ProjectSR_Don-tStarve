@@ -49,6 +49,7 @@ void CAinimationObject::Priority_Update(_float fTimeDelta)
 void CAinimationObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+   
 }
 
 void CAinimationObject::Late_Update(_float fTimeDelta)

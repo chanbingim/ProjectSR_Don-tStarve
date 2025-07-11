@@ -5,6 +5,9 @@
 #include "DropItemComponent.h"
 #include "../../Engine/Public/CUtility.h"
 
+#include "EffectPoolManager.h"
+#include "SpriteEffect.h"
+
 CRockObject::CRockObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CDropItemEnviornment(pGraphic_Device)
 {
@@ -94,7 +97,7 @@ void CRockObject::Damage(void* pArg)
 		_float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
 		Pos.y += m_pTransformCom->GetScale().y * 1.f;
-		//CreateDropItem(Pos);
+		CreateDropItem(Pos);
 		m_isDead = true;
 	}
 		break;
@@ -107,6 +110,12 @@ void CRockObject::Damage(void* pArg)
 		Enviornment_STATE::DAMAGED;
 		break;
 	}
+
+	CEffectPoolManager::GetInstance()->Add_ActiveEffect(1, (CAinimationObject**)&m_pSpirteEffect);
+	m_pSpirteEffect->ReadyEffect(L"anim");
+
+	m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
+
 }
 
 HRESULT CRockObject::ADD_Components()

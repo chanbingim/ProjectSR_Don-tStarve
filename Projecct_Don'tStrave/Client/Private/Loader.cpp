@@ -44,6 +44,8 @@
 #include "DropItemComponent.h"
 #pragma endregion
 
+#include "SpriteEffect.h"
+#include "EffectPoolManager.h"
 #include "MiniMap.h"
 #include "MiniMap_Icon.h"
 
@@ -710,6 +712,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow_Particle"),
 		CSnowParticle::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* For.Prototype_GameObject_Stone_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Rock"),
+		CSpriteEffect::Create(m_pGraphic_Device, "mining_fx.scml", TEXT("Effect_Rock")))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Leaf_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Leaf"),
+		CSpriteEffect::Create(m_pGraphic_Device, "tree_leaf_fx_green.scml", TEXT("Leaf")))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region ITEM
@@ -766,6 +779,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region FONT
 
 #pragma endregion
+	m_strMessage = TEXT("이펙트를(을) 생성 중 입니다.");
+#pragma region Effect
+	CEffectPoolManager::GetInstance()->Initailize();
+#pragma endregion
+
+	
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
