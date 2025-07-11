@@ -1,9 +1,12 @@
 #include "SlotFrame.h"
 
 #include "GameInstance.h"
+#include "Item_Manager.h"
+
 #include "Slot.h"
 #include "Inventory.h"
 #include "Mouse.h"
+#include "Player.h"
 
 CSlotFrame::CSlotFrame(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -82,17 +85,6 @@ void CSlotFrame::Update(_float fTimeDelta)
         m_pSlot->Update(fTimeDelta);
     }
     m_pSlot->Update_Count();
-
-    if (m_eSlotType == SLOT::HAND)
-    {
-        _uint iItemID = m_pSlot->Get_ItemID();
-
-        // ÇÃ·¹ÀÌ¾î¿¡°Ô ÀåÂø ¾Ë·ÁÁÖ´Â ·ÎÁ÷ Ãß°¡
-
-        // 1 ¹ø µµ³¢
-        
-        // 8 ¹ø Ã¢
-    }
     
 }
 
@@ -127,6 +119,67 @@ void CSlotFrame::Update_IceBox(_float fTimeDelta)
     m_pSlot->Update_Count();
 }
 
+void CSlotFrame::Swap_HandObject(_uint iItemID)
+{
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+    PLAYER_DATA* pData = pPlayer->Get_Player();
+    switch (iItemID)
+    {
+    case 0:
+        pData->tItem = SWAPOBJECT::NONE;
+        pData->iAtk = 1;
+        break;
+
+    case 1:  // 1 ¹ø µµ³¢
+        pData->tItem = SWAPOBJECT::AXE;
+        pData->iAtk = 27;
+        break;
+
+    case 2:  // °î±ªÀÌ 
+        pData->tItem = SWAPOBJECT::PICKAXE;
+        pData->iAtk = 27;
+        break;
+
+    case 3:  //»ð
+        pData->tItem = SWAPOBJECT::SHOVEL;
+        pData->iAtk = 10;
+        break;
+
+    case 4:  // È¶ºÒ
+        pData->tItem = SWAPOBJECT::TORCH;
+        pData->iAtk = 17;
+        break;
+
+    case 8:  // Ã¢
+        pData->tItem = SWAPOBJECT::SPEAR;
+        pData->iAtk = 34;
+        break;
+
+    case 19:  // ±Ý µµ³¢
+        pData->tItem = SWAPOBJECT::GOLDAXE;
+        pData->iAtk = 27;
+        break;
+
+    case 20:  // ±Ý °î±ªÀÌ
+        pData->tItem = SWAPOBJECT::GOLDPICKAXE;
+        pData->iAtk = 27;
+        break;
+
+    case 21:  // ±Ý »ð
+        pData->tItem = SWAPOBJECT::GOLDSHOVEL;
+        pData->iAtk = 10;
+        break;
+
+    case 22:  // ³úÀüÃ¢
+        //pPlayer->Get_Player()->tItem = SWAPOBJECT::;
+        break;
+
+    default:
+        break;
+    }
+    
+}
+
 void CSlotFrame::HoverEevent()
 {
     RECT rc = { (LONG)(m_fX - m_fSizeX * 0.5f), (LONG)(m_fY - m_fSizeY * 0.5f), (LONG)(m_fX + m_fSizeX * 0.5f), (LONG)(m_fY + m_fSizeY * 0.5f) };
@@ -155,14 +208,14 @@ void CSlotFrame::ClickedEevent()
     {
         CSlot* pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot());
 
-        if(m_eSlotType == SLOT::NORMAL)
+        if(m_eSlotType == SLOT::NORMAL) // ÀÎ¹Ý ÀÎº¥Åä¸®
         {
             if (m_pSlot->Get_ItemID() == pSlot->Get_ItemID())
                 m_pSlot->Merge_Item(pSlot);
             else
                 m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
         }
-        else if (m_eSlotType == SLOT::POT)
+        else if (m_eSlotType == SLOT::POT) // ¿ä¸®¼Ü
         {
             ITEM_DESC Desc = pSlot->Get_Info();
 
@@ -196,7 +249,16 @@ void CSlotFrame::ClickedEevent()
                 return;
             }
                 
-        }
+        } 
+        else if (m_eSlotType == SLOT::HAND)
+        {
+            _uint iItemID = pSlot->Get_ItemID();
+
+            // ¹«±â º¯°æ
+            Swap_HandObject(iItemID);
+
+            m_pSlot = dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot(m_pSlot));
+        } 
         else
         {
             if (m_eSlotType == pSlot->Get_Info().eSlot)
@@ -208,18 +270,38 @@ void CSlotFrame::ClickedEevent()
 
     if (m_pGameInstance->KeyDown(VK_RBUTTON))
     {
-        CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
-        
-        CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
-        
-        if (nullptr == pSlot)
-            return;
+        if(SLOT::HAND == m_eSlotType)
+        {
+            CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
 
-        ITEM_DESC Desc = pSlot->Get_Info();
+            CSlot* pSlot = pInventory->Find_Slot(m_pSlot->Get_Info().eSlot);
 
-        pSlot->Set_Info(m_pSlot->Get_Info());
+            if (nullptr == pSlot)
+                return;
 
-        m_pSlot->Set_Info(Desc);
+            Swap_HandObject(m_pSlot->Get_ItemID());
+
+            ITEM_DESC Desc = pSlot->Get_Info();
+
+            pSlot->Set_Info(m_pSlot->Get_Info());
+
+            m_pSlot->Set_Info(Desc);
+        }
+        else if (SLOT::NORMAL == m_eSlotType)
+        {
+            ITEM_DESC Desc = m_pSlot->Get_Info();
+            
+            if (ITEM_TYPE::FOOD != Desc.eItemType)
+                return;
+
+            ITEM_DATA Item_Data = CItem_Manager::GetInstance()->Get_ItemData(Desc.iItemID);
+
+            CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+
+            pPlayer->Eat(&Item_Data);
+
+            m_pSlot->Use_One();
+        }
     }
 }
 

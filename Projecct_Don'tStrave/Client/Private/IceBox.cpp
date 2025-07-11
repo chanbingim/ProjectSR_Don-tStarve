@@ -106,10 +106,6 @@ void CIceBox::Update(_float fTimeDelta)
 
 	Change_State();
 
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
-
-
-
 }
 
 void CIceBox::Late_Update(_float fTimeDelta)

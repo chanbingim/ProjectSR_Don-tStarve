@@ -109,10 +109,6 @@ void CChest::Update(_float fTimeDelta)
 	
 	Change_State();
 
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
-
-
-
 }
 
 void CChest::Late_Update(_float fTimeDelta)

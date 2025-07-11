@@ -48,9 +48,6 @@ void CCookedFood::Update(_float fTimeDelta)
 
 	HoverEvent();
 
-	if (!m_bIsplayAnim)
-		SetUp_OnTerrain(m_pTransformCom, 0.f);
-
 	Update_Item(fTimeDelta);
 }
 
