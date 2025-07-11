@@ -4,8 +4,9 @@
 #include "Enviornment_Object.h"
 #include "XML_Manager.h"
 #include "DamageEffectUI.h"
-
+#include "Fire.h"
 #include "Item.h"
+#include "MonsterData_Manager.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -198,13 +199,18 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pChar = m_pPlayer;
 
+<<<<<<< HEAD
 	m_pTransformCom->SetPosition( m_pPlayer->fPos );
+=======
+	m_pTransformCom->SetPosition(m_pPlayer->fPos);
+>>>>>>> origin/0710_kjh
 
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_bControll = true;
 	m_bCol = false;
 	m_tDamage.Attacker = this;
+	m_fFightTime = 30.f;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -216,12 +222,49 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_fHungTime += fTimeDelta * 2;
+	m_fFightTime += fTimeDelta;
 	if (1 <= m_fHungTime) {
-		m_pPlayer->iHunger--;
+		m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
+		if (30 < *m_pTime) {
+			m_pPlayer->iMental = max(m_pPlayer->iMental - 2, 0);
+		}
+		if (m_fFightTime < 15) {
+			switch (m_pPlayer->iId)
+			{
+			case 200:
+				m_pPlayer->iMental = max(m_pPlayer->iMental - 1, 0);
+				break;
+			case 201:
+				m_pPlayer->iMental = min(m_pPlayer->iMental + 1, m_pPlayer->iMaxMental);
+				break;
+			}
+		}
 		if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
 			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
 		}
 		m_fHungTime = 0;
+	}
+	if (m_pPlayer->iMaxMental / 2<= m_pPlayer->iMental) {
+		m_bCrawling = true;
+	}else if (m_bCrawling && m_pPlayer->iMaxMental / 2 > m_pPlayer->iMental) {
+			m_bCrawling = false;
+			MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
+			size_t max = (rand() % 3) + 1;
+			data.fPos = m_pPlayer->fPos;
+			data.fPos.x += (rand() % 5) - (rand() % 5);
+			data.fPos.z += (rand() % 5) - (rand() % 5);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+		}
+	if (m_pPlayer->iMaxMental / 3 <= m_pPlayer->iMental) {
+		m_bTerrorbeak = true;
+	}else if (m_bTerrorbeak && m_pPlayer->iMaxMental / 3 > m_pPlayer->iMental) {
+		m_bTerrorbeak = false;
+		MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
+		size_t max = (rand() % 3) + 1;
+		data.fPos = m_pPlayer->fPos;
+		data.fPos.x += (rand() % 5) - (rand() % 5);
+		data.fPos.z += (rand() % 5) - (rand() % 5);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 	}
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
@@ -590,7 +633,9 @@ void CPlayer::Update(_float fTimeDelta)
 					Dead();
 					return;
 				}
+				SetAnimation(m_tDir, MOTION::IDLE);
 			}
+			break;
 		case MOTION::WAKEUP:
 			if (m_iLength <= m_fAniTime) {
 				m_bAttack = false;
@@ -673,16 +718,16 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	if (m_pGameInstance->KeyPressed('V')) {
 		SetAnimation(m_tDir, MOTION::EAT);
-		m_iHealthChange = 10;
-		m_iSanityChange = 10;
-		m_iHungerChange = 10;
+		m_iHealthChange = 1000;
+		m_iSanityChange = 1000;
+		m_iHungerChange = 1000;
 		m_bControll = false;
 	}
 	if (m_pGameInstance->KeyPressed('B')) {
 		SetAnimation(m_tDir, MOTION::FASTEAT);
 		m_iHealthChange = -10;
-		m_iSanityChange = -10;
-		m_iHungerChange = 30;
+		m_iSanityChange = -60;
+		m_iHungerChange = 100;
 		m_bControll = false;
 	}
 
@@ -868,7 +913,7 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"run_pst";
 		break;
 	case MOTION::DIAL:
-		m_sAnim = L"dial";
+		m_sAnim = L"dial_loop";
 		break;
 	case MOTION::IDLE_TO_BUILD:
 		m_sAnim = L"build_pre";

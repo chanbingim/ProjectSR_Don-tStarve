@@ -41,6 +41,7 @@ protected:
 public:
 	virtual HRESULT		Initialize_Prototype() override;
 	virtual HRESULT		Initialize(void* pArg) override;
+	virtual HRESULT		Initialize_Late() override;
 	virtual void		Priority_Update(_float fTimeDelta) override;
 	virtual void		Update(_float fTimeDelta) override;
 	virtual void		Late_Update(_float fTimeDelta) override;
@@ -56,6 +57,8 @@ public:
 protected:
 	MOVE_DIR			m_tMoveDIr = {};
 	DamageBaseDesc		m_tDamage = {};
+	_uint* m_pDate = {};
+	_float* m_pTime = {};
 
 	_bool				m_bAttack;
 	wstring				m_sAnim;

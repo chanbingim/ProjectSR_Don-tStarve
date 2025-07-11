@@ -53,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 10.f) {
+	if (m_fTimeAcc >= 60.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
