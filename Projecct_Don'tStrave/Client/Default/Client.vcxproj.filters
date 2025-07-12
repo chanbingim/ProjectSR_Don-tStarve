@@ -377,6 +377,9 @@
     <Filter Include="05. Item\Equipment">
       <UniqueIdentifier>{dffae8c4-fdb7-41b1-b716-dcdc22ef1b9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Item\Toch">
+      <UniqueIdentifier>{1968ea9c-3f23-4ea7-a253-d6fd7ae04caf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -736,6 +739,12 @@
     <ClInclude Include="..\Public\SkillIndicator.h">
       <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CharacterManager.h">
+      <Filter>05. Item\Toch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TorchFire.h">
+      <Filter>05. Item\Toch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1089,6 +1098,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\SkillIndicator.cpp">
       <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharacterManager.cpp">
+      <Filter>05. Item\Toch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TorchFire.cpp">
+      <Filter>05. Item\Toch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\IceBox.cpp">
+      <Filter>05. Item\Toch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
