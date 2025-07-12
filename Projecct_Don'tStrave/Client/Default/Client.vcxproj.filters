@@ -1105,9 +1105,6 @@
     <ClCompile Include="..\Private\TorchFire.cpp">
       <Filter>05. Item\Toch</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\IceBox.cpp">
-      <Filter>05. Item\Toch</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">

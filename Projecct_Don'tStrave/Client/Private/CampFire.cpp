@@ -46,7 +46,7 @@ HRESULT CCampFire::Initialize(void* pArg)
 	m_ePreState = STATE::PLACE;
 	m_eCurState = STATE::PLACE;
 
-	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"), pArg));
+	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"), pArg));
 
 
 	return S_OK;

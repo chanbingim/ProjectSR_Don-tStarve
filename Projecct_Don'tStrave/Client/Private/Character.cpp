@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 #include "Clock.h"
 #include "House.h"
+#include <Enviornment_Object.h>
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -399,7 +400,7 @@ void CCharacter::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
             actor->Get_Char()->fPos -= *D3DXVec3Normalize(&transform, &transform) * ((0.3f - distance) / 2);
             actor->GetTransfrom()->SetPosition(actor->Get_Char()->fPos);
         }
-        else {
+        else if(!dynamic_cast<CEnviornment_Object*>(HitActor) || CEnviornment_Object::Enviornment_TYPE::GRASS != dynamic_cast<CEnviornment_Object*>(HitActor)->GetEnviornMentType()) {
             m_pChar->fPos += *D3DXVec3Normalize(&transform, &transform) * (0.3f - distance);
             m_pTransformCom->SetPosition(m_pChar->fPos);
         }

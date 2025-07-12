@@ -416,7 +416,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 				_float3 transform = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 				_float distance = D3DXVec3Length(&transform);
-				if (0.1f > distance) {
+				if (0.4f > distance) {
 					if (dynamic_cast<CItem*>(m_pPlayer->pWorkObject)) {
 						SetAnimation(m_tDir, MOTION::PICKUP);
 						dynamic_cast<CItem*>(m_pPlayer->pWorkObject)->EnterInvenTory();
