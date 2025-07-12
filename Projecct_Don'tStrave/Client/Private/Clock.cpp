@@ -57,34 +57,45 @@ void CClock::Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_fGameTime += fTimeDelta ;
+    m_fGameTime += fTimeDelta / 3.f;
 
     if (30.f < m_fGameTime && 50.f > m_fGameTime)
     {
         m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
+<<<<<<< HEAD
         m_ClockState = CLOCK_STATE::LUNCH;
 
        /* m_pLight_Com->SetAmbientColor(D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f));
         m_pLight_Com->Render_Light();*/
+=======
+
+>>>>>>> 07_11_bjh
     }
     else if (50.f <= m_fGameTime && 60.f >= m_fGameTime)
     {
         m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
+<<<<<<< HEAD
         m_ClockState = CLOCK_STATE::NIGHT;
 
         //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
         //m_pLight_Com->Render_Light();
+=======
+>>>>>>> 07_11_bjh
     }
     else
     {
         m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+<<<<<<< HEAD
        m_pGraphic_Device->SetLight(0, &m_Light);
        m_ClockState = CLOCK_STATE::MORNING;
 
         //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
         //m_pLight_Com->Render_Light();
+=======
+        m_pGraphic_Device->SetLight(0, &m_Light);
+>>>>>>> 07_11_bjh
     }
 
    if (60.f <= m_fGameTime)
@@ -155,23 +166,7 @@ HRESULT CClock::ADD_Components()
         TEXT("Com_Transform_Clock"),
         reinterpret_cast<CComponent**>(&m_pTransform_Com_Clock), &Transform_Desc)))
         return E_FAIL;
-    
-    CLightComponent::LIGHT_DESC Light_Desc= {};
-
-    m_Light.Type = D3DLIGHT_DIRECTIONAL;
-
-    m_Light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-    m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-    m_Light.Direction = _float3(0.f, -1.f, 0.f);
-
-    Light_Desc.LightData = m_Light;
-    Light_Desc.pOwner = this;
-
-  /*  if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
-        TEXT("Com_light"),
-        reinterpret_cast<CComponent**>(&m_pLight_Com), &Light_Desc)))
-        return E_FAIL;*/
-
+   
     return S_OK;
 }
 

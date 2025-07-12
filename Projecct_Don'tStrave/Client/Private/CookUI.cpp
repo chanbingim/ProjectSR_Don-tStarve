@@ -319,10 +319,9 @@ _uint CCookUI::Check_Recipe(_uint Items[])
 
     if (0 < iFoodCnt[0] && 3 == iFoodCnt[2])
         iFoodID = 50; // 미트볼
-    else if (1 < iFoodCnt[1])
-        iFoodID = 52; // 괴물 음식
-    else
-        iFoodID = 51; // 부패물
+    else 
+        iFoodID = 31; // 괴물 음식
+
 
 
     return iFoodID;

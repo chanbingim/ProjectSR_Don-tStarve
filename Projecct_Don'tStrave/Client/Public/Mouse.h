@@ -25,18 +25,24 @@ public:
 	void Update_HoverSlot(_uint itemID);
 	void Update_Hover(_uint itemID);
 	void Update_Hover(const wstring strMessage,const _uint iMouseState);
+	void Update_HoverEnv(_uint iObjectID);
 
 private:
-	_uint			m_iMouseState = {};
-	_bool			m_bPutDown = {};
-	_float			m_fTimeAcc = {};
-	ITEM_TYPE		m_eType = {};
-	class CSlot*	m_pSlot = { nullptr };
-	wstring			m_strInfoMessage = {};
-	wstring			m_strInteraction = {};
-	CTransform*		m_pPlayerTransform_Com = {};
+	_uint					m_iMouseState = {};
+	_bool					m_bPutDown = {};
+	_float					m_fTimeAcc = {};
+	ITEM_TYPE				m_eType = {};
 
-	CTexture*		m_pBlend_Texture_Com = { nullptr };
+	wstring					m_strInfoMessage = {};
+	wstring					m_strInteraction = {};
+
+	class CSlot*			m_pSlot = { nullptr };
+	class CGrid*			m_pGrid = { nullptr };
+	class CSkillIndicator*	m_pSkillIndicator = { nullptr };
+
+	CTransform*				m_pPlayerTransform_Com = {};
+	CTexture*				m_pBlend_Texture_Com = { nullptr };
+	PLAYER_DATA*			m_pPlayer_Data = { nullptr };
 
 private:
 	HRESULT ADD_Components();

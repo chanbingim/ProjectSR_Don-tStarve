@@ -8,6 +8,9 @@
 
 #include "Slot.h"
 #include "Item.h"
+#include "Player.h"
+#include "Grid.h"
+#include "SkillIndicator.h"
 
 CMouse::CMouse(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -52,7 +55,13 @@ HRESULT CMouse::Initialize(void* pArg)
 
     m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
+    m_pPlayer_Data = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player();
+
     Safe_AddRef(m_pPlayerTransform_Com);
+
+    m_pGrid = dynamic_cast<CGrid*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Grid")));
+
+    m_pSkillIndicator = dynamic_cast<CSkillIndicator*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillIndicator")));
 
     return S_OK;
 }
@@ -82,15 +91,16 @@ void CMouse::Update(_float fTimeDelta)
  
     //m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     __super::UpdatePosition();
-    
 
+    m_pSkillIndicator->Update(fTimeDelta);
+    
 #pragma region TestCode
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
     {
-        Desc.iItemID = 8;
-        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
-        Desc.eSlot = SLOT::HAND;
+        Desc.iItemID = 35;
+        Desc.eItemType = ITEM_TYPE::MERTARIAL;
+        Desc.eSlot = SLOT::NORMAL;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -188,17 +198,27 @@ void CMouse::Update(_float fTimeDelta)
     }
 #pragma endregion
     
+    ITEM_DESC Slot_Desc = m_pSlot->Get_Info();
+
+    m_eType = Slot_Desc.eItemType;
+
+    if (ITEM_TYPE::STRUCTURE == m_eType)
+    {
+        m_pGrid->Update(fTimeDelta);
+    }
+    else if (ITEM_TYPE::FOOD == m_eType)
+    {
+        m_pSlot->Update(fTimeDelta);
+    }
+
+        
 }
 
 void CMouse::Late_Update(_float fTimeDelta)
 {
-    if (SLOT::NORMAL == m_pSlot->Get_Info().eSlot)
-        m_pSlot->Update(fTimeDelta);
-
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_eType = m_pSlot->Get_Info().eItemType;
 }
 
 HRESULT CMouse::Render()
@@ -242,7 +262,7 @@ HRESULT CMouse::Render()
         m_fY += 40.f;
         m_fX += 50.f;
     }
-
+    m_pSkillIndicator->Render();
     return S_OK;
 }
 void CMouse::ClickedEevent()
@@ -430,6 +450,63 @@ void CMouse::Update_Hover(const wstring strMessage, const _uint iMouseState)
     m_strInteraction = strMessage;
 }
 
+void CMouse::Update_HoverEnv(_uint iObjectID)
+{
+    SWAPOBJECT SwapObject = m_pPlayer_Data->tItem;
+
+    if (2 == iObjectID || 7 == iObjectID || 8 == iObjectID)
+    {
+        m_strInteraction = L"PICK";
+        m_iMouseState = 1;
+        return;
+    }
+
+    switch (SwapObject)
+    {
+    case Client::SWAPOBJECT::AXE:
+    case Client::SWAPOBJECT::GOLDAXE:
+        if (4 == iObjectID || 9 == iObjectID)
+        {
+            m_strInteraction = L"CHOP";
+            m_iMouseState = 1;
+        }
+
+        break;
+    case Client::SWAPOBJECT::PICKAXE:
+    case Client::SWAPOBJECT::GOLDPICKAXE:
+        if (3 == iObjectID || 5 == iObjectID)
+        {
+            m_strInteraction = L"DIG";
+            m_iMouseState = 1;
+        }
+        break;
+    case Client::SWAPOBJECT::SHOVEL:
+    case Client::SWAPOBJECT::GOLDSHOVEL:
+
+        break;
+
+    case Client::SWAPOBJECT::SPEAR:
+        break;
+
+    case Client::SWAPOBJECT::TORCH:
+        if (4 == iObjectID)
+        {
+            m_strInteraction = L"LIGHT";
+            m_iMouseState = 1;
+        }
+        break;
+        break;
+
+    case Client::SWAPOBJECT::NONE:
+        break;
+
+    default:
+        break;
+    }
+   
+
+}
+
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
@@ -513,6 +590,9 @@ void CMouse::Free()
     __super::Free();
 
     Safe_Release(m_pSlot);
+    Safe_Release(m_pGrid);
+    Safe_Release(m_pSkillIndicator);
+
     Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pBlend_Texture_Com);

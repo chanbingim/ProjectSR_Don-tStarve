@@ -34,6 +34,7 @@ private:
 	_float				m_fCookingTime = {};
 
 	class CCookUI*		m_pCookUI = { nullptr };
+	class CCookedFood*  m_pCookedFood = { nullptr };
 	
 	CTexture*			m_pFoodTexture = { nullptr };
 	CTransform*			m_pFoodTransformCom = { nullptr };

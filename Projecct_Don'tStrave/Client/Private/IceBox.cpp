@@ -115,7 +115,6 @@ void CIceBox::Late_Update(_float fTimeDelta)
 
 HRESULT CIceBox::Render()
 {
-	
 	XMLRenderAnimation(m_FrontName + m_TailName);
 
 	return S_OK;

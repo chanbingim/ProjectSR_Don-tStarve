@@ -67,7 +67,7 @@ void CRockObject::Priority_Update(_float fTimeDelta)
 
 void CRockObject::Update(_float fTimeDelta)
 {
-
+	__super::HoverEevent();
 }
 
 void CRockObject::Late_Update(_float fTimeDelta)
