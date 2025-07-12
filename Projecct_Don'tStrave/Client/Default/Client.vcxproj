@@ -152,6 +152,7 @@
     <ClInclude Include="..\public\Camera_Button.h" />
     <ClInclude Include="..\Public\CampFire.h" />
     <ClInclude Include="..\Public\Category_Button.h" />
+    <ClInclude Include="..\public\CharacterManager.h" />
     <ClInclude Include="..\Public\Character_Button.h" />
     <ClInclude Include="..\Public\Character_Info.h" />
     <ClInclude Include="..\Public\CookedFood.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\private\Camera_Button.cpp" />
     <ClCompile Include="..\Private\CampFire.cpp" />
     <ClCompile Include="..\Private\Category_Button.cpp" />
+    <ClCompile Include="..\private\CharacterManager.cpp" />
     <ClCompile Include="..\Private\Character_Button.cpp" />
     <ClCompile Include="..\Private\Character_Info.cpp" />
     <ClCompile Include="..\Private\CookedFood.cpp" />

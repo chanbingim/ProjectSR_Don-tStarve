@@ -145,34 +145,34 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
 
-	/*MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(107);
+	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(107);
 	for (size_t i = 0; i < 5; i++)
 	{
-		data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
+		data.fPos = _float3((_float)(rand() % 10) + 10, 0.f, (_float)(rand() % 20) + 10);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
-	}*/
-	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(103);
+	}
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(103);
 	data.fPos = _float3(10.f, 0.f, 5.f);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
-	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//	return E_FAIL;
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
-	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//	return E_FAIL;
-	/*data = CMonsterData_Manager::GetInstance()->Get_MonsterData(108);
-	data.fPos = _float3(5.f, 0.f, 5.f);
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
+	data.fPos = _float3((_float)(rand() % 10) + 10, 0.f, (_float)(rand() % 20) + 10);
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-		return E_FAIL;*/
+		return E_FAIL;
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
+	data.fPos = _float3((_float)(rand() % 10) + 10, 0.f, (_float)(rand() % 20) + 10);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+		return E_FAIL;
+	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(108);
+	data.fPos = _float3(15.f, 0.f, 15.f);
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+		return E_FAIL;
 	return S_OK;
 }
 

@@ -960,7 +960,13 @@ void CPlayer::Eat(void* pArg)
 			SetAnimation(m_tDir, MOTION::EAT);
 		}
 		else {
-			SetAnimation(m_tDir, MOTION::FASTEAT);
+			if (201 == m_pPlayer->iId) {
+				SetAnimation(m_tDir, MOTION::IDLE);
+				return;
+			}
+			else {
+				SetAnimation(m_tDir, MOTION::FASTEAT);
+			}
 		}
 		m_iHealthChange = food->iHealthChange;
 		m_iSanityChange = food->iSanityChange;

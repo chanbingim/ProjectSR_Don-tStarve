@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AinimationObject.h"
+#include "Item.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -73,6 +74,8 @@ protected:
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};
 	_bool				m_bCol = {};
+	CCharacter*			m_pNearTarget = {};
+	CItem*				m_pNearItem = {};
 	CCollision_Component*		m_pCollision_Com = { nullptr };
 
 public:

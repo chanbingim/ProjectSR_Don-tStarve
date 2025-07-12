@@ -727,6 +727,9 @@
     <ClInclude Include="..\public\TorchFire.h">
       <Filter>김정환</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CharacterManager.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1076,6 +1079,9 @@
       <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TorchFire.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CharacterManager.cpp">
       <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
