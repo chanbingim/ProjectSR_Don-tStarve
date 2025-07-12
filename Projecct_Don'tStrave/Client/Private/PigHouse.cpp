@@ -48,6 +48,8 @@ HRESULT CPigHouse::Initialize(void* pArg)
 
 	m_pLandVIBuffer = Terrian->GetCurVIBuffer();
 	m_pLandTransform = Terrian->GetTransfrom();
+	SetUp_OnTerrain(m_pTransformCom);
+
 
 	return S_OK;
 }

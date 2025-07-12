@@ -70,12 +70,8 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	
-
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;
-
-	
 
 	return S_OK;
 }
@@ -149,34 +145,28 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
 
-	/*MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(107);
-	for (size_t i = 0; i < 5; i++)
+	char		File[MAX_PATH] = {};
+	sprintf_s(File, "%s/TutorialMonster.csv", FilePath);
+
+	//¸Ê µ¥ÀÌÅÍ °¡Á®¿Í¼­ ÆÄ½Ì
+	vector<BASE_DATA_STRUCT> vecBaseData;
+	LoadMapData(File, &vecBaseData);
+
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
+
+	for (size_t i = 0; i < vecBaseData.size(); ++i)
 	{
-		data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
+		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
+		WCHAR TexPath[MAX_PATH] = {};
+
+		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
+		data.fPos = vecBaseData[i].Position;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
-	}*/
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(103);
-	//data.fPos = _float3(10.f, 0.f, 5.f);
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//	return E_FAIL;
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
-	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//	return E_FAIL;
-	//data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
-	//data.fPos = _float3((_float)(rand() % 10), 0.f, (_float)(rand() % 20));
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-	//	return E_FAIL;
-	/*data = CMonsterData_Manager::GetInstance()->Get_MonsterData(108);
-	data.fPos = _float3(5.f, 0.f, 5.f);
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-		return E_FAIL;*/
+	}
+
 	return S_OK;
 }
 
@@ -204,8 +194,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
 		ObjectDesc.TextruePath = TexPath;
 		ObjectDesc.iObjectID = vecBaseData[i].iID;
-		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, TEXT("Prototype_GameObject_TreeguardTree"), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
-		//	return E_FAIL;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 			return E_FAIL;
 	}
@@ -317,9 +305,6 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 		return TEXT("Prototype_GameObject_Birchnut_Tree");
 	case 12:
 		return TEXT("Prototype_GameObject_PigKing");
-	/*case 14:
-		return TEXT("Prototype_GameObject_PigHouse");*/
-
 	}
 
 	return TEXT("Prototype_GameObject_Env_Tree");
