@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Character.h"
+#include "TorchFire.h"
 
 NS_BEGIN(Client)
 
@@ -28,7 +29,10 @@ class CPlayer final : public CCharacter
 		IDLE_TO_SHOVEL,
 		SHOVEL,
 		SHOVEL_TO_IDLE,
+		IDLE_TO_ATTACK,
 		ATTACK,
+		IDLE_TO_SPEAR,
+		SPEAR,
 		PICKUP,
 		GIVE,
 		DAMAGE,
@@ -49,6 +53,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize_Late() override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -60,10 +65,12 @@ public:
 	virtual void Attack() override;
 	virtual void Death() override;
 	void Dead();
+	void ChargeAttack();
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
 	void				Eat(void* pArg);
+	void				LightningAttack(_float3 fAttack,_float fPower);
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
@@ -72,6 +79,7 @@ private:
 	_bool					m_bTerrorbeak = {};
 	_float					m_fHungTime = {};
 	_float					m_fFightTime = {};
+	_float3					m_fLightning = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
 	_int						m_iHungerChange = {};
@@ -83,11 +91,12 @@ private:
 	Entity						m_tWigfridAnimation = {};
 	Entity						m_tItemAnimation = {};
 	Entity						m_tMakeAnimation = {};
+	CTorchFire* m_pTorchFire = {};
 	PLAYER_DATA*				m_pPlayer = {};
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
-	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir) override;
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

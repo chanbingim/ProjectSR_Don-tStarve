@@ -43,7 +43,7 @@ private:
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
-	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir) override;
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CTreeguard* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -8,6 +8,7 @@ class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
 class CCollision_Component;
+class CGameObject;
 NS_END
 
 NS_BEGIN(Client)
@@ -53,7 +54,11 @@ public:
 	virtual void		SetDir();
 
 	void				RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+	
 	CHARACTER_DATA* Get_Char() { return m_pChar; }
+protected:
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 protected:
 	MOVE_DIR			m_tMoveDIr = {};
 	DamageBaseDesc		m_tDamage = {};

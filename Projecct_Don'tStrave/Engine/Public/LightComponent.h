@@ -50,6 +50,7 @@ public:
 
 	// ShaderSettingData
 	void	SetAttenuation(_float fAtn0, _float fAtn1, _float fAtn2);
+	void	SetLight(_bool bLight);
 
 	CGameObject*					GetOwner();
 	FLOAT							GetDistance();

@@ -76,6 +76,16 @@ void CLightComponent::SetAttenuation(_float fAtn0, _float fAtn1, _float fAtn2)
 	m_LightData.Attenuation2 = fAtn2;
 }
 
+void CLightComponent::SetLight(_bool bLight)
+{
+	if (bLight) {
+		CLight_Manager::GetInstance()->ADD_Light((LIGHT_TYPE)m_LightData.Type, this);
+	}
+	else {
+		CLight_Manager::GetInstance()->DeadLight((LIGHT_TYPE)m_LightData.Type, this);
+	}
+}
+
 CGameObject* CLightComponent::GetOwner()
 {
 	return m_pOwner;

@@ -490,6 +490,7 @@ void CSpiderNormal::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CSpiderNormal::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	__super::OverlapHitActor(HitActor, _Dir);
 	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
 		m_pHouse->EnterSpider(this);
 		m_bActive = false;

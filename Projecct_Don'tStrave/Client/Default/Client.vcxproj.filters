@@ -724,6 +724,9 @@
     <ClInclude Include="..\public\EffectPoolManager.h">
       <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TorchFire.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1072,6 +1075,9 @@
     <ClCompile Include="..\private\EffectPoolManager.cpp">
       <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\TorchFire.cpp">
+      <Filter>김정환</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
@@ -1079,6 +1085,9 @@
     </FxCompile>
     <FxCompile Include="Particle.fx">
       <Filter>ShaderManager\fx</Filter>
+    </FxCompile>
+    <FxCompile Include="FireParticle.fx">
+      <Filter>김정환</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

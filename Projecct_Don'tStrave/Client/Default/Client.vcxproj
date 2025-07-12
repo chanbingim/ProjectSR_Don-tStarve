@@ -163,6 +163,7 @@
     <ClInclude Include="..\public\GatheringObject.h" />
     <ClInclude Include="..\Public\Level_Select.h" />
     <ClInclude Include="..\Public\Select_Character.h" />
+    <ClInclude Include="..\public\TorchFire.h" />
     <ClInclude Include="..\public\TreeLeaf.h" />
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Chest.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="..\Private\Level_Select.cpp" />
     <ClCompile Include="..\Private\PlayerData_Manager.cpp" />
     <ClCompile Include="..\Private\Select_Character.cpp" />
+    <ClCompile Include="..\private\TorchFire.cpp" />
     <ClCompile Include="..\private\TreeLeaf.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />
@@ -386,6 +388,9 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">main</EntryPointName>
       <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DisableOptimizations>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="FireParticle.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Particle.fx">
