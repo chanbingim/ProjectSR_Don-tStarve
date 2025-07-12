@@ -128,7 +128,7 @@ void CGatheringObject::Damage(void* pArg)
             
             m_EnviromentState = Enviornment_STATE::BROKEN;
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * 0.2f;
+            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -0.2f;
             CreateDropItem(Pos);
         }
         break;

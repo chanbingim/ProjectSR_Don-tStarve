@@ -153,7 +153,8 @@ void CRockObject::Setting_Data()
 	{
 	case 3:
 	{
-		m_pDropItem_Com->ADD_ItemData(41, 1);
+		m_pDropItem_Com->ADD_ItemData(41, 4);
+		m_pDropItem_Com->ADD_ItemData(36, 2);
 	}
 	break;
 	case 5:

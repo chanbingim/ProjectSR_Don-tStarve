@@ -45,7 +45,7 @@ HRESULT CTreeObject::Initialize(void* pArg)
     m_TailName = rand() % 2 == 1 ? TEXT("normal") : TEXT("short");
 
     m_EnviromentState = Enviornment_STATE::IDLE;
-    m_pDropItem_Com->ADD_ItemData(38, 1);
+    m_pDropItem_Com->ADD_ItemData(38, 5);
     m_pDropItem_Com->SetCreateEffect(0);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
