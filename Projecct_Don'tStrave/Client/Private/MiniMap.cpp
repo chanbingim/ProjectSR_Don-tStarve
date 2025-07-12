@@ -255,11 +255,6 @@ HRESULT CMiniMap::Update_Objects()
 
 		m_Icons.push_back(dynamic_cast<CMiniMap_Icon*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_MiniMap_Icon"), &Icon_Desc)));
 	}
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 07_11_bjh
 	m_pPanel_Transform_Com->SetScale(_float3(m_Panel_Desc.fSizeX * m_fZoom, m_Panel_Desc.fSizeY * m_fZoom, 1.f));
 	m_pPanel_Transform_Com->SetPosition(_float3(0.f, 0.f, 0.f));
 

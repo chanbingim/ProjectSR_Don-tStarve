@@ -161,8 +161,10 @@
     <ClInclude Include="..\Public\FoodEffect.h" />
     <ClInclude Include="..\Public\GamePlay_Button.h" />
     <ClInclude Include="..\public\GatheringObject.h" />
+    <ClInclude Include="..\Public\Grid.h" />
     <ClInclude Include="..\Public\Level_Select.h" />
     <ClInclude Include="..\Public\Select_Character.h" />
+    <ClInclude Include="..\Public\SkillIndicator.h" />
     <ClInclude Include="..\public\TreeLeaf.h" />
     <ClInclude Include="..\Public\Character.h" />
     <ClInclude Include="..\Public\Chest.h" />
@@ -281,10 +283,12 @@
     <ClCompile Include="..\Private\FoodEffect.cpp" />
     <ClCompile Include="..\Private\GamePlay_Button.cpp" />
     <ClCompile Include="..\private\GatheringObject.cpp" />
+    <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\Hunger.cpp" />
     <ClCompile Include="..\Private\Level_Select.cpp" />
     <ClCompile Include="..\Private\PlayerData_Manager.cpp" />
     <ClCompile Include="..\Private\Select_Character.cpp" />
+    <ClCompile Include="..\Private\SkillIndicator.cpp" />
     <ClCompile Include="..\private\TreeLeaf.cpp" />
     <ClCompile Include="..\Private\Character.cpp" />
     <ClCompile Include="..\Private\Chest.cpp" />

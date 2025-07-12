@@ -63,39 +63,19 @@ void CClock::Update(_float fTimeDelta)
     {
         m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
-<<<<<<< HEAD
         m_ClockState = CLOCK_STATE::LUNCH;
-
-       /* m_pLight_Com->SetAmbientColor(D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f));
-        m_pLight_Com->Render_Light();*/
-=======
-
->>>>>>> 07_11_bjh
     }
     else if (50.f <= m_fGameTime && 60.f >= m_fGameTime)
     {
         m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
-<<<<<<< HEAD
         m_ClockState = CLOCK_STATE::NIGHT;
-
-        //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
-        //m_pLight_Com->Render_Light();
-=======
->>>>>>> 07_11_bjh
     }
     else
     {
         m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-<<<<<<< HEAD
        m_pGraphic_Device->SetLight(0, &m_Light);
        m_ClockState = CLOCK_STATE::MORNING;
-
-        //m_pLight_Com->SetAmbientColor(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f));
-        //m_pLight_Com->Render_Light();
-=======
-        m_pGraphic_Device->SetLight(0, &m_Light);
->>>>>>> 07_11_bjh
     }
 
    if (60.f <= m_fGameTime)

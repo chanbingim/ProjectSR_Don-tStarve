@@ -275,17 +275,8 @@
     <Filter Include="04. GmaeUI\Logo">
       <UniqueIdentifier>{2b1671c7-2c21-44cf-8aa9-db99b3e84a14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GmaeUI\Food">
-      <UniqueIdentifier>{f61e9cad-4807-485b-a0df-f3bf1d4fd77f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. GmaeUI\Food\CookPot">
-      <UniqueIdentifier>{fec85b9e-54fe-4ab4-99a9-48be73d326ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GmaeUI\Tech">
       <UniqueIdentifier>{b1546b9b-0c0e-4b1f-a557-7a1cf96338d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. GmaeUI\Equipment">
-      <UniqueIdentifier>{dffae8c4-fdb7-41b1-b716-dcdc22ef1b9a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShaderManager\fx">
       <UniqueIdentifier>{17c7a0d5-28cb-4cca-85ad-754543f6a1eb}</UniqueIdentifier>
@@ -326,9 +317,6 @@
     <Filter Include="03. Character\Monster\Deerclops">
       <UniqueIdentifier>{3de4fc9b-e734-4ead-a34e-1aa24fd45cda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GmaeUI\IceBox">
-      <UniqueIdentifier>{02f3cacc-ab45-40a4-a70b-af2a76c1c4e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GmaeUI\Button\CookButton">
       <UniqueIdentifier>{15e28315-86c2-43c9-964f-f68fbe86647c}</UniqueIdentifier>
     </Filter>
@@ -343,9 +331,6 @@
     </Filter>
     <Filter Include="04. GmaeUI\UIEffect\FoodEffect">
       <UniqueIdentifier>{c78926d1-1e40-4aff-adb5-0d982822fd4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. GmaeUI\Food\RealCook">
-      <UniqueIdentifier>{4266e0e7-ea16-4928-8572-03affbb27c5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. GmaeUI\CharacterSelectUI">
       <UniqueIdentifier>{15493eec-7c54-4c13-8a01-9a62470e3951}</UniqueIdentifier>
@@ -370,6 +355,27 @@
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{5d9bffba-4767-43a2-9d2a-666ba4951494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Grid">
+      <UniqueIdentifier>{0c2adaa6-f543-4d26-a19c-77cede9e7532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Grid\Skillndicator">
+      <UniqueIdentifier>{3ecfb22a-74d1-46f2-9e5b-56e5730b77f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\IceBox">
+      <UniqueIdentifier>{02f3cacc-ab45-40a4-a70b-af2a76c1c4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food">
+      <UniqueIdentifier>{f61e9cad-4807-485b-a0df-f3bf1d4fd77f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food\CookPot">
+      <UniqueIdentifier>{fec85b9e-54fe-4ab4-99a9-48be73d326ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food\RealCook">
+      <UniqueIdentifier>{4266e0e7-ea16-4928-8572-03affbb27c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Equipment">
+      <UniqueIdentifier>{dffae8c4-fdb7-41b1-b716-dcdc22ef1b9a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -632,19 +638,19 @@
       <Filter>04. GmaeUI\Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Food.h">
-      <Filter>04. GmaeUI\Food</Filter>
+      <Filter>05. Item\Food</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Cookpot.h">
-      <Filter>04. GmaeUI\Food\CookPot</Filter>
+      <Filter>05. Item\Food\CookPot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IceBox.h">
-      <Filter>04. GmaeUI\IceBox</Filter>
+      <Filter>05. Item\IceBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ResearchLap.h">
       <Filter>04. GmaeUI\Tech</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Equipment.h">
-      <Filter>04. GmaeUI\Equipment</Filter>
+      <Filter>05. Item\Equipment</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PigKing.h">
       <Filter>02. Objects\NPC\PigKing</Filter>
@@ -701,7 +707,7 @@
       <Filter>04. GmaeUI\UIEffect\FoodEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CookedFood.h">
-      <Filter>04. GmaeUI\Food\RealCook</Filter>
+      <Filter>05. Item\Food\RealCook</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Character_Info.h">
       <Filter>04. GmaeUI\CharacterSelectUI</Filter>
@@ -723,6 +729,12 @@
     </ClInclude>
     <ClInclude Include="..\public\EffectPoolManager.h">
       <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Grid.h">
+      <Filter>04. GmaeUI\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillIndicator.h">
+      <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -977,16 +989,16 @@
       <Filter>04. GmaeUI\Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Cookpot.cpp">
-      <Filter>04. GmaeUI\Food\CookPot</Filter>
+      <Filter>05. Item\Food\CookPot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IceBox.cpp">
-      <Filter>04. GmaeUI\IceBox</Filter>
+      <Filter>05. Item\IceBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ResearchLap.cpp">
       <Filter>04. GmaeUI\Tech</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Equipment.cpp">
-      <Filter>04. GmaeUI\Equipment</Filter>
+      <Filter>05. Item\Equipment</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PigKing.cpp">
       <Filter>02. Objects\NPC\PigKing</Filter>
@@ -1031,7 +1043,7 @@
       <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Food.cpp">
-      <Filter>04. GmaeUI\Food</Filter>
+      <Filter>05. Item\Food</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\GamePlay_Button.cpp">
       <Filter>04. GmaeUI\Button\GameButton</Filter>
@@ -1049,7 +1061,7 @@
       <Filter>04. GmaeUI\UIEffect\FoodEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CookedFood.cpp">
-      <Filter>04. GmaeUI\Food\RealCook</Filter>
+      <Filter>05. Item\Food\RealCook</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Character_Info.cpp">
       <Filter>04. GmaeUI\CharacterSelectUI</Filter>
@@ -1071,6 +1083,12 @@
     </ClCompile>
     <ClCompile Include="..\private\EffectPoolManager.cpp">
       <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Grid.cpp">
+      <Filter>04. GmaeUI\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillIndicator.cpp">
+      <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

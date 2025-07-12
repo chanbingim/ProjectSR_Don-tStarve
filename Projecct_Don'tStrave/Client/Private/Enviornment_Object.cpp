@@ -85,7 +85,7 @@ void CEnviornment_Object::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
     
-    if(m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 50.f))
+    if(m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 150.f))
         m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
