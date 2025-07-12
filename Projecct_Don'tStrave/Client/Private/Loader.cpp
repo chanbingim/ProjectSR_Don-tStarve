@@ -20,6 +20,7 @@
 #include "Slot.h"
 #include "SlotFrame.h"
 #include "Inventory.h"
+#include "QuestFrameUI.h"
 #include "Mouse.h"
 #include "Logo.h"
 
@@ -316,6 +317,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Inventory/MainInventory.png"), 1))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Quest */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Quest"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/QuestUIFrame.png"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_SideBar */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SideBar"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/SideBar/Frame.png"), 1))))
@@ -440,6 +446,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_DAMAGE_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_DamageUI"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/ScreenEffect/screeneffect0.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Quest UI
+	/* For.Prototype_Component_Texture_QuestUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestUI"),
+		CQuestFrameUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 

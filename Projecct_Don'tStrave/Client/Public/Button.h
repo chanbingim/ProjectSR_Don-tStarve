@@ -15,6 +15,7 @@ public:
 		_float		fRelativeY = {};
 		CTransform* pParentTransform = { nullptr };
 	}BUTTON_DESC;
+
 protected:
 	CButton(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CButton(const CButton& Prototype);

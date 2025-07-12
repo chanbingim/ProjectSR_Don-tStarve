@@ -17,13 +17,16 @@ namespace Client
 		unsigned int			iMaxFrame = { 60 };
 		float					fGameDayLength = { 60.f };
 		float					fBgmVolume = { 20.f };
+
+		float					m_fPirioryTime;
+		float					m_fUpdateTime;
+		float					m_fLateUdpateTime;
+		float					m_fRenderTime;
 	}GAME_SETTING_DESC;
 
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
 	const unsigned int			g_iTileCnt = 4;
-
-
 
 	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, SELECT, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT, STRUCTURE};

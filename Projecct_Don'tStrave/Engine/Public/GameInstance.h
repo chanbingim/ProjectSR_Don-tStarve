@@ -2,6 +2,16 @@
 
 #include "Prototype_Manager.h"
 
+struct ProfileTime
+{
+	_float	Priority_Time = {};
+	_float	Update_Time = {};
+	_float	LateUpdate_Time = {};
+	_float	ColUpdate_Time = {};
+	_float	Render_Time = {};
+};
+
+
 NS_BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -52,11 +62,9 @@ public:
 	HRESULT						Initialize_Late(_uint iPrototypeLevelIndex);
 #pragma endregion
 
-
 #pragma region RENDERER
 	HRESULT Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
 #pragma endregion
-
 
 #pragma region PICKING
 	class CMouseSlotUI*	Chagne_Slot(class CMouseSlotUI* pSlot = nullptr);
@@ -90,20 +98,25 @@ public:
 #pragma endregion
 
 
-private:
-	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
-	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
-	class CLevel_Manager*			m_pLevel_Manager = { nullptr };
-	class CPrototype_Manager*		m_pPrototype_Manager = { nullptr };
-	class CObject_Manager*			m_pObject_Manager = { nullptr };
-	class CRenderer*				m_pRenderer = { nullptr };
-	class CMouseManager*			m_pMouseManager = { nullptr };
-	class CSoundManager*			m_pSoundManager = { nullptr };
-	class CFont_Manager*			m_pFont_Manager = { nullptr };
-	class CKeyManager*				m_pKey_Manager = { nullptr };
-	class CCollision_Manager*		m_pCollision_Manager = { nullptr };
-	class CLight_Manager*			m_pLight_Manager = { nullptr };
+	ProfileTime&			GetProfileTime() { return time; }
 
+private:
+#pragma region Manager
+	class CGraphic_Device* m_pGraphic_Device = { nullptr };
+	class CTimer_Manager* m_pTimer_Manager = { nullptr };
+	class CLevel_Manager* m_pLevel_Manager = { nullptr };
+	class CPrototype_Manager* m_pPrototype_Manager = { nullptr };
+	class CObject_Manager* m_pObject_Manager = { nullptr };
+	class CRenderer* m_pRenderer = { nullptr };
+	class CMouseManager* m_pMouseManager = { nullptr };
+	class CSoundManager* m_pSoundManager = { nullptr };
+	class CFont_Manager* m_pFont_Manager = { nullptr };
+	class CKeyManager* m_pKey_Manager = { nullptr };
+	class CCollision_Manager* m_pCollision_Manager = { nullptr };
+	class CLight_Manager* m_pLight_Manager = { nullptr };
+#pragma endregion
+
+	ProfileTime			time;
 public:
 	void Release_Engine();
 	virtual void Free() override;

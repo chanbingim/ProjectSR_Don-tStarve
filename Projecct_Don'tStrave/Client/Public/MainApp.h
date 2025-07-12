@@ -9,6 +9,7 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CImg_Manager;
 class CEffectPoolManager;
 
 class CMainApp final : public CBase
@@ -18,6 +19,7 @@ private:
 	virtual ~CMainApp() = default;
 
 public:
+	
 	void	RunApp(_float fTimeDelta);
 
 private:
@@ -26,6 +28,8 @@ private:
 
 	_int				m_pFrame = {};
 	_float				m_AccFrameTime = {};
+
+	CImg_Manager*		m_pImgManager = { nullptr };
 
 private:
 	HRESULT Initialize();

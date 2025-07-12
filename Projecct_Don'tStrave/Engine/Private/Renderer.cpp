@@ -186,7 +186,6 @@ void CRenderer::Render_UI()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	Render_Alpha_UI();
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	
 }
 
 void CRenderer::Render_Projection_UI()

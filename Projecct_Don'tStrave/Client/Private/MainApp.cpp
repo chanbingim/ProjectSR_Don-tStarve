@@ -9,6 +9,8 @@
 #include "Camera.h"
 #include "AnimationUI.h"
 #include "EffectPoolManager.h"
+#include "QuestManager.h"
+#include "Img_Manager.h"
 #include "Terrian_Manager.h"
 #include "LodingInterface.h"
 #include "XML_Manager.h"
@@ -58,15 +60,18 @@ HRESULT Client::CMainApp::Initialize()
 	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
 	
 	m_pEffectPool = CEffectPoolManager::GetInstance();
+	m_pImgManager = CImg_Manager::GetInstance();
+	m_pImgManager->Ready_Manager(m_pGraphic_Device);
 	return S_OK;
 }
 
 void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+
 	m_pEffectPool->UpdateActvieEffect(fTimeDelta);
 	
-
+	m_pImgManager->Update_Manager(fTimeDelta);
 
 }
 
@@ -77,9 +82,10 @@ HRESULT Client::CMainApp::Render()
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
+	m_pImgManager->Render_Manager();
+
 	m_pGameInstance->Render_End();
-
-
+	
 	return S_OK;
 }
 
@@ -273,7 +279,9 @@ void Client::CMainApp::Free()
 	CXML_Manager::DestroyInstance();
 
 	Safe_Release(m_pEffectPool);
+	Safe_Release(m_pImgManager);
 	m_pGameInstance->Release_Engine();
 
+	CQuestManager::DestroyInstance();
 	Safe_Release(m_pGameInstance);	
 }

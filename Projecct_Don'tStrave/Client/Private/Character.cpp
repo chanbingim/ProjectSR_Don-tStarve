@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 #include "Clock.h"
 #include "House.h"
-#include <Enviornment_Object.h>
+#include "Enviornment_Object.h"
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -158,9 +158,20 @@ void CCharacter::SetDir()
     }
 }
 
-void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec)
+void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
+
+    _matrix matRotY{}, matPos{}, matBillboard{};
+
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
+    matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
+    D3DXMatrixTranspose(&matBillboard, &matBillboard);
+
+    _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+    D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
+   
+    D3DXMatrixRotationY(&matRotY, MOVE_DIR::MOVE_LEFT == m_tMoveDIr ? D3DXToRadian(180) : 0);
     for (auto& anim : tEntity.tAnimationsVec) {
         if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), max(animName.size(), anim.szName.size()))) {      // 이름 같은 애니메이션 찾기
             pAnim = &anim;
@@ -240,28 +251,19 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
             if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
             IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
 
-        D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matBillboard, matPos, matWorld;
+        D3DXMATRIX  matPivot, matScale, matRotZ, matTrans, matWorld;
 
-        _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-
-        D3DXMatrixRotationY(&matRotY, MOVE_DIR::MOVE_LEFT == m_tMoveDIr ? D3DXToRadian(180) : 0);           // 왼쪽 오른쪽 확인해서 180도 회전
+        // 왼쪽 오른쪽 확인해서 180도 회전
         D3DXMatrixTranslation(&matPivot, 0.5f - image.fPivot.x, 0.5f - image.fPivot.y, 0.f);                // pivot 적용 기본이 사실상 0.5로 들어가있어서 0.5에서 빼줘야함
-        D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x / 400.f, image.fSize.y * object.fScale.y / 400.f, 1.f);    // 이미지 크기와 애니메이션에서 조정한 scale 적용 그냥 쓰면 너무 커서 400으로 나눔
+        D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x * 0.0025f, image.fSize.y * object.fScale.y * 0.0025f, 1.f);    // 이미지 크기와 애니메이션에서 조정한 scale 적용 그냥 쓰면 너무 커서 400으로 나눔
         D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));                                         // 애니메이션에 들어간 회전 적용
-        D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
-
-        m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
-        matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
-        D3DXMatrixTranspose(&matBillboard, &matBillboard);
-
-        D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
-
+        D3DXMatrixTranslation(&matTrans, object.fPos.x * 0.0025f, object.fPos.y * 0.0025f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
 
         matWorld = matPivot * matScale * matRotZ * matTrans * matRotY * matBillboard * matPos;              // 이제 전부 적용
+
+
         image.pTexture->Set_Texture(0);                                                                     // 이 오브젝트에서 쓰는 텍스쳐를 Set_Texture
         m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);                                            // 적용
-        
-        
         m_pVIBufferCom->Render();                                                                           // 랜더
     }
 }
@@ -364,7 +366,7 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity
         matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
         D3DXMatrixTranspose(&matBillboard, &matBillboard);
 
-        D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
+                                                    // 빌보드 코드 짠거
 
 
         matWorld = matPivot * matScale * matRotZ * matTrans * matRotY * matBillboard * matPos;              // 이제 전부 적용

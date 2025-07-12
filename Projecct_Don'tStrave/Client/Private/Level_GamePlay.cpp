@@ -9,7 +9,7 @@
 #include "CUtility.h"
 #include "Player.h"
 
-
+#include "QuestManager.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
 
@@ -41,6 +41,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
+	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -267,6 +269,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_QuestUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Quest_UI"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -327,4 +333,5 @@ void CLevel_GamePlay::Free()
 {
 	__super::Free();
 
+	CQuestManager::GetInstance()->ReleaseQuestData();
 }

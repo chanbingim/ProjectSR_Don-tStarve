@@ -73,6 +73,12 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	m_pLight_Manager->Initialize(*ppOut);
 #pragma endregion
 
+	m_pTimer_Manager->Add_Timer(TEXT("PriorityTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("UpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("LateUpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("ColUpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("RenderTime"));
+	
 	return S_OK;
 }
 
@@ -80,15 +86,42 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pKey_Manager->BeginKeyInput();
 
-	m_pObject_Manager->Priority_Update(fTimeDelta);
+#pragma region PriorityUpdate
+	time.Priority_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
 
+	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pMouseManager->Update();
+
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
+#pragma endregion
+
+#pragma region Update
+	time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
 	m_pObject_Manager->Update(fTimeDelta);
 
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
+#pragma endregion
+
+#pragma region Late_Update
+	time.LateUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdateTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
+
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
+#pragma endregion
+
+#pragma region COLLISION_UPDATE
+	time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+
 	m_pCollision_Manager->Update();
+
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+#pragma endregion
 
 	m_pObject_Manager->Clear_DeadObj();
 
@@ -97,12 +130,19 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pLight_Manager->UpdateLight();
 
 	m_pKey_Manager->EndKeyInput();
+
 }
 
 HRESULT CGameInstance::Draw()
 {
+#pragma region Render
+	time.Render_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("RenderTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
+
 	m_pRenderer->Render();
 
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
+#pragma endregion
 	m_pLevel_Manager->Render();
 
 	return S_OK;

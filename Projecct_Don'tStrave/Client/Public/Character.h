@@ -54,7 +54,7 @@ public:
 	virtual	void		Hit() = 0;
 	virtual void		SetDir();
 
-	void				RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
 	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
 	
 	CHARACTER_DATA* Get_Char() { return m_pChar; }

@@ -2,18 +2,20 @@
 
 #include "Client_Defines.h"
 
+
+enum	CQuestType { COMBAT, COLLECTION, END };
+
 struct CQuestData
 {
-	_bool		bIsActive;
-	_uint		QuestID;
-	_wstring	QuestInfo;
-	
-	_uint		DropItemID;
-	_uint		DropItemCnt;
+	_bool							bIsActive;		// 초기상태
+	_bool							bIsClear = { false };		// 완료 상태
+	_uint							QuestID;		// 퀘스트 ID
+	_wstring						QuestTitle;		// 퀘스트 제목
+	_wstring						SubTitle;		// 퀘스트 내용
+	_wstring						ClearTitle;		// 퀘스트 클리어시 나오는 문구
 
-	vector<CQuestData>	ConnectQuest;
+	vector<pair<_uint, _uint>>		DropItem;		// 보상 내용
+
+	vector<_uint>					ConnectQuest;	//연관 퀘스트
+	CQuestType						type;			//퀘스트 타입
 };
-
-NS_BEGIN(Client)
-//퀘스트 클래스 구현
-NS_END

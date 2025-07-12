@@ -380,6 +380,30 @@
     <Filter Include="05. Item\Toch">
       <UniqueIdentifier>{1968ea9c-3f23-4ea7-a253-d6fd7ae04caf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="101. IMGUI\Manager">
+      <UniqueIdentifier>{27bce961-699f-48a0-bed3-609dd8411939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\ImgBase">
+      <UniqueIdentifier>{d8ef0267-b13f-45ba-91c5-807a91c4bed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\Profiler">
+      <UniqueIdentifier>{e41b4d9b-fa96-4293-bc5c-02a60fa15e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest">
+      <UniqueIdentifier>{ec0714d8-a90f-4f03-b27b-02e1af1dbeb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\Frame">
+      <UniqueIdentifier>{2b9b130e-90ea-4b13-9728-c90f4482625c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\ListFrame">
+      <UniqueIdentifier>{1d91abd3-6f9b-41ee-8b54-febf013b7f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\Entry">
+      <UniqueIdentifier>{307bf581-3695-43f6-a948-4a56a71552cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EventButton">
+      <UniqueIdentifier>{0eb1c5d6-e5cf-4ca9-a29e-1b19599f535f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -745,6 +769,24 @@
     <ClInclude Include="..\Public\TorchFire.h">
       <Filter>05. Item\Toch</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ImgBase.h">
+      <Filter>101. IMGUI\ImgBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Img_Profiler.h">
+      <Filter>101. IMGUI\Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Img_Manager.h">
+      <Filter>101. IMGUI\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestFrameUI.h">
+      <Filter>04. GmaeUI\Quest\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestBoxEntry.h">
+      <Filter>04. GmaeUI\Quest\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EventButton.h">
+      <Filter>04. GmaeUI\Button\EventButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1104,6 +1146,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\TorchFire.cpp">
       <Filter>05. Item\Toch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ImgBase.cpp">
+      <Filter>101. IMGUI\ImgBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Img_Profiler.cpp">
+      <Filter>101. IMGUI\Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Img_Manager.cpp">
+      <Filter>101. IMGUI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestFrameUI.cpp">
+      <Filter>04. GmaeUI\Quest\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestBoxEntry.cpp">
+      <Filter>04. GmaeUI\Quest\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EventButton.cpp">
+      <Filter>04. GmaeUI\Button\EventButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
