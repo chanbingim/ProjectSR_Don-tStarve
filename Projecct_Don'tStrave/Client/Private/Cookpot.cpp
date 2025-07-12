@@ -282,7 +282,7 @@ CCookpot* CCookpot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Clone CCookpot");
+		MSG_BOX("Failed to Create CCookpot");
 		return nullptr;
 	}
 
@@ -296,7 +296,7 @@ CGameObject* CCookpot::Clone(void* pArg)
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
 		Safe_Release(pInstance);
-		MSG_BOX("Failed to Create CCookpot");
+		MSG_BOX("Failed to Clone CCookpot");
 		return nullptr;
 	}
 

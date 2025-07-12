@@ -9,6 +9,8 @@
 #include "Slot.h"
 #include "Item.h"
 #include "Player.h"
+#include "Grid.h"
+#include "SkillIndicator.h"
 
 CMouse::CMouse(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -57,6 +59,10 @@ HRESULT CMouse::Initialize(void* pArg)
 
     Safe_AddRef(m_pPlayerTransform_Com);
 
+    m_pGrid = dynamic_cast<CGrid*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Grid")));
+
+    m_pSkillIndicator = dynamic_cast<CSkillIndicator*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillIndicator")));
+
     return S_OK;
 }
 
@@ -85,8 +91,9 @@ void CMouse::Update(_float fTimeDelta)
  
     //m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     __super::UpdatePosition();
-    
 
+    m_pSkillIndicator->Update(fTimeDelta);
+    
 #pragma region TestCode
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
@@ -191,17 +198,27 @@ void CMouse::Update(_float fTimeDelta)
     }
 #pragma endregion
     
+    ITEM_DESC Slot_Desc = m_pSlot->Get_Info();
+
+    m_eType = Slot_Desc.eItemType;
+
+    if (ITEM_TYPE::STRUCTURE == m_eType)
+    {
+        m_pGrid->Update(fTimeDelta);
+    }
+    else if (ITEM_TYPE::FOOD == m_eType)
+    {
+        m_pSlot->Update(fTimeDelta);
+    }
+
+        
 }
 
 void CMouse::Late_Update(_float fTimeDelta)
 {
-    if (SLOT::NORMAL == m_pSlot->Get_Info().eSlot)
-        m_pSlot->Update(fTimeDelta);
-
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_eType = m_pSlot->Get_Info().eItemType;
 }
 
 HRESULT CMouse::Render()
@@ -245,7 +262,7 @@ HRESULT CMouse::Render()
         m_fY += 40.f;
         m_fX += 50.f;
     }
-
+    m_pSkillIndicator->Render();
     return S_OK;
 }
 void CMouse::ClickedEevent()
@@ -573,6 +590,9 @@ void CMouse::Free()
     __super::Free();
 
     Safe_Release(m_pSlot);
+    Safe_Release(m_pGrid);
+    Safe_Release(m_pSkillIndicator);
+
     Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pBlend_Texture_Com);
