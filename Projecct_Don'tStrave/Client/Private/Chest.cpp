@@ -191,6 +191,7 @@ void CChest::Change_State()
 		case Client::CChest::STATE::OPEN:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("open");
+			m_pGameInstance->Manager_PlaySound(L"chest_open.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 
 		case Client::CChest::STATE::OPENED:
@@ -201,6 +202,7 @@ void CChest::Change_State()
 		case Client::CChest::STATE::CLOSE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("close");
+			m_pGameInstance->Manager_PlaySound(L"chest_close.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 
 		case Client::CChest::STATE::END:

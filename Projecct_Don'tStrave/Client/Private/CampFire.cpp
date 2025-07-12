@@ -30,6 +30,8 @@ HRESULT CCampFire::Initialize_Prototype()
 
 HRESULT CCampFire::Initialize(void* pArg)
 {
+	
+
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
@@ -37,6 +39,8 @@ HRESULT CCampFire::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
+
+	m_bSoundPlay = false;
 
 	m_FrontName = TEXT("place");
 	m_TailName = TEXT("");
@@ -72,6 +76,17 @@ void CCampFire::Update(_float fTimeDelta)
 		break;
 
 	case Client::CCampFire::STATE::IDLE:
+		if(false == m_bSoundPlay  && __super::isInRange(1.5f))
+		{
+			m_pGameInstance->Manager_PlaySound(L"campfire_level1.wav", CHANNELID::SOUND_ITEM, 10.f);
+			m_bSoundPlay = true;
+		}
+
+		if (5600.f < m_fAniTime)
+		{
+			m_bSoundPlay = false;
+			m_fAniTime = 0.f;
+		}
 
 		if (0.f < m_Item_Desc.fDurability)
 		{
@@ -161,10 +176,12 @@ void CCampFire::Change_State()
 		case Client::CCampFire::STATE::IDLE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("idle");
+			m_pGameInstance->Manager_PlaySound(L"add_fuel.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 		case Client::CCampFire::STATE::DEAD:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("dead");
+			m_pGameInstance->Manager_PlaySound(L"fire_out.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 		case Client::CCampFire::STATE::PREVIEW:
 			m_fAniTime = 0.f;

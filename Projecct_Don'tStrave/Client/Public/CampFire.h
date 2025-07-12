@@ -27,6 +27,7 @@ public:
 	void HoverEvent();
 
 private:
+	_bool			m_bSoundPlay = {};
 	class CFire* m_pFire = { nullptr };
 
 	CCampFire::STATE	m_ePreState = {};

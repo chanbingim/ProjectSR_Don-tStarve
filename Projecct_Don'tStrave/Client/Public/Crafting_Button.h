@@ -23,6 +23,9 @@ public:
 	virtual void ClickedEevent() override;
 
 private:
+	_bool	m_bOpen = {};
+
+private:
 	virtual HRESULT ADD_Components();
 
 public:
