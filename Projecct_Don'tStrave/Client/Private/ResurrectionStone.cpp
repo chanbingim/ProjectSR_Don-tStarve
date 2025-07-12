@@ -34,6 +34,7 @@ HRESULT CResurrectionStone::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
+	m_EnviornmentType = Enviornment_TYPE::RESERREECTION;
 	m_EnviromentState = Enviornment_STATE::DAMAGED;
 	m_FrontName = TEXT("idle_off");
 	m_TailName = TEXT("");

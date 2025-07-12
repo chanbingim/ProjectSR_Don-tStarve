@@ -30,8 +30,9 @@ namespace Client
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO, POT };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 	enum class FOOD { MEAT, FRUIT, END };
-	enum class SWAPOBJECT { AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, GOLDSHOVEL, SPEAR, TORCH, NONE, END };
+	enum class SWAPOBJECT { AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, GOLDSHOVEL, SPEAR, LIGHTNINGSPEAR, TORCH, HAM, NONE, END };
 	enum class FIELDOBJECT { OBJECT, CREATURE, END };
+	enum class ATTACK_TYPE { ATTACK, FIRE, ICE, LIGHTNING, END };
 
 	typedef struct Item_Desc
 	{
@@ -138,6 +139,7 @@ namespace Client
 		void*					Attacker = { nullptr };
 		_int					Damage = {};
 		_float3					Direaction = {};
+		ATTACK_TYPE			DamageType = { ATTACK_TYPE::ATTACK };
 	}DAMAGE_DATA_BASE;
 #pragma endregion
 }

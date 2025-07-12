@@ -14,6 +14,8 @@
 #include "Treeguard.h"
 #include "TreeguardObject.h"
 
+#include "TorchFire.h"
+
 #pragma region UI
 #include "Slot.h"
 #include "SlotFrame.h"
@@ -453,12 +455,35 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 
+
+
+	/* For.Prototype_Component_Texture_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFire"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireTexture.jpg"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_FireEffect"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/Fire.bmp"), 1))))
+		return E_FAIL;
+
+
 #pragma endregion
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
+		CTorchFire::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER

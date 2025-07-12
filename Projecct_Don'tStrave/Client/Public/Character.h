@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AinimationObject.h"
+#include "Item.h"
 
 NS_BEGIN(Engine)
 class CTexture;
@@ -8,6 +9,7 @@ class CTransform;
 class CVIBuffer_Rect;
 class CAnimController;
 class CCollision_Component;
+class CGameObject;
 NS_END
 
 NS_BEGIN(Client)
@@ -53,7 +55,11 @@ public:
 	virtual void		SetDir();
 
 	void				RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+	
 	CHARACTER_DATA* Get_Char() { return m_pChar; }
+protected:
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 protected:
 	MOVE_DIR			m_tMoveDIr = {};
 	DamageBaseDesc		m_tDamage = {};
@@ -68,6 +74,8 @@ protected:
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};
 	_bool				m_bCol = {};
+	CCharacter*			m_pNearTarget = {};
+	CItem*				m_pNearItem = {};
 	CCollision_Component*		m_pCollision_Com = { nullptr };
 
 public:

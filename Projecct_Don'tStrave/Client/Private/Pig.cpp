@@ -401,6 +401,7 @@ void CPig::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CPig::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	__super::OverlapHitActor(HitActor, _Dir);
 	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
 		m_pHouse->EnterPig(this);
 		m_bActive = false;

@@ -341,6 +341,7 @@ void CDeerclops::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CDeerclops::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+	__super::OverlapHitActor(HitActor, _Dir);
 	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
