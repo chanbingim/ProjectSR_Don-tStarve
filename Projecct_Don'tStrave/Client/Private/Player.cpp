@@ -81,7 +81,7 @@ HRESULT CPlayer::Initialize_Prototype()
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_eat.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/wilson_spear.scml", &m_tAnimation);
 	XML_Instance->LoadScml("../Bin/Resources/Textures/Player/Wilson/ghost_wilson.scml", &m_tAnimation);
-	
+
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/wathgrithr_idle.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridImageVec);
 	XML_Instance->AddTexture("../Bin/Resources/Textures/Player/Wigfrid/ghost_wathgrithr.scml", L"../Bin/Resources/Textures/Player/Wigfrid/", &m_tWigfridGhostImageVec);
 
@@ -211,7 +211,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pChar = m_pPlayer;
 
-	m_pTransformCom->SetPosition( m_pPlayer->fPos );
+	m_pTransformCom->SetPosition(m_pPlayer->fPos);
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
 
 	m_bControll = true;
@@ -259,20 +259,22 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		}
 		m_fHungTime = 0;
 	}
-	if (m_pPlayer->iMaxMental / 2<= m_pPlayer->iMental) {
+	if (m_pPlayer->iMaxMental / 2 <= m_pPlayer->iMental) {
 		m_bCrawling = true;
-	}else if (m_bCrawling && m_pPlayer->iMaxMental / 2 > m_pPlayer->iMental) {
-			m_bCrawling = false;
-			MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
-			size_t max = (rand() % 3) + 1;
-			data.fPos = m_pPlayer->fPos;
-			data.fPos.x += (rand() % 5) - (rand() % 5);
-			data.fPos.z += (rand() % 5) - (rand() % 5);
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
-		}
+	}
+	else if (m_bCrawling && m_pPlayer->iMaxMental / 2 > m_pPlayer->iMental) {
+		m_bCrawling = false;
+		MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
+		size_t max = (rand() % 3) + 1;
+		data.fPos = m_pPlayer->fPos;
+		data.fPos.x += (rand() % 5) - (rand() % 5);
+		data.fPos.z += (rand() % 5) - (rand() % 5);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+	}
 	if (m_pPlayer->iMaxMental / 3 <= m_pPlayer->iMental) {
 		m_bTerrorbeak = true;
-	}else if (m_bTerrorbeak && m_pPlayer->iMaxMental / 3 > m_pPlayer->iMental) {
+	}
+	else if (m_bTerrorbeak && m_pPlayer->iMaxMental / 3 > m_pPlayer->iMental) {
 		m_bTerrorbeak = false;
 		MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
 		size_t max = (rand() % 3) + 1;
@@ -283,14 +285,16 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	}
 	if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
 		m_pTorchFire->Update_TorchFire(true);
-	}else{
+	}
+	else {
 		m_pTorchFire->Update_TorchFire(false);
 	}
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
 	if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
 		m_tDamage.DamageType = ATTACK_TYPE::FIRE;
-	}else if (SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
+	}
+	else if (SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
 		m_tDamage.DamageType = ATTACK_TYPE::LIGHTNING;
 	}
 	else {
@@ -531,15 +535,15 @@ void CPlayer::Update(_float fTimeDelta)
 									}
 								}
 								break;
-							//case SWAPOBJECT::TORCH:
-							//	if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType()) {
-							//		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-							//		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-							//		if (3.f > distance) {
-							//			NearObjects.push_back(object);
-							//		}
-							//	}
-							//	break;
+								//case SWAPOBJECT::TORCH:
+								//	if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType()) {
+								//		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+								//		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+								//		if (3.f > distance) {
+								//			NearObjects.push_back(object);
+								//		}
+								//	}
+								//	break;
 							case SWAPOBJECT::SHOVEL:
 								if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::BROKEN <= enviornment->GetState()) {
 									_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
@@ -591,7 +595,7 @@ void CPlayer::Update(_float fTimeDelta)
 				for (auto& object : (*GroundObejcts)) {
 					_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 					_float distance = D3DXVec3Length(&transform);
-					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active()  && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
+					if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 						if (5.f > distance) {
 							NearObjects.push_back(object);
 						}
@@ -762,10 +766,8 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	if (GetKeyState('Z') & 0x8000)
 	{
-		LightningAttack({ 0.f, 0.f, 1.f }, 5.f);
-
-		//m_pPlayer->tItem = SWAPOBJECT::GOLDPICKAXE;
-		//SetAnimation(m_tDir, m_tMotion);
+		m_pPlayer->tItem = SWAPOBJECT::GOLDPICKAXE;
+		SetAnimation(m_tDir, m_tMotion);
 	}
 	if (m_pGameInstance->KeyPressed('C')) {
 		//SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
@@ -900,7 +902,7 @@ void CPlayer::Damage(void* pArg)
 void CPlayer::Hit()
 {
 	m_bControll = false;
-	auto ScreenEffect = static_cast<CDamageEffectUI *>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
 	ScreenEffect->ActiveEffect();
 
 	SetAnimation(m_tDir, MOTION::DAMAGE);
@@ -1162,7 +1164,7 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 		break;
 	}
 	return S_OK;
-} 
+}
 
 void CPlayer::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {

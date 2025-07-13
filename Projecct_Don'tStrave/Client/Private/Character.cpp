@@ -6,10 +6,7 @@
 #include "Clock.h"
 #include "House.h"
 #include "Enviornment_Object.h"
-<<<<<<< HEAD
-=======
 #include "CharacterManager.h"
->>>>>>> origin/0712_kjh
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -136,7 +133,7 @@ void CCharacter::Damage(void* pArg)
 
 void CCharacter::SetDir()
 {
-    
+
     _float3 fDir = m_pChar->fPos - m_fMoving;
     if (0.0001f < abs(fDir.x) + abs(fDir.z)) {
         m_fAngle = D3DXToDegree(acosf(fDir.x / D3DXVec3Length(&fDir)));
@@ -171,8 +168,6 @@ void CCharacter::SetDir()
     }
 }
 
-<<<<<<< HEAD
-=======
 void CCharacter::ResetTarget(_float iDistance)
 {
     if (m_pNearTarget) {
@@ -195,21 +190,9 @@ void CCharacter::GetTarget(CGameObject* actor, _float distance)
 {
 }
 
->>>>>>> origin/0712_kjh
 void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
-
-    _matrix matRotY{}, matPos{}, matBillboard{};
-
-    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
-    matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
-    D3DXMatrixTranspose(&matBillboard, &matBillboard);
-
-    _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
-   
-    D3DXMatrixRotationY(&matRotY, MOVE_DIR::MOVE_LEFT == m_tMoveDIr ? D3DXToRadian(180) : 0);
     for (auto& anim : tEntity.tAnimationsVec) {
         if (0 == wcsncmp(anim.szName.c_str(), animName.c_str(), max(animName.size(), anim.szName.size()))) {      // 이름 같은 애니메이션 찾기
             pAnim = &anim;
@@ -218,13 +201,13 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vecto
     }
     if (!pAnim) return;                                                                     // 이름 같은거 없으면 사라지기
     m_iLength = pAnim->iLength;                                                             // 애니메이션 끝나는 시간 가져오기
-    m_fAniTime =m_fAniTime % m_iLength;                                       // 현재 애니메이션 시간이 애니메이션 끝나는 시간보다 크면 % 계산한 느낌으로 값을 남겨줌
+    m_fAniTime = m_fAniTime % m_iLength;                                       // 현재 애니메이션 시간이 애니메이션 끝나는 시간보다 크면 % 계산한 느낌으로 값을 남겨줌
 
     vector<OBJECT_REF_DESC> timeVec = {};
 
     for (auto& ref : pAnim->tMainlinesVec.tKeysVec[0].tRefVec) {
-        timeVec.push_back(ref);                                                             
-    }                                                                                      
+        timeVec.push_back(ref);
+    }
     for (auto& mainKey : pAnim->tMainlinesVec.tKeysVec) {
         if (mainKey.iTime <= m_fAniTime) {                          // Mainlines에 있는 현재 시간 기준으로 나오는 오브젝트들을 가져와줌
             timeVec.clear();                                        // 얘네가 그냥 애니메이션의 타임라인은 모든 시간대로 박혀있어서 몇몇 오브젝트가 사라지는걸 구현 못해서 이렇게 걸러줌
@@ -235,7 +218,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vecto
         if (mainKey.iTime > m_fAniTime) {
             break;
         }
-    } 
+    }
 
     sort(timeVec.begin(), timeVec.end(), [](OBJECT_REF_DESC pSour, OBJECT_REF_DESC pDest)->_bool    // ZIndex 정렬
         {
@@ -246,7 +229,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vecto
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
     matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
     D3DXMatrixTranspose(&matBillboard, &matBillboard);
-    
+
     for (OBJECT_REF_DESC timelineId : timeVec)  // 위에서 걸러서 나올 놈들만 나오는 오브젝트들만 for문에 돌리기
     {
         const KEY_DESC* pPrevKey = nullptr;
@@ -292,34 +275,28 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vecto
         // 구해둔 t로 첫 시간과 다음 시간 사이 현재 시간일때 나올 값들을 구해줌
         // Angle은 가끔 360도 확 돌아서 여러가지 시도해보다가 저리 됨
 
-            if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
-            IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
+        if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
+        IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
 
-<<<<<<< HEAD
-        D3DXMATRIX  matPivot, matScale, matRotZ, matTrans, matWorld;
-=======
         D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matPos, matWorld;
->>>>>>> origin/0712_kjh
 
-        // 왼쪽 오른쪽 확인해서 180도 회전
+        _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+        D3DXMatrixRotationY(&matRotY, MOVE_DIR::MOVE_LEFT == m_tMoveDIr ? D3DXToRadian(180) : 0);           // 왼쪽 오른쪽 확인해서 180도 회전
         D3DXMatrixTranslation(&matPivot, 0.5f - image.fPivot.x, 0.5f - image.fPivot.y, 0.f);                // pivot 적용 기본이 사실상 0.5로 들어가있어서 0.5에서 빼줘야함
-        D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x * 0.0025f, image.fSize.y * object.fScale.y * 0.0025f, 1.f);    // 이미지 크기와 애니메이션에서 조정한 scale 적용 그냥 쓰면 너무 커서 400으로 나눔
+        D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x / 400.f, image.fSize.y * object.fScale.y / 400.f, 1.f);    // 이미지 크기와 애니메이션에서 조정한 scale 적용 그냥 쓰면 너무 커서 400으로 나눔
         D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));                                         // 애니메이션에 들어간 회전 적용
-<<<<<<< HEAD
-        D3DXMatrixTranslation(&matTrans, object.fPos.x * 0.0025f, object.fPos.y * 0.0025f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
-=======
         D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
 
 
         D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
 
->>>>>>> origin/0712_kjh
 
         matWorld = matPivot * matScale * matRotZ * matTrans * matRotY * matBillboard * matPos;              // 이제 전부 적용
-
-
         image.pTexture->Set_Texture(0);                                                                     // 이 오브젝트에서 쓰는 텍스쳐를 Set_Texture
         m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);                                            // 적용
+
+
         m_pVIBufferCom->Render();                                                                           // 랜더
     }
 }
@@ -424,19 +401,11 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity& tEntit
         D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));                                         // 애니메이션에 들어간 회전 적용
         D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
 
-<<<<<<< HEAD
-        m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
-        matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
-        D3DXMatrixTranspose(&matBillboard, &matBillboard);
-
-                                                    // 빌보드 코드 짠거
-=======
         D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
->>>>>>> origin/0712_kjh
 
 
         matWorld = matPivot * matScale * matRotZ * matTrans * matRotY * matBillboard * matPos;              // 이제 전부 적용
-        
+
         image.pTexture->Set_Texture(0);                                                                     // 이 오브젝트에서 쓰는 텍스쳐를 Set_Texture
         m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);                                            // 적용
 
@@ -466,7 +435,7 @@ void CCharacter::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
             actor->Get_Char()->fPos -= *D3DXVec3Normalize(&transform, &transform) * ((0.3f - distance) / 2);
             actor->GetTransfrom()->SetPosition(actor->Get_Char()->fPos);
         }
-        else if(!dynamic_cast<CEnviornment_Object*>(HitActor) || CEnviornment_Object::Enviornment_TYPE::GRASS != dynamic_cast<CEnviornment_Object*>(HitActor)->GetEnviornMentType()) {
+        else if (!dynamic_cast<CEnviornment_Object*>(HitActor) || CEnviornment_Object::Enviornment_TYPE::GRASS != dynamic_cast<CEnviornment_Object*>(HitActor)->GetEnviornMentType()) {
             m_pChar->fPos += *D3DXVec3Normalize(&transform, &transform) * (0.3f - distance);
             m_pTransformCom->SetPosition(m_pChar->fPos);
         }

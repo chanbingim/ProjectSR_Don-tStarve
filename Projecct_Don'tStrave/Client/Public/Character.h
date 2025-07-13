@@ -53,20 +53,17 @@ public:
 	virtual	void		Damage(void* pArg) override;
 	virtual	void		Hit() = 0;
 	virtual void		SetDir();
-<<<<<<< HEAD
+	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
 
-	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
-	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
-=======
-	void		ResetTarget(_float iDistance);
+	void				ResetTarget(_float iDistance);
 	virtual void		GetTarget(CGameObject* actor, _float distance);
+
 	CGameObject*		GetNearTarget() { return m_pNearTarget; }
-	_bool		GetNeedItem() { return	m_bNeedItem; }
-	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
+	_bool				GetNeedItem() { return	m_bNeedItem; }
+
 	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
->>>>>>> origin/0712_kjh
-	
-	CHARACTER_DATA* Get_Char() { return m_pChar; }
+	CHARACTER_DATA*		Get_Char() { return m_pChar; }
+
 protected:
 	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
 protected:
