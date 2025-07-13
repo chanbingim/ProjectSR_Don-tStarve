@@ -106,6 +106,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 		CTerrian_Manager::GetInstance()->ADD_Terrian(Terrian);
 	}
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 
 }

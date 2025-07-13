@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Item.h"
+#include "Player.h"
 
 CSlot::CSlot(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CMouseSlotUI{ pGraphic_Device }
@@ -176,7 +177,19 @@ void CSlot::Update_Item(_float fTimeDelta)
             m_Item_Desc.fDurability -= fTimeDelta* 0.3f;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
-        
+        if (4 == m_Item_Desc.iItemID)
+        {
+            m_Item_Desc.fDurability -= fTimeDelta;
+            if (0 >= m_Item_Desc.fDurability)
+            {
+                Clear();
+                CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+                PLAYER_DATA* pData = pPlayer->Get_Player();
+                
+                pData->tItem = SWAPOBJECT::NONE;
+                pData->iAtk = 1;
+            }
+        }
         break;
     default:
         break;
@@ -203,7 +216,6 @@ void CSlot::Update_Count()
             m_TextureIndexes[0] = m_Item_Desc.iNumItem;
             ++m_iDigit;
         }
-
         
     }
     else

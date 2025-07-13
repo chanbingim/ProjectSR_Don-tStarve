@@ -141,7 +141,7 @@ void CCampFire::HoverEvent()
 		CSlot* pSlot = pMouse->Get_Slot();
 		ITEM_DESC Desc = pSlot->Get_Info();
 
-		if (0 == Desc.iItemID)
+		if (0 == Desc.iItemID || m_eCurState == CCampFire::STATE::DEAD)
 			return;
 
 		switch (Desc.iItemID)

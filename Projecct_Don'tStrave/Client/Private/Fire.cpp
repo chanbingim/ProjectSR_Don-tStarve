@@ -67,12 +67,11 @@ void CFire::Priority_Update(_float fTimeDelta)
 void CFire::Update(_float fTimeDelta)
 {
 	m_fAniTime += fTimeDelta * 700.f;
-	//_float3	vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-	//m_pLight_Com->SetPosition(vPos);
+
 	_float fValue = m_fDurability * 0.01f;
-	//m_pLight_Com->Render_Light();
+
 	m_pLight_Com->SetAmbientColor(D3DXCOLOR(m_Color.r * fValue, m_Color.g * fValue, m_Color.b * fValue, m_Color.b));
-	//m_pLight_Com->Render_Light();
+
 
 	switch (m_eCurState)
 	{

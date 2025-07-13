@@ -35,6 +35,8 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 
 	if (36 == m_Item_Desc.iItemID) // ºÎ½Ëµ¹
 		vSize *= 0.8;
+	else if (39 == m_Item_Desc.iItemID) // ºÎ½Ëµ¹
+		vSize *= 0.7;
 
 	m_pTransformCom->SetScale(vSize);
 
