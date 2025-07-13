@@ -21,9 +21,17 @@ public :
 	virtual void					Late_Update(_float fTimeDelta);
 	virtual HRESULT					Render();
 
+	void							ClieckedButton(_uint Index);
+
 private :
 	_bool							m_bIsActive = { false };
 	CListBoxUI*						m_pListBox = { nullptr };
+
+
+	const	WCHAR*					m_szTittle = { L"Äù½ºÆ® Ã¢" };
+	_uint							m_SelectQuestList = {};
+
+	RECT							m_FontRect = {0, 0, 100, 100};
 
 private :
 	HRESULT							ADD_Components();

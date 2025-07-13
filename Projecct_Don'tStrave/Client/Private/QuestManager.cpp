@@ -1,6 +1,9 @@
 #include "QuestManager.h"
+
 #include "File.h"
 #include "CUtility.h"
+#include "GameInstance.h"
+#include "Inventory.h"
 
 IMPLEMENT_SINGLETON(CQuestManager);
 
@@ -20,6 +23,7 @@ HRESULT CQuestManager::Accept_Quest(_uint QuestID)
 	if (pair == m_QuestMap.end())
 		return E_FAIL;
 
+	m_QuestList.remove(pair->second);
 	m_RunningQuest.push_back(pair->second);
 	return S_OK;
 }
@@ -50,6 +54,8 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 		if (!CheckQuest->bIsClear)
 		{
 			CheckQuest->bIsClear = true;
+			CheckAndApplyCompensation(CheckQuest, true);
+			
 			for (auto& iter : CheckQuest->ConnectQuest)
 			{
 				auto  pair = m_QuestMap.find(iter);
@@ -57,10 +63,13 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 					return E_FAIL;
 
 				pair->second->bIsActive = true;
+				m_QuestList.push_back(pair->second);
 			}
 		}
 	}
 
+	m_RunningQuest.remove(CheckQuest);
+	m_ClearQuest.push_back(CheckQuest);
 	return S_OK;
 }
 
@@ -78,7 +87,7 @@ HRESULT CQuestManager::LoadQuestData(const char* FolderName, const char* FileNam
 	sprintf_s(filePath, "%s%s/%s", FrontFilePath, FolderName, FileName);
 	file.ReadCSVData(filePath, ',', &vecQuestData);
 
-	for (_uint i = 9;  i < vecQuestData.size();)
+	for (_uint i = 11;  i < vecQuestData.size();)
 	{
 		CQuestData* Data = new CQuestData;
 		CUtility::ConvertUTFToWide(vecQuestData[i].c_str(), wfilePath);
@@ -115,16 +124,24 @@ HRESULT CQuestManager::LoadQuestData(const char* FolderName, const char* FileNam
 		}
 
 		_uint item, iCnt;
-		stringstream CellItemStream(vecQuestData[i]);
-		i++;
-
-		stringstream CellCntStream(vecQuestData[i]);
-		i++;
-
-		while (CellItemStream >> item && CellCntStream >> iCnt)
+		for (int j = 0; j < 2; ++j)
 		{
-			Data->DropItem.emplace_back(item, iCnt);
+			stringstream CellItemStream(vecQuestData[i]);
+			i++;
+
+			stringstream CellCntStream(vecQuestData[i]);
+			i++;
+			while (CellItemStream >> item && CellCntStream >> iCnt)
+			{
+				if(0 == j)
+					Data->ClearCondition.emplace_back(item, iCnt);
+				else
+					Data->DropItem.emplace_back(item, iCnt);
+			}
 		}
+
+		if (Data->bIsActive)
+			m_QuestList.push_back(Data);
 
 		m_QuestMap.insert({Data->QuestID, Data});
 	}
@@ -141,6 +158,40 @@ HRESULT CQuestManager::ReleaseQuestData()
 	m_QuestMap.clear();
 
 	return S_OK;
+}
+
+_bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
+{
+	if (nullptr == pQuest)
+		return false;
+
+	switch (pQuest->type)
+	{
+	case CQuestType::COLLECTION:
+	{
+		auto Inven = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
+		for (auto pair : pQuest->ClearCondition)
+		{
+			if (_flag)
+				Inven->Use_Item(pair.first, pair.second);
+			else
+			{
+				_uint OwnCount = Inven->Check_ItemCount(pair.first);
+				if (OwnCount < pair.second)
+				{
+					return false;
+				}
+			}
+		}
+	}
+	break;
+	case CQuestType::COMBAT:
+	{
+	}
+	break;
+	}
+
+	return true;
 }
 
 void CQuestManager::Free()

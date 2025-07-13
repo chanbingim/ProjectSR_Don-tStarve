@@ -20,9 +20,15 @@
 #include "Slot.h"
 #include "SlotFrame.h"
 #include "Inventory.h"
-#include "QuestFrameUI.h"
 #include "Mouse.h"
 #include "Logo.h"
+
+#pragma region QUESTUI
+#include "QuestFrameUI.h"
+#include "QuestBoxEntry.h"
+#include "ListBoxUI.h"
+#include "EventButton.h"
+#pragma endregion
 
 #pragma region BUTTON_UI
 #include "Crafting_Button.h"
@@ -668,6 +674,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Inventory"),
 		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+#pragma region QUEST UI
+	/* For.Prototype_GameObject_ListBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ListBox"),
+		CListBoxUI::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_QuestEntryBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestBoxEntry"),
+		CQuestBoxEntry::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Event_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_EventButton"),
+		CEventButton::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_QuestButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestButton"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Button/QuestButton%d.png"), 4))))
+		return E_FAIL;
+#pragma endregion
 
 	/* For.Prototype_GameObject_CraftingUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CraftingUI"),

@@ -33,6 +33,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
 		return E_FAIL;
 
+	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
 		return E_FAIL;
 
@@ -45,8 +48,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
-	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
-		return E_FAIL;
+
 	m_pCharacterManager = CCharacterManager::GetInstance();
 
 	return S_OK;

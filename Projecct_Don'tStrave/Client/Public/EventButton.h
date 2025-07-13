@@ -17,9 +17,15 @@ public :
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+	void							SetClickEvent(function<void()> Func);
+	void							ChangeButtonTex(_uint Index);
+
 private :
-	function<_bool()>				m_OnclickedEvent = { nullptr };
-	_matrix							m_ButtonMat = {};
+	function<void()>				m_OnclickedEvent = { nullptr };
+	_uint							m_ButtonIndex = {};
+
+private :
+	HRESULT							ADD_Components();
 
 public :
 	static		CEventButton*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

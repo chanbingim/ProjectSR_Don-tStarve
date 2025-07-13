@@ -10,7 +10,8 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CEventButton;
+struct	CQuestData;
+class	CEventButton;
 
 class CQuestBoxEntry : public CUserInterface
 {
@@ -35,20 +36,28 @@ public:
 	virtual void					Late_Update(_float fTimeDelta);
 	virtual HRESULT					Render();
 
+	void							SetQuestData(_uint QuestIndex, void* pArg);
+	void							EntryClickEvent();
+
 private :
 	_uint							m_EntryIndex = { 0 };
+	CTransform*						m_pParentTransform = { nullptr };
 
-	CTransform*						m_pParentTransform_Com = { nullptr };
-	//CVIBuffer_Rect*				m_pQuestIcon_Com = { nullptr };
+	_uint							m_QuestListType = {};
+	CQuestData*						m_pQuestData = { nullptr };
 
-	_uint							m_QuestType;
-	_wstring						m_QuestTittle;
+	_float2							m_fRelativePos;
+	RECT							m_FontRect = { 0, 0, 100, 100 };
 
 	CEventButton*					m_AcceptBut = { nullptr };
 	CEventButton*					m_CancelBut = { nullptr };
-
+	
 private:
 	HRESULT							ADD_Components();
+	HRESULT							ADD_Buttons();
+
+	void							AcceptQuest();
+	void							ClearQuest();
 
 public:
 	static	CQuestBoxEntry*			Create(LPDIRECT3DDEVICE9 pGraphic_Device);

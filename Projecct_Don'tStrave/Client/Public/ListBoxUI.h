@@ -9,12 +9,13 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CQuestBoxEntry;
+struct	CQuestData;
+class	CQuestBoxEntry;
 
 class CListBoxUI : public CUserInterface
 {
 public:
-	typedef struct ListBoxUI_desc
+	typedef struct ListBoxUI_desc : public UIOBJECT_DESC
 	{
 		_uint					m_ipreviewCnt = { 0 };
 		CTransform*				pParentTransform_Com;
@@ -35,16 +36,24 @@ public :
 	virtual HRESULT						Render();
 	virtual void						Late_Update(_float fTimeDelta);
 
-public :
-	CTransform*							m_pParentTransform_Com = { nullptr };
+	void								UpdateQuestList(_uint Index);
+
+
+private :
+	CTransform*							m_pParentTransform = { nullptr };
 	vector<CQuestBoxEntry*>				m_QuestBoxVec = {};
+	list<CQuestData*>*					m_QuestList = { nullptr };
+
+	_uint								m_iQuestListIndex = {};
 	_uint								m_ipreviewCnt = { 0 };
 	_uint								m_iCurViewIndex = { 0 };
 	_float2								m_EntryBoxSize = {};
+	_float2								m_fRelativePos;
 
 private:
 	HRESULT								ADD_Components();
 	HRESULT								ADD_EntryBox(_uint Index);
+	void								UpdateQuestEntry();
 
 public :
 	static	CListBoxUI*					Create(LPDIRECT3DDEVICE9 pGraphic_Device);
