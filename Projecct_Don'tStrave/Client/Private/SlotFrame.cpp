@@ -39,6 +39,14 @@ HRESULT CSlotFrame::Initialize(void* pArg)
 
     m_eSlotType = static_cast<SLOT>(pDesc->iSlotType);
 
+    if(SLOT::HAND ==  m_eSlotType)
+    {
+        CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(
+            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+
+        pPlayer->Set_EquipmentSlot(this);
+    }
+
     CUserInterface::UIOBJECT_DESC Desc = {};
 
     Desc.fX = pDesc->Desc.fX;
@@ -80,6 +88,7 @@ void CSlotFrame::Update(_float fTimeDelta)
 
     HoverEevent();
 
+
     if (m_eSlotType == m_pSlot->Get_Info().eSlot)
     {
         m_pSlot->Update(fTimeDelta);
@@ -117,6 +126,27 @@ void CSlotFrame::Update_IceBox(_float fTimeDelta)
         m_pSlot->Update_IceBox(fTimeDelta);
     }
     m_pSlot->Update_Count();
+}
+
+void CSlotFrame::Update_Equipment()
+{
+    ITEM_DESC Desc = m_pSlot->Get_Info();
+
+    if (Desc.iItemID == 0)
+        return;
+
+    if(10 > Desc.iItemID)
+        Desc.fDurability -= 5.f;
+    else
+        Desc.fDurability -= 1.f;
+
+    if (0 >= Desc.fDurability)
+    {
+        Swap_HandObject(0);
+        m_pSlot->Clear();
+        return;
+    }
+    m_pSlot->Set_Info(Desc);
 }
 
 void CSlotFrame::Swap_HandObject(_uint iItemID)
@@ -171,7 +201,8 @@ void CSlotFrame::Swap_HandObject(_uint iItemID)
         break;
 
     case 22:  // ³úÀüÃ¢
-        //pPlayer->Get_Player()->tItem = SWAPOBJECT::;
+        pPlayer->Get_Player()->tItem = SWAPOBJECT::LIGHTNINGSPEAR;
+        pData->iAtk = 50;
         break;
 
     default:

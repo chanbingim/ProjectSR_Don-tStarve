@@ -1,7 +1,9 @@
 #include "Loader.h"
 
 #include "Terrain.h"
+#include "VIBuffer_Cube.h"
 #include "Player.h"
+#include "SkyBox.h"
 #include "SpiderNormal.h"
 #include "SpiderWarrior.h"
 #include "SpiderHouse.h"
@@ -280,12 +282,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Ground/tile%d.png"), 9))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Skybox */
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Skybox"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::CUBE, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 6))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region COMPONENT
 	/* For.Prototype_Component_DropItem_com */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
 		CDropItemComponent::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Cube*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 
@@ -498,6 +511,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_SkyBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+		CSkyBox::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 #pragma region GAMEPLAY
 #pragma region CHARACTER
 
@@ -582,6 +600,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
 #pragma endregion
 
 #pragma region ENVIORN_MENT

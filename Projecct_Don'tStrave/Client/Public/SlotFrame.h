@@ -31,6 +31,7 @@ public:
 	virtual HRESULT	 Render()override;
 	
 	void	Update_IceBox(_float fTimeDelta);
+	void	Update_Equipment();
 	void	Swap_HandObject(_uint iItemID);
 private:
 	_bool	m_bClick = {};

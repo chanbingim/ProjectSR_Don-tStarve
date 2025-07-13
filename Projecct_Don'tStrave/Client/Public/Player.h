@@ -4,7 +4,7 @@
 #include "TorchFire.h"
 
 NS_BEGIN(Client)
-
+class CSlotFrame;
 class CPlayer final : public CCharacter
 {
 	enum MOTION {
@@ -71,6 +71,8 @@ public:
 	void				SetItem(SWAPOBJECT tItem);
 	_bool			Eat(void* pArg);
 	void				LightningAttack(_float3 fAttack,_float fPower);
+	HRESULT				Set_EquipmentSlot(CSlotFrame* pSlotFrame);
+
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
@@ -91,8 +93,9 @@ private:
 	Entity						m_tWigfridAnimation = {};
 	Entity						m_tItemAnimation = {};
 	Entity						m_tMakeAnimation = {};
-	CTorchFire* m_pTorchFire = {};
+	CTorchFire*					m_pTorchFire = {};
 	PLAYER_DATA*				m_pPlayer = {};
+	CSlotFrame*					m_pEquipment_Slot = { nullptr };
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);

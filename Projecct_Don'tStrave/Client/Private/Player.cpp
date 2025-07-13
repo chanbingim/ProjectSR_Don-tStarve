@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "MonsterData_Manager.h"
 #include "CharacterManager.h"
+#include "SlotFrame.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -652,12 +653,6 @@ void CPlayer::Update(_float fTimeDelta)
 				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
 			}
 			break;
-		case MOTION::AXE:
-			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
-				m_bControll = true;
-				SetAnimation(m_tDir, MOTION::IDLE);
-			}
-			break;
 		case MOTION::PICKAXE:
 			if (!m_pPlayer->pWorkObject && m_iLength <= m_fAniTime) {
 				m_bControll = true;
@@ -702,14 +697,26 @@ void CPlayer::Update(_float fTimeDelta)
 				SetAnimation(m_tDir, MOTION::SPEAR);
 			}
 			break;
-		case MOTION::BUCK_PST:
-		case MOTION::DIAL:
-		case MOTION::RUN_TO_IDLE:
-		case MOTION::BUILD_TO_IDLE:
+		case MOTION::AXE:
+			if (m_iLength <= m_fAniTime) {
+				m_pEquipment_Slot->Update_Equipment();
+				if (!m_pPlayer->pWorkObject) {
+					m_bControll = true;
+					SetAnimation(m_tDir, MOTION::IDLE);
+				}
+			}
+			break;
 		case MOTION::PICKAXE_TO_IDLE:
 		case MOTION::SHOVEL_TO_IDLE:
 		case MOTION::ATTACK:
 		case MOTION::SPEAR:
+			if (m_iLength <= m_fAniTime) {
+				m_pEquipment_Slot->Update_Equipment();
+			}
+		case MOTION::BUCK_PST:
+		case MOTION::DIAL:
+		case MOTION::RUN_TO_IDLE:
+		case MOTION::BUILD_TO_IDLE:
 		case MOTION::PICKUP:
 		case MOTION::GIVE:
 		case MOTION::DAMAGE:
@@ -748,7 +755,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_pGameInstance->KeyPressed('E'))
 	{
-		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);
+		m_pTransformCom->TurnRate(_float3(0.f, 1.f, 0.f), fTimeDelta);               
 	}
 	if (m_pGameInstance->KeyPressed('Q'))
 	{
@@ -991,6 +998,18 @@ void CPlayer::LightningAttack(_float3 fAttack, _float fPower)
 	m_pTransformCom->SetPosition(m_pPlayer->fPos);
 	m_bControll = false;
 	SetAnimation(m_tDir, MOTION::IDLE_TO_ATTACK);
+}
+
+HRESULT CPlayer::Set_EquipmentSlot(CSlotFrame* pSlotFrame)
+{
+	if (nullptr == pSlotFrame)
+		return E_FAIL;
+
+	m_pEquipment_Slot = pSlotFrame;
+
+	Safe_AddRef(m_pEquipment_Slot);
+
+	return S_OK;
 }
 
 HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
@@ -1320,6 +1339,7 @@ void CPlayer::Free()
 	Safe_Release(m_pCollision_Com);
 	Safe_Delete(m_pPlayer);
 	Safe_Release(m_pTorchFire);
+	Safe_Release(m_pEquipment_Slot);
 
 	for (auto& Folderiter : m_tWigfridImageVec)
 	{
