@@ -13,6 +13,9 @@ private:
 	virtual ~CMouse() = default;
 
 public:
+	class CSlot* Get_Slot() { return m_pSlot; }
+	
+public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
 	virtual void	 Priority_Update(_float fTimeDelta)override;
@@ -21,6 +24,7 @@ public:
 	virtual HRESULT	 Render()override;
 
 	void ClickedEevent();
+
 	void Update_HoverItem(_uint itemID);
 	void Update_HoverSlot(_uint itemID);
 	void Update_Hover(_uint itemID);

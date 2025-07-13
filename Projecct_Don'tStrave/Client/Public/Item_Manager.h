@@ -13,11 +13,15 @@ private:
 	virtual ~CItem_Manager() = default;
 
 public:
-	const ITEM_DATA& Get_ItemData(_uint iItemID) const;
-	void	LoadItemData(const char* MapFilePath);
+	_float3&			Get_Position(_uint iIndex) { return m_DropDir[iIndex]; }
+	const ITEM_DATA&	Get_ItemData(_uint iItemID) const;
+	void				LoadItemData(const char* MapFilePath);
+	
+
 private:
 	_uint				m_ItemDataSize = {};
 	vector<ITEM_DATA>	m_ItemDatas = {};
+	_float3				m_DropDir[8] = {};
 
 public:
 	virtual void Free() override;

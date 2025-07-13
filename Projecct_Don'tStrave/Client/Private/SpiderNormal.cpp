@@ -378,7 +378,7 @@ void CSpiderNormal::Late_Update(_float fTimeDelta)
 HRESULT CSpiderNormal::Render()
 {
 	if (m_bActive && !m_isDead) {
-		__super::Render();
+		//__super::Render();
 		RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
 	}
 	return S_OK;

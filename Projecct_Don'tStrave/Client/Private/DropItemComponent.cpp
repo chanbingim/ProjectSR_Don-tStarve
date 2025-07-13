@@ -44,13 +44,14 @@ HRESULT CDropItemComponent::ADD_ItemData(_uint iItemID, _uint  iMaxCnt)
 	return S_OK;
 }
 
-HRESULT CDropItemComponent::DropItem(_uint iLevelID, const _wstring& PrototypeTag, _uint iLayerID, const _wstring& LayerTag, const _float3& Point)
+HRESULT CDropItemComponent::DropItem(_uint iLevelID, const _wstring& PrototypeTag, _uint iLayerID, const _wstring& LayerTag, _float3& Point)
 {
 	if (nullptr == m_pItem_Manager)
 		return E_FAIL;
 
 	for (auto iter : m_vecItemID)
 	{
+		Point += m_pItem_Manager->Get_Position(static_cast<_uint>(m_pGameInstance->Random(0, 7)));
 		auto Data = CItem_Manager::GetInstance()->Get_ItemData(iter.first);
 		ITEM_DESC ItemDesc = {};
 		ItemDesc.fDurability = 100.f;
