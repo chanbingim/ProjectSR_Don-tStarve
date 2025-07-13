@@ -5,6 +5,7 @@
 
 NS_BEGIN(Engine)
 class CTransform;
+class CVIBuffer_Rect;
 NS_END
 
 NS_BEGIN(Client)
@@ -13,6 +14,14 @@ class CEventButton;
 
 class CQuestBoxEntry : public CUserInterface
 {
+public :
+	typedef struct QuestBoxEntry_desc : public UIOBJECT_DESC
+	{
+		_uint					EntryIndex;
+		CTransform*				pParentTransform_Com;
+
+	} QUESTBOXENTRY_DESC;
+
 private:
 	CQuestBoxEntry(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CQuestBoxEntry(const CQuestBoxEntry& rhs);
@@ -27,7 +36,14 @@ public:
 	virtual HRESULT					Render();
 
 private :
+	_uint							m_EntryIndex = { 0 };
+
 	CTransform*						m_pParentTransform_Com = { nullptr };
+	//CVIBuffer_Rect*				m_pQuestIcon_Com = { nullptr };
+
+	_uint							m_QuestType;
+	_wstring						m_QuestTittle;
+
 	CEventButton*					m_AcceptBut = { nullptr };
 	CEventButton*					m_CancelBut = { nullptr };
 

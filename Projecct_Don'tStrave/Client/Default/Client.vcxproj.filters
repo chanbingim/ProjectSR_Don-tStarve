@@ -787,6 +787,9 @@
     <ClInclude Include="..\public\EventButton.h">
       <Filter>04. GmaeUI\Button\EventButton</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ListBoxUI.h">
+      <Filter>04. GmaeUI\Quest\ListFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1164,6 +1167,9 @@
     </ClCompile>
     <ClCompile Include="..\private\EventButton.cpp">
       <Filter>04. GmaeUI\Button\EventButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ListBoxUI.cpp">
+      <Filter>04. GmaeUI\Quest\ListFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

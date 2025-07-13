@@ -4,6 +4,8 @@
 #include "UserInterface.h"
 
 NS_BEGIN(Client)
+class CListBoxUI;
+
 class CQuestFrameUI : public CUserInterface
 {
 private :
@@ -18,6 +20,10 @@ public :
 	virtual void					Update(_float fTimeDelta);
 	virtual void					Late_Update(_float fTimeDelta);
 	virtual HRESULT					Render();
+
+private :
+	_bool							m_bIsActive = { false };
+	CListBoxUI*						m_pListBox = { nullptr };
 
 private :
 	HRESULT							ADD_Components();

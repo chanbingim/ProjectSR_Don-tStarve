@@ -17,13 +17,9 @@ public :
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
-
-
-
-
-
 private :
-	function<_bool()>				m_Onclicked = { nullptr };
+	function<_bool()>				m_OnclickedEvent = { nullptr };
+	_matrix							m_ButtonMat = {};
 
 public :
 	static		CEventButton*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

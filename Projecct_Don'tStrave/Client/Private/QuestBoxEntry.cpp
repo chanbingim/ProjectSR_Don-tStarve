@@ -1,5 +1,8 @@
 #include "QuestBoxEntry.h"
 
+#include "GameInstance.h"
+#include "EventButton.h"
+
 CQuestBoxEntry::CQuestBoxEntry(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CUserInterface(pGraphic_Device)
 {
@@ -17,26 +20,45 @@ HRESULT CQuestBoxEntry::Initialize_Prototype()
 
 HRESULT CQuestBoxEntry::Initialize(void* pArg)
 {
+	//엔트리 박스의 사이즈는 안에서 결정해 주자
+	if (FAILED(__super::Initialize(&pArg)))
+		return E_FAIL;
+
+	if (FAILED(ADD_Components()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CQuestBoxEntry::Priority_Update(_float fTimeDelta)
 {
+	m_AcceptBut->Priority_Update(fTimeDelta);
+	m_CancelBut->Priority_Update(fTimeDelta);
 }
 
 void CQuestBoxEntry::Update(_float fTimeDelta)
 {
+	m_AcceptBut->Update(fTimeDelta);
+	m_CancelBut->Update(fTimeDelta);
 }
 
 void CQuestBoxEntry::Late_Update(_float fTimeDelta)
 {
+	m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+	//m_pQuestIcon_Com->Render();
+
+	m_AcceptBut->Late_Update(fTimeDelta);
+	m_CancelBut->Late_Update(fTimeDelta);
 }
 
 HRESULT CQuestBoxEntry::Render()
 {
-	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
-	//m_pTexture_Com->Set_Texture(0);
-	//m_pVIBuffer_Com->Render();
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+	m_pTexture_Com->Set_Texture(0);
+	m_pVIBuffer_Com->Render();
+
+	m_AcceptBut->Render();
+	m_CancelBut->Render();
 
 	return S_OK;
 }
