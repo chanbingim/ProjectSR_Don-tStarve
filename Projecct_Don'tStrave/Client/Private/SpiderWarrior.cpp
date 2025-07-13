@@ -7,6 +7,7 @@
 #include "Food.h"
 #include "Item_Manager.h"
 #include "CharacterManager.h"
+#include "DropItemComponent.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -37,6 +38,10 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+
+	m_pDropItem_Com->ADD_ItemData(46, 2);
+	m_pDropItem_Com->SetCreateEffect(1);
 
 	return S_OK;
 }

@@ -84,6 +84,9 @@ void CLight_Manager::Sorting_Light(_uint Sortingtype)
 			else
 				return pSrc->Compute_LightDistance() > pDst->Compute_LightDistance();
 		});
+	if (1 == m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].size()) {
+		m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].front()->Compute_LightDistance();
+	}
 }
 
 void CLight_Manager::Bind_SortFunc(function<_bool(CLightComponent*, CLightComponent*)> _Func)

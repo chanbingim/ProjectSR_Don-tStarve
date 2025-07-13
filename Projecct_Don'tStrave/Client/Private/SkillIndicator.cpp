@@ -44,7 +44,7 @@ void CSkillIndicator::Priority_Update(_float fTimeDelta)
 
 void CSkillIndicator::Update(_float fTimeDelta)
 {
-	if (SWAPOBJECT::SPEAR == m_pPlayer->Get_Player()->tItem) {
+	if (201 == m_pPlayer->Get_Player()->iId && SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->Get_Player()->tItem) {
 		if (m_pGameInstance->KeyPressed(VK_RBUTTON))
 		{
 			_float3 vPickingPos = {};

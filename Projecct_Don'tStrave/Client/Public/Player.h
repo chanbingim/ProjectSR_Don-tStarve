@@ -2,9 +2,9 @@
 
 #include "Character.h"
 #include "TorchFire.h"
-
 NS_BEGIN(Client)
 class CSlotFrame;
+class CSlot;
 class CPlayer final : public CCharacter
 {
 	enum MOTION {
@@ -73,18 +73,25 @@ public:
 	void				LightningAttack(_float3 fAttack,_float fPower);
 	HRESULT				Set_EquipmentSlot(CSlotFrame* pSlotFrame);
 
+	void				MakeItem(_wstring prototype, ITEM_DESC itemDesc);
+	void				MakeMaterialItem(CSlot* slot, ITEM_DESC itemDesc);
+
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
 	_bool					m_bAttack = {};
+	_bool					m_bLightningAttack = {};
 	_bool					m_bCrawling = {};
 	_bool					m_bTerrorbeak = {};
 	_float					m_fHungTime = {};
 	_float					m_fFightTime = {};
 	_float3					m_fLightning = {};
+	_int						m_iDarkTime = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
 	_int						m_iHungerChange = {};
+	_wstring					m_sItem = {};
+	ITEM_DESC				m_tItem = {};
 	vector<IMAGE_FOLDER_DESC>	m_tGhostImageVec = {};
 	vector<IMAGE_FOLDER_DESC>	m_tWigfridImageVec = {};
 	vector<IMAGE_FOLDER_DESC>	m_tWigfridGhostImageVec = {};
@@ -95,7 +102,9 @@ private:
 	Entity						m_tMakeAnimation = {};
 	CTorchFire*					m_pTorchFire = {};
 	PLAYER_DATA*				m_pPlayer = {};
+
 	CSlotFrame*					m_pEquipment_Slot = { nullptr };
+	CSlot*					m_pSlot = {};
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);

@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "House.h"
 #include "CharacterManager.h"
+#include "DropItemComponent.h"
 
 CTreeguard::CTreeguard(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -37,6 +38,11 @@ HRESULT CTreeguard::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+	m_pDropItem_Com->ADD_ItemData(16, 2);
+	m_pDropItem_Com->ADD_ItemData(38, 3);
+	m_pDropItem_Com->SetCreateEffect(1);
+
 	return S_OK;
 }
 

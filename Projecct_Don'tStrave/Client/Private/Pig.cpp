@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "PigHouse.h"
 #include "CharacterManager.h"
+#include "DropItemComponent.h"
 
 CPig::CPig(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -37,6 +38,10 @@ HRESULT CPig::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+	
+	m_pDropItem_Com->ADD_ItemData(43, 1);
+	m_pDropItem_Com->ADD_ItemData(44, 1);
+	m_pDropItem_Com->SetCreateEffect(1);
 
 	return S_OK;
 }
@@ -283,8 +288,6 @@ void CPig::GetTarget(CGameObject* actor, _float distance)
 				(!dynamic_cast<CPig*>(actor) && !dynamic_cast<CHouse*>(actor) && dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && 1 == dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile)) {
 				m_pNearTarget = actor;
 				m_fNearDistance = distance;
-				_bool a = Get_Active();
-				int b = 1;
 			}
 		}
 	}

@@ -15,6 +15,7 @@
 #include "Shadowterrorbeak.h"
 #include "Treeguard.h"
 #include "TreeguardObject.h"
+#include "Goat.h"
 
 #include "TorchFire.h"
 
@@ -128,12 +129,12 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {	
 	m_eNextLevelID = eNextLevelID;
 
-	/* ¼¼¸¶Æ÷¾î, ¹ÂÅØ½º, Å©¸®Æ¼ÄÃ¼½¼Ç */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ø½ï¿½, Å©ï¿½ï¿½Æ¼ï¿½Ã¼ï¿½ï¿½ï¿½ */
 
-	/* ÀÓ°è¿µ¿ª(Èü, µ¥ÀÌÅÍ, ÄÚµå)¿¡ Á¢±ÙÇÏ±âÀ§ÇÑ Å°¸¦ »ý¼ºÇÑ´Ù. */
+	/* ï¿½Ó°è¿µï¿½ï¿½(ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Úµï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. */
 	InitializeCriticalSection(&m_CriticalSection);
 
-	/* ½ÇÁ¦ ·ÎµùÀ» ¼öÇàÇÏ±âÀ§ÇÑ ½º·¹µå¸¦ »ý¼ºÇÑ´Ù. */
+	/* ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -178,7 +179,7 @@ void CLoader::Output()
 
 HRESULT CLoader::Loading_For_Logo()
 {
-	m_strMessage = TEXT("ÅØ½ºÃÄ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½Ø½ï¿½ï¿½Ä¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 	/* For.Prototype_Component_Texture_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
@@ -189,11 +190,11 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo_button.png"), 1))))
 		return E_FAIL;
 
-	m_strMessage = TEXT("¸ðµ¨¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ðµ¨¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
-	m_strMessage = TEXT("¼ÎÀÌ´õ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 	
-	m_strMessage = TEXT("°´Ã¼¿øÇü¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
 	/* For.Prototype_GameObject_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_Logo"),
@@ -201,7 +202,7 @@ HRESULT CLoader::Loading_For_Logo()
 		return E_FAIL;
 
 
-	m_strMessage = TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù..");
+	m_strMessage = TEXT("ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½..");
 
 	m_isFinished = true;
 
@@ -210,7 +211,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_Select()
 {
-	m_strMessage = TEXT("ÅØ½ºÃÄ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½Ø½ï¿½ï¿½Ä¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 	/* For.Prototype_Component_Texture_Select */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Select"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/select_back.png"), 1))))
@@ -231,11 +232,11 @@ HRESULT CLoader::Loading_For_Select()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/start.png"), 1))))
 		return E_FAIL;
 
-	m_strMessage = TEXT("¸ðµ¨¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ðµ¨¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
-	m_strMessage = TEXT("¼ÎÀÌ´õ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
-	m_strMessage = TEXT("°´Ã¼¿øÇü¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
 	/* For.Prototype_GameObject_Select_Character */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Select_Character"),
@@ -258,7 +259,7 @@ HRESULT CLoader::Loading_For_Select()
 		return E_FAIL;
 
 
-	m_strMessage = TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù..");
+	m_strMessage = TEXT("ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½..");
 
 	m_isFinished = true;
 
@@ -267,16 +268,16 @@ HRESULT CLoader::Loading_For_Select()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	m_strMessage = TEXT("Ä³¸¯ÅÍ Á¤º¸¸¦ °¡Á®¿À´Â Áß... ");
+	m_strMessage = TEXT("Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½... ");
 	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
 
-	m_strMessage = TEXT("¸ó½ºÅÍ Á¤º¸¸¦ °¡Á®¿À´Â Áß... ");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½... ");
 	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
 
-	m_strMessage = TEXT("¾ÆÀÌÅÛ Á¤º¸¸¦ °¡Á®¿À´Â Áß... ");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½... ");
 	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
 
-	m_strMessage = TEXT("ÅØ½ºÃÄ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½Ø½ï¿½ï¿½Ä¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 #pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
@@ -483,6 +484,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
+
+#pragma region TORCH
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
@@ -495,26 +498,30 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_FireEffect"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/Fire.bmp"), 1))))
 		return E_FAIL;
+#pragma endregion
 
 
 #pragma endregion
-	m_strMessage = TEXT("¸ðµ¨¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ðµ¨¸ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
-	m_strMessage = TEXT("¼ÎÀÌ´õ¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
-	m_strMessage = TEXT("°´Ã¼¿øÇü¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
 
 
+#pragma region TORCH
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
 	/* For.Prototype_GameObject_SkyBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
 		CSkyBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
+#pragma endregion
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER
@@ -579,6 +586,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Treeguard"),
 		CTreeguard::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Goat"),
+		CGoat::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
@@ -872,19 +884,19 @@ HRESULT CLoader::Loading_For_GamePlay()
 	
 #pragma endregion
 
-	m_strMessage = TEXT("ÆùÆ®¸¦(À») ·Îµù Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½) ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 
 #pragma region FONT
 
 #pragma endregion
-	m_strMessage = TEXT("ÀÌÆåÆ®¸¦(À») »ý¼º Áß ÀÔ´Ï´Ù.");
+	m_strMessage = TEXT("ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.");
 #pragma region Effect
 	CEffectPoolManager::GetInstance()->Initailize();
 #pragma endregion
 
 	
 
-	m_strMessage = TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù..");
+	m_strMessage = TEXT("ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½..");
 
 	m_isFinished = true;
 
