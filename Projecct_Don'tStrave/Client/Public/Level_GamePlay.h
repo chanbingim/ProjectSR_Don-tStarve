@@ -5,6 +5,8 @@
 
 NS_BEGIN(Client)
 
+class CCharacterManager;
+
 class CLevel_GamePlay final : public CLevel
 {
 private:
@@ -32,7 +34,7 @@ private:
 
 private:
 	_wstring			GetEnv_ObejctTag(_uint iID);
-
+	CCharacterManager* m_pCharacterManager = { nullptr };
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID);
 	virtual void Free() override;

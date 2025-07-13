@@ -280,9 +280,10 @@ void CSlotFrame::ClickedEevent()
 
                 CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 
-                pPlayer->Eat(&Item_Data);
+                if (pPlayer->Eat(&Item_Data)) {
+                    m_pSlot->Use_One();
+                }
 
-                m_pSlot->Use_One();
             }
             else if (ITEM_TYPE::EQUIPMENT == Desc.eItemType)
             {

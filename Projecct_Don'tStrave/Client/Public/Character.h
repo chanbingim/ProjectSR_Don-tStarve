@@ -14,7 +14,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CCharacter_Manager;
+class CCharacterManager;
 class CTerrian_Manager;
 
 enum DIR {
@@ -53,9 +53,18 @@ public:
 	virtual	void		Damage(void* pArg) override;
 	virtual	void		Hit() = 0;
 	virtual void		SetDir();
+<<<<<<< HEAD
 
 	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
 	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec);
+=======
+	void		ResetTarget(_float iDistance);
+	virtual void		GetTarget(CGameObject* actor, _float distance);
+	CGameObject*		GetNearTarget() { return m_pNearTarget; }
+	_bool		GetNeedItem() { return	m_bNeedItem; }
+	void				RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
+	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
+>>>>>>> origin/0712_kjh
 	
 	CHARACTER_DATA* Get_Char() { return m_pChar; }
 protected:
@@ -69,15 +78,16 @@ protected:
 	_bool				m_bAttack;
 	wstring				m_sAnim;
 	DIR					m_tDir = {};
+	_float				m_fNearDistance = {};
 	_float3				m_fPreMove = {};
 	_float3				m_fMoving = {};
 	_float				m_fAngle = {};
 	CHARACTER_DATA*		m_pChar = {};
 	_bool				m_bCol = {};
-	CCharacter*			m_pNearTarget = {};
-	CItem*				m_pNearItem = {};
+	_bool				m_bNeedItem = {};
+	CGameObject*			m_pNearTarget = {};
 	CCollision_Component*		m_pCollision_Com = { nullptr };
-
+	CCharacterManager*			m_pCharacterManager = { nullptr };
 public:
 	HRESULT Ready_Components();
 	virtual void Free() override;

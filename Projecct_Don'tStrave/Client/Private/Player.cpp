@@ -7,6 +7,7 @@
 #include "Fire.h"
 #include "Item.h"
 #include "MonsterData_Manager.h"
+#include "CharacterManager.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -221,6 +222,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+	CCharacterManager::GetInstance()->SetPlayer(this);
 	return S_OK;
 }
 
@@ -339,6 +341,7 @@ void CPlayer::Update(_float fTimeDelta)
 	case CPlayer::IDLE_TO_SHOVEL:
 	case CPlayer::SHOVEL:
 	case CPlayer::SHOVEL_TO_IDLE:
+	case CPlayer::IDLE_TO_ATTACK:
 	case CPlayer::ATTACK:
 	case CPlayer::IDLE_TO_SPEAR:
 	case CPlayer::SPEAR:
@@ -802,7 +805,7 @@ void CPlayer::SetDir()
 {
 	if (m_pPlayer->pWorkObject) {
 		m_fMoving = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+		if (0.0001f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
 			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / D3DXVec3Length(&m_fMoving)));
 			if (0 < m_fMoving.z) {
 				m_fAngle = 360.f - m_fAngle;
@@ -821,16 +824,16 @@ void CPlayer::SetDir()
 		if (0 > fAngle) {
 			fAngle += 360;
 		}
-		if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
+		if ((0.f <= fAngle && fAngle < 44.9f) || (fAngle < 360.f && fAngle >= 314.9f)) {
 			m_tMoveDIr = MOVE_DIR::MOVE_UP;
 		}
-		else if ((fAngle < 130.f && fAngle >= 40.f)) {
+		else if ((fAngle < 134.9f && fAngle >= 44.9f)) {
 			m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
 		}
-		else if (fAngle < 220.f && fAngle >= 130.f) {
+		else if (fAngle < 224.9f && fAngle >= 134.9f) {
 			m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
 		}
-		else if (fAngle < 310.f && fAngle >= 220.f) {
+		else if (fAngle < 314.9f && fAngle >= 224.9f) {
 			m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
 		}
 	}
@@ -952,7 +955,7 @@ void CPlayer::SetItem(SWAPOBJECT tItem)
 {
 }
 
-void CPlayer::Eat(void* pArg)
+_bool CPlayer::Eat(void* pArg)
 {
 	if (m_bControll) {
 		ITEM_DATA* food = static_cast<ITEM_DATA*>(pArg);
@@ -961,8 +964,8 @@ void CPlayer::Eat(void* pArg)
 		}
 		else {
 			if (201 == m_pPlayer->iId) {
-				SetAnimation(m_tDir, MOTION::IDLE);
-				return;
+				SetAnimation(DIR::DIR_END, MOTION::DIAL);
+				return false;
 			}
 			else {
 				SetAnimation(m_tDir, MOTION::FASTEAT);
@@ -972,12 +975,17 @@ void CPlayer::Eat(void* pArg)
 		m_iSanityChange = food->iSanityChange;
 		m_iHungerChange = food->iHungerChange;
 		m_bControll = false;
+		return true;
 	}
+	return false;
 }
 
 void CPlayer::LightningAttack(_float3 fAttack, _float fPower)
 {
-	m_fLightning = fAttack * fPower;
+	m_fMoving = m_pPlayer->fPos - fAttack;
+	m_pPlayer->pWorkObject = nullptr;
+	m_fLightning = fAttack * fPower * 2;
+	m_bControll = false;
 	m_pTransformCom->SetPosition(m_pPlayer->fPos);
 	m_bControll = false;
 	SetAnimation(m_tDir, MOTION::IDLE_TO_ATTACK);

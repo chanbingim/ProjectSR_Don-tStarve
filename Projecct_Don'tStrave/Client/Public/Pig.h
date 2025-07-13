@@ -43,6 +43,7 @@ public:
 	virtual void		Attack() override;
 	virtual void		Death() override;
 	void				OutHouse();
+	virtual void		GetTarget(CGameObject* actor, _float distance) override;
 private:
 	MOTION					m_tMotion = {};
 	CPigHouse*				m_pHouse = {};

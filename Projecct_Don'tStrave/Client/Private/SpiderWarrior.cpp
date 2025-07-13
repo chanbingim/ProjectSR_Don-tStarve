@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Food.h"
 #include "Item_Manager.h"
+#include "CharacterManager.h"
 
 CSpiderWarrior::CSpiderWarrior(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -53,83 +54,11 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 	if (MOTION::IDLE_TO_EAT == m_tMotion) {
 		return;
 	}
+	ResetTarget(4.f);
 
-	m_pTarget = nullptr;
-
-	list<CGameObject*> NearObjects;
-
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
-	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-		CGameObject* object = GroundObejcts->front();
-		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-		if (3.f > distance) {
-			NearObjects.push_back(object);
-		}
-	}
-
-	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-	if (GroundObejcts && !GroundObejcts->empty()) {
-		for (auto& object : (*GroundObejcts)) {
-			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderQueen*>(object) && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(object)) {
-				if (3.f > distance) {
-					NearObjects.push_back(object);
-				}
-			}
-		}
-	}
-	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
-			return distance < distance2;
-		});
-
-	if (!NearObjects.empty()) {
-		CGameObject* object = NearObjects.front();
-		if (object) {
-			m_pTarget = object;
-		}
-	}
-	else {
-		m_bTarget = false;
-		GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Item"));
-		if (GroundObejcts && !GroundObejcts->empty()) {
-			for (auto& object : (*GroundObejcts)) {
-				_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-				if (3.f > distance) {
-					if (dynamic_cast<CFood*>(object)) {
-						if (FOOD::MEAT == CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(object)->Get_Info().iItemID).eFoodtype) {
-							NearObjects.push_back(object);
-						}
-					}
-				}
-			}
-		}
-		NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-			{
-				_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-				_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
-				return distance < distance2;
-			});
-
-		if (!NearObjects.empty()) {
-			CGameObject* object = NearObjects.front();
-			if (object) {
-				m_pTarget = object;
-			}
-		}
-	}
 	m_bHouse = false;
-	if (!m_pTarget && m_pHouse && 30 >= *m_pTime) {
-		m_pTarget = m_pHouse;
+	if (!m_pNearTarget && m_pHouse && 30 >= *m_pTime) {
+		m_pNearTarget = m_pHouse;
 		m_bHouse = true;
 	}
 }
@@ -192,14 +121,13 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 		}
 	}
-	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+	else if (m_pNearTarget) {
+		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
+		if (D3DXVec3Length(&move) < 3.5f) {
 			m_fAtkCool -= fTimeDelta;
-			if (dynamic_cast<CFood*>(m_pTarget) && MOTION::EAT != m_tMotion) {
+			if (dynamic_cast<CFood*>(m_pNearTarget) && MOTION::EAT != m_tMotion) {
 				m_bTarget = true;
-				_float3 transform = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-				_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+				_float distance = D3DXVec3Length(&move);
 				if (0.1f > distance) {
 					SetAnimation(m_tDir, MOTION::IDLE_TO_EAT);
 				}
@@ -228,11 +156,11 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 					break;
 				case MOTION::IDLE_TO_EAT:
 					if (m_iLength <= m_fAniTime) {
-						if (!m_pTarget->isDead()) {
+						if (!m_pNearTarget->isDead()) {
 							SetAnimation(m_tDir, MOTION::EAT);
-							m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pTarget)->Get_Info().iItemID).iHungerChange);
-							m_pTarget->SetDead();
-							m_pTarget = nullptr;
+							m_pMonsterData->iHp = min(m_pMonsterData->iMaxHp, m_pMonsterData->iHp + CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(m_pNearTarget)->Get_Info().iItemID).iHungerChange);
+							m_pNearTarget->SetDead();
+							m_pNearTarget = nullptr;
 						}
 						else {
 							SetAnimation(m_tDir, MOTION::IDLE);
@@ -289,6 +217,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -360,6 +289,7 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -396,10 +326,11 @@ void CSpiderWarrior::Late_Update(_float fTimeDelta)
 		return;
 	}
 	__super::Late_Update(fTimeDelta);
-	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+	if (!m_isDead && m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
 	{
 		SetDir();
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+		m_pCharacterManager->AddObject(this);
 	}
 }
 
@@ -432,6 +363,25 @@ void CSpiderWarrior::OutHouse()
 {
 	__super::OutHouse();
 	SetAnimation(m_tDir, MOTION::IDLE);
+}
+
+void CSpiderWarrior::GetTarget(CGameObject* actor, _float distance)
+{
+	if (4.f > distance && m_fNearDistance / 2 > distance) {
+		if (dynamic_cast<CCharacter*>(actor)) {
+			if ((200 <= dynamic_cast<CCharacter*>(actor)->Get_Char()->iId && !dynamic_cast<CCharacter*>(actor)->Get_Char()->bIsDead) ||
+				(dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && !dynamic_cast<CSpider*>(actor) && !dynamic_cast<CSpiderQueen*>(actor) && 2 != dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(actor))) {
+				m_pNearTarget = actor;
+				m_fNearDistance = distance;
+			}
+		}
+		else if (dynamic_cast<CFood*>(actor)) {
+			if (FOOD::MEAT == CItem_Manager::GetInstance()->Get_ItemData(dynamic_cast<CItem*>(actor)->Get_Info().iItemID).eFoodtype) {
+				m_pNearTarget = actor;
+				m_fNearDistance = distance;
+			}
+		}
+	}
 }
 
 HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
@@ -519,7 +469,7 @@ void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	if (dynamic_cast<CCharacter*>(HitActor)) {
 		if (!dynamic_cast<CMonster*>(HitActor) && m_tMotion == DASH_ATTACK) {
-			m_pTarget->Damage(&m_tDamage);
+			m_pNearTarget->Damage(&m_tDamage);
 		}
 	}
 }
@@ -527,15 +477,15 @@ void CSpiderWarrior::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	__super::OverlapHitActor(HitActor, _Dir);
-	if (m_bHouse && m_pTarget == m_pHouse && HitActor == m_pHouse) {
+	if (m_bHouse && m_pNearTarget == m_pHouse && HitActor == m_pHouse) {
 		m_pHouse->EnterSpider(this);
 		m_bActive = false;
-		m_pTarget = nullptr;
+		m_pNearTarget = nullptr;
 		return;
 	}
-	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {

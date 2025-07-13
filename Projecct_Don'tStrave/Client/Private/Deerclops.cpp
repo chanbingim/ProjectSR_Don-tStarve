@@ -1,11 +1,9 @@
 #include "Deerclops.h"
 #include "GameInstance.h"
-#include "SpiderHouse.h"
+#include "House.h"
 #include "XML_Manager.h"
-#include "SpiderQueen.h"
 #include "Camera.h"
-#include "Food.h"
-#include "Item_Manager.h"
+#include "CharacterManager.h"
 
 CDeerclops::CDeerclops(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -48,50 +46,7 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 		m_bAttack = false;
 	}
 	__super::Priority_Update(fTimeDelta);
-	m_pTarget = nullptr;
-
-	list<CGameObject*> NearObjects;
-
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
-	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-		CGameObject* object = GroundObejcts->front();
-		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-		if (5.f > distance) {
-			NearObjects.push_back(object);
-		}
-	}
-
-	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-	if (GroundObejcts && !GroundObejcts->empty()) {
-		for (auto& object : (*GroundObejcts)) {
-			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			if (object != this && dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(object)) {
-				if (5.f > distance) {
-					NearObjects.push_back(object);
-				}
-			}
-		}
-	}
-	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
-			return distance < distance2;
-		});
-
-	if (!NearObjects.empty()) {
-		CGameObject* object = NearObjects.front();
-		if (object) {
-			m_pTarget = object;
-		}
-	}
-	else {
-		m_bTarget = false;
-	}
+	ResetTarget(6.f);
 }
 
 void CDeerclops::Update(_float fTimeDelta)
@@ -129,12 +84,12 @@ void CDeerclops::Update(_float fTimeDelta)
 				return;
 			}
 		}
-		else if (m_pTarget) {
-			if (m_pTarget->isDead())
+		else if (m_pNearTarget) {
+			if (m_pNearTarget->isDead())
 				return;
 
-			_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-			if ((abs(move.x) + abs(move.z)) / 2.f < 4) {
+			_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+			if (D3DXVec3Length(&move) < 5.5f) {
 				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 					switch (m_tMotion)
 					{
@@ -187,6 +142,7 @@ void CDeerclops::Update(_float fTimeDelta)
 			else {
 				switch (m_tMotion)
 				{
+				case MOTION::IDLE_TO_RUN:
 				case MOTION::RUN:
 					if (m_iLength <= m_fAniTime) {
 						SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -214,6 +170,7 @@ void CDeerclops::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -237,10 +194,11 @@ void CDeerclops::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
+	if (!m_isDead && m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
 	{
 		SetDir();
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+		m_pCharacterManager->AddObject(this);
 	}
 
 }
@@ -273,6 +231,19 @@ void CDeerclops::Attack()
 void CDeerclops::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+}
+
+void CDeerclops::GetTarget(CGameObject* actor, _float distance)
+{
+	if (6.f > distance && m_fNearDistance / 2 > distance) {
+		if (dynamic_cast<CCharacter*>(actor)) {
+			if ((200 <= dynamic_cast<CCharacter*>(actor)->Get_Char()->iId) ||
+				(dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && 2 != dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(actor))) {
+				m_pNearTarget = actor;
+				m_fNearDistance = distance;
+			}
+		}
+	}
 }
 
 HRESULT CDeerclops::SetAnimation(DIR dir, MOTION motion)
@@ -342,9 +313,9 @@ void CDeerclops::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CDeerclops::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	__super::OverlapHitActor(HitActor, _Dir);
-	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {

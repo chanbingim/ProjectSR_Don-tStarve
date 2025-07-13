@@ -12,6 +12,7 @@
 #include "QuestManager.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
+#include "CharacterManager.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -41,15 +42,20 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
 
+<<<<<<< HEAD
 	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
 		return E_FAIL;
+=======
+	m_pCharacterManager = CCharacterManager::GetInstance();
+
+>>>>>>> origin/0712_kjh
 
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	
+	m_pCharacterManager->Update();
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -162,11 +168,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
 		WCHAR TexPath[MAX_PATH] = {};
 
-		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
+		//auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
+		//data.fPos = vecBaseData[i].Position;
+		//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		//	ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
+		//	return E_FAIL;
+
+		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(103);
 		data.fPos = vecBaseData[i].Position;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
+
+
+		break;
 	}
 
 	return S_OK;
@@ -332,6 +347,10 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVE
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
+<<<<<<< HEAD
 
 	CQuestManager::GetInstance()->ReleaseQuestData();
+=======
+	CCharacterManager::DestroyInstance();
+>>>>>>> origin/0712_kjh
 }

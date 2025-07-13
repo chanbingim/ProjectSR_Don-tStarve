@@ -42,19 +42,19 @@ void CShadowterrorbeak::Priority_Update(_float fTimeDelta)
 		m_bAttack = false;
 	}
 	__super::Priority_Update(fTimeDelta);
-	m_pTarget = nullptr;
+	m_pNearTarget = nullptr;
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
 		CGameObject* object = GroundObejcts->front();
 		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if (10.f > distance) {
 			CPlayer* player = dynamic_cast<CPlayer*>(object);
 			if (player && player->Get_Player()->iMaxMental / 3 < player->Get_Player()->iMental) {
 				Death();
 			}
 			else {
-				m_pTarget = object;
+				m_pNearTarget = object;
 			}
 		}
 		else {
@@ -98,8 +98,8 @@ void CShadowterrorbeak::Update(_float fTimeDelta)
 		}
 		return;
 	}
-	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+	else if (m_pNearTarget) {
+		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
 		if ((abs(move.x) + abs(move.z)) / 2.f < 10) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
@@ -309,9 +309,9 @@ void CShadowterrorbeak::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CShadowterrorbeak::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget && m_tMotion != APPEAR && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && m_tMotion != APPEAR && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance) >= distance) {
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {

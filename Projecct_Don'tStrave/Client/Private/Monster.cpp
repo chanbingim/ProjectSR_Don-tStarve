@@ -36,6 +36,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->iAtkDistance = data.iAtkDistance / 5.f;
 	m_pMonsterData->iAtkSpeed = data.iAtkSpeed;
 	m_pMonsterData->fPos = data.fPos;
+	m_pMonsterData->bIsDead = false;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
 
@@ -63,6 +64,9 @@ void CMonster::Priority_Update(_float fTimeDelta)
 	if (m_fMoveDelay <= m_fMoveTime) {
 		SetRandomMove();
 	}
+	if (!m_pNearTarget) {
+		m_bTarget = false;
+	}
 }
 
 void CMonster::Update(_float fTimeDelta)
@@ -79,9 +83,6 @@ void CMonster::Update(_float fTimeDelta)
 void CMonster::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	if (m_pTarget && m_pTarget->isDead()) {
-		m_pTarget = nullptr;
-	}
 }
 
 HRESULT CMonster::Render()
@@ -93,10 +94,10 @@ HRESULT CMonster::Render()
 
 void CMonster::SetDir()
 {
-	if (m_pTarget) {
-		m_fMoving = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if (0.01f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
-			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / sqrtf(powf(m_fMoving.x, 2) + powf(m_fMoving.z, 2))));
+	if (m_pNearTarget) {
+		m_fMoving = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		if (0.0001f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / D3DXVec3Length(&m_fMoving)));
 			if (0 < m_fMoving.z) {
 				m_fAngle = 360.f - m_fAngle;
 			}
@@ -105,7 +106,7 @@ void CMonster::SetDir()
 		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
 		_float3 look = view.m[2];
 		look.z *= -1;
-		_float lookAngle = D3DXToDegree(acosf(look.x / sqrtf(powf(look.x, 2) + powf(look.z, 2))));
+		_float lookAngle = D3DXToDegree(acosf(look.x / D3DXVec3Length(&m_fMoving)));
 		lookAngle += 180;
 		if (0 < look.z) {
 			lookAngle = 360.f - lookAngle;
@@ -114,16 +115,16 @@ void CMonster::SetDir()
 		if (0 > fAngle) {
 			fAngle += 360;
 		}
-		if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
+		if ((0.f <= fAngle && fAngle < 44.9f) || (fAngle < 360.f && fAngle >= 314.9f)) {
 			m_tMoveDIr = MOVE_DIR::MOVE_UP;
 		}
-		else if ((fAngle < 130.f && fAngle >= 40.f)) {
+		else if ((fAngle < 134.9f && fAngle >= 44.9f)) {
 			m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
 		}
-		else if (fAngle < 220.f && fAngle >= 130.f) {
+		else if (fAngle < 224.9f && fAngle >= 134.9f) {
 			m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
 		}
-		else if (fAngle < 310.f && fAngle >= 220.f) {
+		else if (fAngle < 314.9f && fAngle >= 224.9f) {
 			m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
 		}
 	}

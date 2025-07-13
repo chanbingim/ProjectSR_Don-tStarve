@@ -73,6 +73,14 @@ HRESULT CCamera::Initialize_Late()
 
 	if (!m_pPlayerTransformCom)
 		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+
+	_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
+	_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
+	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+	m_pTransformCom->SetPosition(vPosition);
+	m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
 	return S_OK;
 }
 
@@ -101,14 +109,14 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
 		_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
-		_float3	turn = vPosition - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
 		vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
-
-		float z = sqrtf(powf(turn.x, 2) + powf(turn.y, 2));
-		float player = acosf(turn.x / z);
-		m_pTransformCom->SetPosition(vPosition);
-		m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
+		_float3 trasform = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3 distance = vPosition - trasform;
+		_float3 oneDistance;
+		D3DXVec3Normalize(&oneDistance, &distance);
+		distance = min(distance, oneDistance) * fTimeDelta * 5;
+		m_pTransformCom->SetPosition(trasform + distance);
 	}
 
 	Compute_CameraMatrix();

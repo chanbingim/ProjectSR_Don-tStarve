@@ -33,7 +33,6 @@ public:
 	_bool Get_Active() { return m_bActive; }
 
 protected:
-	CGameObject*			m_pTarget = {};
 	MONSTER_DATA*		m_pMonsterData = {};
 	_float3				m_fMove = {};
 	_float				m_fMoveTime = {};

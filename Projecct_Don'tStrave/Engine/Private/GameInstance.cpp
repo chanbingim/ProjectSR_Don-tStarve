@@ -140,9 +140,13 @@ HRESULT CGameInstance::Draw()
 	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
 
 	m_pRenderer->Render();
+<<<<<<< HEAD
 
 	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
 #pragma endregion
+=======
+	
+>>>>>>> origin/0712_kjh
 	m_pLevel_Manager->Render();
 
 	return S_OK;

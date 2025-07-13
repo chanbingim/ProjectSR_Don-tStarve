@@ -69,7 +69,7 @@ public:
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
-	void				Eat(void* pArg);
+	_bool			Eat(void* pArg);
 	void				LightningAttack(_float3 fAttack,_float fPower);
 private:
 	MOTION					m_tMotion = {};
