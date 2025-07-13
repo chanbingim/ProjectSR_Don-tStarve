@@ -5,6 +5,7 @@
 
 #include "Mouse.h"
 #include "Terrain.h"
+#include "Player.h"
 
 CSkillIndicator::CSkillIndicator(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{ pGraphic_Device }
@@ -27,17 +28,13 @@ HRESULT CSkillIndicator::Initialize(void* pArg)
 
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
-
-	m_pPlayerTranformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
-
-	Safe_AddRef(m_pPlayerTranformCom);
-
 	m_pTerrains = CTerrian_Manager::GetInstance()->GetTerrains();
 
 
 	m_pTransformCom->SetRotAxis(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	m_pTransformCom->SetScale(_float3(1.5f, 1.5f, 1.5f));
 
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 	return S_OK;
 }
 
@@ -47,59 +44,82 @@ void CSkillIndicator::Priority_Update(_float fTimeDelta)
 
 void CSkillIndicator::Update(_float fTimeDelta)
 {
-	if(m_pGameInstance->KeyPressed(VK_RBUTTON))
-	{
-		_float3 vPickingPos = {};
-
-		auto Player_Pos = m_pPlayerTranformCom->GetWorldState(WORLDSTATE::POSITION);
-
-		for (auto pTerrain : *m_pTerrains)
+	if (SWAPOBJECT::SPEAR == m_pPlayer->Get_Player()->tItem) {
+		if (m_pGameInstance->KeyPressed(VK_RBUTTON))
 		{
-			if (nullptr == pTerrain)
-				continue;
+			_float3 vPickingPos = {};
 
-			auto VIbuffer = pTerrain->GetCurVIBuffer();
-			auto Transform = pTerrain->GetTransfrom();
+			auto Player_Pos = m_pPlayer->Get_Player()->fPos;
 
-			if (VIbuffer->Picking(Transform, &vPickingPos))
+			for (auto pTerrain : *m_pTerrains)
 			{
-				break;
+				if (nullptr == pTerrain)
+					continue;
+
+				auto VIbuffer = pTerrain->GetCurVIBuffer();
+				auto Transform = pTerrain->GetTransfrom();
+
+				if (VIbuffer->Picking(Transform, &vPickingPos))
+				{
+					break;
+				}
 			}
+
+			// 마우스에서 플레이어 위치 뺀 벡터
+			_float3 vDir = vPickingPos - Player_Pos;
+
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			// 위치 
+			_float3 vPosition = Player_Pos + vDir * (m_Charge - 0.3f);
+
+			m_pTransformCom->SetPosition(vPosition);
+
+			// 회전
+			WorldMat = m_pTransformCom->Get_World();
+			_float3 vLook = { 0.f, 1.f, 0.f };
+			_float3 vUp = {};
+
+			D3DXVec3Cross(&vUp, &vLook, &vDir);
+
+			if (m_Charge <= 1.f)
+				m_Charge += fTimeDelta * 0.5f;
+
+			_float3 vRight = vDir * m_Charge;
+
+			memcpy(&WorldMat.m[0], &vRight, sizeof(_float3));
+			memcpy(&WorldMat.m[1], &vUp, sizeof(_float3));
+			memcpy(&WorldMat.m[2], &vLook, sizeof(_float3));
+			memcpy(&WorldMat.m[3], &vPosition, sizeof(_float3));
+
+
+			m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 		}
+		else if (m_pGameInstance->KeyUp(VK_RBUTTON))
+		{
+			if (0.75f <= m_Charge) {
+				_float3 vPickingPos = {};
+				
+				for (auto pTerrain : *m_pTerrains)
+				{
+					if (nullptr == pTerrain)
+						continue;
 
-		// 마우스에서 플레이어 위치 뺀 벡터
-		_float3 vDir = vPickingPos - Player_Pos;
+					auto VIbuffer = pTerrain->GetCurVIBuffer();
+					auto Transform = pTerrain->GetTransfrom();
 
-		D3DXVec3Normalize(&vDir, &vDir);
+					if (VIbuffer->Picking(Transform, &vPickingPos))
+					{
+						break;
+					}
+				}
 
-		// 위치 
-		_float3 vPosition = Player_Pos + vDir * (m_Charge - 0.3f);
-
-		m_pTransformCom->SetPosition(vPosition);
-
-		// 회전
-		WorldMat = m_pTransformCom->Get_World();
-		_float3 vLook = { 0.f, 1.f, 0.f };
-		_float3 vUp = {};
-
-		D3DXVec3Cross(&vUp, &vLook, &vDir);
-
-		if (m_Charge <= 1.f)
-			m_Charge += fTimeDelta * 0.5f;
-
-		_float3 vRight = vDir * m_Charge;
-
-		memcpy(&WorldMat.m[0], &vRight, sizeof(_float3));
-		memcpy(&WorldMat.m[1], &vUp, sizeof(_float3));
-		memcpy(&WorldMat.m[2], &vLook, sizeof(_float3));
-		memcpy(&WorldMat.m[3], &vPosition, sizeof(_float3));
-
-
-		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
-	}
-	else if (m_pGameInstance->KeyUp(VK_RBUTTON))
-	{
-		m_Charge = 0.5f;
+				_float3 vDir = vPickingPos - m_pPlayer->Get_Player()->fPos;
+				D3DXVec3Normalize(&vDir, &vDir);
+				m_pPlayer->LightningAttack(vDir, m_Charge);
+			}
+			m_Charge = 0.5f;
+		}
 	}
 }
 
@@ -172,8 +192,6 @@ CGameObject* CSkillIndicator::Clone(void* pArg)
 void CSkillIndicator::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pPlayerTranformCom);
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);

@@ -5,7 +5,8 @@
 #include "GameInstance.h"
 #include "Clock.h"
 #include "House.h"
-#include <Enviornment_Object.h>
+#include "Enviornment_Object.h"
+#include "CharacterManager.h"
 
 CCharacter::CCharacter(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CAinimationObject{ pGraphic_Device }
@@ -35,6 +36,8 @@ HRESULT CCharacter::Initialize(void* pArg)
     }
 
     m_fAngle = rand() % 360;
+    m_pCharacterManager = CCharacterManager::GetInstance();
+    m_fNearDistance = 100.f;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -64,7 +67,7 @@ void CCharacter::Priority_Update(_float fTimeDelta)
     m_tDamage.Direaction.x = (90 <= m_fAngle && 270 > m_fAngle) ? -1.f : 1.f;
     m_tDamage.Direaction.z = 180 >= m_fAngle ? -1.f : 1.f;
 
-    m_fMoving = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+    m_fMoving = m_pChar->fPos;
 }
 
 void CCharacter::Update(_float fTimeDelta)
@@ -75,6 +78,10 @@ void CCharacter::Update(_float fTimeDelta)
 void CCharacter::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+    if (m_pNearTarget && m_pNearTarget->isDead()) {
+        m_pNearTarget = nullptr;
+        m_fNearDistance = 100.f;
+    }
     if (!m_isDead)
     {
         auto Terrian = m_pTerrian_Manager->GetOnTerrian(m_pChar->fPos);
@@ -105,8 +112,11 @@ void CCharacter::Damage(void* pArg)
     __super::Damage(pArg);
     if (0 <= m_pChar->iHp) {
         DAMAGE_DATA_BASE DamageBase = {};
-        if (nullptr != pArg)
+        if (nullptr != pArg) {
             DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+            m_pNearTarget = static_cast<CCharacter*>(DamageBase.Attacker);
+        }
+
         m_pChar->iHp -= max(0, DamageBase.Damage);
         if (0 >= m_pChar->iHp) {
             Death();
@@ -124,8 +134,8 @@ void CCharacter::Damage(void* pArg)
 void CCharacter::SetDir()
 {
     
-    _float3 fDir = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION) - m_fMoving;
-    if (0.01f < abs(fDir.x) + abs(fDir.z)) {
+    _float3 fDir = m_pChar->fPos - m_fMoving;
+    if (0.0001f < abs(fDir.x) + abs(fDir.z)) {
         m_fAngle = D3DXToDegree(acosf(fDir.x / D3DXVec3Length(&fDir)));
         if (0 < fDir.z) {
             m_fAngle = 360.f - m_fAngle;
@@ -144,21 +154,43 @@ void CCharacter::SetDir()
     if (0 > fAngle) {
         fAngle += 360;
     }
-    if ((0.f <= fAngle && fAngle < 40.f) || (fAngle < 360.f && fAngle >= 310.f)) {
+    if ((0.f <= fAngle && fAngle < 44.9f) || (fAngle < 360.f && fAngle >= 314.9f)) {
         m_tMoveDIr = MOVE_DIR::MOVE_UP;
     }
-    else if ((fAngle < 130.f && fAngle >= 40.f)) {
+    else if ((fAngle < 134.9f && fAngle >= 44.9f)) {
         m_tMoveDIr = MOVE_DIR::MOVE_LEFT;
     }
-    else if (fAngle < 220.f && fAngle >= 130.f) {
+    else if (fAngle < 224.9f && fAngle >= 134.9f) {
         m_tMoveDIr = MOVE_DIR::MOVE_DOWN;
     }
-    else if (fAngle < 310.f && fAngle >= 220.f) {
+    else if (fAngle < 314.9f && fAngle >= 224.9f) {
         m_tMoveDIr = MOVE_DIR::MOVE_RIGHT;
     }
 }
 
-void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec)
+void CCharacter::ResetTarget(_float iDistance)
+{
+    if (m_pNearTarget) {
+        if (m_pNearTarget->isDead()) {
+            m_pNearTarget = nullptr;
+            m_fNearDistance = 100.f;
+        }
+        else {
+            _float3 transform = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+            _float distance = D3DXVec3Length(&transform);
+            if (distance > iDistance) {
+                m_pNearTarget = nullptr;
+                m_fNearDistance = 100.f;
+            }
+        }
+    }
+}
+
+void CCharacter::GetTarget(CGameObject* actor, _float distance)
+{
+}
+
+void CCharacter::RenderAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec)
 {
     const SCML_ANIMATION_DESC* pAnim = nullptr;
     for (auto& anim : tEntity.tAnimationsVec) {
@@ -192,6 +224,12 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
         {
             return pSour.iZindex < pDest.iZindex;
         });
+
+    D3DXMATRIX matBillboard;
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
+    matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
+    D3DXMatrixTranspose(&matBillboard, &matBillboard);
+    
     for (OBJECT_REF_DESC timelineId : timeVec)  // 위에서 걸러서 나올 놈들만 나오는 오브젝트들만 for문에 돌리기
     {
         const KEY_DESC* pPrevKey = nullptr;
@@ -240,7 +278,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
             if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
             IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
 
-        D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matBillboard, matPos, matWorld;
+        D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matPos, matWorld;
 
         _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 
@@ -250,9 +288,6 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
         D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));                                         // 애니메이션에 들어간 회전 적용
         D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
 
-        m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
-        matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
-        D3DXMatrixTranspose(&matBillboard, &matBillboard);
 
         D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
 
@@ -266,7 +301,7 @@ void CCharacter::RenderAnimation(const wstring& animName, Entity tEntity, vector
     }
 }
 
-D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity, vector<IMAGE_FOLDER_DESC> tImageVec)
+D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec)
 {
     D3DXMATRIX torchMat = {};
     wstring torch = TEXT("../Bin/Resources/Textures/Player/Item/torch/swap_torch");
@@ -302,6 +337,12 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity
         {
             return pSour.iZindex < pDest.iZindex;
         });
+
+    D3DXMATRIX matBillboard;
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
+    matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
+    D3DXMatrixTranspose(&matBillboard, &matBillboard);
+
     for (OBJECT_REF_DESC timelineId : timeVec)  // 위에서 걸러서 나올 놈들만 나오는 오브젝트들만 for문에 돌리기
     {
         const KEY_DESC* pPrevKey = nullptr;
@@ -350,7 +391,7 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity
         if (object.iFolder >= tImageVec.size() || object.iFile >= tImageVec[object.iFolder].tFilesVec.size()) continue;
         IMAGE_FILE_DESC image = tImageVec[object.iFolder].tFilesVec[object.iFile];
 
-        D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matBillboard, matPos, matWorld;
+        D3DXMATRIX matRotY, matPivot, matScale, matRotZ, matTrans, matPos, matWorld;
 
         _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 
@@ -359,10 +400,6 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity
         D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x / 400.f, image.fSize.y * object.fScale.y / 400.f, 1.f);    // 이미지 크기와 애니메이션에서 조정한 scale 적용 그냥 쓰면 너무 커서 400으로 나눔
         D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));                                         // 애니메이션에 들어간 회전 적용
         D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);                // 애니메이션에 들어간 이동 적용 이것도 그냥 넣으면 너무 커서 400으로 나눔
-
-        m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matBillboard);
-        matBillboard._41 = matBillboard._42 = matBillboard._43 = 0.0f;
-        D3DXMatrixTranspose(&matBillboard, &matBillboard);
 
         D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);                                                // 빌보드 코드 짠거
 
@@ -388,9 +425,7 @@ D3DXMATRIX CCharacter::GetTorchAnimation(const wstring& animName, Entity tEntity
 
 void CCharacter::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-    _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    _float3 pos2 = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
-    _float3 transform = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION) - HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+    _float3 transform = m_pChar->fPos - HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
     _float distance = D3DXVec3Length(&transform);
     if (distance < 0.3f) {
         if (dynamic_cast<CCharacter*>(HitActor) && !dynamic_cast<CHouse*>(HitActor)) {

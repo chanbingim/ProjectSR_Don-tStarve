@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "XML_Manager.h"
 #include "Camera.h"
+#include "CharacterManager.h"
 
 CSpiderQueen::CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -53,51 +54,7 @@ void CSpiderQueen::Priority_Update(_float fTimeDelta)
 		m_bAttack = false;
 	}
 	__super::Priority_Update(fTimeDelta);
-	m_pTarget = nullptr;
-
-	list<CGameObject*> NearObjects;
-
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
-	if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {
-		CGameObject* object = GroundObejcts->front();
-		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-		if (5.f > distance) {
-			NearObjects.push_back(object);
-		}
-	}
-
-	GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-	if (GroundObejcts && !GroundObejcts->empty()) {
-		for (auto& object : (*GroundObejcts)) {
-			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active() && !dynamic_cast<CCharacter*>(object)->Get_Char()->bIsDead && !dynamic_cast<CSpider*>(object) && !dynamic_cast<CSpiderQueen*>(object) && 2 != dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(object)) {
-				if (5.f > distance) {
-					NearObjects.push_back(object);
-				}
-			}
-		}
-	}
-	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
-			return distance < distance2;
-		});
-
-	if (!NearObjects.empty()) {
-		CGameObject* object = NearObjects.front();
-		if (object) {
-			m_pTarget = object;
-		}
-	}
-	else {
-		m_bTarget = false;
-	}
-
+	ResetTarget(5.f);
 }
 
 void CSpiderQueen::Update(_float fTimeDelta)
@@ -110,6 +67,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 	case MOTION::RUN:
 	case MOTION::RUN_TO_IDLE:
 	case MOTION::ATTACK:
+	case MOTION::DAMAGE:
 		switch (m_tMoveDIr)
 		{
 		case MOVE_DIR::MOVE_DOWN:
@@ -134,9 +92,9 @@ void CSpiderQueen::Update(_float fTimeDelta)
 			return;
 		}
 	}
-	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
-		if ((abs(move.x) + abs(move.z)) / 2.f < 5) {
+	else if (m_pNearTarget) {
+		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
+		if (D3DXVec3Length(&move) < 4.5) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
@@ -178,6 +136,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -234,6 +193,7 @@ void CSpiderQueen::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -262,11 +222,12 @@ void CSpiderQueen::Update(_float fTimeDelta)
 void CSpiderQueen::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10.f))
+	
+	if (!m_isDead && m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
 	{
 		SetDir();
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
+		m_pCharacterManager->AddObject(this);
 	}
 		
 
@@ -296,6 +257,19 @@ void CSpiderQueen::Attack()
 void CSpiderQueen::Death()
 {
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+}
+
+void CSpiderQueen::GetTarget(CGameObject* actor, _float distance)
+{
+	if (5.f > distance && m_fNearDistance / 2 > distance) {
+		if (dynamic_cast<CCharacter*>(actor)) {
+			if ((200 <= dynamic_cast<CCharacter*>(actor)->Get_Char()->iId && !dynamic_cast<CCharacter*>(actor)->Get_Char()->bIsDead) ||
+				(dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && !dynamic_cast<CSpider*>(actor) && !dynamic_cast<CSpiderQueen*>(actor) && 2 != dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(actor))) {
+				m_pNearTarget = actor;
+				m_fNearDistance = distance;
+			}
+		}
+	}
 }
 
 HRESULT CSpiderQueen::SetAnimation(DIR dir, MOTION motion)
@@ -366,7 +340,7 @@ void CSpiderQueen::Damage(void* pArg)
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance = D3DXVec3Length(&transform);
 			if (3.f > distance) {
 				CSpiderHouse* pHouse = {};
 				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
@@ -384,9 +358,9 @@ void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	__super::OverlapHitActor(HitActor, _Dir);
-	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {

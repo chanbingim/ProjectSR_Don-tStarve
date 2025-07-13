@@ -97,6 +97,7 @@ void CTreeObject::Reset_State()
 
 HRESULT CTreeObject::Render()
 {
+    m_fAniTime = m_fAniTime % m_iLength;
     CAinimationObject::Render();
     XMLRenderAnimation(m_FrontName + m_TailName);
 

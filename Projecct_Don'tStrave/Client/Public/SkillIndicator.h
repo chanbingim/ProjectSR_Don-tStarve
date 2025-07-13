@@ -10,6 +10,8 @@ NS_END
 
 NS_BEGIN(Client);
 
+class CPlayer;
+
 class CSkillIndicator : public CGameObject
 {
 private:
@@ -28,8 +30,7 @@ public:
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
-	CTransform* m_pPlayerTranformCom = { nullptr };
-
+	CPlayer*		m_pPlayer = { nullptr };
 	vector<class CTerrain*>* m_pTerrains = { nullptr };
 	_float4x4 WorldMat = {};
 	_float m_Charge = {};

@@ -30,6 +30,8 @@ HRESULT CSpider::Initialize(void* pArg)
 		if (FAILED(Initialize_Late()))
 			return E_FAIL;
 	}
+
+	m_bNeedItem = false;
 	return S_OK;
 }
 
@@ -40,7 +42,7 @@ HRESULT CSpider::Initialize_Late()
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance = D3DXVec3Length(&transform);
 			if (0.1f > distance) {
 				if (m_pHouse = dynamic_cast<CSpiderHouse*>(object)) {
 					m_pMonsterData->fPos += +_float3(((rand() % 10) / 20.f) - ((rand() % 10) / 20.f), 0.f, ((rand() % 10) / 20.f) - ((rand() % 10) / 20.f));
@@ -97,7 +99,7 @@ void CSpider::Damage(void* pArg)
 	if (GroundObejcts && !GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance = D3DXVec3Length(&transform);
 			if (3.f > distance) {
 				CSpiderHouse* pHouse = {};
 				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {

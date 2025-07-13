@@ -108,6 +108,7 @@ namespace Client
 	}BASE_DESC;
 
 	typedef struct Character_Data : BASE_DESC {
+		_uint			iId = {};
 		_uint			iTemp = {};
 		_uint			iAtk = {};
 		_float			fSpeed = {};
@@ -116,7 +117,6 @@ namespace Client
 	}CHARACTER_DATA;
 
 	typedef struct Player_Data : Character_Data {
-		_uint					iId = {};
 		_float					fAtkRatio = {};
 		_float					fDefRatio = {};
 		_uint					iMaxHunger = {};

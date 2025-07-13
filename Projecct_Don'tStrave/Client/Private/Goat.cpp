@@ -46,7 +46,7 @@ void CGoat::Priority_Update(_float fTimeDelta)
 		return;
 	}
 	__super::Priority_Update(fTimeDelta);
-	m_pTarget = nullptr;
+	m_pNearTarget = nullptr;
 	list<CGameObject*> NearObjects;
 	if (m_pMonsterData->iHostile) {
 		NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
@@ -55,7 +55,7 @@ void CGoat::Priority_Update(_float fTimeDelta)
 	if (!GroundObejcts->empty()) {
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+			_float distance = D3DXVec3Length(&transform);
 			if (!dynamic_cast<CGoat*>(object) && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
 				if (5.f > distance) {
 					NearObjects.push_back(object);
@@ -66,15 +66,15 @@ void CGoat::Priority_Update(_float fTimeDelta)
 		{
 			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
-			_float distance2 = sqrtf(powf(transform2.x, 2) + powf(transform2.z, 2));
+			_float distance = D3DXVec3Length(&transform);;
+			_float distance2 = D3DXVec3Length(&transform2);;
 			return distance < distance2;
 		});
 
 	if (!NearObjects.empty()) {
 		CGameObject* object = NearObjects.front();
 		if (object) {
-			m_pTarget = object;
+			m_pNearTarget = object;
 		}
 	}
 }
@@ -116,9 +116,9 @@ void CGoat::Update(_float fTimeDelta)
 			return;
 		}
 	}
-	else if (m_pTarget) {
-		_float3 move = m_pTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-		if ((abs(move.x) + abs(move.z)) / 2.f < 2) {
+	else if (m_pNearTarget) {
+		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		if (D3DXVec3Length(&move) < 2) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
@@ -157,6 +157,7 @@ void CGoat::Update(_float fTimeDelta)
 		else {
 			switch (m_tMotion)
 			{
+			case MOTION::IDLE_TO_RUN:
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -183,6 +184,7 @@ void CGoat::Update(_float fTimeDelta)
 	else {
 		switch (m_tMotion)
 		{
+		case MOTION::IDLE_TO_RUN:
 		case MOTION::RUN:
 			if (m_iLength <= m_fAniTime) {
 				SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
@@ -317,9 +319,9 @@ void CGoat::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CGoat::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = sqrtf(powf(transform.x, 2) + powf(transform.z, 2));
+		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {

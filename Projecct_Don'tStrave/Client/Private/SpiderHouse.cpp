@@ -53,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 60.f) {
+	if (m_fTimeAcc >= 5.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -169,7 +169,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 void CSpiderHouse::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+	if (m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 10))
 		m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
