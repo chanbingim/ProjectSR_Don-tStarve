@@ -95,6 +95,7 @@ public:
 
 #pragma region LightManager
 	void		Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func);
+	_float	Get_NearLight();
 #pragma endregion
 
 

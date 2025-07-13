@@ -10,6 +10,7 @@ class CCollision_Component;
 NS_END
 
 NS_BEGIN(Client)
+class CDropItemComponent;
 
 class CMonster : public CCharacter
 {
@@ -33,6 +34,7 @@ public:
 	_bool Get_Active() { return m_bActive; }
 
 protected:
+	CDropItemComponent* m_pDropItem_Com = { nullptr };
 	MONSTER_DATA*		m_pMonsterData = {};
 	_float3				m_fMove = {};
 	_float				m_fMoveTime = {};
@@ -42,6 +44,7 @@ protected:
 	_bool				m_bTarget = {};
 	_bool				m_bActive = {};
 public:
+	HRESULT Ready_Components();
 	virtual void Free() override;
 };
 

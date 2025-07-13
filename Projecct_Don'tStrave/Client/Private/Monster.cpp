@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Mouse.h"
 #include "Player.h"
+#include "DropItemComponent.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -22,7 +23,8 @@ HRESULT CMonster::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
+	if(FAILED(Ready_Components()))
+		return E_FAIL;
 	MONSTER_DESC data = *static_cast<MONSTER_DESC*>(pArg);
 	m_pMonsterData = new MONSTER_DATA;
 	m_pMonsterData->iId = data.iId;
@@ -147,9 +149,23 @@ MONSTER_DATA* CMonster::Get_Monster()
 	return m_pMonsterData;
 }
 
+HRESULT CMonster::Ready_Components()
+{
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_DropItem"),
+		TEXT("Com_DropItem"), (CComponent**)&m_pDropItem_Com)))
+		return E_FAIL;
+	return S_OK;
+}
+
 void CMonster::Free()
 {
+	if(m_pMonsterData && 0 >= m_pMonsterData->iHp && m_pDropItem_Com)
+	{
+		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
+	}
 	__super::Free();
 
 	Safe_Delete(m_pMonsterData);
+	Safe_Release(m_pDropItem_Com);
 }

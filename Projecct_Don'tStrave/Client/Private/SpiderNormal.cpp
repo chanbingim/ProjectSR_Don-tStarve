@@ -7,6 +7,7 @@
 #include "Food.h"
 #include "Item_Manager.h"
 #include "CharacterManager.h"
+#include "DropItemComponent.h"
 
 CSpiderNormal::CSpiderNormal(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CSpider{ pGraphic_Device }
@@ -37,6 +38,9 @@ HRESULT CSpiderNormal::Initialize(void* pArg)
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
 
 	m_bNeedItem = true;
+
+	m_pDropItem_Com->ADD_ItemData(46, 1);
+	m_pDropItem_Com->SetCreateEffect(1);
 
 	return S_OK;
 }
@@ -350,11 +354,6 @@ void CSpiderNormal::GetTarget(CGameObject* actor, _float distance)
 				(dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && !dynamic_cast<CSpider*>(actor))) {// && !dynamic_cast<CSpiderQueen*>(actor) && 2 != dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile && !dynamic_cast<CHouse*>(actor))) {
 				m_pNearTarget = actor;
 				m_fNearDistance = distance;
-			}
-			else if (dynamic_cast<CMonster*>(actor) && !dynamic_cast<CSpider*>(actor)) {
-
-				_bool a = dynamic_cast<CMonster*>(actor)->Get_Active();
-				int b = 1;
 			}
 		}
 		else if (dynamic_cast<CFood*>(actor)) {

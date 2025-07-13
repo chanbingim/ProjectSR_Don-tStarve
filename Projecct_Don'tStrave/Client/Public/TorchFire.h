@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "LandObject.h"
-NS_BEGIN(Engine);
+NS_BEGIN(Engine)
 class CLightComponent;
 class CTexture;
 class CVIBuffer_Rect;
