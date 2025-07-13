@@ -5,6 +5,7 @@
 #include "Button.h"
 #include "Slot.h"
 #include "Create_Button.h"
+#include "Player.h"
 
 CMaterialSlot::CMaterialSlot(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CUserInterface{pGraphic_Device}
@@ -140,7 +141,8 @@ void CMaterialSlot::Update(_float fTimeDelta)
 			Desc.fDurability = 100.f;
 			Desc.iNumItem = 1;
 
-			pSlot->Set_Info(Desc);
+			static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeMaterialItem(pSlot, Desc);
+
 		}
 	}
 	else

@@ -13,6 +13,7 @@
 #include "Shadowterrorbeak.h"
 #include "Treeguard.h"
 #include "TreeguardObject.h"
+#include "Goat.h"
 
 #include "TorchFire.h"
 
@@ -470,6 +471,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
+
+#pragma region TORCH
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
@@ -482,6 +485,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_FireEffect"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/Fire.bmp"), 1))))
 		return E_FAIL;
+#pragma endregion
 
 
 #pragma endregion
@@ -493,10 +497,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
+#pragma region TORCH
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+#pragma endregion
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER
@@ -561,6 +568,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Treeguard"),
 		CTreeguard::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Goat"),
+		CGoat::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

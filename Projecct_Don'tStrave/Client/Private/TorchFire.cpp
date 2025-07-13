@@ -110,6 +110,7 @@ HRESULT CTorchFire::Render(D3DXMATRIX mat)
 	pos.x = mat._41;
 	pos.y = mat._42;
 	pos.z = mat._43;
+	m_pTransformCom->SetPosition(pos);
 	m_pLight_Com->SetPosition(pos);
 	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 	LPDIRECT3DBASETEXTURE9 BackTex = {};

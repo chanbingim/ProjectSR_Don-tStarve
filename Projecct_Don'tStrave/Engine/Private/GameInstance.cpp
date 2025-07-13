@@ -140,14 +140,8 @@ HRESULT CGameInstance::Draw()
 	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
 
 	m_pRenderer->Render();
-<<<<<<< HEAD
-
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
-#pragma endregion
-=======
-	
->>>>>>> origin/0712_kjh
 	m_pLevel_Manager->Render();
+#pragma endregion
 
 	return S_OK;
 }
@@ -359,6 +353,14 @@ _bool CGameInstance::KeyUp(_uint KeyNum)
 void CGameInstance::Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func)
 {
 	return m_pLight_Manager->Bind_SortFunc(_Func);
+}
+_float CGameInstance::Get_NearLight()
+{
+	list<CLightComponent*>* LightList = m_pLight_Manager->GetAllLightList(LIGHT_TYPE::POINT);
+	if (0 < LightList->size()) {
+		return LightList->front()->GetDistance();
+	}
+	return 1000.f;
 }
 #pragma endregion
 

@@ -324,43 +324,48 @@ void CMouse::ClickedEevent()
                     }
                     else if (5 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_CamFire"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (14 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_Chest"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (7 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_ResearchLap"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (12 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_Cookpot"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (13 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_IceBox"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else
                     { 

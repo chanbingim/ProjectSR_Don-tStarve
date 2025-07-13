@@ -5,6 +5,7 @@
 #include "XML_Manager.h"
 #include "Camera.h"
 #include "CharacterManager.h"
+#include "DropItemComponent.h"
 
 CSpiderQueen::CSpiderQueen(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -43,6 +44,9 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+	m_pDropItem_Com->ADD_ItemData(46, 5);
+	m_pDropItem_Com->SetCreateEffect(1);
 
 	return S_OK;
 }

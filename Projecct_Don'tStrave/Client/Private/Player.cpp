@@ -8,11 +8,11 @@
 #include "Item.h"
 #include "MonsterData_Manager.h"
 #include "CharacterManager.h"
+#include "Slot.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
 {
-
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
@@ -154,7 +154,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iHit = 10;
 	m_pPlayer->fPos = data.fPos;
 	m_pPlayer->pWorkObject = nullptr;
-	m_pPlayer->tItem = SWAPOBJECT::SPEAR;
+	m_pPlayer->tItem = SWAPOBJECT::LIGHTNINGSPEAR;
 	SetAnimation(DIR::DIR_END, MOTION::BUCKED);
 
 	switch (m_pPlayer->iId)
@@ -213,11 +213,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pTransformCom->SetPosition(m_pPlayer->fPos);
 	m_pCollision_Com->SetCollisionSize({ 0.2f, 0.f ,0.f });
-
+	m_bLightningAttack = false;
 	m_bControll = true;
 	m_bCol = false;
 	m_tDamage.Attacker = this;
 	m_fFightTime = 30.f;
+	m_iDarkTime = 0;
 
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
@@ -228,6 +229,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 HRESULT CPlayer::Initialize_Late()
 {
+	__super::Initialize_Late();
 	m_pTorchFire->Initialize_Late();
 	return S_OK;
 }
@@ -236,75 +238,96 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	m_pTorchFire->Priority_Update(fTimeDelta);
-	m_fHungTime += fTimeDelta * 2;
-	m_fFightTime += fTimeDelta;
-	if (1 <= m_fHungTime) {
-		m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
-		//if (30 < *m_pTime) {
-		//	m_pPlayer->iMental = max(m_pPlayer->iMental - 2, 0);
-		//}
-		if (m_fFightTime < 15) {
-			switch (m_pPlayer->iId)
-			{
-			case 200:
+	if (0 < m_pPlayer->iHp) {
+		m_fHungTime += fTimeDelta;
+		m_fFightTime += fTimeDelta;
+		if (1 <= m_fHungTime) {
+			m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
+			if (30 < *m_pTime) {
 				m_pPlayer->iMental = max(m_pPlayer->iMental - 1, 0);
-				break;
-			case 201:
-				m_pPlayer->iMental = min(m_pPlayer->iMental + 1, m_pPlayer->iMaxMental);
-				break;
+				if (4 <= m_pGameInstance->Get_NearLight()) {
+					m_pPlayer->iMental = max(m_pPlayer->iMental - 1, 0);
+					if (50 < *m_pTime) {
+						m_iDarkTime += 1;
+						if (5.f <= m_iDarkTime) {
+							DamageBaseDesc damage;
+							damage.Attacker = this;
+							damage.Damage = 1000;
+							Damage(&damage);
+						}
+					}
+					else {
+						m_iDarkTime = 0.f;
+					}
+				}
 			}
+			if (m_fFightTime < 15) {
+				switch (m_pPlayer->iId)
+				{
+				case 200:
+					m_pPlayer->iMental = max(m_pPlayer->iMental - 1, 0);
+					break;
+				case 201:
+					m_pPlayer->iMental = min(m_pPlayer->iMental + 2, m_pPlayer->iMaxMental);
+					break;
+				}
+			}
+			if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
+				SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
+			}
+			m_fHungTime = 0;
 		}
-		if (30 == m_pPlayer->iHunger && MOTION::IDLE == m_tMotion) {
-			SetAnimation(DIR::DIR_END, MOTION::HUNGRY);
+		if (m_pPlayer->iMaxMental / 2 <= m_pPlayer->iMental) {
+			m_bCrawling = true;
 		}
-		m_fHungTime = 0;
+		else if (m_bCrawling && m_pPlayer->iMaxMental / 2 > m_pPlayer->iMental) {
+			m_bCrawling = false;
+			MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
+			size_t max = (rand() % 3) + 1;
+			data.fPos = m_pPlayer->fPos;
+			data.fPos.x += (rand() % 5) - (rand() % 5);
+			data.fPos.z += (rand() % 5) - (rand() % 5);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+		}
+		if (m_pPlayer->iMaxMental / 3 <= m_pPlayer->iMental) {
+			m_bTerrorbeak = true;
+		}
+		else if (m_bTerrorbeak && m_pPlayer->iMaxMental / 3 > m_pPlayer->iMental) {
+			m_bTerrorbeak = false;
+			MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
+			size_t max = (rand() % 3) + 1;
+			data.fPos = m_pPlayer->fPos;
+			data.fPos.x += (rand() % 5) - (rand() % 5);
+			data.fPos.z += (rand() % 5) - (rand() % 5);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+		}
+		if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
+			m_pTorchFire->Update_TorchFire(true);
+		}
+		else {
+			m_pTorchFire->Update_TorchFire(false);
+		}
+		m_tDamage.Attacker = this;
+		m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
+		if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
+			m_tDamage.DamageType = ATTACK_TYPE::FIRE;
+		}
+		else if (SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
+			m_tDamage.DamageType = ATTACK_TYPE::LIGHTNING;
+		}
+		else {
+			m_tDamage.DamageType = ATTACK_TYPE::ATTACK;
+		}
+		if (!m_pPlayer->bIsDead && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion && (0 >= m_pPlayer->iHp || 0 >= m_pPlayer->iHunger)) {
+			Dead();
+		}
 	}
-	if (m_pPlayer->iMaxMental / 2 <= m_pPlayer->iMental) {
-		m_bCrawling = true;
-	}
-	else if (m_bCrawling && m_pPlayer->iMaxMental / 2 > m_pPlayer->iMental) {
-		m_bCrawling = false;
-		MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(109);
-		size_t max = (rand() % 3) + 1;
-		data.fPos = m_pPlayer->fPos;
-		data.fPos.x += (rand() % 5) - (rand() % 5);
-		data.fPos.z += (rand() % 5) - (rand() % 5);
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
-	}
-	if (m_pPlayer->iMaxMental / 3 <= m_pPlayer->iMental) {
-		m_bTerrorbeak = true;
-	}
-	else if (m_bTerrorbeak && m_pPlayer->iMaxMental / 3 > m_pPlayer->iMental) {
-		m_bTerrorbeak = false;
-		MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(110);
-		size_t max = (rand() % 3) + 1;
-		data.fPos = m_pPlayer->fPos;
-		data.fPos.x += (rand() % 5) - (rand() % 5);
-		data.fPos.z += (rand() % 5) - (rand() % 5);
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
-	}
-	if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
-		m_pTorchFire->Update_TorchFire(true);
-	}
-	else {
-		m_pTorchFire->Update_TorchFire(false);
-	}
-	m_tDamage.Attacker = this;
-	m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
-	if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
-		m_tDamage.DamageType = ATTACK_TYPE::FIRE;
-	}
-	else if (SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
-		m_tDamage.DamageType = ATTACK_TYPE::LIGHTNING;
-	}
-	else {
-		m_tDamage.DamageType = ATTACK_TYPE::ATTACK;
-	}
-	if (!m_pPlayer->bIsDead && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion && (0 >= m_pPlayer->iHp || 0 >= m_pPlayer->iHunger)) {
-		Dead();
-	}
+	m_bLightningAttack = false;
 	switch (m_tMotion)
 	{
+	case MOTION::IDLE_TO_BUILD:
+	case MOTION::BUILD:
+		break;
 	case MOTION::ATTACK:
 	case MOTION::IDLE_TO_SPEAR:
 	case MOTION::SPEAR:
@@ -312,11 +335,13 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	case MOTION::AXE:
 	case MOTION::IDLE_TO_PICKAXE:
 	case MOTION::PICKAXE:
-	case MOTION::IDLE_TO_BUILD:
-	case MOTION::BUILD:
 	case MOTION::GHOST_DISSIPATE:
+		m_pSlot = nullptr;
+		m_tItem.iItemID = 0;
 		break;
 	default:
+		m_pSlot = nullptr;
+		m_tItem.iItemID = 0;
 		m_bAttack = false;
 		break;
 	}
@@ -650,6 +675,20 @@ void CPlayer::Update(_float fTimeDelta)
 			if (m_iLength <= m_fAniTime && !m_bAttack)
 			{
 				SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
+				if (m_tItem.iItemID) {
+					if (m_pSlot) {
+						m_pSlot->Set_Info(m_tItem);
+						m_pSlot = nullptr;
+					}
+					else {
+						if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), m_sItem.c_str(),
+							EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &m_tItem)))
+						{
+							MSG_BOX("Failed to Add Item");
+						}
+					}
+				}
+				m_tItem.iItemID = 0;
 			}
 			break;
 		case MOTION::AXE:
@@ -694,8 +733,33 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 		case MOTION::IDLE_TO_ATTACK:
 			if (m_iLength <= m_fAniTime) {
+				_float3 oldPos = m_pPlayer->fPos;
 				m_pPlayer->fPos += m_fLightning;
 				m_pTransformCom->SetPosition(m_pPlayer->fPos);
+				m_bLightningAttack = true;
+
+				auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+				if (GroundObejcts && !GroundObejcts->empty()) {
+					for (auto& object : (*GroundObejcts)) {
+						_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+						_float distance = D3DXVec3Length(&transform);
+						if (dynamic_cast<CMonster*>(object) && dynamic_cast<CMonster*>(object)->Get_Active()) {
+							CMonster* monster = dynamic_cast<CMonster*>(object);
+							_float3 pos = monster->Get_Monster()->fPos;
+							_float4 rect = { min(oldPos.x, m_pPlayer->fPos.x), min(oldPos.z, m_pPlayer->fPos.z), max(oldPos.x, m_pPlayer->fPos.x), max(oldPos.z, m_pPlayer->fPos.z) };
+							if (rect.x - 0.5f <= pos.x && rect.z + 0.5f >= pos.x && rect.y - 0.5f <= pos.z && rect.w + 0.5f >= pos.z) {
+
+								DamageBaseDesc damage;
+								damage.Attacker = this;
+								damage.Damage = 100;
+								monster->Damage(&damage);
+							}
+						}
+					}
+				}
+
+
+
 			}
 		case MOTION::IDLE_TO_SPEAR:
 			if (m_iLength <= m_fAniTime) {
@@ -897,14 +961,16 @@ void CPlayer::Damage(void* pArg)
 	if (0 < m_pPlayer->iHp) {
 		__super::Damage(pArg);
 	}
+	if (15 <= m_fFightTime) {
+		auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+		ScreenEffect->ActiveEffect();
+	}
 }
 
 void CPlayer::Hit()
 {
 	m_bControll = false;
-	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-	ScreenEffect->ActiveEffect();
-
+	m_fFightTime = 0.f;
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
@@ -919,6 +985,7 @@ void CPlayer::Attack()
 	else {
 		SetAnimation(m_tDir, MOTION::ATTACK);
 	}
+	m_fFightTime = 0.f;
 }
 
 void CPlayer::Death()
@@ -989,8 +1056,25 @@ void CPlayer::LightningAttack(_float3 fAttack, _float fPower)
 	m_fLightning = fAttack * fPower * 2;
 	m_bControll = false;
 	m_pTransformCom->SetPosition(m_pPlayer->fPos);
-	m_bControll = false;
 	SetAnimation(m_tDir, MOTION::IDLE_TO_ATTACK);
+	m_fFightTime = 0.f;
+}
+
+void CPlayer::MakeItem(_wstring prototype, ITEM_DESC itemDesc)
+{
+	m_sItem = prototype;
+	m_tItem = itemDesc;
+	m_fMoving += m_pPlayer->fPos - m_tItem.vPosition;
+	SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
+	m_bControll = false;
+}
+
+void CPlayer::MakeMaterialItem(CSlot* slot, ITEM_DESC itemDesc)
+{
+	m_pSlot = slot;
+	m_tItem = itemDesc;
+	SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
+	m_bControll = false;
 }
 
 HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)

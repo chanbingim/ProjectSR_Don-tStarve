@@ -7,6 +7,7 @@
 #include "Pig.h"
 #include "Camera.h"
 #include "Player.h"
+#include "DropItemComponent.h"
 
 CPigHouse::CPigHouse(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CHouse{ pGraphic_Device }
@@ -49,6 +50,10 @@ HRESULT CPigHouse::Initialize(void* pArg)
 	m_pLandVIBuffer = Terrian->GetCurVIBuffer();
 	m_pLandTransform = Terrian->GetTransfrom();
 	SetUp_OnTerrain(m_pTransformCom);
+
+	m_pDropItem_Com->ADD_ItemData(16, 1);
+	m_pDropItem_Com->ADD_ItemData(17, 1);
+	m_pDropItem_Com->SetCreateEffect(1);
 
 
 	return S_OK;

@@ -4,6 +4,7 @@
 #include "XML_Manager.h"
 #include "SpiderQueen.h"
 #include "Camera.h"
+#include "DropItemComponent.h"
 
 CGoat::CGoat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -35,7 +36,9 @@ HRESULT CGoat::Initialize(void* pArg)
 	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
 	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
-
+	
+	m_pDropItem_Com->ADD_ItemData(33, 2);
+	m_pDropItem_Com->SetCreateEffect(1);
 	return S_OK;
 }
 
@@ -46,37 +49,7 @@ void CGoat::Priority_Update(_float fTimeDelta)
 		return;
 	}
 	__super::Priority_Update(fTimeDelta);
-	m_pNearTarget = nullptr;
-	list<CGameObject*> NearObjects;
-	if (m_pMonsterData->iHostile) {
-		NearObjects.push_back(m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->front());
-	}
-	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
-	if (!GroundObejcts->empty()) {
-		for (auto& object : (*GroundObejcts)) {
-			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = D3DXVec3Length(&transform);
-			if (!dynamic_cast<CGoat*>(object) && 1 == dynamic_cast<CMonster*>(object)->Get_Monster()->iHostile)
-				if (5.f > distance) {
-					NearObjects.push_back(object);
-				}
-		}
-	}
-	NearObjects.sort([this](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			_float3 transform = pSour->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float3 transform2 = pDest->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - this->m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			_float distance = D3DXVec3Length(&transform);;
-			_float distance2 = D3DXVec3Length(&transform2);;
-			return distance < distance2;
-		});
-
-	if (!NearObjects.empty()) {
-		CGameObject* object = NearObjects.front();
-		if (object) {
-			m_pNearTarget = object;
-		}
-	}
+	ResetTarget(4.f);
 }
 
 void CGoat::Update(_float fTimeDelta)
@@ -118,7 +91,7 @@ void CGoat::Update(_float fTimeDelta)
 	}
 	else if (m_pNearTarget) {
 		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
-		if (D3DXVec3Length(&move) < 2) {
+		if (D3DXVec3Length(&move) < 3.5f) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
 				{
@@ -241,6 +214,18 @@ void CGoat::OutHouse()
 {
 	m_bActive = true;
 }
+void CGoat::GetTarget(CGameObject* actor, _float distance)
+{
+	if (4.f > distance && m_fNearDistance / 2 > distance) {
+		if (dynamic_cast<CCharacter*>(actor)) {
+			if ((m_pMonsterData->iHostile && 200 <= dynamic_cast<CCharacter*>(actor)->Get_Char()->iId && !dynamic_cast<CCharacter*>(actor)->Get_Char()->bIsDead) ||
+				(!dynamic_cast<CGoat*>(actor) && !dynamic_cast<CHouse*>(actor) && dynamic_cast<CMonster*>(actor) && dynamic_cast<CMonster*>(actor)->Get_Active() && 1 == dynamic_cast<CMonster*>(actor)->Get_Monster()->iHostile)) {
+				m_pNearTarget = actor;
+				m_fNearDistance = distance;
+			}
+		}
+	}
+}
 HRESULT CGoat::SetAnimation(DIR dir, MOTION motion)
 {
 	if (DIR::DIR_END == dir) {
@@ -259,7 +244,7 @@ HRESULT CGoat::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"walk_pre";
 		break;
 	case MOTION::RUN:
-		m_sAnim = L"walk_loop";
+		m_sAnim = L"walk";
 		break;
 	case MOTION::RUN_TO_IDLE:
 		m_sAnim = L"walk_pst";
