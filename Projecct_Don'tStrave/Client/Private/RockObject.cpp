@@ -95,8 +95,7 @@ void CRockObject::Damage(void* pArg)
 	case 0:
 	{
 		_float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
-		Pos.y += m_pTransformCom->GetScale().y * 1.f;
+		//Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
 		CreateDropItem(Pos);
 		m_isDead = true;
 	}

@@ -18,6 +18,8 @@ HRESULT CCrafting_Button::Initialize_Prototype()
 
 HRESULT CCrafting_Button::Initialize(void* pArg)
 {
+    m_bOpen = false;
+
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
@@ -43,6 +45,16 @@ void CCrafting_Button::Update(_float fTimeDelta)
 
     HoverEevent();
 
+    if(m_pGameInstance->KeyDown(VK_TAB))
+    {
+        m_isClicked = true;
+        m_bOpen = !m_bOpen;
+
+        if (m_bOpen)
+            m_pGameInstance->Manager_PlaySound(L"HUD_craft_open.wav", CHANNELID::SOUND_ITEM, 10.f);
+        else
+            m_pGameInstance->Manager_PlaySound(L"HUD_craft_close.wav", CHANNELID::SOUND_ITEM, 10.f);
+    }
 }
 
 void CCrafting_Button::Late_Update(_float fTimeDelta)
@@ -78,8 +90,16 @@ void CCrafting_Button::HoverEevent()
 
 void CCrafting_Button::ClickedEevent()
 {
-    if (m_pGameInstance->KeyDown(VK_LBUTTON) || m_pGameInstance->KeyDown(VK_TAB))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
         m_isClicked = true;
+        m_bOpen = !m_bOpen;
+
+        if(m_bOpen)
+            m_pGameInstance->Manager_PlaySound(L"HUD_craft_open.wav", CHANNELID::SOUND_ITEM, 10.f);
+        else
+            m_pGameInstance->Manager_PlaySound(L"HUD_craft_close.wav", CHANNELID::SOUND_ITEM, 10.f);
+    }
     else
         m_isClicked = false;
     

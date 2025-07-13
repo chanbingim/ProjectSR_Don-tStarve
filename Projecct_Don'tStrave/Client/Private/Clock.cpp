@@ -40,8 +40,8 @@ HRESULT CClock::Initialize(void* pArg)
 
     m_Light.Type = D3DLIGHT_DIRECTIONAL;
 
-    m_Light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-    m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+    m_Light.Diffuse = D3DXCOLOR(0.75f, 0.72f, 0.68f, 1.0f);
+    m_Light.Ambient = D3DXCOLOR(0.68f, 0.65f, 0.60f, 1.0f);
     m_Light.Direction = _float3(0.f, -1.f, 0.f);
 
     m_pGraphic_Device->SetLight(0, &m_Light);
@@ -61,7 +61,7 @@ void CClock::Update(_float fTimeDelta)
 
     if (30.f < m_fGameTime && 50.f > m_fGameTime)
     {
-        m_Light.Ambient = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
+        m_Light.Ambient = D3DXCOLOR(0.8f, 0.5f, 0.5f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
         m_ClockState = CLOCK_STATE::LUNCH;
     }
@@ -73,7 +73,7 @@ void CClock::Update(_float fTimeDelta)
     }
     else
     {
-        m_Light.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+        m_Light.Ambient = D3DXCOLOR(0.8f, 0.7f, 0.6f, 1.0f);
        m_pGraphic_Device->SetLight(0, &m_Light);
        m_ClockState = CLOCK_STATE::MORNING;
     }

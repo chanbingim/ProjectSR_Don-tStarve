@@ -66,6 +66,16 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
 
 
     ITEM_DATA DataTemp = m_ItemDatas[1];
+
+    m_DropDir[0] = _float3(0.0f, 0.0f, 0.7f);
+    m_DropDir[1] = _float3(0.49497f, 0.0f, 0.49497f);
+    m_DropDir[2] = _float3(0.7f, 0.0f, 0.0f);
+    m_DropDir[3] = _float3(0.49497f, 0.0f, -0.49497f);
+    m_DropDir[4] = _float3(0.0f, 0.0f, -0.7f);
+    m_DropDir[5] = _float3(-0.49497f, 0.0f, -0.49497f);
+    m_DropDir[6] = _float3(-0.7f, 0.0f, 0.0f);
+    m_DropDir[7] = _float3(-0.49497f, 0.0f, 0.49497f);
+
 }
 
 void CItem_Manager::Free()

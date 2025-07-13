@@ -93,7 +93,7 @@ void CFood::Update_Item(_float fTimeDelta)
 	}
 
 	if(51 != m_Item_Desc.iItemID)
-		m_Item_Desc.fDurability -=  fTimeDelta;
+		m_Item_Desc.fDurability -=  fTimeDelta * 0.3f;
 }
 
 CFood* CFood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

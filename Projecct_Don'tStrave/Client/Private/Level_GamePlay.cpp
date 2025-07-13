@@ -38,6 +38,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
 	
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
 		return E_FAIL;
@@ -293,6 +296,45 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_Snow_Particle"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
 		return E_FAIL;
 
+	
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	_float3 ItemPos[10] =
+	{
+		{12.7f, 0.f, 18.4f},
+		{9.1f, 0.f, 11.9f},
+		{19.8f, 0.f, 8.3f},
+		{13.5f, 0.f, 20.0f},
+		{8.0f, 0.f, 14.2f},
+		{17.4f, 0.f, 16.1f},
+		{10.2f, 0.f, 9.6f},
+		{15.9f, 0.f, 12.5f},
+		{18.6f, 0.f, 19.1f},
+		{11.3f, 0.f, 8.8f}
+	};
+
+	ITEM_DESC Desc = {};
+
+	Desc.iItemID = 36;
+	Desc.eItemType = ITEM_TYPE::MERTARIAL;
+	Desc.fDurability = 100.f;
+	Desc.eSlot = SLOT::NORMAL;
+	Desc.iNumItem = 1;
+
+	for (_uint i = 0; i < 10; ++i)
+	{
+		Desc.vPosition = ItemPos[i];
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+			TEXT("Prototype_GameObject_Material_Item"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+			return E_FAIL;
+	}
+
+	
 	
 
 	return S_OK;

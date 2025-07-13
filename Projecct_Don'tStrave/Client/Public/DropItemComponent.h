@@ -21,7 +21,7 @@ public :
 	virtual HRESULT					Initialize(void* pArg) override;
 
 	HRESULT							ADD_ItemData(_uint iItemID, _uint  iMaxCnt);
-	HRESULT							DropItem(_uint iLevelID, const _wstring&	PrototypeTag, _uint iLayerID, const _wstring& LayerTag, const _float3& Point);
+	HRESULT							DropItem(_uint iLevelID, const _wstring&	PrototypeTag, _uint iLayerID, const _wstring& LayerTag, _float3& Point);
 
 	void							SetCreateEffect(_uint EffectType);
 
@@ -30,6 +30,7 @@ private :
 	_uint							m_iDropCnt = { };
 	_uint							m_iCreateEffect = {};
 	vector<pair<_uint, _uint>>		m_vecItemID = {};
+	
 
 public :
 	static	CDropItemComponent*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

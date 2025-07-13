@@ -32,7 +32,13 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 	_float fMinSize = max(size.x, size.y);
 
 	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
+
+	if (36 == m_Item_Desc.iItemID) // ºÎ½Ëµ¹
+		vSize *= 0.8;
+
 	m_pTransformCom->SetScale(vSize);
+
+
 
 	return S_OK;
 }

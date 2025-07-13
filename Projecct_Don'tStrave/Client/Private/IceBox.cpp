@@ -189,6 +189,7 @@ void CIceBox::Change_State()
 		case Client::CIceBox::STATE::OPEN:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("open");
+			m_pGameInstance->Manager_PlaySound(L"icebox_open.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 
 		case Client::CIceBox::STATE::OPENED:
@@ -199,6 +200,7 @@ void CIceBox::Change_State()
 		case Client::CIceBox::STATE::CLOSE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("close");
+			m_pGameInstance->Manager_PlaySound(L"icebox_close.wav", CHANNELID::SOUND_ITEM, 10.f);
 			break;
 
 		default:

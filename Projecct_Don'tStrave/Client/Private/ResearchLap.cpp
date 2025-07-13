@@ -169,6 +169,7 @@ void CResearchLap::Change_State()
 		case Client::CResearchLap::STATE::USE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("use");
+			m_pGameInstance->Manager_PlaySound(L"research_on.wav", CHANNELID::SOUND_ITEM, 10.f);
 			for (_uint i = 0; i < EnumToInt(CATEGORY::END); ++i)
 			{
 				for (auto pButton : m_pItem_Buttons[i])

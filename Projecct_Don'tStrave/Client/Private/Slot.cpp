@@ -173,7 +173,7 @@ void CSlot::Update_Item(_float fTimeDelta)
         }
 
         if (51 != m_Item_Desc.iItemID)
-            m_Item_Desc.fDurability -= fTimeDelta;
+            m_Item_Desc.fDurability -= fTimeDelta* 0.3f;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
         
@@ -251,7 +251,7 @@ void CSlot::Update_IceBox(_float fTimeDelta)
         }
 
         if (51 != m_Item_Desc.iItemID)
-            m_Item_Desc.fDurability -= 0.5f * fTimeDelta;
+            m_Item_Desc.fDurability -= 0.1f * fTimeDelta;
         break;
 
     default:
