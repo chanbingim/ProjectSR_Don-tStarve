@@ -110,6 +110,11 @@ void CQuestFrameUI::ClieckedButton(_uint Index)
     m_pListBox->UpdateQuestList(Index);
 }
 
+void CQuestFrameUI::ToggleObject()
+{
+    m_bIsActive = !m_bIsActive;
+}
+
 HRESULT CQuestFrameUI::ADD_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransform_Com)))

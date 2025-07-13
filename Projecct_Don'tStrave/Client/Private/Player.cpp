@@ -10,7 +10,7 @@
 #include "CharacterManager.h"
 #include "SlotFrame.h"
 #include "Slot.h"
-
+#include "QuestFrameUI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -352,6 +352,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	m_pTorchFire->Update(fTimeDelta);
+	if (m_pGameInstance->KeyDown('P'))
+	{
+		auto GameObject = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Quest_UI"));
+		if (GameObject)
+		{
+			auto Quest = dynamic_cast<CQuestFrameUI*>(GameObject);
+			if (Quest)
+			{
+				Quest->ToggleObject();
+			}
+		}
+	}
+
 	switch (m_tMotion)
 	{
 	case CPlayer::IDLE:
@@ -511,6 +524,8 @@ void CPlayer::Update(_float fTimeDelta)
 				}
 			}
 		}
+	
+
 		if (m_pGameInstance->KeyDown(VK_SPACE))
 		{
 			list<CGameObject*> NearObjects;
@@ -812,7 +827,7 @@ void CPlayer::Update(_float fTimeDelta)
 		SetAnimation(DIR::DIR_END, MOTION::DIAL);
 		m_bControll = false;
 	}
-	if (GetKeyState('P') & 0x8000)
+	if (GetKeyState('0') & 0x8000)
 	{
 		m_isDead = true;
 	}

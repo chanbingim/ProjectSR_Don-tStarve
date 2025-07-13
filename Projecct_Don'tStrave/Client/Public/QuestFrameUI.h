@@ -22,7 +22,7 @@ public :
 	virtual HRESULT					Render();
 
 	void							ClieckedButton(_uint Index);
-
+	void							ToggleObject();
 private :
 	_bool							m_bIsActive = { false };
 	CListBoxUI*						m_pListBox = { nullptr };
