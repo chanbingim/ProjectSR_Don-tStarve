@@ -4,7 +4,7 @@
 #include "Camera_Button.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CFrustomCamera { pGraphic_Device }
+	: CFrustomCamera{ pGraphic_Device }
 {
 }
 
@@ -54,7 +54,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 0;
 
- 	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
+	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 
 	Desc.fX = g_iWinSizeX - 50.f;
@@ -63,7 +63,7 @@ HRESULT CCamera::Initialize(void* pArg)
 
 	m_pButton_Right = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
-	
+
 	return S_OK;
 }
 
@@ -73,8 +73,8 @@ HRESULT CCamera::Initialize_Late()
 
 	if (!m_pPlayerTransformCom)
 		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
-
-	_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	m_fPlayerPos = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3		vPosition = m_fPlayerPos;
 	_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
 	_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
 	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
@@ -109,14 +109,27 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
 		_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
-		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
-		vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
 		_float3 trasform = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float3 distance = vPosition - trasform;
-		_float3 oneDistance;
-		D3DXVec3Normalize(&oneDistance, &distance);
-		distance = min(distance, oneDistance) * fTimeDelta * 5;
-		m_pTransformCom->SetPosition(trasform + distance);
+		_float3 distance = vPosition - m_fPlayerPos;
+		if (0.01f >= D3DXVec3Length(&distance)) {
+			m_fPlayerPos = vPosition;
+			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+			vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+			m_pTransformCom->SetPosition(vPosition);
+		}
+		else {
+
+			vPosition = m_fPlayerPos;
+			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+			vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+			_float3 oneDistance;
+			D3DXVec3Normalize(&oneDistance, &distance);
+			distance = min(distance, oneDistance) * fTimeDelta * 5;
+
+			m_fPlayerPos += distance;
+			m_pTransformCom->SetPosition(vPosition + distance);
+		}
+		m_pTransformCom->LookAt(m_fPlayerPos);
 	}
 
 	Compute_CameraMatrix();
@@ -124,7 +137,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	
+
 
 }
 

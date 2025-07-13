@@ -33,11 +33,12 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	class CTransform*				m_pPlayerTransformCom = { nullptr };
-	class CCamera_Button*			m_pButton_Left = { nullptr };
-	class CCamera_Button*			m_pButton_Right = { nullptr };
+	class CTransform* m_pPlayerTransformCom = { nullptr };
+	class CCamera_Button* m_pButton_Left = { nullptr };
+	class CCamera_Button* m_pButton_Right = { nullptr };
 
 private:
+	_float3							m_fPlayerPos = {};
 	_float2							m_vOldMouse = {};
 	_float							m_fSensor = { 0.2f };
 
