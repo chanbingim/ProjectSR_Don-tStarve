@@ -27,6 +27,8 @@ public:
 	virtual void		ReadyEffect(const WCHAR* AnimName);
 	virtual void		ResetObejctaData();
 
+	void				Set_Angle(_float fAngle) { m_fZAngle = fAngle; }
+
 	_bool				IsFinished();
 private :
 	_wstring			m_AnimName = {TEXT("")};

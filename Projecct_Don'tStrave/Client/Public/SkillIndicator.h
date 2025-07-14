@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer;
+class CLightComponent;
 NS_END
 
 NS_BEGIN(Client);
@@ -28,14 +29,27 @@ public:
 	virtual HRESULT	 Render();
 
 private:
-	CTexture* m_pTextureCom = { nullptr };
-	CVIBuffer* m_pVIBufferCom = { nullptr };
-	CPlayer*		m_pPlayer = { nullptr };
-	vector<class CTerrain*>* m_pTerrains = { nullptr };
-	_float4x4 WorldMat = {};
-	_float m_Charge = {};
+	_bool						m_bIsEffectActive = { false };
+	_float						m_Charge = {};
+	_float						m_fAngle = {};
+	_float						m_fTimeAcc = {};
+
+	CTexture*					m_pTextureCom = { nullptr };
+	CVIBuffer*					m_pVIBufferCom = { nullptr };
+	CPlayer*					m_pPlayer = { nullptr };
+	CLightComponent*			m_pLightCom = { nullptr };
+	class CSpriteEffect*		m_pSpirteEffect = { nullptr };
+
+	_float3						m_vDir = {};
+	_float3						m_vEffectPos = {};
+	_float4x4					WorldMat = {};
+	vector<class CTerrain*>*	m_pTerrains = { nullptr };
+	
+	
+	
 private:
 	HRESULT ADD_Components();
+	void Update_Effect(_float fTimeDelta);
 
 public:
 	static CSkillIndicator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
