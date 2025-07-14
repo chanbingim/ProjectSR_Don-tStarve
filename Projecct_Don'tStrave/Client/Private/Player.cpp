@@ -994,11 +994,13 @@ HRESULT CPlayer::Render()
 
 void CPlayer::Damage(void* pArg)
 {
-	if (0 < m_pPlayer->iHp) {
-		__super::Damage(pArg);
+	if (MOTION::DAMAGE != m_tMotion && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion) {
+		if (0 < m_pPlayer->iHp) {
+			__super::Damage(pArg);
+		}
+		auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+		ScreenEffect->ActiveEffect();
 	}
-	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-	ScreenEffect->ActiveEffect();
 }
 
 void CPlayer::Hit()
