@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "XML_Manager.h"
 #include "DropItemComponent.h"
+#include "QuestManager.h"
 
 #include "Clock.h"
 #include "Slot.h"
@@ -65,7 +66,8 @@ void CPigKing::Priority_Update(_float fTimeDelta)
         }
         else if (m_pGameInstance->KeyDown(VK_RBUTTON))
         {
-            ChangeMeetToGold();
+            //ChangeMeetToGold();
+            m_pGameInstance->SetSinematick(true);
         }
     }
     

@@ -70,9 +70,7 @@ void Client::CMainApp::Update(_float fTimeDelta)
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
 	m_pEffectPool->UpdateActvieEffect(fTimeDelta);
-	
 	m_pImgManager->Update_Manager(fTimeDelta);
-
 }
 
 HRESULT Client::CMainApp::Render()
@@ -227,7 +225,7 @@ HRESULT CMainApp::Ready_Prototypes()
 		return E_FAIL;
 #pragma endregion
 
-	
+	return S_OK;
 }
 
 HRESULT CMainApp::ReadShader()

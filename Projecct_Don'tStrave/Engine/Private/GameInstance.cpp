@@ -87,50 +87,50 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pKey_Manager->BeginKeyInput();
 
 #pragma region PriorityUpdate
-	time.Priority_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityTime"));
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
+		time.Priority_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
 
-	m_pObject_Manager->Priority_Update(fTimeDelta);
-	m_pMouseManager->Update();
+		m_pObject_Manager->Priority_Update(fTimeDelta);
+		m_pMouseManager->Update();
 
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
 #pragma endregion
 
 #pragma region Update
-	time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
+		time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
-	m_pObject_Manager->Update(fTimeDelta);
+		m_pObject_Manager->Update(fTimeDelta);
 
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
-#pragma endregion
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
 #pragma region Late_Update
-	time.LateUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdateTime"));
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
+		time.LateUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
 
-	m_pObject_Manager->Late_Update(fTimeDelta);
+		m_pObject_Manager->Late_Update(fTimeDelta);
 
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
 #pragma endregion
 
 #pragma region COLLISION_UPDATE
-	time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+		time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
 
-	m_pCollision_Manager->Update();
+		m_pCollision_Manager->Update();
 
-	m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
 #pragma endregion
 
-	m_pObject_Manager->Clear_DeadObj();
+		m_pObject_Manager->Clear_DeadObj();
 
-	m_pLevel_Manager->Update(fTimeDelta);
+		m_pLevel_Manager->Update(fTimeDelta);
 
-	m_pLight_Manager->UpdateLight();
+		m_pLight_Manager->UpdateLight();
+
+#pragma endregion
 
 	m_pKey_Manager->EndKeyInput();
-
 }
 
 HRESULT CGameInstance::Draw()
@@ -354,6 +354,7 @@ void CGameInstance::Bind_LightSort(function<_bool(CLightComponent*, CLightCompon
 {
 	return m_pLight_Manager->Bind_SortFunc(_Func);
 }
+
 _float CGameInstance::Get_NearLight()
 {
 	list<CLightComponent*>* LightList = m_pLight_Manager->GetAllLightList(LIGHT_TYPE::POINT);
@@ -361,6 +362,14 @@ _float CGameInstance::Get_NearLight()
 		return LightList->front()->GetDistance();
 	}
 	return 1000.f;
+}
+void CGameInstance::SetSinematick(_bool flag)
+{
+	m_IsLoopSinematick = flag;
+}
+_bool CGameInstance::GettSinematick()
+{
+	return m_IsLoopSinematick;
 }
 #pragma endregion
 

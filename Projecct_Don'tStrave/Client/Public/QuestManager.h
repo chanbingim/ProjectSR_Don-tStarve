@@ -26,8 +26,8 @@ public :
 	HRESULT		ReleaseQuestData();
 	_wstring	GetPercentData(CQuestData* pQuest);
 
-
 	_uint		GetMonstDeathCount(_uint iID);
+	void		QuestStartEvent();
 
 	list< CQuestData*>*			GetRunningQuest() { return &m_RunningQuest; }
 	list< CQuestData*>*			GetQuestList() { return &m_QuestList; }

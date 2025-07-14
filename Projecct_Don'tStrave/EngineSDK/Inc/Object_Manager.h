@@ -20,7 +20,7 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 
 	/* 원형을 찾고 복제하여 레이어에 추가한다. */
-	HRESULT Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg);
+	HRESULT						Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg);
 	list<CGameObject*>*			GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 	void Priority_Update(_float fTimeDelta);

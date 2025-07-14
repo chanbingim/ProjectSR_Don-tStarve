@@ -25,6 +25,7 @@ private:
 public:
 	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, class CMouseSlotUI* pMouse = nullptr);
 	void Update_Engine(_float fTimeDelta);
+
 	HRESULT Draw();
 	void	SaveRenderTarget();
 
@@ -94,10 +95,12 @@ public:
 #pragma endregion
 
 #pragma region LightManager
-	void		Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func);
-	_float	Get_NearLight();
+	void					Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func);
+	_float					Get_NearLight();
 #pragma endregion
 
+	void					SetSinematick(_bool flag);
+	_bool					GettSinematick();
 
 	ProfileTime&			GetProfileTime() { return time; }
 
@@ -117,6 +120,7 @@ private:
 	class CLight_Manager* m_pLight_Manager = { nullptr };
 #pragma endregion
 
+	_bool				m_IsLoopSinematick = { false };
 	ProfileTime			time;
 public:
 	void Release_Engine();

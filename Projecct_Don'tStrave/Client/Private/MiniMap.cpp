@@ -50,6 +50,7 @@ HRESULT CMiniMap::Initialize(void* pArg)
 
 	m_pMiniMap_Btn = dynamic_cast<CMiniMap_Button*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 6));
 
+	m_ZOrder = 2;
 	return S_OK;
 }
 

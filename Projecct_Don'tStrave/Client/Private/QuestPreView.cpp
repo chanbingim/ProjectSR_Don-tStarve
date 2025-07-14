@@ -113,7 +113,7 @@ void CQuestPreView::ClickedButtonEvent(_uint index)
 
     if (m_pRunningList->size() <= m_ViewIndex)
     {
-        m_ViewIndex = m_pRunningList->size() - 1;
+        m_ViewIndex = (_uint)m_pRunningList->size() - 1;
         return;
     }
     else if(0 > m_ViewIndex)

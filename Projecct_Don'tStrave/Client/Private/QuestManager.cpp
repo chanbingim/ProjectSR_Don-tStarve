@@ -233,6 +233,13 @@ _uint CQuestManager::GetMonstDeathCount(_uint iID)
 	return iter->second;
 }
 
+void CQuestManager::QuestStartEvent()
+{
+	auto pair = m_QuestMap.find(0);
+	pair->second->bIsActive = true;
+	m_QuestList.push_back(pair->second);
+}
+
 void CQuestManager::CallMonsterDeath(_uint iID)
 {
 	UpdateDeathList(iID);
