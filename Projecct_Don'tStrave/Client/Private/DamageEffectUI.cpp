@@ -1,5 +1,7 @@
 #include "DamageEffectUI.h"
+
 #include "GameInstance.h"
+#include "Player.h"
 
 CDamageEffectUI::CDamageEffectUI(LPDIRECT3DDEVICE9 pGraphic_Device) : CUserInterface(pGraphic_Device)
 {
@@ -20,6 +22,8 @@ HRESULT CDamageEffectUI::Initialize(void* pArg)
 
     m_fX = 0;
     m_fY = 0;
+
+    m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 
     m_Alpha = 0;
     Setting_Shader(L"Particle.fx");
@@ -74,10 +78,11 @@ HRESULT CDamageEffectUI::Render()
     m_pTexture_Com->Set_Texture(0, 0);
     m_pGraphic_Device->GetTexture(0, &Tex);
     m_pEffect->SetFloat("Alpha", m_Alpha);
+    m_pEffect->SetFloat("PlayerHP", m_pPlayer->Get_Char()->iHp);
 
     m_pEffect->SetTexture("TexSrc", BackTex);
     m_pEffect->SetTexture("TexDst", Tex);
-     
+
    m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
    m_pEffect->Begin(NULL, 0);
    m_pEffect->BeginPass(0);
@@ -93,13 +98,11 @@ HRESULT CDamageEffectUI::Render()
     return S_OK;
 }
 
-void CDamageEffectUI::ActiveEffect()
+void CDamageEffectUI::ActiveEffect(_float Hp)
 {
     m_bActive = true;
     m_Alpha = 0.f;
     m_bInverse = false;
-
-
 }
 
 HRESULT CDamageEffectUI::ADD_Compoenets()

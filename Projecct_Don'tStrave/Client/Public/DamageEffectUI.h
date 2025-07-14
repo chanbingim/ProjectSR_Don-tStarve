@@ -4,6 +4,7 @@
 #include "UserInterface.h"
 
 NS_BEGIN(Client)
+class CPlayer;
 class CDamageEffectUI : public CUserInterface
 {
 private:
@@ -18,13 +19,14 @@ public:
 	virtual void					Late_Update(_float fTimeDelta);
 	virtual HRESULT					Render();
 
-	void							ActiveEffect();
+	void							ActiveEffect(_float Hp);
 
 private:
 	_bool							m_bActive = { false };
 	_float							m_Alpha = { 0.0f };
 	_bool							m_bInverse = { false };
-	
+	CPlayer*						m_pPlayer = {nullptr};
+
 private :
 	void							ResetData();
 	HRESULT							ADD_Compoenets();

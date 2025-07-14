@@ -55,8 +55,6 @@ void CQuestNextButton::Late_Update(_float fTimeDelta)
             }
         }
     }
-   
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
 HRESULT CQuestNextButton::Render()

@@ -56,6 +56,8 @@ void CQuestPreView::Update(_float fTimeDelta)
         m_pNextButton[i]->Update(fTimeDelta);
 
     UpdateViewer();
+
+    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
 void CQuestPreView::Late_Update(_float fTimeDelta)
@@ -74,8 +76,6 @@ void CQuestPreView::Late_Update(_float fTimeDelta)
 
     for (int i = 0; i < 2; ++i)
         m_pNextButton[i]->Late_Update(fTimeDelta);
-
-    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
 HRESULT CQuestPreView::Render()

@@ -37,6 +37,10 @@
 #include "QuestCategoryButton.h"
 #pragma endregion
 
+#pragma region SCRIPT
+#include "Script.h"
+#pragma endregion
+
 #pragma region BUTTON_UI
 #include "Crafting_Button.h"
 #include "Camera_Button.h"
@@ -724,6 +728,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_Frame_Category */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestCategory"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Gategory/Category%d.png"), 3))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region SCRIPT
+	/* For.Prototype_GameObject_Script_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ScriptUI"),
+		CScript::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_ChestUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_ScriptFrame"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Script/BackFrame/BackFrame.png"), 1))))
 		return E_FAIL;
 #pragma endregion
 

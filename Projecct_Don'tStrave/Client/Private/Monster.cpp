@@ -42,12 +42,8 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->bIsDead = false;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
-<<<<<<< HEAD
-	
-=======
 	m_bPlayerKill = false;
 
->>>>>>> origin/0714_kjh
 	m_pChar = m_pMonsterData;
 	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance, 0.f ,0.f });
 
@@ -174,6 +170,8 @@ void CMonster::Death()
 	{
 		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
+
+		CQuestManager::GetInstance()->CallMonsterDeath(m_pMonsterData->iId);
 	}
 }
 
@@ -198,16 +196,6 @@ HRESULT CMonster::Ready_Components()
 
 void CMonster::Free()
 {
-<<<<<<< HEAD
-	if(m_pMonsterData && 0 >= m_pMonsterData->iHp && m_pDropItem_Com)
-	{
-		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
-			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
-
-		CQuestManager::GetInstance()->CallMonsterDeath(m_pMonsterData->iId);
-	}
-=======
->>>>>>> origin/0714_kjh
 	__super::Free();
 
 	Safe_Delete(m_pMonsterData);

@@ -100,7 +100,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
-		m_pObject_Manager->Update(fTimeDelta);
+		if(!m_IsLoopSinematick)
+			m_pObject_Manager->Update(fTimeDelta);
 
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
@@ -117,7 +118,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
 
-		m_pCollision_Manager->Update();
+		if (!m_IsLoopSinematick)
+			m_pCollision_Manager->Update();
 
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
 #pragma endregion

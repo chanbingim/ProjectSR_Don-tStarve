@@ -998,7 +998,7 @@ void CPlayer::Damage(void* pArg)
 		__super::Damage(pArg);
 	}
 	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-	ScreenEffect->ActiveEffect();
+	ScreenEffect->ActiveEffect(m_pPlayer->iHp);
 }
 
 void CPlayer::Hit()

@@ -164,6 +164,7 @@
     <ClInclude Include="..\Public\GamePlay_Button.h" />
     <ClInclude Include="..\public\GatheringObject.h" />
     <ClInclude Include="..\Public\Grid.h" />
+    <ClInclude Include="..\Public\IceSpike.h" />
     <ClInclude Include="..\public\ImgBase.h" />
     <ClInclude Include="..\Public\Img_Manager.h" />
     <ClInclude Include="..\public\Img_Profiler.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="..\public\QuestFrameUI.h" />
     <ClInclude Include="..\Public\QuestNextButton.h" />
     <ClInclude Include="..\public\QuestPreView.h" />
+    <ClInclude Include="..\public\Script.h" />
     <ClInclude Include="..\Public\Select_Character.h" />
     <ClInclude Include="..\Public\SkillIndicator.h" />
     <ClInclude Include="..\Public\TorchFire.h" />
@@ -299,6 +301,7 @@
     <ClCompile Include="..\private\GatheringObject.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\Hunger.cpp" />
+    <ClCompile Include="..\Private\IceSpike.cpp" />
     <ClCompile Include="..\private\ImgBase.cpp" />
     <ClCompile Include="..\Private\Img_Manager.cpp" />
     <ClCompile Include="..\private\Img_Profiler.cpp" />
@@ -310,6 +313,7 @@
     <ClCompile Include="..\private\QuestFrameUI.cpp" />
     <ClCompile Include="..\Private\QuestNextButton.cpp" />
     <ClCompile Include="..\private\QuestPreView.cpp" />
+    <ClCompile Include="..\private\Script.cpp" />
     <ClCompile Include="..\Private\Select_Character.cpp" />
     <ClCompile Include="..\Private\SkillIndicator.cpp" />
     <ClCompile Include="..\Private\TorchFire.cpp" />
