@@ -31,6 +31,9 @@
 #include "QuestBoxEntry.h"
 #include "ListBoxUI.h"
 #include "EventButton.h"
+#include "QuestPreView.h"
+#include "QuestNextButton.h"
+#include "QuestCategoryButton.h"
 #pragma endregion
 
 #pragma region BUTTON_UI
@@ -460,10 +463,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-
-
-
-
 #pragma region TORCH
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
@@ -681,9 +680,44 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CEventButton::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_QuestCategory_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestCategoryButton"),
+		CQuestCategoryButton::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_QuestNext_Button */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestNextButton"),
+		CQuestNextButton::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_QuestPreview */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestPreView"),
+		CQuestPreView::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_QuestNextButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestNextButton"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Button/NextButton%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_QuestPreView */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestPreView"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/QuestPreview.png"), 1))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Texture_QuestButton */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestButton"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Button/QuestButton%d.png"), 4))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Button/QuestButton%d.png"), 3))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Entry_Frame */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestEntryFrame"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/EntryFrame.png"), 1))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Frame_Category */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestCategory"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Gategory/Category%d.png"), 3))))
 		return E_FAIL;
 #pragma endregion
 

@@ -4,7 +4,7 @@
 NS_BEGIN(Client)
 class CEventButton : public CButton
 {
-private :
+protected :
 	CEventButton(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CEventButton(const CEventButton& rhs);
 	virtual ~CEventButton() = default;
@@ -20,7 +20,7 @@ public :
 	void							SetClickEvent(function<void()> Func);
 	void							ChangeButtonTex(_uint Index);
 
-private :
+protected:
 	function<void()>				m_OnclickedEvent = { nullptr };
 	_uint							m_ButtonIndex = {};
 

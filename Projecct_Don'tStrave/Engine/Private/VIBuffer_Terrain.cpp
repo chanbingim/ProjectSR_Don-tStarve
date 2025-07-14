@@ -50,7 +50,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			_uint	iIndex = i * m_iNumVerticesX + j;
 
 			pVertices[iIndex].vPosition = m_pVertexPositions[iIndex] = _float3((_float)j, 0.f, (_float)i);
-			pVertices[iIndex].vTexcoord = _float2(j , i);
+			pVertices[iIndex].vTexcoord = _float2((_float)j , (_float)i);
 		}
 	}
 

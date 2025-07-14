@@ -178,8 +178,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
-
-		break;
 	}
 
 	return S_OK;
@@ -279,11 +277,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_QuestPreView"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_QuestUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Quest_UI"))))
+		TEXT("Prototype_GameObject_QuestUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Gameplay_Quest_UI"))))
 		return E_FAIL;
 
 	return S_OK;

@@ -1,22 +1,22 @@
-#include "EventButton.h"
+#include "QuestCategoryButton.h"
 #include "GameInstance.h"
 
-CEventButton::CEventButton(LPDIRECT3DDEVICE9 pGraphic_Device) :
+CQuestCategoryButton::CQuestCategoryButton(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CButton(pGraphic_Device)
 {
 }
 
-CEventButton::CEventButton(const CEventButton& rhs) :
+CQuestCategoryButton::CQuestCategoryButton(const CQuestCategoryButton& rhs) :
     CButton(rhs)
 {
 }
 
-HRESULT CEventButton::Initialize_Prototype()
+HRESULT CQuestCategoryButton::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CEventButton::Initialize(void* pArg)
+HRESULT CQuestCategoryButton::Initialize(void* pArg)
 {
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -27,26 +27,26 @@ HRESULT CEventButton::Initialize(void* pArg)
     return S_OK;
 }
 
-void CEventButton::Priority_Update(_float fTimeDelta)
+void CQuestCategoryButton::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CEventButton::Update(_float fTimeDelta)
+void CQuestCategoryButton::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
   
 }
 
-void CEventButton::Late_Update(_float fTimeDelta)
+void CQuestCategoryButton::Late_Update(_float fTimeDelta)
 {   
     UpdatePosition();
     if (isMouseOver())
     {
-        auto vScale = m_pTransform_Com->GetScale();
-        vScale *= 1.2f;
-        m_pTransform_Com->SetScale(vScale);
+        auto vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+        vPos.y += 10.f;
+        m_pTransform_Com->SetPosition(vPos);
         if (m_pGameInstance->KeyDown(VK_LBUTTON))
         {
             if (m_OnclickedEvent)
@@ -55,9 +55,11 @@ void CEventButton::Late_Update(_float fTimeDelta)
             }
         }
     }
+
+    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
-HRESULT CEventButton::Render()
+HRESULT CQuestCategoryButton::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
     m_pTexture_Com->Set_Texture(m_ButtonIndex);
@@ -66,17 +68,17 @@ HRESULT CEventButton::Render()
     return S_OK;
 }
 
-void CEventButton::SetClickEvent(function<void()> Func)
+void CQuestCategoryButton::SetClickEvent(function<void()> Func)
 {
     m_OnclickedEvent = Func;
 }
 
-void CEventButton::ChangeButtonTex(_uint Index)
+void CQuestCategoryButton::ChangeButtonTex(_uint Index)
 {
     m_ButtonIndex = Index;
 }
 
-HRESULT CEventButton::ADD_Components()
+HRESULT CQuestCategoryButton::ADD_Components()
 {
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
@@ -90,7 +92,7 @@ HRESULT CEventButton::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestButton"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestCategory"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -98,9 +100,9 @@ HRESULT CEventButton::ADD_Components()
     return S_OK;
 }
 
-CEventButton* CEventButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CQuestCategoryButton* CQuestCategoryButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CEventButton* pInstance = new CEventButton(pGraphic_Device);
+    CQuestCategoryButton* pInstance = new CQuestCategoryButton(pGraphic_Device);
     if (FAILED(pInstance->Initialize_Prototype()))
     {
         Safe_Release(pInstance);
@@ -110,9 +112,9 @@ CEventButton* CEventButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CGameObject* CEventButton::Clone(void* pArg)
+CGameObject* CQuestCategoryButton::Clone(void* pArg)
 {
-    CEventButton* pInstance = new CEventButton(*this);
+    CQuestCategoryButton* pInstance = new CQuestCategoryButton(*this);
     if (FAILED(pInstance->Initialize(pArg)))
     {
         Safe_Release(pInstance);
@@ -122,7 +124,7 @@ CGameObject* CEventButton::Clone(void* pArg)
     return pInstance;
 }
 
-void CEventButton::Free()
+void CQuestCategoryButton::Free()
 {
     __super::Free();
 

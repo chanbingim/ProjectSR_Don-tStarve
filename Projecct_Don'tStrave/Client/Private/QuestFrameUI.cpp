@@ -1,6 +1,7 @@
 #include "QuestFrameUI.h"
 
 #include "GameInstance.h"
+#include "QuestCategoryButton.h"
 #include "ListBoxUI.h"
 
 CQuestFrameUI::CQuestFrameUI(LPDIRECT3DDEVICE9 pGraphic_Device) : 
@@ -32,6 +33,9 @@ HRESULT CQuestFrameUI::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    if (FAILED(ADD_CategoryButton()))
+        return E_FAIL;
+
     CListBoxUI::LISTBOXUI_DESC Desc;
 
     Desc.fSizeX = m_fSizeX;
@@ -44,9 +48,13 @@ HRESULT CQuestFrameUI::Initialize(void* pArg)
     Desc.pParentTransform_Com = m_pTransform_Com;
 
     m_pListBox = static_cast<CListBoxUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ListBox"), &Desc));
-    m_bIsActive = true;
 
     ClieckedButton(0);
+    m_ZOrder = 1.f;
+    m_pCategoryButton[0]->SetClickEvent([&]() { ClieckedButton(0); });
+    m_pCategoryButton[1]->SetClickEvent([&]() { ClieckedButton(1); });
+    m_pCategoryButton[2]->SetClickEvent([&]() { ClieckedButton(2); });
+
     return S_OK;
 }
 
@@ -54,13 +62,6 @@ void CQuestFrameUI::Priority_Update(_float fTimeDelta)
 {
     if (m_bIsActive)
     {
-        if (m_pGameInstance->KeyDown(VK_F1))
-            ClieckedButton(0);
-        if (m_pGameInstance->KeyDown(VK_F2))
-            ClieckedButton(1);
-        if (m_pGameInstance->KeyDown(VK_F3))
-            ClieckedButton(2);
-
         m_pListBox->Priority_Update(fTimeDelta);
     }
 }
@@ -78,13 +79,16 @@ void CQuestFrameUI::Late_Update(_float fTimeDelta)
     if (m_bIsActive)
     {
         //구성 요소 여기서 업데이트
-        UpdatePosition();
+        UpdatePosition(0.9f);
         m_FontRect = {
-            static_cast<long>(m_fX - (m_fSizeX * 0.5f) + 10),
+            static_cast<long>(m_fX - (m_fSizeX * 0.5f) + 30),
             static_cast<long>(m_fY - (m_fSizeY * 0.5f) + 10),
-            static_cast<long>(m_fX - (m_fSizeX * 0.5f) + 150),
+            static_cast<long>(m_fX - (m_fSizeX * 0.5f) + 230),
             static_cast<long>(m_fY - (m_fSizeY * 0.5f) + 70),
         };
+
+        for (int i = 0; i < 3; ++i)
+            m_pCategoryButton[i]->Late_Update(fTimeDelta);
 
         m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
@@ -94,7 +98,11 @@ void CQuestFrameUI::Late_Update(_float fTimeDelta)
 
 HRESULT CQuestFrameUI::Render()
 {
+    for (int i = 0; i < 3; ++i)
+        m_pCategoryButton[i]->Render();
+
     m_pGraphic_Device->SetTransform(D3DTS_WORLD,&m_pTransform_Com->Get_World());
+
     m_pTexture_Com->Set_Texture(0);
     m_pVIBuffer_Com->Render();
 
@@ -129,6 +137,24 @@ HRESULT CQuestFrameUI::ADD_Components()
     return S_OK;
 }
 
+HRESULT CQuestFrameUI::ADD_CategoryButton()
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        CQuestCategoryButton::BUTTON_DESC Desc;
+        Desc.pParentTransform = m_pTransform_Com;
+        Desc.fSizeX = 50.f;
+        Desc.fSizeY = 100.f;
+
+        Desc.fRelativeX = m_fX + (Desc.fSizeX * i) + 10 * i;
+        Desc.fRelativeY = m_fY - (m_fSizeY * 0.37f);
+        m_pCategoryButton[i] = static_cast<CQuestCategoryButton *>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestCategoryButton"), &Desc));
+        m_pCategoryButton[i]->ChangeButtonTex(i);
+    }
+
+    return S_OK;
+}
+
 CQuestFrameUI* CQuestFrameUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CQuestFrameUI* pInstance = new CQuestFrameUI(pGraphic_Device);
@@ -157,8 +183,10 @@ void CQuestFrameUI::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pListBox);
+    for (int i = 0; i < 3; ++i)
+        Safe_Release(m_pCategoryButton[i]);
 
+    Safe_Release(m_pListBox);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTransform_Com);

@@ -42,9 +42,11 @@ HRESULT CQuestBoxEntry::Initialize(void* pArg)
 	m_fY = 0;
 
 	m_AcceptBut->SetClickEvent([&]() { EntryClickEvent(); });
+	m_AcceptBut->ChangeButtonTex(0);
+	m_CancelBut->ChangeButtonTex(2);
 
 	Safe_AddRef(m_pParentTransform);
-	UpdatePosition();
+	UpdatePosition(0.9f);
 
 	return S_OK;
 }
@@ -82,15 +84,19 @@ void CQuestBoxEntry::Late_Update(_float fTimeDelta)
 		{
 		case 0:
 		{
-		
 			m_AcceptBut->Late_Update(fTimeDelta);
 		}
 		break;
 		case 1:
 		{
-			if (CQuestManager::GetInstance()->CheckAndApplyCompensation(m_pQuestData, false))
-				m_AcceptBut->Late_Update(fTimeDelta);
+			m_IsShowAcceptBut = false;
 			m_CancelBut->Late_Update(fTimeDelta);
+			if (CQuestManager::GetInstance()->CheckAndApplyCompensation(m_pQuestData, false))
+			{
+				m_AcceptBut->Late_Update(fTimeDelta);
+				m_IsShowAcceptBut = true;
+			}
+		
 		}
 		break;
 		}
@@ -100,27 +106,42 @@ void CQuestBoxEntry::Late_Update(_float fTimeDelta)
 HRESULT CQuestBoxEntry::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
+
+	D3DXCOLOR Black = { 0.f,0.f,0.f,1.f };
 	m_pTexture_Com->Set_Texture(0);
 	m_pVIBuffer_Com->Render();
 
-	D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
 	if (m_pQuestData)
-		m_pGameInstance->Render_Font(TEXT("Font_25"), m_pQuestData->QuestTitle.c_str(), &m_FontRect, white, DT_LEFT);
-
+	{
+		m_pGameInstance->Render_Font(TEXT("Font_25"), m_pQuestData->QuestTitle.c_str(), &m_FontRect, Black, DT_LEFT);
+		switch (m_QuestListType)
+		{
+		case 0:
+		{
+			m_AcceptBut->Render();
+		}
+		break;
+		case 1:
+		{
+			if (m_IsShowAcceptBut)
+				m_AcceptBut->Render();
+			m_CancelBut->Render();
+		}
+		break;
+		}
+	}
+	
 	return S_OK;
 }
 
 void CQuestBoxEntry::SetQuestData(_uint QuestIndex, void* pArg)
 {
-	//버튼 호버는 나중에 만들거
 	m_QuestListType = QuestIndex;
 	if (nullptr == pArg)
 		m_pQuestData = nullptr;
 	else
 	{
 		m_pQuestData = static_cast<CQuestData*>(pArg);
-		m_AcceptBut->ChangeButtonTex(QuestIndex * 2);
-		m_CancelBut->ChangeButtonTex(QuestIndex * 2 + 1);
 	}
 }
 
@@ -146,7 +167,7 @@ HRESULT CQuestBoxEntry::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBuffer_Com)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Inventory"), TEXT("Com_Texture"), (CComponent**)&m_pTexture_Com)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestEntryFrame"), TEXT("Com_Texture"), (CComponent**)&m_pTexture_Com)))
 		return E_FAIL;
 
 	return S_OK;
@@ -156,11 +177,10 @@ HRESULT CQuestBoxEntry::ADD_Buttons()
 {
 	CEventButton::BUTTON_DESC Desc;
 	Desc.pParentTransform = m_pTransform_Com;
-	Desc.fSizeX = 100.f;
-	Desc.fSizeY = 40.f;
+	Desc.fSizeX = 50.f;
+	Desc.fSizeY = 50.f;
 
 	Desc.fRelativeX = m_fSizeX * 0.6f - (Desc.fSizeX * 2) + 10;
-	Desc.fRelativeY -= 10;
 	m_AcceptBut = static_cast<CEventButton*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_EventButton"), &Desc));
 
 	Desc.fRelativeX = m_fSizeX * 0.6f - Desc.fSizeX;

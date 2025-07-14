@@ -401,8 +401,17 @@
     <Filter Include="04. GmaeUI\Quest\Entry">
       <UniqueIdentifier>{307bf581-3695-43f6-a948-4a56a71552cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GmaeUI\Button\EventButton">
+    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29">
       <UniqueIdentifier>{0eb1c5d6-e5cf-4ca9-a29e-1b19599f535f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton">
+      <UniqueIdentifier>{c986ac24-0881-41eb-9769-8da062f334f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\PreView">
+      <UniqueIdentifier>{b7bf2377-bc96-4326-a2a9-da03a90b96a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29\NextButton">
+      <UniqueIdentifier>{4b48440c-4929-4680-8383-893d081361d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -785,10 +794,19 @@
       <Filter>04. GmaeUI\Quest\Entry</Filter>
     </ClInclude>
     <ClInclude Include="..\public\EventButton.h">
-      <Filter>04. GmaeUI\Button\EventButton</Filter>
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ListBoxUI.h">
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuestCategoryButton.h">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestPreView.h">
+      <Filter>04. GmaeUI\Quest\PreView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuestNextButton.h">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1166,10 +1184,19 @@
       <Filter>04. GmaeUI\Quest\Entry</Filter>
     </ClCompile>
     <ClCompile Include="..\private\EventButton.cpp">
-      <Filter>04. GmaeUI\Button\EventButton</Filter>
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ListBoxUI.cpp">
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuestCategoryButton.cpp">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestPreView.cpp">
+      <Filter>04. GmaeUI\Quest\PreView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuestNextButton.cpp">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

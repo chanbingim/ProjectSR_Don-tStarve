@@ -5,6 +5,7 @@
 
 NS_BEGIN(Client)
 class CListBoxUI;
+class CQuestCategoryButton;
 
 class CQuestFrameUI : public CUserInterface
 {
@@ -26,7 +27,7 @@ public :
 private :
 	_bool							m_bIsActive = { false };
 	CListBoxUI*						m_pListBox = { nullptr };
-
+	CQuestCategoryButton*					m_pCategoryButton[3] = { nullptr };
 
 	const	WCHAR*					m_szTittle = { L"Äù½ºÆ® Ã¢" };
 	_uint							m_SelectQuestList = {};
@@ -35,6 +36,7 @@ private :
 
 private :
 	HRESULT							ADD_Components();
+	HRESULT							ADD_CategoryButton();
 
 public :
 	static	CQuestFrameUI*			Create(LPDIRECT3DDEVICE9 pGraphic_Device);

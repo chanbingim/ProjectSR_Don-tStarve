@@ -52,6 +52,8 @@ private :
 	CEventButton*					m_AcceptBut = { nullptr };
 	CEventButton*					m_CancelBut = { nullptr };
 	
+	_bool							m_IsShowAcceptBut = { false };
+
 private:
 	HRESULT							ADD_Components();
 	HRESULT							ADD_Buttons();

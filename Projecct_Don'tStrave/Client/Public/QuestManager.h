@@ -24,10 +24,16 @@ public :
 
 	HRESULT		LoadQuestData(const char* FolderName, const char* FileName);
 	HRESULT		ReleaseQuestData();
+	_wstring	GetPercentData(CQuestData* pQuest);
+
+
+	_uint		GetMonstDeathCount(_uint iID);
 
 	list< CQuestData*>*			GetRunningQuest() { return &m_RunningQuest; }
 	list< CQuestData*>*			GetQuestList() { return &m_QuestList; }
 	list< CQuestData*>*			GetClearQuest() { return &m_ClearQuest; }
+
+	void						CallMonsterDeath(_uint iID);
 
 private :
 	const char*					FrontFilePath = "../Bin/Resources/DataStruct/";
@@ -36,6 +42,12 @@ private :
 	list<CQuestData*>			m_QuestList;
 	list<CQuestData*>			m_RunningQuest;
 	list<CQuestData*>			m_ClearQuest;
+
+	list<pair<_uint, _uint>>	m_DeathMonsterCnt;
+	_uint						m_CheckDeadthEvent = {};
+
+private :
+	_uint						UpdateDeathList(_uint iID);
 
 public :
 	virtual		void		Free() override;

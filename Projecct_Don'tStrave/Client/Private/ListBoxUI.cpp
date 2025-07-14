@@ -45,7 +45,7 @@ HRESULT CListBoxUI::Initialize(void* pArg)
             return E_FAIL;
     }
 
-    UpdatePosition();
+    UpdatePosition(0.9f);
     return S_OK;
 }
 
@@ -142,7 +142,7 @@ HRESULT CListBoxUI::ADD_EntryBox(_uint Index)
     Desc.pParentTransform_Com = m_pTransform_Com;
     Desc.fX = 10;
     Desc.fY = m_EntryBoxSize.y * Index;
-    Desc.fSizeX = m_EntryBoxSize.x;
+    Desc.fSizeX = m_EntryBoxSize.x - 50;
     Desc.fSizeY = m_EntryBoxSize.y;
 
     CBase* BaseObejct = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_QuestBoxEntry"), &Desc);

@@ -23,6 +23,13 @@ HRESULT CQuestManager::Accept_Quest(_uint QuestID)
 	if (pair == m_QuestMap.end())
 		return E_FAIL;
 
+	if (CQuestType::COMBAT == CQuestType(pair->second->type))
+	{
+		for (auto& ClearPair : pair->second->ClearCondition)
+			UpdateDeathList(ClearPair.first);
+		m_CheckDeadthEvent++;
+	}
+
 	m_QuestList.remove(pair->second);
 	m_RunningQuest.push_back(pair->second);
 	return S_OK;
@@ -56,6 +63,13 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 			CheckQuest->bIsClear = true;
 			CheckAndApplyCompensation(CheckQuest, true);
 			
+			if (CQuestType::COMBAT == CheckQuest->type)
+			{
+				m_CheckDeadthEvent--;
+				if (m_CheckDeadthEvent <= 0)
+					m_DeathMonsterCnt.clear();
+			}
+
 			for (auto& iter : CheckQuest->ConnectQuest)
 			{
 				auto  pair = m_QuestMap.find(iter);
@@ -160,6 +174,70 @@ HRESULT CQuestManager::ReleaseQuestData()
 	return S_OK;
 }
 
+_wstring CQuestManager::GetPercentData(CQuestData* pQuest)
+{
+	if (nullptr == pQuest)
+		return L"";
+
+	WCHAR Percent[MAX_PATH] = {};
+	_uint OwnCount{}, MaxCount{};
+	_uint iID = pQuest->QuestID;
+	switch (CQuestType(pQuest->type))
+	{
+	case CQuestType::COLLECTION:
+	{
+		auto Inven = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
+		for (auto& pair : pQuest->ClearCondition)
+		{
+			OwnCount = Inven->Check_ItemCount(pair.first);
+			MaxCount = pair.second;
+			break;
+		}
+	}
+	break;
+	case CQuestType::COMBAT:
+	{
+		if (0 < m_CheckDeadthEvent)
+		{
+			for (auto& pair : pQuest->ClearCondition)
+			{
+				OwnCount = GetMonstDeathCount(pair.first);
+				if (OwnCount >= pair.second)
+					OwnCount = pair.second;
+
+				MaxCount = pair.second;
+				break;
+			}
+		}
+	}
+	break;
+	}
+
+	if (0 >= OwnCount && 0 >= MaxCount)
+		return L"";
+
+	wsprintf(Percent, TEXT("%d / %d"), OwnCount, MaxCount);
+	return Percent;
+}
+
+_uint CQuestManager::GetMonstDeathCount(_uint iID)
+{
+	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
+		{
+			return pair.first == iID ? true : false;
+		});
+
+	if (iter == m_DeathMonsterCnt.end())
+		return -1;
+
+	return iter->second;
+}
+
+void CQuestManager::CallMonsterDeath(_uint iID)
+{
+	UpdateDeathList(iID);
+}
+
 _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 {
 	if (nullptr == pQuest)
@@ -170,7 +248,7 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 	case CQuestType::COLLECTION:
 	{
 		auto Inven = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
-		for (auto pair : pQuest->ClearCondition)
+		for (auto& pair : pQuest->ClearCondition)
 		{
 			if (_flag)
 				Inven->Use_Item(pair.first, pair.second);
@@ -187,11 +265,36 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 	break;
 	case CQuestType::COMBAT:
 	{
+		if (0 < m_CheckDeadthEvent)
+		{
+			for (auto& pair : pQuest->ClearCondition)
+			{
+				if (pair.second > GetMonstDeathCount(pair.first))
+				{
+					return false;
+				}
+			}
+		}
 	}
 	break;
 	}
 
 	return true;
+}
+
+_uint CQuestManager::UpdateDeathList(_uint iID)
+{
+	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
+		{
+			return pair.first == iID ? true : false;
+		});
+
+	if (iter == m_DeathMonsterCnt.end())
+		m_DeathMonsterCnt.emplace_back(iID, 0);
+	else
+		return iter->second++;
+
+	return 1;
 }
 
 void CQuestManager::Free()

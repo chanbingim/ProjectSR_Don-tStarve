@@ -354,7 +354,7 @@ void CPlayer::Update(_float fTimeDelta)
 	m_pTorchFire->Update(fTimeDelta);
 	if (m_pGameInstance->KeyDown('P'))
 	{
-		auto GameObject = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Quest_UI"));
+		auto GameObject = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Gameplay_Quest_UI"));
 		if (GameObject)
 		{
 			auto Quest = dynamic_cast<CQuestFrameUI*>(GameObject);

@@ -1,45 +1,45 @@
-#include "EventButton.h"
+#include "QuestNextButton.h"
 #include "GameInstance.h"
 
-CEventButton::CEventButton(LPDIRECT3DDEVICE9 pGraphic_Device) :
-    CButton(pGraphic_Device)
+CQuestNextButton::CQuestNextButton(LPDIRECT3DDEVICE9 pGraphic_Device) :
+    CEventButton(pGraphic_Device)
 {
 }
 
-CEventButton::CEventButton(const CEventButton& rhs) :
-    CButton(rhs)
+CQuestNextButton::CQuestNextButton(const CQuestNextButton& rhs) :
+    CEventButton(rhs)
 {
 }
 
-HRESULT CEventButton::Initialize_Prototype()
+HRESULT CQuestNextButton::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CEventButton::Initialize(void* pArg)
+HRESULT CQuestNextButton::Initialize(void* pArg)
 {
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    if (FAILED(__super::Initialize(pArg)))
+    if (FAILED(CButton::Initialize(pArg)))
         return E_FAIL;
 
     return S_OK;
 }
 
-void CEventButton::Priority_Update(_float fTimeDelta)
+void CQuestNextButton::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CEventButton::Update(_float fTimeDelta)
+void CQuestNextButton::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
 
   
 }
 
-void CEventButton::Late_Update(_float fTimeDelta)
+void CQuestNextButton::Late_Update(_float fTimeDelta)
 {   
     UpdatePosition();
     if (isMouseOver())
@@ -55,9 +55,11 @@ void CEventButton::Late_Update(_float fTimeDelta)
             }
         }
     }
+   
+    m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 }
 
-HRESULT CEventButton::Render()
+HRESULT CQuestNextButton::Render()
 {
     m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransform_Com->Get_World());
     m_pTexture_Com->Set_Texture(m_ButtonIndex);
@@ -66,17 +68,7 @@ HRESULT CEventButton::Render()
     return S_OK;
 }
 
-void CEventButton::SetClickEvent(function<void()> Func)
-{
-    m_OnclickedEvent = Func;
-}
-
-void CEventButton::ChangeButtonTex(_uint Index)
-{
-    m_ButtonIndex = Index;
-}
-
-HRESULT CEventButton::ADD_Components()
+HRESULT CQuestNextButton::ADD_Components()
 {
     if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"),
@@ -90,7 +82,7 @@ HRESULT CEventButton::ADD_Components()
         reinterpret_cast<CComponent**>(&m_pTransform_Com), &Transform_Desc)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestButton"),
+    if (FAILED(__super::Add_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestNextButton"),
         TEXT("Com_Texture"),
         reinterpret_cast<CComponent**>(&m_pTexture_Com))))
         return E_FAIL;
@@ -98,9 +90,9 @@ HRESULT CEventButton::ADD_Components()
     return S_OK;
 }
 
-CEventButton* CEventButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CQuestNextButton* CQuestNextButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    CEventButton* pInstance = new CEventButton(pGraphic_Device);
+    CQuestNextButton* pInstance = new CQuestNextButton(pGraphic_Device);
     if (FAILED(pInstance->Initialize_Prototype()))
     {
         Safe_Release(pInstance);
@@ -110,9 +102,9 @@ CEventButton* CEventButton::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CGameObject* CEventButton::Clone(void* pArg)
+CGameObject* CQuestNextButton::Clone(void* pArg)
 {
-    CEventButton* pInstance = new CEventButton(*this);
+    CQuestNextButton* pInstance = new CQuestNextButton(*this);
     if (FAILED(pInstance->Initialize(pArg)))
     {
         Safe_Release(pInstance);
@@ -122,7 +114,7 @@ CGameObject* CEventButton::Clone(void* pArg)
     return pInstance;
 }
 
-void CEventButton::Free()
+void CQuestNextButton::Free()
 {
     __super::Free();
 

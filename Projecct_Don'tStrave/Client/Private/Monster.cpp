@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Player.h"
 #include "DropItemComponent.h"
+#include "QuestManager.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -41,7 +42,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->bIsDead = false;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
-
+	
 	m_pChar = m_pMonsterData;
 	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance, 0.f ,0.f });
 
@@ -163,6 +164,8 @@ void CMonster::Free()
 	{
 		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
+
+		CQuestManager::GetInstance()->CallMonsterDeath(m_pMonsterData->iId);
 	}
 	__super::Free();
 

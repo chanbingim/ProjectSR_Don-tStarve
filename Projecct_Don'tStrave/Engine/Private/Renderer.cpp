@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Light_Manager.h"
+#include "UserInterface.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
@@ -204,6 +205,11 @@ void CRenderer::Render_Projection_UI()
 
 void CRenderer::Render_Ortho_UI()
 {
+	m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return static_cast<CUserInterface*>(pSour)->GetZOrder() < static_cast<CUserInterface*>(pDest)->GetZOrder();
+		});
+
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OrtTHOMat);
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)])
 	{
