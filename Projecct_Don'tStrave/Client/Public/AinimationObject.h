@@ -31,10 +31,10 @@ public:
 	HRESULT					LoadImageFile(vector<IMAGE_FOLDER_DESC>* tImageVec = nullptr);
 
 	void					XMLRenderAnimation(const wstring& animName, Entity* tEntity = nullptr, vector<IMAGE_FOLDER_DESC>* AnimVec = nullptr);
-
 protected:
 	_uint						m_fAniTime = {};
 	_uint						m_iLength = {};
+	_float						m_fZAngle = {};
 
 	Entity						m_tAnimation = {};
 	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};

@@ -28,6 +28,8 @@ HRESULT CAinimationObject::Initialize_Prototype()
 
 HRESULT CAinimationObject::Initialize(void* pArg)
 {
+     m_fZAngle = 0.f;
+
      if(FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -241,7 +243,7 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName, Entity* tEnt
         _float3 pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
         D3DXMatrixTranslation(&matPivot, 0.5f - image.fPivot.x, 0.5f - image.fPivot.y, 0.f);
         D3DXMatrixScaling(&matScale, image.fSize.x * object.fScale.x / 400.f, image.fSize.y * object.fScale.y / 400.f, 1.f);
-        D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle));
+        D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(object.fAngle + m_fZAngle));
 
         D3DXMatrixTranslation(&matTrans, object.fPos.x / 400.f, object.fPos.y / 400.f, 0.f);
 

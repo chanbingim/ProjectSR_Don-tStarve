@@ -15,7 +15,6 @@
 #include "Shadowterrorbeak.h"
 #include "Treeguard.h"
 #include "TreeguardObject.h"
-#include "Goat.h"
 
 #include "TorchFire.h"
 
@@ -108,8 +107,8 @@
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: m_pGraphic_Device { pGraphic_Device }
-	, m_pGameInstance { CGameInstance::GetInstance() }
+	: m_pGraphic_Device{ pGraphic_Device }
+	, m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pGraphic_Device);
@@ -117,7 +116,7 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 unsigned int APIENTRY LoadingMain(void* pArg)
 {
-	CLoader*		pLoader = static_cast<CLoader*>(pArg);
+	CLoader* pLoader = static_cast<CLoader*>(pArg);
 
 	if (FAILED(pLoader->Loading()))
 		return 1;
@@ -126,15 +125,15 @@ unsigned int APIENTRY LoadingMain(void* pArg)
 }
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
-{	
+{
 	m_eNextLevelID = eNextLevelID;
 
-	/* ��������, ���ؽ�, ũ��Ƽ�ü��� */
+	/* 세마포어, 뮤텍스, 크리티컬섹션 */
 
-	/* �Ӱ迵��(��, ������, �ڵ�)�� �����ϱ����� Ű�� �����Ѵ�. */
+	/* 임계영역(힙, 데이터, 코드)에 접근하기위한 키를 생성한다. */
 	InitializeCriticalSection(&m_CriticalSection);
 
-	/* ���� �ε��� �����ϱ����� �����带 �����Ѵ�. */
+	/* 실제 로딩을 수행하기위한 스레드를 생성한다. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -179,7 +178,7 @@ void CLoader::Output()
 
 HRESULT CLoader::Loading_For_Logo()
 {
-	m_strMessage = TEXT("�ؽ��ĸ�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 	/* For.Prototype_Component_Texture_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
@@ -190,11 +189,11 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo_button.png"), 1))))
 		return E_FAIL;
 
-	m_strMessage = TEXT("�𵨸�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
-	m_strMessage = TEXT("���̴���(��) �ε� �� �Դϴ�.");
-	
-	m_strMessage = TEXT("��ü������(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
+
+	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 	/* For.Prototype_GameObject_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_Logo"),
@@ -202,7 +201,7 @@ HRESULT CLoader::Loading_For_Logo()
 		return E_FAIL;
 
 
-	m_strMessage = TEXT("�ε��� �Ϸ�Ǿ����ϴ�..");
+	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
 	m_isFinished = true;
 
@@ -211,7 +210,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_Select()
 {
-	m_strMessage = TEXT("�ؽ��ĸ�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 	/* For.Prototype_Component_Texture_Select */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Select"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/select_back.png"), 1))))
@@ -232,11 +231,11 @@ HRESULT CLoader::Loading_For_Select()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/start.png"), 1))))
 		return E_FAIL;
 
-	m_strMessage = TEXT("�𵨸�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
-	m_strMessage = TEXT("���̴���(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
-	m_strMessage = TEXT("��ü������(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 	/* For.Prototype_GameObject_Select_Character */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Select_Character"),
@@ -259,7 +258,7 @@ HRESULT CLoader::Loading_For_Select()
 		return E_FAIL;
 
 
-	m_strMessage = TEXT("�ε��� �Ϸ�Ǿ����ϴ�..");
+	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
 	m_isFinished = true;
 
@@ -268,16 +267,16 @@ HRESULT CLoader::Loading_For_Select()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	m_strMessage = TEXT("ĳ���� ������ �������� ��... ");
+	m_strMessage = TEXT("캐릭터 정보를 가져오는 중... ");
 	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
 
-	m_strMessage = TEXT("���� ������ �������� ��... ");
+	m_strMessage = TEXT("몬스터 정보를 가져오는 중... ");
 	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
 
-	m_strMessage = TEXT("������ ������ �������� ��... ");
+	m_strMessage = TEXT("아이템 정보를 가져오는 중... ");
 	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
 
-	m_strMessage = TEXT("�ؽ��ĸ�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 #pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
@@ -475,7 +474,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Close"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potclose/close_00%d.png"), 9))))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Open"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potopen/open_00%d.png"), 9))))
 		return E_FAIL;
@@ -484,8 +483,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 
-
-#pragma region TORCH
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
@@ -498,30 +495,26 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_FireEffect"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/Fire.bmp"), 1))))
 		return E_FAIL;
-#pragma endregion
 
 
 #pragma endregion
-	m_strMessage = TEXT("�𵨸�(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
-	m_strMessage = TEXT("���̴���(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
-	m_strMessage = TEXT("��ü������(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 
 
-#pragma region TORCH
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
 	/* For.Prototype_GameObject_SkyBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
 		CSkyBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
-#pragma endregion
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER
@@ -588,11 +581,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTreeguard::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Goat"),
-		CGoat::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 
 
 	/* For.Prototype_GameObject_Tree */
@@ -600,7 +588,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTreeguardObject::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	
+
 #pragma endregion
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
@@ -638,7 +626,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Glod_Rock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Gloden_Rock"),
-		CRockObject::Create(m_pGraphic_Device,"rock2.scml", TEXT("Gold_Rock")))))
+		CRockObject::Create(m_pGraphic_Device, "rock2.scml", TEXT("Gold_Rock")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Tree */
@@ -653,7 +641,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Birch_Tall_Leaf */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_tall_Leaf"),
-		CTreeLeaf::Create(m_pGraphic_Device,"tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
+		CTreeLeaf::Create(m_pGraphic_Device, "tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Birch_Short_Leaf */
@@ -714,12 +702,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookUI"),
 		CCookUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CookUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Grid"),
 		CGrid::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_SkillIndicator */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillIndicator"),
 		CSkillIndicator::Create(m_pGraphic_Device))))
@@ -828,6 +816,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CSpriteEffect::Create(m_pGraphic_Device, "tree_leaf_fx_green.scml", TEXT("Leaf")))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Leaf_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Lightning"),
+		CSpriteEffect::Create(m_pGraphic_Device, "elec_lunge_fx.scml", TEXT("Lightning")))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region ITEM
@@ -835,7 +828,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 		CMaterial_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_Food */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Food"),
 		CFood::Create(m_pGraphic_Device))))
@@ -845,7 +838,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Equipment"),
 		CEquipment::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
 		CCampFire::Create(m_pGraphic_Device))))
@@ -860,43 +853,43 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
 		CChest::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_ResearchLap */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
 		CResearchLap::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_Cookpot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
 		CCookpot::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CookedFood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookedFood"),
 		CCookedFood::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_IceBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
 		CIceBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	
+
 #pragma endregion
 
-	m_strMessage = TEXT("��Ʈ��(��) �ε� �� �Դϴ�.");
+	m_strMessage = TEXT("폰트를(을) 로딩 중 입니다.");
 
 #pragma region FONT
 
 #pragma endregion
-	m_strMessage = TEXT("����Ʈ��(��) ���� �� �Դϴ�.");
+	m_strMessage = TEXT("이펙트를(을) 생성 중 입니다.");
 #pragma region Effect
 	CEffectPoolManager::GetInstance()->Initailize();
 #pragma endregion
 
-	
 
-	m_strMessage = TEXT("�ε��� �Ϸ�Ǿ����ϴ�..");
+
+	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
 	m_isFinished = true;
 
