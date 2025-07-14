@@ -49,6 +49,12 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 
 void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == ATTACK && m_bAttackSound && 500 <= (int)m_fAniTime) {
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"Spider_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_bAttackSound = false;
+	}
 	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
 		m_bAttack = false;
 	}
@@ -201,6 +207,9 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 						}
 						else {
 							SetAnimation(m_tDir, MOTION::TAUNT);
+							_float volume = Get_Sound();
+							if (0.f < volume)
+								m_pGameInstance->Manager_PlaySound(L"Spider_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 							m_bTarget = true;
 						}
 					}
@@ -353,11 +362,15 @@ HRESULT CSpiderWarrior::Render()
 void CSpiderWarrior::Hit()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Spider_hurt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderWarrior::Attack()
 {
 	m_bAttack = true;
+	m_bAttackSound = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
@@ -365,6 +378,9 @@ void CSpiderWarrior::Death()
 {
 	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Spider_death.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderWarrior::OutHouse(CCharacter* pCharacter)

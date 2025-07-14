@@ -101,11 +101,13 @@ HRESULT CMonster::Render()
 void CMonster::SetDir()
 {
 	if (m_pNearTarget) {
-		m_fMoving = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if (0.0001f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
-			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / D3DXVec3Length(&m_fMoving)));
-			if (0 < m_fMoving.z) {
-				m_fAngle = 360.f - m_fAngle;
+		if (m_bDir) {
+			m_fMoving = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			if (0.0001f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
+				m_fAngle = D3DXToDegree(acosf(m_fMoving.x / D3DXVec3Length(&m_fMoving)));
+				if (0 < m_fMoving.z) {
+					m_fAngle = 360.f - m_fAngle;
+				}
 			}
 		}
 		D3DMATRIX view;
@@ -178,7 +180,7 @@ MONSTER_DATA* CMonster::Get_Monster()
 _float CMonster::Get_Sound()
 {
 	_float3 transform = m_pMonsterData->fPos - *m_pPlayerPos;
-	return 10 - (D3DXVec3Length(&transform) * 2);
+	return 10 - (D3DXVec3Length(&transform));
 }
 
 HRESULT CMonster::Ready_Components()

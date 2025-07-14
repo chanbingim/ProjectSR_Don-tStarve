@@ -154,6 +154,9 @@ void CPigHouse::Damage(void* pArg)
 void CPigHouse::Hit()
 {
 	SetAnimation(MOTION::DAMAGE);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"grass_pick_4.wav", CHANNELID::GOODMONSTER_SOUND, volume);
 }
 
 void CPigHouse::Attack()
@@ -164,6 +167,9 @@ void CPigHouse::Death()
 {
 	__super::Death();
 	SetAnimation(MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"catapult_rock_hit_DST_3.wav", CHANNELID::GOODMONSTER_SOUND, volume);
 }
 
 void CPigHouse::EnterPig(CPig* pMonster)

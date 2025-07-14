@@ -53,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 120.f) {
+	if (m_fTimeAcc >= 5.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -140,6 +140,9 @@ void CSpiderHouse::Update(_float fTimeDelta)
 				iter = m_pMonsterVec.erase(iter);
 			}
 			m_isDead = true;
+			_float volume = Get_Sound();
+			if (0.f < volume)
+				m_pGameInstance->Manager_PlaySound(L"SpiderQueen_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
 			data.fPos= m_pMonsterData->fPos;
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
@@ -250,6 +253,9 @@ void CSpiderHouse::Hit()
 		SetAnimation(MOTION::LARGE_DAMAGE);
 		break;
 	}
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"grass_pick_4.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderHouse::Attack()
@@ -261,6 +267,9 @@ void CSpiderHouse::Death()
 	__super::Death();
 	m_fTimeAcc = 0.f;
 	SetAnimation(MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"SpiderQueen_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderHouse::EnterSpider(CSpider* pMonster)

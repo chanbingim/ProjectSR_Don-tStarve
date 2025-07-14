@@ -790,6 +790,7 @@
     <ClInclude Include="..\public\ListBoxUI.h">
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\IceSpike.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1171,6 +1172,7 @@
     <ClCompile Include="..\private\ListBoxUI.cpp">
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\IceSpike.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">

@@ -51,6 +51,12 @@ void CSpiderNormal::Priority_Update(_float fTimeDelta)
 	if (!m_bActive) {
 		return;
 	}
+	if (m_tMotion == ATTACK && m_bAttackSound && 500 <= (int)m_fAniTime) {
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"Spider_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_bAttackSound = false;
+	}
 	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
 		m_bAttack = false;
 	}
@@ -340,10 +346,8 @@ void CSpiderNormal::Hit()
 void CSpiderNormal::Attack()
 {
 	m_bAttack = true;
+	m_bAttackSound = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
-	_float volume = Get_Sound();
-	if (0.f < volume)
-		m_pGameInstance->Manager_PlaySound(L"Spider_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderNormal::Death()

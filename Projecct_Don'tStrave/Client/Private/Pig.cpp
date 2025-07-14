@@ -279,6 +279,9 @@ void CPig::Death()
 {
 	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Pig_death.wav", CHANNELID::GOODMONSTER_SOUND, volume);
 }
 void CPig::OutHouse()
 {

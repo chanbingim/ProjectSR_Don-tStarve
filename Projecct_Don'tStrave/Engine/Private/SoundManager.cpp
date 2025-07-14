@@ -45,7 +45,9 @@ void CSoundManager::Manager_PlaySound(const TCHAR* pSoundKey, CHANNELID eID, flo
 
 	if (iter == m_mapSound.end())
 		return;
+
 	bool bPlay = FALSE;
+
 	FMOD_RESULT res = m_pSystem->playSound(iter->second, nullptr, FALSE, &m_pChannelArr[eID]);
 	if (res != FMOD_OK) {
 		printf("playSound error: %s\n", FMOD_ErrorString(res));

@@ -83,6 +83,7 @@ private:
 	_bool					m_bLightningAttack = {};
 	_bool					m_bCrawling = {};
 	_bool					m_bTerrorbeak = {};
+	_bool					m_bEat = {};
 	_float					m_fHungTime = {};
 	_float					m_fFightTime = {};
 	_float3					m_fLightning = {};

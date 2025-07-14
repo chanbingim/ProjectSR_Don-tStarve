@@ -38,6 +38,7 @@ HRESULT CCharacter::Initialize(void* pArg)
     m_fAngle = rand() % 360;
     m_pCharacterManager = CCharacterManager::GetInstance();
     m_fNearDistance = 100.f;
+    m_bDir = true;
     //Setting_Shader(L"BillBoard.fx");
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -171,7 +172,7 @@ void CCharacter::SetDir()
 void CCharacter::ResetTarget(_float iDistance)
 {
     if (m_pNearTarget) {
-        if (m_pNearTarget->isDead()) {
+        if (m_pNearTarget->isDead() || (dynamic_cast<CCharacter*>(m_pNearTarget) && 0 >= dynamic_cast<CCharacter*>(m_pNearTarget)->Get_Char()->iHp)) {
             m_pNearTarget = nullptr;
             m_fNearDistance = 100.f;
         }

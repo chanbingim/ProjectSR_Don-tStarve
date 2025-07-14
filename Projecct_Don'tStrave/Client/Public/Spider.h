@@ -24,6 +24,7 @@ public:
 protected:
 	CSpiderHouse*			m_pHouse = {};
 	_bool					m_bHouse = {};
+	_bool					m_bAttackSound = {};
 public:
 	virtual void Free() override;
 };

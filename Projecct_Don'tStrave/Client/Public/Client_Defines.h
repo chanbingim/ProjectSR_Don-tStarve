@@ -132,7 +132,6 @@ namespace Client
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
-		_uint		iId = {};
 		_float		iAtkDistance = {};
 		_float		iAtkSpeed = {};
 		_uint		iHostile = {};
