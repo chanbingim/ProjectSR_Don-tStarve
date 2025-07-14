@@ -242,6 +242,7 @@ void CShadowterrorbeak::Attack()
 
 void CShadowterrorbeak::Death()
 {
+	__super::Death();
 	if (0 >= m_pMonsterData->iHp) {
 		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {

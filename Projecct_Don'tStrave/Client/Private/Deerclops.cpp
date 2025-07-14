@@ -234,6 +234,7 @@ void CDeerclops::Attack()
 
 void CDeerclops::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 

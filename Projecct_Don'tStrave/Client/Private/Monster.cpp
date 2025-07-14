@@ -41,12 +41,12 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_pMonsterData->bIsDead = false;
 	m_tDamage.Attacker = this;
 	m_tDamage.Damage = data.iAtk;
+	m_bPlayerKill = false;
 
 	m_pChar = m_pMonsterData;
 	m_pCollision_Com->SetCollisionSize({ m_pMonsterData->iAtkDistance, 0.f ,0.f });
 
 	m_pTransformCom->SetPosition(data.fPos);
-
 	m_bActive = true;
 
 	return S_OK;
@@ -55,6 +55,7 @@ HRESULT CMonster::Initialize(void* pArg)
 HRESULT CMonster::Initialize_Late()
 {
 	__super::Initialize_Late();
+	m_pPlayerPos = &(static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player()->fPos);
 	return S_OK;
 }
 
@@ -68,6 +69,9 @@ void CMonster::Priority_Update(_float fTimeDelta)
 	}
 	if (!m_pNearTarget) {
 		m_bTarget = false;
+	}
+	if (0 < m_pMonsterData->iHp) {
+		m_bPlayerKill = false;
 	}
 }
 
@@ -144,9 +148,37 @@ void CMonster::SetRandomMove()
 	D3DXVec3Normalize(&m_fMove, &m_fMove);
 }
 
+void CMonster::Damage(void* pArg)
+{
+	__super::Damage(pArg);
+	DAMAGE_DATA_BASE DamageBase = {};
+	if (nullptr != pArg) {
+		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+		CCharacter* player = {};
+		player = static_cast<CCharacter*>(DamageBase.Attacker);
+		if (200 <= player->Get_Char()->iId)
+			m_bPlayerKill = true;
+	}
+}
+
+void CMonster::Death()
+{
+	if (m_pMonsterData && 0 >= m_pMonsterData->iHp && m_pDropItem_Com)
+	{
+		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
+			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
+	}
+}
+
 MONSTER_DATA* CMonster::Get_Monster()
 {
 	return m_pMonsterData;
+}
+
+_float CMonster::Get_Sound()
+{
+	_float3 transform = m_pMonsterData->fPos - *m_pPlayerPos;
+	return 10 - (D3DXVec3Length(&transform) * 2);
 }
 
 HRESULT CMonster::Ready_Components()
@@ -159,11 +191,6 @@ HRESULT CMonster::Ready_Components()
 
 void CMonster::Free()
 {
-	if(m_pMonsterData && 0 >= m_pMonsterData->iHp && m_pDropItem_Com)
-	{
-		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
-			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
-	}
 	__super::Free();
 
 	Safe_Delete(m_pMonsterData);

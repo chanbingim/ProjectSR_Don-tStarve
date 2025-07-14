@@ -241,7 +241,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_pTorchFire->Priority_Update(fTimeDelta);
 	if (0 < m_pPlayer->iHp) {
-		m_fHungTime += fTimeDelta;
+		m_fHungTime += fTimeDelta / 2;
 		m_fFightTime += fTimeDelta;
 		if (1 <= m_fHungTime) {
 			m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
@@ -827,10 +827,6 @@ void CPlayer::Update(_float fTimeDelta)
 		SetAnimation(DIR::DIR_END, MOTION::DIAL);
 		m_bControll = false;
 	}
-	if (GetKeyState('0') & 0x8000)
-	{
-		m_isDead = true;
-	}
 	SetAnimation(m_tDir, m_tMotion);
 
 	if (m_pGameInstance->KeyPressed('E'))
@@ -984,14 +980,15 @@ void CPlayer::Damage(void* pArg)
 	if (0 < m_pPlayer->iHp) {
 		__super::Damage(pArg);
 	}
-	if (15 <= m_fFightTime) {
-		auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-		ScreenEffect->ActiveEffect();
-	}
+	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+	ScreenEffect->ActiveEffect();
 }
 
 void CPlayer::Hit()
 {
+	if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_hurt.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
+	}
 	m_bControll = false;
 	m_fFightTime = 0.f;
 	SetAnimation(m_tDir, MOTION::DAMAGE);
@@ -1013,6 +1010,9 @@ void CPlayer::Attack()
 
 void CPlayer::Death()
 {
+	if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
+	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
 	m_pPlayer->iHunger = 0;
@@ -1025,6 +1025,9 @@ void CPlayer::Death()
 
 void CPlayer::Dead()
 {
+	if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
+	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
 	m_pPlayer->iHunger = 0;
@@ -1056,6 +1059,7 @@ _bool CPlayer::Eat(void* pArg)
 		}
 		else {
 			if (201 == m_pPlayer->iId) {
+				m_pGameInstance->Manager_PlaySound(L"wathgrithr_dial.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
 				SetAnimation(DIR::DIR_END, MOTION::DIAL);
 				return false;
 			}

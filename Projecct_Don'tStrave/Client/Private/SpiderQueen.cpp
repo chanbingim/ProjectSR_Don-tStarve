@@ -260,6 +260,7 @@ void CSpiderQueen::Attack()
 
 void CSpiderQueen::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
@@ -348,7 +349,11 @@ void CSpiderQueen::Damage(void* pArg)
 			if (3.f > distance) {
 				CSpiderHouse* pHouse = {};
 				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
-					pHouse->Emergency();
+					if (pArg) {
+						DamageBaseDesc desc;
+						desc = *static_cast<DamageBaseDesc*>(pArg);
+						pHouse->Emergency(static_cast<CCharacter*>(pArg));
+					}
 				}
 			}
 		}

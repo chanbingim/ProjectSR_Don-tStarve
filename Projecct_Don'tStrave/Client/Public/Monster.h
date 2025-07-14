@@ -29,13 +29,18 @@ public:
 	virtual HRESULT Render() override;
 	virtual	void		SetDir() override;
 	void				SetRandomMove();
+	virtual void		Damage(void* pArg) override;
+	virtual void		Death() override;
+	_bool			Get_PlayerKill() { return m_bPlayerKill; }
 
 	MONSTER_DATA*	Get_Monster();
 	_bool Get_Active() { return m_bActive; }
+	_float Get_Sound();
 
 protected:
 	CDropItemComponent* m_pDropItem_Com = { nullptr };
 	MONSTER_DATA*		m_pMonsterData = {};
+	_float3*				m_pPlayerPos = {};
 	_float3				m_fMove = {};
 	_float				m_fMoveTime = {};
 	_float				m_fMoveStart = {};
@@ -43,6 +48,7 @@ protected:
 	_float				m_fAttackTime = {};
 	_bool				m_bTarget = {};
 	_bool				m_bActive = {};
+	_bool				m_bPlayerKill = {};
 public:
 	HRESULT Ready_Components();
 	virtual void Free() override;

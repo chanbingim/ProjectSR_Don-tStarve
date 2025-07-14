@@ -208,6 +208,7 @@ void CGoat::Attack()
 
 void CGoat::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 void CGoat::OutHouse()

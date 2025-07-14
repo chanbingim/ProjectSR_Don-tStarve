@@ -53,7 +53,7 @@ void CSpiderHouse::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc >= 5.f) {
+	if (m_fTimeAcc >= 120.f) {
 
 		switch (m_tMotion) {
 		case SMALL:
@@ -157,7 +157,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	}
 	if (0 != m_pMonsterVec.size() && m_bRecon && 30 < *m_pTime) {
-		(*m_pMonsterVec.begin())->OutHouse();
+		(*m_pMonsterVec.begin())->OutHouse(nullptr);
 		m_pMonsterVec.erase(m_pMonsterVec.begin());
 		m_bRecon = false;
 	}
@@ -229,7 +229,12 @@ HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 void CSpiderHouse::Damage(void* pArg)
 {
 	__super::Damage(pArg);
-	Emergency();
+	DAMAGE_DATA_BASE DamageBase = {};
+	if (nullptr != pArg) {
+		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+		CCharacter* target = static_cast<CCharacter*>(DamageBase.Attacker);
+		Emergency(target);
+	}
 }
 
 void CSpiderHouse::Hit()
@@ -253,6 +258,7 @@ void CSpiderHouse::Attack()
 
 void CSpiderHouse::Death()
 {
+	__super::Death();
 	m_fTimeAcc = 0.f;
 	SetAnimation(MOTION::DEATH);
 }
@@ -262,11 +268,11 @@ void CSpiderHouse::EnterSpider(CSpider* pMonster)
 	m_pMonsterVec.push_back(pMonster);
 }
 
-void CSpiderHouse::Emergency()
+void CSpiderHouse::Emergency(CCharacter* pCharacter)
 {
 	for (auto iter = m_pMonsterVec.begin(); iter != m_pMonsterVec.end();)
 	{
-		(*iter)->OutHouse();
+		(*iter)->OutHouse(pCharacter);
 		iter = m_pMonsterVec.erase(iter);
 	}
 }

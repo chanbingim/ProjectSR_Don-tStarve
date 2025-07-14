@@ -218,6 +218,7 @@ void CTreeguard::Attack()
 
 void CTreeguard::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 

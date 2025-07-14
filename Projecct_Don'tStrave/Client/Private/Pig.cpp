@@ -78,10 +78,12 @@ void CPig::Priority_Update(_float fTimeDelta)
 	}
 	__super::Priority_Update(fTimeDelta);
 	ResetTarget(5.f);
-	m_bHouse = false;
 	if (!m_pNearTarget && m_pHouse && 30 <= *m_pTime) {
 		m_pNearTarget = m_pHouse;
 		m_bHouse = true;
+	}
+	if (!m_pHouse || m_pNearTarget != m_pHouse) {
+		m_bHouse = false;
 	}
 }
 
@@ -258,17 +260,24 @@ HRESULT CPig::Render()
 
 void CPig::Hit()
 {
+	_float volume = Get_Sound();
+	if(0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Pig_hurt.wav", CHANNELID::GOODMONSTER_SOUND, volume);
 	SetAnimation(DIR::DIR_END, MOTION::DAMAGE);
 }
 
 void CPig::Attack()
 {
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Pig_hurt.wav", CHANNELID::GOODMONSTER_SOUND, volume);
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
 void CPig::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 void CPig::OutHouse()

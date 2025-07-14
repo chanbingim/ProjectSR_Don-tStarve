@@ -162,6 +162,7 @@ void CPigHouse::Attack()
 
 void CPigHouse::Death()
 {
+	__super::Death();
 	SetAnimation(MOTION::DEATH);
 }
 
