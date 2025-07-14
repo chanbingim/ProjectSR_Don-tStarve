@@ -141,8 +141,10 @@ void CMaterialSlot::Update(_float fTimeDelta)
 			Desc.fDurability = 100.f;
 			Desc.iNumItem = 1;
 
-			static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeMaterialItem(pSlot, Desc);
-
+			if(Data.eItemType != ITEM_TYPE::STRUCTURE)
+				static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeMaterialItem(pSlot, Desc);
+			else 
+				pSlot->Set_Info(Desc);
 		}
 	}
 	else
