@@ -60,7 +60,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	Desc.fX = g_iWinSizeX - 50.f;
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 1;
-
+	m_fShakePower = 0.f;
 	m_pButton_Right = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 
@@ -127,9 +127,16 @@ void CCamera::Priority_Update(_float fTimeDelta)
 			distance = min(distance, oneDistance) * fTimeDelta * 5;
 
 			m_fPlayerPos += distance;
-			m_pTransformCom->SetPosition(vPosition + distance);
+			vPosition += distance;
+			m_pTransformCom->SetPosition(vPosition);
 		}
 		m_pTransformCom->LookAt(m_fPlayerPos);
+		if (0.1f < m_fShakePower) {
+			m_fShakePower -= fTimeDelta;
+			m_fTime += fTimeDelta * 40;
+			vPosition += m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT) * cosf(m_fTime) * (m_fShakePower / 10);
+			m_pTransformCom->SetPosition(vPosition);
+		}
 	}
 
 	Compute_CameraMatrix();
@@ -152,6 +159,14 @@ HRESULT CCamera::Render()
 	m_pButton_Right->Render();
 
 	return S_OK;
+}
+
+void CCamera::ShakeCamera(_float fPower)
+{
+	if (0.f >= m_fShakePower) {
+		m_fShakePower = 0;
+	}
+	m_fShakePower += fPower;
 }
 
 HRESULT CCamera::Ready_Components(void* pArg)

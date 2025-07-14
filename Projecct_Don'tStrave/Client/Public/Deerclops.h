@@ -38,6 +38,9 @@ public:
 	virtual void		GetTarget(CGameObject* actor, _float distance) override;
 private:
 	MOTION					m_tMotion = {};
+	_float					m_fAttackTime = {};
+	_float3					m_fIceSpike = {};
+	_uint					m_iIceSpike = {};
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);

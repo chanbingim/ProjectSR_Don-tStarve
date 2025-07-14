@@ -37,7 +37,7 @@ public:
 	virtual void	Attack() override;
 	virtual void	Death() override;
 	virtual void	EnterSpider(CSpider* pMonster);
-	void Emergency();
+	void Emergency(CCharacter* pCharacter);
 private:
 	MOTION					m_tMotion = {};
 	_float					m_fTimeAcc = {};

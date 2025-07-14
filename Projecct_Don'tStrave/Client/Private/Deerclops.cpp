@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "CharacterManager.h"
 #include "DropItemComponent.h"
+#include "IceSpike.h"
+#include "MonsterData_Manager.h"
 
 CDeerclops::CDeerclops(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -39,7 +41,8 @@ HRESULT CDeerclops::Initialize(void* pArg)
 
 	m_pDropItem_Com->ADD_ItemData(46, 7);
 	m_pDropItem_Com->SetCreateEffect(1);
-
+	m_fAttackTime = 10.f;
+	m_iIceSpike = 1;
 	return S_OK;
 }
 
@@ -47,10 +50,35 @@ HRESULT CDeerclops::Initialize(void* pArg)
 void CDeerclops::Priority_Update(_float fTimeDelta)
 {
 	if (m_tMotion == ATTACK && m_bAttack && 1200 <= (int)m_fAniTime) {
+
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_Ice.wav", CHANNELID::BADMONSTER_SOUND, volume);
 		m_bAttack = false;
+		m_pCamera->ShakeCamera(1.5f);
+		m_fAttackTime = 0.f;
 	}
 	__super::Priority_Update(fTimeDelta);
 	ResetTarget(6.f);
+	if(MOTION::ATTACK != m_tMotion)
+		m_bDir = true;
+	m_fAttackTime += fTimeDelta * 10;
+	if (5.f > m_fAttackTime) {
+		if (m_iIceSpike <= m_fAttackTime) {
+			MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(113);
+			data.fPos = m_pMonsterData->fPos + (m_fIceSpike * m_iIceSpike * 0.5f);
+			CIceSpike::ICESPIKE_DESC iceSpike;
+			iceSpike.pAttacker = this;
+			iceSpike.fAngle = m_fAngle;
+			iceSpike.iType = m_iIceSpike;
+			iceSpike.tDesc = data;
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+			m_iIceSpike++;
+		}
+	}
+	else {
+		m_iIceSpike = 1;
+	}
 }
 
 void CDeerclops::Update(_float fTimeDelta)
@@ -124,6 +152,9 @@ void CDeerclops::Update(_float fTimeDelta)
 							else {
 								SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 								m_bTarget = true;
+								_float volume = Get_Sound();
+								if (0.f < volume)
+									m_pGameInstance->Manager_PlaySound(L"Deerclops_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 							}
 						}
 						break;
@@ -224,17 +255,28 @@ HRESULT CDeerclops::Render()
 void CDeerclops::Hit()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Deerclops_hurt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CDeerclops::Attack()
 {
+	m_bDir = false;
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Deerclops_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CDeerclops::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Deerclops_death.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CDeerclops::GetTarget(CGameObject* actor, _float distance)
@@ -324,6 +366,7 @@ void CDeerclops::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 			m_bCol = true;
 			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
 				Attack();
+				D3DXVec3Normalize(&m_fIceSpike, &transform);
 			}
 		}
 	}

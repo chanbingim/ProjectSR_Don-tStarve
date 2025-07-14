@@ -49,6 +49,12 @@ HRESULT CSpiderWarrior::Initialize(void* pArg)
 
 void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == ATTACK && m_bAttackSound && 500 <= (int)m_fAniTime) {
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"Spider_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_bAttackSound = false;
+	}
 	if (m_tMotion == ATTACK && m_bAttack && 840 <= (int)m_fAniTime) {
 		m_bAttack = false;
 	}
@@ -61,10 +67,12 @@ void CSpiderWarrior::Priority_Update(_float fTimeDelta)
 	}
 	ResetTarget(4.f);
 
-	m_bHouse = false;
 	if (!m_pNearTarget && m_pHouse && 30 >= *m_pTime) {
 		m_pNearTarget = m_pHouse;
 		m_bHouse = true;
+	}
+	if (!m_pHouse || m_pNearTarget != m_pHouse) {
+		m_bHouse = false;
 	}
 }
 
@@ -199,6 +207,9 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 						}
 						else {
 							SetAnimation(m_tDir, MOTION::TAUNT);
+							_float volume = Get_Sound();
+							if (0.f < volume)
+								m_pGameInstance->Manager_PlaySound(L"Spider_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 							m_bTarget = true;
 						}
 					}
@@ -351,22 +362,30 @@ HRESULT CSpiderWarrior::Render()
 void CSpiderWarrior::Hit()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Spider_hurt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderWarrior::Attack()
 {
 	m_bAttack = true;
+	m_bAttackSound = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
 void CSpiderWarrior::Death()
 {
+	__super::Death();
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"Spider_death.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
-void CSpiderWarrior::OutHouse()
+void CSpiderWarrior::OutHouse(CCharacter* pCharacter)
 {
-	__super::OutHouse();
+	__super::OutHouse(pCharacter);
 	SetAnimation(m_tDir, MOTION::IDLE);
 }
 
@@ -488,7 +507,7 @@ void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 		m_pNearTarget = nullptr;
 		return;
 	}
-	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (m_pNearTarget != m_pHouse && HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {

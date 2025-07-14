@@ -218,6 +218,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_bLightningAttack = false;
 	m_bControll = true;
 	m_bCol = false;
+	m_bEat = false;
 	m_tDamage.Attacker = this;
 	m_fFightTime = 30.f;
 	m_iDarkTime = 0;
@@ -241,7 +242,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 	m_pTorchFire->Priority_Update(fTimeDelta);
 	if (0 < m_pPlayer->iHp) {
-		m_fHungTime += fTimeDelta;
+		m_fHungTime += fTimeDelta / 2;
 		m_fFightTime += fTimeDelta;
 		if (1 <= m_fHungTime) {
 			m_pPlayer->iHunger = max(m_pPlayer->iHunger - 1, 0);
@@ -320,7 +321,20 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		else {
 			m_tDamage.DamageType = ATTACK_TYPE::ATTACK;
 		}
-		if (!m_pPlayer->bIsDead && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion && (0 >= m_pPlayer->iHp || 0 >= m_pPlayer->iHunger)) {
+		if ((MOTION::EAT == m_tMotion || MOTION::FASTEAT == m_tMotion) && m_bEat && 450 <= m_fAniTime) {
+
+			switch (m_tMotion)
+			{
+			case MOTION::EAT:
+				m_pGameInstance->Manager_PlaySound(L"eat_2.wav", CHANNELID::PLAYER_SOUND, 5.f);
+				break;
+			case MOTION::FASTEAT:
+				m_pGameInstance->Manager_PlaySound(L"eat_1.wav", CHANNELID::PLAYER_SOUND, 5.f);
+				break;
+			}
+			m_bEat = false;
+		}
+		if (MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion && (0 >= m_pPlayer->iHp || 0 >= m_pPlayer->iHunger)) {
 			Dead();
 		}
 	}
@@ -466,6 +480,7 @@ void CPlayer::Update(_float fTimeDelta)
 				if (0.4f > distance) {
 					if (dynamic_cast<CItem*>(m_pPlayer->pWorkObject)) {
 						SetAnimation(m_tDir, MOTION::PICKUP);
+						m_pGameInstance->Manager_PlaySound(L"getitem.wav", CHANNELID::SOUND_ITEM, 5.f);
 						dynamic_cast<CItem*>(m_pPlayer->pWorkObject)->EnterInvenTory();
 						m_pPlayer->pWorkObject = nullptr;
 						return;
@@ -506,6 +521,7 @@ void CPlayer::Update(_float fTimeDelta)
 					{
 						SetAnimation(m_tDir, MOTION::SPEAR);
 					}
+				case MOTION::DIAL:
 				case MOTION::RUN_TO_IDLE:
 				case MOTION::HUNGRY:
 				case MOTION::AXE:
@@ -706,6 +722,7 @@ void CPlayer::Update(_float fTimeDelta)
 					}
 				}
 				m_tItem.iItemID = 0;
+				m_pGameInstance->Manager_PlaySound(L"makeitem.wav", CHANNELID::SOUND_ITEM, 5.f);
 			}
 			break;
 		case MOTION::PICKAXE:
@@ -826,10 +843,6 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		SetAnimation(DIR::DIR_END, MOTION::DIAL);
 		m_bControll = false;
-	}
-	if (GetKeyState('0') & 0x8000)
-	{
-		m_isDead = true;
 	}
 	SetAnimation(m_tDir, m_tMotion);
 
@@ -984,14 +997,18 @@ void CPlayer::Damage(void* pArg)
 	if (0 < m_pPlayer->iHp) {
 		__super::Damage(pArg);
 	}
-	if (15 <= m_fFightTime) {
-		auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-		ScreenEffect->ActiveEffect();
-	}
+	auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+	ScreenEffect->ActiveEffect();
 }
 
 void CPlayer::Hit()
 {
+	if (200 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"WilsonVoice_hurt_1.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
+	else if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_hurt.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
 	m_bControll = false;
 	m_fFightTime = 0.f;
 	SetAnimation(m_tDir, MOTION::DAMAGE);
@@ -1013,6 +1030,12 @@ void CPlayer::Attack()
 
 void CPlayer::Death()
 {
+	if (200 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wilson_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
+	else if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
 	m_pPlayer->iHunger = 0;
@@ -1025,6 +1048,9 @@ void CPlayer::Death()
 
 void CPlayer::Dead()
 {
+	if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
 	m_pPlayer->iHunger = 0;
@@ -1053,14 +1079,17 @@ _bool CPlayer::Eat(void* pArg)
 		ITEM_DATA* food = static_cast<ITEM_DATA*>(pArg);
 		if (FOOD::MEAT == food->eFoodtype) {
 			SetAnimation(m_tDir, MOTION::EAT);
+			m_bEat = true;
 		}
 		else {
 			if (201 == m_pPlayer->iId) {
+				m_pGameInstance->Manager_PlaySound(L"wathgrithr_dial.wav", CHANNELID::PLAYER_SOUND, 5.f);
 				SetAnimation(DIR::DIR_END, MOTION::DIAL);
 				return false;
 			}
 			else {
 				SetAnimation(m_tDir, MOTION::FASTEAT);
+				m_bEat = true;
 			}
 		}
 		m_iHealthChange = food->iHealthChange;
@@ -1355,6 +1384,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					if (m_bAttack && 270 <= (int)m_fAniTime) {
 						m_bAttack = false;
 						HitActor->Damage(nullptr);
+						m_pGameInstance->Manager_PlaySound(L"hit_ground.wav", CHANNELID::PLAYER_SOUND, 5.f);
 						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState() || HitActor->isDead()) {
 							m_pPlayer->pWorkObject = nullptr;
 						}
@@ -1380,6 +1410,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 						m_tDamage.Attacker = this;
 						m_tDamage.Direaction.x = (MOVE_DIR::MOVE_DOWN == m_tMoveDIr || MOVE_DIR::MOVE_LEFT == m_tMoveDIr) ? -1.f : 1.f;
 						HitActor->Damage(&m_tDamage);
+						m_pGameInstance->Manager_PlaySound(L"chop_tree_2.wav", CHANNELID::PLAYER_SOUND, 5.f);
 					}
 				}
 				break;
@@ -1436,7 +1467,6 @@ void CPlayer::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pCollision_Com);
 	Safe_Delete(m_pPlayer);
 	Safe_Release(m_pTorchFire);
 	Safe_Release(m_pEquipment_Slot);

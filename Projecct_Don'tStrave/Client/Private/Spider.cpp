@@ -83,8 +83,13 @@ HRESULT CSpider::Render()
 	return S_OK;
 }
 
-void CSpider::OutHouse()
+void CSpider::OutHouse(CCharacter* pCharacter)
 {
+	if (pCharacter && !pCharacter->isDead()) {
+		m_pNearTarget = pCharacter;
+		_float3 transform = m_pMonsterData->fPos - *m_pPlayerPos;
+		m_fNearDistance = D3DXVec3Length(&transform);
+	}
 	m_bActive = true;
 }
 
@@ -103,7 +108,11 @@ void CSpider::Damage(void* pArg)
 			if (3.f > distance) {
 				CSpiderHouse* pHouse = {};
 				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
-					pHouse->Emergency();
+					if (pArg) {
+						DamageBaseDesc desc;
+						desc = *static_cast<DamageBaseDesc*>(pArg);
+						pHouse->Emergency(static_cast<CCharacter*>(pArg));
+					}
 				}
 			}
 		}

@@ -16,6 +16,7 @@
 #include "Treeguard.h"
 #include "TreeguardObject.h"
 #include "Goat.h"
+#include "IceSpike.h"
 
 #include "TorchFire.h"
 
@@ -540,6 +541,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Deerclops"),
 		CDeerclops::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_IceSpike"),
+		CIceSpike::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Monster */

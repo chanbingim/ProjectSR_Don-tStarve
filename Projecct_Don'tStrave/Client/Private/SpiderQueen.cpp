@@ -47,7 +47,7 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 
 	m_pDropItem_Com->ADD_ItemData(46, 5);
 	m_pDropItem_Com->SetCreateEffect(1);
-
+	__super::Initialize_Late();
 	return S_OK;
 }
 
@@ -55,6 +55,9 @@ HRESULT CSpiderQueen::Initialize(void* pArg)
 void CSpiderQueen::Priority_Update(_float fTimeDelta)
 {
 	if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime) {
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"SpiderQueen_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
 		m_bAttack = false;
 	}
 	__super::Priority_Update(fTimeDelta);
@@ -249,17 +252,27 @@ HRESULT CSpiderQueen::Render()
 
 void CSpiderQueen::Hit()
 {
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"SpiderQueen_hurt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 	SetAnimation(m_tDir, MOTION::DAMAGE);
 }
 
 void CSpiderQueen::Attack()
 {
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"SpiderQueen_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
 void CSpiderQueen::Death()
 {
+	__super::Death();
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"SpiderQueen_death.wav", CHANNELID::BADMONSTER_SOUND, volume);
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 
@@ -348,7 +361,11 @@ void CSpiderQueen::Damage(void* pArg)
 			if (3.f > distance) {
 				CSpiderHouse* pHouse = {};
 				if (pHouse = dynamic_cast<CSpiderHouse*>(object)) {
-					pHouse->Emergency();
+					if (pArg) {
+						DamageBaseDesc desc;
+						desc = *static_cast<DamageBaseDesc*>(pArg);
+						pHouse->Emergency(static_cast<CCharacter*>(pArg));
+					}
 				}
 			}
 		}

@@ -63,6 +63,7 @@ public:
 
 	D3DXMATRIX			GetTorchAnimation(const wstring& animName, Entity& tEntity, vector<IMAGE_FOLDER_DESC>& tImageVec);
 	CHARACTER_DATA*		Get_Char() { return m_pChar; }
+	
 
 protected:
 	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
@@ -73,6 +74,7 @@ protected:
 	_float* m_pTime = {};
 
 	_bool				m_bAttack;
+	_bool				m_bDir;
 	wstring				m_sAnim;
 	DIR					m_tDir = {};
 	_float				m_fNearDistance = {};

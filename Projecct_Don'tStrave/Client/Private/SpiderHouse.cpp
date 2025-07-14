@@ -140,6 +140,9 @@ void CSpiderHouse::Update(_float fTimeDelta)
 				iter = m_pMonsterVec.erase(iter);
 			}
 			m_isDead = true;
+			_float volume = Get_Sound();
+			if (0.f < volume)
+				m_pGameInstance->Manager_PlaySound(L"SpiderQueen_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
 			data.fPos= m_pMonsterData->fPos;
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
@@ -157,7 +160,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 		break;
 	}
 	if (0 != m_pMonsterVec.size() && m_bRecon && 30 < *m_pTime) {
-		(*m_pMonsterVec.begin())->OutHouse();
+		(*m_pMonsterVec.begin())->OutHouse(nullptr);
 		m_pMonsterVec.erase(m_pMonsterVec.begin());
 		m_bRecon = false;
 	}
@@ -229,7 +232,12 @@ HRESULT CSpiderHouse::SetAnimation(MOTION motion)
 void CSpiderHouse::Damage(void* pArg)
 {
 	__super::Damage(pArg);
-	Emergency();
+	DAMAGE_DATA_BASE DamageBase = {};
+	if (nullptr != pArg) {
+		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
+		CCharacter* target = static_cast<CCharacter*>(DamageBase.Attacker);
+		Emergency(target);
+	}
 }
 
 void CSpiderHouse::Hit()
@@ -245,6 +253,9 @@ void CSpiderHouse::Hit()
 		SetAnimation(MOTION::LARGE_DAMAGE);
 		break;
 	}
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"grass_pick_4.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderHouse::Attack()
@@ -253,8 +264,12 @@ void CSpiderHouse::Attack()
 
 void CSpiderHouse::Death()
 {
+	__super::Death();
 	m_fTimeAcc = 0.f;
 	SetAnimation(MOTION::DEATH);
+	_float volume = Get_Sound();
+	if (0.f < volume)
+		m_pGameInstance->Manager_PlaySound(L"SpiderQueen_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
 }
 
 void CSpiderHouse::EnterSpider(CSpider* pMonster)
@@ -262,11 +277,11 @@ void CSpiderHouse::EnterSpider(CSpider* pMonster)
 	m_pMonsterVec.push_back(pMonster);
 }
 
-void CSpiderHouse::Emergency()
+void CSpiderHouse::Emergency(CCharacter* pCharacter)
 {
 	for (auto iter = m_pMonsterVec.begin(); iter != m_pMonsterVec.end();)
 	{
-		(*iter)->OutHouse();
+		(*iter)->OutHouse(pCharacter);
 		iter = m_pMonsterVec.erase(iter);
 	}
 }
