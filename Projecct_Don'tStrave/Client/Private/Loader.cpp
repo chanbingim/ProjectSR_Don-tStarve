@@ -15,8 +15,11 @@
 #include "Shadowterrorbeak.h"
 #include "Treeguard.h"
 #include "TreeguardObject.h"
+<<<<<<< HEAD
 #include "Goat.h"
 #include "IceSpike.h"
+=======
+>>>>>>> origin/07_14_bjh
 
 #include "TorchFire.h"
 
@@ -92,6 +95,7 @@
 #pragma region EFFECT
 #include "SnowParticle.h"
 #include "DamageEffectUI.h"
+#include "VineEffect.h"
 #pragma endregion
 
 #pragma region NPC
@@ -122,8 +126,8 @@
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: m_pGraphic_Device { pGraphic_Device }
-	, m_pGameInstance { CGameInstance::GetInstance() }
+	: m_pGraphic_Device{ pGraphic_Device }
+	, m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pGraphic_Device);
@@ -131,7 +135,7 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 unsigned int APIENTRY LoadingMain(void* pArg)
 {
-	CLoader*		pLoader = static_cast<CLoader*>(pArg);
+	CLoader* pLoader = static_cast<CLoader*>(pArg);
 
 	if (FAILED(pLoader->Loading()))
 		return 1;
@@ -140,7 +144,7 @@ unsigned int APIENTRY LoadingMain(void* pArg)
 }
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
-{	
+{
 	m_eNextLevelID = eNextLevelID;
 
 	InitializeCriticalSection(&m_CriticalSection);
@@ -190,6 +194,7 @@ void CLoader::Output()
 
 HRESULT CLoader::Loading_For_Logo()
 {
+
 	/* For.Prototype_Component_Texture_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
@@ -199,6 +204,8 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_Logo_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo_button.png"), 1))))
 		return E_FAIL;
+
+
 
 	/* For.Prototype_GameObject_Logo */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_Logo"),
@@ -212,6 +219,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_Select()
 {
+
 	/* For.Prototype_Component_Texture_Select */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_Select"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/select_back.png"), 1))))
@@ -231,6 +239,7 @@ HRESULT CLoader::Loading_For_Select()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_Component_Texture_GamePlay_Button"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Select/start.png"), 1))))
 		return E_FAIL;
+
 
 	/* For.Prototype_GameObject_Select_Character */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::SELECT), TEXT("Prototype_GameObject_Select_Character"),
@@ -252,6 +261,7 @@ HRESULT CLoader::Loading_For_Select()
 		CGamePlay_Button::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
 	m_isFinished = true;
 
 	return S_OK;
@@ -259,11 +269,13 @@ HRESULT CLoader::Loading_For_Select()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
+
 #pragma region Data
 	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
 	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
 	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
 #pragma endregion
+
 
 #pragma region TEXTURE
 	/* For.Prototype_Component_Texture_Terrain */
@@ -462,13 +474,19 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Close"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potclose/close_00%d.png"), 9))))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_CookUI_Open"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Potopen/open_00%d.png"), 9))))
 		return E_FAIL;
 #pragma endregion
 
+<<<<<<< HEAD
 #pragma region TORCH
+=======
+
+
+
+>>>>>>> origin/07_14_bjh
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
@@ -481,21 +499,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_FireEffect"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/Fire.bmp"), 1))))
 		return E_FAIL;
-#pragma endregion
-#pragma endregion
 
-#pragma region TORCH
+
 	/* For.Prototype_GameObject_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
 	/* For.Prototype_GameObject_SkyBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
 		CSkyBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
-#pragma endregion
 
 #pragma region GAMEPLAY
 #pragma region CHARACTER
@@ -567,15 +581,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTreeguard::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Monster */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Goat"),
-		CGoat::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	/* For.Prototype_GameObject_Tree */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_TreeguardTree"),
 		CTreeguardObject::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
 #pragma endregion
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
@@ -613,7 +624,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Glod_Rock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Gloden_Rock"),
-		CRockObject::Create(m_pGraphic_Device,"rock2.scml", TEXT("Gold_Rock")))))
+		CRockObject::Create(m_pGraphic_Device, "rock2.scml", TEXT("Gold_Rock")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Tree */
@@ -628,7 +639,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* For.Prototype_GameObject_Birch_Tall_Leaf */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_tall_Leaf"),
-		CTreeLeaf::Create(m_pGraphic_Device,"tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
+		CTreeLeaf::Create(m_pGraphic_Device, "tree_leaf_green_build.scml", TEXT("Birchnut/leaf")))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Birch_Short_Leaf */
@@ -757,12 +768,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookUI"),
 		CCookUI::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CookUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Grid"),
 		CGrid::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_SkillIndicator */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillIndicator"),
 		CSkillIndicator::Create(m_pGraphic_Device))))
@@ -871,6 +882,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CSpriteEffect::Create(m_pGraphic_Device, "tree_leaf_fx_green.scml", TEXT("Leaf")))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Effect_Lightning */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Lightning"),
+		CSpriteEffect::Create(m_pGraphic_Device, "elec_lunge_fx.scml", TEXT("Lightning")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Effect_Vine */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Vine"),
+		CVineEffect::Create(m_pGraphic_Device, "trap_vines.scml", TEXT("Vine")))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region ITEM
@@ -878,7 +899,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 		CMaterial_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_Food */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Food"),
 		CFood::Create(m_pGraphic_Device))))
@@ -888,7 +909,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Equipment"),
 		CEquipment::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CamFire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
 		CCampFire::Create(m_pGraphic_Device))))
@@ -903,31 +924,39 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
 		CChest::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_ResearchLap */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
 		CResearchLap::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_Cookpot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
 		CCookpot::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_CookedFood */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CookedFood"),
 		CCookedFood::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_IceBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
 		CIceBox::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
 
+
+	
+#pragma region FONT
+
+#pragma endregion
+
+
 #pragma region Effect
 	CEffectPoolManager::GetInstance()->Initailize();
 #pragma endregion
+
 
 	m_isFinished = true;
 

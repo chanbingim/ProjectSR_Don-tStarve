@@ -2,10 +2,13 @@
 
 #include "GameInstance.h"
 #include "Terrian_Manager.h"
+#include "EffectPoolManager.h"
 
 #include "Mouse.h"
 #include "Terrain.h"
 #include "Player.h"
+#include "AinimationObject.h"
+#include "SpriteEffect.h"
 
 CSkillIndicator::CSkillIndicator(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{ pGraphic_Device }
@@ -25,6 +28,8 @@ HRESULT CSkillIndicator::Initialize_Prototype()
 HRESULT CSkillIndicator::Initialize(void* pArg)
 {
 	m_Charge = 0.5f;
+	m_fAngle = 0.f;
+	m_fTimeAcc = 0.f;
 
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
@@ -33,6 +38,13 @@ HRESULT CSkillIndicator::Initialize(void* pArg)
 
 	m_pTransformCom->SetRotAxis(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 	m_pTransformCom->SetScale(_float3(1.5f, 1.5f, 1.5f));
+
+	m_pLightCom->SetDiffuseColor(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	m_pLightCom->SetAmbientColor(D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	m_pLightCom->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
+	m_pLightCom->SetMaxRange(3.3f);
+
+	m_pLightCom->SetAttenuation(0.f, 0.3f, 0.8f);
 
 	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 	return S_OK;
@@ -66,12 +78,12 @@ void CSkillIndicator::Update(_float fTimeDelta)
 			}
 
 			// 마우스에서 플레이어 위치 뺀 벡터
-			_float3 vDir = vPickingPos - Player_Pos;
+			m_vDir = vPickingPos - Player_Pos;
 
-			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Normalize(&m_vDir, &m_vDir);
 
 			// 위치 
-			_float3 vPosition = Player_Pos + vDir * (m_Charge - 0.3f);
+			_float3 vPosition = Player_Pos + m_vDir * (m_Charge - 0.3f);
 
 			m_pTransformCom->SetPosition(vPosition);
 
@@ -80,12 +92,24 @@ void CSkillIndicator::Update(_float fTimeDelta)
 			_float3 vLook = { 0.f, 1.f, 0.f };
 			_float3 vUp = {};
 
-			D3DXVec3Cross(&vUp, &vLook, &vDir);
+			_float3 vPlayerLook = m_pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::LOOK);
+
+			m_fAngle = D3DXVec3Dot(&vPlayerLook, &m_vDir);
+			
+			
+			if(g_iWinSizeX * 0.5f < m_pGameInstance->GetMousePosition(0).x)
+			{
+				m_fAngle = 90.f * m_fAngle + 180.f;
+			}
+			else
+				m_fAngle *= -90.f ;
+			
+			D3DXVec3Cross(&vUp, &vLook, &m_vDir);
 
 			if (m_Charge <= 1.f)
 				m_Charge += fTimeDelta * 0.5f;
 
-			_float3 vRight = vDir * m_Charge;
+			_float3 vRight = m_vDir * m_Charge;
 
 			memcpy(&WorldMat.m[0], &vRight, sizeof(_float3));
 			memcpy(&WorldMat.m[1], &vUp, sizeof(_float3));
@@ -98,6 +122,11 @@ void CSkillIndicator::Update(_float fTimeDelta)
 		else if (m_pGameInstance->KeyUp(VK_RBUTTON))
 		{
 			if (0.75f <= m_Charge) {
+				m_bIsEffectActive = true;
+				m_fTimeAcc = 1.f;
+				
+				m_vEffectPos = m_pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+
 				_float3 vPickingPos = {};
 				
 				for (auto pTerrain : *m_pTerrains)
@@ -121,6 +150,12 @@ void CSkillIndicator::Update(_float fTimeDelta)
 			m_Charge = 0.5f;
 		}
 	}
+
+	if (0.f < m_fTimeAcc)
+	{
+		Update_Effect(fTimeDelta);
+	}
+
 }
 
 void CSkillIndicator::Late_Update(_float fTimeDelta)
@@ -156,8 +191,62 @@ HRESULT CSkillIndicator::ADD_Components()
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+	
+	CLightComponent::LIGHT_DESC Light_Desc = {};
+	_D3DLIGHT9 Light = {};
+	Light.Type = D3DLIGHT_POINT;
+
+	Light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Light.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+
+	Light_Desc.LightData = Light;
+	Light_Desc.pOwner = this;
+	Light_Desc.PlayerPoint = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"))->GetTransfrom();
+
+	// Light Component
+	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
+		TEXT("Com_Light"),
+		reinterpret_cast<CComponent**>(&m_pLightCom), &Light_Desc)))
+		return E_FAIL;
 
 	return S_OK;
+}
+
+void CSkillIndicator::Update_Effect(_float fTimeDelta)
+{
+	D3DXCOLOR Color = { 1.f,1.f, 1.f, 1.f };
+
+	if (true == m_bIsEffectActive && m_fTimeAcc < 0.8f)
+	{
+		// up 이랑 dir 외적 나온걸 축으로 회전
+		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(3, (CAinimationObject**)&m_pSpirteEffect);
+
+		m_pSpirteEffect->ReadyEffect(L"fx_side");
+		m_pSpirteEffect->GetTransfrom()->SetPosition(m_vEffectPos);
+		m_pSpirteEffect->Set_Angle(m_fAngle);
+
+		m_bIsEffectActive = false;
+	}
+
+	if(false == m_bIsEffectActive)
+	{
+		Color *= m_fTimeAcc * 2.f;
+
+		m_pLightCom->SetAmbientColor(Color);
+		m_pLightCom->SetPosition(m_vEffectPos + m_vDir * 0.5f);
+
+		m_pLightCom->SetLight(true);
+
+		
+	}
+
+	m_fTimeAcc -= fTimeDelta;
+
+	if(m_fTimeAcc <= 0.f)
+	{
+		m_pLightCom->SetLight(false);
+		m_fTimeAcc = 0.f;
+	}
 }
 
 
@@ -193,6 +282,7 @@ void CSkillIndicator::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pLightCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);

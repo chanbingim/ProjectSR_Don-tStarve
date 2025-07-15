@@ -13,6 +13,7 @@
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
 #include "CharacterManager.h"
+#include "GameObject.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -29,6 +30,25 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
+#pragma region TestCode
+	CGameObject::GAMEOBJECT_DESC Desc = {};
+
+	Desc.vPosition =_float3(15.f, 0.f, 15.f);
+	Desc.vRotation =_float3(0.f, 0.f, 0.f);
+	Desc.vScale =_float3(1.f, 1.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(
+		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_TreeguardTree"),
+		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &Desc)))
+	{
+		MSG_BOX("GG");
+		return E_FAIL;
+	}
+
+#pragma endregion
+
+
 
 	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
 		return E_FAIL;

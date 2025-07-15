@@ -1,10 +1,13 @@
 #include "Treeguard.h"
 #include "GameInstance.h"
 #include "XML_Manager.h"
+#include "EffectPoolManager.h"
+
 #include "Camera.h"
 #include "House.h"
 #include "CharacterManager.h"
 #include "DropItemComponent.h"
+#include "SpriteEffect.h"
 
 CTreeguard::CTreeguard(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -29,6 +32,10 @@ HRESULT CTreeguard::Initialize_Prototype()
 
 HRESULT CTreeguard::Initialize(void* pArg)
 {
+	m_iAttackCnt = 0;
+	m_fAttackDelay = 0.f;
+	m_iVineCnt = 0;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -85,6 +92,7 @@ void CTreeguard::Update(_float fTimeDelta)
 		SetAnimation(m_tDir, m_tMotion);
 		break;
 	}
+
 	if (m_tMotion == MOTION::DEATH) {
 		if (m_iLength <= m_fAniTime) {
 			m_isDead = true;
@@ -92,7 +100,7 @@ void CTreeguard::Update(_float fTimeDelta)
 		}
 	}
 	else if (m_pNearTarget) {
-		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;;
+		_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
 		if (D3DXVec3Length(&move) < 5.5f) {
 			if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
 				switch (m_tMotion)
@@ -104,9 +112,33 @@ void CTreeguard::Update(_float fTimeDelta)
 					break;
 				case MOTION::TRANSFORM:
 				case MOTION::ATTACK:
+					if (2 < m_iAttackCnt)
+					{
+						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM_TREE);
+						
+						break;
+					}
 					if (m_iLength <= m_fAniTime) {
 						m_fAttackTime = 0;
 						SetAnimation(m_tDir, MOTION::IDLE);
+						m_iAttackCnt++;
+					}
+					break;
+				case MOTION::TRANSFORM_TREE:
+					if(1200 < m_fAniTime)
+					{
+						SetAnimation(DIR::DOWN, MOTION::TREE);
+						m_PrePlayerPos = static_cast<CTransform*>(m_pGameInstance->Get_Component(
+							ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0))->GetWorldState(WORLDSTATE::POSITION);
+					}
+					break;
+
+				case MOTION::TREE:
+					if(!Vine_Attack(fTimeDelta))
+					{
+						m_fAttackTime = 0;
+						m_iAttackCnt = 0;
+						SetAnimation(m_tDir, MOTION::TRANSFORM);
 					}
 					break;
 				default:
@@ -242,6 +274,8 @@ HRESULT CTreeguard::SetAnimation(DIR dir, MOTION motion)
 	}
 	if (motion != m_tMotion) {
 		m_fAniTime = 0;
+		
+			
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -250,6 +284,7 @@ HRESULT CTreeguard::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"transform_ent";
 		break;
 	case MOTION::TRANSFORM_MAD:
+		
 		m_sAnim = L"transform_ent_mad";
 		break;
 	case MOTION::TRANSFORM_TREE:
@@ -327,6 +362,34 @@ void CTreeguard::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CTreeguard::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 {
+}
+
+_bool CTreeguard::Vine_Attack(_float fTimeDelta)
+{
+	if (m_fAttackDelay > 0.5f)
+	{
+		CSpriteEffect::GAMEOBJECT_DESC desc;
+
+		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(4, (CAinimationObject**)&m_pSpirteEffect, &desc);
+
+		m_pSpirteEffect->ReadyEffect(L"spawn3");
+		m_pSpirteEffect->GetTransfrom()->SetPosition(m_PrePlayerPos);
+
+		m_fAttackDelay = 0.f;
+		m_iVineCnt++;
+
+		m_PrePlayerPos = static_cast<CTransform*>(m_pGameInstance->Get_Component(
+			ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0))->GetWorldState(WORLDSTATE::POSITION);
+	}
+	if (15 < m_iVineCnt)
+	{
+		m_iVineCnt = 0;
+		return false;
+	}
+	m_fAttackDelay += fTimeDelta;
+
+
+	return true;
 }
 
 CTreeguard* CTreeguard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

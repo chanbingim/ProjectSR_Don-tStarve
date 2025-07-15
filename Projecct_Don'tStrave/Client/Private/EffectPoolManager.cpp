@@ -90,6 +90,8 @@ HRESULT CEffectPoolManager::Emplace_EffectPool()
     //오브젝트 아이디 별로생성
     ADD_Effect(1, TEXT("Prototype_Component_Effect_Rock"));
     ADD_Effect(2, TEXT("Prototype_Component_Effect_Leaf"));
+    ADD_Effect(3, TEXT("Prototype_Component_Effect_Lightning"));
+    ADD_Effect(4, TEXT("Prototype_Component_Effect_Vine"));
 
     return S_OK;
 }
