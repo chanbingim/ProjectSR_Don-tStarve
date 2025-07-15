@@ -57,6 +57,7 @@ private:
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 
 	_bool Vine_Attack(_float fTimeDelta);
+	void Leaf_Attack();
 
 public:
 	static CTreeguard* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -33,13 +33,16 @@ HRESULT CVineEffect::Initialize(void* pArg)
     m_iLength = 2000;
     m_ePreState = m_eCurState = STATE::SPAWN;
     
+    m_pPlayerTransform = dynamic_cast<CTransform*>(
+        m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform")));
+
     __super::Initialize(pArg);
 
 
    ADD_Component();
  
 
-    m_pCollisionCom->SetCollisionSize({ 1.f, 1.f,1.f });
+    m_pCollisionCom->SetCollisionSize({ 1.f, 1.f, 1.f });
     m_pCollisionCom->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
     m_pCollisionCom->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
     m_pCollisionCom->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
@@ -56,9 +59,9 @@ void CVineEffect::Priority_Update(_float fTimeDelta)
     switch (m_eCurState)
     {
     case Client::CVineEffect::IDLE:
-        if (600 < m_fAniTime)
+        if (500 < m_fAniTime)
             m_eCurState = STATE::DESPAWN;
-        break;
+        
     case Client::CVineEffect::SPAWN:
         if (600 < m_fAniTime)
             m_eCurState = STATE::DESPAWN;
@@ -114,6 +117,8 @@ void CVineEffect::Change_State()
         case Client::CVineEffect::DESPAWN:
             m_AnimName = L"despawn3";
             m_fAniTime = 0;
+            m_pCollisionCom->SetCollisionSize(_float3(0.f, 0.f, 0.f));
+                break;
             break;
 
         default:
@@ -127,12 +132,17 @@ void CVineEffect::Change_State()
 void CVineEffect::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 {
     if(nullptr != dynamic_cast<CPlayer*>(HitActor))
+    {
         m_eCurState = STATE::IDLE;
+        DAMAGE_DATA_BASE DamageBase = {};
+        DamageBase.Damage = 10;
+        dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Damage(&DamageBase);
+    }
 }
 
 void CVineEffect::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-
+   
 }
 
 void CVineEffect::EndHitActor(CGameObject* HitActor, _float3& _Dir)
@@ -179,4 +189,5 @@ void CVineEffect::Free()
     __super::Free();
 
     Safe_Release(m_pCollisionCom);
+
 }

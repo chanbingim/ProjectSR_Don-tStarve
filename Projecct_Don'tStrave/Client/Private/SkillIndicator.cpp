@@ -236,8 +236,6 @@ void CSkillIndicator::Update_Effect(_float fTimeDelta)
 		m_pLightCom->SetPosition(m_vEffectPos + m_vDir * 0.5f);
 
 		m_pLightCom->SetLight(true);
-
-		
 	}
 
 	m_fTimeAcc -= fTimeDelta;
