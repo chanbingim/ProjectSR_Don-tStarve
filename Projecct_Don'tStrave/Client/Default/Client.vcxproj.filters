@@ -422,6 +422,12 @@
     <Filter Include="03. Character\Monster\Deerclops\IceFall">
       <UniqueIdentifier>{679469eb-fda9-4c82-b120-166a0fe24d85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Particle\LightParticle">
+      <UniqueIdentifier>{743eb908-8b1d-4ccd-a069-cf9824a0708f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard\Boss_LeafEffect">
+      <UniqueIdentifier>{cb45a8d7-d30a-4346-b49d-8269fc4d976f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -820,14 +826,17 @@
     <ClInclude Include="..\public\Script.h">
       <Filter>04. GmaeUI\Script</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\VineEffect.h">
-      <Filter>대진호</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\IceFall.h">
       <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\IceSpike.h">
       <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LeafEffect.h">
+      <Filter>03. Character\Monster\TreeGuard\Boss_LeafEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VineEffect.h">
+      <Filter>07. Particle\LightParticle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1222,14 +1231,17 @@
     <ClCompile Include="..\private\Script.cpp">
       <Filter>04. GmaeUI\Script</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\VineEffect.cpp">
-      <Filter>대진호</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\IceFall.cpp">
       <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\IceSpike.cpp">
       <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LeafEffect.cpp">
+      <Filter>03. Character\Monster\TreeGuard\Boss_LeafEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VineEffect.cpp">
+      <Filter>07. Particle\LightParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

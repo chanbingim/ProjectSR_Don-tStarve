@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\ImgBase.h" />
     <ClInclude Include="..\Public\Img_Manager.h" />
     <ClInclude Include="..\public\Img_Profiler.h" />
+    <ClInclude Include="..\Public\LeafEffect.h" />
     <ClInclude Include="..\Public\Level_Select.h" />
     <ClInclude Include="..\public\ListBoxUI.h" />
     <ClInclude Include="..\public\QuestBoxEntry.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="..\private\ImgBase.cpp" />
     <ClCompile Include="..\Private\Img_Manager.cpp" />
     <ClCompile Include="..\private\Img_Profiler.cpp" />
+    <ClCompile Include="..\Private\LeafEffect.cpp" />
     <ClCompile Include="..\Private\Level_Select.cpp" />
     <ClCompile Include="..\private\ListBoxUI.cpp" />
     <ClCompile Include="..\Private\PlayerData_Manager.cpp" />
