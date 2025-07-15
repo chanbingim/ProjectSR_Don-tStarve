@@ -2,10 +2,12 @@
 #include "GameInstance.h"
 
 #include "XML_Manager.h"
+#include "Level_GamePlay.h"
 
 CPortalObject::CPortalObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
+    m_EnviornmentType = Enviornment_TYPE::NPC;
 }
 
 CPortalObject::CPortalObject(const CPortalObject& rhs) :
@@ -15,9 +17,9 @@ CPortalObject::CPortalObject(const CPortalObject& rhs) :
 
 HRESULT CPortalObject::Initialize_Prototype()
 {
-    //auto XML_Instance = CXML_Manager::GetInstance();
-    //XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", L"../Bin/Resources/Textures/Objects/Evergreen/", &m_tImageVec);
-    //XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Evergreen/evergreen_new.scml", &m_tAnimation);
+    auto XML_Instance = CXML_Manager::GetInstance();
+    XML_Instance->AddTexture("../Bin/Resources/Textures/Objects/Portal_Stone/portal_stone.scml", L"../Bin/Resources/Textures/Objects/Portal_Stone/", &m_tImageVec);
+    XML_Instance->LoadScml("../Bin/Resources/Textures/Objects/Portal_Stone/portal_stone.scml", &m_tAnimation);
 
     return S_OK;
 }
@@ -31,8 +33,9 @@ HRESULT CPortalObject::Initialize(void* pArg)
         return E_FAIL;
 
     LoadImageFile();
-    m_FrontName = TEXT("");
-    m_TailName = TEXT("");
+    m_eProtalState = ProtalState::CLOSE;
+    m_FrontName = TEXT("idle_");
+    m_TailName = TEXT("closed");
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -43,25 +46,101 @@ HRESULT CPortalObject::Initialize(void* pArg)
 void CPortalObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
+    //여기서 확인한다음 상태 변경
+
+    if (m_pGameInstance->KeyDown(VK_F8))
+    {
+        m_IsOpenAble = true;
+    }
+      
 }
 
 void CPortalObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+
+    Reset_State();
 }
 
 void CPortalObject::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+}
 
+void CPortalObject::Reset_State()
+{
+    if (m_fAniTime >= m_iLength)
+    {
+        switch (m_eProtalState)
+        {
+        case ProtalState::PRE_OPEN :
+        {
+            m_FrontName = TEXT("");
+            m_TailName = TEXT("fx");
+            m_fAniTime = 0;
+            m_eProtalState = ProtalState::OPEN;
+        }
+            break;
+
+        case ProtalState::PST_OPEN:
+        {
+            m_FrontName = TEXT("idle_");
+            m_TailName = TEXT("closed");
+            m_fAniTime = 0;
+            m_eProtalState = ProtalState::CLOSE;
+        }
+        break;
+        }
+    }
 }
 
 HRESULT CPortalObject::Render()
 {
-    //m_Idle_pTexture_Com->Set_Texture(0);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     __super::Render();
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 
     return S_OK;
+}
+
+void CPortalObject::Damage(void* pArg)
+{
+    if(ProtalState::OPEN != m_eProtalState)
+        SetActive();
+    else
+    {
+        auto GamePlayLevel = dynamic_cast<CLevel_GamePlay *>(m_pGameInstance->CurrentLevel());
+        if (GamePlayLevel)
+        {
+            GamePlayLevel->Change_Map(CLevel_GamePlay::BOSS);
+        }
+    }
+}
+
+void CPortalObject::Death()
+{
+}
+
+
+void CPortalObject::SetActive()
+{
+    if (m_IsOpenAble)
+    {
+        m_eProtalState = ProtalState::PRE_OPEN;
+        m_fAniTime = 0;
+        m_FrontName = TEXT("pre_");
+        m_TailName = TEXT("fx");
+    }
+}
+
+void CPortalObject::UnActive()
+{
+    m_eProtalState = ProtalState::PST_OPEN;
+    m_fAniTime = 0;
+    m_FrontName = TEXT("pst_");
+    m_TailName = TEXT("fx");
 }
 
 HRESULT CPortalObject::ADD_Components()

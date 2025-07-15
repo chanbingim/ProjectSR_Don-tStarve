@@ -75,8 +75,8 @@ void CScript::Late_Update(_float fTimeDelta)
                 }
                 else
                 {
-                    if(m_pGameInstance->GettSinematick())
-                        m_pGameInstance->SetSinematick(false);
+                    if(m_pGameInstance->GetSinematick())
+                        m_pGameInstance->ChangeGameState(GAMESTATE::GAMEPLAY);
 
                     m_isDead = true;
                 }

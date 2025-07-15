@@ -23,6 +23,14 @@ HRESULT CLevel_Manager::Change_Level(CLevel* pNewLevel)
 	return S_OK;
 }
 
+void CLevel_Manager::Priority_Update(_float fTimeDelta)
+{
+	if (nullptr == m_pCurrentLevel)
+		return;
+
+	m_pCurrentLevel->Priority_Update(fTimeDelta);
+}
+
 void CLevel_Manager::Update(_float fTimeDelta)
 {
 	if (nullptr == m_pCurrentLevel)

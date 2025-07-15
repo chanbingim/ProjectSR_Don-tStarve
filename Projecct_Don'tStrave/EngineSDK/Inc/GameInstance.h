@@ -48,6 +48,7 @@ public:
 #pragma region LEVEL_MANAGER
 	HRESULT Change_Level(class CLevel* pNewLevel);
 	HRESULT Reset_CurLevel();
+	CLevel* CurrentLevel();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -61,6 +62,7 @@ public:
 	list<class CGameObject*>*	GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 	HRESULT						Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT						Initialize_Late(_uint iPrototypeLevelIndex);
+	HRESULT						Remove_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 #pragma endregion
 
 #pragma region RENDERER
@@ -99,8 +101,8 @@ public:
 	_float					Get_NearLight();
 #pragma endregion
 
-	void					SetSinematick(_bool flag);
-	_bool					GettSinematick();
+	void					ChangeGameState(GAMESTATE eState);
+	_bool					GetSinematick();
 
 	ProfileTime&			GetProfileTime() { return time; }
 
@@ -120,8 +122,9 @@ private:
 	class CLight_Manager* m_pLight_Manager = { nullptr };
 #pragma endregion
 
-	_bool				m_IsLoopSinematick = { false };
-	ProfileTime			time;
+	
+	GAMESTATE				m_InstanceState = { GAMESTATE::END };
+	ProfileTime				time;
 public:
 	void Release_Engine();
 	virtual void Free() override;

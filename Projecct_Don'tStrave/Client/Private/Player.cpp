@@ -10,6 +10,7 @@
 #include "CharacterManager.h"
 #include "SlotFrame.h"
 #include "Slot.h"
+#include "PortalObject.h"
 #include "QuestFrameUI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -611,6 +612,14 @@ void CPlayer::Update(_float fTimeDelta)
 									}
 								}
 								break;
+							}
+
+							if (CEnviornment_Object::Enviornment_TYPE::NPC == enviornment->GetEnviornMentType() ) {
+								_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+								_float distance = D3DXVec3Length(&transform);
+								if (3.f > distance) {
+									NearObjects.push_back(object);
+								}
 							}
 						}
 					}
@@ -1425,6 +1434,21 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					if (m_bAttack && m_iLength <= m_fAniTime) {
 						m_pPlayer->bIsDead = false;
 						SetAnimation(m_tDir, MOTION::WAKEUP);
+					}
+				}
+				break;
+			case CEnviornment_Object::Enviornment_TYPE::NPC:
+				if (MOTION::BUILD != m_tMotion) {
+					SetAnimation(m_tDir, MOTION::IDLE_TO_BUILD);
+					m_bControll = false;
+					m_bAttack = true;
+				}
+				else {
+					if (m_bAttack && m_iLength <= m_fAniTime) {
+						m_bAttack = false;
+						HitActor->Damage(nullptr);
+						SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
+						m_pPlayer->pWorkObject = nullptr;
 					}
 				}
 				break;

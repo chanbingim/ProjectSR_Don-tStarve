@@ -17,7 +17,9 @@ public:
 
 public:
 	virtual HRESULT Initialize();
-	virtual void Update(_float fTimeDelta);
+
+	virtual void	Priority_Update(_float fTimeDelta);
+	virtual void	Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
 	void	ResetLevelData();

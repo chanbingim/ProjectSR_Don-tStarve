@@ -14,10 +14,12 @@ private:
 
 public:
 	HRESULT Change_Level(class CLevel* pNewLevel);
-	void Update(_float fTimeDelta);
+	void	Priority_Update(_float fTimeDelta);
+	void	Update(_float fTimeDelta);
 	HRESULT Render();
 
 	void	CurrentLevelReset();
+	CLevel* GetCurLevel() { return m_pCurrentLevel; }
 
 private:
 	class CLevel*			m_pCurrentLevel = { nullptr };

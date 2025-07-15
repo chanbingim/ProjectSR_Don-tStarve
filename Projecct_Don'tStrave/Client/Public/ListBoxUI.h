@@ -38,7 +38,6 @@ public :
 
 	void								UpdateQuestList(_uint Index);
 
-
 private :
 	CTransform*							m_pParentTransform = { nullptr };
 	vector<CQuestBoxEntry*>				m_QuestBoxVec = {};

@@ -86,6 +86,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pKey_Manager->BeginKeyInput();
 
+	m_pLevel_Manager->Priority_Update(fTimeDelta);
+
 #pragma region PriorityUpdate
 		time.Priority_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityTime"));
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
@@ -100,7 +102,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
-		if(!m_IsLoopSinematick)
+		if(GAMESTATE::SINEMATIC != m_InstanceState)
 			m_pObject_Manager->Update(fTimeDelta);
 
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
@@ -118,7 +120,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
 
-		if (!m_IsLoopSinematick)
+		if (GAMESTATE::SINEMATIC != m_InstanceState)
 			m_pCollision_Manager->Update();
 
 		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
@@ -216,6 +218,11 @@ HRESULT CGameInstance::Reset_CurLevel()
 	return S_OK;
 }
 
+CLevel* CGameInstance::CurrentLevel()
+{
+	return m_pLevel_Manager->GetCurLevel();
+}
+
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -257,6 +264,11 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const 
 HRESULT CGameInstance::Initialize_Late(_uint iPrototypeLevelIndex)
 {
 	return m_pObject_Manager->Initialize_Late(iPrototypeLevelIndex);
+}
+
+HRESULT CGameInstance::Remove_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Remove_Layer(iLevelIndex, strLayerTag);
 }
 
 #pragma endregion
@@ -365,13 +377,16 @@ _float CGameInstance::Get_NearLight()
 	}
 	return 1000.f;
 }
-void CGameInstance::SetSinematick(_bool flag)
+void CGameInstance::ChangeGameState(GAMESTATE eState)
 {
-	m_IsLoopSinematick = flag;
+	m_InstanceState = eState;
 }
-_bool CGameInstance::GettSinematick()
+_bool CGameInstance::GetSinematick()
 {
-	return m_IsLoopSinematick;
+	if (GAMESTATE::SINEMATIC == m_InstanceState)
+		return true;
+
+	return false;
 }
 #pragma endregion
 
