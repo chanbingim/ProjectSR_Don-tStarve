@@ -104,7 +104,7 @@ void CMonster::SetDir()
 		_float3 fMoving = m_fMoving;
 		if (m_bDir) {
 			fMoving = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-			if (0.00001f < abs(fMoving.x) + abs(fMoving.z)) {
+			if (0.0001f < abs(fMoving.x) + abs(fMoving.z)) {
 				D3DXVec3Normalize(&fMoving, &fMoving);
 				m_fAngle = D3DXToDegree(acosf(fMoving.x / D3DXVec3Length(&fMoving)));
 				if (0 < fMoving.z) {

@@ -379,18 +379,20 @@ void CSpiderQueen::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 void CSpiderQueen::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
 	__super::OverlapHitActor(HitActor, _Dir);
-	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
-		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = D3DXVec3Length(&transform);
-		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
-			m_bCol = true;
-			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
-				Attack();
+	if (dynamic_cast<CCharacter*>(HitActor)) {
+		if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+			_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+			_float distance = D3DXVec3Length(&transform);
+			if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
+				m_bCol = true;
+				if (m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
+					Attack();
+				}
 			}
 		}
-	}
-	if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime && !dynamic_cast<CSpider*>(HitActor) && !dynamic_cast<CSpiderHouse*>(HitActor) && !dynamic_cast<CSpiderQueen*>(HitActor)) {
-		HitActor->Damage(&m_tDamage);
+		if (m_tMotion == ATTACK && m_bAttack && 960 <= (int)m_fAniTime && !dynamic_cast<CSpider*>(HitActor) && !dynamic_cast<CSpiderHouse*>(HitActor) && !dynamic_cast<CSpiderQueen*>(HitActor)) {
+			HitActor->Damage(&m_tDamage);
+		}
 	}
 }
 
