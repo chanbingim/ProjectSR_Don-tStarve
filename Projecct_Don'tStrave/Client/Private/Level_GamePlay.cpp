@@ -173,12 +173,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
 		WCHAR TexPath[MAX_PATH] = {};
 
-		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(108);
+		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
 		data.fPos = vecBaseData[i].Position;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
-		break;
 	}
 
 	return S_OK;

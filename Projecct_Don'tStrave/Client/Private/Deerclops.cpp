@@ -474,31 +474,28 @@ void CDeerclops::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 	__super::OverlapHitActor(HitActor, _Dir);
 	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		_float distance = D3DXVec3Length(&transform);
-		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
-			m_bCol = true;
-			if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
-				Attack();
-				_float3 LookVec;
-				_float3	vUp{ 0.f, 1.f, 0.f };
-				switch (m_iPattern)
-				{
-				case 0:
-				case 1:
-				case 3:
-				case 4:
-					D3DXVec3Normalize(&m_fIceSpike, &transform);
-					LookVec = m_fIceSpike;
-					D3DXVec3Normalize(&LookVec, &LookVec);
-					D3DXVec3Cross(&m_fIceSpikeRight, &vUp, &LookVec);
-					D3DXVec3Normalize(&m_fIceSpikeRight, &m_fIceSpikeRight);
-					break;
-				case 5:
-					break;
-				default:
-					m_iPattern = 0;
-					break;
-				}
+		m_bCol = true;
+		if (dynamic_cast<CCharacter*>(HitActor) && m_tMotion != ATTACK && m_pMonsterData->iAtkSpeed <= m_fAttackTime) {
+			Attack();
+			_float3 LookVec;
+			_float3	vUp{ 0.f, 1.f, 0.f };
+			switch (m_iPattern)
+			{
+			case 0:
+			case 1:
+			case 3:
+			case 4:
+				D3DXVec3Normalize(&m_fIceSpike, &transform);
+				LookVec = m_fIceSpike;
+				D3DXVec3Normalize(&LookVec, &LookVec);
+				D3DXVec3Cross(&m_fIceSpikeRight, &vUp, &LookVec);
+				D3DXVec3Normalize(&m_fIceSpikeRight, &m_fIceSpikeRight);
+				break;
+			case 5:
+				break;
+			default:
+				m_iPattern = 0;
+				break;
 			}
 		}
 	}

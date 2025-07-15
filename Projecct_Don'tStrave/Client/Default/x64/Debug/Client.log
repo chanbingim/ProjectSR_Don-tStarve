@@ -1,17 +1,13 @@
-﻿  Deerclops.cpp
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(104,56): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(109,85): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(112,85): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(117,84): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(120,56): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(123,84): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(128,85): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(131,85): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(134,84): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Deerclops.cpp(137,84): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  IceFall.cpp
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\private\IceFall.cpp(78,22): warning C4244: '=': 'float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\private\IceFall.cpp(143,43): warning C4244: '인수': 'double'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\private\IceFall.cpp(129,1): warning C4715: 'Client::CIceFall::Ready_Components': 모든 제어 경로에서 값을 반환하지는 않습니다.
+﻿  Player.cpp
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(264,21): warning C4244: '=': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(275,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(284,33): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(287,53): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(296,33): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(299,55): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(707,18): warning C4244: '초기화 중': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(709,19): warning C4244: '=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(775,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(776,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   Client.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

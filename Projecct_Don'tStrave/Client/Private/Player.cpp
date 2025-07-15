@@ -157,6 +157,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->fPos = data.fPos;
 	m_pPlayer->pWorkObject = nullptr;
 	m_pPlayer->tItem = SWAPOBJECT::LIGHTNINGSPEAR;
+	m_tSwapItem = m_pPlayer->tItem;
 	SetAnimation(DIR::DIR_END, MOTION::BUCKED);
 
 	switch (m_pPlayer->iId)
@@ -304,7 +305,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 			data.fPos.z += (rand() % 5) - (rand() % 5);
 			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
-		if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
+		if (SWAPOBJECT::TORCH == m_tSwapItem) {
 			m_pTorchFire->Update_TorchFire(true);
 		}
 		else {
@@ -312,10 +313,10 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		}
 		m_tDamage.Attacker = this;
 		m_tDamage.Damage = (_int)(m_pPlayer->iAtk * m_pPlayer->fAtkRatio);
-		if (SWAPOBJECT::TORCH == m_pPlayer->tItem) {
+		if (SWAPOBJECT::TORCH == m_tSwapItem) {
 			m_tDamage.DamageType = ATTACK_TYPE::FIRE;
 		}
-		else if (SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
+		else if (SWAPOBJECT::LIGHTNINGSPEAR == m_tSwapItem) {
 			m_tDamage.DamageType = ATTACK_TYPE::LIGHTNING;
 		}
 		else {
@@ -382,11 +383,12 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 		}
 	}
-
 	switch (m_tMotion)
 	{
 	case CPlayer::IDLE:
 	case CPlayer::IDLE_TO_RUN:
+	case CPlayer::ITEM_IN:
+	case CPlayer::ITEM_OUT:
 	case CPlayer::RUN:
 	case CPlayer::RUN_TO_IDLE:
 	case CPlayer::IDLE_TO_BUILD:
@@ -424,6 +426,17 @@ void CPlayer::Update(_float fTimeDelta)
 			break;
 		}
 		SetAnimation(m_tDir, m_tMotion);
+	}
+	if (m_tSwapItem != m_pPlayer->tItem) {
+		if (m_tSwapItem != SWAPOBJECT::NONE) {
+			SetAnimation(m_tDir, MOTION::ITEM_IN);
+		}
+		else {
+			m_tSwapItem = m_pPlayer->tItem;
+			SetAnimation(m_tDir, MOTION::ITEM_OUT);
+		}
+		m_bControll = false;
+		m_pPlayer->pWorkObject = nullptr;
 	}
 	if (m_bControll) {
 		if (MOTION::BUCKED == m_tMotion) {
@@ -574,7 +587,7 @@ void CPlayer::Update(_float fTimeDelta)
 								}
 								continue;
 							}
-							switch (m_pPlayer->tItem) {
+							switch (m_tSwapItem) {
 							case SWAPOBJECT::AXE:
 							case SWAPOBJECT::GOLDAXE:
 								if (CEnviornment_Object::Enviornment_TYPE::TREE == enviornment->GetEnviornMentType() && CEnviornment_Object::Enviornment_STATE::DAMAGED >= enviornment->GetState()) {
@@ -687,6 +700,28 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 		case MOTION::IDLE:
 			m_bControll = true;
+			break;
+		case MOTION::ITEM_IN:
+			if (m_pPlayer->tItem != SWAPOBJECT::NONE) {
+				if (200 <= m_fAniTime) {
+					_float time = m_fAniTime;
+					SetAnimation(m_tDir, MOTION::ITEM_OUT);
+					m_fAniTime = time;
+					m_tSwapItem = m_pPlayer->tItem;
+				}
+			}
+			else if (m_iLength <= m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::IDLE);
+				m_bControll = true;
+				m_tSwapItem = m_pPlayer->tItem;
+			}
+			break;
+		case MOTION::ITEM_OUT:
+			if (m_iLength <= m_fAniTime)
+			{
+				SetAnimation(m_tDir, MOTION::IDLE);
+			}
 			break;
 		case MOTION::BUCKED:
 			if (m_iLength <= m_fAniTime)
@@ -828,6 +863,7 @@ void CPlayer::Update(_float fTimeDelta)
 		case MOTION::DEATH2:
 			if (m_iLength <= m_fAniTime) {
 				m_pPlayer->bIsDead = true;
+				m_tSwapItem = SWAPOBJECT::NONE;
 				m_pPlayer->tItem = SWAPOBJECT::NONE;
 				SetAnimation(DIR::DIR_END, MOTION::GHOST_APPEAR);
 			}
@@ -959,24 +995,24 @@ HRESULT CPlayer::Render()
 		else {
 			RenderAnimation(m_sAnim, m_tWigfridAnimation, MOTION::GHOST_APPEAR <= m_tMotion ? m_tWigfridGhostImageVec : m_tWigfridImageVec);
 		}
-		if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
-			if (SWAPOBJECT::TORCH != m_pPlayer->tItem) {
-				RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
+		if (SWAPOBJECT::NONE != m_tSwapItem) {
+			if (SWAPOBJECT::TORCH != m_tSwapItem) {
+				RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_tSwapItem)]);
 			}
 			else {
-				D3DMATRIX mat = GetTorchAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
+				D3DMATRIX mat = GetTorchAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_tSwapItem)]);
 				m_pGraphic_Device->SetTransform(D3DTS_WORLD, &mat);
 				m_pTorchFire->Render(mat);
 			}
 		}
 	}
 	else {
-		if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
-			if (SWAPOBJECT::TORCH != m_pPlayer->tItem) {
-				RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
+		if (SWAPOBJECT::NONE != m_tSwapItem) {
+			if (SWAPOBJECT::TORCH != m_tSwapItem) {
+				RenderAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_tSwapItem)]);
 			}
 			else {
-				D3DMATRIX mat = GetTorchAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_pPlayer->tItem)]);
+				D3DMATRIX mat = GetTorchAnimation(m_sAnim, m_tItemAnimation, m_tItemImageVec[ENUM_CLASS(m_tSwapItem)]);
 				m_pGraphic_Device->SetTransform(D3DTS_WORLD, &mat);
 				m_pTorchFire->Render(mat);
 			}
@@ -1022,7 +1058,7 @@ void CPlayer::Attack()
 {
 	m_bAttack = true;
 	m_bControll = false;
-	if (SWAPOBJECT::SPEAR == m_pPlayer->tItem || SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem)
+	if (SWAPOBJECT::SPEAR == m_tSwapItem || SWAPOBJECT::LIGHTNINGSPEAR == m_tSwapItem)
 	{
 		SetAnimation(m_tDir, MOTION::IDLE_TO_SPEAR);
 	}
@@ -1164,6 +1200,12 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::IDLE_TO_RUN:
 		m_sAnim = L"run_pre";
 		break;
+	case MOTION::ITEM_IN:
+		m_sAnim = L"item_in";
+		break;
+	case MOTION::ITEM_OUT:
+		m_sAnim = L"item_out";
+		break;
 	case MOTION::RUN:
 		m_sAnim = L"run_loop";
 		break;
@@ -1291,6 +1333,8 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 
 	switch (motion)
 	{
+	case MOTION::ITEM_IN:
+	case MOTION::ITEM_OUT:
 	case MOTION::BUCKED:
 	case MOTION::BUCK_PST:
 	case MOTION::BUILD:
@@ -1310,7 +1354,7 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::GHOST_DISSIPATE:
 		break;
 	default:
-		if (SWAPOBJECT::NONE != m_pPlayer->tItem) {
+		if (SWAPOBJECT::NONE != m_tSwapItem) {
 			m_sAnim += L"_item";
 		}
 		break;
@@ -1328,7 +1372,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 	if (HitActor == m_pPlayer->pWorkObject && MOTION::DAMAGE != m_tMotion && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion) {
 		m_bCol = true;
 		if (dynamic_cast<CMonster*>(HitActor)) {
-			if (SWAPOBJECT::SPEAR == m_pPlayer->tItem || SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->tItem) {
+			if (SWAPOBJECT::SPEAR == m_tSwapItem || SWAPOBJECT::LIGHTNINGSPEAR == m_tSwapItem) {
 				if (!m_bAttack && m_tMotion != MOTION::IDLE_TO_SPEAR && m_tMotion != MOTION::SPEAR) {
 					Attack();
 				}
@@ -1345,7 +1389,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				if (!m_bAttack && m_tMotion != MOTION::ATTACK) {
 					Attack();
 				}
-				if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_pPlayer->tItem ? 330 : 200) <= (int)m_fAniTime) {
+				if (m_bAttack && m_tMotion == MOTION::ATTACK && (SWAPOBJECT::NONE != m_tSwapItem ? 330 : 200) <= (int)m_fAniTime) {
 					dynamic_cast<CMonster*>(HitActor)->Damage(&m_tDamage);
 					m_bAttack = false;
 					m_bControll = true;

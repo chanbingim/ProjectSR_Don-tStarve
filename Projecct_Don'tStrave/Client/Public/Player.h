@@ -12,6 +12,8 @@ class CPlayer final : public CCharacter
 		BUCK_PST,
 		IDLE,
 		IDLE_TO_RUN,
+		ITEM_IN,
+		ITEM_OUT,
 		RUN,
 		RUN_TO_IDLE,
 		DIAL,
@@ -106,6 +108,7 @@ private:
 
 	CSlotFrame*					m_pEquipment_Slot = { nullptr };
 	CSlot*					m_pSlot = {};
+	SWAPOBJECT				m_tSwapItem;
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
