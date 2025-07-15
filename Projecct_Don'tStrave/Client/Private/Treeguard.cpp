@@ -426,7 +426,7 @@ void CTreeguard::Leaf_Attack()
 		Desc.vMovePos = _float3(vPos.x, vPos.y + 0.5f, vPos.z);
 		Desc.vPosition = vPos + vRight * m_pGameInstance->Random(-0.5f, 0.5f) + vUp * m_pGameInstance->Random(1.f, 1.5f) + vLook;
 		m_pGameInstance->Add_GameObject_ToLayer(
-			EnumToInt(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_LeafEffect"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_LeafEffect"), &Desc);
+			EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_LeafEffect"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_LeafEffect"), &Desc);
 	}
 }
 

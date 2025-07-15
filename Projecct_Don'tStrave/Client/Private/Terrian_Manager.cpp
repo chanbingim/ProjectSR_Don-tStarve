@@ -57,8 +57,8 @@ void CTerrian_Manager::ADD_Terrian(CTerrain* pTerrian)
         return;
 
     _float3 Pos = TerrianPos->GetWorldState(WORLDSTATE::POSITION);
-    _uint IndexX = Pos.x / m_TileSize.x;
-    _uint IndexY = Pos.z / m_TileSize.y;
+    _uint IndexX = _uint(Pos.x / m_TileSize.x);
+    _uint IndexY = _uint(Pos.z / m_TileSize.y);
 
     if (IndexX >= m_vecSize.x || 0 > IndexX || IndexY >= m_vecSize.y || 0 > IndexY)
         return;
@@ -69,13 +69,19 @@ void CTerrian_Manager::ADD_Terrian(CTerrain* pTerrian)
 
 void CTerrian_Manager::Clear()
 {
+    int i = 0;
     for (auto iter : m_pTerrian)
+    {
         Safe_Release(iter);
+        m_pTerrian[i] = nullptr;
+        i++;
+    }
 }
 
 void CTerrian_Manager::Free()
 {
     __super::Free();
 
-    Clear();
+    if(m_pTerrian.size() > 0)
+        Clear();
 }

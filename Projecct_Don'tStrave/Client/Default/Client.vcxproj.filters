@@ -404,9 +404,6 @@
     <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29">
       <UniqueIdentifier>{0eb1c5d6-e5cf-4ca9-a29e-1b19599f535f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton">
-      <UniqueIdentifier>{c986ac24-0881-41eb-9769-8da062f334f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GmaeUI\Quest\PreView">
       <UniqueIdentifier>{b7bf2377-bc96-4326-a2a9-da03a90b96a7}</UniqueIdentifier>
     </Filter>
@@ -427,6 +424,15 @@
     </Filter>
     <Filter Include="03. Character\Monster\TreeGuard\Boss_LeafEffect">
       <UniqueIdentifier>{cb45a8d7-d30a-4346-b49d-8269fc4d976f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\SystemUI">
+      <UniqueIdentifier>{819e6fca-2b1a-438a-8730-03863915e205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\CategoryButton">
+      <UniqueIdentifier>{c986ac24-0881-41eb-9769-8da062f334f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EnviornmentButton">
+      <UniqueIdentifier>{5311edd4-7274-431d-b79f-149a31b0a6bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -815,7 +821,7 @@
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\QuestCategoryButton.h">
-      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton</Filter>
+      <Filter>04. GmaeUI\Button\CategoryButton</Filter>
     </ClInclude>
     <ClInclude Include="..\public\QuestPreView.h">
       <Filter>04. GmaeUI\Quest\PreView</Filter>
@@ -837,6 +843,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\VineEffect.h">
       <Filter>07. Particle\LightParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EnviornmentButton.h">
+      <Filter>04. GmaeUI\Button\EnviornmentButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SystemSettingUI.h">
+      <Filter>04. GmaeUI\SystemUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1220,7 +1232,7 @@
       <Filter>04. GmaeUI\Quest\ListFrame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\QuestCategoryButton.cpp">
-      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\CategoryButton</Filter>
+      <Filter>04. GmaeUI\Button\CategoryButton</Filter>
     </ClCompile>
     <ClCompile Include="..\private\QuestPreView.cpp">
       <Filter>04. GmaeUI\Quest\PreView</Filter>
@@ -1242,6 +1254,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VineEffect.cpp">
       <Filter>07. Particle\LightParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EnviornmentButton.cpp">
+      <Filter>04. GmaeUI\Button\EnviornmentButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SystemSettingUI.cpp">
+      <Filter>04. GmaeUI\SystemUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

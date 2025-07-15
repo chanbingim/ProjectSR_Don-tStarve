@@ -36,7 +36,7 @@ HRESULT CSpiderHouse::Initialize(void* pArg)
 	data.fPos = m_pMonsterData->fPos;
 	for (size_t i = 0; i < max; i++)
 	{
-		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 	}
 	
 	m_pCollision_Com->SetCollisionSize({ 0.3f, 0.f ,0.f });
@@ -103,7 +103,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 					data.fPos = m_pMonsterData->fPos;
 					data.iHostile = 0;
 				}
-				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str() , ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 			}
 		}
 	case MOTION::MEDIUM_DAMAGE:
@@ -124,7 +124,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 			size_t max = (rand() % 3);
 			for (size_t i = 0; i < max; i++)
 			{
-				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 			}
 		}
 	case MOTION::LARGE_DAMAGE:
@@ -145,7 +145,7 @@ void CSpiderHouse::Update(_float fTimeDelta)
 				m_pGameInstance->Manager_PlaySound(L"SpiderQueen_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
 			data = CMonsterData_Manager::GetInstance()->Get_MonsterData(102);
 			data.fPos= m_pMonsterData->fPos;
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		break;
 	case MOTION::LARGE_TO_SMALL:

@@ -9,11 +9,15 @@
 #include "CUtility.h"
 #include "Player.h"
 #include "Script.h"
+#include "Level_Loading.h"
 
+#include "SystemSettingUI.h"
 #include "QuestManager.h"
+#include "EffectPoolManager.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
 #include "CharacterManager.h"
+#include "Item_Manager.h"
 #include "GameObject.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
@@ -26,8 +30,9 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 10.0f);
 
-	m_IsMapDataSetting = true;
+	CEffectPoolManager::GetInstance()->Initailize();
 
+	m_IsMapDataSetting = true;
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -37,12 +42,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		TutorialMapLoad();
 		break;
 	case GAMEPLAY_STATE::BOSS:
-		TutorialMapLoad();
+		BossMapLoad();
 		break;
 	}
-
-	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
 		return E_FAIL;
@@ -67,11 +69,23 @@ void CLevel_GamePlay::Priority_Update(_float fTimeDelta)
 			break;
 		}
 	}
+
+	if (m_IsChangeMap)
+	{
+		CQuestManager::GetInstance()->Free();
+		CEffectPoolManager::GetInstance()->Clear();
+		CTerrian_Manager::GetInstance()->Clear();
+		m_pGameInstance->Manager_StopAll();
+
+		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::SELECT));
+	}
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 	m_pCharacterManager->Update();
+
+	
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -103,7 +117,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 	sprintf_s(File, "%s/MapData.csv", FilePath);
 
 	Parse_ObejectData(File,
-		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
 
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
@@ -159,7 +173,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(200);
 	data.fPos = potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
 
@@ -198,7 +212,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 	vector<BASE_DATA_STRUCT> vecBaseData;
 	LoadMapData(File, &vecBaseData);
 
-	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 
 	for (size_t i = 0; i < vecBaseData.size(); ++i)
@@ -208,7 +222,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstrin
 
 		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
 		data.fPos = vecBaseData[i].Position;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}
@@ -225,7 +239,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 	vector<BASE_DATA_STRUCT> vecBaseData;
 	LoadMapData(File, &vecBaseData);
 
-	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 
 	for (size_t i = 0; i < vecBaseData.size(); ++i)
@@ -331,6 +345,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_QuestUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Gameplay_Quest_UI"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_SystemSettingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -401,6 +419,11 @@ void CLevel_GamePlay::Remove_LayerData()
 	CTerrian_Manager::GetInstance()->Clear();
 }
 
+void CLevel_GamePlay::ChangeLevel()
+{
+	m_IsChangeMap = true;
+}
+
 _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 {
 	switch (iID)
@@ -446,7 +469,7 @@ HRESULT CLevel_GamePlay::TutorialMapLoad()
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(
-		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_TreeguardTree"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TreeguardTree"),
 		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &Desc)))
 	{
 		MSG_BOX("GG");
@@ -461,6 +484,9 @@ HRESULT CLevel_GamePlay::TutorialMapLoad()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
+		return E_FAIL;
+
+	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
 		return E_FAIL;
 
 	m_IsMapDataSetting = false;
@@ -509,6 +535,5 @@ void CLevel_GamePlay::Free()
 {
 	__super::Free();
 
-	CQuestManager::GetInstance()->ReleaseQuestData();
 	CCharacterManager::DestroyInstance();
 }

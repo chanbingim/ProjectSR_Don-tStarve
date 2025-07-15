@@ -11,6 +11,7 @@
 #include "EffectPoolManager.h"
 #include "QuestManager.h"
 #include "Img_Manager.h"
+
 #include "Terrian_Manager.h"
 #include "LodingInterface.h"
 #include "XML_Manager.h"
@@ -59,9 +60,11 @@ HRESULT Client::CMainApp::Initialize()
 	CTerrian_Manager::GetInstance()->Initialize({ g_iTileCnt, g_iTileCnt }, { 256, 256 });
 	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
 	
-	m_pEffectPool = CEffectPoolManager::GetInstance();
-	m_pImgManager = CImg_Manager::GetInstance();
-	m_pImgManager->Ready_Manager(m_pGraphic_Device);
+	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
+	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
+	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
+
+//	m_pImgManager->Ready_Manager(m_pGraphic_Device);
 	return S_OK;
 }
 
@@ -69,8 +72,9 @@ void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
-	m_pEffectPool->UpdateActvieEffect(fTimeDelta);
-	m_pImgManager->Update_Manager(fTimeDelta);
+	CEffectPoolManager::GetInstance()->UpdateActvieEffect(fTimeDelta);
+
+	//m_pImgManager->Update_Manager(fTimeDelta);
 }
 
 HRESULT Client::CMainApp::Render()
@@ -80,7 +84,7 @@ HRESULT Client::CMainApp::Render()
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
-	m_pImgManager->Render_Manager();
+	//m_pImgManager->Render_Manager();
 
 	m_pGameInstance->Render_End();
 	
@@ -167,6 +171,8 @@ HRESULT CMainApp::Ready_Prototypes()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Light"),
 		CLightComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+
 
 #pragma region LOADING_INTERFACE
 	/* For.Prototype_Compoent_LODING_Texture */
@@ -275,8 +281,9 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 	CTerrian_Manager::DestroyInstance();
 	CXML_Manager::DestroyInstance();
-
-	Safe_Release(m_pEffectPool);
+	CEffectPoolManager::DestroyInstance();
+	auto EffManager = CEffectPoolManager::GetInstance();
+	Safe_Release(EffManager);
 	Safe_Release(m_pImgManager);
 	m_pGameInstance->Release_Engine();
 

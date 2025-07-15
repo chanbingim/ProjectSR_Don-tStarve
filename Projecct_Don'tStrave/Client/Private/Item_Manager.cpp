@@ -4,6 +4,7 @@ IMPLEMENT_SINGLETON(CItem_Manager)
 
 CItem_Manager::CItem_Manager()
 {
+    
 }
 
 const ITEM_DATA& CItem_Manager::Get_ItemData(_uint iItemID) const
@@ -20,6 +21,7 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
     vector<string>      ReadData = {};
 
     m_ItemDataSize = 0;
+    m_ItemDatas = {};
 
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
@@ -81,4 +83,5 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
 void CItem_Manager::Free()
 {
 	__super::Free();
+  
 }

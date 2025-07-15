@@ -103,40 +103,40 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 				case 1:
 					data.fPos = m_pMonsterData->fPos + (m_fIceSpike * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 2:
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike + m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 3:
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.3f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + (m_fIceSpike * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike + m_fIceSpikeRight * 0.3f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 4:
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike + m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.3f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike + m_fIceSpikeRight * 0.3f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				default:
 					break;
@@ -165,7 +165,7 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 					iceSpike.fAngle = 360.f - m_fAngle;
 				}
 				iceSpike.tDesc = data;
-				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
+				m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 
 				m_iIceSpike = (_int)m_fIceSpikeTime + 1;
 			}
@@ -227,7 +227,7 @@ void CDeerclops::Update(_float fTimeDelta)
 					desc.vPosition = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
 					desc.vRotation = { 0.f, 0.f, 0.f };
 					desc.vScale = { 1.f, 1.f, 1.f };
-					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_IceFall"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &desc);
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceFall"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &desc);
 				}
 			}
 			if (MOTION::IDLE == m_tMotion && (2 == m_iPattern || 5 == m_iPattern)) {

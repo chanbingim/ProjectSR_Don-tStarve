@@ -28,7 +28,7 @@ namespace Client
 	const unsigned int			g_iWinSizeY = 720;
 	const unsigned int			g_iTileCnt = 4;
 
-	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, SELECT, END };
+	enum class LEVEL { STATIC, GAMEPLAY, LOADING, LOGO, TUTORIAL, SELECT, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT, STRUCTURE};
 	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO, POT };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
