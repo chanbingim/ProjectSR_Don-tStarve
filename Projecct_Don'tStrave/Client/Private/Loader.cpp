@@ -83,6 +83,7 @@
 #pragma region EFFECT
 #include "SnowParticle.h"
 #include "DamageEffectUI.h"
+#include "VineEffect.h"
 #pragma endregion
 
 #pragma region NPC
@@ -813,9 +814,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CSpriteEffect::Create(m_pGraphic_Device, "tree_leaf_fx_green.scml", TEXT("Leaf")))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Leaf_Effect */
+	/* For.Prototype_Component_Effect_Lightning */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Lightning"),
 		CSpriteEffect::Create(m_pGraphic_Device, "elec_lunge_fx.scml", TEXT("Lightning")))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Effect_Vine */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Effect_Vine"),
+		CVineEffect::Create(m_pGraphic_Device, "trap_vines.scml", TEXT("Vine")))))
 		return E_FAIL;
 
 #pragma endregion

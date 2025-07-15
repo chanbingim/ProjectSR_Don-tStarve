@@ -26,7 +26,7 @@ HRESULT CEffectPoolManager::Add_ActiveEffect(_uint ID, CAinimationObject** pOutA
         for (size_t i = 0; i < ActAnimList->size(); ++i)
         {
             auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::STATIC),
-                                                                TEXT("Prototype_GameObject_EffectAnim"), pArg);
+                                                                TEXT("Prototype_GameObject_EffectAnim"));
             
             UnAnimList->push_back(static_cast<CAinimationObject *>(newEffect));
         }
@@ -91,6 +91,7 @@ HRESULT CEffectPoolManager::Emplace_EffectPool()
     ADD_Effect(1, TEXT("Prototype_Component_Effect_Rock"));
     ADD_Effect(2, TEXT("Prototype_Component_Effect_Leaf"));
     ADD_Effect(3, TEXT("Prototype_Component_Effect_Lightning"));
+    ADD_Effect(4, TEXT("Prototype_Component_Effect_Vine"));
 
     return S_OK;
 }

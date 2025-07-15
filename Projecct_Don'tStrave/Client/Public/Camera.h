@@ -32,18 +32,29 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void  Set_Shaking(_uint iCnt);
+
 private:
 	class CTransform* m_pPlayerTransformCom = { nullptr };
 	class CCamera_Button* m_pButton_Left = { nullptr };
 	class CCamera_Button* m_pButton_Right = { nullptr };
 
 private:
-	_float3							m_fPlayerPos = {};
-	_float2							m_vOldMouse = {};
-	_float							m_fSensor = { 0.2f };
+	_bool					m_bShake = {};
+	_uint					m_iShakeCnt = {};
+	_float					m_fShakeAngle = {};
+
+	_float					m_TimeAcc = {};
+	_float3					m_fPlayerPos = {};
+	_float3					m_vShakePos = {};
+
+	_float2					m_vOldMouse = {};
+	_float					m_fSensor = { 0.2f };
 
 private:
 	HRESULT Ready_Components(void* pArg);
+	void	Shaking(_float fTimeDelta);
+
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -97,7 +97,7 @@ void CSkillIndicator::Update(_float fTimeDelta)
 			m_fAngle = D3DXVec3Dot(&vPlayerLook, &m_vDir);
 			
 			
-			if(vPickingPos.x >= Player_Pos.x)
+			if(g_iWinSizeX * 0.5f < m_pGameInstance->GetMousePosition(0).x)
 			{
 				m_fAngle = 90.f * m_fAngle + 180.f;
 			}
@@ -282,6 +282,7 @@ void CSkillIndicator::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pLightCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);

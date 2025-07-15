@@ -132,7 +132,7 @@ void CTreeObject::Damage(void* pArg)
             m_fAniTime = 0;
             m_EnviromentState = Enviornment_STATE::DAMAGED;
 
-            auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(2, (CAinimationObject**) & m_pSpirteEffect);
+            auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(2, (CAinimationObject**) &m_pSpirteEffect);
             m_pSpirteEffect->ReadyEffect(m_FrontName.c_str());
             m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
         }

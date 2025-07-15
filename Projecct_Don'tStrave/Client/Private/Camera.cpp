@@ -131,6 +131,10 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		}
 		m_pTransformCom->LookAt(m_fPlayerPos);
 	}
+	if (m_bShake)
+	{
+		Shaking(fTimeDelta);
+	}
 
 	Compute_CameraMatrix();
 }
@@ -138,9 +142,9 @@ void CCamera::Priority_Update(_float fTimeDelta)
 void CCamera::Update(_float fTimeDelta)
 {
 
-
+	if (m_pGameInstance->KeyDown('J'))
+		Set_Shaking(10);
 }
-
 void CCamera::Late_Update(_float fTimeDelta)
 {
 
@@ -154,12 +158,36 @@ HRESULT CCamera::Render()
 	return S_OK;
 }
 
+void CCamera::Set_Shaking(_uint iCnt)
+{
+	m_bShake = true;
+	m_iShakeCnt = iCnt;
+}
+
 HRESULT CCamera::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 	return S_OK;
+}
+
+void CCamera::Shaking(_float fTimeDelta)
+{
+	m_TimeAcc += fTimeDelta;
+	if(0 < m_iShakeCnt && m_TimeAcc > 0.01f)
+	{
+		_float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3 vRandom = { m_pGameInstance->Random(-0.1f, 0.1f), m_pGameInstance->Random(-0.1f, 0.1f) , m_pGameInstance->Random(-0.1f, 0.1f) };
+
+		m_vShakePos = _float3(vPos.x + vRandom.x, vPos.y + vRandom.y, vPos.z + vRandom.z);
+		m_iShakeCnt--;
+		m_TimeAcc = 0;
+	}
+	m_pTransformCom->SetPosition(m_vShakePos);
+
+	if (0 >= m_iShakeCnt)
+		m_bShake = false;
 }
 
 CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

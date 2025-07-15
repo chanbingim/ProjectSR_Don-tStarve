@@ -10,7 +10,7 @@ NS_END
 NS_BEGIN(Client)
 class CSpriteEffect : public CAinimationObject
 {
-private:
+protected:
 	CSpriteEffect(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSpriteEffect(const CSpriteEffect& rhs);
 	virtual ~CSpriteEffect() = default;
@@ -30,10 +30,10 @@ public:
 	void				Set_Angle(_float fAngle) { m_fZAngle = fAngle; }
 
 	_bool				IsFinished();
-private :
+protected:
 	_wstring			m_AnimName = {TEXT("")};
 
-private :
+protected:
 	HRESULT				ADD_Component();
 
 public:
