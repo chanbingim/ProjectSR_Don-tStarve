@@ -1,2 +1,54 @@
-﻿  SoundManager.cpp
+﻿  AlphaObject.cpp
+  AnimController.cpp
+  Base.cpp
+  Box_Collision_Component.cpp
+  CMath.cpp
+  CSVReader.cpp
+  CUtility.cpp
+  Collision_Component.cpp
+  Collision_Manager.cpp
+  Component.cpp
+  File.cpp
+  FileReader.cpp
+  Font_Manager.cpp
+  GameInstance.cpp
+  GameObject.cpp
+  Graphic_Device.cpp
+  LandObject.cpp
+  Layer.cpp
+  Level.cpp
+  Level_Manager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  LightComponent.cpp
+  Object_Manager.cpp
+  Picking.cpp
+  Prototype_Manager.cpp
+  Renderer.cpp
+  SoundManager.cpp
+  Sphere_Collision_Component.cpp
+  State.cpp
+  Texture.cpp
+  Timer.cpp
+  Timer_Manager.cpp
+  Transform.cpp
+  VIBuffer.cpp
+  VIBuffer_Rect.cpp
+  VIBuffer_Terrain.cpp
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Engine\Private\VIBuffer_Terrain.cpp(53,46): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Engine\Private\VIBuffer_Terrain.cpp(53,42): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  FrustomCamera.cpp
+  KeyManager.cpp
+  Light_Manager.cpp
+  MouseManager.cpp
+  MouseSlotUI.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  ParticleSystemComponent.cpp
+  QuadTree.cpp
+  Shader.cpp
+  UserInterface.cpp
+  VIBuffer_Cube.cpp
+  코드를 생성하고 있습니다...
+     ../Bin/Debug/Engine.lib 라이브러리 및 ../Bin/Debug/Engine.exp 개체를 생성하고 있습니다.
   Engine.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Engine\Bin\Debug\Engine.dll

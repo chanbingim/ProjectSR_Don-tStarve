@@ -135,6 +135,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 			m_fShakePower -= fTimeDelta;
 			m_fTime += fTimeDelta * 40;
 			vPosition += m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT) * cosf(m_fTime) * (m_fShakePower / 10);
+			vPosition += m_pTransformCom->GetWorldState(WORLDSTATE::UP) * sinf(m_fTime * 2) * (m_fShakePower / 10);
 			m_pTransformCom->SetPosition(vPosition);
 		}
 	}
