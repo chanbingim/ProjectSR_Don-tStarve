@@ -486,7 +486,7 @@ HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim = L"death";
 		break;
 	}
-	switch (dir)
+	switch (m_tDir)
 	{
 	case DIR::DOWN:
 		m_sAnim += L"_down";
@@ -519,7 +519,7 @@ void CSpiderWarrior::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 		m_pNearTarget = nullptr;
 		return;
 	}
-	if (m_pNearTarget != m_pHouse && HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (m_pNearTarget != m_pHouse && HitActor == m_pNearTarget && m_tMotion != TAUNT && m_tMotion != DASH_ATTACK && m_tMotion != DAMAGE && m_tMotion != DEATH) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {
