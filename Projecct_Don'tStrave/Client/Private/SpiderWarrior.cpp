@@ -130,6 +130,12 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 			SetAnimation(m_tDir, MOTION::IDLE);
 		}
 		else if (267 <= m_fAniTime && 600 >= m_fAniTime) {
+			if (m_bAttackSound) {
+				m_bAttackSound = false;
+				_float volume = Get_Sound();
+				if (0.f < volume)
+					m_pGameInstance->Manager_PlaySound(L"Spider_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
+			}
 			m_pMonsterData->fPos += m_fDash * fTimeDelta;
 			m_pTransformCom->SetPosition(m_pMonsterData->fPos);
 		}
@@ -149,14 +155,20 @@ void CSpiderWarrior::Update(_float fTimeDelta)
 				}
 			}
 			if (MOTION::DAMAGE != m_tMotion && 0.f >= m_fAtkCool) {
-				if (MOTION::TAUNT == m_tMotion && m_iLength <= m_fAniTime) {
-					SetAnimation(m_tDir, MOTION::DASH_ATTACK);
-					m_fAtkCool = 5.f;
-					D3DXVec3Normalize(&move, &move);
-					m_fDash = move * 5;
+				if (MOTION::TAUNT == m_tMotion) {
+					if (m_iLength <= m_fAniTime) {
+						SetAnimation(m_tDir, MOTION::DASH_ATTACK);
+						m_fAtkCool = 5.f;
+						D3DXVec3Normalize(&move, &move);
+						m_fDash = move * 5;
+						m_bAttackSound = true;
+					}
 				}
 				else {
 					SetAnimation(m_tDir, MOTION::TAUNT);
+					_float volume = Get_Sound();
+					if (0.f < volume)
+						m_pGameInstance->Manager_PlaySound(L"Spider_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
 				}
 			}
 			else if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
@@ -377,7 +389,7 @@ void CSpiderWarrior::Attack()
 void CSpiderWarrior::Death()
 {
 	__super::Death();
-	SetAnimation(DIR::DIR_END, MOTION::DEATH);
+	SetAnimation(m_tDir, MOTION::DEATH);
 	_float volume = Get_Sound();
 	if (0.f < volume)
 		m_pGameInstance->Manager_PlaySound(L"Spider_death.wav", CHANNELID::BADMONSTER_SOUND, volume);
@@ -410,7 +422,7 @@ void CSpiderWarrior::GetTarget(CGameObject* actor, _float distance)
 
 HRESULT CSpiderWarrior::SetAnimation(DIR dir, MOTION motion)
 {
-	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::IDLE_TO_EAT == motion || MOTION::EAT == motion || MOTION::EAT_TO_IDLE == motion || MOTION::TAUNT == motion) && DIR::SIDE == dir)) {
+	if (DIR::DIR_END == dir || ((MOTION::IDLE == motion || MOTION::DAMAGE == motion || MOTION::IDLE_TO_EAT == motion || MOTION::EAT == motion || MOTION::EAT_TO_IDLE == motion || MOTION::TAUNT == motion || MOTION::DEATH == motion) && DIR::SIDE == dir)) {
 		m_tDir = DIR::DOWN;
 	}
 	if (motion != m_tMotion) {
