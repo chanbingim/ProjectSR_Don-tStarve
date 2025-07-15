@@ -25,7 +25,7 @@ HRESULT CScript::Initialize(void* pArg)
     Info.fSizeX = 900.f;
     Info.fSizeY = 400.f;
     Info.fX = 640;
-    Info.fY = 450.f;
+    Info.fY = 490.f;
 
     if(FAILED(__super::Initialize(&Info)))
         return E_FAIL;
@@ -142,4 +142,8 @@ CGameObject* CScript::Clone(void* pArg)
 void CScript::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pVIBuffer_Com);
+    Safe_Release(m_pTransform_Com);
+    Safe_Release(m_pTexture_Com);
 }
