@@ -50,8 +50,28 @@ HRESULT CDeerclops::Initialize(void* pArg)
 
 void CDeerclops::Priority_Update(_float fTimeDelta)
 {
+	if (m_tMotion == TAUNT && m_bAttack && 560 <= (int)m_fAniTime) {
+		m_pCamera->ShakeCamera(-1.f);
+		m_pCamera->ShakeCamera(1.5f);
+		switch (m_iPattern)
+		{
+		case 2:
+			m_fIceSpikeTime = 0.f;
+			m_iPattern++;
+			break;
+		case 5:
+			m_fIceFallTime = 5.f;
+			m_iIceFall = 5;
+			m_iPattern++;
+			break;
+		}
+		m_fIceSpike = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float volume = Get_Sound();
+		if (0.f < volume)
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_bAttack = false;
+	}
 	if (m_tMotion == ATTACK && m_bAttack && 1200 <= (int)m_fAniTime) {
-
 		_float volume = Get_Sound();
 		if (0.f < volume)
 			m_pGameInstance->Manager_PlaySound(L"Deerclops_Ice.wav", CHANNELID::BADMONSTER_SOUND, volume);
@@ -67,6 +87,9 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 	switch (m_iPattern)
 	{
 	case 1:
+	case 2:
+	case 4:
+	case 5:
 		if (5.f > m_fIceSpikeTime) {
 			m_fIceSpikeTime += fTimeDelta * 5;
 			if (m_iIceSpike <= m_fIceSpikeTime) {
@@ -125,7 +148,7 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 			m_iIceSpike = 1;
 		}
 		break;
-	case 2:
+	case 3:
 		if (30.f > m_fIceSpikeTime) {
 			m_fIceSpikeTime += fTimeDelta * 10;
 			if (m_iIceSpike <= m_fIceSpikeTime) {
@@ -148,9 +171,11 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 			}
 		}
 		else {
-			m_iPattern = 0;
 			m_iIceSpike = 1;
 		}
+		break;
+	case 6:
+		m_iPattern = 0;
 		break;
 	}
 }
@@ -194,6 +219,22 @@ void CDeerclops::Update(_float fTimeDelta)
 			if (m_pNearTarget->isDead())
 				return;
 
+			if (0 < m_fIceFallTime) {
+				m_fIceFallTime -= fTimeDelta / 2;
+				if (m_iIceFall >= m_fIceFallTime) {
+					m_iIceFall--;
+					GAMEOBJECT_DESC desc;
+					desc.vPosition = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+					desc.vRotation = { 0.f, 0.f, 0.f };
+					desc.vScale = { 1.f, 1.f, 1.f };
+					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_IceFall"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &desc);
+				}
+			}
+			if (MOTION::IDLE == m_tMotion && (2 == m_iPattern || 5 == m_iPattern)) {
+				SetAnimation(DIR::DIR_END, MOTION::TAUNT);
+				m_bTarget = true;
+				m_bAttack = true;
+			}
 			_float3 move = m_pNearTarget->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pMonsterData->fPos;
 			if (D3DXVec3Length(&move) < 5.5f) {
 				if (m_tMotion != MOTION::RUN && m_tMotion != MOTION::IDLE_TO_RUN) {
@@ -224,12 +265,9 @@ void CDeerclops::Update(_float fTimeDelta)
 								SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 							}
 							else {
-								m_pCamera->ShakeCamera(1.5f);
 								SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 								m_bTarget = true;
-								_float volume = Get_Sound();
-								if (0.f < volume)
-									m_pGameInstance->Manager_PlaySound(L"Deerclops_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
+								m_bAttack = true;
 							}
 						}
 						break;
@@ -446,14 +484,16 @@ void CDeerclops::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 				switch (m_iPattern)
 				{
 				case 0:
+				case 1:
+				case 3:
+				case 4:
 					D3DXVec3Normalize(&m_fIceSpike, &transform);
 					LookVec = m_fIceSpike;
 					D3DXVec3Normalize(&LookVec, &LookVec);
 					D3DXVec3Cross(&m_fIceSpikeRight, &vUp, &LookVec);
 					D3DXVec3Normalize(&m_fIceSpikeRight, &m_fIceSpikeRight);
 					break;
-				case 1:
-					m_fIceSpike = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+				case 5:
 					break;
 				default:
 					m_iPattern = 0;

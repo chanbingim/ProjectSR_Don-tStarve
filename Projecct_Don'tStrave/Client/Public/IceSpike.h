@@ -2,6 +2,7 @@
 
 #include "Monster.h"
 
+NS_BEGIN(Client)
 class CIceSpike final : public CMonster
 {
 public:
@@ -38,4 +39,4 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };
-
+NS_END

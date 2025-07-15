@@ -338,6 +338,10 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 			Dead();
 		}
 	}
+	else {
+		if(m_pPlayer->pWorkObject && (!dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject) || CEnviornment_Object::Enviornment_TYPE::RESERREECTION != dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject)->GetEnviornMentType()))
+			m_pPlayer->pWorkObject = nullptr;
+	}
 	m_bLightningAttack = false;
 	switch (m_tMotion)
 	{
@@ -540,8 +544,6 @@ void CPlayer::Update(_float fTimeDelta)
 				}
 			}
 		}
-	
-
 		if (m_pGameInstance->KeyDown(VK_SPACE))
 		{
 			list<CGameObject*> NearObjects;

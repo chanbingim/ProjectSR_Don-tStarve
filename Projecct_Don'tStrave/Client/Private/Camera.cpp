@@ -164,7 +164,7 @@ HRESULT CCamera::Render()
 
 void CCamera::ShakeCamera(_float fPower)
 {
-	if (0.f >= m_fShakePower) {
+	if (0.f >= m_fShakePower || 0 >= fPower) {
 		m_fShakePower = 0;
 	}
 	m_fShakePower += fPower;

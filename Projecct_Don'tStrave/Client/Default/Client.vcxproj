@@ -164,6 +164,7 @@
     <ClInclude Include="..\Public\GamePlay_Button.h" />
     <ClInclude Include="..\public\GatheringObject.h" />
     <ClInclude Include="..\Public\Grid.h" />
+    <ClInclude Include="..\public\IceFall.h" />
     <ClInclude Include="..\public\IceSpike.h" />
     <ClInclude Include="..\public\ImgBase.h" />
     <ClInclude Include="..\Public\Img_Manager.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="..\private\GatheringObject.cpp" />
     <ClCompile Include="..\Private\Grid.cpp" />
     <ClCompile Include="..\Private\Hunger.cpp" />
+    <ClCompile Include="..\private\IceFall.cpp" />
     <ClCompile Include="..\private\IceSpike.cpp" />
     <ClCompile Include="..\private\ImgBase.cpp" />
     <ClCompile Include="..\Private\Img_Manager.cpp" />
