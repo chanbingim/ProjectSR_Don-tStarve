@@ -133,7 +133,8 @@ void CTreeObject::Damage(void* pArg)
             m_EnviromentState = Enviornment_STATE::DAMAGED;
 
             CSpriteEffect::SPRITE_EFFECT Desc;
-            Desc.AnimName = m_FrontName.c_str();
+            auto EffectAnimName = m_FrontName.substr(0, m_FrontName.length() - 1);
+            Desc.AnimName = EffectAnimName.c_str();
             auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(2, (CAinimationObject**) & m_pSpirteEffect, &Desc);
             m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
         }

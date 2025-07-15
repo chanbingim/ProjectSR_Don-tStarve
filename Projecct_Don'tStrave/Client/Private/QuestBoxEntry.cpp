@@ -5,6 +5,7 @@
 
 #include "QuestManager.h"
 #include "QuestData.h"
+#include "Script.h"
 
 CQuestBoxEntry::CQuestBoxEntry(LPDIRECT3DDEVICE9 pGraphic_Device) :
 	CUserInterface(pGraphic_Device)
@@ -42,6 +43,8 @@ HRESULT CQuestBoxEntry::Initialize(void* pArg)
 	m_fY = 0;
 
 	m_AcceptBut->SetClickEvent([&]() { EntryClickEvent(); });
+	m_CancelBut->SetClickEvent([&]() { EntryCancelClickEvent(); });
+
 	m_AcceptBut->ChangeButtonTex(0);
 	m_CancelBut->ChangeButtonTex(2);
 
@@ -159,6 +162,16 @@ void CQuestBoxEntry::EntryClickEvent()
 	}
 }
 
+void CQuestBoxEntry::EntryCancelClickEvent()
+{
+	switch (m_QuestListType)
+	{
+	case 1:
+		ShowScriptData();
+		break;
+	}
+}
+
 HRESULT CQuestBoxEntry::ADD_Components()
 {
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), TEXT("Com_Transform"), (CComponent**)&m_pTransform_Com)))
@@ -197,6 +210,16 @@ void CQuestBoxEntry::AcceptQuest()
 void CQuestBoxEntry::ClearQuest()
 {
 	CQuestManager::GetInstance()->Clear_Quest(m_pQuestData->QuestID);
+}
+
+void CQuestBoxEntry::ShowScriptData()
+{
+	CScript::SCRIPT_DESC Scirpt_Desc;
+	Scirpt_Desc.DataScript.push_back(L"중퇴하고 싶지 않다면 내말을 잘 따르도록 해 !!");
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), &Scirpt_Desc)))
+		return;
 }
 
 CQuestBoxEntry* CQuestBoxEntry::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

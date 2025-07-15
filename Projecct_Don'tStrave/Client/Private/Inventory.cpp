@@ -257,6 +257,24 @@ _uint CInventory::Get_SwapObject()
     }
 }
 
+_uint CInventory::Get_EmptySlotCnt()
+{
+    _bool EmptySlot[15] = { false, };
+    _uint Count{ 0 };
+    for (_uint i = 0; i < 15; ++i)
+    {
+        CSlot* pSlot = m_SlotFrames[i]->Get_Slot();
+        _uint iItemID = pSlot->Get_ItemID();
+
+        if (0 == iItemID && false == EmptySlot[i])
+        {
+            EmptySlot[i] = true;
+            Count++;
+        }
+    }
+    return Count;
+}
+
 HRESULT CInventory::ADD_Components()
 {
     // Texture Component

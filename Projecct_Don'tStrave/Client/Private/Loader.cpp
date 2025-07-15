@@ -15,11 +15,8 @@
 #include "Shadowterrorbeak.h"
 #include "Treeguard.h"
 #include "TreeguardObject.h"
-<<<<<<< HEAD
 #include "Goat.h"
 #include "IceSpike.h"
-=======
->>>>>>> origin/07_14_bjh
 
 #include "TorchFire.h"
 
@@ -480,13 +477,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-<<<<<<< HEAD
 #pragma region TORCH
-=======
-
-
-
->>>>>>> origin/07_14_bjh
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))

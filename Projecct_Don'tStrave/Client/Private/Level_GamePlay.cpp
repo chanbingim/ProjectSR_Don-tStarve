@@ -8,6 +8,7 @@
 #include "Terrain.h"
 #include "CUtility.h"
 #include "Player.h"
+#include "Script.h"
 
 #include "QuestManager.h"
 #include "PlayerData_Manager.h"
@@ -300,8 +301,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_QuestPreView"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
+	
+	CScript::SCRIPT_DESC Scirpt_Desc;
+	Scirpt_Desc.DataScript.push_back(L"½´½´½´½´½´½´½´¤Ð½´½´½´½¸ ½´ÆÛ³ë¹Ù");
+	Scirpt_Desc.DataScript.push_back(L"»ç°ÇÀº ´Ù°¡¿Í ¾î¾î¾î¿À¿¹");
+	Scirpt_Desc.DataScript.push_back(L"½´½´½´½´½´¤Ð½´½´½´½´½´½´½´¤Ð¤µ");
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Scirpt_Desc)))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),

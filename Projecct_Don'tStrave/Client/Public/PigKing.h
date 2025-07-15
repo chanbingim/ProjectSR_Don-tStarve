@@ -30,13 +30,15 @@ private :
 	pigKingState			m_PigState = { pigKingState::IDLE };
 	
 	CClock*					m_pClock = { nullptr };
-	
+	_bool					m_bIsQuestStart = { false };
 
 private :
 	HRESULT					ADD_Components();
 	void					Change_Motion(pigKingState ChangeState);
 	void					ChangeTimeState();
 	void					ChangeMeetToGold();
+
+	void					ShowFirstClickMotion();
 	
 public:
 	static		CPigKing*			Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -171,7 +171,8 @@ void CMonster::Death()
 		m_pDropItem_Com->DropItem(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Material_Item"),
 			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), m_pMonsterData->fPos);
 
-		CQuestManager::GetInstance()->CallMonsterDeath(m_pMonsterData->iId);
+		if(m_bPlayerKill)
+			CQuestManager::GetInstance()->CallMonsterDeath(m_pMonsterData->iId);
 	}
 }
 

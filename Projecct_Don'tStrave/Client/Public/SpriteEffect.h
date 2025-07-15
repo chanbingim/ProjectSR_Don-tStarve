@@ -13,10 +13,10 @@ class CSpriteEffect : public CAinimationObject
 public :
 	typedef struct SpriteEffect
 	{
-		const WCHAR* AnimName;
+		_wstring AnimName;
 	}SPRITE_EFFECT;
 
-private:
+protected:
 	CSpriteEffect(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSpriteEffect(const CSpriteEffect& rhs);
 	virtual ~CSpriteEffect() = default;
@@ -34,7 +34,9 @@ public:
 	virtual void		ResetObejctaData();
 
 	_bool				IsFinished();
-private :
+	void				Set_Angle(_float fAngle);
+
+protected:
 	_wstring			m_AnimName = {TEXT("")};
 
 private :

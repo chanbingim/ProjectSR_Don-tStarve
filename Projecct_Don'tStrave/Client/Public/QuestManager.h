@@ -5,6 +5,9 @@
 #include "Base.h"
 
 NS_BEGIN(Client)
+class CInventory;
+class CItem_Manager;
+
 class CQuestManager : public CBase
 {
 	DECLARE_SINGLETON(CQuestManager);
@@ -24,6 +27,8 @@ public :
 
 	HRESULT		LoadQuestData(const char* FolderName, const char* FileName);
 	HRESULT		ReleaseQuestData();
+
+	_bool		IsQuestActive(_uint QuestID);
 	_wstring	GetPercentData(CQuestData* pQuest);
 
 	_uint		GetMonstDeathCount(_uint iID);
@@ -38,6 +43,8 @@ public :
 private :
 	const char*					FrontFilePath = "../Bin/Resources/DataStruct/";
 	map<_uint, CQuestData*>		m_QuestMap;
+	CInventory*					m_pInven = { nullptr };
+	CItem_Manager*				m_pItemManager = { nullptr };
 
 	list<CQuestData*>			m_QuestList;
 	list<CQuestData*>			m_RunningQuest;
@@ -48,6 +55,8 @@ private :
 
 private :
 	_uint						UpdateDeathList(_uint iID);
+
+	void						ApplyCompensation(_uint ItemID, _uint ItemCnt);
 
 public :
 	virtual		void		Free() override;

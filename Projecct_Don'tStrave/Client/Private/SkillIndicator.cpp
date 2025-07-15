@@ -219,9 +219,10 @@ void CSkillIndicator::Update_Effect(_float fTimeDelta)
 	if (true == m_bIsEffectActive && m_fTimeAcc < 0.8f)
 	{
 		// up 이랑 dir 외적 나온걸 축으로 회전
-		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(3, (CAinimationObject**)&m_pSpirteEffect);
+		CSpriteEffect::SPRITE_EFFECT Desc;
 
-		m_pSpirteEffect->ReadyEffect(L"fx_side");
+		Desc.AnimName = L"fx_side";
+		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(3, (CAinimationObject**)&m_pSpirteEffect, &Desc);
 		m_pSpirteEffect->GetTransfrom()->SetPosition(m_vEffectPos);
 		m_pSpirteEffect->Set_Angle(m_fAngle);
 

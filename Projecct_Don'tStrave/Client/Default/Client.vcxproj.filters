@@ -817,6 +817,9 @@
     <ClInclude Include="..\public\Script.h">
       <Filter>04. GmaeUI\Script</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VineEffect.h">
+      <Filter>대진호</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1212,6 +1215,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Script.cpp">
       <Filter>04. GmaeUI\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VineEffect.cpp">
+      <Filter>대진호</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

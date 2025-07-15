@@ -3,7 +3,11 @@
 #include "File.h"
 #include "CUtility.h"
 #include "GameInstance.h"
+
+#include "Slot.h"
+#include "Item.h"
 #include "Inventory.h"
+#include "Item_Manager.h"
 
 IMPLEMENT_SINGLETON(CQuestManager);
 
@@ -58,6 +62,12 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 
 	if (CheckQuest)
 	{
+		if (CheckQuest->DropItem.size() > m_pInven->Get_EmptySlotCnt())
+		{
+			MSG_BOX("인벤토리를 비워주세요");
+			return E_FAIL;
+		}
+
 		if (!CheckQuest->bIsClear)
 		{
 			CheckQuest->bIsClear = true;
@@ -78,6 +88,11 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 
 				pair->second->bIsActive = true;
 				m_QuestList.push_back(pair->second);
+			}
+
+			for (auto& pair : CheckQuest->DropItem)
+			{
+				ApplyCompensation(pair.first, pair.second);
 			}
 		}
 	}
@@ -174,6 +189,17 @@ HRESULT CQuestManager::ReleaseQuestData()
 	return S_OK;
 }
 
+_bool CQuestManager::IsQuestActive(_uint QuestID)
+{
+	for (auto iter : m_RunningQuest)
+	{
+		if (iter->QuestID == QuestID)
+			return true;
+	}
+
+	return false;
+}
+
 _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 {
 	if (nullptr == pQuest)
@@ -191,7 +217,8 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 		{
 			OwnCount = Inven->Check_ItemCount(pair.first);
 			MaxCount = pair.second;
-			break;
+			if (OwnCount < pair.second)
+				break;
 		}
 	}
 	break;
@@ -203,10 +230,14 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 			{
 				OwnCount = GetMonstDeathCount(pair.first);
 				if (OwnCount >= pair.second)
-					OwnCount = pair.second;
-
-				MaxCount = pair.second;
-				break;
+				{
+					OwnCount = MaxCount = pair.second;
+				}
+				else
+				{
+					MaxCount = pair.second;
+					break;
+				}
 			}
 		}
 	}
@@ -235,9 +266,15 @@ _uint CQuestManager::GetMonstDeathCount(_uint iID)
 
 void CQuestManager::QuestStartEvent()
 {
-	auto pair = m_QuestMap.find(0);
+	auto pair = m_QuestMap.find(1);
 	pair->second->bIsActive = true;
 	m_QuestList.push_back(pair->second);
+
+	if(nullptr == m_pInven)
+		m_pInven = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
+
+	if (nullptr == m_pItemManager)
+		m_pItemManager = CItem_Manager::GetInstance();
 }
 
 void CQuestManager::CallMonsterDeath(_uint iID)
@@ -254,14 +291,13 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 	{
 	case CQuestType::COLLECTION:
 	{
-		auto Inven = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")));
 		for (auto& pair : pQuest->ClearCondition)
 		{
 			if (_flag)
-				Inven->Use_Item(pair.first, pair.second);
+				m_pInven->Use_Item(pair.first, pair.second);
 			else
 			{
-				_uint OwnCount = Inven->Check_ItemCount(pair.first);
+				_uint OwnCount = m_pInven->Check_ItemCount(pair.first);
 				if (OwnCount < pair.second)
 				{
 					return false;
@@ -302,6 +338,21 @@ _uint CQuestManager::UpdateDeathList(_uint iID)
 		return iter->second++;
 
 	return 1;
+}
+
+void CQuestManager::ApplyCompensation(_uint ItemID, _uint ItemCnt)
+{
+	auto Slot = m_pInven->Find_Item(ItemID);
+	auto ItemData = m_pItemManager->Get_ItemData(ItemID);
+
+	ITEM_DESC Item_Desc;
+	Item_Desc.iItemID = ItemID;
+	Item_Desc.eSlot = ItemData.eSlot;
+	Item_Desc.fDurability = 100.f;
+	Item_Desc.eItemType = ItemData.eItemType;
+	Item_Desc.iNumItem = ItemCnt;
+
+	Slot->Set_Info(Item_Desc);
 }
 
 void CQuestManager::Free()

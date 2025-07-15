@@ -26,8 +26,16 @@ public :
 	virtual HRESULT		Render();
 
 private :
-	_float				m_fAnimationTime = {};
-	_bool				m_StartTextView = { false };
+	RECT							m_FontRect = { 0, 0, 100, 100 };
+
+	_float2							m_FontPoint = {};
+	_uint							m_TextIndex = {};
+	_uint							m_iCnt = {};
+	vector<_wstring>				m_AllText = {};
+	_wstring						m_PrintText = {};
+
+	_float							m_fAnimationTime = {};
+	_bool							m_StartTextView = { false };
 
 
 private :

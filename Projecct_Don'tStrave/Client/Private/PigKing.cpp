@@ -5,6 +5,7 @@
 #include "DropItemComponent.h"
 #include "QuestManager.h"
 
+#include "Script.h"
 #include "Clock.h"
 #include "Slot.h"
 
@@ -66,8 +67,11 @@ void CPigKing::Priority_Update(_float fTimeDelta)
         }
         else if (m_pGameInstance->KeyDown(VK_RBUTTON))
         {
-            //ChangeMeetToGold();
             m_pGameInstance->SetSinematick(true);
+            if (!m_bIsQuestStart)
+            {
+                ShowFirstClickMotion();
+            }
         }
     }
     
@@ -214,6 +218,20 @@ void CPigKing::ChangeMeetToGold()
             }
         }
     }
+}
+
+void CPigKing::ShowFirstClickMotion()
+{
+    CScript::SCRIPT_DESC Scirpt_Desc;
+    Scirpt_Desc.DataScript.push_back(L"니가 말로만듣던 154기냐");
+    Scirpt_Desc.DataScript.push_back(L"내 말을 잘듣고 잘따르는게 좋을거야");
+
+    if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+        TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), &Scirpt_Desc)))
+        return;
+
+    CQuestManager::GetInstance()->QuestStartEvent();
+    m_bIsQuestStart = true;
 }
 
 CPigKing* CPigKing::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

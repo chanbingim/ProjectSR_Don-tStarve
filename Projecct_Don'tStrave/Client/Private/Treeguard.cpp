@@ -368,11 +368,10 @@ _bool CTreeguard::Vine_Attack(_float fTimeDelta)
 {
 	if (m_fAttackDelay > 0.5f)
 	{
-		CSpriteEffect::GAMEOBJECT_DESC desc;
-
+		CSpriteEffect::SPRITE_EFFECT desc;
+		desc.AnimName = L"spawn3";
 		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(4, (CAinimationObject**)&m_pSpirteEffect, &desc);
 
-		m_pSpirteEffect->ReadyEffect(L"spawn3");
 		m_pSpirteEffect->GetTransfrom()->SetPosition(m_PrePlayerPos);
 
 		m_fAttackDelay = 0.f;

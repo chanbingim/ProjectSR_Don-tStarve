@@ -270,6 +270,7 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\UIEffect.h" />
     <ClInclude Include="..\public\UI_MoveAnim.h" />
+    <ClInclude Include="..\Public\VineEffect.h" />
     <ClInclude Include="..\Public\XMLDataStruct.h" />
     <ClInclude Include="..\public\XML_Manager.h" />
     <ClInclude Include="Client.h" />
@@ -403,6 +404,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\VineEffect.cpp" />
     <ClCompile Include="..\private\XML_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>

@@ -38,6 +38,7 @@ public:
 
 	void							SetQuestData(_uint QuestIndex, void* pArg);
 	void							EntryClickEvent();
+	void							EntryCancelClickEvent();
 
 private :
 	_uint							m_EntryIndex = { 0 };
@@ -60,6 +61,7 @@ private:
 
 	void							AcceptQuest();
 	void							ClearQuest();
+	void							ShowScriptData();
 
 public:
 	static	CQuestBoxEntry*			Create(LPDIRECT3DDEVICE9 pGraphic_Device);

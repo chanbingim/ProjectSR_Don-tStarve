@@ -71,8 +71,8 @@ HRESULT CSpriteEffect::Render()
 
 void CSpriteEffect::ReadyEffect(void* pArg)
 {
-    SPRITE_EFFECT* Sprite_Desc = static_cast<SPRITE_EFFECT*>(pArg);
-    m_AnimName = Sprite_Desc->AnimName;
+    SPRITE_EFFECT* Desc = static_cast<SPRITE_EFFECT*>(pArg);
+    m_AnimName = Desc->AnimName;
 }
 
 void CSpriteEffect::ResetObejctaData()
@@ -85,6 +85,11 @@ void CSpriteEffect::ResetObejctaData()
 _bool CSpriteEffect::IsFinished()
 {
     return m_isDead;
+}
+
+void CSpriteEffect::Set_Angle(_float fAngle)
+{
+    m_fZAngle = fAngle;
 }
 
 HRESULT CSpriteEffect::ADD_Component()
