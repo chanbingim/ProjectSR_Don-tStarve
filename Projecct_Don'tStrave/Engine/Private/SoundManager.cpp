@@ -115,7 +115,7 @@ void CSoundManager::LoadSoundFile()
 		// "../Sound/Success.wav"
 
 		FMOD::Sound* pSound = nullptr;
-		FMOD_RESULT eRes = m_pSystem->createSound(szFullPath, FMOD_CREATESTREAM, 0, &pSound);
+		FMOD_RESULT eRes = m_pSystem->createSound(szFullPath, FMOD_DEFAULT, 0, &pSound);
 
 		if (eRes == FMOD_OK)
 		{

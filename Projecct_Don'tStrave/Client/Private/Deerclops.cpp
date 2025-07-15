@@ -75,19 +75,14 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 				iceSpike.pAttacker = this;
 				iceSpike.fAngle = m_fAngle;
 				iceSpike.iType = m_iIceSpike;
-				_float volume = Get_Sound();
 				switch (m_iIceSpike)
 				{
 				case 1:
-					if (0 < volume)
-						m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume);
 					data.fPos = m_pMonsterData->fPos + (m_fIceSpike * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 2:
-					if (0 < volume)
-						m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT2, volume);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
@@ -96,8 +91,6 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 3:
-					if (0 < volume)
-						m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT3, volume);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.3f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
@@ -109,8 +102,6 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
 					break;
 				case 4:
-					if (0 < volume)
-						m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT4, volume);
 					data.fPos = m_pMonsterData->fPos + ((m_fIceSpike - m_fIceSpikeRight * 0.15f) * m_iIceSpike * 0.5f);
 					iceSpike.tDesc = data;
 					m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Effect"), &iceSpike);
@@ -142,24 +133,6 @@ void CDeerclops::Priority_Update(_float fTimeDelta)
 				CIceSpike::ICESPIKE_DESC iceSpike;
 				iceSpike.pAttacker = this;
 				iceSpike.iType = m_iIceSpike / 8 + 1;
-				_float volume = Get_Sound();
-				if (0.f < volume) {
-					if (0 == (m_iIceSpike - 1) % 8 && 0.f < volume) {
-						switch (iceSpike.iType)
-						{
-						case 1:
-							m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume);
-							break;
-						case 2:
-						case 3:
-							m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT2, volume);
-							break;
-						case 4:
-							m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT3, volume);
-							break;
-						}
-					}
-				}
 				data.fPos = m_fIceSpike;
 				data.fPos.x += cosf(m_fIceSpikeTime / 2) * m_fIceSpikeTime / 5;
 				data.fPos.z += sinf(m_fIceSpikeTime / 2) * m_fIceSpikeTime / 5;
@@ -251,6 +224,7 @@ void CDeerclops::Update(_float fTimeDelta)
 								SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 							}
 							else {
+								m_pCamera->ShakeCamera(1.5f);
 								SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 								m_bTarget = true;
 								_float volume = Get_Sound();

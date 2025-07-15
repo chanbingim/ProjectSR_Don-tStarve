@@ -49,6 +49,22 @@ HRESULT CIceSpike::Initialize(void* pArg)
 
 	__super::Initialize_Late();
 
+	_float volume = Get_Sound();
+	if (0.f < volume) {
+		switch (m_iSpike)
+		{
+		case 1:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		case 2:
+		case 3:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		case 4:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		}
+	}
 	return S_OK;
 }
 
