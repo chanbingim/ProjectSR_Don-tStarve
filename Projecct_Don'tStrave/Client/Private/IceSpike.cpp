@@ -36,24 +36,46 @@ HRESULT CIceSpike::Initialize(void* pArg)
 	m_fAngle = value.fAngle;
 	m_iSpike = value.iType;
 	m_tDamage.Attacker = value.pAttacker;
-	m_tDamage.Damage = 30;
 	m_tDamage.DamageType = ATTACK_TYPE::ICE;
 	m_bAttack = true;
 	m_pTransformCom->SetPosition(value.tDesc.fPos);
 	m_iLength = 500;
 	m_fAniTime = 0.f;
-	m_pCamera->ShakeCamera(m_iSpike / 10.f);
+	m_pCamera->ShakeCamera(m_iSpike / 50.f);
+
+	m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
+	m_pCollision_Com->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
+
+	__super::Initialize_Late();
+
+	_float volume = Get_Sound();
+	if (0.f < volume) {
+		switch (m_iSpike)
+		{
+		case 1:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		case 2:
+		case 3:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		case 4:
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT, volume);
+			break;
+		}
+	}
 	return S_OK;
 }
 
 void CIceSpike::Priority_Update(_float fTimeDelta)
 {
+	if (300 <= (int)m_fAniTime) {
+		m_bAttack = false;
+	}
 	__super::Priority_Update(fTimeDelta);
 	if (m_iLength <= m_fAniTime) {
 		m_isDead = true;
-	}
-	if (300 <= (int)m_fAniTime) {
-		m_bAttack = false;
 	}
 }
 
@@ -116,7 +138,11 @@ void CIceSpike::Late_Update(_float fTimeDelta)
 
 HRESULT CIceSpike::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	RenderAnimation(m_sAnim, m_tAnimation, m_tImageVec);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	return S_OK;
 }
 

@@ -129,26 +129,7 @@ HRESULT CPigHouse::SetAnimation(MOTION motion)
 
 void CPigHouse::Damage(void* pArg)
 {
-	//__super::Damage(pArg);
-	if (0 >= --m_pMonsterData->iHp) {
-		Death();
-	}
-	else {
-		Hit();
-	}
-	if (m_pPig) {
-		DAMAGE_DATA_BASE DamageBase = {};
-		if (nullptr != pArg) {
-			DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
-			if (DamageBase.Attacker) {
-				CCharacter* character = static_cast<CCharacter*>(DamageBase.Attacker);
-				if (dynamic_cast<CPlayer*>(character)) {
-					m_pPig->Get_Monster()->iHostile = 1;
-				}
-			}
-		}
-		Emergency();
-	}
+	Hit();
 }
 
 void CPigHouse::Hit()
