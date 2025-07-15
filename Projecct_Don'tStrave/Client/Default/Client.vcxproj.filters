@@ -416,6 +416,12 @@
     <Filter Include="04. GmaeUI\Script">
       <UniqueIdentifier>{32f85fda-b3b3-4282-a6e5-4f9a293afaf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Character\Monster\Deerclops\IceSpike">
+      <UniqueIdentifier>{2a2426fa-4267-4e98-b027-5b88d035d732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Deerclops\IceFall">
+      <UniqueIdentifier>{679469eb-fda9-4c82-b120-166a0fe24d85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -811,14 +817,17 @@
     <ClInclude Include="..\Public\QuestNextButton.h">
       <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\IceSpike.h">
-      <Filter>김정환</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Script.h">
       <Filter>04. GmaeUI\Script</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VineEffect.h">
       <Filter>대진호</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceFall.h">
+      <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceSpike.h">
+      <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1210,14 +1219,17 @@
     <ClCompile Include="..\Private\QuestNextButton.cpp">
       <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\IceSpike.cpp">
-      <Filter>김정환</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Script.cpp">
       <Filter>04. GmaeUI\Script</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VineEffect.cpp">
       <Filter>대진호</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceFall.cpp">
+      <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceSpike.cpp">
+      <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

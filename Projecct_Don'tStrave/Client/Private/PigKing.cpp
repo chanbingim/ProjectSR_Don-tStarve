@@ -223,8 +223,10 @@ void CPigKing::ChangeMeetToGold()
 void CPigKing::ShowFirstClickMotion()
 {
     CScript::SCRIPT_DESC Scirpt_Desc;
-    Scirpt_Desc.DataScript.push_back(L"니가 말로만듣던 154기냐");
-    Scirpt_Desc.DataScript.push_back(L"내 말을 잘듣고 잘따르는게 좋을거야");
+    Scirpt_Desc.DataScript.push_back(L"오, 이 몸을 찾아온 손님이로군!");
+    Scirpt_Desc.DataScript.push_back(L"반갑다. 이 몸의 이름은 돼지왕");
+    Scirpt_Desc.DataScript.push_back(L"황금을 가져오면 너의 소원을 들어주겠다.");
+    Scirpt_Desc.DataScript.push_back(L"단, 맛난 음식은 내가 먹을 테니, 탐내지 마라!");
 
     if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
         TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), &Scirpt_Desc)))
