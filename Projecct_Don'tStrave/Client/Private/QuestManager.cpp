@@ -200,6 +200,13 @@ _bool CQuestManager::IsQuestActive(_uint QuestID)
 	return false;
 }
 
+_bool CQuestManager::IsQuestClear(_uint QuestID)
+{
+	auto iter = m_QuestMap.find(QuestID);
+
+	return iter->second->bIsClear;
+}
+
 _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 {
 	if (nullptr == pQuest)

@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "XML_Manager.h"
+#include "QuestManager.h"
 #include "Level_GamePlay.h"
 
 CPortalObject::CPortalObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
@@ -46,13 +47,11 @@ HRESULT CPortalObject::Initialize(void* pArg)
 void CPortalObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-    //여기서 확인한다음 상태 변경
 
-    if (m_pGameInstance->KeyDown(VK_F8))
+    if (!m_IsOpenAble && CQuestManager::GetInstance()->IsQuestClear(6))
     {
         m_IsOpenAble = true;
     }
-      
 }
 
 void CPortalObject::Update(_float fTimeDelta)

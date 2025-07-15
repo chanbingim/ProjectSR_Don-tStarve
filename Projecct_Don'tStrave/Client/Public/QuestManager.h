@@ -29,6 +29,7 @@ public :
 	HRESULT		ReleaseQuestData();
 
 	_bool		IsQuestActive(_uint QuestID);
+	_bool		IsQuestClear(_uint QuestID);
 	_wstring	GetPercentData(CQuestData* pQuest);
 
 	_uint		GetMonstDeathCount(_uint iID);
