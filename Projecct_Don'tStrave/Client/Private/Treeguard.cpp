@@ -8,6 +8,7 @@
 #include "CharacterManager.h"
 #include "DropItemComponent.h"
 #include "SpriteEffect.h"
+#include "LeafEffect.h"
 
 CTreeguard::CTreeguard(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -65,6 +66,8 @@ void CTreeguard::Priority_Update(_float fTimeDelta)
 
 void CTreeguard::Update(_float fTimeDelta)
 {
+
+
 	__super::Update(fTimeDelta);
 	switch (m_tMotion)
 	{
@@ -111,11 +114,19 @@ void CTreeguard::Update(_float fTimeDelta)
 					}
 					break;
 				case MOTION::TRANSFORM:
+					if(1400 < m_fAniTime)
+						SetAnimation(m_tDir, MOTION::IDLE);
+					break;
 				case MOTION::ATTACK:
-					if (2 < m_iAttackCnt)
+					if (2 == m_iAttackCnt)
 					{
 						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM_TREE);
 						
+						break;
+					}
+					if (3 == m_iAttackCnt)
+					{
+						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM_MAD);
 						break;
 					}
 					if (m_iLength <= m_fAniTime) {
@@ -127,7 +138,18 @@ void CTreeguard::Update(_float fTimeDelta)
 				case MOTION::TRANSFORM_TREE:
 					if(1200 < m_fAniTime)
 					{
-						SetAnimation(DIR::DOWN, MOTION::TREE);
+						SetAnimation(DIR::DIR_END, MOTION::TREE);
+						m_PrePlayerPos = static_cast<CTransform*>(m_pGameInstance->Get_Component(
+							ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0))->GetWorldState(WORLDSTATE::POSITION);
+					}
+					break;
+				
+				case MOTION::TRANSFORM_MAD:
+					if(1600 < m_fAniTime)
+					{
+						Leaf_Attack();
+						m_iAttackCnt = 0;
+						SetAnimation(m_tDir, MOTION::IDLE);
 						m_PrePlayerPos = static_cast<CTransform*>(m_pGameInstance->Get_Component(
 							ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0))->GetWorldState(WORLDSTATE::POSITION);
 					}
@@ -137,8 +159,8 @@ void CTreeguard::Update(_float fTimeDelta)
 					if(!Vine_Attack(fTimeDelta))
 					{
 						m_fAttackTime = 0;
-						m_iAttackCnt = 0;
-						SetAnimation(m_tDir, MOTION::TRANSFORM);
+						m_iAttackCnt++;
+						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM);
 					}
 					break;
 				default:
@@ -274,8 +296,7 @@ HRESULT CTreeguard::SetAnimation(DIR dir, MOTION motion)
 	}
 	if (motion != m_tMotion) {
 		m_fAniTime = 0;
-		
-			
+
 	}
 	m_tMotion = motion;
 	switch (motion)
@@ -336,6 +357,7 @@ HRESULT CTreeguard::SetAnimation(DIR dir, MOTION motion)
 		m_sAnim += L"_up";
 		break;
 	}
+
 	return S_OK;
 }
 
@@ -380,7 +402,7 @@ _bool CTreeguard::Vine_Attack(_float fTimeDelta)
 		m_PrePlayerPos = static_cast<CTransform*>(m_pGameInstance->Get_Component(
 			ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0))->GetWorldState(WORLDSTATE::POSITION);
 	}
-	if (15 < m_iVineCnt)
+	if (5 < m_iVineCnt)
 	{
 		m_iVineCnt = 0;
 		return false;
@@ -389,6 +411,23 @@ _bool CTreeguard::Vine_Attack(_float fTimeDelta)
 
 
 	return true;
+}
+
+void CTreeguard::Leaf_Attack()
+{
+	_float3 vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3 vRight = m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT);
+	_float3 vUp = m_pTransformCom->GetWorldState(WORLDSTATE::UP);
+	_float3 vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
+	CLeafEffect::LEAF_DESC Desc = {};
+	for (_uint i = 0; i < 30; ++i)
+	{
+		Desc.iIndex = i;
+		Desc.vMovePos = _float3(vPos.x, vPos.y + 0.5f, vPos.z);
+		Desc.vPosition = vPos + vRight * m_pGameInstance->Random(-0.5f, 0.5f) + vUp * m_pGameInstance->Random(1.f, 1.5f) + vLook;
+		m_pGameInstance->Add_GameObject_ToLayer(
+			EnumToInt(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_LeafEffect"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_LeafEffect"), &Desc);
+	}
 }
 
 CTreeguard* CTreeguard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

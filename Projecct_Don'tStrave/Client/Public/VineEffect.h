@@ -5,6 +5,7 @@
 
 NS_BEGIN(Engine)
 class CCollision_Component;
+class CTransform;
 NS_END
 
 NS_BEGIN(Client)
@@ -29,6 +30,9 @@ private:
 	CVineEffect::STATE		m_ePreState = {};
 	CVineEffect::STATE		m_eCurState = {};
 
+	
+
+	CTransform*				m_pPlayerTransform = { nullptr };
 	CCollision_Component*	m_pCollisionCom = { nullptr };
 
 private:

@@ -94,6 +94,7 @@
 #include "SnowParticle.h"
 #include "DamageEffectUI.h"
 #include "VineEffect.h"
+#include "LeafEffect.h"
 #pragma endregion
 
 #pragma region NPC
@@ -478,7 +479,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+<<<<<<< HEAD
 #pragma region TORCH
+=======
+
+	/* For.Prototype_Component_Texture_LeafEffect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_LeafEffect"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Needle/fff-0.png"), 1))))
+		return E_FAIL;
+
+
+>>>>>>> origin/07_14_bjh
 	/* For.Prototype_Component_Texture_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_TorchFireAlpha"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Fire/FireAlpha%d.png"), 4))))
@@ -657,6 +668,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_GameObject_CResurrectionStone */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Birchnut_Tree"),
 		CBirchnutTree::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_LeafEffect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_LeafEffect"),
+		CLeafEffect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
