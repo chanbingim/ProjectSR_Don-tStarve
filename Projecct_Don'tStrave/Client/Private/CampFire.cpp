@@ -40,8 +40,9 @@ HRESULT CCampFire::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
-
+	
 	m_bSoundPlay = false;
+	m_fTimeAcc = 0.f;
 
 	m_FrontName = TEXT("place");
 	m_TailName = TEXT("");
@@ -79,8 +80,17 @@ void CCampFire::Update(_float fTimeDelta)
 	case Client::CCampFire::STATE::IDLE:
 		if(false == m_bSoundPlay  && __super::isInRange(1.5f))
 		{
-			m_pGameInstance->Manager_PlaySound(L"campfire_level1.wav", CHANNELID::SOUND_ITEM, 10.f);
+			m_pGameInstance->Manager_PlaySound(L"campfire_level1.wav", CHANNELID::SOUND_ITEM, 5.f);
 			m_bSoundPlay = true;
+		}
+		if (true == m_bSoundPlay)
+		{
+			m_fTimeAcc += fTimeDelta;
+			if (m_fTimeAcc > 6.f)
+			{
+				m_bSoundPlay = false;
+				m_fTimeAcc = 0.f;
+			}
 		}
 
 		if (5600.f < m_fAniTime)

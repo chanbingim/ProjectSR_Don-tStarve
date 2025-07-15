@@ -30,6 +30,7 @@ public:
 
 private:
 	_bool						m_bIsEffectActive = { false };
+	_bool						m_bStartCharge_Sound = {};
 	_float						m_Charge = {};
 	_float						m_fAngle = {};
 	_float						m_fTimeAcc = {};

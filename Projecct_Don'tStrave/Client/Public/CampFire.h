@@ -28,7 +28,8 @@ public:
 
 private:
 	_bool			m_bSoundPlay = {};
-	class CFire* m_pFire = { nullptr };
+	float			m_fTimeAcc = {};
+	class CFire*	m_pFire = { nullptr };
 
 	CCampFire::STATE	m_ePreState = {};
 	CCampFire::STATE	m_eCurState = {};

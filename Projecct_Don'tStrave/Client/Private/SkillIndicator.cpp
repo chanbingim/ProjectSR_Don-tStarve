@@ -27,6 +27,7 @@ HRESULT CSkillIndicator::Initialize_Prototype()
 
 HRESULT CSkillIndicator::Initialize(void* pArg)
 {
+	m_bStartCharge_Sound = true;
 	m_Charge = 0.5f;
 	m_fAngle = 0.f;
 	m_fTimeAcc = 0.f;
@@ -56,7 +57,7 @@ void CSkillIndicator::Priority_Update(_float fTimeDelta)
 
 void CSkillIndicator::Update(_float fTimeDelta)
 {
-	if (201 == m_pPlayer->Get_Player()->iId && SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->Get_Player()->tItem) {
+	if (201 == m_pPlayer->Get_Player()->iId && SWAPOBJECT::LIGHTNINGSPEAR == m_pPlayer->Get_Player()->tItem) {			
 		if (m_pGameInstance->KeyPressed(VK_RBUTTON))
 		{
 			_float3 vPickingPos = {};
@@ -105,6 +106,12 @@ void CSkillIndicator::Update(_float fTimeDelta)
 				m_fAngle *= -90.f ;
 			
 			D3DXVec3Cross(&vUp, &vLook, &m_vDir);
+			
+			if(m_bStartCharge_Sound && 0.5f < m_Charge)
+			{ 
+				m_pGameInstance->Manager_PlaySound(L"lightning_charge.wav", CHANNELID::SOUND_EFFECT, 7.f);
+				m_bStartCharge_Sound = false;
+			}
 
 			if (m_Charge <= 1.f)
 				m_Charge += fTimeDelta * 0.5f;
@@ -121,8 +128,10 @@ void CSkillIndicator::Update(_float fTimeDelta)
 		}
 		else if (m_pGameInstance->KeyUp(VK_RBUTTON))
 		{
+			m_bStartCharge_Sound = true;
 			if (0.75f <= m_Charge) {
 				m_bIsEffectActive = true;
+				
 				m_fTimeAcc = 1.f;
 				
 				m_vEffectPos = m_pPlayer->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
@@ -225,7 +234,7 @@ void CSkillIndicator::Update_Effect(_float fTimeDelta)
 		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(3, (CAinimationObject**)&m_pSpirteEffect, &Desc);
 		m_pSpirteEffect->GetTransfrom()->SetPosition(m_vEffectPos);
 		m_pSpirteEffect->Set_Angle(m_fAngle);
-
+		m_pGameInstance->Manager_PlaySound(L"lightning_attack.wav", CHANNELID::SOUND_EFFECT, 3.f);
 		m_bIsEffectActive = false;
 	}
 
