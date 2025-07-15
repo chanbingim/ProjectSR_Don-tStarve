@@ -111,7 +111,9 @@ void CRockObject::Damage(void* pArg)
 	}
 
 	CEffectPoolManager::GetInstance()->Add_ActiveEffect(1, (CAinimationObject**)&m_pSpirteEffect);
-	m_pSpirteEffect->ReadyEffect(L"anim");
+	CSpriteEffect::SPRITE_EFFECT Desc;
+	Desc.AnimName = L"anim";
+	m_pSpirteEffect->ReadyEffect(&Desc);
 
 	m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
 

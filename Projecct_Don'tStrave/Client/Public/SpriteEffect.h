@@ -10,6 +10,12 @@ NS_END
 NS_BEGIN(Client)
 class CSpriteEffect : public CAinimationObject
 {
+public :
+	typedef struct SpriteEffect
+	{
+		const WCHAR* AnimName;
+	}SPRITE_EFFECT;
+
 private:
 	CSpriteEffect(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSpriteEffect(const CSpriteEffect& rhs);
@@ -24,7 +30,7 @@ public:
 	virtual void		Late_Update(_float fTimeDelta);
 	virtual HRESULT		Render();
 
-	virtual void		ReadyEffect(const WCHAR* AnimName);
+	virtual void		ReadyEffect(void* pArg);
 	virtual void		ResetObejctaData();
 
 	_bool				IsFinished();

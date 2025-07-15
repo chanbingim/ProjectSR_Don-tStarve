@@ -69,9 +69,10 @@ HRESULT CSpriteEffect::Render()
     return S_OK;
 }
 
-void CSpriteEffect::ReadyEffect(const WCHAR* AnimName)
+void CSpriteEffect::ReadyEffect(void* pArg)
 {
-    m_AnimName = AnimName;
+    SPRITE_EFFECT* Sprite_Desc = static_cast<SPRITE_EFFECT*>(pArg);
+    m_AnimName = Sprite_Desc->AnimName;
 }
 
 void CSpriteEffect::ResetObejctaData()

@@ -26,7 +26,7 @@ HRESULT CEffectPoolManager::Add_ActiveEffect(_uint ID, CAinimationObject** pOutA
         for (size_t i = 0; i < ActAnimList->size(); ++i)
         {
             auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::STATIC),
-                                                                TEXT("Prototype_GameObject_EffectAnim"), pArg);
+                                                                TEXT("Prototype_GameObject_EffectAnim"));
             
             UnAnimList->push_back(static_cast<CAinimationObject *>(newEffect));
         }
@@ -35,7 +35,7 @@ HRESULT CEffectPoolManager::Add_ActiveEffect(_uint ID, CAinimationObject** pOutA
     auto iter = UnAnimList->begin();
 
     *pOutAnimObject = *iter;
-    (*iter)->Initialize(pArg);
+    static_cast<CSpriteEffect *>(*iter)->ReadyEffect(pArg);
     ActAnimList->push_back(*pOutAnimObject);
     UnAnimList->erase(iter);
 

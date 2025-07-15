@@ -25,12 +25,10 @@ HRESULT CScript::Initialize(void* pArg)
     Info.fSizeX = 900.f;
     Info.fSizeY = 400.f;
     Info.fX = 640;
-    Info.fY = 320.f;
+    Info.fY = 450.f;
 
     if(FAILED(__super::Initialize(&Info)))
         return E_FAIL;
-
-
 
     return S_OK;
 }
