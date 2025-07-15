@@ -428,15 +428,20 @@ void CPlayer::Update(_float fTimeDelta)
 		SetAnimation(m_tDir, m_tMotion);
 	}
 	if (m_tSwapItem != m_pPlayer->tItem) {
-		if (m_tSwapItem != SWAPOBJECT::NONE) {
-			SetAnimation(m_tDir, MOTION::ITEM_IN);
+		if (m_bControll) {
+			if (m_tSwapItem != SWAPOBJECT::NONE) {
+				SetAnimation(m_tDir, MOTION::ITEM_IN);
+			}
+			else {
+				m_tSwapItem = m_pPlayer->tItem;
+				SetAnimation(m_tDir, MOTION::ITEM_OUT);
+			}
+			m_bControll = false;
+			m_pPlayer->pWorkObject = nullptr;
 		}
-		else {
-			m_tSwapItem = m_pPlayer->tItem;
-			SetAnimation(m_tDir, MOTION::ITEM_OUT);
+		else if(MOTION::ITEM_IN != m_tMotion && MOTION::ITEM_OUT != m_tMotion){
+			m_pPlayer->tItem = m_tSwapItem;
 		}
-		m_bControll = false;
-		m_pPlayer->pWorkObject = nullptr;
 	}
 	if (m_bControll) {
 		if (MOTION::BUCKED == m_tMotion) {
@@ -944,10 +949,10 @@ void CPlayer::Late_Update(_float fTimeDelta)
 void CPlayer::SetDir()
 {
 	if (m_pPlayer->pWorkObject) {
-		m_fMoving = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		if (0.0001f < abs(m_fMoving.x) + abs(m_fMoving.z)) {
-			m_fAngle = D3DXToDegree(acosf(m_fMoving.x / D3DXVec3Length(&m_fMoving)));
-			if (0 < m_fMoving.z) {
+		_float3 fMoving = m_pPlayer->pWorkObject->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		if (0.0001f < abs(fMoving.x) + abs(fMoving.z)) {
+			m_fAngle = D3DXToDegree(acosf(fMoving.x / D3DXVec3Length(&fMoving)));
+			if (0 < fMoving.z) {
 				m_fAngle = 360.f - m_fAngle;
 			}
 		}
@@ -955,15 +960,13 @@ void CPlayer::SetDir()
 		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
 		_float3 look = view.m[2];
 		look.z *= -1;
+		look.y = 0;
 		_float lookAngle = D3DXToDegree(acosf(look.x / D3DXVec3Length(&look)));
 		lookAngle += 180;
 		if (0 < look.z) {
 			lookAngle = 360.f - lookAngle;
 		}
-		_float fAngle = lookAngle - m_fAngle;
-		if (0 > fAngle) {
-			fAngle += 360;
-		}
+		_float fAngle = fmodf(lookAngle - m_fAngle + 720.f, 360.f);
 		if ((0.f <= fAngle && fAngle < 44.9f) || (fAngle < 360.f && fAngle >= 314.9f)) {
 			m_tMoveDIr = MOVE_DIR::MOVE_UP;
 		}
@@ -1298,6 +1301,9 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 		break;
 	}
 	m_tMotion = motion;
+	D3DMATRIX view;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
+	_float3 look = view.m[2];
 	switch (motion)
 	{
 	case MOTION::BUCKED:
@@ -1312,7 +1318,9 @@ HRESULT CPlayer::SetAnimation(DIR dir, MOTION motion)
 	case MOTION::GHOST_APPEAR:
 	case MOTION::GHOST_IDLE:
 	case MOTION::GHOST_DISSIPATE:
-		m_fAngle = 90;
+		look.z *= -1;
+		look.y = 0;
+		m_fAngle = D3DXToDegree(acosf(look.x / D3DXVec3Length(&look)));
 		m_tDir = DIR::DOWN;
 		break;
 	default:

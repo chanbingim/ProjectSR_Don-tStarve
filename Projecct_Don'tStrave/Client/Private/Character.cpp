@@ -149,15 +149,14 @@ void CCharacter::SetDir()
     m_pGraphic_Device->GetTransform(D3DTS_VIEW, &view);
     _float3 look = view.m[2];
     look.z *= -1;
+    look.y = 0;
     _float lookAngle = D3DXToDegree(acosf(look.x / D3DXVec3Length(&look)));
     lookAngle += 180;
     if (0 < look.z) {
         lookAngle = 360.f - lookAngle;
     }
-    _float fAngle = lookAngle - m_fAngle;
-    if (0 > fAngle) {
-        fAngle += 360;
-    }
+    _float fAngle = fmodf(lookAngle - m_fAngle + 720.f, 360.f);
+
     if ((0.f <= fAngle && fAngle < 44.9f) || (fAngle < 360.f && fAngle >= 314.9f)) {
         m_tMoveDIr = MOVE_DIR::MOVE_UP;
     }
