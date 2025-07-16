@@ -33,9 +33,10 @@ HRESULT CQuestManager::Accept_Quest(_uint QuestID)
 
 	if (CQuestType::COMBAT == CQuestType(pair->second->type))
 	{
-		for (auto& ClearPair : pair->second->ClearCondition)
-			m_DeathMonsterCnt.emplace_back(ClearPair.first,0);
-		m_CheckDeadthEvent++;
+		CLEAR_DATA Data;
+		Data.CurCount.resize(pair->second->ClearCondition.size(), 0);
+		Data.QuestInfo = pair->second;
+		m_DeathMonsterCnt.push_back(Data);
 	}
 
 	return S_OK;
@@ -77,9 +78,7 @@ HRESULT CQuestManager::Clear_Quest(_uint QuestID)
 			
 			if (CQuestType::COMBAT == CheckQuest->type)
 			{
-				m_CheckDeadthEvent--;
-				if (m_CheckDeadthEvent <= 0)
-					m_DeathMonsterCnt.clear();
+				m_DeathMonsterCnt.clear();
 			}
 
 			for (auto& iter : CheckQuest->ConnectQuest)
@@ -193,7 +192,7 @@ HRESULT CQuestManager::ReleaseQuestData()
 
 _bool CQuestManager::IsQuestActive(_uint QuestID)
 {
-	for (auto iter : m_RunningQuest)
+	for (auto& iter : m_RunningQuest)
 	{
 		if (iter->QuestID == QuestID)
 			return true;
@@ -238,11 +237,17 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 	break;
 	case CQuestType::COMBAT:
 	{
-		if (0 < m_CheckDeadthEvent)
+		if (!m_DeathMonsterCnt.empty())
 		{
+			auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](ClearData& ClearData)
+						{
+							return ClearData.QuestInfo == pQuest ? true : false;
+						});
+
+			int i = 0;
 			for (auto& pair : pQuest->ClearCondition)
 			{
-				OwnCount = GetMonstDeathCount(pair.first);
+				OwnCount = (*iter).CurCount[i];
 				TargetID = pair.first;
 				if (OwnCount >= pair.second)
 				{
@@ -253,6 +258,7 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 					MaxCount = pair.second;
 					break;
 				}
+				i++;
 			}
 
 			auto TargetData = CMonsterData_Manager::GetInstance()->Get_MonsterData(TargetID);
@@ -267,19 +273,6 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 		return L"";
 
 	return Percent;
-}
-
-_int CQuestManager::GetMonstDeathCount(_uint iID)
-{
-	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
-		{
-			return pair.first == iID ? true : false;
-		});
-
-	if (iter == m_DeathMonsterCnt.end())
-		return 0;
-
-	return iter->second;
 }
 
 void CQuestManager::QuestStartEvent()
@@ -317,9 +310,7 @@ void CQuestManager::ClearCheatFunc()
 
 			if (CQuestType::COMBAT == iter->type)
 			{
-				m_CheckDeadthEvent--;
-				if (m_CheckDeadthEvent <= 0)
-					m_DeathMonsterCnt.clear();
+				m_DeathMonsterCnt.clear();
 			}
 
 			for (auto& iter : iter->ConnectQuest)
@@ -369,14 +360,21 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 	break;
 	case CQuestType::COMBAT:
 	{
-		if (0 < m_CheckDeadthEvent)
+		if (!m_DeathMonsterCnt.empty())
 		{
+			auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](ClearData& ClearData)
+				{
+					return ClearData.QuestInfo == pQuest ? true : false;
+				});
+
+			int i = 0;
 			for (auto& pair : pQuest->ClearCondition)
 			{
-				if (pair.second > GetMonstDeathCount(pair.first))
+				if (pair.second > (*iter).CurCount[i])
 				{
 					return false;
 				}
+				i++;
 			}
 		}
 	}
@@ -389,7 +387,7 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 _int CQuestManager::UpdateDeathList(_uint iID)
 {
 	_bool flag = false;
-	for (auto iter : m_RunningQuest)
+	for (auto& iter : m_RunningQuest)
 	{
 		if (iter->type == CQuestType::COMBAT)
 			flag = true;
@@ -401,13 +399,19 @@ _int CQuestManager::UpdateDeathList(_uint iID)
 		return -1;
 	}
 
-	for (auto iter : m_DeathMonsterCnt)
+	for (auto& iter : m_DeathMonsterCnt)
 	{
-		if(iter.first == iID)
-			return iter.second++;
+		int i = 0;
+		for (auto& pair : iter.QuestInfo->ClearCondition)
+		{
+			if (pair.first == iID)
+				iter.CurCount[i]++;
+
+			i++;
+		}
 	}
 
-	return -1;
+	return 1;
 }
 
 void CQuestManager::ApplyCompensation(_uint ItemID, _uint ItemCnt)

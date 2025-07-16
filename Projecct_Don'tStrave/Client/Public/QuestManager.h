@@ -8,6 +8,7 @@ NS_BEGIN(Client)
 class CInventory;
 class CItem_Manager;
 
+
 class CQuestManager : public CBase
 {
 	DECLARE_SINGLETON(CQuestManager);
@@ -32,7 +33,7 @@ public :
 	_bool		IsQuestClear(_uint QuestID);
 	_wstring	GetPercentData(CQuestData* pQuest);
 
-	_int		GetMonstDeathCount(_uint iID);
+	
 	void		QuestStartEvent();
 
 	list< CQuestData*>*			GetRunningQuest() { return &m_RunningQuest; }
@@ -52,8 +53,7 @@ private :
 	list<CQuestData*>			m_RunningQuest;
 	list<CQuestData*>			m_ClearQuest;
 
-	list<pair<_uint, _uint>>	m_DeathMonsterCnt;
-	_uint						m_CheckDeadthEvent = {};
+	list<ClearData>				m_DeathMonsterCnt;
 
 private :
 	_int						UpdateDeathList(_uint iID);

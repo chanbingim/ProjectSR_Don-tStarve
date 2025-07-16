@@ -127,6 +127,8 @@ HRESULT CIceFall::Ready_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_SphereCollision"),
         TEXT("Com_SphereCollision"), reinterpret_cast<CComponent**>(&m_pCollision_Com), &Col_Desc)))
         return E_FAIL;
+
+    return S_OK;
 }
 
 HRESULT CIceFall::Render()

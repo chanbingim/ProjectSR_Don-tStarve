@@ -266,6 +266,7 @@ HRESULT CMiniMap::Update_Objects()
 		pIcon->Update_Position(m_pPanel_Transform_Com);
 		pIcon->Update_Scale(m_fZoom, m_pPanel_Transform_Com);
 	}
+	return S_OK;
 }
 
 

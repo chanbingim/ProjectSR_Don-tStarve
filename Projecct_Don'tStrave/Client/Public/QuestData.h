@@ -20,4 +20,12 @@ struct CQuestData
 	vector<_uint>					ConnectQuest;	//연관 퀘스트
 	CQuestType						type;			//퀘스트 타입
 };
+
+typedef struct  ClearData
+{
+	vector<_int>		CurCount;
+	CQuestData*			QuestInfo;
+}CLEAR_DATA;
+
+
 NS_END
