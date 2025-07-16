@@ -36,7 +36,7 @@ HRESULT CShadowterrorbeak::Initialize(void* pArg)
 
 	_float volume = Get_Sound();
 	if (0.f < volume)
-		m_pGameInstance->Manager_PlaySound(L"nightmare_add.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_pGameInstance->Manager_PlaySound(L"nightmare_add.wav", CHANNELID::BADMONSTER_SOUND, volume * 0.1f);
 
 	return S_OK;
 }
@@ -127,7 +127,7 @@ void CShadowterrorbeak::Update(_float fTimeDelta)
 						else {
 							_float volume = Get_Sound();
 							if (0.f < volume)
-								m_pGameInstance->Manager_PlaySound(L"nightmare_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume);
+								m_pGameInstance->Manager_PlaySound(L"nightmare_taunt.wav", CHANNELID::BADMONSTER_SOUND, volume * 0.1f);
 							SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 							m_bTarget = true;
 						}
@@ -242,7 +242,7 @@ void CShadowterrorbeak::Attack()
 	m_bAttack = true;
 	_float volume = Get_Sound();
 	if (0.f < volume)
-		m_pGameInstance->Manager_PlaySound(L"nightmare_attack.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_pGameInstance->Manager_PlaySound(L"nightmare_attack.wav", CHANNELID::BADMONSTER_SOUND, volume * 0.1f);
 	SetAnimation(m_tDir, MOTION::ATTACK);
 }
 
@@ -251,7 +251,7 @@ void CShadowterrorbeak::Death()
 	__super::Death();
 	_float volume = Get_Sound();
 	if (0.f < volume)
-		m_pGameInstance->Manager_PlaySound(L"nightmare_die.wav", CHANNELID::BADMONSTER_SOUND, volume);
+		m_pGameInstance->Manager_PlaySound(L"nightmare_die.wav", CHANNELID::BADMONSTER_SOUND, volume * 0.1f);
 	if (0 >= m_pMonsterData->iHp) {
 		auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"));
 		if (GroundObejcts && !GroundObejcts->empty() && 0 < dynamic_cast<CCharacter*>(GroundObejcts->front())->Get_Char()->iHp) {

@@ -1085,7 +1085,7 @@ void CPlayer::Hit()
 		m_pGameInstance->Manager_PlaySound(L"WilsonVoice_hurt_1.wav", CHANNELID::PLAYER_SOUND, 5.f);
 	}
 	else if (201 == m_pPlayer->iId) {
-		m_pGameInstance->Manager_PlaySound(L"wathgrithr_hurt.wav", CHANNELID::PLAYER_SOUND, 5.f);
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_hurt.wav", CHANNELID::PLAYER_SOUND, 1.f);
 	}
 	m_bControll = false;
 	m_fFightTime = 0.f;
@@ -1112,7 +1112,7 @@ void CPlayer::Death()
 		m_pGameInstance->Manager_PlaySound(L"wilson_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
 	}
 	else if (201 == m_pPlayer->iId) {
-		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 1.f);
 	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
@@ -1126,8 +1126,12 @@ void CPlayer::Death()
 
 void CPlayer::Dead()
 {
-	if (201 == m_pPlayer->iId) {
-		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+
+	if (200 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wilson_death.wav", CHANNELID::PLAYER_SOUND, 5.f);
+	}
+	else if (201 == m_pPlayer->iId) {
+		m_pGameInstance->Manager_PlaySound(L"wathgrithr_death.wav", CHANNELID::PLAYER_SOUND, 1.f);
 	}
 	m_pPlayer->iHp = 0;
 	m_pPlayer->iMental = 0;
@@ -1161,7 +1165,7 @@ _bool CPlayer::Eat(void* pArg)
 		}
 		else {
 			if (201 == m_pPlayer->iId) {
-				m_pGameInstance->Manager_PlaySound(L"wathgrithr_dial.wav", CHANNELID::PLAYER_SOUND, 5.f);
+				m_pGameInstance->Manager_PlaySound(L"wathgrithr_dial.wav", CHANNELID::PLAYER_SOUND, 1.f);
 				SetAnimation(DIR::DIR_END, MOTION::DIAL);
 				return false;
 			}
