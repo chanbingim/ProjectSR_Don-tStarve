@@ -24,12 +24,14 @@ public :
 
 
 	void		UpdateActvieEffect(_float fTimeDeleta);
-
+	void				Clear();
 private :
 	unordered_map<_uint, list<CAinimationObject*>*>	m_EffectActiveMap = {};
 	unordered_map<_uint, list<CAinimationObject*>*>	m_EffectUnActiveMap = {};
 
 	CGameInstance*									m_pGameInstance = { nullptr };
+
+	
 
 private :
 	HRESULT				Release_ActiveEffect(_uint ID, CAinimationObject* pAnimObject);

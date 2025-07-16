@@ -37,7 +37,7 @@ HRESULT CPigHouse::Initialize(void* pArg)
 	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
 
 	data.fPos = m_pMonsterData->fPos;;
-	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 
 	m_pCollision_Com->SetCollisionSize({ 0.3f, 0.f ,0.f });
 

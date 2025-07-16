@@ -69,6 +69,7 @@ void CUserInterface::UpdatePosition(_float ZOrder)
 {
     m_pTransform_Com->SetScale(_float3(m_fSizeX, m_fSizeY, ZOrder));
     m_pTransform_Com->SetPosition(_float3(m_fX - m_fWinSizeX * 0.5f, -m_fY + m_fWinSizeY * 0.5f, 0.f));
+    //m_pTransform_Com->SetPosition(_float3(m_fX , -m_fY , 0.f));
 }
 
 CGameObject* CUserInterface::Clone(void* pArg)

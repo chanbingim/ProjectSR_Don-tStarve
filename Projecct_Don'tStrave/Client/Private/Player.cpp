@@ -292,7 +292,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 			data.fPos = m_pPlayer->fPos;
 			data.fPos.x += (rand() % 5) - (rand() % 5);
 			data.fPos.z += (rand() % 5) - (rand() % 5);
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		if (m_pPlayer->iMaxMental / 3 <= m_pPlayer->iMental) {
 			m_bTerrorbeak = true;
@@ -304,7 +304,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 			data.fPos = m_pPlayer->fPos;
 			data.fPos.x += (rand() % 5) - (rand() % 5);
 			data.fPos.z += (rand() % 5) - (rand() % 5);
-			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+			m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
 		}
 		if (SWAPOBJECT::TORCH == m_tSwapItem) {
 			m_pTorchFire->Update_TorchFire(true);

@@ -10,12 +10,12 @@ protected :
 	virtual ~CEventButton() = default;
 
 public :
-	virtual HRESULT  Initialize_Prototype()override;
-	virtual HRESULT  Initialize(void* pArg)override;
-	virtual void	 Priority_Update(_float fTimeDelta)override;
-	virtual void	 Update(_float fTimeDelta)override;
-	virtual void	 Late_Update(_float fTimeDelta)override;
-	virtual HRESULT	 Render()override;
+	virtual HRESULT					Initialize_Prototype()override;
+	virtual HRESULT					Initialize(void* pArg)override;
+	virtual void					Priority_Update(_float fTimeDelta)override;
+	virtual void					Update(_float fTimeDelta)override;
+	virtual void					Late_Update(_float fTimeDelta)override;
+	virtual HRESULT					Render()override;
 
 	void							SetClickEvent(function<void()> Func);
 	void							ChangeButtonTex(_uint Index);

@@ -24,7 +24,7 @@ public:
 
 	HRESULT			LoadFileData(const char* MapName);
 	void				Change_Map(GAMEPLAY_STATE eState);
-
+	void				ChangeLevel();
 private:
 	HRESULT Ready_Layer_BackGround(const char* FilePath, const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
@@ -41,10 +41,13 @@ private:
 	HRESULT	Ready_Layer_Item(const _wstring& strLayerTag);
 	
 	void				Remove_LayerData();
+	
 
 private :
 	GAMEPLAY_STATE		m_eState = { GAMEPLAY_STATE::TUTORIAL };
 	_bool				m_IsMapDataSetting = { false };
+	_bool				m_IsChangeMap = { false };
+
 	CCharacterManager*	m_pCharacterManager = { nullptr };
 
 private:

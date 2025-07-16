@@ -25,7 +25,7 @@ HRESULT CEffectPoolManager::Add_ActiveEffect(_uint ID, CAinimationObject** pOutA
     {
         for (size_t i = 0; i < ActAnimList->size(); ++i)
         {
-            auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::STATIC),
+            auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY),
                                                                 TEXT("Prototype_GameObject_EffectAnim"));
             
             UnAnimList->push_back(static_cast<CAinimationObject *>(newEffect));
@@ -40,6 +40,29 @@ HRESULT CEffectPoolManager::Add_ActiveEffect(_uint ID, CAinimationObject** pOutA
     UnAnimList->erase(iter);
 
     return S_OK;
+}
+
+void CEffectPoolManager::Clear()
+{
+    for (auto& pair : m_EffectActiveMap)
+    {
+        for (auto& iter : *pair.second)
+        {
+            Safe_Release(iter);
+        }
+        Safe_Delete(pair.second);
+    }
+
+    for (auto pair : m_EffectUnActiveMap)
+    {
+        for (auto& iter : *pair.second)
+        {
+            Safe_Release(iter);
+        }
+        Safe_Delete(pair.second);
+    }
+    m_EffectActiveMap.clear();
+    m_EffectUnActiveMap.clear();
 }
 
 HRESULT CEffectPoolManager::Release_ActiveEffect(_uint ID, CAinimationObject* pOutAnimObject)
@@ -62,6 +85,9 @@ HRESULT CEffectPoolManager::Release_ActiveEffect(_uint ID, CAinimationObject* pO
 
 void CEffectPoolManager::UpdateActvieEffect(_float fTimeDeleta)
 {
+    if (m_EffectActiveMap.empty())
+        return;
+
     for (auto Pair : m_EffectActiveMap)
     {
         for (auto iter = (*Pair.second).begin(); iter != (*Pair.second).end();)
@@ -103,7 +129,7 @@ void CEffectPoolManager::ADD_Effect(_uint ID, _wstring PrototypeTag)
     auto  Effectlist = m_EffectUnActiveMap.find(ID)->second;
     for (size_t i = 0; i < 50; ++i)
     {
-        auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::STATIC), PrototypeTag);
+        auto newEffect = m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), PrototypeTag);
         (*Effectlist).push_back(static_cast<CAinimationObject*>(newEffect));
     }
 }
@@ -130,4 +156,6 @@ void CEffectPoolManager::Free()
         }
         Safe_Delete(pair.second);
     }
+    m_EffectActiveMap.clear();
+    m_EffectUnActiveMap.clear();
 }

@@ -35,8 +35,6 @@ HRESULT CLogo::Initialize(void* pArg)
 	{
 		m_rcButton[i] = { 150, 400 + 50 * i, 300, 440+ 50 * i };
 	}
-	
-	
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;

@@ -54,7 +54,7 @@ void CTreeguardObject::Damage(void* pArg)
 {
     MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(111);
     data.fPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-    m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
+    m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath.c_str(), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &data);
     m_isDead = true;
 }
 

@@ -53,11 +53,11 @@ HRESULT CBirchnutTree::Initialize(void* pArg)
 	TreeDesc.szTailName = m_TailName.c_str();
 
 	LoadImageFile();
-	m_pTreeLeaf[1] = static_cast<CTreeLeaf*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY_STATIC),
+	m_pTreeLeaf[1] = static_cast<CTreeLeaf*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Birchnut_tall_Leaf"), &TreeDesc));
 
 	LoadImageFile(&m_tNormal_ImageVec);
-	m_pTreeLeaf[0] = static_cast<CTreeLeaf*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY_STATIC),
+	m_pTreeLeaf[0] = static_cast<CTreeLeaf*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY),
 		TEXT("Prototype_GameObject_Birchnut_Normal_Leaf"), &TreeDesc));
 	
 	m_pDropItem_Com->ADD_ItemData(38, 1);
