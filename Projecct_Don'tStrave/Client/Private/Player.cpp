@@ -966,6 +966,18 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	if (m_pPlayer->pWorkObject && m_pPlayer->pWorkObject->isDead()) {
 		m_pPlayer->pWorkObject = nullptr;
 	}
+	if (dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject)) {
+		switch (dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject)->GetEnviornMentType())
+		{
+		case CEnviornment_Object::Enviornment_TYPE::TREE:
+			if (SWAPOBJECT::AXE == m_tSwapItem || SWAPOBJECT::GOLDAXE == m_tSwapItem)
+				break;
+		case CEnviornment_Object::Enviornment_TYPE::STONE:
+			if (SWAPOBJECT::PICKAXE == m_tSwapItem || SWAPOBJECT::GOLDPICKAXE == m_tSwapItem)
+				break;
+			m_pPlayer->pWorkObject = nullptr;
+		}
+	}
 	SetDir();
 }
 

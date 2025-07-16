@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "Mouse.h"
+#include "Player.h"
 
 #include "EffectPoolManager.h"
 #include "SpriteEffect.h"
@@ -72,10 +73,12 @@ void CEnviornment_Object::Update(_float fTimeDelta)
     _float3 Pos;
     if ( m_pGameInstance->KeyDown(VK_LBUTTON) && m_pVIBufferCom->Picking(m_pTransformCom, &Pos))
     {
-        DamageBaseDesc  damage;
-        damage.Attacker = this;
 
-        Damage(&damage);
+        dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+        //DamageBaseDesc  damage;
+        //damage.Attacker = this;
+        //
+        //Damage(&damage);
     }
 
     HoverEevent();

@@ -324,7 +324,7 @@ _uint CCookUI::Check_Recipe(_uint Items[])
 
 
 
-    return iFoodID;
+    return 50;
 }
 
 CCookUI* CCookUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

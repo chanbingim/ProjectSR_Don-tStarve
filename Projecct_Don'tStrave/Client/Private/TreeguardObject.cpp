@@ -6,6 +6,7 @@
 CTreeguardObject::CTreeguardObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CEnviornment_Object(pGraphic_Device)
 {
+    m_EnviornmentType = Enviornment_TYPE::TREE;
 }
 
 CTreeguardObject::CTreeguardObject(const CTreeguardObject& rhs) :
