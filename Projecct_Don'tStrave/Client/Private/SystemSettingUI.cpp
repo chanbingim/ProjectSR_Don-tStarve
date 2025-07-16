@@ -74,19 +74,11 @@ void CSystemSettingUI::Late_Update(_float fTimeDelta)
 		UpdatePosition();
 		m_pSelectCharacterMenuBut->Late_Update(fTimeDelta);
 		m_pGameQuitBut->Late_Update(fTimeDelta);
-<<<<<<< HEAD
-
-		m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
-	}
-=======
 		m_pBGMVolumeSlidebar->Late_Update(fTimeDelta);
 		m_pBGMVolumeBut->Late_Update(fTimeDelta);
 
 		m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 	}
-
-	
->>>>>>> origin/07_15_bjh
 }
 
 HRESULT CSystemSettingUI::Render()
