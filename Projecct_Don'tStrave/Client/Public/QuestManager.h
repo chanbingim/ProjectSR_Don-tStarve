@@ -32,7 +32,7 @@ public :
 	_bool		IsQuestClear(_uint QuestID);
 	_wstring	GetPercentData(CQuestData* pQuest);
 
-	_uint		GetMonstDeathCount(_uint iID);
+	_int		GetMonstDeathCount(_uint iID);
 	void		QuestStartEvent();
 
 	list< CQuestData*>*			GetRunningQuest() { return &m_RunningQuest; }
@@ -55,7 +55,7 @@ private :
 	_uint						m_CheckDeadthEvent = {};
 
 private :
-	_uint						UpdateDeathList(_uint iID);
+	_int						UpdateDeathList(_uint iID);
 
 	void						ApplyCompensation(_uint ItemID, _uint ItemCnt);
 

@@ -215,7 +215,7 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 
 	WCHAR Percent[MAX_PATH] = {};
 	_uint	TargetID{};
-	_uint OwnCount{}, MaxCount{};
+	_int OwnCount{}, MaxCount{};
 	_uint iID = pQuest->QuestID;
 	switch (CQuestType(pQuest->type))
 	{
@@ -268,7 +268,7 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 	return Percent;
 }
 
-_uint CQuestManager::GetMonstDeathCount(_uint iID)
+_int CQuestManager::GetMonstDeathCount(_uint iID)
 {
 	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
 		{
@@ -276,7 +276,7 @@ _uint CQuestManager::GetMonstDeathCount(_uint iID)
 		});
 
 	if (iter == m_DeathMonsterCnt.end())
-		return -1;
+		return 0;
 
 	return iter->second;
 }
@@ -342,7 +342,7 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 	return true;
 }
 
-_uint CQuestManager::UpdateDeathList(_uint iID)
+_int CQuestManager::UpdateDeathList(_uint iID)
 {
 	_bool flag = false;
 	for (auto iter : m_RunningQuest)
@@ -352,7 +352,7 @@ _uint CQuestManager::UpdateDeathList(_uint iID)
 	}
 
 	if (!flag)
-		return 0;
+		return -1;
 
 	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
 		{
@@ -364,7 +364,7 @@ _uint CQuestManager::UpdateDeathList(_uint iID)
 	else
 		return iter->second++;
 
-	return 1;
+	return -1;
 }
 
 void CQuestManager::ApplyCompensation(_uint ItemID, _uint ItemCnt)

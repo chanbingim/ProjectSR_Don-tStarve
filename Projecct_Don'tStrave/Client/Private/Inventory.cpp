@@ -213,19 +213,19 @@ void CInventory::Use_Item(_uint iItem, _uint iCount)
         if (iItem == Desc.iItemID)
         {
             int iNum = Desc.iNumItem;
-            for(_uint i = 0; i < Desc.iNumItem; ++i)
-            {
-                --iCount;
-                --iNum;
-                if (0 == iNum)
-                {
-                    pSlot->Clear();
-                    break;
-                }
-                if (0 == iCount)
-                    return;
-            }
 
+            if (iCount > iNum)
+                return;
+          
+            iNum -= iCount;
+
+            if (iNum == 0)
+                pSlot->Clear();
+            else
+            {
+                Desc.iNumItem = iNum;
+                pSlot->Set_Info(Desc);
+            }
         }
     }
 }
