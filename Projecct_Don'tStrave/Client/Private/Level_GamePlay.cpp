@@ -28,7 +28,7 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 10.0f);
+	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 1.0f);
 
 	CEffectPoolManager::GetInstance()->Initailize();
 

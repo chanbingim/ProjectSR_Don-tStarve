@@ -25,13 +25,11 @@ HRESULT CVineEffect::Initialize_Prototype(const char* FilePath, const _wstring F
 
 HRESULT CVineEffect::Initialize(void* pArg)
 {
-    if (nullptr == pArg)
-        return S_OK;
-
     m_AnimName = L"spawn3";
     m_fAniTime = 0;
     m_iLength = 2000;
-    m_ePreState = m_eCurState = STATE::SPAWN;
+    m_ePreState = STATE::END;
+    m_eCurState = STATE::SPAWN;
     
     m_pPlayerTransform = dynamic_cast<CTransform*>(
         m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform")));
@@ -112,6 +110,7 @@ void CVineEffect::Change_State()
         case Client::CVineEffect::SPAWN:
             m_AnimName = L"spawn3";
             m_fAniTime = 0;
+            m_pGameInstance->Manager_PlaySound(L"leif_vine.wav", CHANNELID::SOUND_EFFECT, 1.f);
             break;
 
         case Client::CVineEffect::DESPAWN:

@@ -11,7 +11,7 @@ NS_END
 NS_BEGIN(Client)
 class CVineEffect : public CSpriteEffect
 {
-	enum STATE {IDLE, SPAWN, DESPAWN};
+	enum STATE {IDLE, SPAWN, DESPAWN, END};
 private:
 	CVineEffect(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CVineEffect(const CVineEffect& rhs);

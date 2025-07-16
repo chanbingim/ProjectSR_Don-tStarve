@@ -32,6 +32,7 @@
 #pragma region SYSTEM SETTING UI
 #include "EnviornmentButton.h"
 #include "SystemSettingUI.h"
+#include "SlideButton.h"
 #pragma endregion
 
 #pragma region QUESTUI
@@ -736,6 +737,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CEnviornmentButton::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_SlideButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlideButton"),
+		CSlideButton::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_Components_SystemSettingUIBackGround */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SettingBakcGorundUIFrame"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/SettingWindow/BackGround/SettingBackGround.png"), 1))))
@@ -777,6 +783,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* For.Prototype_Component_Texture_QuestNextButton */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_QuestNextButton"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Quest/Button/NextButton%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_SlideButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_SlideButton"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/SettingWindow/Button/SettingBtn%d.png"), 2))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_EnviornmetButton */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_EnviornmetButton"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/SettingWindow/Button/EnvBtn%d.png"), 2))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_QuestPreView */

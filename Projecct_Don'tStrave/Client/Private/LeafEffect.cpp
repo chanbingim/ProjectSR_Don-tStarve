@@ -169,6 +169,10 @@ void CLeafEffect::Change_State()
 
 		case Client::CLeafEffect::ATTACK:
 			Ready_Attack();
+			if(0 == m_iIndex % 3)
+			{
+				m_pGameInstance->Manager_PlaySound(L"leif_leaf.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			}
 			break;
 
 		case Client::CLeafEffect::LAND:
