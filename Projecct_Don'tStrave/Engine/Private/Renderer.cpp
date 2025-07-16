@@ -1,13 +1,16 @@
 #include "Renderer.h"
+#include "GameInstance.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Light_Manager.h"
 #include "UserInterface.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : m_pGraphic_Device { pGraphic_Device }
+    : m_pGraphic_Device { pGraphic_Device },
+	m_pGameInstance(CGameInstance::GetInstance())
 {
     Safe_AddRef(m_pGraphic_Device);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CRenderer::Initialize()
@@ -250,6 +253,17 @@ void CRenderer::SaveRenderTarget()
 
 	m_pGraphic_Device->SetTexture(7, BakcBufferTexture);
 
+	if (m_pGameInstance->KeyDown(VK_F10))
+	{
+		WCHAR FileName[1024] = {};
+
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		wsprintf(FileName, TEXT("%sPrint_ScreenShoot_%d-%d-%d-%d-%d-%d.png"), m_WFrontPath, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		D3DXSaveSurfaceToFile(FileName, D3DXIFF_PNG, pSurface, nullptr, nullptr);
+	}
+
 	Safe_Release(pSurface);
 	Safe_Release(pTextureSurface);
 }
@@ -280,5 +294,6 @@ void CRenderer::Free()
 
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(BakcBufferTexture);
+	Safe_Release(m_pGameInstance);
 
 }

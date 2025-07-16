@@ -46,6 +46,7 @@ void CSystemSettingUI::Priority_Update(_float fTimeDelta)
 	{
 		SetVisible();
 	}
+
 	if (m_IsActive)
 	{
 		m_pSelectCharacterMenuBut->Update(fTimeDelta);
@@ -65,9 +66,9 @@ void CSystemSettingUI::Late_Update(_float fTimeDelta)
 		UpdatePosition();
 		m_pSelectCharacterMenuBut->Late_Update(fTimeDelta);
 		m_pGameQuitBut->Late_Update(fTimeDelta);
-	}
 
-	m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+	}
 }
 
 HRESULT CSystemSettingUI::Render()

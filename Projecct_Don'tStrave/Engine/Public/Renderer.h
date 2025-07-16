@@ -8,6 +8,7 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+class CGameInstance;
 
 class CRenderer final : public CBase
 {
@@ -23,6 +24,9 @@ public:
 
 private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
+	CGameInstance*						m_pGameInstance = { nullptr };
+	const	WCHAR*						m_WFrontPath = { L"../Bin/ScreenShot/" };
+
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
 	_float4x4							m_IndentiyViewMat;

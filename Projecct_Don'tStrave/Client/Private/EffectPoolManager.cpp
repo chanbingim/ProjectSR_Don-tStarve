@@ -139,23 +139,5 @@ void CEffectPoolManager::Free()
     __super::Free();
 
     Safe_Release(m_pGameInstance);
-    for (auto& pair : m_EffectActiveMap)
-    {
-        for (auto& iter : *pair.second)
-        {
-            Safe_Release(iter);
-        }
-        Safe_Delete(pair.second);
-    }
-
-    for (auto pair : m_EffectUnActiveMap)
-    {
-        for (auto& iter : *pair.second)
-        {
-            Safe_Release(iter);
-        }
-        Safe_Delete(pair.second);
-    }
-    m_EffectActiveMap.clear();
-    m_EffectUnActiveMap.clear();
+    Clear();
 }

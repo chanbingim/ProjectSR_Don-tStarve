@@ -85,7 +85,12 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 	m_pCharacterManager->Update();
 
-	
+
+	if (m_pGameInstance->KeyDown(VK_F2))
+	{
+		m_IsMapDataSetting = true;
+		m_eState = GAMEPLAY_STATE::BOSS;
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -197,9 +202,9 @@ HRESULT CLevel_GamePlay::Player_Move_Pos()
 	if (nullptr == GameObject)
 		return E_FAIL;
 
-	// GameObject->GetTransfrom()->SetPosition(potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION));
-	GameObject->GetTransfrom()->SetPosition({0, 0, 0});
-	GameObject->Get_Char()->fPos = { 0, 0, 0 };
+	_float3 PotralPos = potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+	GameObject->GetTransfrom()->SetPosition(PotralPos);
+	GameObject->Get_Char()->fPos = PotralPos;
 	return S_OK;
 }
 
@@ -495,14 +500,8 @@ HRESULT CLevel_GamePlay::TutorialMapLoad()
 
 HRESULT CLevel_GamePlay::BossMapLoad()
 {
-	char		FilePath[MAX_PATH] = {};
-	sprintf_s(FilePath, "../Bin/Resources/DataStruct/%s", "BossMapData");
-
-	if (FAILED(Ready_Layer_BackGround(FilePath, TEXT("Layer_BackGround"))))
+	if (FAILED(LoadFileData("BossMapData")))
 		return E_FAIL;
-
-	/*if (FAILED(LoadFileData("BossMapData")))
-		return E_FAIL;*/
 
 	if (FAILED(Player_Move_Pos()))
 		return E_FAIL;

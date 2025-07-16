@@ -298,14 +298,14 @@
     <ClInclude Include="..\public\FrustomCamera.h">
       <Filter>System\GameObject\FrustomCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\GameInstance.h">
-      <Filter>System\GameInstance</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level.h">
       <Filter>System\GameInstance\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Manager.h">
       <Filter>System\GameInstance\Level\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameInstance.h">
+      <Filter>System\GameInstance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -433,14 +433,14 @@
     <ClCompile Include="..\private\FrustomCamera.cpp">
       <Filter>System\GameObject\FrustomCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\GameInstance.cpp">
-      <Filter>System\GameInstance</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level.cpp">
       <Filter>System\GameInstance\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Manager.cpp">
       <Filter>System\GameInstance\Level\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameInstance.cpp">
+      <Filter>System\GameInstance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

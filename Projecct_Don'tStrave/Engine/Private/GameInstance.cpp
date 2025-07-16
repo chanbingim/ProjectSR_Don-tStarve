@@ -134,11 +134,11 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 #pragma endregion
 
-	m_pKey_Manager->EndKeyInput();
 }
 
 HRESULT CGameInstance::Draw()
 {
+
 #pragma region Render
 	time.Render_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("RenderTime"));
 	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
@@ -146,6 +146,8 @@ HRESULT CGameInstance::Draw()
 	m_pRenderer->Render();
 	m_pLevel_Manager->Render();
 #pragma endregion
+
+	m_pKey_Manager->EndKeyInput();
 
 	return S_OK;
 }
