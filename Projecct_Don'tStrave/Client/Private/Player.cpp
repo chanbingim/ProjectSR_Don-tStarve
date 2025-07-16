@@ -711,6 +711,9 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 	}
 	else {
+		if (m_pTarget != m_pPlayer->pWorkObject) {
+			m_pPlayer->pWorkObject = m_pTarget;
+		}
 		switch (m_tMotion)
 		{
 		case MOTION::IDLE:
@@ -978,6 +981,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 			m_pPlayer->pWorkObject = nullptr;
 		}
 	}
+	m_pTarget = m_pPlayer->pWorkObject;
 	SetDir();
 }
 
@@ -1429,6 +1433,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					m_bControll = true;
 					if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
 						m_pPlayer->pWorkObject = nullptr;
+						m_pTarget = nullptr;
 					}
 				}
 			}
@@ -1442,6 +1447,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					m_bControll = true;
 					if (0 >= dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iHp) {
 						m_pPlayer->pWorkObject = nullptr;
+						m_pTarget = nullptr;
 					}
 				}
 			}
@@ -1462,6 +1468,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 						HitActor->Damage(nullptr);
 						SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
 						m_pPlayer->pWorkObject = nullptr;
+						m_pTarget = nullptr;
 					}
 				}
 				break;
@@ -1482,6 +1489,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 						m_pGameInstance->Manager_PlaySound(L"hit_ground.wav", CHANNELID::PLAYER_SOUND, 5.f);
 						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState() || HitActor->isDead()) {
 							m_pPlayer->pWorkObject = nullptr;
+							m_pTarget = nullptr;
 						}
 					}
 				}
@@ -1496,6 +1504,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 					if (m_iLength <= m_fAniTime) {
 						if (CEnviornment_Object::Enviornment_STATE::BROKEN <= dynamic_cast<CEnviornment_Object*>(HitActor)->GetState() || HitActor->isDead()) {
 							m_pPlayer->pWorkObject = nullptr;
+							m_pTarget = nullptr;
 						}
 						m_bControll = true;
 						SetAnimation(m_tDir, MOTION::IDLE);
@@ -1535,6 +1544,7 @@ void CPlayer::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 						HitActor->Damage(nullptr);
 						SetAnimation(m_tDir, MOTION::BUILD_TO_IDLE);
 						m_pPlayer->pWorkObject = nullptr;
+						m_pTarget = nullptr;
 					}
 				}
 				break;
