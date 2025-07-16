@@ -227,7 +227,7 @@ HRESULT CMainApp::Ready_Prototypes()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 37, TEXT("BigDonstarve"))))
 		return E_FAIL;
 #pragma endregion
 
