@@ -265,6 +265,10 @@ void CDeerclops::Update(_float fTimeDelta)
 								SetAnimation(m_tDir, MOTION::IDLE_TO_RUN);
 							}
 							else {
+
+								auto HpBar = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"));
+								if(!HpBar || HpBar->empty())
+									m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_HpBar"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"), m_pMonsterData);
 								SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 								m_bTarget = true;
 								m_bAttack = true;

@@ -44,8 +44,8 @@ HRESULT CAinimationObject::Initialize(void* pArg)
 void CAinimationObject::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-
-    m_fAniTime += (_uint)(fTimeDelta * 800);
+    if(!m_pGameInstance->GetSinematick())
+        m_fAniTime += (_uint)(fTimeDelta * 800);
 }
 
 void CAinimationObject::Update(_float fTimeDelta)

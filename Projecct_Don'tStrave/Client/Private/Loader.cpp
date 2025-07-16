@@ -21,6 +21,7 @@
 #include "VineEffect.h"
 #include "LeafEffect.h"
 #include "TorchFire.h"
+#include "BossHpBar.h"
 
 #pragma region UI
 #include "Slot.h"
@@ -481,7 +482,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region DAMAGE UI
 	/* For.Prototype_Component_Texture_DAMAGE_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_DamageUI"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/ScreenEffect/screeneffect0.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/ScreenEffect/screeneffect%d.png"), 2))))
 		return E_FAIL;
 #pragma endregion
 
@@ -529,6 +530,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_IceFall"),
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Monster/Deerclops/icefall.png"), 1))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_BossHpBar"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/BossHp/Boss_HpBar.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_BossHp"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/BossHp/Boss_HpBar_Hp.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 #pragma endregion
 
@@ -537,6 +546,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchFire"),
 		CTorchFire::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_HpBar"),
+		CBossHpBar::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	/* For.Prototype_GameObject_SkyBox */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),

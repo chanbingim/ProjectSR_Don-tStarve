@@ -2,6 +2,7 @@
 #include "Monster.h"
 
 NS_BEGIN(Client)
+class CBossHpBar;
 
 class CDeerclops : public CMonster
 {

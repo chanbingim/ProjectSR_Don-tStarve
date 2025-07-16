@@ -12,6 +12,8 @@
 #include "Slot.h"
 #include "PortalObject.h"
 #include "QuestFrameUI.h"
+#include "Item_Manager.h"
+#include "Inventory.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCharacter{ pGraphic_Device }
@@ -157,7 +159,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pPlayer->iHit = 10;
 	m_pPlayer->fPos = data.fPos;
 	m_pPlayer->pWorkObject = nullptr;
-	m_pPlayer->tItem = SWAPOBJECT::LIGHTNINGSPEAR;
 	m_tSwapItem = m_pPlayer->tItem;
 	SetAnimation(DIR::DIR_END, MOTION::BUCKED);
 
@@ -738,6 +739,20 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 			break;
 		case MOTION::BUCKED:
+			if (m_pChar->iId == 201) {
+				auto Slot = static_cast<CInventory*>(CGameInstance::GetInstance()->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface")))->Find_Item(8);
+				if (8 != Slot->Get_ItemID()) {
+					auto ItemData = CItem_Manager::GetInstance()->Get_ItemData(8);
+					ITEM_DESC Item_Desc;
+					Item_Desc.iItemID = 8;
+					Item_Desc.eSlot = ItemData.eSlot;
+					Item_Desc.fDurability = 100.f;
+					Item_Desc.eItemType = ItemData.eItemType;
+					Item_Desc.iNumItem = 1;
+
+					Slot->Set_Info(Item_Desc);
+				}
+			}
 			if (m_iLength <= m_fAniTime)
 			{
 				SetAnimation(DIR::DIR_END, MOTION::BUCK_PST);
@@ -827,7 +842,6 @@ void CPlayer::Update(_float fTimeDelta)
 							_float3 pos = monster->Get_Monster()->fPos;
 							_float4 rect = { min(oldPos.x, m_pPlayer->fPos.x), min(oldPos.z, m_pPlayer->fPos.z), max(oldPos.x, m_pPlayer->fPos.x), max(oldPos.z, m_pPlayer->fPos.z) };
 							if (rect.x - 0.5f <= pos.x && rect.z + 0.5f >= pos.x && rect.y - 0.5f <= pos.z && rect.w + 0.5f >= pos.z) {
-
 								DamageBaseDesc damage;
 								damage.Attacker = this;
 								damage.Damage = 100;
@@ -1047,9 +1061,9 @@ void CPlayer::Damage(void* pArg)
 	if (MOTION::DAMAGE != m_tMotion && MOTION::DEATH1 != m_tMotion && MOTION::DEATH2 != m_tMotion) {
 		if (0 < m_pPlayer->iHp) {
 			__super::Damage(pArg);
+			auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+			ScreenEffect->ActiveEffect(m_pPlayer->iHp);
 		}
-		auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-		ScreenEffect->ActiveEffect(m_pPlayer->iHp);
 	}
 }
 

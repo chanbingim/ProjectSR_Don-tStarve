@@ -1,12 +1,9 @@
 
-float Alpha;
-float PlayerHP;
 float Uv;
 float Power;
 
 texture TexSrc;
 texture TexDst;
-texture TexArg;
 
 sampler Sampler0 = sampler_state
 {
@@ -31,21 +28,12 @@ struct VS_OUTPUT
 
 float4 PS(VS_OUTPUT In) : COLOR
 {
-    float4 dst = tex2D(Sampler1, In.Tex);
-    float4 arg = tex2D(Sampler1, In.Tex + Uv);
-    
+    float4 dst = tex2D(Sampler1, In.Tex + Uv);
     float2 index;
-    index.x = In.Tex.x + arg.r * Power * 0.2;
+    index.x = In.Tex.x + dst.r * Power * 0.1;
     index.y = In.Tex.y;
     float4 src = tex2D(Sampler0, index);
-    
-    float gray = dot(src.rgb, float3(0.299, 0.587, 0.114));
-    
-    if (0 >= PlayerHP)
-        src = lerp(src, float4(gray, gray, gray, 1.f), 1.f);
-    
-    
-    return lerp(src, dst, Alpha);
+    return src;
 }
 
 technique main

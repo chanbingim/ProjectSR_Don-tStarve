@@ -24,6 +24,8 @@ public:
 private:
 	_bool							m_bActive = { false };
 	_float							m_Alpha = { 0.0f };
+	_float							m_fUVTime = { 0.0f };
+	_float							m_fPower = { 0.0f };
 	_bool							m_bInverse = { false };
 	CPlayer*						m_pPlayer = {nullptr};
 

@@ -54,14 +54,14 @@ HRESULT CIceSpike::Initialize(void* pArg)
 		switch (m_iSpike)
 		{
 		case 1:
-			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume);
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_1.wav", CHANNELID::SOUND_EFFECT, volume * 0.2);
 			break;
 		case 2:
 		case 3:
-			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT, volume);
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_2.wav", CHANNELID::SOUND_EFFECT, volume * 0.2);
 			break;
 		case 4:
-			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT, volume);
+			m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_big_3.wav", CHANNELID::SOUND_EFFECT, volume * 0.2);
 			break;
 		}
 	}
