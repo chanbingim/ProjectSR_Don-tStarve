@@ -67,9 +67,9 @@ void CPigKing::Priority_Update(_float fTimeDelta)
         }
         else if (m_pGameInstance->KeyDown(VK_RBUTTON))
         {
-            m_pGameInstance->ChangeGameState(GAMESTATE::SINEMATIC);
             if (!m_bIsQuestStart)
             {
+                m_pGameInstance->ChangeGameState(GAMESTATE::SINEMATIC);
                 ShowFirstClickMotion();
             }
         }

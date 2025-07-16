@@ -132,6 +132,8 @@ void CAinimationObject::XMLRenderAnimation(const wstring& animName, Entity* tEnt
     // 이거 프레임 계산같음
     if (!m_bAnimPause)
         m_fAniTime = m_fAniTime % m_iLength;
+    else
+        m_fAniTime = m_iLength;
 
     //시간에 따른 오브젝트의 순서 밑 재생프레임을 받아오려함
     vector<OBJECT_REF_DESC> timeVec = {};

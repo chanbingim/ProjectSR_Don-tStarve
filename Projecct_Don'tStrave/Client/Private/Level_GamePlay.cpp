@@ -460,6 +460,9 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 
 HRESULT CLevel_GamePlay::TutorialMapLoad()
 {
+	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
+		return E_FAIL;
+
 	if (FAILED(LoadFileData("TutorialMapData")))
 		return E_FAIL;
 
@@ -489,9 +492,6 @@ HRESULT CLevel_GamePlay::TutorialMapLoad()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
-		return E_FAIL;
-
-	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
 		return E_FAIL;
 
 	m_IsMapDataSetting = false;

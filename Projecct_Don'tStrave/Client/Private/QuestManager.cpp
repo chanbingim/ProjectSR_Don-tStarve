@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Inventory.h"
 #include "Item_Manager.h"
+#include "MonsterData_Manager.h"
 
 IMPLEMENT_SINGLETON(CQuestManager);
 
@@ -213,6 +214,7 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 		return L"";
 
 	WCHAR Percent[MAX_PATH] = {};
+	_uint	TargetID{};
 	_uint OwnCount{}, MaxCount{};
 	_uint iID = pQuest->QuestID;
 	switch (CQuestType(pQuest->type))
@@ -224,9 +226,13 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 		{
 			OwnCount = Inven->Check_ItemCount(pair.first);
 			MaxCount = pair.second;
+			TargetID = pair.first;
 			if (OwnCount < pair.second)
 				break;
+				
 		}
+		auto TargetData = CItem_Manager::GetInstance()->Get_ItemData(TargetID);
+		wsprintf(Percent, TEXT("%s : %d / %d"), TargetData.strKorName.c_str(), OwnCount, MaxCount);
 	}
 	break;
 	case CQuestType::COMBAT:
@@ -236,6 +242,7 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 			for (auto& pair : pQuest->ClearCondition)
 			{
 				OwnCount = GetMonstDeathCount(pair.first);
+				TargetID = pair.first;
 				if (OwnCount >= pair.second)
 				{
 					OwnCount = MaxCount = pair.second;
@@ -246,7 +253,11 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 					break;
 				}
 			}
+
+			auto TargetData = CMonsterData_Manager::GetInstance()->Get_MonsterData(TargetID);
+			wsprintf(Percent, TEXT("%s : %d / %d"), TargetData.strName.c_str(), OwnCount, MaxCount);
 		}
+
 	}
 	break;
 	}
@@ -254,7 +265,6 @@ _wstring CQuestManager::GetPercentData(CQuestData* pQuest)
 	if (0 >= OwnCount && 0 >= MaxCount)
 		return L"";
 
-	wsprintf(Percent, TEXT("%d / %d"), OwnCount, MaxCount);
 	return Percent;
 }
 
@@ -334,6 +344,16 @@ _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 
 _uint CQuestManager::UpdateDeathList(_uint iID)
 {
+	_bool flag = false;
+	for (auto iter : m_RunningQuest)
+	{
+		if (iter->type == CQuestType::COMBAT)
+			flag = true;
+	}
+
+	if (!flag)
+		return 0;
+
 	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
 		{
 			return pair.first == iID ? true : false;
@@ -371,4 +391,8 @@ void CQuestManager::Free()
 		Safe_Delete(Pair.second);
 	}
 	m_QuestMap.clear();
+	m_RunningQuest.clear();
+	m_ClearQuest.clear(); 
+	m_pInven = nullptr;
+	m_pItemManager = nullptr;
 }
