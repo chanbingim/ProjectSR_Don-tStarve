@@ -1,7 +1,2 @@
-﻿  EventButton.cpp
-  SystemSettingUI.cpp
-  Treeguard.cpp
-  코드를 생성하고 있습니다...
-SystemSettingUI.obj : error LNK2019: "public: void __cdecl Client::CSlideButton::SetPressEvent(class std::function<void __cdecl(void)>)" (?SetPressEvent@CSlideButton@Client@@QEAAXV?$function@$$A6AXXZ@std@@@Z)"public: virtual long __cdecl Client::CSystemSettingUI::Initialize(void *)" (?Initialize@CSystemSettingUI@Client@@UEAAJPEAX@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-Loader.obj : error LNK2019: "public: static class Client::CSlideButton * __cdecl Client::CSlideButton::Create(struct IDirect3DDevice9 *)" (?Create@CSlideButton@Client@@SAPEAV12@PEAUIDirect3DDevice9@@@Z)"private: long __cdecl Client::CLoader::Loading_For_GamePlay(void)" (?Loading_For_GamePlay@CLoader@Client@@AEAAJXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-..\Bin\Debug\Client.exe : fatal error LNK1120: 2개의 확인할 수 없는 외부 참조입니다.
+﻿  SlideButton.cpp
+  Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

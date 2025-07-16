@@ -265,6 +265,8 @@ void CSystemSettingUI::Free()
 	__super::Free();
 
 	Safe_Release(m_pSelectCharacterMenuBut);
+	Safe_Release(m_pBGMVolumeSlidebar);
+	Safe_Release(m_pBGMVolumeBut);
 	Safe_Release(m_pGameQuitBut);
 
 	Safe_Release(m_pTexture_Com);

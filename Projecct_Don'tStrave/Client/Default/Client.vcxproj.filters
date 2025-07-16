@@ -434,6 +434,9 @@
     <Filter Include="04. GmaeUI\Button\EnviornmentButton">
       <UniqueIdentifier>{5311edd4-7274-431d-b79f-149a31b0a6bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GmaeUI\Slider">
+      <UniqueIdentifier>{a51cc248-40c3-40ad-90d9-80af2abddd0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -850,6 +853,9 @@
     <ClInclude Include="..\Public\SystemSettingUI.h">
       <Filter>04. GmaeUI\SystemUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SlideButton.h">
+      <Filter>04. GmaeUI\Slider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1260,6 +1266,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SystemSettingUI.cpp">
       <Filter>04. GmaeUI\SystemUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SlideButton.cpp">
+      <Filter>04. GmaeUI\Slider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
