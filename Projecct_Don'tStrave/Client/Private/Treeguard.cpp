@@ -377,7 +377,7 @@ void CTreeguard::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
 
 void CTreeguard::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
 {
-	if (HitActor == m_pNearTarget && m_tMotion != DAMAGE && m_tMotion != DEATH) {
+	if (HitActor == m_pNearTarget && (m_tMotion == IDLE || m_tMotion == IDLE_TO_RUN || m_tMotion == RUN || m_tMotion == RUN_TO_IDLE)) {
 		_float3 transform = HitActor->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = D3DXVec3Length(&transform);
 		if ((m_pMonsterData->iAtkDistance / 2.f) >= distance || (dynamic_cast<CMonster*>(HitActor) && (m_pMonsterData->iAtkDistance / 2.f) >= distance - (dynamic_cast<CMonster*>(HitActor)->Get_Monster()->iAtkDistance / 2.f))) {

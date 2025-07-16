@@ -67,7 +67,7 @@ void CClock::Update(_float fTimeDelta)
     }
     else if (50.f <= m_fGameTime && 60.f >= m_fGameTime)
     {
-        m_Light.Ambient = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+        m_Light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.f);
         m_pGraphic_Device->SetLight(0, &m_Light);
         m_ClockState = CLOCK_STATE::NIGHT;
     }
