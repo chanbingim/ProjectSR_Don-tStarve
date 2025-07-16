@@ -827,7 +827,6 @@ void CPlayer::Update(_float fTimeDelta)
 							_float3 pos = monster->Get_Monster()->fPos;
 							_float4 rect = { min(oldPos.x, m_pPlayer->fPos.x), min(oldPos.z, m_pPlayer->fPos.z), max(oldPos.x, m_pPlayer->fPos.x), max(oldPos.z, m_pPlayer->fPos.z) };
 							if (rect.x - 0.5f <= pos.x && rect.z + 0.5f >= pos.x && rect.y - 0.5f <= pos.z && rect.w + 0.5f >= pos.z) {
-
 								DamageBaseDesc damage;
 								damage.Attacker = this;
 								damage.Damage = 100;

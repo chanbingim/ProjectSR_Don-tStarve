@@ -26,6 +26,8 @@ HRESULT CDamageEffectUI::Initialize(void* pArg)
     m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
 
     m_Alpha = 0;
+    m_fUVTime = 0.f;
+    m_fPower = 0.f;
     Setting_Shader(L"Particle.fx");
 
     return S_OK;
@@ -33,11 +35,18 @@ HRESULT CDamageEffectUI::Initialize(void* pArg)
 
 void CDamageEffectUI::Priority_Update(_float fTimeDelta)
 {
+    m_fUVTime += fTimeDelta * 0.2f;
 }
 
 void CDamageEffectUI::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+    if (m_pPlayer->Get_Player()->iMental <= m_pPlayer->Get_Player()->iMaxMental * 0.5f && 0 < m_pPlayer->Get_Char()->iHp) {
+        m_fPower = max(0.1f, m_Alpha);
+    }
+    else {
+        m_fPower = 0;
+    }
     if (m_bActive)
     {
         if (m_bInverse)
@@ -77,11 +86,17 @@ HRESULT CDamageEffectUI::Render()
     LPDIRECT3DBASETEXTURE9 Tex = {};
     m_pTexture_Com->Set_Texture(0, 0);
     m_pGraphic_Device->GetTexture(0, &Tex);
+    LPDIRECT3DBASETEXTURE9 Tex2 = {};
+    m_pTexture_Com->Set_Texture(1, 0);
+    m_pGraphic_Device->GetTexture(0, &Tex2);
     m_pEffect->SetFloat("Alpha", m_Alpha);
+    m_pEffect->SetFloat("Uv", m_fUVTime);
+    m_pEffect->SetFloat("Power", m_fPower);
     m_pEffect->SetFloat("PlayerHP", m_pPlayer->Get_Char()->iHp);
 
     m_pEffect->SetTexture("TexSrc", BackTex);
     m_pEffect->SetTexture("TexDst", Tex);
+    m_pEffect->SetTexture("TexArg", Tex2);
 
    m_pGraphic_Device->SetVertexDeclaration(m_pDecl);
    m_pEffect->Begin(NULL, 0);

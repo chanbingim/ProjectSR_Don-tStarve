@@ -78,6 +78,7 @@ void CIceFall::Update(_float fTimeDelta)
         m_fAniTime = 0.f;
         m_iLength = 100;
         m_pCamera->ShakeCamera(0.5f);
+        m_pGameInstance->Manager_PlaySound(L"Deerclops_iceattack_small_3.wav", CHANNELID::SOUND_EFFECT, 1.f);
     }
     if (m_bBreak && m_iLength <= m_fAniTime) {
         m_isDead = true;

@@ -55,13 +55,7 @@ void CShadowcrawling::Priority_Update(_float fTimeDelta)
 		_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float distance = D3DXVec3Length(&transform);
 		if (10.f > distance) {
-			CPlayer* player = dynamic_cast<CPlayer*>(object);
-			if (player && player->Get_Player()->iMaxMental / 2 < player->Get_Player()->iMental) {
-				Death();
-			}
-			else {
-				m_pNearTarget = object;
-			}
+			m_pNearTarget = object;
 		}
 		else {
 			m_bTarget = false;

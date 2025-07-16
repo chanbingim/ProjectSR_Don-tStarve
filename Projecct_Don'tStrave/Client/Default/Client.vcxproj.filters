@@ -838,6 +838,7 @@
     <ClInclude Include="..\Public\VineEffect.h">
       <Filter>07. Particle\LightParticle</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BossHpBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1243,6 +1244,7 @@
     <ClCompile Include="..\Private\VineEffect.cpp">
       <Filter>07. Particle\LightParticle</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\BossHpBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
