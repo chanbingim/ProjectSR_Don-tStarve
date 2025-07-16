@@ -5,6 +5,7 @@
 NS_BEGIN(Client)
 
 class CEnviornmentButton;
+class CSlideButton;
 
 class CSystemSettingUI : public CUserInterface
 {
@@ -27,7 +28,15 @@ private :
 	CEnviornmentButton*				m_pSelectCharacterMenuBut = { nullptr };
 	CEnviornmentButton*				m_pGameQuitBut = { nullptr };
 
+	CSlideButton*					m_pBGMVolumeBut = { nullptr };
+	CSlideButton*					m_pBGMVolumeSlidebar = { nullptr };
+
 	_bool							m_IsActive = { false };
+
+	_float							m_fSlideMax = {};
+	_float							m_fSlideMin = {};
+
+	RECT							m_rcBGMText = {};
 
 private :
 	HRESULT							ADD_Components();
@@ -35,6 +44,9 @@ private :
 
 	void							ClickedCharacterMenuButton();
 	void							ClickedGameQuitButton();
+	
+	void							ClickedBGMVolumeSlidebar();
+	void							PressedBGMVolumeButton();
 
 public :
 	static		CSystemSettingUI*	Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -109,7 +109,7 @@ void CSkillIndicator::Update(_float fTimeDelta)
 			
 			if(m_bStartCharge_Sound && 0.5f < m_Charge)
 			{ 
-				m_pGameInstance->Manager_PlaySound(L"lightning_charge.wav", CHANNELID::SOUND_EFFECT, 7.f);
+				m_pGameInstance->Manager_PlaySound(L"lightning_charge.wav", CHANNELID::SOUND_EFFECT, 1.f);
 				m_bStartCharge_Sound = false;
 			}
 
@@ -234,7 +234,7 @@ void CSkillIndicator::Update_Effect(_float fTimeDelta)
 		auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(3, (CAinimationObject**)&m_pSpirteEffect, &Desc);
 		m_pSpirteEffect->GetTransfrom()->SetPosition(m_vEffectPos);
 		m_pSpirteEffect->Set_Angle(m_fAngle);
-		m_pGameInstance->Manager_PlaySound(L"lightning_attack.wav", CHANNELID::SOUND_EFFECT, 3.f);
+		m_pGameInstance->Manager_PlaySound(L"lightning_attack.wav", CHANNELID::SOUND_EFFECT, 1.f);
 		m_bIsEffectActive = false;
 	}
 

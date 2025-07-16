@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "EnviornmentButton.h"
+#include "SlideButton.h"
 #include "Level_GamePlay.h"
 
 CSystemSettingUI::CSystemSettingUI(LPDIRECT3DDEVICE9 pGraphic_Device) :
@@ -21,8 +22,10 @@ HRESULT CSystemSettingUI::Initialize_Prototype()
 
 HRESULT CSystemSettingUI::Initialize(void* pArg)
 {
-	m_fWinSizeX = m_fSizeX = 1280.f;
-	m_fWinSizeY = m_fSizeY = 720.f;
+	m_fWinSizeX = 1280.f;
+	m_fSizeX = 640.f;
+	m_fWinSizeY = 720.f;
+	m_fSizeY = 500.f;
 
 	m_fX = 640;
 	m_fY = 320;
@@ -35,6 +38,9 @@ HRESULT CSystemSettingUI::Initialize(void* pArg)
 
 	m_pSelectCharacterMenuBut->SetClickEvent([&]() { ClickedCharacterMenuButton(); });
 	m_pGameQuitBut->SetClickEvent([&]() { ClickedGameQuitButton(); });
+
+	m_pBGMVolumeSlidebar->SetClickEvent([&]() {ClickedBGMVolumeSlidebar();});
+	m_pBGMVolumeBut->SetPressEvent([&]() {PressedBGMVolumeButton();});
 
 	m_ZOrder = 4;
 	return S_OK;
@@ -50,6 +56,8 @@ void CSystemSettingUI::Priority_Update(_float fTimeDelta)
 	{
 		m_pSelectCharacterMenuBut->Update(fTimeDelta);
 		m_pGameQuitBut->Update(fTimeDelta);
+		m_pBGMVolumeSlidebar->Update(fTimeDelta);
+		m_pBGMVolumeBut->Update(fTimeDelta);
 	}
 }
 
@@ -65,9 +73,13 @@ void CSystemSettingUI::Late_Update(_float fTimeDelta)
 		UpdatePosition();
 		m_pSelectCharacterMenuBut->Late_Update(fTimeDelta);
 		m_pGameQuitBut->Late_Update(fTimeDelta);
+		m_pBGMVolumeSlidebar->Late_Update(fTimeDelta);
+		m_pBGMVolumeBut->Late_Update(fTimeDelta);
+
+		m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 	}
 
-	m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
+	
 }
 
 HRESULT CSystemSettingUI::Render()
@@ -79,8 +91,15 @@ HRESULT CSystemSettingUI::Render()
 	m_pTexture_Com->Set_Texture(0);
 	m_pVIBuffer_Com->Render();
 
+	RECT rect = {  };
+
+	D3DXCOLOR white = { 1.f,1.f,1.f,1.f };
+	m_pGameInstance->Render_Font(TEXT("Font_30"), TEXT("BGM : "), &m_rcBGMText, white);
+
 	m_pSelectCharacterMenuBut->Render();
 	m_pGameQuitBut->Render();
+	m_pBGMVolumeSlidebar->Render();
+	m_pBGMVolumeBut->Render();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -121,25 +140,58 @@ HRESULT CSystemSettingUI::ADD_Components()
 HRESULT CSystemSettingUI::ADD_Buttons()
 {
 	CEnviornmentButton::BUTTON_DESC Desc;
-	Desc.fSizeX = 500.f;
-	Desc.fSizeY = 50.f;
+	Desc.fSizeX = 185.f;
+	Desc.fSizeY = 64.f;
 
-	Desc.fRelativeX = -320.f;
-	Desc.fRelativeY = -150.f;
+	Desc.fRelativeX =  0.f;
+	Desc.fRelativeY = -20.f;
 	Desc.pParentTransform = m_pTransform_Com;
 	m_pSelectCharacterMenuBut = dynamic_cast<CEnviornmentButton*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_EnviornButton"), &Desc));
 	if (nullptr == m_pSelectCharacterMenuBut)
 		return E_FAIL;
 
-	Desc.fSizeX = 500.f;
-	Desc.fSizeY = 50.f;
+	Desc.fSizeX = 185.f;
+	Desc.fSizeY = 64.f;
 
-	Desc.fRelativeX = -320.f;
-	Desc.fRelativeY = -200.f;
+	Desc.fRelativeX = 0.f;
+	Desc.fRelativeY = -120.f;
 
 	m_pGameQuitBut = dynamic_cast<CEnviornmentButton*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_EnviornButton"), &Desc));
 	if (nullptr == m_pGameQuitBut)
 		return E_FAIL;
+
+	m_pGameQuitBut->ChangeButtonTex(1);
+
+	// Slibebar
+	Desc.fSizeX = 200.f;
+	Desc.fSizeY = 20.f;
+
+	Desc.fRelativeX = 0.f;
+	Desc.fRelativeY = 100.f;
+
+	m_fSlideMax = m_fX + Desc.fRelativeX + Desc.fSizeX * 0.5f;
+	m_fSlideMin = m_fX + Desc.fRelativeX - Desc.fSizeX * 0.5f;
+
+	m_pBGMVolumeSlidebar = dynamic_cast<CSlideButton*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlideButton"), &Desc));
+	if (nullptr == m_pBGMVolumeSlidebar)
+		return E_FAIL;
+
+	m_rcBGMText = {
+		LONG(m_fX + Desc.fRelativeX - Desc.fSizeX * 0.5f - 100),LONG(m_fY - 120.f),
+		LONG(m_fX + Desc.fRelativeX - Desc.fSizeX * 0.5f), LONG(m_fY - 80.f)};
+
+	// volumeBtn
+	Desc.fSizeX = 40.f;
+	Desc.fSizeY = 40.f;
+
+	Desc.fRelativeX = 0.f;
+	Desc.fRelativeY = 100.f;
+
+	m_pBGMVolumeBut = dynamic_cast<CSlideButton*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SlideButton"), &Desc));
+	if (nullptr == m_pBGMVolumeBut)
+		return E_FAIL;
+
+	m_pBGMVolumeBut->ChangeButtonTex(1);
 
 	return S_OK;
 }
@@ -158,6 +210,31 @@ void CSystemSettingUI::ClickedCharacterMenuButton()
 void CSystemSettingUI::ClickedGameQuitButton()
 {
 	PostQuitMessage(0);
+}
+
+void CSystemSettingUI::ClickedBGMVolumeSlidebar()
+{
+	
+}
+
+void CSystemSettingUI::PressedBGMVolumeButton()
+{
+	_float fVoluemButtonX = {};
+
+	_float3 MousePoint = m_pGameInstance->GetMousePosition(0);
+
+	fVoluemButtonX = MousePoint.x;
+	fVoluemButtonX = min(fVoluemButtonX, m_fSlideMax);
+	fVoluemButtonX = max(fVoluemButtonX, m_fSlideMin);
+
+	m_pBGMVolumeBut->Set_RelativeX(fVoluemButtonX-640.f);
+
+	_float fSlidebarX = m_pBGMVolumeSlidebar->Get_PosX();
+	_float fVolumeButX = m_pBGMVolumeBut->Get_PosX();
+
+	_float fVolume = ((fVolumeButX - fSlidebarX) / 200.f + 1.f) * 0.5f;
+
+	m_pGameInstance->Manager_SetChannelVolume(CHANNELID::SOUND_BGM, fVolume);
 }
 
 CSystemSettingUI* CSystemSettingUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

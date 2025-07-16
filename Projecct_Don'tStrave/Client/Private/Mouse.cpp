@@ -252,7 +252,7 @@ HRESULT CMouse::Render()
 
 
         D3DXCOLOR white = { 0.95f, 0.95f, 0.95f, 1.f };
-        RECT Rect = { LONG(m_fX+ 30.f - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + 30.f + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
+        RECT Rect = { LONG(m_fX+ 10.f - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + 50.f + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
         m_pGameInstance->Render_Font(TEXT("MouseInfo_40"), m_strInfoMessage.c_str(), &Rect, white);
 
         Rect = { LONG(m_fX + 60.f - m_fSizeX* 0.5f), LONG(m_fY - m_fSizeY),LONG(m_fX + 50.f + m_fSizeX), LONG(m_fY + m_fSizeY) };

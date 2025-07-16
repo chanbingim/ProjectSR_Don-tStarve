@@ -99,7 +99,7 @@ void CTreeguard::Update(_float fTimeDelta)
 
 	if (m_tMotion == MOTION::DEATH) {
 		if (m_iLength <= m_fAniTime) {
-			m_pGameInstance->Manager_PlaySound(L"leif_death.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
+			m_pGameInstance->Manager_PlaySound(L"leif_death.wav", CHANNELID::BADMONSTER_SOUND, 1.f);
 			m_isDead = true;
 			return;
 		}
@@ -123,13 +123,13 @@ void CTreeguard::Update(_float fTimeDelta)
 					if (2 == m_iAttackCnt)
 					{
 						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM_TREE);
-						m_pGameInstance->Manager_PlaySound(L"leif_transform.wav", CHANNELID::BADMONSTER_SOUND, 1.f);
+						m_pGameInstance->Manager_PlaySound(L"leif_transform.wav", CHANNELID::BADMONSTER_SOUND, 0.7f);
 						break;
 					}
 					if (3 == m_iAttackCnt)
 					{
 						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM_MAD);
-						m_pGameInstance->Manager_PlaySound(L"leif_burn.wav", CHANNELID::BADMONSTER_SOUND, 0.5f);
+						m_pGameInstance->Manager_PlaySound(L"leif_burn.wav", CHANNELID::BADMONSTER_SOUND, 0.1f);
 						break;
 					}
 					if (m_iLength <= m_fAniTime) {
@@ -164,7 +164,7 @@ void CTreeguard::Update(_float fTimeDelta)
 						m_fAttackTime = 0;
 						m_iAttackCnt++;
 						SetAnimation(DIR::DIR_END, MOTION::TRANSFORM);
-						m_pGameInstance->Manager_PlaySound(L"leif_transform.wav", CHANNELID::BADMONSTER_SOUND, 5.f);
+						m_pGameInstance->Manager_PlaySound(L"leif_transform.wav", CHANNELID::BADMONSTER_SOUND, 0.7f);
 					}
 					break;
 				default:
@@ -198,7 +198,7 @@ void CTreeguard::Update(_float fTimeDelta)
 			case MOTION::RUN:
 				if (m_iLength <= m_fAniTime) {
 					SetAnimation(m_tDir, MOTION::RUN_TO_IDLE);
-					m_pGameInstance->Manager_PlaySound(L"leif_walk.wav", CHANNELID::BADMONSTER_SOUND, 10.f);
+					m_pGameInstance->Manager_PlaySound(L"leif_walk.wav", CHANNELID::BADMONSTER_SOUND, 0.7f);
 				}
 				else {
 					D3DXVec3Normalize(&move, &move);
@@ -267,7 +267,7 @@ HRESULT CTreeguard::Render()
 void CTreeguard::Hit()
 {
 	SetAnimation(m_tDir, MOTION::DAMAGE);
-	m_pGameInstance->Manager_PlaySound(L"leif_hurt.wav", CHANNELID::BADMONSTER_SOUND, 10.f);
+	m_pGameInstance->Manager_PlaySound(L"leif_hurt.wav", CHANNELID::BADMONSTER_SOUND, 1.f);
 }
 
 void CTreeguard::Attack()
@@ -275,7 +275,7 @@ void CTreeguard::Attack()
 	m_bAttack = true;
 	SetAnimation(m_tDir, MOTION::ATTACK);
 	if(2 > m_iAttackCnt)
-		m_pGameInstance->Manager_PlaySound(L"leif_attack.wav", CHANNELID::BADMONSTER_SOUND, 10.f);
+		m_pGameInstance->Manager_PlaySound(L"leif_attack.wav", CHANNELID::BADMONSTER_SOUND, 1.f);
 }
 
 void CTreeguard::Death()

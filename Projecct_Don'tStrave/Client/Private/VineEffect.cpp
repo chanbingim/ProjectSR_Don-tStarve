@@ -110,7 +110,7 @@ void CVineEffect::Change_State()
         case Client::CVineEffect::SPAWN:
             m_AnimName = L"spawn3";
             m_fAniTime = 0;
-            m_pGameInstance->Manager_PlaySound(L"leif_vine.wav", CHANNELID::SOUND_EFFECT, 5.f);
+            m_pGameInstance->Manager_PlaySound(L"leif_vine.wav", CHANNELID::SOUND_EFFECT, 1.f);
             break;
 
         case Client::CVineEffect::DESPAWN:
