@@ -40,6 +40,7 @@ public :
 	list< CQuestData*>*			GetClearQuest() { return &m_ClearQuest; }
 
 	void						CallMonsterDeath(_uint iID);
+	void						ClearCheatFunc();
 
 private :
 	const char*					FrontFilePath = "../Bin/Resources/DataStruct/";
@@ -56,7 +57,6 @@ private :
 
 private :
 	_int						UpdateDeathList(_uint iID);
-
 	void						ApplyCompensation(_uint ItemID, _uint ItemCnt);
 
 public :

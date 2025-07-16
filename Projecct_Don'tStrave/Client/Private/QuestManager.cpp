@@ -28,15 +28,16 @@ HRESULT CQuestManager::Accept_Quest(_uint QuestID)
 	if (pair == m_QuestMap.end())
 		return E_FAIL;
 
+	m_QuestList.remove(pair->second);
+	m_RunningQuest.push_back(pair->second);
+
 	if (CQuestType::COMBAT == CQuestType(pair->second->type))
 	{
 		for (auto& ClearPair : pair->second->ClearCondition)
-			UpdateDeathList(ClearPair.first);
+			m_DeathMonsterCnt.emplace_back(ClearPair.first,0);
 		m_CheckDeadthEvent++;
 	}
 
-	m_QuestList.remove(pair->second);
-	m_RunningQuest.push_back(pair->second);
 	return S_OK;
 }
 
@@ -299,6 +300,49 @@ void CQuestManager::CallMonsterDeath(_uint iID)
 	UpdateDeathList(iID);
 }
 
+void CQuestManager::ClearCheatFunc()
+{
+	for (auto iter : m_RunningQuest)
+	{
+		if (iter->DropItem.size() > m_pInven->Get_EmptySlotCnt())
+		{
+			MSG_BOX("인벤토리를 비워주세요");
+			return;
+		}
+
+		if (!iter->bIsClear)
+		{
+			iter->bIsClear = true;
+			CheckAndApplyCompensation(iter, true);
+
+			if (CQuestType::COMBAT == iter->type)
+			{
+				m_CheckDeadthEvent--;
+				if (m_CheckDeadthEvent <= 0)
+					m_DeathMonsterCnt.clear();
+			}
+
+			for (auto& iter : iter->ConnectQuest)
+			{
+				auto  pair = m_QuestMap.find(iter);
+				if (pair == m_QuestMap.end())
+					return;
+
+				pair->second->bIsActive = true;
+				m_QuestList.push_back(pair->second);
+			}
+
+			for (auto& pair : iter->DropItem)
+			{
+				ApplyCompensation(pair.first, pair.second);
+			}
+		}
+
+		m_ClearQuest.push_back(iter);
+	}
+	m_RunningQuest.clear();
+}
+
 _bool CQuestManager::CheckAndApplyCompensation(CQuestData* pQuest, _bool _flag)
 {
 	if (nullptr == pQuest)
@@ -352,17 +396,16 @@ _int CQuestManager::UpdateDeathList(_uint iID)
 	}
 
 	if (!flag)
+	{
+		m_DeathMonsterCnt.clear();
 		return -1;
+	}
 
-	auto iter = find_if(m_DeathMonsterCnt.begin(), m_DeathMonsterCnt.end(), [&](auto pair)
-		{
-			return pair.first == iID ? true : false;
-		});
-
-	if (iter == m_DeathMonsterCnt.end())
-		m_DeathMonsterCnt.emplace_back(iID, 0);
-	else
-		return iter->second++;
+	for (auto iter : m_DeathMonsterCnt)
+	{
+		if(iter.first == iID)
+			return iter.second++;
+	}
 
 	return -1;
 }

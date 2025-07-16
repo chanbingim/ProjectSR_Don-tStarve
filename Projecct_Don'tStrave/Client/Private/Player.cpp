@@ -7,6 +7,7 @@
 #include "Fire.h"
 #include "Item.h"
 #include "MonsterData_Manager.h"
+#include "QuestManager.h"
 #include "CharacterManager.h"
 #include "SlotFrame.h"
 #include "Slot.h"
@@ -243,6 +244,12 @@ HRESULT CPlayer::Initialize_Late()
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
+
+	if (m_pGameInstance->KeyDown(VK_F4))
+	{
+		CQuestManager::GetInstance()->ClearCheatFunc();
+	}
+
 	m_pTorchFire->Priority_Update(fTimeDelta);
 	if (0 < m_pPlayer->iHp) {
 		m_fHungTime += fTimeDelta / 2;
