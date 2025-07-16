@@ -152,7 +152,6 @@ void CMonster::SetRandomMove()
 
 void CMonster::Damage(void* pArg)
 {
-	__super::Damage(pArg);
 	DAMAGE_DATA_BASE DamageBase = {};
 	if (nullptr != pArg) {
 		DamageBase = *static_cast<DAMAGE_DATA_BASE*>(pArg);
@@ -161,6 +160,7 @@ void CMonster::Damage(void* pArg)
 		if (200 <= player->Get_Char()->iId)
 			m_bPlayerKill = true;
 	}
+	__super::Damage(pArg);
 }
 
 void CMonster::Death()

@@ -52,6 +52,9 @@ HRESULT CTreeguard::Initialize(void* pArg)
 	m_pDropItem_Com->ADD_ItemData(38, 3);
 	m_pDropItem_Com->SetCreateEffect(1);
 
+	auto HpBar = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"));
+	if (!HpBar || HpBar->empty())
+		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_HpBar"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"), m_pMonsterData);
 	return S_OK;
 }
 

@@ -147,6 +147,7 @@
     <ClInclude Include="..\public\AnimationUI.h" />
     <ClInclude Include="..\public\BirchnutTree.h" />
     <ClInclude Include="..\Public\BookMark_Button.h" />
+    <ClInclude Include="..\Public\BossHpBar.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\public\Camera_Button.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="..\private\AnimationUI.cpp" />
     <ClCompile Include="..\private\BirchnutTree.cpp" />
     <ClCompile Include="..\Private\BookMark_Button.cpp" />
+    <ClCompile Include="..\Private\BossHpBar.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\private\Camera_Button.cpp" />

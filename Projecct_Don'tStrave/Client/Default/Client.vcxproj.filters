@@ -856,6 +856,9 @@
     <ClInclude Include="..\Public\SlideButton.h">
       <Filter>04. GmaeUI\Slider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BossHpBar.h">
+      <Filter>김정환</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1269,6 +1272,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SlideButton.cpp">
       <Filter>04. GmaeUI\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BossHpBar.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
