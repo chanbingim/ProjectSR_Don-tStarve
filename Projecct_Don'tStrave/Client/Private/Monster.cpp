@@ -71,9 +71,6 @@ void CMonster::Priority_Update(_float fTimeDelta)
 	if (!m_pNearTarget) {
 		m_bTarget = false;
 	}
-	if (0 < m_pMonsterData->iHp) {
-		m_bPlayerKill = false;
-	}
 }
 
 void CMonster::Update(_float fTimeDelta)

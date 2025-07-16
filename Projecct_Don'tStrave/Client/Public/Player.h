@@ -109,6 +109,7 @@ private:
 	CSlotFrame*					m_pEquipment_Slot = { nullptr };
 	CSlot*					m_pSlot = {};
 	SWAPOBJECT				m_tSwapItem;
+	CGameObject*				m_pTarget = { nullptr };
 private:
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
