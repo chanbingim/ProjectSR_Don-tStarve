@@ -50,8 +50,11 @@ HRESULT CLeafEffect::Initialize(void* pArg)
 	_float3 vLook = m_pTransformCom->GetWorldState(WORLDSTATE::LOOK);
 	m_pTransformCom->SetRotAxis(vLook, D3DXToRadian(m_fAngel));
 
-	m_pCollisionCom->SetCollisionSize({ 1.f, 1.f, 1.f });
-	m_pCollisionCom->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+	m_pPlayerTransform = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->GetTransfrom();
+
+	Safe_AddRef(m_pPlayerTransform);
+
+
 
 	return S_OK;
 }
@@ -90,10 +93,12 @@ void CLeafEffect::Update(_float fTimeDelta)
 			m_fTimeAcc = 0;
 			break;
 		}
-
+		
 		vPos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		vPos += (m_fDistance_Target) * fTimeDelta* 2.f * m_vAttackDir;
 		m_pTransformCom->SetPosition(vPos);
+
+		BeginHitActor(vPos);
 		break;
 
 	case Client::CLeafEffect::LAND:
@@ -148,12 +153,6 @@ HRESULT CLeafEffect::ADD_Components()
 		reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	CCollision_Component::COL_DESC Col_Desc = {};
-	Col_Desc.pOwner = this;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
-		TEXT("Com_BoxCollision"), reinterpret_cast<CComponent**>(&m_pCollisionCom), &Col_Desc)))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -176,7 +175,6 @@ void CLeafEffect::Change_State()
 			break;
 
 		case Client::CLeafEffect::LAND:
-			m_pCollisionCom->SetCollisionSize(_float3(0.f, 0.f, 0.f));
 			break;
 
 		default:
@@ -186,9 +184,13 @@ void CLeafEffect::Change_State()
 	}
 }
 
-void CLeafEffect::BeginHitActor(CGameObject* HitActor, _float3& _Dir)
+void CLeafEffect::BeginHitActor(_float3& vPos)
 {
-	if (nullptr != dynamic_cast<CPlayer*>(HitActor))
+	_float3 vPlayerPos = m_pPlayerTransform->GetWorldState(WORLDSTATE::POSITION);
+
+	_float3 vDistance = vPlayerPos - vPos;
+
+	if(0.3f >= D3DXVec3Length(&vDistance))
 	{
 		m_eCurState = STATE::IDLE;
 		DAMAGE_DATA_BASE DamageBase = {};
@@ -257,5 +259,6 @@ void CLeafEffect::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pCollisionCom);
+	Safe_Release(m_pPlayerTransform);
+
 }

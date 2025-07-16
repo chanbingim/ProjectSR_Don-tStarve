@@ -48,9 +48,9 @@ private:
 
 	CTexture*				m_pTextureCom = { nullptr };
 	CVIBuffer*				m_pVIBufferCom = { nullptr };
-	CCollision_Component*	m_pCollisionCom = { nullptr };
-	CPlayer*				m_pPlayer = { nullptr };
 	CCamera*				m_pCamera = { nullptr };
+
+	CTransform*				m_pPlayerTransform = { nullptr };
 
 	_float3					m_vMovePos = {};
 	_float3					m_vAttackDir = {};
@@ -59,7 +59,7 @@ private:
 private:
 	HRESULT ADD_Components();
 	void Change_State();
-	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
+	void BeginHitActor(_float3& vPos);
 	void Ready_Attack();
 
 public:

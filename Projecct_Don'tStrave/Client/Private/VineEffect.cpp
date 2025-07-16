@@ -36,15 +36,6 @@ HRESULT CVineEffect::Initialize(void* pArg)
 
     __super::Initialize(pArg);
 
-
-   ADD_Component();
- 
-
-    m_pCollisionCom->SetCollisionSize({ 1.f, 1.f, 1.f });
-    m_pCollisionCom->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
-    m_pCollisionCom->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
-    m_pCollisionCom->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
-
    
 
     return S_OK;
@@ -94,6 +85,16 @@ HRESULT CVineEffect::Render()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CVineEffect::ReadyEffect(void* pArg)
+{
+    ADD_Component();
+
+    m_pCollisionCom->SetCollisionSize({ 1.f, 1.f, 1.f });
+    m_pCollisionCom->BindEnterFunction([&](CGameObject* HitActor, _float3& _Dir) { BeginHitActor(HitActor, _Dir); });
+    m_pCollisionCom->BindOverlapFunction([&](CGameObject* HitActor, _float3& _Dir) { OverlapHitActor(HitActor, _Dir); });
+    m_pCollisionCom->BindExitFunction([&](CGameObject* HitActor, _float3& _Dir) { EndHitActor(HitActor, _Dir); });
 }
 
 void CVineEffect::Change_State()
@@ -151,7 +152,7 @@ void CVineEffect::EndHitActor(CGameObject* HitActor, _float3& _Dir)
 
 HRESULT CVineEffect::ADD_Component()
 {
-    CCollision_Component::Collision_Desc Col_Desc = {};
+   CCollision_Component::Collision_Desc Col_Desc = {};
     Col_Desc.pOwner = this;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_BoxCollision"),
@@ -188,5 +189,6 @@ void CVineEffect::Free()
     __super::Free();
 
     Safe_Release(m_pCollisionCom);
+
 
 }

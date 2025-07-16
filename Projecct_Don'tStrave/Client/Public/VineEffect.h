@@ -26,15 +26,13 @@ public:
 	virtual void		Late_Update(_float fTimeDelta);
 	virtual HRESULT		Render();
 
+	virtual  void		ReadyEffect(void* pArg)override;
 private:
 	CVineEffect::STATE		m_ePreState = {};
 	CVineEffect::STATE		m_eCurState = {};
 
-	
-
 	CTransform*				m_pPlayerTransform = { nullptr };
-	CCollision_Component*	m_pCollisionCom = { nullptr };
-
+	CCollision_Component*   m_pCollisionCom = { nullptr };
 private:
 	HRESULT ADD_Component();
 	void	Change_State();
