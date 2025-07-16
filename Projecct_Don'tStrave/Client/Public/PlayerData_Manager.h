@@ -16,6 +16,7 @@ public:
 	const PLAYER_DESC& Get_PlayerData(_uint iItemID) const;
 	void	LoadPlayerData(const char* MapFilePath);
 	void	Set_CharacterID(_uint ID) { m_iCharacterID = ID; }
+	_uint	Get_CharacterID() { return m_iCharacterID; }
 
 private:
 	_uint					m_iCharacterID = {200};

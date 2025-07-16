@@ -1,6 +1,7 @@
 #include "Inventory.h"
 
 #include "GameInstance.h"
+#include "PlayerData_Manager.h"
 
 #include "SlotFrame.h"
 #include "Slot.h"
@@ -88,6 +89,17 @@ HRESULT CInventory::Initialize(void* pArg)
             return E_FAIL;
 
         m_SlotFrames.push_back(pSlotFrame);
+    }
+
+    if (201 == CPlayerData_Manager::GetInstance()->Get_CharacterID())
+    {
+        ITEM_DESC Spear_Desc = {};
+        Spear_Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Spear_Desc.eSlot = SLOT::HAND;
+        Spear_Desc.iItemID = 8;
+        Spear_Desc.iNumItem = 1;
+        Spear_Desc.fDurability = 100.f;
+        m_SlotFrames[0]->Get_Slot()->Set_Info(Spear_Desc);
     }
 
     return S_OK;
