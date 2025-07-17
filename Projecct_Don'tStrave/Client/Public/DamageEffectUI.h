@@ -30,6 +30,8 @@ private:
 	_float							m_fPower = { 0.0f };
 	_float							m_fEnd = { 1.0f };
 	_float							m_fEnding = { 0.0f };
+	_float							m_fEndTime = { 0.0f };
+	_bool							m_bEndBGM = { true };
 	_bool							m_bInverse = { false };
 	CPlayer*						m_pPlayer = {nullptr};
 

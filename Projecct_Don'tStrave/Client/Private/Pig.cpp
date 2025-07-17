@@ -54,7 +54,7 @@ HRESULT CPig::Initialize_Late()
 		for (auto& object : (*GroundObejcts)) {
 			_float3 transform = object->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION) - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 			_float distance = D3DXVec3Length(&transform);
-			if (0.1f > distance) {
+			if (1.f >= distance) {
 				if (m_pHouse = dynamic_cast<CPigHouse*>(object)) {
 					m_pHouse->EnterPig(this);
 					m_bActive = false;
