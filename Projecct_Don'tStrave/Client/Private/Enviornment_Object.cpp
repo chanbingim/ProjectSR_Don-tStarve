@@ -73,12 +73,15 @@ void CEnviornment_Object::Update(_float fTimeDelta)
     _float3 Pos;
     if ( m_pGameInstance->KeyDown(VK_LBUTTON) && m_pVIBufferCom->Picking(m_pTransformCom, &Pos))
     {
+        if (CEnviornment_Object::Enviornment_TYPE::RESERREECTION == GetEnviornMentType()) {
+            DamageBaseDesc  damage;
+            damage.Attacker = this;
 
-        dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
-        //DamageBaseDesc  damage;
-        //damage.Attacker = this;
-        //
-        //Damage(&damage);
+            Damage(&damage);
+        }
+        else {
+            dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+        }
     }
 
     HoverEevent();

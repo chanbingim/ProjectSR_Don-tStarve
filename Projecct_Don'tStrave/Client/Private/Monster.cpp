@@ -180,7 +180,7 @@ MONSTER_DATA* CMonster::Get_Monster()
 _float CMonster::Get_Sound()
 {
 	_float3 transform = m_pMonsterData->fPos - *m_pPlayerPos;
-	return 10 - (D3DXVec3Length(&transform));
+	return (10 - (D3DXVec3Length(&transform))) * 0.1f;
 }
 
 HRESULT CMonster::Ready_Components()
