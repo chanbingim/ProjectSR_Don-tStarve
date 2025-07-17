@@ -55,6 +55,9 @@ HRESULT CTreeguard::Initialize(void* pArg)
 	auto HpBar = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"));
 	if (!HpBar || HpBar->empty())
 		m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_HpBar"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"), m_pMonsterData);
+
+	m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->Manager_PlayBGM(L"Treeguard_ost.mp3", 1.0f);
 	return S_OK;
 }
 
@@ -284,6 +287,8 @@ void CTreeguard::Attack()
 void CTreeguard::Death()
 {
 	__super::Death();
+	m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
+	m_pGameInstance->Manager_PlayBGM(L"Filed.mp3", 1.0f);
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 }
 

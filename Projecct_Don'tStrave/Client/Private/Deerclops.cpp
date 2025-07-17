@@ -270,8 +270,11 @@ void CDeerclops::Update(_float fTimeDelta)
 							else {
 
 								auto HpBar = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"));
-								if(!HpBar || HpBar->empty())
+								if (!HpBar || HpBar->empty()) {
 									m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_HpBar"), ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BossHp"), m_pMonsterData);
+									m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
+									m_pGameInstance->Manager_PlayBGM(L"Deerclops_ost.wav", 1.0f);
+								}
 								SetAnimation(DIR::DIR_END, MOTION::TAUNT);
 								m_bTarget = true;
 								m_bAttack = true;
@@ -393,6 +396,7 @@ void CDeerclops::Attack()
 void CDeerclops::Death()
 {
 	__super::Death();
+	m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
 	SetAnimation(DIR::DIR_END, MOTION::DEATH);
 	_float volume = Get_Sound();
 	if (0.f < volume)

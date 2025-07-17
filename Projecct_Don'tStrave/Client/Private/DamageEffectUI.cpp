@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Player.h"
+#include "Level_GamePlay.h"
 
 CDamageEffectUI::CDamageEffectUI(LPDIRECT3DDEVICE9 pGraphic_Device) : CUserInterface(pGraphic_Device)
 {
@@ -30,6 +31,7 @@ HRESULT CDamageEffectUI::Initialize(void* pArg)
     m_fPower = 0.f;
     m_fEnd = 1.f;
     m_fEnding = 0.f;
+    m_fEndTime = 0.f;
     Setting_Shader(L"Particle.fx");
 
     return S_OK;
@@ -44,7 +46,7 @@ void CDamageEffectUI::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
     if (m_pPlayer->Get_Player()->iMental <= m_pPlayer->Get_Player()->iMaxMental * 0.5f && 0 < m_pPlayer->Get_Char()->iHp) {
-        m_fPower = max(0.02f, m_Alpha * 0.5f);
+        m_fPower = max(0.04f, m_Alpha * 0.5f);
     }
     else {
         m_fPower = 0;
@@ -54,8 +56,21 @@ void CDamageEffectUI::Update(_float fTimeDelta)
             m_fEnd -= fTimeDelta;
         }
         else if (1 >= m_fEnding) {
+            if (m_bEndBGM) {
+                m_bEndBGM = false;
+                m_pGameInstance->Manager_PlayBGM(L"Ending.mp3", 1.0f);
+            }
             m_fEnd = 0;
             m_fEnding += fTimeDelta * 0.5f;
+        }
+        m_fEndTime += fTimeDelta;
+        if (15 <= m_fEndTime) {
+            auto GamePlay = dynamic_cast<CLevel_GamePlay*>(m_pGameInstance->CurrentLevel());
+            if (GamePlay)
+            {
+                GamePlay->ChangeLevel();
+                m_pGameInstance->ChangeGameState(GAMESTATE::GAMEPLAY);
+            }
         }
     }
     if (m_bActive)
