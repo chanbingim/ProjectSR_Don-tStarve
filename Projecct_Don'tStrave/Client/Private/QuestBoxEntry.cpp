@@ -210,6 +210,17 @@ void CQuestBoxEntry::AcceptQuest()
 void CQuestBoxEntry::ClearQuest()
 {
 	CQuestManager::GetInstance()->Clear_Quest(m_pQuestData->QuestID);
+	if (6 == m_pQuestData->QuestID)
+	{
+		m_pGameInstance->ChangeGameState(GAMESTATE::SINEMATIC);
+		CScript::SCRIPT_DESC Scirpt_Desc;
+		Scirpt_Desc.DataScript.push_back(L"던전에 사는 거대한 외눈사슴 때문에 날씨가 이상해졌어.");
+		Scirpt_Desc.DataScript.push_back(L"그놈만 없애주면, 내가 졸업 시켜줄게!");
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+			TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), &Scirpt_Desc)))
+			return;
+	}
 }
 
 void CQuestBoxEntry::ShowScriptData()
