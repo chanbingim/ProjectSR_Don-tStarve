@@ -22,9 +22,9 @@ public:
 	virtual void		Update(_float fTimeDelta) override;
 	virtual HRESULT		Render() override;
 
-	HRESULT			LoadFileData(const char* MapName);
+	HRESULT				LoadFileData(const char* MapName);
 	void				Change_Map(GAMEPLAY_STATE eState);
-	void				ChangeLevel();
+	void				ChangeLevel(LEVEL NextLevel);
 private:
 	HRESULT Ready_Layer_BackGround(const char* FilePath, const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
@@ -47,6 +47,7 @@ private :
 	GAMEPLAY_STATE		m_eState = { GAMEPLAY_STATE::TUTORIAL };
 	_bool				m_IsMapDataSetting = { false };
 	_bool				m_IsChangeMap = { false };
+	LEVEL				m_NextLevel;
 
 	CCharacterManager*	m_pCharacterManager = { nullptr };
 

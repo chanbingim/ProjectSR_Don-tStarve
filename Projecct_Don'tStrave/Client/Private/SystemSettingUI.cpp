@@ -200,7 +200,7 @@ void CSystemSettingUI::ClickedCharacterMenuButton()
 	auto GamePlay = dynamic_cast<CLevel_GamePlay*>(m_pGameInstance->CurrentLevel());
 	if (GamePlay)
 	{
-		GamePlay->ChangeLevel();
+		GamePlay->ChangeLevel(LEVEL::SELECT);
 		m_pGameInstance->ChangeGameState(GAMESTATE::GAMEPLAY);
 	}
 		

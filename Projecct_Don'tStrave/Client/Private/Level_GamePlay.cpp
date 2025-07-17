@@ -77,7 +77,7 @@ void CLevel_GamePlay::Priority_Update(_float fTimeDelta)
 		CTerrian_Manager::GetInstance()->Clear();
 		m_pGameInstance->Manager_StopAll();
 
-		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, LEVEL::SELECT));
+		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, m_NextLevel));
 	}
 }
 
@@ -424,9 +424,10 @@ void CLevel_GamePlay::Remove_LayerData()
 	CTerrian_Manager::GetInstance()->Clear();
 }
 
-void CLevel_GamePlay::ChangeLevel()
+void CLevel_GamePlay::ChangeLevel(LEVEL NextLevel)
 {
 	m_IsChangeMap = true;
+	m_NextLevel = NextLevel;
 }
 
 _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
