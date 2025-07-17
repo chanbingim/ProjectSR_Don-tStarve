@@ -56,11 +56,17 @@ HRESULT CMiniMap::Initialize(void* pArg)
 
 void CMiniMap::Priority_Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->KeyDown(VK_ESCAPE) && true == m_IsVisible)
+	
+	
+}
+
+void CMiniMap::Update(_float fTimeDelta)
+{
+	if (true == m_pMiniMap_Btn->OnClick() && true == m_IsVisible)
 	{
 		m_IsVisible = false;
 		m_fZoom = 1.f;
-		
+
 		m_pGameInstance->Manager_PlaySound(L"map_close.wav", CHANNELID::SOUND_ITEM, 1.f);
 
 		for (auto pIcon : m_Icons)
@@ -68,14 +74,9 @@ void CMiniMap::Priority_Update(_float fTimeDelta)
 			Safe_Release(pIcon);
 		}
 		m_Icons.clear();
-		
-	}
-	
-}
 
-void CMiniMap::Update(_float fTimeDelta)
-{
-	if (true == m_pMiniMap_Btn->OnClick() && !m_IsVisible)
+	}
+	else if (true == m_pMiniMap_Btn->OnClick() && !m_IsVisible)
 	{
 		m_IsVisible = true;
 		m_pGameInstance->Manager_PlaySound(L"map_open.wav", CHANNELID::SOUND_ITEM, 1.f);

@@ -116,9 +116,10 @@ void CEnviornment_Object::Death()
 
 _wstring CEnviornment_Object::GetEnviornmnetName()
 {
+    
     switch (m_iObjectID)
     {
-    case 1 :
+    case 1:
         return TEXT("Portal");
     case 2:
         return TEXT("Grass");
@@ -131,6 +132,7 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
     case 6:
         return TEXT("Resurrection Stone");
     }
+    
 
     return TEXT("");
 }
@@ -171,7 +173,8 @@ void CEnviornment_Object::HoverEevent()
 
     if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
     {
-        dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverEnv(m_iObjectID);
+        if(Enviornment_STATE::IDLE == m_EnviromentState)
+            dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverEnv(m_iObjectID);
     }
 }
 
