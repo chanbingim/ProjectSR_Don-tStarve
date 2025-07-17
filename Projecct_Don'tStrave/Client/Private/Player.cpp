@@ -723,11 +723,11 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 		if (m_pGameInstance->KeyDown('F'))
 		{
-			m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
-			auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
-			ScreenEffect->SetEnd();
-			//m_tDamage.Damage = 50;
-			//Damage(&m_tDamage);
+			//m_pGameInstance->Manager_StopSound(CHANNELID::SOUND_BGM);
+			//auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+			//ScreenEffect->SetEnd();
+			m_tDamage.Damage = 50;
+			Damage(&m_tDamage);
 		}
 	}
 	else {
