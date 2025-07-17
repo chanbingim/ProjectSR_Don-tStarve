@@ -184,6 +184,12 @@ void CGatheringObject::Setting_Data()
         m_pDropItem_Com->ADD_ItemData(48, 1);
     }
     break;
+    case 8:
+    {
+        m_MaxRecoverTime = 15.0f;
+        m_pDropItem_Com->ADD_ItemData(35, 3);
+    }
+    break;
     }
 }
 

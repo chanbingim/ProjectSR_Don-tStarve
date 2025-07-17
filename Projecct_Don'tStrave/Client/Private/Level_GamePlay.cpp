@@ -448,7 +448,7 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 7:
 		return TEXT("Prototype_GameObject_Berry_Bush");
 	case 8:
-		return TEXT("Prototype_GameObject_Env_Tree");
+		return TEXT("Prototype_GameObject_Env_Sapling");
 	case 9:
 		return TEXT("Prototype_GameObject_Birchnut_Tree");
 	case 12:

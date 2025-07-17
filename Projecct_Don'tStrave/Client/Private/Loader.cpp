@@ -657,6 +657,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CGatheringObject::Create(m_pGraphic_Device, "grass1.scml", TEXT("Grass")))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Sapling */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Env_Sapling"),
+		CGatheringObject::Create(m_pGraphic_Device, "sapling.scml", TEXT("Sapling")))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_Berry_Bush */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Berry_Bush"),
 		CGatheringObject::Create(m_pGraphic_Device, "berrybush.scml", TEXT("Berry_Bush")))))
