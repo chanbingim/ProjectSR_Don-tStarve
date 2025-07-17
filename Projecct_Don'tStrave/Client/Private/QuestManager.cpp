@@ -438,8 +438,12 @@ void CQuestManager::Free()
 		Safe_Delete(Pair.second);
 	}
 	m_QuestMap.clear();
+
+	m_QuestList.clear();
 	m_RunningQuest.clear();
 	m_ClearQuest.clear(); 
+	m_DeathMonsterCnt.clear();
+
 	m_pInven = nullptr;
 	m_pItemManager = nullptr;
 }

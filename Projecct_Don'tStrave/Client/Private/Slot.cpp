@@ -24,7 +24,7 @@ ITEM_DESC& CSlot::Get_Info()
     return m_Item_Desc;
 }
 
-_float3& CSlot::Get_Position()
+_float3 CSlot::Get_Position()
 {
     _float3 vPos = { 0.f, 0.f, 0.f };
     if (nullptr != m_pTransform_Com)
