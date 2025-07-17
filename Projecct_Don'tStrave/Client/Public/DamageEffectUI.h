@@ -20,12 +20,16 @@ public:
 	virtual HRESULT					Render();
 
 	void							ActiveEffect(_float Hp);
+	void							SetEnd();
 
 private:
 	_bool							m_bActive = { false };
+	_bool							m_bEnd = { false };
 	_float							m_Alpha = { 0.0f };
 	_float							m_fUVTime = { 0.0f };
 	_float							m_fPower = { 0.0f };
+	_float							m_fEnd = { 1.0f };
+	_float							m_fEnding = { 0.0f };
 	_bool							m_bInverse = { false };
 	CPlayer*						m_pPlayer = {nullptr};
 

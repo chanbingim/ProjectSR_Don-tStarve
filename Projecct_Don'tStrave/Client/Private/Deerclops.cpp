@@ -7,6 +7,7 @@
 #include "DropItemComponent.h"
 #include "IceSpike.h"
 #include "MonsterData_Manager.h"
+#include "DamageEffectUI.h"
 
 CDeerclops::CDeerclops(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -212,6 +213,8 @@ void CDeerclops::Update(_float fTimeDelta)
 		if (m_tMotion == MOTION::DEATH) {
 			if (m_iLength <= m_fAniTime) {
 				m_isDead = true;
+				auto ScreenEffect = static_cast<CDamageEffectUI*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect")));
+				ScreenEffect->SetEnd();
 				return;
 			}
 		}

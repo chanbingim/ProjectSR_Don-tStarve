@@ -187,7 +187,7 @@ void CIceFall::OverlapHitActor(CGameObject* HitActor, _float3& _Dir)
     if (m_bBreak && m_fAniTime == 0 && !dynamic_cast<CDeerclops*>(HitActor)) {
         DamageBaseDesc desc;
         desc.Attacker = nullptr;
-        desc.Damage = 30;
+        desc.Damage = 25;
         desc.DamageType = ATTACK_TYPE::ICE;
         HitActor->Damage(&desc);
     }
