@@ -78,6 +78,8 @@ void CMiniMap_Button::ClickedEevent()
     {
         m_isClicked = true; // 미니맵 창 출력 활성화
     }
+    else if (m_pGameInstance->KeyDown('M'))
+        m_isClicked = true;
     else
         m_isClicked = false;
 

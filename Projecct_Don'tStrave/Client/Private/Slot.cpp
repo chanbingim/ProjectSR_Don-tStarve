@@ -24,13 +24,12 @@ ITEM_DESC& CSlot::Get_Info()
     return m_Item_Desc;
 }
 
-_float3& CSlot::Get_Position()
+_float3 CSlot::Get_Position()
 {
-    _float3 vPos = { 0.f, 0.f, 0.f };
-    if (nullptr != m_pTransform_Com)
-         vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+    if (nullptr == m_pTransform_Com)
+        return _float3(0.f, 0.f, 0.f);
 
-    return vPos;
+    return m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
 }
 
 void CSlot::Use_One()
