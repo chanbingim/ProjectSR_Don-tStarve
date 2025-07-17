@@ -57,6 +57,9 @@ void CDamageEffectUI::Update(_float fTimeDelta)
         }
         else if (1 >= m_fEnding) {
             if (m_bEndBGM) {
+                m_pPlayer->Get_Player()->iHp = m_pPlayer->Get_Player()->iMaxHp;
+                m_pPlayer->Get_Player()->iMental = m_pPlayer->Get_Player()->iMaxMental;
+                m_pPlayer->Get_Player()->iHunger = m_pPlayer->Get_Player()->iMaxHunger;
                 m_bEndBGM = false;
                 m_pGameInstance->Manager_PlayBGM(L"Ending.mp3", 1.0f);
             }
@@ -68,7 +71,7 @@ void CDamageEffectUI::Update(_float fTimeDelta)
             auto GamePlay = dynamic_cast<CLevel_GamePlay*>(m_pGameInstance->CurrentLevel());
             if (GamePlay)
             {
-                GamePlay->ChangeLevel();
+                GamePlay->ChangeLevel(LEVEL::LOGO);
                 m_pGameInstance->ChangeGameState(GAMESTATE::GAMEPLAY);
             }
         }

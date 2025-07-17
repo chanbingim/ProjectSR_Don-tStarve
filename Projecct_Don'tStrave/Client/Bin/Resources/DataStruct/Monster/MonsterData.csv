@@ -1,14 +1,14 @@
 100,Prototype_GameObject_Spider,거미,100,20,5,3,3,20,1,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
 101,Prototype_GameObject_SpiderWarrior,병정 거미,200,20,5,6,4,40,1,난 거미가 싫어.,다리가 여덟 개라도 내 적수가 되진 못한다!
-102,Prototype_GameObject_SpiderQueen,여왕 거미,200,80,1.75,5,3,200,1,으아아아아! 저 거미는 너무 크잖아!,드디어 내 진정한 능력을 발휘할 때로다.
+102,Prototype_GameObject_SpiderQueen,여왕 거미,200,40,1.75,5,3,200,1,으아아아아! 저 거미는 너무 크잖아!,드디어 내 진정한 능력을 발휘할 때로다.
 103,Prototype_GameObject_SpiderHouse,거미집,150,0,0,0,0,0,1,끈끈해!,저들의 근원을 짓밟아라!
 104,Prototype_GameObject_SpiderHouse,거미집,300,0,0,0,0,0,1,누군지 몰라도 손재주가 좋아진 모양인데.,거미아이가 예술까지 섭렵하려 한단 것인가?
 105,Prototype_GameObject_SpiderHouse,거미집,400,0,0,0,0,0,1,알이 부화하지 않았으면 좋겠네. 한동안은 말야.,이를 짓밟음은 미래의 전투를 없애는 일이 될 것이다.
 106,Prototype_GameObject_Pig,돼지,250,11,3,3,5,80,0,저 녀석들은 뭔가 섬뜩한 게 있다니까.,전투에 굶주리지 않았는가 돼지여?
 107,Prototype_GameObject_PigHouse,돼지 집,3,0,0,0,0,0,0,돼지 집치곤 꽤나 멋진 집이야.,돼지가 집을 만들 수 있을 줄이야.
-108,Prototype_GameObject_Deerclops,외눈 사슴,1200,75,3,5,3,200,1,엄청 크잖아!!,내 창을 따라 흐르는 빛줄기로 네놈의 눈을 멀게 해 주마!
-109,Prototype_GameObject_Crawling,기어다니는 공포,200,20,3,3,4.5,0,2, , 
-110,Prototype_GameObject_Terrorbeak,공포 부리,300,50,7,3,3.5,0,2, , 
-111,Prototype_GameObject_Treeguard,트리가드,350,50,1.5,4,3,200,1,엄청 크다!,고대의 숲의 존재로다.
+108,Prototype_GameObject_Deerclops,외눈 사슴,1200,35,3,5,3,200,1,엄청 크잖아!!,내 창을 따라 흐르는 빛줄기로 네놈의 눈을 멀게 해 주마!
+109,Prototype_GameObject_Crawling,기어다니는 공포,150,5,3,3,4.5,0,2, , 
+110,Prototype_GameObject_Terrorbeak,공포 부리,80,10,7,3,3.5,0,2, , 
+111,Prototype_GameObject_Treeguard,트리가드,350,25,1.5,4,3,200,1,엄청 크다!,고대의 숲의 존재로다.
 112,Prototype_GameObject_Goat,번개 염소,350,25,8,2,3,50,0,좀 조용히 해줏\"메에에\",널 일각수라고 불러도 되겠느냐?
-113,Prototype_GameObject_IceSpike,얼음,100,30,0,4,4,50,0, , 
+113,Prototype_GameObject_IceSpike,얼음,100,15,0,4,4,50,0, , 
