@@ -379,6 +379,16 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	if (MOTION::GHOST_APPEAR == m_tMotion || MOTION::GHOST_DISSIPATE == m_tMotion || MOTION::GHOST_IDLE == m_tMotion) {
+		if (!dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject) || CEnviornment_Object::Enviornment_TYPE::RESERREECTION != dynamic_cast<CEnviornment_Object*>(m_pPlayer->pWorkObject)->GetEnviornMentType()) {
+			m_pPlayer->pWorkObject = nullptr;
+			m_pTarget = nullptr;
+		}
+	}
+	if (MOTION::DEATH1 == m_tMotion || MOTION::DEATH2 == m_tMotion) {
+		m_pPlayer->pWorkObject = nullptr;
+		m_pTarget = nullptr;
+	}
 	m_pTorchFire->Update(fTimeDelta);
 	if (m_pGameInstance->KeyDown('P'))
 	{
@@ -681,7 +691,7 @@ void CPlayer::Update(_float fTimeDelta)
 				}
 			}
 		}
-		if (m_pGameInstance->KeyDown(VK_CONTROL))
+		if (m_pGameInstance->KeyDown(VK_CONTROL) && 0 < m_pPlayer->iHp)
 		{
 			list<CGameObject*> NearObjects;
 
@@ -1199,13 +1209,15 @@ _bool CPlayer::Eat(void* pArg)
 
 void CPlayer::LightningAttack(_float3 fAttack, _float fPower)
 {
-	m_fMoving = m_pPlayer->fPos - fAttack;
-	m_pPlayer->pWorkObject = nullptr;
-	m_fLightning = fAttack * fPower * 2;
-	m_bControll = false;
-	m_pTransformCom->SetPosition(m_pPlayer->fPos);
-	SetAnimation(m_tDir, MOTION::IDLE_TO_ATTACK);
-	m_fFightTime = 0.f;
+	if (0 < m_pPlayer->iHp) {
+		m_fMoving = m_pPlayer->fPos - fAttack;
+		m_pPlayer->pWorkObject = nullptr;
+		m_fLightning = fAttack * fPower * 2;
+		m_bControll = false;
+		m_pTransformCom->SetPosition(m_pPlayer->fPos);
+		SetAnimation(m_tDir, MOTION::IDLE_TO_ATTACK);
+		m_fFightTime = 0.f;
+	}
 }
 
 void CPlayer::MakeItem(_wstring prototype, ITEM_DESC itemDesc)
