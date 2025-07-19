@@ -1,12 +1,16 @@
 #include "Renderer.h"
+#include "GameInstance.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Light_Manager.h"
+#include "UserInterface.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : m_pGraphic_Device { pGraphic_Device }
+    : m_pGraphic_Device { pGraphic_Device },
+	m_pGameInstance(CGameInstance::GetInstance())
 {
     Safe_AddRef(m_pGraphic_Device);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CRenderer::Initialize()
@@ -16,6 +20,20 @@ HRESULT CRenderer::Initialize()
 	D3DXMatrixOrthoLH(&m_OrtTHOMat, (FLOAT)Viewport.Width, (FLOAT)Viewport.Height, 0.f, 1.f);
 
 	D3DXMatrixIdentity(&m_IndentiyViewMat);
+
+	_D3DVIEWPORT9 ScreenSize = {};
+	m_pGraphic_Device->GetViewport(&ScreenSize);
+
+	IDirect3DSurface9* pSurface = nullptr;
+	m_pGraphic_Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
+
+	D3DSURFACE_DESC desc;
+	pSurface->GetDesc(&desc);
+	D3DFORMAT format = desc.Format;
+
+	//CreateTexture 함수로 텍스처를 생성한다.
+	m_pGraphic_Device->CreateTexture(ScreenSize.Width, ScreenSize.Height, 1, D3DUSAGE_RENDERTARGET,
+		format, D3DPOOL_DEFAULT, &BakcBufferTexture, nullptr);
 
     return S_OK;
 }
@@ -36,7 +54,8 @@ void CRenderer::Render()
 {
 	Render_Priority();
 
-	//CLight_Manager::GetInstance()->Enable_Light();
+	CLight_Manager::GetInstance()->Enable_Light();
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 #pragma region NONE_BLEND
 	Render_NonBlend();
 	Render_AlphaTest();
@@ -52,6 +71,8 @@ void CRenderer::Render()
 #pragma endregion
 
 	Render_UI();
+
+	
 }
 
 void CRenderer::ResetRenderer()
@@ -95,9 +116,9 @@ void CRenderer::Render_NonBlend()
 void CRenderer::Render_AlphaTest()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 240);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
 		{
 			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
@@ -113,7 +134,7 @@ void CRenderer::Render_AlphaTest()
 
 	m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].clear();
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	
 }
 
 void CRenderer::Render_Blend()
@@ -136,11 +157,6 @@ void CRenderer::Render_Blend()
 
 void CRenderer::Render_Particle()
 {
-	m_RenderObjects[ENUM_CLASS(RENDER::PARTICLE)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			return pSour->Get_CameraDistance() > pDest->Get_CameraDistance();
-		});
-
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
 
@@ -167,8 +183,13 @@ void CRenderer::Render_UI()
 
 	Render_Projection_UI();
 	Render_Ortho_UI();
-
+	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	SaveRenderTarget();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	Render_Alpha_UI();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CRenderer::Render_Projection_UI()
@@ -187,6 +208,11 @@ void CRenderer::Render_Projection_UI()
 
 void CRenderer::Render_Ortho_UI()
 {
+	m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return static_cast<CUserInterface*>(pSour)->GetZOrder() < static_cast<CUserInterface*>(pDest)->GetZOrder();
+		});
+
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OrtTHOMat);
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)])
 	{
@@ -196,6 +222,50 @@ void CRenderer::Render_Ortho_UI()
 		Safe_Release(pRenderObject);
 	}
 	m_RenderObjects[ENUM_CLASS(RENDER::ORTTHO_UI)].clear();
+}
+
+void CRenderer::Render_Alpha_UI()
+{
+	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLENDUI)])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render();
+
+		Safe_Release(pRenderObject);
+	}
+	m_RenderObjects[ENUM_CLASS(RENDER::BLENDUI)].clear();
+}
+
+void CRenderer::SaveRenderTarget()
+{
+	IDirect3DSurface9* pSurface = nullptr;
+
+	//백버퍼에서 현재까지 그려진 정보를 가져옴
+	m_pGraphic_Device->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
+
+	// Suface를 통해서 현재 레벨의 표면을 가져오고 그걸 복사한다.
+	// bit blt 생각하면 된다. 그러면 텍스쳐를 얻어 RenderTarget의 형태가 가능하다.
+	BakcBufferTexture->GetSurfaceLevel(0, &pTextureSurface);
+	HRESULT hr = m_pGraphic_Device->StretchRect(pSurface, nullptr, pTextureSurface, nullptr, D3DTEXF_LINEAR);
+
+	if (FAILED(hr))
+		MessageBoxA(0, "StretchRect Failed", "", 0);
+
+	m_pGraphic_Device->SetTexture(7, BakcBufferTexture);
+
+	if (m_pGameInstance->KeyDown(VK_F10))
+	{
+		WCHAR FileName[1024] = {};
+
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		wsprintf(FileName, TEXT("%sPrint_ScreenShoot_%d-%d-%d-%d-%d-%d.png"), m_WFrontPath, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		D3DXSaveSurfaceToFile(FileName, D3DXIFF_PNG, pSurface, nullptr, nullptr);
+	}
+
+	Safe_Release(pSurface);
+	Safe_Release(pTextureSurface);
 }
 
 CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -223,4 +293,7 @@ void CRenderer::Free()
 	}
 
 	Safe_Release(m_pGraphic_Device);
+	Safe_Release(BakcBufferTexture);
+	Safe_Release(m_pGameInstance);
+
 }

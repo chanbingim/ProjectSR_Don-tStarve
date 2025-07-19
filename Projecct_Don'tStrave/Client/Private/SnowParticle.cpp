@@ -114,7 +114,7 @@ HRESULT CSnowParticle::ADD_Components()
     Particle_Desc.fBoundMax = m_MaxBound;
     Particle_Desc.fBoundMin = m_MinBound;
     Particle_Desc.fRespawnTime = 10.f;
-    Particle_Desc.iMaxParticles = 500.f;
+    Particle_Desc.iMaxParticles = 500;
     Particle_Desc.MinParticleSize = 0.f;
     Particle_Desc.MaxParticleSize = 0.15f;
 

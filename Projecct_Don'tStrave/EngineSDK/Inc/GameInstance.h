@@ -2,6 +2,16 @@
 
 #include "Prototype_Manager.h"
 
+struct ProfileTime
+{
+	_float	Priority_Time = {};
+	_float	Update_Time = {};
+	_float	LateUpdate_Time = {};
+	_float	ColUpdate_Time = {};
+	_float	Render_Time = {};
+};
+
+
 NS_BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -15,7 +25,10 @@ private:
 public:
 	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut, class CMouseSlotUI* pMouse = nullptr);
 	void Update_Engine(_float fTimeDelta);
+
 	HRESULT Draw();
+	void	SaveRenderTarget();
+
 	void Clear_Resources(_uint iLevelIndex);
 
 	_float Random_Normal();
@@ -35,6 +48,7 @@ public:
 #pragma region LEVEL_MANAGER
 	HRESULT Change_Level(class CLevel* pNewLevel);
 	HRESULT Reset_CurLevel();
+	CLevel* CurrentLevel();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -48,13 +62,12 @@ public:
 	list<class CGameObject*>*	GetAllObejctsToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
 	HRESULT						Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT						Initialize_Late(_uint iPrototypeLevelIndex);
+	HRESULT						Remove_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 #pragma endregion
-
 
 #pragma region RENDERER
 	HRESULT Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
 #pragma endregion
-
 
 #pragma region PICKING
 	class CMouseSlotUI*	Chagne_Slot(class CMouseSlotUI* pSlot = nullptr);
@@ -83,21 +96,35 @@ public:
 	_bool			KeyUp(_uint KeyNum);
 #pragma endregion
 
+#pragma region LightManager
+	void					Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func);
+	_float					Get_NearLight();
+#pragma endregion
+
+	void					ChangeGameState(GAMESTATE eState);
+	_bool					GetSinematick();
+
+	ProfileTime&			GetProfileTime() { return time; }
 
 private:
-	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
-	class CTimer_Manager*			m_pTimer_Manager = { nullptr };
-	class CLevel_Manager*			m_pLevel_Manager = { nullptr };
-	class CPrototype_Manager*		m_pPrototype_Manager = { nullptr };
-	class CObject_Manager*			m_pObject_Manager = { nullptr };
-	class CRenderer*				m_pRenderer = { nullptr };
-	class CMouseManager*			m_pMouseManager = { nullptr };
-	class CSoundManager*			m_pSoundManager = { nullptr };
-	class CFont_Manager*			m_pFont_Manager = { nullptr };
-	class CKeyManager*				m_pKey_Manager = { nullptr };
-	class CCollision_Manager*		m_pCollision_Manager = { nullptr };
-	class CLight_Manager*			m_pLight_Manager = { nullptr };
+#pragma region Manager
+	class CGraphic_Device* m_pGraphic_Device = { nullptr };
+	class CTimer_Manager* m_pTimer_Manager = { nullptr };
+	class CLevel_Manager* m_pLevel_Manager = { nullptr };
+	class CPrototype_Manager* m_pPrototype_Manager = { nullptr };
+	class CObject_Manager* m_pObject_Manager = { nullptr };
+	class CRenderer* m_pRenderer = { nullptr };
+	class CMouseManager* m_pMouseManager = { nullptr };
+	class CSoundManager* m_pSoundManager = { nullptr };
+	class CFont_Manager* m_pFont_Manager = { nullptr };
+	class CKeyManager* m_pKey_Manager = { nullptr };
+	class CCollision_Manager* m_pCollision_Manager = { nullptr };
+	class CLight_Manager* m_pLight_Manager = { nullptr };
+#pragma endregion
 
+	
+	GAMESTATE				m_InstanceState = { GAMESTATE::END };
+	ProfileTime				time;
 public:
 	void Release_Engine();
 	virtual void Free() override;

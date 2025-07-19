@@ -8,6 +8,7 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+class CGameInstance;
 
 class CRenderer final : public CBase
 {
@@ -19,15 +20,20 @@ public:
 	HRESULT Initialize();
 	HRESULT Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
 	void	Render();
-	void	ResetRenderer();;
+	void	ResetRenderer();
 
 private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
+	CGameInstance*						m_pGameInstance = { nullptr };
+	const	WCHAR*						m_WFrontPath = { L"../Bin/ScreenShot/" };
+
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
 	_float4x4							m_IndentiyViewMat;
 	_float4x4							m_OrtTHOMat;
 
+	LPDIRECT3DTEXTURE9					BakcBufferTexture = { nullptr };
+	LPDIRECT3DSURFACE9					pTextureSurface = nullptr;
 private:
 	void Render_Priority();
 
@@ -45,8 +51,10 @@ private:
 	void Render_UI();
 	void Render_Projection_UI();
 	void Render_Ortho_UI();
+	void Render_Alpha_UI();
 #pragma endregion
 
+	void SaveRenderTarget();
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free();

@@ -15,13 +15,14 @@ public:
 		_float		fRelativeY = {};
 		CTransform* pParentTransform = { nullptr };
 	}BUTTON_DESC;
+
 protected:
 	CButton(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CButton(const CButton& Prototype);
 	virtual ~CButton() = default;
 
 public:
-	_uint Get_ItemID() { return m_iTextureIndex; }
+	_uint	Get_ItemID() { return m_iTextureIndex; }
 	_bool	OnClick() { return m_isClicked; };
 
 public:

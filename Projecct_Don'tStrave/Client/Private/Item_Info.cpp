@@ -65,7 +65,7 @@ HRESULT CItem_Info::Initialize(void* pArg)
     m_pBookMark_Button = dynamic_cast<CBookMark_Button*>(m_pGameInstance->Clone_Prototype(
         PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BookMark_Button"), &Button_Desc));
 
-    m_BookMark.assign(19, false);
+    m_BookMark.assign(23, false);
 
     return S_OK;
 }

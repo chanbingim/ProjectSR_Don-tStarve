@@ -1,1 +1,14 @@
-﻿  Client.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\ProjectSR_Don-tStarve\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe
+﻿  Player.cpp
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(273,21): warning C4244: '=': 'float'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(284,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(293,33): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(296,53): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(305,33): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(308,55): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(735,18): warning C4244: '초기화 중': 'Engine::_uint'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(737,19): warning C4244: '=': 'Engine::_float'에서 'Engine::_uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(817,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(818,26): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Private\Player.cpp(1091,40): warning C4244: '인수': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Client.vcxproj -> C:\Users\kjh23\OneDrive\바탕 화면\SR팀과제\Projecct_Don'tStrave\Client\Bin\Debug\Client.exe

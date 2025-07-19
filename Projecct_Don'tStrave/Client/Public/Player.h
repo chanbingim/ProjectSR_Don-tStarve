@@ -1,23 +1,10 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "LandObject.h"
-#include "UserInterface.h"
-#include "PlayerAnim.h"
 #include "Character.h"
-#include "Health.h"
-#include "Hunger.h"
-
-NS_BEGIN(Engine)
-class CTexture;
-class CTransform;
-class CVIBuffer_Rect;
-class CAnimController;
-class CCollision_Component;
-NS_END
-
+#include "TorchFire.h"
 NS_BEGIN(Client)
-
+class CSlotFrame;
+class CSlot;
 class CPlayer final : public CCharacter
 {
 	enum MOTION {
@@ -25,6 +12,8 @@ class CPlayer final : public CCharacter
 		BUCK_PST,
 		IDLE,
 		IDLE_TO_RUN,
+		ITEM_IN,
+		ITEM_OUT,
 		RUN,
 		RUN_TO_IDLE,
 		DIAL,
@@ -42,7 +31,10 @@ class CPlayer final : public CCharacter
 		IDLE_TO_SHOVEL,
 		SHOVEL,
 		SHOVEL_TO_IDLE,
+		IDLE_TO_ATTACK,
 		ATTACK,
+		IDLE_TO_SPEAR,
+		SPEAR,
 		PICKUP,
 		GIVE,
 		DAMAGE,
@@ -63,29 +55,46 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize_Late() override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+	virtual void SetDir() override;
 	virtual HRESULT Render() override;
 
+	virtual void Damage(void* pArg);
 	virtual void Hit() override;
 	virtual void Attack() override;
 	virtual void Death() override;
 	void Dead();
+	void ChargeAttack();
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
 	PLAYER_DATA*		Get_Player();
 	void				SetItem(SWAPOBJECT tItem);
-	void				Eat(void* pArg);
-	_bool				IsGhost() { return m_bIsGhost; }
+	_bool			Eat(void* pArg);
+	void				LightningAttack(_float3 fAttack,_float fPower);
+	HRESULT				Set_EquipmentSlot(CSlotFrame* pSlotFrame);
+
+	void				MakeItem(_wstring prototype, ITEM_DESC itemDesc);
+	void				MakeMaterialItem(CSlot* slot, ITEM_DESC itemDesc);
+
 private:
 	MOTION					m_tMotion = {};
 	_bool					m_bControll = {};
-	_bool					m_bIsGhost = {};
 	_bool					m_bAttack = {};
+	_bool					m_bLightningAttack = {};
+	_bool					m_bCrawling = {};
+	_bool					m_bTerrorbeak = {};
+	_bool					m_bEat = {};
 	_float					m_fHungTime = {};
+	_float					m_fFightTime = {};
+	_float3					m_fLightning = {};
+	_int						m_iDarkTime = {};
 	_int						m_iHealthChange = {};
 	_int						m_iSanityChange = {};
 	_int						m_iHungerChange = {};
+	_wstring					m_sItem = {};
+	ITEM_DESC				m_tItem = {};
 	vector<IMAGE_FOLDER_DESC>	m_tGhostImageVec = {};
 	vector<IMAGE_FOLDER_DESC>	m_tWigfridImageVec = {};
 	vector<IMAGE_FOLDER_DESC>	m_tWigfridGhostImageVec = {};
@@ -94,13 +103,17 @@ private:
 	Entity						m_tWigfridAnimation = {};
 	Entity						m_tItemAnimation = {};
 	Entity						m_tMakeAnimation = {};
+	CTorchFire*					m_pTorchFire = {};
 	PLAYER_DATA*				m_pPlayer = {};
+
+	CSlotFrame*					m_pEquipment_Slot = { nullptr };
+	CSlot*					m_pSlot = {};
+	SWAPOBJECT				m_tSwapItem;
+	CGameObject*				m_pTarget = { nullptr };
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
 
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
-	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir) override;
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

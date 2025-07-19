@@ -27,7 +27,9 @@ public:
 	void HoverEvent();
 
 private:
-	class CFire* m_pFire = { nullptr };
+	_bool			m_bSoundPlay = {};
+	float			m_fTimeAcc = {};
+	class CFire*	m_pFire = { nullptr };
 
 	CCampFire::STATE	m_ePreState = {};
 	CCampFire::STATE	m_eCurState = {};
@@ -35,9 +37,8 @@ private:
 private:
 	HRESULT ADD_Components();
 	void Change_State();
-	void Update_Item(_float fTimeDelta);
-	void Update_Fire(_float fValue);
-
+	void Cook(const _uint iItemID, class CSlot* _pSlot, ITEM_DESC& Item_Desc);
+	void Add_Fuel(const _uint iItemID, class CSlot* pSlot);
 
 public:
 	static CCampFire* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

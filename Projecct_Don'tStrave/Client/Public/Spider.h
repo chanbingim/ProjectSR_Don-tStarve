@@ -1,14 +1,5 @@
 #pragma once
-
-#include "Client_Defines.h"
 #include "Monster.h"
-
-NS_BEGIN(Engine)
-class CTexture;
-class CTransform;
-class CVIBuffer_Rect;
-class CCollision_Component;
-NS_END
 
 NS_BEGIN(Client)
 class CSpiderHouse;
@@ -27,12 +18,13 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	virtual void		OutHouse() = 0;
+	virtual void		OutHouse(CCharacter* pCharacter);
 
 	virtual void Damage(void* pArg) override;
 protected:
-	_bool					m_bOutHouse = {};
 	CSpiderHouse*			m_pHouse = {};
+	_bool					m_bHouse = {};
+	_bool					m_bAttackSound = {};
 public:
 	virtual void Free() override;
 };

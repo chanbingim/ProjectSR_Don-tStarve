@@ -20,6 +20,9 @@ void CCollision_Manager::Update()
     {
         for (auto& Src : m_pCol_List[i])
         {
+             if (!Src->GetEnable())
+                continue;
+
             for (auto& Dst : m_pCol_List[i])
             {
                 if (Src == Dst)
@@ -46,7 +49,7 @@ void CCollision_Manager::Update()
                 if (ColFlag)
                 {
                     Src->ADDHitGroup(Dst->GetOwner());
-                    ADD_UpdateList(Dst);
+                    ADD_UpdateList(Src);
                 }
             }
         }
@@ -181,6 +184,9 @@ void CCollision_Manager::CompareSphereListToBoxList(list<CCollision_Component*>*
 {
     for (auto& Src : *pSrcList)
     {
+        if (!Src->GetEnable())
+            continue;
+
         for (auto& Dst : *pDstList)
         {
             if (CompareBoxToSphere(Src, Dst))

@@ -42,7 +42,8 @@ HRESULT CSphere_Collision_Component::Initialize(void* pArg)
 
 void CSphere_Collision_Component::Update()
 {
-    __super::Update();
+    if (m_IsUpdate)
+        __super::Update();
 }
 
 void CSphere_Collision_Component::Render()
@@ -64,7 +65,6 @@ HRESULT CSphere_Collision_Component::ComputeBounding(_float3* Center, _float* Ra
 
         D3DXMatrixTranslation(&m_WorldMat, Position.x, Position.y, Position.z);
         FLOAT Length = 1.f;
-
         *Radius = (*Radius) * m_vScale.x;
         D3DXVec3TransformCoord(Center, Center, &m_WorldMat);
 
@@ -104,6 +104,4 @@ void CSphere_Collision_Component::Free()
 
     Safe_Release(m_pSphereMesh);
 
-    if(!m_isCloned)
-        Safe_Delete_Array(m_pMeshVtx);
 }

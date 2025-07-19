@@ -7,6 +7,8 @@
 #include "Inventory.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include "CraftingUI.h"
+#include "Item_Button.h"
 
 CResearchLap::CResearchLap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
@@ -44,6 +46,11 @@ HRESULT CResearchLap::Initialize(void* pArg)
 	m_ePreState = STATE::END;
 	m_eCurState = STATE::PLACE;
 	
+	m_pItem_Buttons = dynamic_cast<CCraftingUI*>(m_pGameInstance->Get_GameObject(
+		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 5))->Get_ItemBtn();
+
+	if (nullptr == m_pItem_Buttons)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -62,7 +69,7 @@ void CResearchLap::Update(_float fTimeDelta)
 	if (nullptr == Camera)
 		return;
 
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 
 	switch (m_eCurState)
@@ -105,13 +112,7 @@ HRESULT CResearchLap::Render()
 {
 	CAinimationObject::Render();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	XMLRenderAnimation(m_FrontName + m_TailName);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
 }
@@ -155,11 +156,27 @@ void CResearchLap::Change_State()
 		case Client::CResearchLap::STATE::IDLE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("idle");
-			break;
 
+			for (_uint i = 0; i < EnumToInt(CATEGORY::END); ++i)
+			{
+				for (auto pButton : m_pItem_Buttons[i])
+				{
+					pButton->InResearchLap(false);
+				}
+			}
+			break;
+			
 		case Client::CResearchLap::STATE::USE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("use");
+			m_pGameInstance->Manager_PlaySound(L"research_on.wav", CHANNELID::SOUND_ITEM, 10.f);
+			for (_uint i = 0; i < EnumToInt(CATEGORY::END); ++i)
+			{
+				for (auto pButton : m_pItem_Buttons[i])
+				{
+					pButton->InResearchLap(true);
+				}
+			}
 			break;
 
 		case Client::CResearchLap::STATE::PLACE:

@@ -46,6 +46,5 @@ private:
 public:
 	static		CPlayerAnim* Create(void* pArg);
 	virtual		void			Free() override;
-
 };
 NS_END

@@ -8,7 +8,10 @@
 #include "Level_Loading.h"
 #include "Camera.h"
 #include "AnimationUI.h"
-#include "Character_Manager.h"
+#include "EffectPoolManager.h"
+#include "QuestManager.h"
+#include "Img_Manager.h"
+
 #include "Terrian_Manager.h"
 #include "LodingInterface.h"
 #include "XML_Manager.h"
@@ -54,9 +57,14 @@ HRESULT Client::CMainApp::Initialize()
 	if (FAILED(ReadShader()))
 		return E_FAIL;
 
-	CTerrian_Manager::GetInstance()->Initialize({64, 64});
+	CTerrian_Manager::GetInstance()->Initialize({ g_iTileCnt, g_iTileCnt }, { 256, 256 });
 	CXML_Manager::GetInstance()->Initialize(m_pGraphic_Device);
+	
+	CItem_Manager::GetInstance()->LoadItemData("../Bin/Resources/DataStruct/Item/ItemData.csv");
+	CPlayerData_Manager::GetInstance()->LoadPlayerData("../Bin/Resources/DataStruct/Character/CharacterData.csv");
+	CMonsterData_Manager::GetInstance()->LoadMonsterData("../Bin/Resources/DataStruct/Monster/MonsterData.csv");
 
+//	m_pImgManager->Ready_Manager(m_pGraphic_Device);
 	return S_OK;
 }
 
@@ -64,22 +72,22 @@ void Client::CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
-	
+	CEffectPoolManager::GetInstance()->UpdateActvieEffect(fTimeDelta);
 
-
+	//m_pImgManager->Update_Manager(fTimeDelta);
 }
 
 HRESULT Client::CMainApp::Render()
 {
 	m_pGameInstance->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	Render_FPS();
 	m_pGameInstance->Draw();
 	
+	//m_pImgManager->Render_Manager();
+
 	m_pGameInstance->Render_End();
-
-
+	
 	return S_OK;
 }
 
@@ -153,11 +161,7 @@ HRESULT CMainApp::Ready_Prototypes()
 		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/Particles/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Logo */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_Logo"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Logo/logo.png"), 1))))
-		return E_FAIL;
-
+	
 	/* For.Prototype_Component_Paritcle_Sys */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Particle_System"),
 		CParticleSystemComponent::Create(m_pGraphic_Device))))
@@ -168,15 +172,17 @@ HRESULT CMainApp::Ready_Prototypes()
 		CLightComponent::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+
+
 #pragma region LOADING_INTERFACE
 	/* For.Prototype_Compoent_LODING_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/BackGround/LoadingBackGround%d.png"), 2))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loading/BackGround/Loading%d.png"), 7))))
 		return E_FAIL;
 
 	/* For.Prototype_Compoent_LODING_Circle */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Loading_Circle_Texture"),
-		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loding/Circle/LoadingCircle.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXTURE::PLANE, TEXT("../Bin/Resources/Textures/UI/Loading/Circle/LoadingCircle.png"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_LODING_INTERFACE */
@@ -221,14 +227,10 @@ HRESULT CMainApp::Ready_Prototypes()
 	if (FAILED(m_pGameInstance->Add_Font(TEXT("Date_40"), 40, TEXT("BigDonstarve"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 40, TEXT("BigDonstarve"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("MouseInfo_40"), 37, TEXT("BigDonstarve"))))
 		return E_FAIL;
 #pragma endregion
 
-	/* For.Prototype_GameObject_AnimUI */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_GameObject_Logo"),
-		CLogo::Create(m_pGraphic_Device))))
-		return E_FAIL;
 	return S_OK;
 }
 
@@ -279,8 +281,12 @@ void Client::CMainApp::Free()
 	CItem_Manager::DestroyInstance();
 	CTerrian_Manager::DestroyInstance();
 	CXML_Manager::DestroyInstance();
-	CCharacter_Manager::DestroyInstance();
+	CEffectPoolManager::DestroyInstance();
+	auto EffManager = CEffectPoolManager::GetInstance();
+	Safe_Release(EffManager);
+	Safe_Release(m_pImgManager);
 	m_pGameInstance->Release_Engine();
 
+	CQuestManager::DestroyInstance();
 	Safe_Release(m_pGameInstance);	
 }

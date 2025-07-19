@@ -4,7 +4,7 @@
 #include "Camera_Button.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CFrustomCamera { pGraphic_Device }
+	: CFrustomCamera{ pGraphic_Device }
 {
 }
 
@@ -54,25 +54,33 @@ HRESULT CCamera::Initialize(void* pArg)
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 0;
 
- 	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
+	m_pButton_Left = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
 
 	Desc.fX = g_iWinSizeX - 50.f;
 	Desc.fY = g_iWinSizeY - 50.f;
 	Desc.iTextureIndex = 1;
-
+	m_fShakePower = 0.f;
 	m_pButton_Right = dynamic_cast<CCamera_Button*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::STATIC), TEXT("Prototype_GameObject_Camera_Button"), &Desc));
-	
+
 	return S_OK;
 }
 
 HRESULT CCamera::Initialize_Late()
 {
-	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::TUTORIAL), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+	m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
 	if (!m_pPlayerTransformCom)
 		m_pPlayerTransformCom = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
+	m_fPlayerPos = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
+	_float3		vPosition = m_fPlayerPos;
+	_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
+	_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
+	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+	m_pTransformCom->SetPosition(vPosition);
+	m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
 	return S_OK;
 }
 
@@ -101,14 +109,35 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		_float3		vPosition = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION);
 		_float3		vLook = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::LOOK);
 		_float3		vUp = m_pPlayerTransformCom->GetWorldState(WORLDSTATE::UP);
-		_float3	turn = vPosition - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-		vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
-		vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+		_float3 trasform = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		_float3 distance = vPosition - m_fPlayerPos;
+		if (0.01f >= D3DXVec3Length(&distance)) {
+			m_fPlayerPos = vPosition;
+			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+			vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+			m_pTransformCom->SetPosition(vPosition);
+		}
+		else {
 
-		float z = sqrtf(powf(turn.x, 2) + powf(turn.y, 2));
-		float player = acosf(turn.x / z);
-		m_pTransformCom->SetPosition(vPosition);
-		m_pTransformCom->LookAt(m_pPlayerTransformCom->GetWorldState(WORLDSTATE::POSITION));
+			vPosition = m_fPlayerPos;
+			vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * 3.5f;
+			vPosition += *D3DXVec3Normalize(&vUp, &vUp) * 3.5f;
+			_float3 oneDistance;
+			D3DXVec3Normalize(&oneDistance, &distance);
+			distance = min(distance, oneDistance) * fTimeDelta * 5;
+
+			m_fPlayerPos += distance;
+			vPosition += distance;
+			m_pTransformCom->SetPosition(vPosition);
+		}
+		m_pTransformCom->LookAt(m_fPlayerPos);
+		if (0.1f < m_fShakePower) {
+			m_fShakePower -= fTimeDelta;
+			m_fTime += fTimeDelta * 40;
+			vPosition += m_pTransformCom->GetWorldState(WORLDSTATE::RIGHT) * cosf(m_fTime) * (m_fShakePower / 30);
+			vPosition += m_pTransformCom->GetWorldState(WORLDSTATE::UP) * sinf(m_fTime * 2) * (m_fShakePower / 30);
+			m_pTransformCom->SetPosition(vPosition);
+		}
 	}
 
 	Compute_CameraMatrix();
@@ -116,7 +145,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	
+
 
 }
 
@@ -131,6 +160,14 @@ HRESULT CCamera::Render()
 	m_pButton_Right->Render();
 
 	return S_OK;
+}
+
+void CCamera::ShakeCamera(_float fPower)
+{
+	if (0.f >= m_fShakePower || 0 >= fPower) {
+		m_fShakePower = 0;
+	}
+	m_fShakePower += fPower;
 }
 
 HRESULT CCamera::Ready_Components(void* pArg)

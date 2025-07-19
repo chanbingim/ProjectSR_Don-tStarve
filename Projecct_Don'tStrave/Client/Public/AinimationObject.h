@@ -28,13 +28,13 @@ public:
 	virtual void			Late_Update(_float fTimeDelta) override;
 	virtual HRESULT			Render() override;
 
-	HRESULT					LoadImageFile();
+	HRESULT					LoadImageFile(vector<IMAGE_FOLDER_DESC>* tImageVec = nullptr);
 
-	void					XMLRenderAnimation(const wstring& animName);
-
+	void					XMLRenderAnimation(const wstring& animName, Entity* tEntity = nullptr, vector<IMAGE_FOLDER_DESC>* AnimVec = nullptr);
 protected:
 	_uint						m_fAniTime = {};
 	_uint						m_iLength = {};
+	_float						m_fZAngle = {};
 
 	Entity						m_tAnimation = {};
 	vector<IMAGE_FOLDER_DESC>	m_tImageVec = {};
@@ -43,6 +43,7 @@ protected:
 	CVIBuffer_Rect*				m_pVIBufferCom = { nullptr };
 	CTerrian_Manager*			m_pTerrian_Manager = { nullptr };
 
+	_bool						m_bAnimPause = { false };
 public:
 	virtual		CGameObject*		Clone(void* pArg) override;
 	virtual		void				Free();

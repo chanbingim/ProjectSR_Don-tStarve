@@ -4,13 +4,17 @@
 #include "DropItemComponent.h"
 
 #include "Env_Animation.h"
+#include "CUtility.h"
 #include "KeyManager.h"
 #include "XML_Manager.h"
+
+#include "SpriteEffect.h"
+#include "EffectPoolManager.h"
 
 CTreeObject::CTreeObject(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CDropItemEnviornment(pGraphic_Device)
 {
-    m_EnviornmentID = 4;
+    m_EnviornmentType = Enviornment_TYPE::TREE;
 }
 
 CTreeObject::CTreeObject(const CTreeObject& rhs) : 
@@ -41,9 +45,8 @@ HRESULT CTreeObject::Initialize(void* pArg)
     m_TailName = rand() % 2 == 1 ? TEXT("normal") : TEXT("short");
 
     m_EnviromentState = Enviornment_STATE::IDLE;
-    m_pDropItem_Com->ADD_ItemData(38, 1);
-
-    m_pDropItem_Com->SetCreateEffect(1);
+    m_pDropItem_Com->ADD_ItemData(38, 5);
+    m_pDropItem_Com->SetCreateEffect(0);
 
     m_pCollision_Com->BindEnterFunction([&](CGameObject* HitActor, _float3& Dir) { BeginHitActor(HitActor, Dir); });
     m_pCollision_Com->BindOverlapFunction([&](CGameObject* HitActor, _float3& Dir) { OverlapHitActor(HitActor, Dir); });
@@ -62,18 +65,6 @@ void CTreeObject::Priority_Update(_float fTimeDelta)
 void CTreeObject::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
- 
-    if (Enviornment_STATE::BROKEN_IDLE == m_EnviromentState)
-    {
-        m_CurRecoverTime += 0.01f;
-        if (m_MaxRecoverTime <= m_CurRecoverTime)
-        {
-            m_FrontName = TEXT("grow_seed_to_");
-            m_EnviromentState = Enviornment_STATE::RECOVERY;
-            m_fAniTime = 0;
-            m_CurRecoverTime = 0;
-        }
-    }
     Reset_State();
 }
 
@@ -98,8 +89,6 @@ void CTreeObject::Reset_State()
             m_EnviromentState = Enviornment_STATE::BROKEN_IDLE;
 
             _float3 Pos = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
-            Pos += m_pTransformCom->GetWorldState(WORLDSTATE::LOOK) * -1.f;
-            Pos.y += m_pTransformCom->GetScale().y * 1.f;
             CreateDropItem(Pos);
         }
     }
@@ -107,14 +96,9 @@ void CTreeObject::Reset_State()
 
 HRESULT CTreeObject::Render()
 {
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-    m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
+    m_fAniTime = m_fAniTime % m_iLength;
     CAinimationObject::Render();
-     XMLRenderAnimation(m_FrontName + m_TailName);
-
-     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    XMLRenderAnimation(m_FrontName + m_TailName);
 
     return S_OK;
 }
@@ -125,7 +109,7 @@ void CTreeObject::Damage(void* pArg)
     {
     case Enviornment_STATE::IDLE:
     case Enviornment_STATE::DAMAGED:
-        if (m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
+        if ((_int)m_EnviormentInfo.iMaxHit <= m_EnviormentInfo.iHit)
         {
             DAMAGE_DATA_BASE DamageBase = {};
             if(nullptr != pArg)
@@ -137,6 +121,7 @@ void CTreeObject::Damage(void* pArg)
                 m_FrontName = TEXT("fallright_");
 
             m_EnviormentInfo.iHit = 0;
+            m_fAniTime = 0;
             m_EnviromentState = Enviornment_STATE::BROKEN;
         }
         else
@@ -145,6 +130,12 @@ void CTreeObject::Damage(void* pArg)
             m_EnviormentInfo.iHit++;
             m_fAniTime = 0;
             m_EnviromentState = Enviornment_STATE::DAMAGED;
+
+            CSpriteEffect::SPRITE_EFFECT Desc;
+            auto EffectAnimName = m_FrontName.substr(0, m_FrontName.length() - 1);
+            Desc.AnimName = EffectAnimName.c_str();
+            auto Effect = CEffectPoolManager::GetInstance()->Add_ActiveEffect(2, (CAinimationObject**) & m_pSpirteEffect, &Desc);
+            m_pSpirteEffect->GetTransfrom()->SetPosition(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION));
         }
         break;
     }

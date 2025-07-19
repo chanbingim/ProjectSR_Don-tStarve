@@ -44,13 +44,14 @@ HRESULT CBox_Collision_Component::Initialize(void* pArg)
 
 void CBox_Collision_Component::Update()
 {
-    __super::Update();
+    if(m_IsUpdate)
+        __super::Update();
 }
 
 void CBox_Collision_Component::Render()
 {
-    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
-    m_pBoxMesh->DrawSubset(0);
+   /* m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMat);
+    m_pBoxMesh->DrawSubset(0);*/
 }
 
 HRESULT CBox_Collision_Component::ComputeBounding(_float3* Min, _float3* Max)

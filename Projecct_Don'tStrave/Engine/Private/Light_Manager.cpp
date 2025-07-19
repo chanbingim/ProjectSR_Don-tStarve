@@ -14,12 +14,14 @@ HRESULT CLight_Manager::Initialize(LPDIRECT3DDEVICE9 pGraphic_Device)
 	m_pGraphic_Device = pGraphic_Device;
 	Safe_AddRef(m_pGraphic_Device);
 
+	m_pGraphic_Device->LightEnable(0, true);
+
 	return S_OK;
 }
 
 void CLight_Manager::UpdateLight()
 {
-	Sorting_Light(0);
+	Sorting_Light(1);
 }
 
 HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
@@ -31,28 +33,23 @@ HRESULT CLight_Manager::ADD_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
 		return E_FAIL;
 
 	m_Lightlist[Index].push_back(pLight);
-	Safe_AddRef(pLight);
 
 	return S_OK;
 }
 
-HRESULT CLight_Manager::REMOVE_Light(LIGHT_TYPE LightType, CLightComponent* pLight)
+void CLight_Manager::DeadLight(LIGHT_TYPE LightType, CLightComponent* pLight)
 {
 	_uint Index = ENUM_CLASS(LightType);
-
 	auto iter = find(m_Lightlist[Index].begin(), m_Lightlist[Index].end(), pLight);
 	if (iter == m_Lightlist[Index].end())
-		return E_FAIL;
+		return;
 
 	m_Lightlist[Index].erase(iter);
-	Safe_Release(pLight);
-	return S_OK;
 }
 
 void CLight_Manager::Enable_Light()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
-	
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	if(0 < m_Lightlist[ENUM_CLASS(LIGHT_TYPE::DIRECATION)].size())
 	(*m_Lightlist[ENUM_CLASS(LIGHT_TYPE::DIRECATION)].begin())->Render_Light();
 
@@ -64,7 +61,7 @@ void CLight_Manager::Enable_Light()
 		if (iter == ApplyLight_End)
 		{
 			for(int j = i; j <= 7; ++j)
-				m_pGraphic_Device->LightEnable(i, false);
+				m_pGraphic_Device->LightEnable(j, false);
 			break;
 		}
 
@@ -76,18 +73,30 @@ void CLight_Manager::Enable_Light()
 
 void CLight_Manager::UnEnable_Light()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 }
 
-void CLight_Manager::Sorting_Light(_uint type)
+void CLight_Manager::Sorting_Light(_uint Sortingtype)
 {
 	m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].sort([&](CLightComponent* pSrc, CLightComponent* pDst)
 		{
-			if (1 == type)
-				return pSrc->GetOwner()->Get_CameraDistance() < pDst->GetOwner()->Get_CameraDistance();
+			if (1 == Sortingtype)
+				return pSrc->Compute_LightDistance() < pDst->Compute_LightDistance();
 			else
-				return pSrc->GetOwner()->Get_CameraDistance() > pDst->GetOwner()->Get_CameraDistance();
+				return pSrc->Compute_LightDistance() > pDst->Compute_LightDistance();
 		});
+	if (1 == m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].size()) {
+		m_Lightlist[ENUM_CLASS(LIGHT_TYPE::POINT)].front()->Compute_LightDistance();
+	}
+}
+
+void CLight_Manager::Bind_SortFunc(function<_bool(CLightComponent*, CLightComponent*)> _Func)
+{
+	m_Func = _Func;
+}
+
+list<CLightComponent*>* CLight_Manager::GetAllLightList(LIGHT_TYPE type)
+{
+	return &m_Lightlist[ENUM_CLASS(type)];
 }
 
 void CLight_Manager::Free()
@@ -95,12 +104,7 @@ void CLight_Manager::Free()
 	__super::Free();
 
 	Safe_Release(m_pGraphic_Device);
+
 	for (_uint i = 0; i < ENUM_CLASS(LIGHT_TYPE::END); ++i)
-	{
-		for (auto iter : m_Lightlist[i])
-		{
-			Safe_Release(iter);
-		}
 		m_Lightlist[i].clear();
-	}
 }

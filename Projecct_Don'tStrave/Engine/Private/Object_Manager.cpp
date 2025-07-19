@@ -28,6 +28,16 @@ CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& 
 	return pLayer->Get_GameObject(iIndex);
 }
 
+HRESULT CObject_Manager::Remove_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	pLayer->Clear();
+	return S_OK;
+}
+
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;

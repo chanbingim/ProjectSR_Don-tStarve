@@ -14,16 +14,19 @@ private :
 	virtual ~CTerrian_Manager() = default;
 
 public :
-	HRESULT				Initialize(const _float2& TileSize);
+	HRESULT				Initialize(const _float2& TileSize, const _float2& vecSize);
 	CTerrain*			GetOnTerrian(_float3& Pos);
 	vector<CTerrain*>*	GetTerrains();
 	void				ADD_Terrian(CTerrain* pTerrian);
 	void				Clear();
 	
 private :
-	_float2						m_Size = {};
-	vector<CTerrain*>			m_pTerrian = { nullptr };
-	
+	_float2						m_TileSize = {};
+	_float2						m_vecSize = {};
+
+	vector<CTerrain*>			m_pTerrian = {};
+	vector<_int>				m_IgnoreID = {};
+
 public :
 	virtual			void		Free() override;
 

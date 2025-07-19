@@ -34,6 +34,25 @@ HRESULT CEquipment::Initialize(void* pArg)
 	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
 	m_pTransformCom->SetScale(vSize);
 
+
+	switch (m_Item_Desc.iItemID)
+	{
+	case 2:
+		m_pTransformCom->SetScale(_float3(0.8f, 0.8f, 1.f));
+		break;
+
+	case 8:
+		m_pTransformCom->SetScale(_float3(0.8f, 0.18f, 1.f));
+		break;
+
+	case 9:
+		m_pTransformCom->SetScale(_float3(0.3f, 0.6f, 1.f));
+		break;
+
+	default:
+		break;
+	}
+
 	return S_OK;
 }
 
@@ -47,9 +66,6 @@ void CEquipment::Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	HoverEvent();
-
-	if (!m_bIsplayAnim)
-		SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);
 }
@@ -70,7 +86,7 @@ void CEquipment::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		m_bHovered = true;
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);

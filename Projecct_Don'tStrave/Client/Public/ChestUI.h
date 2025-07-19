@@ -28,6 +28,7 @@ public:
 	void Change_State(CChestUI::STATE eState);
 	void Update_State();
 	void RePosition_SlotFrame();
+	void Add_Render();
 
 private:
 	_bool			 m_bRended = {};
@@ -39,6 +40,7 @@ private:
 	CAnimController*			m_pAnimController = { nullptr };
 	CState*						m_pState_Open = nullptr;
 	CState*						m_pState_Close = nullptr;
+
 
 
 private:

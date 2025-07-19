@@ -11,6 +11,9 @@ private:
 	virtual ~CLogo() = default;
 
 public:
+	_uint Get_ID() { return m_iButtonIndex; }
+
+public:
 	virtual HRESULT  Initialize_Prototype()override;
 	virtual HRESULT  Initialize(void* pArg)override;
 	virtual void	 Priority_Update(_float fTimeDelta)override;
@@ -18,6 +21,13 @@ public:
 	virtual void	 Late_Update(_float fTimeDelta)override;
 	virtual HRESULT	 Render()override;
 
+private:
+	_uint		m_iButtonIndex = {};
+	RECT		m_rcButton[4] = {};
+	D3DXCOLOR	m_Color = {};
+	CTexture*	m_pButton_Texture_Com = { nullptr };
+	CTransform* m_pButton_Transform_Com = { nullptr };
+	
 
 private:
 	HRESULT ADD_Components();

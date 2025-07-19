@@ -17,18 +17,25 @@ namespace Client
 		unsigned int			iMaxFrame = { 60 };
 		float					fGameDayLength = { 60.f };
 		float					fBgmVolume = { 20.f };
+
+		float					m_fPirioryTime;
+		float					m_fUpdateTime;
+		float					m_fLateUdpateTime;
+		float					m_fRenderTime;
 	}GAME_SETTING_DESC;
 
 	const unsigned int			g_iWinSizeX = 1280;
 	const unsigned int			g_iWinSizeY = 720;
+	const unsigned int			g_iTileCnt = 4;
 
-	enum class LEVEL { STATIC, GAMEPLAY_STATIC, LOADING, LOGO, TUTORIAL, GAMEPLAY, END };
+	enum class LEVEL { STATIC, GAMEPLAY, LOADING, LOGO, TUTORIAL, SELECT, END };
 	enum class ITEM_TYPE { MERTARIAL, FOOD, EQUIPMENT, STRUCTURE};
-	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO };
+	enum class SLOT { NORMAL, HAND, HAT, ARMOR, INFO, POT };
 	enum class CATEGORY { TOOL, FIRE, MACHINE, WEAPON, FOOD, STRUCTURE, END };
 	enum class FOOD { MEAT, FRUIT, END };
-	enum class SWAPOBJECT { AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, GOLDSHOVEL, SPEAR, TORCH, NONE, END };
+	enum class SWAPOBJECT { AXE, GOLDAXE, PICKAXE, GOLDPICKAXE, SHOVEL, GOLDSHOVEL, SPEAR, LIGHTNINGSPEAR, TORCH, HAM, NONE, END };
 	enum class FIELDOBJECT { OBJECT, CREATURE, END };
+	enum class ATTACK_TYPE { ATTACK, FIRE, ICE, LIGHTNING, END };
 
 	typedef struct Item_Desc
 	{
@@ -57,9 +64,9 @@ namespace Client
 		unsigned int	iNumMaterial_3{};
 		wstring			strExplanation = {};
 		wstring			strLines = {};
-		unsigned int	iHealthChange{};
-		unsigned int	iHungerChange{};
-		unsigned int	iSanityChange{};
+		int	iHealthChange{};
+		int	iHungerChange{};
+		int	iSanityChange{};
 		unsigned int	iRotTime{};
 		FOOD			eFoodtype{};
 	}ITEM_DATA;
@@ -84,9 +91,9 @@ namespace Client
 		_uint			iAtk = {};
 		_float			fSpeed = {};
 		_uint			iAtkDistance = {};
-		_uint			iAtkSpeed = {};
+		_float			iAtkSpeed = {};
 		_uint			iMaxHit = {};
-		_bool			bHostile = {};
+		_uint			iHostile = {};
 		wstring			strWilsonDial = {};
 		wstring			strWigfridDial = {};
 		_float3			fPos = { 0.f,0.f,0.f };
@@ -104,6 +111,7 @@ namespace Client
 	}BASE_DESC;
 
 	typedef struct Character_Data : BASE_DESC {
+		_uint			iId = {};
 		_uint			iTemp = {};
 		_uint			iAtk = {};
 		_float			fSpeed = {};
@@ -112,29 +120,28 @@ namespace Client
 	}CHARACTER_DATA;
 
 	typedef struct Player_Data : Character_Data {
-		_uint					iId = {};
 		_float					fAtkRatio = {};
 		_float					fDefRatio = {};
 		_uint					iMaxHunger = {};
 		_uint					iMaxMental = {};
 		_uint					iDef = {};
-		_uint					iHunger = {};
-		_uint					iMental = {};
+		_int					iHunger = {};
+		_int					iMental = {};
 		SWAPOBJECT				tItem = {};
-		CGameObject* pWorkObject = {};
+		CGameObject*			pWorkObject = {};
 	}PLAYER_DATA;
 
 	typedef struct Monster_Data : Character_Data {
-		_uint		iId = {};
 		_float		iAtkDistance = {};
-		_uint		iAtkSpeed = {};
-		_bool		bHostile = {};
+		_float		iAtkSpeed = {};
+		_uint		iHostile = {};
 	}MONSTER_DATA;
 
 	typedef struct DamageBaseDesc{
-		void*		Attacker = { nullptr };
-		_int		Damage = {};
-		_float3		Direaction = {};
+		void*					Attacker = { nullptr };
+		_int					Damage = {};
+		_float3					Direaction = {};
+		ATTACK_TYPE			DamageType = { ATTACK_TYPE::ATTACK };
 	}DAMAGE_DATA_BASE;
 #pragma endregion
 }

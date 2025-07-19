@@ -49,7 +49,7 @@ HRESULT CDropItemEnviornment::Render()
     return S_OK;
 }
 
-HRESULT CDropItemEnviornment::CreateDropItem(const _float3& Pos)
+HRESULT CDropItemEnviornment::CreateDropItem(_float3& Pos)
 {
     if (m_pDropItem_Com)
     {

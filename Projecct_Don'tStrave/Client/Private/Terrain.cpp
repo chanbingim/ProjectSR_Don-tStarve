@@ -36,6 +36,7 @@ HRESULT CTerrain::Initialize(void* pArg)
 		m_pTransformCom->SetPosition(TeerrainDesc->vPosition);
 		m_pTransformCom->SetScale(TeerrainDesc->vScale);
 		m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
+		m_iObjectID = TeerrainDesc->iObjectID;
 	}
 
 	return S_OK;
@@ -61,7 +62,7 @@ void CTerrain::Late_Update(_float fTimeDelta)
 HRESULT CTerrain::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_iObjectID - 1000, 0);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -76,12 +77,12 @@ HRESULT CTerrain::Ready_Components()
 		return E_FAIL;
 
 	/* Com_Texture */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* Com_VIBuffer */
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_Component_VIBuffer_Terrain"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;	
 

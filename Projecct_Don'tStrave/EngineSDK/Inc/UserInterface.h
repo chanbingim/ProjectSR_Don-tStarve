@@ -31,9 +31,11 @@ public:
 	virtual	void		HoverEevent();
 	virtual	void		ClickedEevent();
 
-	void				UpdatePosition();
+	void				UpdatePosition(_float ZOrder = 1.f);
+	_float				GetZOrder() { return m_ZOrder; }
 
 protected :
+	_float					m_ZOrder = { 0.f };
 	_float					m_fX{}, m_fY{}, m_fSizeX{}, m_fSizeY{};
 	_float					m_fWinSizeX{}, m_fWinSizeY{};
 

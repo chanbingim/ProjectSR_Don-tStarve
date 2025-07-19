@@ -73,6 +73,12 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	m_pLight_Manager->Initialize(*ppOut);
 #pragma endregion
 
+	m_pTimer_Manager->Add_Timer(TEXT("PriorityTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("UpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("LateUpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("ColUpdateTime"));
+	m_pTimer_Manager->Add_Timer(TEXT("RenderTime"));
+	
 	return S_OK;
 }
 
@@ -80,32 +86,75 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pKey_Manager->BeginKeyInput();
 
-	m_pObject_Manager->Priority_Update(fTimeDelta);
+	m_pLevel_Manager->Priority_Update(fTimeDelta);
 
-	m_pMouseManager->Update();
+#pragma region PriorityUpdate
+		time.Priority_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
 
-	m_pObject_Manager->Update(fTimeDelta);
+		m_pObject_Manager->Priority_Update(fTimeDelta);
+		m_pMouseManager->Update();
 
-	m_pObject_Manager->Late_Update(fTimeDelta);
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("PriorityTime"));
+#pragma endregion
 
-	m_pCollision_Manager->Update();
+#pragma region Update
+		time.Update_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("UpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
-	m_pObject_Manager->Clear_DeadObj();
+		if(GAMESTATE::SINEMATIC != m_InstanceState)
+			m_pObject_Manager->Update(fTimeDelta);
 
-	m_pLevel_Manager->Update(fTimeDelta);
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("UpdateTime"));
 
-	m_pLight_Manager->UpdateLight();
+#pragma region Late_Update
+		time.LateUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
 
-	m_pKey_Manager->EndKeyInput();
+		m_pObject_Manager->Late_Update(fTimeDelta);
+
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("LateUpdateTime"));
+#pragma endregion
+
+#pragma region COLLISION_UPDATE
+		time.ColUpdate_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("ColUpdateTime"));
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+
+		if (GAMESTATE::SINEMATIC != m_InstanceState)
+			m_pCollision_Manager->Update();
+
+		m_pTimer_Manager->Compute_TimeDelta(TEXT("ColUpdateTime"));
+#pragma endregion
+
+		m_pObject_Manager->Clear_DeadObj();
+
+		m_pLevel_Manager->Update(fTimeDelta);
+
+		m_pLight_Manager->UpdateLight();
+
+#pragma endregion
+
 }
 
 HRESULT CGameInstance::Draw()
 {
-	m_pRenderer->Render();
 
+#pragma region Render
+	time.Render_Time = m_pTimer_Manager->Get_TimeDelta(TEXT("RenderTime"));
+	m_pTimer_Manager->Compute_TimeDelta(TEXT("RenderTime"));
+
+	m_pRenderer->Render();
 	m_pLevel_Manager->Render();
+#pragma endregion
+
+	m_pKey_Manager->EndKeyInput();
 
 	return S_OK;
+}
+
+void CGameInstance::SaveRenderTarget()
+{
+	
 }
 
 void CGameInstance::Clear_Resources(_uint iLevelIndex)
@@ -171,6 +220,11 @@ HRESULT CGameInstance::Reset_CurLevel()
 	return S_OK;
 }
 
+CLevel* CGameInstance::CurrentLevel()
+{
+	return m_pLevel_Manager->GetCurLevel();
+}
+
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -182,7 +236,7 @@ HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strProto
 
 CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototype, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
-	return m_pPrototype_Manager->Clone_Prototype(ePrototype, iLevelIndex, strPrototypeTag, pArg);;
+	return m_pPrototype_Manager->Clone_Prototype(ePrototype, iLevelIndex, strPrototypeTag, pArg);
 }
 
 #pragma endregion
@@ -212,6 +266,11 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iPrototypeLevelIndex, const 
 HRESULT CGameInstance::Initialize_Late(_uint iPrototypeLevelIndex)
 {
 	return m_pObject_Manager->Initialize_Late(iPrototypeLevelIndex);
+}
+
+HRESULT CGameInstance::Remove_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Remove_Layer(iLevelIndex, strLayerTag);
 }
 
 #pragma endregion
@@ -307,6 +366,30 @@ _bool CGameInstance::KeyUp(_uint KeyNum)
 {
 	return m_pKey_Manager->GetKeyUp(KeyNum);
 }
+void CGameInstance::Bind_LightSort(function<_bool(CLightComponent*, CLightComponent*)> _Func)
+{
+	return m_pLight_Manager->Bind_SortFunc(_Func);
+}
+
+_float CGameInstance::Get_NearLight()
+{
+	list<CLightComponent*>* LightList = m_pLight_Manager->GetAllLightList(LIGHT_TYPE::POINT);
+	if (0 < LightList->size()) {
+		return LightList->front()->GetDistance();
+	}
+	return 1000.f;
+}
+void CGameInstance::ChangeGameState(GAMESTATE eState)
+{
+	m_InstanceState = eState;
+}
+_bool CGameInstance::GetSinematick()
+{
+	if (GAMESTATE::SINEMATIC == m_InstanceState)
+		return true;
+
+	return false;
+}
 #pragma endregion
 
 void CGameInstance::Release_Engine()
@@ -318,11 +401,13 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pPrototype_Manager);
+	
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pKey_Manager);
 	Safe_Release(m_pLight_Manager);
+
 	Safe_Release(m_pCollision_Manager);
 	Safe_Release(m_pGraphic_Device);
 }

@@ -11,6 +11,12 @@ CItem_Button::CItem_Button(const CItem_Button& Prototype)
 {
 }
 
+void CItem_Button::InResearchLap(_bool inRanged)
+{
+    if (1 == m_iCraftLevel)
+        m_isActivate = inRanged;
+}
+
 HRESULT CItem_Button::Initialize_Prototype()
 {
     return S_OK;
@@ -19,6 +25,15 @@ HRESULT CItem_Button::Initialize_Prototype()
 HRESULT CItem_Button::Initialize(void* pArg)
 {
     m_isSelected = false;
+
+    ITEMBTN_DESC* pDesc = static_cast<ITEMBTN_DESC*>(pArg);
+
+    m_iCraftLevel = pDesc->iCraftLevel;
+
+    if (0 == m_iCraftLevel)
+        m_isActivate = true;
+    else
+        m_isActivate = false;
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
@@ -67,6 +82,13 @@ HRESULT CItem_Button::Render()
 
     m_pTransform_Com->SetScale(vScale);
 
+    if(!m_isActivate)
+    {
+        m_pBackGroundTexture_Com->Set_Texture(2);
+
+        m_pVIBuffer_Com->Render();
+    }
+
     return S_OK;
 }
 
@@ -76,12 +98,12 @@ void CItem_Button::HoverEevent()
     {
         ClickedEevent();
     }
-       
+
 }
 
 void CItem_Button::ClickedEevent()
 {
-    if (m_pGameInstance->KeyDown(VK_LBUTTON))
+    if (m_pGameInstance->KeyDown(VK_LBUTTON) && true == m_isActivate)
         m_isClicked = true;
     else
         m_isClicked = false;

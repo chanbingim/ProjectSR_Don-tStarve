@@ -5,6 +5,11 @@
 #include "GameInstance.h"
 
 #include "Camera.h"
+#include "Mouse.h"
+#include "Player.h"
+
+#include "EffectPoolManager.h"
+#include "SpriteEffect.h"
 
 CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
     CAinimationObject(pGraphic_Device)
@@ -13,7 +18,7 @@ CEnviornment_Object::CEnviornment_Object(LPDIRECT3DDEVICE9 pGraphic_Device) :
 
 CEnviornment_Object::CEnviornment_Object(const CEnviornment_Object& rhs) :
     CAinimationObject(rhs),
-    m_EnviornmentID(rhs.m_EnviornmentID)
+    m_EnviornmentType(rhs.m_EnviornmentType)
 {
 }
 
@@ -38,7 +43,9 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
         m_pTransformCom->SetScale(TeerrainDesc->vScale);
         m_pTransformCom->SetRotation(TeerrainDesc->vRotation);
 
+        m_iObjectID = TeerrainDesc->iObjectID;
         auto Terrian = m_pTerrian_Manager->GetOnTerrian(TeerrainDesc->vPosition);
+
         Arg.pLandVIBuffer = Terrian->GetCurVIBuffer();
         Arg.pLandTransform = Terrian->GetTransfrom();
 
@@ -47,8 +54,8 @@ HRESULT CEnviornment_Object::Initialize(void* pArg)
     }
 
     m_bEnableBillboard = true;
-
-    Setting_Shader(L"BillBoard.fx");
+    if(m_pCollision_Com)
+        m_pCollision_Com->Enable(false);
 
     return S_OK;
 }
@@ -57,7 +64,6 @@ void CEnviornment_Object::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 
-    
 }
 
 void CEnviornment_Object::Update(_float fTimeDelta)
@@ -67,18 +73,25 @@ void CEnviornment_Object::Update(_float fTimeDelta)
     _float3 Pos;
     if ( m_pGameInstance->KeyDown(VK_LBUTTON) && m_pVIBufferCom->Picking(m_pTransformCom, &Pos))
     {
-        DamageBaseDesc  damage;
-        damage.Attacker = this;
+        if (CEnviornment_Object::Enviornment_TYPE::RESERREECTION == GetEnviornMentType()) {
+            DamageBaseDesc  damage;
+            damage.Attacker = this;
 
-        Damage(&damage);
+            Damage(&damage);
+        }
+        else {
+            dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+        }
     }
+
+    HoverEevent();
 }
 
 void CEnviornment_Object::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
     
-    if(m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION)))
+    if(m_pCamera->IsInObject(m_pTransformCom->GetWorldState(WORLDSTATE::POSITION), 150.f))
         m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
@@ -106,9 +119,10 @@ void CEnviornment_Object::Death()
 
 _wstring CEnviornment_Object::GetEnviornmnetName()
 {
-    switch (m_EnviornmentID)
+    
+    switch (m_iObjectID)
     {
-    case 1 :
+    case 1:
         return TEXT("Portal");
     case 2:
         return TEXT("Grass");
@@ -121,13 +135,50 @@ _wstring CEnviornment_Object::GetEnviornmnetName()
     case 6:
         return TEXT("Resurrection Stone");
     }
+    
 
-    return TEXT("");;
+    return TEXT("");
 }
 
 _uint CEnviornment_Object::GetEnviormentID()
 {
-    return m_EnviornmentID;
+    return m_iObjectID;
+}
+
+BASE_DESC CEnviornment_Object::GetCurrentInfo()
+{
+    return m_EnviormentInfo;
+}
+
+CEnviornment_Object::Enviornment_STATE CEnviornment_Object::GetState()
+{
+    return m_EnviromentState;
+}
+
+CEnviornment_Object::Enviornment_TYPE CEnviornment_Object::GetEnviornMentType()
+{
+    return m_EnviornmentType;
+}
+
+_float CEnviornment_Object::GetAnimationFrame()
+{
+    return m_fAniTime;
+}
+
+const _wstring CEnviornment_Object::GetMotionName()
+{
+    return m_FrontName + m_TailName;
+}
+
+void CEnviornment_Object::HoverEevent()
+{
+    _float3 vPickingPos = {};
+
+    if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
+    {
+        if(Enviornment_STATE::IDLE == m_EnviromentState)
+            dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverEnv(m_iObjectID);
+    }
 }
 
 CEnviornment_Object* CEnviornment_Object::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

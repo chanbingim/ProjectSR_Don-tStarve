@@ -80,7 +80,10 @@ void CCollision_Component::Render()
 
 void CCollision_Component::ADDHitGroup(CGameObject* pGameObject)
 {
-	m_HitActor.push_back(pGameObject);
+	auto iter = find(m_HitActor.begin(), m_HitActor.end(), pGameObject);
+
+	if(iter == m_HitActor.end())
+		m_HitActor.push_back(pGameObject);
 }
 
 const list<CGameObject*>* CCollision_Component::GetOVerlapAllObejcts()

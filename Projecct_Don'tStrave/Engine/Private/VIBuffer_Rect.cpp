@@ -90,13 +90,13 @@ _bool CVIBuffer_Rect::Picking(CTransform* pTransform, _float3* pOut)
 
 	if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[0], m_pVertexPositions[1], m_pVertexPositions[2], pOut))
 	{
-		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_World());
 		return true;
 	}
 
 	if (true == m_pGameInstance->Picking_InLocalSpace(m_pVertexPositions[0], m_pVertexPositions[2], m_pVertexPositions[3], pOut))
 	{
-		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_InverseWorldMat());
+		D3DXVec3TransformCoord(pOut, pOut, &pTransform->Get_World());
 		return true;
 	}
 

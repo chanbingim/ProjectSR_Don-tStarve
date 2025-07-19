@@ -26,7 +26,7 @@ HRESULT CItem::Initialize_Prototype()
 HRESULT CItem::Initialize(void* pArg)
 {
 	m_bEnableBillboard = true;
-	m_bHovered = false;
+	m_bHovered = true;
 
 	CLandObject::LANDOBJECT_DESC			Desc{};
 	Desc.pLandTransform = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"), TEXT("Com_Transform")));
@@ -53,7 +53,7 @@ HRESULT CItem::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_bEnableBillboard = true;
-	m_bIsplayAnim = true;
+	m_bIsplayAnim = false;
 	Setting_Shader(L"BillBoard.fx");
 
 	Safe_AddRef(m_pPlayerTransform_Com);
@@ -88,7 +88,7 @@ void CItem::Update(_float fTimeDelta)
 
 	HoverEvent();
 
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	//SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	Update_Item(fTimeDelta);
 }
@@ -96,36 +96,13 @@ void CItem::Update(_float fTimeDelta)
 void CItem::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	if (true == m_isDead)
-	{
-		CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
-		CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
-
-		if (nullptr == pSlot && nullptr != m_pGameInstance->Chagne_Slot())
-		{
-			dynamic_cast<CSlot*>(m_pGameInstance->Chagne_Slot())->Set_Info(m_Item_Desc);
-		}
-		else
-		{
-			CUIEffect::UIEFFECT_DESC Desc = {};
-
-			Desc.iItemID = m_Item_Desc.iItemID;
-			Desc.pSlot = pSlot;
-			Desc.vCursorPos = m_pGameInstance->GetMousePosition(0);
-			memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
-
-			m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
-				EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
-		}
-	}
 }
 
 HRESULT CItem::Render()
 {
-	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Get_World());
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 100);
-	
+
 	class CGameObject* Obj = m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Camera"));
 	auto Camera = dynamic_cast<CCamera*>(Obj);
 	if (nullptr == Camera)
@@ -134,27 +111,24 @@ HRESULT CItem::Render()
 	LPDIRECT3DBASETEXTURE9 pTex = { nullptr };
 
 	m_pTexture_Com->Set_Texture(m_Item_Desc.iItemID);
-	m_pGraphic_Device->GetTexture(0, &pTex);
+
 	Excute_Billboard(Camera->GetInvViewMat(), pTex);
 
-	__super::Render();
-
-	if(true == m_bHovered)
+	if (true == m_bHovered)
 	{
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT); // Stage0 결과
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
 
-		m_pVIBuffer_Com->Render();
+		m_pVIBufferCom->Render();
 
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 		m_pGraphic_Device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 	}
 	else
-		m_pVIBuffer_Com->Render();
+		m_pVIBufferCom->Render();
 
-	End_Billboard();
-	
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	return S_OK;
 }
@@ -163,7 +137,7 @@ void CItem::HoverEvent()
 {
 	_float3 vPickingPos = {};
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
 		ClickedEvent();
@@ -174,15 +148,20 @@ void CItem::ClickedEvent()
 {
 	if (m_pGameInstance->KeyDown(VK_RBUTTON))
 	{
-		EnterInvenTory();
+		if (m_bIsplayAnim)
+			EnterInvenTory();
+		else
+			dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")))->Get_Player()->pWorkObject = this;
+
 	}
+
 }
 
 HRESULT CItem::ADD_Components()
 {
 	if (FAILED(__super::Add_Component(EnumToInt(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"),
-		reinterpret_cast<CComponent**>(&m_pVIBuffer_Com))))
+		reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 	Engine::CTransform::TRANSFORM_DESC Transform_Desc = { 5.f, D3DXToRadian(90.f) };
@@ -243,42 +222,38 @@ void CItem::DropItemEffect(_float FallSpeed)
 
 void CItem::EnterInvenTory()
 {
-	_float3 vPickingPos = {};
+	CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+	CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos) || m_bIsplayAnim)
+	if (nullptr == pSlot)
+		int a{}; // 인벤토리가 꽉참
+	else
 	{
-		CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
-		CSlot* pSlot = pInventory->Find_Item(m_Item_Desc.iItemID);
+		CUIEffect::UIEFFECT_DESC Desc = {};
 
-		if (nullptr == pSlot)
-			int a{}; // 인벤토리가 꽉참
-		else
-		{
-			CUIEffect::UIEFFECT_DESC Desc = {};
+		Desc.iItemID = m_Item_Desc.iItemID;
+		Desc.pSlot = pSlot;
+		Desc.vPositon = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+		memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
 
-			Desc.iItemID = m_Item_Desc.iItemID;
-			Desc.pSlot = pSlot;
-			memcpy(&Desc.Item_Desc, &m_Item_Desc, sizeof(ITEM_DESC));
+		m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
 
-			m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
-				EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
-
-			m_isDead = true;
-		}
+		m_isDead = true;
 	}
+
 }
-
-
-
 
 void CItem::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pMouse);
+
 	Safe_Release(m_pTexture_Com);
-	Safe_Release(m_pCollision_Com);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBuffer_Com);
+
+	Safe_Release(m_pCollision_Com);
+
 	Safe_Release(m_pPlayerTransform_Com);
 }

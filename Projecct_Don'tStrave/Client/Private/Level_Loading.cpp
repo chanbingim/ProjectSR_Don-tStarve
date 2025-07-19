@@ -6,6 +6,7 @@
 #include "Level_Logo.h"
 #include "LodingInterface.h"
 #include "Level_GamePlay.h"
+#include "Level_Select.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -55,6 +56,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				break;
 			case LEVEL::GAMEPLAY:
 				pNewLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_eNextLevelID);
+				break;
+			case LEVEL::SELECT:
+				pNewLevel = CLevel_Select::Create(m_pGraphic_Device, m_eNextLevelID);
 				break;
 			}
 

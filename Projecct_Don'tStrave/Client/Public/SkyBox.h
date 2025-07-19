@@ -4,7 +4,8 @@
 #include "GameObject.h"
 
 NS_BEGIN(Engine)
-
+class CVIBuffer;
+class CTexture;
 NS_END
 
 NS_BEGIN(Client)
@@ -24,6 +25,14 @@ public :
 	virtual void		Update(_float fTimeDelta);
 	virtual void		Late_Update(_float fTimeDelta);
 	virtual HRESULT		Render();
+
+private:
+	CVIBuffer*	m_pVIBufferCom = { nullptr };
+	CTexture*	m_pTextureCom = { nullptr };
+	CTransform*	m_pCamera_TransfromCom = { nullptr };
+
+private:
+	HRESULT Add_Components();
 
 public :
 	static	CSkyBox*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

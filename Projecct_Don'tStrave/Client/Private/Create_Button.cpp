@@ -80,7 +80,10 @@ void CCreate_Button::HoverEevent()
 void CCreate_Button::ClickedEevent()
 {
     if (0 != m_iTextureIndex && m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
         m_isClicked = true;
+        m_pGameInstance->Manager_PlaySound(L"HUD_craft_down.wav", CHANNELID::SOUND_ITEM, 1.f);
+    }
     else
         m_isClicked = false;
 

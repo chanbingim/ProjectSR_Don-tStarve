@@ -4,6 +4,7 @@ IMPLEMENT_SINGLETON(CItem_Manager)
 
 CItem_Manager::CItem_Manager()
 {
+    
 }
 
 const ITEM_DATA& CItem_Manager::Get_ItemData(_uint iItemID) const
@@ -20,6 +21,7 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
     vector<string>      ReadData = {};
 
     m_ItemDataSize = 0;
+    m_ItemDatas = {};
 
     ReadData.reserve(500);
     Reader.ReadCSVData(MapFilePath, ',', &ReadData);
@@ -66,9 +68,20 @@ void CItem_Manager::LoadItemData(const char* MapFilePath)
 
 
     ITEM_DATA DataTemp = m_ItemDatas[1];
+
+    m_DropDir[0] = _float3(0.0f, 0.0f, 0.7f);
+    m_DropDir[1] = _float3(0.49497f, 0.0f, 0.49497f);
+    m_DropDir[2] = _float3(0.7f, 0.0f, 0.0f);
+    m_DropDir[3] = _float3(0.49497f, 0.0f, -0.49497f);
+    m_DropDir[4] = _float3(0.0f, 0.0f, -0.7f);
+    m_DropDir[5] = _float3(-0.49497f, 0.0f, -0.49497f);
+    m_DropDir[6] = _float3(-0.7f, 0.0f, 0.0f);
+    m_DropDir[7] = _float3(-0.49497f, 0.0f, 0.49497f);
+
 }
 
 void CItem_Manager::Free()
 {
 	__super::Free();
+  
 }

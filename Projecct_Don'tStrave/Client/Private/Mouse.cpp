@@ -8,6 +8,9 @@
 
 #include "Slot.h"
 #include "Item.h"
+#include "Player.h"
+#include "Grid.h"
+#include "SkillIndicator.h"
 
 CMouse::CMouse(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CUserInterface{ pGraphic_Device }
@@ -52,7 +55,13 @@ HRESULT CMouse::Initialize(void* pArg)
 
     m_pPlayerTransform_Com = static_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Transform"), 0));
 
+    m_pPlayer_Data = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->Get_Player();
+
     Safe_AddRef(m_pPlayerTransform_Com);
+
+    m_pGrid = dynamic_cast<CGrid*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Grid")));
+
+    m_pSkillIndicator = dynamic_cast<CSkillIndicator*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillIndicator")));
 
     return S_OK;
 }
@@ -82,8 +91,9 @@ void CMouse::Update(_float fTimeDelta)
  
     //m_pTransform_Com->SetPosition(_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
     __super::UpdatePosition();
-    
 
+    m_pSkillIndicator->Update(fTimeDelta);
+    
 #pragma region TestCode
     ITEM_DESC Desc = {};
     if (GetKeyState('1') & 0x8000)
@@ -98,9 +108,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('2') & 0x8000)
     {
-        Desc.iItemID = 36;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 9;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -108,9 +118,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('3') & 0x8000)
     {
-        Desc.iItemID = 37;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 19;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -118,9 +128,9 @@ void CMouse::Update(_float fTimeDelta)
     }
     if (GetKeyState('4') & 0x8000)
     {
-        Desc.iItemID = 38;
-        Desc.eItemType = ITEM_TYPE::MERTARIAL;
-        Desc.eSlot = SLOT::NORMAL;
+        Desc.iItemID = 19;
+        Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Desc.eSlot = SLOT::HAND;
         Desc.iNumItem = 1;
         Desc.fDurability = 100.f;
 
@@ -156,19 +166,59 @@ void CMouse::Update(_float fTimeDelta)
 
         m_pSlot->Set_Info(Desc);
     }
+    if (GetKeyState('8') & 0x8000)
+    {
+        Desc.iItemID = 5;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('9') & 0x8000)
+    {
+        Desc.iItemID = 12;
+        Desc.eItemType = ITEM_TYPE::STRUCTURE;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 1;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
+    if (GetKeyState('0') & 0x8000)
+    {
+        Desc.iItemID = 44;
+        Desc.eItemType = ITEM_TYPE::FOOD;
+        Desc.eSlot = SLOT::NORMAL;
+        Desc.iNumItem = 5;
+        Desc.fDurability = 100.f;
+
+        m_pSlot->Set_Info(Desc);
+    }
 #pragma endregion
     
+    ITEM_DESC Slot_Desc = m_pSlot->Get_Info();
+
+    m_eType = Slot_Desc.eItemType;
+
+    if (ITEM_TYPE::STRUCTURE == m_eType)
+    {
+        m_pGrid->Update(fTimeDelta);
+    }
+    else if (ITEM_TYPE::FOOD == m_eType)
+    {
+        m_pSlot->Update(fTimeDelta);
+    }
+
+        
 }
 
 void CMouse::Late_Update(_float fTimeDelta)
 {
-    if (SLOT::NORMAL == m_pSlot->Get_Info().eSlot)
-        m_pSlot->Update(fTimeDelta);
-
     ClickedEevent();
     m_pGameInstance->Add_RenderGroup(RENDER::ORTTHO_UI, this);
 
-    m_eType = m_pSlot->Get_Info().eItemType;
 }
 
 HRESULT CMouse::Render()
@@ -191,8 +241,6 @@ HRESULT CMouse::Render()
         m_pSlot->Render(m_pTransform_Com);
     }
 
-   
-
     if (0 != m_iMouseState)
     {
         m_fX -= 30.f;
@@ -204,7 +252,7 @@ HRESULT CMouse::Render()
 
 
         D3DXCOLOR white = { 0.95f, 0.95f, 0.95f, 1.f };
-        RECT Rect = { LONG(m_fX+ 30.f - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + 30.f + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
+        RECT Rect = { LONG(m_fX - 20.f - m_fSizeX), LONG(m_fY - m_fSizeY - 40),LONG(m_fX + 80.f + m_fSizeX), LONG(m_fY + m_fSizeY - 40) };
         m_pGameInstance->Render_Font(TEXT("MouseInfo_40"), m_strInfoMessage.c_str(), &Rect, white);
 
         Rect = { LONG(m_fX + 60.f - m_fSizeX* 0.5f), LONG(m_fY - m_fSizeY),LONG(m_fX + 50.f + m_fSizeX), LONG(m_fY + m_fSizeY) };
@@ -214,7 +262,7 @@ HRESULT CMouse::Render()
         m_fY += 40.f;
         m_fX += 50.f;
     }
-
+    m_pSkillIndicator->Render();
     return S_OK;
 }
 void CMouse::ClickedEevent()
@@ -229,11 +277,11 @@ void CMouse::ClickedEevent()
             if(0 != iItemID)
             {
                 auto Player_Pos = m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
-                if (true == CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos)->GetCurVIBuffer()
-                    ->Picking(dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(EnumToInt(LEVEL::GAMEPLAY),
-                    TEXT("Layer_BackGround"), TEXT("Com_Transform"))), &vPickingPos))
+                auto Terrian = CTerrian_Manager::GetInstance()->GetOnTerrian(Player_Pos);
+                auto VIbuffer = Terrian->GetCurVIBuffer();
+                auto Transform = Terrian->GetTransfrom();
+                if (VIbuffer->Picking(Transform, &vPickingPos))
                 {
-
                     _float3 vDistance = vPickingPos - m_pPlayerTransform_Com->GetWorldState(WORLDSTATE::POSITION);
 
                     if (1.f <= D3DXVec3Length(&vDistance))
@@ -276,27 +324,48 @@ void CMouse::ClickedEevent()
                     }
                     else if (5 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_CamFire"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CamFire"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (14 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_Chest"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chest"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else if (7 == iItemID)
                     {
-                        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
-                            EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
-                        {
-                            MSG_BOX("Failed to Add Item");
-                        }
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_ResearchLap"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ResearchLap"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
+                    }
+                    else if (12 == iItemID)
+                    {
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_Cookpot"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Cookpot"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
+                    }
+                    else if (13 == iItemID)
+                    {
+                        static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player"), 0))->MakeItem(TEXT("Prototype_GameObject_IceBox"), Desc);
+                        //if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_IceBox"),
+                        //    EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+                        //{
+                        //    MSG_BOX("Failed to Add Item");
+                        //}
                     }
                     else
                     { 
@@ -386,6 +455,63 @@ void CMouse::Update_Hover(const wstring strMessage, const _uint iMouseState)
     m_strInteraction = strMessage;
 }
 
+void CMouse::Update_HoverEnv(_uint iObjectID)
+{
+    SWAPOBJECT SwapObject = m_pPlayer_Data->tItem;
+
+    if (2 == iObjectID || 7 == iObjectID || 8 == iObjectID)
+    {
+        m_strInteraction = L"PICK";
+        m_iMouseState = 1;
+        return;
+    }
+
+    switch (SwapObject)
+    {
+    case Client::SWAPOBJECT::AXE:
+    case Client::SWAPOBJECT::GOLDAXE:
+        if (4 == iObjectID || 9 == iObjectID)
+        {
+            m_strInteraction = L"CHOP";
+            m_iMouseState = 1;
+        }
+
+        break;
+    case Client::SWAPOBJECT::PICKAXE:
+    case Client::SWAPOBJECT::GOLDPICKAXE:
+        if (3 == iObjectID || 5 == iObjectID)
+        {
+            m_strInteraction = L"DIG";
+            m_iMouseState = 1;
+        }
+        break;
+    case Client::SWAPOBJECT::SHOVEL:
+    case Client::SWAPOBJECT::GOLDSHOVEL:
+
+        break;
+
+    case Client::SWAPOBJECT::SPEAR:
+        break;
+
+    case Client::SWAPOBJECT::TORCH:
+        if (4 == iObjectID)
+        {
+            m_strInteraction = L"LIGHT";
+            m_iMouseState = 1;
+        }
+        break;
+        break;
+
+    case Client::SWAPOBJECT::NONE:
+        break;
+
+    default:
+        break;
+    }
+   
+
+}
+
 HRESULT CMouse::ADD_Components()
 {
     // Texture Component
@@ -469,6 +595,9 @@ void CMouse::Free()
     __super::Free();
 
     Safe_Release(m_pSlot);
+    Safe_Release(m_pGrid);
+    Safe_Release(m_pSkillIndicator);
+
     Safe_Release(m_pPlayerTransform_Com);
     Safe_Release(m_pTexture_Com);
     Safe_Release(m_pBlend_Texture_Com);

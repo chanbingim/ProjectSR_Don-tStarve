@@ -23,12 +23,8 @@ HRESULT CLandObject::Initialize(void* pArg)
 		return E_FAIL;
 
 	LANDOBJECT_DESC* pDesc = static_cast<LANDOBJECT_DESC*>(pArg);
-
 	m_pLandVIBuffer = pDesc->pLandVIBuffer;
 	m_pLandTransform = pDesc->pLandTransform;
-
-	Safe_AddRef(m_pLandVIBuffer);
-	Safe_AddRef(m_pLandTransform);
 
 	return S_OK;
 }
@@ -57,6 +53,9 @@ HRESULT CLandObject::Render()
 
 void CLandObject::SetUp_OnTerrain(CTransform* pTransform, _float fOffset)
 {
+	if (nullptr == pTransform || nullptr == m_pLandVIBuffer)
+		return;
+
 	_float3		vWorldPos = pTransform->GetWorldState(WORLDSTATE::POSITION);
 
 	_float3		vLocalPos = {};
@@ -75,7 +74,4 @@ void CLandObject::SetUp_OnTerrain(CTransform* pTransform, _float fOffset)
 void CLandObject::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pLandTransform);
-	Safe_Release(m_pLandVIBuffer);
 }

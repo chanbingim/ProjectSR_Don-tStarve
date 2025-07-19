@@ -1,6 +1,7 @@
 #include "Inventory.h"
 
 #include "GameInstance.h"
+#include "PlayerData_Manager.h"
 
 #include "SlotFrame.h"
 #include "Slot.h"
@@ -88,6 +89,17 @@ HRESULT CInventory::Initialize(void* pArg)
             return E_FAIL;
 
         m_SlotFrames.push_back(pSlotFrame);
+    }
+
+    if (201 == CPlayerData_Manager::GetInstance()->Get_CharacterID())
+    {
+        ITEM_DESC Spear_Desc = {};
+        Spear_Desc.eItemType = ITEM_TYPE::EQUIPMENT;
+        Spear_Desc.eSlot = SLOT::HAND;
+        Spear_Desc.iItemID = 8;
+        Spear_Desc.iNumItem = 1;
+        Spear_Desc.fDurability = 100.f;
+        m_SlotFrames[0]->Get_Slot()->Set_Info(Spear_Desc);
     }
 
     return S_OK;
@@ -201,19 +213,19 @@ void CInventory::Use_Item(_uint iItem, _uint iCount)
         if (iItem == Desc.iItemID)
         {
             int iNum = Desc.iNumItem;
-            for(_uint i = 0; i < Desc.iNumItem; ++i)
-            {
-                --iCount;
-                --iNum;
-                if (0 == iNum)
-                {
-                    pSlot->Clear();
-                    break;
-                }
-                if (0 == iCount)
-                    return;
-            }
 
+            if (iCount > iNum)
+                return;
+          
+            iNum -= iCount;
+
+            if (iNum == 0)
+                pSlot->Clear();
+            else
+            {
+                Desc.iNumItem = iNum;
+                pSlot->Set_Info(Desc);
+            }
         }
     }
 }
@@ -255,6 +267,24 @@ _uint CInventory::Get_SwapObject()
     default:
         break;
     }
+}
+
+_uint CInventory::Get_EmptySlotCnt()
+{
+    _bool EmptySlot[15] = { false, };
+    _uint Count{ 0 };
+    for (_uint i = 0; i < 15; ++i)
+    {
+        CSlot* pSlot = m_SlotFrames[i]->Get_Slot();
+        _uint iItemID = pSlot->Get_ItemID();
+
+        if (0 == iItemID && false == EmptySlot[i])
+        {
+            EmptySlot[i] = true;
+            Count++;
+        }
+    }
+    return Count;
 }
 
 HRESULT CInventory::ADD_Components()

@@ -28,24 +28,32 @@ HRESULT CUIEffect::Initialize(void* pArg)
     m_iTextureIndex = pDesc->iItemID;
     m_pSlot = pDesc->pSlot;
 
-    //Safe_AddRef(m_pSlot);
-
     memcpy(&m_Item_Desc, &pDesc->Item_Desc, sizeof(ITEM_DESC));
 
-    _float3 vTargetPos = m_pSlot->Get_Position();
+    _float3 vPos = pDesc->vPositon;
+    _float4x4 matView = {};
+    _float4x4 matProjection = {};
+
+    m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matView);
+    m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+    D3DXVec3TransformCoord(&vPos, &vPos, &matView);
+    D3DXVec3TransformCoord(&vPos, &vPos, &matProjection);
     
-    _float3 vCursorPos = m_pGameInstance->GetMousePosition(0);
+
+    _float3 vTargetPos = m_pSlot->Get_Position();
 
     CUserInterface::UIOBJECT_DESC Desc = {};
+
     Desc.fSizeX = 60.f;
     Desc.fSizeY = 60.f;
-    Desc.fX = pDesc->vCursorPos.x;
-    Desc.fY = pDesc->vCursorPos.y;
+    Desc.fX = vPos.x * (g_iWinSizeX * 0.5f) + g_iWinSizeX * 0.5f;
+    Desc.fY = -vPos.y * (g_iWinSizeY * 0.5f) + g_iWinSizeY * 0.5f;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
-    m_TargetDir = _float3((vTargetPos.x + g_iWinSizeX * 0.5f) - pDesc->vCursorPos.x, -(vTargetPos.y + g_iWinSizeY * 0.5f) - pDesc->vCursorPos.y, 0.f);
+    m_TargetDir = _float3((vTargetPos.x + g_iWinSizeX * 0.5f) - Desc.fX, -(vTargetPos.y + g_iWinSizeY * 0.5f) - Desc.fY, 0.f);
 
     __super::UpdatePosition();
     
@@ -154,7 +162,6 @@ void CUIEffect::Free()
 {
     __super::Free();
 
-    //Safe_Release(m_pSlot);
     Safe_Release(m_pTransform_Com);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);

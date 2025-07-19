@@ -4,9 +4,6 @@
     <Filter Include="100. ETC">
       <UniqueIdentifier>{090f7798-85ab-4628-957b-ba04c2f15bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client">
-      <UniqueIdentifier>{5d9bffba-4767-43a2-9d2a-666ba4951494}</UniqueIdentifier>
-    </Filter>
     <Filter Include="100. ETC\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -55,9 +52,6 @@
     </Filter>
     <Filter Include="101. IMGUI\Codes">
       <UniqueIdentifier>{38b87f20-aa74-4c48-b69b-7a0e0043511b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\GamePlay">
-      <UniqueIdentifier>{ad8f183d-1685-4ee5-9e4b-dcba9b55bd5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Levels\Logo">
       <UniqueIdentifier>{370d45c1-8b46-4ead-8094-6e64217cac61}</UniqueIdentifier>
@@ -161,9 +155,6 @@
     <Filter Include="02. Objects\Environment\EnvAnimation">
       <UniqueIdentifier>{992723a9-e316-4bda-8b6f-c109379e725d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Character\Manager">
-      <UniqueIdentifier>{0d7c4ce4-6a5e-4c93-bd0d-e52f05044e94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. GmaeUI\Button\Create_Button">
       <UniqueIdentifier>{f36b13ae-a298-400b-8f76-5743d0dc7182}</UniqueIdentifier>
     </Filter>
@@ -239,9 +230,6 @@
     <Filter Include="02. Objects\Environment\DropItemEnviroment">
       <UniqueIdentifier>{c92bf2fc-236e-4119-bf64-b1387fb015c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Objects\Environment\DropItemEnviroment\Grass">
-      <UniqueIdentifier>{bd73fece-e9fb-4f6b-8c18-f680e8296678}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Objects\Environment\DropItemEnviroment\Rock">
       <UniqueIdentifier>{0cb55dda-17ee-4e36-9840-249cfad944ed}</UniqueIdentifier>
     </Filter>
@@ -259,6 +247,195 @@
     </Filter>
     <Filter Include="04. GmaeUI\LodingInterface\Lodingspinner">
       <UniqueIdentifier>{c9ac9917-b32e-4e07-93df-5489961c7afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\DamageEffectUI">
+      <UniqueIdentifier>{9bc08f2c-2c98-4f74-91cf-9db740cdd14f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Tree\Birchnut">
+      <UniqueIdentifier>{3f6d09c5-7d09-4d4a-b67f-1ee3f3f1833a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf">
+      <UniqueIdentifier>{74d1d5e9-a7fa-41da-a5e0-9c8403927052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\NPC">
+      <UniqueIdentifier>{45622d91-01db-4e71-bafe-6cbf62a5ecf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\NPC\PigKing">
+      <UniqueIdentifier>{b5453485-eab9-423f-93ec-4c7ab6941c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Quest">
+      <UniqueIdentifier>{20a96e0d-b97b-45d5-8c9b-168abc74f941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Protected Object">
+      <UniqueIdentifier>{2ae6588b-c495-447d-95e1-7bb572f9def3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Protected Object\Pig">
+      <UniqueIdentifier>{a386b2ca-7ce0-4da2-b0c2-8835c358b629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Logo">
+      <UniqueIdentifier>{2b1671c7-2c21-44cf-8aa9-db99b3e84a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Tech">
+      <UniqueIdentifier>{b1546b9b-0c0e-4b1f-a557-7a1cf96338d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderManager\fx">
+      <UniqueIdentifier>{17c7a0d5-28cb-4cca-85ad-754543f6a1eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Quest\Manager">
+      <UniqueIdentifier>{1c95fb97-cfc9-47d5-acee-00362055ce57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Goat">
+      <UniqueIdentifier>{7702ae45-d2d9-4a36-8f9e-2d9462bbe9d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\House">
+      <UniqueIdentifier>{28fe745a-0786-4adf-b620-fe39ae41adf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\House\PigHouse">
+      <UniqueIdentifier>{126b04c9-1964-4212-aa56-7a47986cbca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard">
+      <UniqueIdentifier>{4ad2c853-8266-42c8-9735-870ae70f6319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard\Object">
+      <UniqueIdentifier>{272a097c-f6a2-431f-8efb-2ab19bf4092c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster">
+      <UniqueIdentifier>{5c1072bf-b9e5-4d4a-bcd6-5fe5c9b70e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster\Crawling">
+      <UniqueIdentifier>{7822de32-619b-43c0-acd8-ad36474ade0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\ShadowMonster\Terrorbeak">
+      <UniqueIdentifier>{54e56272-e9d1-49d7-82ff-91a93d3bbfc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\Environment\DropItemEnviroment\GatheringObject">
+      <UniqueIdentifier>{889ebfaa-6c05-47a8-86b8-cd690b51029e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\GamePlay">
+      <UniqueIdentifier>{ad8f183d-1685-4ee5-9e4b-dcba9b55bd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Deerclops">
+      <UniqueIdentifier>{3de4fc9b-e734-4ead-a34e-1aa24fd45cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\CookButton">
+      <UniqueIdentifier>{15e28315-86c2-43c9-964f-f68fbe86647c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\GameButton">
+      <UniqueIdentifier>{99d34031-66d5-4beb-91b0-12a447a43784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\CharacterButton">
+      <UniqueIdentifier>{e1a7a95f-c567-4c70-877b-edb17e94548c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CookUI">
+      <UniqueIdentifier>{cd19d4fd-5ad3-4bd9-912a-19efa3e8af35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\UIEffect\FoodEffect">
+      <UniqueIdentifier>{c78926d1-1e40-4aff-adb5-0d982822fd4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CharacterSelectUI">
+      <UniqueIdentifier>{15493eec-7c54-4c13-8a01-9a62470e3951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\CharacterSelectUI\SelectCharacter">
+      <UniqueIdentifier>{c88f8ed2-97d5-4b3d-951b-b980c0a9235d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\SelectLevel">
+      <UniqueIdentifier>{7297d08c-000b-4ea6-a0d8-5cb2588d7043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Objects\SwapObejct">
+      <UniqueIdentifier>{d4bf1031-185a-49be-8e00-a544d8f1643e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Player\Manager">
+      <UniqueIdentifier>{646125ed-2fe9-46bd-871a-c7b2ccc5fcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Manager">
+      <UniqueIdentifier>{faaef341-4ebe-4d08-a1d2-f887b19a3cf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Particle\SpriteEffect\EffectPool">
+      <UniqueIdentifier>{97262783-c70c-46bc-9dd8-f28921ef52f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{5d9bffba-4767-43a2-9d2a-666ba4951494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Grid">
+      <UniqueIdentifier>{0c2adaa6-f543-4d26-a19c-77cede9e7532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Grid\Skillndicator">
+      <UniqueIdentifier>{3ecfb22a-74d1-46f2-9e5b-56e5730b77f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\IceBox">
+      <UniqueIdentifier>{02f3cacc-ab45-40a4-a70b-af2a76c1c4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food">
+      <UniqueIdentifier>{f61e9cad-4807-485b-a0df-f3bf1d4fd77f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food\CookPot">
+      <UniqueIdentifier>{fec85b9e-54fe-4ab4-99a9-48be73d326ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Food\RealCook">
+      <UniqueIdentifier>{4266e0e7-ea16-4928-8572-03affbb27c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Equipment">
+      <UniqueIdentifier>{dffae8c4-fdb7-41b1-b716-dcdc22ef1b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Item\Toch">
+      <UniqueIdentifier>{1968ea9c-3f23-4ea7-a253-d6fd7ae04caf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\Manager">
+      <UniqueIdentifier>{27bce961-699f-48a0-bed3-609dd8411939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\ImgBase">
+      <UniqueIdentifier>{d8ef0267-b13f-45ba-91c5-807a91c4bed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="101. IMGUI\Profiler">
+      <UniqueIdentifier>{e41b4d9b-fa96-4293-bc5c-02a60fa15e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest">
+      <UniqueIdentifier>{ec0714d8-a90f-4f03-b27b-02e1af1dbeb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\Frame">
+      <UniqueIdentifier>{2b9b130e-90ea-4b13-9728-c90f4482625c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\ListFrame">
+      <UniqueIdentifier>{1d91abd3-6f9b-41ee-8b54-febf013b7f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\Entry">
+      <UniqueIdentifier>{307bf581-3695-43f6-a948-4a56a71552cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29">
+      <UniqueIdentifier>{0eb1c5d6-e5cf-4ca9-a29e-1b19599f535f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Quest\PreView">
+      <UniqueIdentifier>{b7bf2377-bc96-4326-a2a9-da03a90b96a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EventButton%28Quest%29\NextButton">
+      <UniqueIdentifier>{4b48440c-4929-4680-8383-893d081361d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Script">
+      <UniqueIdentifier>{32f85fda-b3b3-4282-a6e5-4f9a293afaf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Deerclops\IceSpike">
+      <UniqueIdentifier>{2a2426fa-4267-4e98-b027-5b88d035d732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\Deerclops\IceFall">
+      <UniqueIdentifier>{679469eb-fda9-4c82-b120-166a0fe24d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Particle\LightParticle">
+      <UniqueIdentifier>{743eb908-8b1d-4ccd-a069-cf9824a0708f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Character\Monster\TreeGuard\Boss_LeafEffect">
+      <UniqueIdentifier>{cb45a8d7-d30a-4346-b49d-8269fc4d976f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\SystemUI">
+      <UniqueIdentifier>{819e6fca-2b1a-438a-8730-03863915e205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\CategoryButton">
+      <UniqueIdentifier>{c986ac24-0881-41eb-9769-8da062f334f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Button\EnviornmentButton">
+      <UniqueIdentifier>{5311edd4-7274-431d-b79f-149a31b0a6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GmaeUI\Slider">
+      <UniqueIdentifier>{a51cc248-40c3-40ad-90d9-80af2abddd0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -343,9 +520,6 @@
     <ClInclude Include="..\public\HeadUpDisplay.h">
       <Filter>04. GmaeUI\HeadDisplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Mouse.h">
-      <Filter>04. GmaeUI\Mouse</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Hunger.h">
       <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
     </ClInclude>
@@ -400,9 +574,6 @@
     <ClInclude Include="..\public\PortalObject.h">
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\GrassObject.h">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
       <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClInclude>
@@ -420,9 +591,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Env_Animation.h">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Character_Manager.h">
-      <Filter>03. Character\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Create_Button.h">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
@@ -475,12 +643,6 @@
     <ClInclude Include="..\Public\Fire.h">
       <Filter>05. Item\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\MonsterData_Manager.h">
-      <Filter>김정환</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PlayerData_Manager.h">
-      <Filter>김정환</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\SpiderNormal.h">
       <Filter>03. Character\Monster\Spider\Normal</Filter>
     </ClInclude>
@@ -502,9 +664,6 @@
     <ClInclude Include="..\Public\Enviornment_Object.h">
       <Filter>02. Objects\Environment</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Pig.h">
-      <Filter>김정환</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\ResurrectionStone.h">
       <Filter>02. Objects\Environment\Resurrection</Filter>
     </ClInclude>
@@ -523,17 +682,182 @@
     <ClInclude Include="..\public\LodingSpinner.h">
       <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Equipment.h">
-      <Filter>대진호</Filter>
+    <ClInclude Include="..\Public\Mouse.h">
+      <Filter>04. GmaeUI\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Food.h">
-      <Filter>대진호</Filter>
+    <ClInclude Include="..\public\DamageEffectUI.h">
+      <Filter>04. GmaeUI\DamageEffectUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BirchnutTree.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Pig.h">
+      <Filter>02. Objects\Protected Object\Pig</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Logo.h">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Food.h">
+      <Filter>05. Item\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cookpot.h">
+      <Filter>05. Item\Food\CookPot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceBox.h">
+      <Filter>05. Item\IceBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ResearchLap.h">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Tech</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Equipment.h">
+      <Filter>05. Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PigKing.h">
+      <Filter>02. Objects\NPC\PigKing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestManager.h">
+      <Filter>08. Quest\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestData.h">
+      <Filter>08. Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Goat.h">
+      <Filter>03. Character\Monster\Goat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Deerclops.h">
+      <Filter>03. Character\Monster\Deerclops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\House.h">
+      <Filter>02. Objects\House</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PigHouse.h">
+      <Filter>02. Objects\House\PigHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Treeguard.h">
+      <Filter>03. Character\Monster\TreeGuard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TreeguardObject.h">
+      <Filter>03. Character\Monster\TreeGuard\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shadowcrawling.h">
+      <Filter>03. Character\Monster\ShadowMonster\Crawling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shadowterrorbeak.h">
+      <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TreeLeaf.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GatheringObject.h">
+      <Filter>02. Objects\Environment\DropItemEnviroment\GatheringObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GamePlay_Button.h">
+      <Filter>04. GmaeUI\Button\GameButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cook_Button.h">
+      <Filter>04. GmaeUI\Button\CookButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Character_Button.h">
+      <Filter>04. GmaeUI\Button\CharacterButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CookUI.h">
+      <Filter>04. GmaeUI\CookUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FoodEffect.h">
+      <Filter>04. GmaeUI\UIEffect\FoodEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CookedFood.h">
+      <Filter>05. Item\Food\RealCook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Character_Info.h">
+      <Filter>04. GmaeUI\CharacterSelectUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Select_Character.h">
+      <Filter>04. GmaeUI\CharacterSelectUI\SelectCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Select.h">
+      <Filter>01. Levels\SelectLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SwapObject.h">
+      <Filter>02. Objects\SwapObejct</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerData_Manager.h">
+      <Filter>03. Character\Player\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MonsterData_Manager.h">
+      <Filter>03. Character\Monster\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EffectPoolManager.h">
+      <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Grid.h">
+      <Filter>04. GmaeUI\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillIndicator.h">
+      <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharacterManager.h">
+      <Filter>05. Item\Toch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TorchFire.h">
+      <Filter>05. Item\Toch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ImgBase.h">
+      <Filter>101. IMGUI\ImgBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Img_Profiler.h">
+      <Filter>101. IMGUI\Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Img_Manager.h">
+      <Filter>101. IMGUI\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestFrameUI.h">
+      <Filter>04. GmaeUI\Quest\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestBoxEntry.h">
+      <Filter>04. GmaeUI\Quest\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EventButton.h">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ListBoxUI.h">
+      <Filter>04. GmaeUI\Quest\ListFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuestCategoryButton.h">
+      <Filter>04. GmaeUI\Button\CategoryButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\QuestPreView.h">
+      <Filter>04. GmaeUI\Quest\PreView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuestNextButton.h">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Script.h">
+      <Filter>04. GmaeUI\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceFall.h">
+      <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\IceSpike.h">
+      <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LeafEffect.h">
+      <Filter>03. Character\Monster\TreeGuard\Boss_LeafEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VineEffect.h">
+      <Filter>07. Particle\LightParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EnviornmentButton.h">
+      <Filter>04. GmaeUI\Button\EnviornmentButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SystemSettingUI.h">
+      <Filter>04. GmaeUI\SystemUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SlideButton.h">
+      <Filter>04. GmaeUI\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BossHpBar.h">
+      <Filter>김정환</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -616,12 +940,6 @@
     <ClCompile Include="..\private\HeadUpDisplay.cpp">
       <Filter>04. GmaeUI\HeadDisplay</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Mouse.cpp">
-      <Filter>04. GmaeUI\Mouse</Filter>
-    </ClCompile>
-    <ClCompile Include="..\public\Hunger.cpp">
-      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Health.cpp">
       <Filter>04. GmaeUI\HeadDisplay\Health</Filter>
     </ClCompile>
@@ -673,9 +991,6 @@
     <ClCompile Include="..\private\PortalObject.cpp">
       <Filter>02. Objects\Environment\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\GrassObject.cpp">
-      <Filter>02. Objects\Environment\DropItemEnviroment\Grass</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
       <Filter>02. Objects\Environment\DropItemEnviroment\Rock</Filter>
     </ClCompile>
@@ -696,9 +1011,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Env_Animation.cpp">
       <Filter>02. Objects\Environment\EnvAnimation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Character_Manager.cpp">
-      <Filter>03. Character\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Create_Button.cpp">
       <Filter>04. GmaeUI\Button\Create_Button</Filter>
@@ -751,12 +1063,6 @@
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>05. Item\Fire</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\MonsterData_Manager.cpp">
-      <Filter>김정환</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\PlayerData_Manager.cpp">
-      <Filter>김정환</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\SpiderNormal.cpp">
       <Filter>03. Character\Monster\Spider\Normal</Filter>
     </ClCompile>
@@ -771,9 +1077,6 @@
     </ClCompile>
     <ClCompile Include="..\private\AinimationObject.cpp">
       <Filter>02. Objects\AnimationObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Pig.cpp">
-      <Filter>김정환</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ResurrectionStone.cpp">
       <Filter>02. Objects\Environment\Resurrection</Filter>
@@ -793,25 +1096,193 @@
     <ClCompile Include="..\private\LodingSpinner.cpp">
       <Filter>04. GmaeUI\LodingInterface\Lodingspinner</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Equipment.cpp">
-      <Filter>대진호</Filter>
+    <ClCompile Include="..\Private\Mouse.cpp">
+      <Filter>04. GmaeUI\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DamageEffectUI.cpp">
+      <Filter>04. GmaeUI\DamageEffectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BirchnutTree.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Pig.cpp">
+      <Filter>02. Objects\Protected Object\Pig</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Logo.cpp">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cookpot.cpp">
+      <Filter>05. Item\Food\CookPot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceBox.cpp">
+      <Filter>05. Item\IceBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ResearchLap.cpp">
-      <Filter>대진호</Filter>
+      <Filter>04. GmaeUI\Tech</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\Food.cpp">
-      <Filter>대진호</Filter>
+    <ClCompile Include="..\Private\Equipment.cpp">
+      <Filter>05. Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PigKing.cpp">
+      <Filter>02. Objects\NPC\PigKing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestManager.cpp">
+      <Filter>08. Quest\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestData.cpp">
+      <Filter>08. Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Goat.cpp">
+      <Filter>03. Character\Monster\Goat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Deerclops.cpp">
+      <Filter>03. Character\Monster\Deerclops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\House.cpp">
+      <Filter>02. Objects\House</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PigHouse.cpp">
+      <Filter>02. Objects\House\PigHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Treeguard.cpp">
+      <Filter>03. Character\Monster\TreeGuard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TreeguardObject.cpp">
+      <Filter>03. Character\Monster\TreeGuard\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shadowcrawling.cpp">
+      <Filter>03. Character\Monster\ShadowMonster\Crawling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shadowterrorbeak.cpp">
+      <Filter>03. Character\Monster\ShadowMonster\Terrorbeak</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TreeLeaf.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment\Tree\Birchnut\Leaf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GatheringObject.cpp">
+      <Filter>02. Objects\Environment\DropItemEnviroment\GatheringObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hunger.cpp">
+      <Filter>04. GmaeUI\HeadDisplay\Hunger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Food.cpp">
+      <Filter>05. Item\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GamePlay_Button.cpp">
+      <Filter>04. GmaeUI\Button\GameButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cook_Button.cpp">
+      <Filter>04. GmaeUI\Button\CookButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Character_Button.cpp">
+      <Filter>04. GmaeUI\Button\CharacterButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CookUI.cpp">
+      <Filter>04. GmaeUI\CookUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FoodEffect.cpp">
+      <Filter>04. GmaeUI\UIEffect\FoodEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CookedFood.cpp">
+      <Filter>05. Item\Food\RealCook</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Character_Info.cpp">
+      <Filter>04. GmaeUI\CharacterSelectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Select_Character.cpp">
+      <Filter>04. GmaeUI\CharacterSelectUI\SelectCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Select.cpp">
+      <Filter>01. Levels\SelectLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SwapObject.cpp">
+      <Filter>02. Objects\SwapObejct</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerData_Manager.cpp">
+      <Filter>03. Character\Player\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MonsterData_Manager.cpp">
+      <Filter>03. Character\Monster\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EffectPoolManager.cpp">
+      <Filter>07. Particle\SpriteEffect\EffectPool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Grid.cpp">
+      <Filter>04. GmaeUI\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillIndicator.cpp">
+      <Filter>04. GmaeUI\Grid\Skillndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharacterManager.cpp">
+      <Filter>05. Item\Toch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TorchFire.cpp">
+      <Filter>05. Item\Toch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ImgBase.cpp">
+      <Filter>101. IMGUI\ImgBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Img_Profiler.cpp">
+      <Filter>101. IMGUI\Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Img_Manager.cpp">
+      <Filter>101. IMGUI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestFrameUI.cpp">
+      <Filter>04. GmaeUI\Quest\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestBoxEntry.cpp">
+      <Filter>04. GmaeUI\Quest\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EventButton.cpp">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ListBoxUI.cpp">
+      <Filter>04. GmaeUI\Quest\ListFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuestCategoryButton.cpp">
+      <Filter>04. GmaeUI\Button\CategoryButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\QuestPreView.cpp">
+      <Filter>04. GmaeUI\Quest\PreView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuestNextButton.cpp">
+      <Filter>04. GmaeUI\Button\EventButton%28Quest%29\NextButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Script.cpp">
+      <Filter>04. GmaeUI\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceFall.cpp">
+      <Filter>03. Character\Monster\Deerclops\IceFall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IceSpike.cpp">
+      <Filter>03. Character\Monster\Deerclops\IceSpike</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LeafEffect.cpp">
+      <Filter>03. Character\Monster\TreeGuard\Boss_LeafEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VineEffect.cpp">
+      <Filter>07. Particle\LightParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EnviornmentButton.cpp">
+      <Filter>04. GmaeUI\Button\EnviornmentButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SystemSettingUI.cpp">
+      <Filter>04. GmaeUI\SystemUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SlideButton.cpp">
+      <Filter>04. GmaeUI\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BossHpBar.cpp">
+      <Filter>김정환</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BillBoard.fx">
-      <Filter>김찬빈</Filter>
+      <Filter>ShaderManager\fx</Filter>
     </FxCompile>
     <FxCompile Include="Particle.fx">
-      <Filter>김찬빈</Filter>
+      <Filter>ShaderManager\fx</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

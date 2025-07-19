@@ -15,8 +15,9 @@ public:
 	void Set_Info(ITEM_DESC& Item_Desc);
 	ITEM_DESC& Get_Info();
 	_uint	Get_ItemID() { return m_Item_Desc.iItemID; }
-	_float3& Get_Position();
+	_float3 Get_Position();
 
+	void	Use_One();
 	void	Merge_Item(CSlot* pSlot);
 	void	Merge_Item(ITEM_DESC& Item_Desc);
 	void	Clear();
@@ -33,6 +34,7 @@ public:
 	HRESULT			 Render(CTransform* pTransform);
 
 	void			 Update_Count();
+	void			 Update_IceBox(_float fTimeDelta);
 	void			 Render_ItemState();
 
 private:

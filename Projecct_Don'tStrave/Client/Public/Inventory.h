@@ -25,6 +25,7 @@ public:
 	void	Use_Item(_uint iItem, _uint iCount);
 
 	_uint	Get_SwapObject();
+	_uint	Get_EmptySlotCnt();
 
 private:
 	vector<class CSlotFrame*> m_SlotFrames = {};

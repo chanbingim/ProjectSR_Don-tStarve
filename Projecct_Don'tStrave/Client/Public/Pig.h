@@ -1,13 +1,9 @@
 #pragma once
 #include "Monster.h"
 
-NS_BEGIN(Engine)
-class CTexture;
-class CCollision_Component;
-NS_END
-
 NS_BEGIN(Client)
 
+class CPigHouse;
 class CPig : public CMonster
 {
 	enum MOTION {
@@ -36,25 +32,25 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Priority_Update(_float fTimeDelta) override;
-	virtual void Update(_float fTimeDelta) override;
-	virtual void Late_Update(_float fTimeDelta) override;
+	virtual HRESULT Initialize_Late() override;
+	virtual void		Priority_Update(_float fTimeDelta) override;
+	virtual void		Update(_float fTimeDelta) override;
+	virtual void		Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT			SetAnimation(DIR dir, MOTION motion);
+	virtual void		Damage(void* pArg);
 	virtual	void		Hit();
-	virtual void Attack() override;
-	virtual void Death() override;
+	virtual void		Attack() override;
+	virtual void		Death() override;
+	void				OutHouse();
+	virtual void		GetTarget(CGameObject* actor, _float distance) override;
 private:
 	MOTION					m_tMotion = {};
-	_float					m_fMoveTIme = {};
-	_float3					m_fRandomMove = {};
-	_bool					m_bMove = {};
+	CPigHouse*				m_pHouse = {};
+	_bool					m_bHouse = {};
 private:
-	HRESULT Begin_RenderState();
-	HRESULT End_RenderState();
-
 	void BeginHitActor(CGameObject* HitActor, _float3& _Dir);
-	void OverlapHitActor(CGameObject* HitActor, _float3& _Dir);
+	virtual void OverlapHitActor(CGameObject* HitActor, _float3& _Dir) override;
 	void EndHitActor(CGameObject* HitActor, _float3& _Dir);
 public:
 	static CPig* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

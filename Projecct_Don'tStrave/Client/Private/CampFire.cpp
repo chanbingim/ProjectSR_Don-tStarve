@@ -9,6 +9,7 @@
 #include "ITemState.h"
 #include "Camera.h"
 #include "Fire.h"
+#include "UIEffect.h"
 
 CCampFire::CCampFire(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CItem{ pGraphic_Device }
@@ -30,6 +31,8 @@ HRESULT CCampFire::Initialize_Prototype()
 
 HRESULT CCampFire::Initialize(void* pArg)
 {
+	
+
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
@@ -37,6 +40,9 @@ HRESULT CCampFire::Initialize(void* pArg)
 		return E_FAIL;
 
 	LoadImageFile();
+	
+	m_bSoundPlay = false;
+	m_fTimeAcc = 0.f;
 
 	m_FrontName = TEXT("place");
 	m_TailName = TEXT("");
@@ -48,7 +54,6 @@ HRESULT CCampFire::Initialize(void* pArg)
 
 	m_pFire = dynamic_cast<CFire*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Fire"), pArg));
 
-	
 
 	return S_OK;
 }
@@ -65,7 +70,7 @@ void CCampFire::Update(_float fTimeDelta)
 	if (nullptr == Camera)
 		return;
 
-	m_pGameInstance->Add_RenderGroup(RENDER::BLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 
 	switch (m_eCurState)
 	{
@@ -73,11 +78,31 @@ void CCampFire::Update(_float fTimeDelta)
 		break;
 
 	case Client::CCampFire::STATE::IDLE:
+		if(false == m_bSoundPlay  && __super::isInRange(1.5f))
+		{
+			m_pGameInstance->Manager_PlaySound(L"campfire_level1.wav", CHANNELID::SOUND_ITEM, 1.f);
+			m_bSoundPlay = true;
+		}
+		if (true == m_bSoundPlay)
+		{
+			m_fTimeAcc += fTimeDelta;
+			if (m_fTimeAcc > 6.f)
+			{
+				m_bSoundPlay = false;
+				m_fTimeAcc = 0.f;
+			}
+		}
+
+		if (5600.f < m_fAniTime)
+		{
+			m_bSoundPlay = false;
+			m_fAniTime = 0.f;
+		}
 
 		if (0.f < m_Item_Desc.fDurability)
 		{
-			m_Item_Desc.fDurability -= 0.02f;
-			m_pFire->Update_Fire(m_Item_Desc.fDurability * 0.01f);
+			m_Item_Desc.fDurability -= 1.f * fTimeDelta;
+			m_pFire->Update_Fire(m_Item_Desc.fDurability);
 			m_pFire->Update(fTimeDelta);
 		}
 		else
@@ -111,35 +136,7 @@ HRESULT CCampFire::Render()
 {
 	CAinimationObject::Render();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	XMLRenderAnimation(m_FrontName + m_TailName);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-
-	switch (m_eCurState)
-	{
-	case Client::CCampFire::STATE::IDLE:
-		m_pFire->Render();
-		break;
-	case Client::CCampFire::STATE::DEAD:
-		break;
-	case Client::CCampFire::STATE::PREVIEW:
-		break;
-
-	case Client::CCampFire::STATE::PLACE:
-		
-		break;
-	default:
-		break;
-	}
-	
-
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 
 	return S_OK;
 }
@@ -150,8 +147,34 @@ void CCampFire::HoverEvent()
 
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
-		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);
-		__super::ClickedEvent();
+		CMouse* pMouse = dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")));
+		CSlot* pSlot = pMouse->Get_Slot();
+		ITEM_DESC Desc = pSlot->Get_Info();
+
+		if (0 == Desc.iItemID || m_eCurState == CCampFire::STATE::DEAD)
+			return;
+
+		switch (Desc.iItemID)
+		{
+		case 44:
+		case 46:
+		case 48:
+			pMouse->Update_Hover(L"요리하기", 2);
+			if(m_pGameInstance->KeyDown(VK_RBUTTON))
+				Cook(Desc.iItemID, pSlot, Desc);
+			break;			
+		case 17:
+		case 36:
+		case 39:
+			break;
+
+		default:
+			pMouse->Update_Hover(L"연료 넣기", 2);
+			if (m_pGameInstance->KeyDown(VK_RBUTTON))
+				Add_Fuel(Desc.iItemID, pSlot);
+			break;
+		}
+
 	}
 }
 
@@ -190,10 +213,12 @@ void CCampFire::Change_State()
 		case Client::CCampFire::STATE::IDLE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("idle");
+			m_pGameInstance->Manager_PlaySound(L"add_fuel.wav", CHANNELID::SOUND_ITEM, 1.f);
 			break;
 		case Client::CCampFire::STATE::DEAD:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("dead");
+			m_pGameInstance->Manager_PlaySound(L"fire_out.wav", CHANNELID::SOUND_ITEM, 1.f);
 			break;
 		case Client::CCampFire::STATE::PREVIEW:
 			m_fAniTime = 0.f;
@@ -208,6 +233,51 @@ void CCampFire::Change_State()
 		}
 		m_ePreState = m_eCurState;
 	}
+}
+
+void CCampFire::Cook(const _uint iItemID, CSlot* pSlot,ITEM_DESC& Item_Desc)
+{
+	_uint iCookedItemID = iItemID + 1;
+
+	CInventory* pInventory = dynamic_cast<CInventory*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UserInterface"), 0));
+	CSlot* pFindSlot = pInventory->Find_Item(iCookedItemID);
+
+	if (nullptr == pFindSlot)
+		return;
+	else
+	{
+		CUIEffect::UIEFFECT_DESC Desc = {};
+		
+		Desc.iItemID = iCookedItemID;
+		Desc.pSlot = pFindSlot;
+		Desc.vPositon = m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
+
+		Item_Desc.iItemID = iCookedItemID;
+		Item_Desc.iNumItem = 1;
+		
+		memcpy(&Desc.Item_Desc, &Item_Desc, sizeof(ITEM_DESC));
+
+		m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_UIEffect"),
+			EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_UIEffect"), &Desc);
+
+		pSlot->Use_One();
+	}
+}
+
+void CCampFire::Add_Fuel(const _uint iItemID, CSlot* pSlot)
+{
+	_float fFuel = { 10.f };
+
+	if (37 == iItemID)
+		fFuel = 20.f;
+	else if (16 == iItemID)
+		fFuel = 60.f;
+	
+	m_Item_Desc.fDurability += fFuel;
+
+	m_pGameInstance->Manager_PlaySound(L"add_fuel.wav", CHANNELID::SOUND_ITEM, 1.f);
+
+	pSlot->Use_One();
 }
 
 CCampFire* CCampFire::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

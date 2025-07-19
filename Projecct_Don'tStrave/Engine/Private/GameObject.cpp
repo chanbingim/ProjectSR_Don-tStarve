@@ -27,7 +27,6 @@ HRESULT CGameObject::Initialize_Prototype()
 
 HRESULT CGameObject::Initialize(void* pArg)
 {
-	
 
 	return S_OK;
 }
@@ -78,6 +77,11 @@ _float CGameObject::Get_CameraDistance()
 
 	_float3			vDir = vCamPos - m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);
 	return D3DXVec3Length(&vDir);
+}
+
+_uint CGameObject::Get_ObjectID()
+{
+	return m_iObjectID;
 }
 
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
@@ -132,7 +136,7 @@ HRESULT CGameObject::Setting_Shader(const WCHAR* ShaderName)
 void CGameObject::Excute_Billboard(const _matrix& _InvWorldMat, LPDIRECT3DBASETEXTURE9 pTex)
 {
 	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_ProMat);
-	m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
+	//m_pGraphic_Device->CreateVertexDeclaration(decl, &m_pDecl);
 	
 	_matrix testMat = _InvWorldMat;
 	_float3 pos =  m_pTransformCom->GetWorldState(WORLDSTATE::POSITION);

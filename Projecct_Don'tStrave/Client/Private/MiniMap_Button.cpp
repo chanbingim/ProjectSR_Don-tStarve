@@ -46,7 +46,9 @@ void CMiniMap_Button::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
     if (m_pGameInstance->KeyDown('M'))
+    {
         m_isClicked = true;
+    }
     else
         m_isClicked = false;
 
@@ -73,7 +75,11 @@ HRESULT CMiniMap_Button::Render()
 void CMiniMap_Button::ClickedEevent()
 {
     if ((true == isMouseOver()) && m_pGameInstance->KeyDown(VK_LBUTTON))
+    {
         m_isClicked = true; // 미니맵 창 출력 활성화
+    }
+    else if (m_pGameInstance->KeyDown('M'))
+        m_isClicked = true;
     else
         m_isClicked = false;
 

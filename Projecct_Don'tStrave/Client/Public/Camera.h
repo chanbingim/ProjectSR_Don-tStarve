@@ -31,15 +31,18 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	void				ShakeCamera(_float fPower);
+private:
+	class CTransform* m_pPlayerTransformCom = { nullptr };
+	class CCamera_Button* m_pButton_Left = { nullptr };
+	class CCamera_Button* m_pButton_Right = { nullptr };
 
 private:
-	class CTransform*				m_pPlayerTransformCom = { nullptr };
-	class CCamera_Button*			m_pButton_Left = { nullptr };
-	class CCamera_Button*			m_pButton_Right = { nullptr };
-
-private:
+	_float3							m_fPlayerPos = {};
 	_float2							m_vOldMouse = {};
 	_float							m_fSensor = { 0.2f };
+	_float							m_fShakePower = {};
+	_float							m_fTime = {};
 
 private:
 	HRESULT Ready_Components(void* pArg);

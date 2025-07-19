@@ -102,107 +102,148 @@ HRESULT CCraftingUI::Initialize(void* pArg)
             PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Category_Button"), &Desc)));
     }
 
-#pragma region ITEM_BUTTON
-    _uint ItemButtons = 1;
 
-    for (_uint i = 0; i < 3; ++i)
+    CItem_Button::ITEMBTN_DESC ItemBtn_Desc = {};
+#pragma region ITEM_BUTTON
+    _uint iIndex = 0;
+    _uint ItemButtons[22] =
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        1, 2, 3, 19, 20, 21, // 도구
+        4, 5, 6, // 광원
+        7, //과학
+        8, 9, 22, 10, 11, // 무기
+        12, 13, //요리
+        14, 15, 16, 17,18 // 기타
+    };
+
+    _uint iCraftLevel[22] = {
+        0, 0, 0, 1, 1, 1, // 도구
+        0, 0, 1, // 광원
+        0, //과학
+        0, 0, 1, 0, 1, // 무기
+        0, 0, //요리
+        0, 0, 1, 1, 1 // 기타
+    };
+
+    // 도구
+    _uint iOffset = { 0 };
+    for (_uint i = 0; i < 6; ++i)
+    {
+        if (5 == i)
+            iOffset += 55;
+
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + ( i % 5 )* 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f - iOffset;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[0].push_back(pItem_Button);
     }
+
+    // 광원
     for (_uint i = 0; i < 3; ++i)
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
             m_pItem_Buttons[1].push_back(pItem_Button);
     }
+
+    //과학
     for (_uint i = 0; i < 1; ++i)
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
         {
             m_pItem_Buttons[2].push_back(pItem_Button);
         }
     }
-    for (_uint i = 0; i < 4; ++i)
+
+    // 무기
+    for (_uint i = 0; i < 5; ++i)
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
         {
             m_pItem_Buttons[3].push_back(pItem_Button);
         }
     }
+
+    // 요리
     for (_uint i = 0; i < 2; ++i)
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
         {
             m_pItem_Buttons[4].push_back(pItem_Button);
         }
     }
+
+    // 기타
     for (_uint i = 0; i < 5; ++i)
     {
-        Desc.iTextureIndex = ItemButtons++;
-        Desc.fX = m_fX;
-        Desc.fY = m_fY;
-        Desc.fSizeX = 50.f;
-        Desc.fSizeY = 50.f;
-        Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
-        Desc.fRelativeY = m_fSizeY * 0.15f;
-        Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iTextureIndex = ItemButtons[iIndex];
+        ItemBtn_Desc.fX = m_fX;
+        ItemBtn_Desc.fY = m_fY;
+        ItemBtn_Desc.fSizeX = 50.f;
+        ItemBtn_Desc.fSizeY = 50.f;
+        ItemBtn_Desc.fRelativeX = -m_fSizeX * 0.34f + i * 60.f;
+        ItemBtn_Desc.fRelativeY = m_fSizeY * 0.15f;
+        ItemBtn_Desc.pParentTransform = m_pTransform_Com;
+        ItemBtn_Desc.iCraftLevel = iCraftLevel[iIndex++];
         CItem_Button* pItem_Button = dynamic_cast<CItem_Button*>(m_pGameInstance->Clone_Prototype(
-            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &Desc));
+            PROTOTYPE::GAMEOBJECT, EnumToInt(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Button"), &ItemBtn_Desc));
 
         if (nullptr != pItem_Button)
         {

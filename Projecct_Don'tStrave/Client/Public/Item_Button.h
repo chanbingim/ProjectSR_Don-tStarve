@@ -6,6 +6,11 @@ NS_BEGIN(Client)
 
 class CItem_Button final : public CButton
 {
+public:
+	typedef struct ItemBtn_Desc : public CButton::BUTTON_DESC
+	{
+		_uint iCraftLevel = {};
+	}ITEMBTN_DESC;
 private:
 	CItem_Button(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CItem_Button(const CItem_Button& Prototype);
@@ -13,6 +18,7 @@ private:
 
 public:
 	void Select_Button() { m_isSelected = !m_isSelected; }
+	void InResearchLap(_bool inRanged);
 
 public:
 	virtual HRESULT  Initialize_Prototype()override;
@@ -28,6 +34,9 @@ public:
 
 private:
 	_bool		m_isSelected = {};
+	_bool		m_isActivate = {};
+	_uint		m_iCraftLevel = {};
+
 	CTexture*	m_pBackGroundTexture_Com = { nullptr };
 
 private:

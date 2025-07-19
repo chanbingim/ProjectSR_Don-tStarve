@@ -87,7 +87,7 @@ void CChest::Update(_float fTimeDelta)
 		break;
 	
 	case Client::CChest::STATE::OPENED:
-		m_pChestUI->Update(fTimeDelta);
+		m_pChestUI->Add_Render();
 		m_fAniTime = 199.f;
 		if (false == __super::isInRange())
 			m_eCurState = STATE::CLOSE;
@@ -105,11 +105,9 @@ void CChest::Update(_float fTimeDelta)
 		break;
 	}
 
+	m_pChestUI->Update(fTimeDelta);
+	
 	Change_State();
-
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
-
-
 
 }
 
@@ -120,13 +118,7 @@ void CChest::Late_Update(_float fTimeDelta)
 
 HRESULT CChest::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	XMLRenderAnimation(m_FrontName + m_TailName);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
 }
@@ -137,7 +129,7 @@ void CChest::HoverEvent()
 
 	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom)->Picking(m_pTransformCom, &vPickingPos))
 	{
-		if(STATE::OPEN != m_eCurState)
+		if(STATE::OPENED != m_eCurState)
 			m_pMouse->Update_Hover(L":Open", 1);
 		ClickedEvent();
 	}
@@ -153,7 +145,6 @@ void CChest::ClickedEvent()
 		m_eCurState = CChest::STATE::OPEN;
 	}
 }
-
 
 HRESULT CChest::ADD_Components()
 {
@@ -200,6 +191,7 @@ void CChest::Change_State()
 		case Client::CChest::STATE::OPEN:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("open");
+			m_pGameInstance->Manager_PlaySound(L"chest_open.wav", CHANNELID::SOUND_ITEM, 1.f);
 			break;
 
 		case Client::CChest::STATE::OPENED:
@@ -210,6 +202,7 @@ void CChest::Change_State()
 		case Client::CChest::STATE::CLOSE:
 			m_fAniTime = 0.f;
 			m_FrontName = TEXT("close");
+			m_pGameInstance->Manager_PlaySound(L"chest_close.wav", CHANNELID::SOUND_ITEM, 1.f);
 			break;
 
 		case Client::CChest::STATE::END:

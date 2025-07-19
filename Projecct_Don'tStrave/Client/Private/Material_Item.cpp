@@ -32,7 +32,15 @@ HRESULT CMaterial_Item::Initialize(void* pArg)
 	_float fMinSize = max(size.x, size.y);
 
 	_float3 vSize = { size.x / fMinSize * 0.5f, size.y / fMinSize * 0.5f, 1.f };
+
+	if (36 == m_Item_Desc.iItemID) // ºÎ½Ëµ¹
+		vSize *= 0.8;
+	else if (39 == m_Item_Desc.iItemID) // ºÎ½Ëµ¹
+		vSize *= 0.7;
+
 	m_pTransformCom->SetScale(vSize);
+
+
 
 	return S_OK;
 }
@@ -44,12 +52,10 @@ void CMaterial_Item::Priority_Update(_float fTimeDelta)
 
 void CMaterial_Item::Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
-
 	HoverEvent();
 
-	if(!m_bIsplayAnim)
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	/*if(!m_bIsplayAnim)
+	SetUp_OnTerrain(m_pTransformCom, 0.f);*/
 
 	Update_Item(fTimeDelta);
 }
@@ -57,6 +63,8 @@ void CMaterial_Item::Update(_float fTimeDelta)
 void CMaterial_Item::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	m_pGameInstance->Add_RenderGroup(RENDER::ALPHATEST, this);
 }
 
 HRESULT CMaterial_Item::Render()
@@ -69,8 +77,9 @@ HRESULT CMaterial_Item::Render()
 void CMaterial_Item::HoverEvent()
 {
 	_float3 vPickingPos = {};
+	auto Buffer = dynamic_cast<CVIBuffer_Rect*>(m_pVIBufferCom);
 
-	if (true == dynamic_cast<CVIBuffer_Rect*>(m_pVIBuffer_Com)->Picking(m_pTransformCom, &vPickingPos))
+	if (true == Buffer->Picking(m_pTransformCom, &vPickingPos))
 	{
 		m_bHovered = true;
 		dynamic_cast<CMouse*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Mouse")))->Update_HoverItem(m_Item_Desc.iItemID);

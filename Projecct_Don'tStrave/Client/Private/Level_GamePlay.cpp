@@ -7,8 +7,18 @@
 #include "Terrian_Manager.h"
 #include "Terrain.h"
 #include "CUtility.h"
+#include "Player.h"
+#include "Script.h"
+#include "Level_Loading.h"
+
+#include "SystemSettingUI.h"
+#include "QuestManager.h"
+#include "EffectPoolManager.h"
 #include "PlayerData_Manager.h"
 #include "MonsterData_Manager.h"
+#include "CharacterManager.h"
+#include "Item_Manager.h"
+#include "GameObject.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 	: CLevel { pGraphic_Device, ENUM_CLASS(eLevelID)}
@@ -18,32 +28,69 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-	m_pGameInstance->Manager_PlaySound(L"Filed.mp3", CHANNELID::SOUND_BGM, 10.0f);
+	m_pGameInstance->Manager_PlayBGM(L"Filed.mp3", 1.0f);
 
-	if (FAILED(LoadFileData("TutorialMapData")))
-		return E_FAIL;
+	CEffectPoolManager::GetInstance()->Initailize();
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
+	m_IsMapDataSetting = true;
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
+	switch (m_eState)
+	{
+	case GAMEPLAY_STATE::TUTORIAL :
+		TutorialMapLoad();
+		break;
+	case GAMEPLAY_STATE::BOSS:
+		BossMapLoad();
+		break;
+	}
+
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
-		return E_FAIL;
-	
-	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
-		return E_FAIL;
+	m_pCharacterManager = CCharacterManager::GetInstance();
 
 	return S_OK;
 }
 
+void CLevel_GamePlay::Priority_Update(_float fTimeDelta)
+{
+	if (m_IsMapDataSetting)
+	{
+		Remove_LayerData();
+		switch (m_eState)
+		{
+		case GAMEPLAY_STATE::TUTORIAL:
+			TutorialMapLoad();
+			break;
+		case GAMEPLAY_STATE::BOSS:
+			BossMapLoad();
+			break;
+		}
+	}
+
+	if (m_IsChangeMap)
+	{
+		CQuestManager::GetInstance()->Free();
+		CEffectPoolManager::GetInstance()->Clear();
+		CTerrian_Manager::GetInstance()->Clear();
+		m_pGameInstance->Manager_StopAll();
+
+		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LOADING, m_NextLevel));
+	}
+}
+
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	
+	m_pCharacterManager->Update();
+
+
+	if (m_pGameInstance->KeyDown(VK_F2))
+	{
+		m_IsMapDataSetting = true;
+		m_eState = GAMEPLAY_STATE::BOSS;
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -60,20 +107,14 @@ HRESULT CLevel_GamePlay::LoadFileData(const char* MapName)
 	if (FAILED(Ready_Layer_BackGround(FilePath, TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(FilePath, TEXT("Layer_Camera"))))
-		return E_FAIL;
-
 	if (FAILED(Ready_Layer_Monster(FilePath, TEXT("Layer_Monster"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Enviornment(FilePath, TEXT("EnviornmenLayer"))))
 		return E_FAIL;
 
-	
-
 	return S_OK;
 }
-
 
 HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wstring& strLayerTag)
 {
@@ -81,7 +122,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 	sprintf_s(File, "%s/MapData.csv", FilePath);
 
 	Parse_ObejectData(File,
-		ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Terrain"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
 
 	auto GroundObejcts = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
@@ -95,11 +136,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const char* FilePath, const _wst
 		CTerrian_Manager::GetInstance()->ADD_Terrian(Terrian);
 	}
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CCamera::CAMERA_DESC			CameraDesc{};
 	CameraDesc.fFov = D3DXToRadian(60.0f);
@@ -119,33 +164,74 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const char* FilePath, const _wstring
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
+	auto EnvAll = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+	CGameObject* potal = nullptr;
+	for (auto iter : *EnvAll)
+	{
+		if (1 == iter->Get_ObjectID())
+		{
+			potal = iter;
+			break;
+		}
+	}
+
 	PLAYER_DESC data = CPlayerData_Manager::GetInstance()->Get_PlayerData(200);
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), TEXT("Prototype_GameObject_Player"),
+	data.fPos = potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Player_Move_Pos()
+{
+	auto EnvAll = m_pGameInstance->GetAllObejctsToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+	CGameObject* potal = nullptr;
+	for (auto iter : *EnvAll)
+	{
+		if (1 == iter->Get_ObjectID())
+		{
+			potal = iter;
+			break;
+		}
+	}
+
+	auto GameObject = static_cast<CPlayer *>(m_pGameInstance->Get_GameObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+	if (nullptr == GameObject)
+		return E_FAIL;
+
+	_float3 PotralPos = potal->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+	GameObject->GetTransfrom()->SetPosition(PotralPos);
+	GameObject->Get_Char()->fPos = PotralPos;
+	return S_OK;
+}
+
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const char* FilePath, const _wstring& strLayerTag)
 {
-	MONSTER_DESC data = CMonsterData_Manager::GetInstance()->Get_MonsterData(100);
-	for (size_t i = 0; i < 5; i++)
+	char		File[MAX_PATH] = {};
+	sprintf_s(File, "%s/Monster.csv", FilePath);
+
+	//¸Ê µ¥ÀÌÅÍ °¡Á®¿Í¼­ ÆÄ½Ì
+	vector<BASE_DATA_STRUCT> vecBaseData;
+	LoadMapData(File, &vecBaseData);
+
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
+
+	for (size_t i = 0; i < vecBaseData.size(); ++i)
 	{
-		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
+		CGameObject::GAMEOBJECT_DESC ObjectDesc = {};
+		WCHAR TexPath[MAX_PATH] = {};
+
+		auto data = CMonsterData_Manager::GetInstance()->Get_MonsterData(vecBaseData[i].iID);
+		data.fPos = vecBaseData[i].Position;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), data.strPath,
 			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
 			return E_FAIL;
 	}
 
-	data = CMonsterData_Manager::GetInstance()->Get_MonsterData(106);
-	for (size_t i = 0; i < 1; i++)
-	{
-		data.fPos = _float3(rand() % 20, 0.f, rand() % 20);
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY_STATIC), data.strPath,
-			ENUM_CLASS(LEVEL::GAMEPLAY), strLayerTag, &data)))
-			return E_FAIL;
-	}
 	return S_OK;
 }
 
@@ -158,8 +244,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 	vector<BASE_DATA_STRUCT> vecBaseData;
 	LoadMapData(File, &vecBaseData);
 
-	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY_STATIC);
-	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::TUTORIAL);
+	_uint iPrototypeLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
+	_uint iLayerLevelIndex = ENUM_CLASS(LEVEL::GAMEPLAY);
 
 	for (size_t i = 0; i < vecBaseData.size(); ++i)
 	{
@@ -172,10 +258,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Enviornment(const char* FilePath, const _ws
 
 		CUtility::ConvertUTFToWide(vecBaseData[i].szTexturePath.c_str(), TexPath);
 		ObjectDesc.TextruePath = TexPath;
-
+		ObjectDesc.iObjectID = vecBaseData[i].iID;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iPrototypeLevelIndex, GetEnv_ObejctTag(vecBaseData[i].iID), iLayerLevelIndex, strLayerTag, &ObjectDesc)))
 			return E_FAIL;
 	}
+
 	return S_OK;
 }
 
@@ -241,16 +328,106 @@ HRESULT CLevel_GamePlay::Ready_Layer_UserInterface(const _wstring& strLayerTag)
 		TEXT("Prototype_GameObject_MiniMap"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_QuestPreView"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	
+	CScript::SCRIPT_DESC Scirpt_Desc;
+	Scirpt_Desc.DataScript.push_back(L"½´½´½´½´½´½´½´¤Ð½´½´½´½¸ ½´ÆÛ³ë¹Ù");
+	Scirpt_Desc.DataScript.push_back(L"»ç°ÇÀº ´Ù°¡¿Í ¾î¾î¾î¿À¿¹");
+	Scirpt_Desc.DataScript.push_back(L"½´½´½´½´½´¤Ð½´½´½´½´½´½´½´¤Ð¤µ");
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_ScriptUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag, &Scirpt_Desc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_DamageUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_QuestUI"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Gameplay_Quest_UI"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+		TEXT("Prototype_GameObject_SystemSettingUI"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
-		TEXT("Prototype_GameObject_Snow_Particle"), EnumToInt(LEVEL::GAMEPLAY), strLayerTag)))
+		TEXT("Prototype_GameObject_Snow_Particle"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Gameplay_Screen_Effect"))))
 		return E_FAIL;
 
+	
+
 	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	_float3 ItemPos[10] =
+	{
+		{12.7f, 0.f, 18.4f},
+		{9.1f, 0.f, 11.9f},
+		{19.8f, 0.f, 8.3f},
+		{13.5f, 0.f, 20.0f},
+		{8.0f, 0.f, 14.2f},
+		{17.4f, 0.f, 16.1f},
+		{10.2f, 0.f, 9.6f},
+		{15.9f, 0.f, 12.5f},
+		{18.6f, 0.f, 19.1f},
+		{11.3f, 0.f, 8.8f}
+	};
+
+	ITEM_DESC Desc = {};
+
+	Desc.iItemID = 36;
+	Desc.eItemType = ITEM_TYPE::MERTARIAL;
+	Desc.fDurability = 100.f;
+	Desc.eSlot = SLOT::NORMAL;
+	Desc.iNumItem = 1;
+
+	for (_uint i = 0; i < 10; ++i)
+	{
+		Desc.vPosition = ItemPos[i];
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(EnumToInt(LEVEL::GAMEPLAY),
+			TEXT("Prototype_GameObject_Material_Item"), EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Item"), &Desc)))
+			return E_FAIL;
+	}
+
+	
+	
+
+	return S_OK;
+}
+
+void CLevel_GamePlay::Change_Map(GAMEPLAY_STATE eState)
+{
+	m_eState = eState;
+	m_IsMapDataSetting = true;
+}
+
+void CLevel_GamePlay::Remove_LayerData()
+{
+	m_pGameInstance->Remove_Layer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Item"));
+	m_pGameInstance->Remove_Layer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Particle"));
+	m_pGameInstance->Remove_Layer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_Monster"));
+	m_pGameInstance->Remove_Layer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("EnviornmenLayer"));
+	m_pGameInstance->Remove_Layer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_BackGround"));
+
+	CTerrian_Manager::GetInstance()->Clear();
+}
+
+void CLevel_GamePlay::ChangeLevel(LEVEL NextLevel)
+{
+	m_IsChangeMap = true;
+	m_NextLevel = NextLevel;
 }
 
 _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
@@ -266,15 +443,80 @@ _wstring CLevel_GamePlay::GetEnv_ObejctTag(_uint iID)
 	case 4:
 		return TEXT("Prototype_GameObject_Env_Tree");
 	case 5:
-		return TEXT("Prototype_GameObject_Env_Tree");
+		return TEXT("Prototype_GameObject_Gloden_Rock");
 	case 6:
 		return TEXT("Prototype_GameObject_Resurrection_Stone");
+	case 7:
+		return TEXT("Prototype_GameObject_Berry_Bush");
+	case 8:
+		return TEXT("Prototype_GameObject_Env_Sapling");
+	case 9:
+		return TEXT("Prototype_GameObject_Birchnut_Tree");
+	case 12:
+		return TEXT("Prototype_GameObject_PigKing");
 	}
 
 	return TEXT("Prototype_GameObject_Env_Tree");
 }
 
+HRESULT CLevel_GamePlay::TutorialMapLoad()
+{
+	if (FAILED(CQuestManager::GetInstance()->LoadQuestData("TutorialMapData/Quest", "TutorialQuest.csv")))
+		return E_FAIL;
 
+	if (FAILED(LoadFileData("TutorialMapData")))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
+
+#pragma region TestCode
+	CGameObject::GAMEOBJECT_DESC Desc = {};
+
+	Desc.vPosition = _float3(15.f, 0.f, 15.f);
+	Desc.vRotation = _float3(0.f, 0.f, 0.f);
+	Desc.vScale = _float3(1.f, 1.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TreeguardTree"),
+		EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Monster"), &Desc)))
+	{
+		MSG_BOX("GG");
+		return E_FAIL;
+	}
+#pragma endregion
+
+	if (FAILED(Ready_Layer_Mouse(TEXT("Layer_Mouse"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_UserInterface(TEXT("Layer_UserInterface"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
+		return E_FAIL;
+
+	m_IsMapDataSetting = false;
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::BossMapLoad()
+{
+	if (FAILED(LoadFileData("BossMapData")))
+		return E_FAIL;
+
+	if (FAILED(Player_Move_Pos()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Initialize_Late(ENUM_CLASS(LEVEL::GAMEPLAY))))
+		return E_FAIL;
+
+	m_IsMapDataSetting = false;
+
+	return S_OK;
+}
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevelID)
 {
@@ -289,12 +531,9 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVE
 	return pInstance;
 }
 
-
-
-
-
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
 
+	CCharacterManager::DestroyInstance();
 }

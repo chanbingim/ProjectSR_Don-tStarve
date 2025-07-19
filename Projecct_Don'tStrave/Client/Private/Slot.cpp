@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Item.h"
+#include "Player.h"
 
 CSlot::CSlot(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CMouseSlotUI{ pGraphic_Device }
@@ -23,13 +24,28 @@ ITEM_DESC& CSlot::Get_Info()
     return m_Item_Desc;
 }
 
-_float3& CSlot::Get_Position()
+_float3 CSlot::Get_Position()
 {
-    _float3 vPos = { 0.f, 0.f, 0.f };
-    if (nullptr != m_pTransform_Com)
-         vPos = m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+    if (nullptr == m_pTransform_Com)
+        return _float3(0.f, 0.f, 0.f);
 
-    return vPos;
+    return m_pTransform_Com->GetWorldState(WORLDSTATE::POSITION);
+}
+
+void CSlot::Use_One()
+{
+    if (0 == m_Item_Desc.iNumItem)
+    {
+        return;
+    }
+    else if (1 == m_Item_Desc.iNumItem)
+    {
+        Clear();
+    }
+    else
+    {
+        m_Item_Desc.iNumItem -= 1;
+    }
 }
 
 void CSlot::Merge_Item(CSlot* pSlot)
@@ -150,10 +166,29 @@ void CSlot::Update_Item(_float fTimeDelta)
         break;
 
     case Client::ITEM_TYPE::FOOD:
-        m_Item_Desc.fDurability -= 3.f * fTimeDelta;
+        if (0.f >= m_Item_Desc.fDurability)
+        {
+            m_Item_Desc.iItemID = 51;
+            m_Item_Desc.fDurability = 100.f;
+        }
+
+        if (51 != m_Item_Desc.iItemID)
+            m_Item_Desc.fDurability -= fTimeDelta* 0.3f;
         break;
     case Client::ITEM_TYPE::EQUIPMENT:
-        
+        if (4 == m_Item_Desc.iItemID)
+        {
+            m_Item_Desc.fDurability -= fTimeDelta;
+            if (0 >= m_Item_Desc.fDurability)
+            {
+                Clear();
+                CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(EnumToInt(LEVEL::GAMEPLAY), TEXT("Layer_Player")));
+                PLAYER_DATA* pData = pPlayer->Get_Player();
+                
+                pData->tItem = SWAPOBJECT::NONE;
+                pData->iAtk = 1;
+            }
+        }
         break;
     default:
         break;
@@ -180,7 +215,6 @@ void CSlot::Update_Count()
             m_TextureIndexes[0] = m_Item_Desc.iNumItem;
             ++m_iDigit;
         }
-
         
     }
     else
@@ -213,6 +247,26 @@ void CSlot::Update_Count()
             ++m_iDigit;
         }
 
+    }
+}
+
+void CSlot::Update_IceBox(_float fTimeDelta)
+{
+    switch (m_Item_Desc.eItemType)
+    {
+    case Client::ITEM_TYPE::FOOD:
+        if (0.f >= m_Item_Desc.fDurability)
+        {
+            m_Item_Desc.iItemID = 51;
+            m_Item_Desc.fDurability = 100.f;
+        }
+
+        if (51 != m_Item_Desc.iItemID)
+            m_Item_Desc.fDurability -= 0.1f * fTimeDelta;
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -364,5 +418,4 @@ void CSlot::Free()
     Safe_Release(m_pTexture_Com_NumItem);
     Safe_Release(m_pVIBuffer_Com);
     Safe_Release(m_pTexture_Com);
-    Safe_Release(m_pTransform_Com);
 }

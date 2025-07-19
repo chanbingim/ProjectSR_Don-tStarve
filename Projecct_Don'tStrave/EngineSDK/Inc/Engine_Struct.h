@@ -2,7 +2,7 @@
 #define Engine_Struct_h__
 
 #include "Engine_Typedef.h"
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_TEX1) // 변경 했음
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_TEX1) // 변경 했음
 
 namespace Engine
 {

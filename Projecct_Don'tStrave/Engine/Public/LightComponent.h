@@ -3,6 +3,7 @@
 
 NS_BEGIN(Engine)
 class CGameObject;
+class CTransform;
 
 class ENGINE_DLL CLightComponent final : public CComponent
 {
@@ -10,6 +11,7 @@ public :
 	typedef struct Light_Desc
 	{
 		CGameObject*	pOwner = { nullptr };
+		CTransform*		PlayerPoint = { nullptr };
 		D3DLIGHT9		LightData;
 
 	}LIGHT_DESC;
@@ -23,7 +25,8 @@ protected:
 public:
 	virtual		HRESULT				Initialize_Prototype();
 	virtual		HRESULT				Initialize(void* pArg);
-
+	
+	
 	virtual		void				Render_Light(_uint LightUstage = 0);
 
 	const	D3DLIGHT9&	GetLightData() { return m_LightData; }
@@ -47,13 +50,18 @@ public:
 
 	// ShaderSettingData
 	void	SetAttenuation(_float fAtn0, _float fAtn1, _float fAtn2);
+	void	SetLight(_bool bLight);
 
-	CGameObject*			GetOwner();
+	CGameObject*					GetOwner();
+	FLOAT							GetDistance();
+	FLOAT							Compute_LightDistance();
 
 protected:
 	CGameObject*					m_pOwner = { nullptr };
-	D3DLIGHT9						m_LightData;
+	CTransform*						m_PlayerPoint = { nullptr };
 
+	D3DLIGHT9						m_LightData;
+	FLOAT							m_Distance;
 public : 
 	static		CLightComponent*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual		CComponent*			Clone(void* pArg = nullptr);

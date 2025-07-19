@@ -1,6 +1,8 @@
 #include "LightComponent.h"
 #include "Light_Manager.h"
+
 #include "GameObject.h"
+#include "Transform.h"
 
 CLightComponent::CLightComponent() : CComponent()
 {
@@ -39,12 +41,27 @@ HRESULT CLightComponent::Initialize(void* pArg)
 		LIGHT_DESC* pLightDesc = static_cast<LIGHT_DESC*>(pArg);
 		m_pOwner = pLightDesc->pOwner;
 		m_LightData = pLightDesc->LightData;
+		m_PlayerPoint = pLightDesc->PlayerPoint;
 
-		Safe_AddRef(m_pOwner);
+		Safe_AddRef(m_PlayerPoint);
 	}
 	CLight_Manager::GetInstance()->ADD_Light((LIGHT_TYPE)m_LightData.Type, this);
 
 	return S_OK;
+}
+
+FLOAT CLightComponent::Compute_LightDistance()
+{
+	if (nullptr == m_PlayerPoint)
+		return 0.f;
+
+	auto LightPos = m_pOwner->GetTransfrom()->GetWorldState(WORLDSTATE::POSITION);
+	auto PlayerPos = m_PlayerPoint->GetWorldState(WORLDSTATE::POSITION);
+
+	_float3 Distance = PlayerPos - LightPos;
+	m_Distance = D3DXVec3Length(&Distance);
+
+	return m_Distance;
 }
 
 void CLightComponent::Render_Light(_uint LightUstage)
@@ -59,17 +76,32 @@ void CLightComponent::SetAttenuation(_float fAtn0, _float fAtn1, _float fAtn2)
 	m_LightData.Attenuation2 = fAtn2;
 }
 
+void CLightComponent::SetLight(_bool bLight)
+{
+	if (bLight) {
+		CLight_Manager::GetInstance()->ADD_Light((LIGHT_TYPE)m_LightData.Type, this);
+	}
+	else {
+		CLight_Manager::GetInstance()->DeadLight((LIGHT_TYPE)m_LightData.Type, this);
+	}
+}
+
 CGameObject* CLightComponent::GetOwner()
 {
 	return m_pOwner;
 }
 
+FLOAT CLightComponent::GetDistance()
+{
+	return m_Distance;
+}
+
 void CLightComponent::Free()
 {
 	__super::Free();
-	CLight_Manager::GetInstance()->REMOVE_Light((LIGHT_TYPE)m_LightData.Type, this);
 
-	Safe_Release(m_pOwner);
+	Safe_Release(m_PlayerPoint);
+	CLight_Manager::GetInstance()->DeadLight((LIGHT_TYPE)m_LightData.Type, this);
 }
 
 CLightComponent* CLightComponent::Create(LPDIRECT3DDEVICE9 pGraphicDev)
